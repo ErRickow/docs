@@ -78,8 +78,8 @@
     }
   },
   "logo": {
-    "light": "/logo/neo.svg",
-    "dark": "/logo/neo.svg"
+    "light": "/logo/the-docs.svg",
+    "dark": "/logo/the-docs.svg"
   },
   "navbar": {
     "links": [
