@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api.nusa.xyz/v1"
+      "url": "https://api.neosantara.xyz/v1"
     }
   ],
   "security": [
