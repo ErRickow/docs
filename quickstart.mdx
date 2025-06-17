@@ -1,11 +1,37 @@
 ---
 title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+description: 'Start integrate'
 ---
 
-## Setup your development
+## API
 
 Learn how to update your docs locally and deploy them to the public.
+
+```javascript Neo.js
+const response = await fetch('https://nusa.ervy.xyz/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    model: 'nusantara-base',
+    messages: [
+      {
+        role: 'system',
+        content: 'Anda adalah asisten AI yang ahli dalam bidang sejarah Indonesia.'
+      },
+      {
+        role: 'user',
+        content: 'Ceritakan tentang sejarah Majapahit.'
+      }
+    ],
+    temperature: 0.7
+  })
+});
+
+const data = await response.json();
+```
 
 ### Edit and preview
 
