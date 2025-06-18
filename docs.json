@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Neo",
   "colors": {
-    "primary": "#DC2626",
-    "light": "#F87171",
-    "dark": "#B91C1C"
+    "primary": "#991B1B",
+    "light": "#FCA5A5",
+    "dark": "#7F1D1D"
   },
   "favicon": "/nusa-black.ico",
   "navigation": {
@@ -43,7 +43,7 @@
             ]
           },
           {
-            "group": "Test Endpoint",
+            "group": "Available Endpoint's",
             "pages": [
               "api-reference/chat/create-chat-completion-openai-compatible",
               "api-reference/embeddings/create-embeddings-openai-compatible",
@@ -101,6 +101,6 @@
     }
   },
   "banner": {
-    "content": "hello world"
+    "content": "hello world [see](https://nusaai-edit.mintlify.com)"
   }
 }
