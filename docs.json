@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Neo",
   "colors": {
-    "primary": "#797979",
+    "primary": "#E0E0E0",
     "light": "#E0E0E0",
-    "dark": "#FFFFFF"
+    "dark": "#838383"
   },
   "favicon": "/nusa-black.ico",
   "navigation": {
