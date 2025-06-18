@@ -3,41 +3,26 @@ title: 'Quickstart'
 description: 'Start integrate'
 ---
 
-## API
+## Account setup
 
-Learn how to update your docs locally and deploy them to the public.
+To get started, create a Neosantara account or sign in at neosantara.xyz/signin.
 
-```javascript Neo.js
-const response = await fetch('https://nusa.ervy.xyz/v1/chat/completions', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    model: 'nusantara-base',
-    messages: [
-      {
-        role: 'system',
-        content: 'Anda adalah asisten AI yang ahli dalam bidang sejarah Indonesia.'
-      },
-      {
-        role: 'user',
-        content: 'Ceritakan tentang sejarah Majapahit.'
-      }
-    ],
-    temperature: 0.7
-  })
-});
+After that, go to the "API keys" page and make a new API key by clicking "Create new key".
+Make sure to copy the API key, save it safely, and do not share it with anyone.
 
-const data = await response.json();
-```
-
-### Edit and preview
+### How to Use It?
 
 <AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
+  <Accordion icon="terminal" title="See how to use it">
+    Store your Neosantara Apikey in environment variable, like example bellow:
+    ```ts
+    export NAI_API_KEY = "your_apikey"
+    ```
+    Then Use it using dotenv:
+    ```ts
+    import dotenv from dotenv
+    dotenv()
+    ```
     your docs content. You can find this repository on our
     [dashboard](https://dashboard.mintlify.com). To clone the repository
     locally, follow these

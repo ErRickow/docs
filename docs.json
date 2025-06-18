@@ -3,15 +3,15 @@
   "theme": "mint",
   "name": "Neo",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#DC2626",
+    "light": "#F87171",
+    "dark": "#B91C1C"
   },
   "favicon": "/nusa-black.ico",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Home",
         "groups": [
           {
             "group": "Get Started",
@@ -100,5 +100,8 @@
       "github": "https://github.com/mintlify",
       "linkedin": "https://linkedin.com/company/mintlify"
     }
+  },
+  "banner": {
+    "content": "hello world"
   }
 }

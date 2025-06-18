@@ -1,0 +1,41 @@
+---
+title: Introduction
+description: "Selamat Datang Di Neosantara Docs"
+---
+
+<Frame caption="☕">
+  <img src="/images/hero.png" />
+</Frame>
+
+
+
+<CardGroup cols={2}>
+  <Card
+    title="Quick Start"
+    icon="rocket-launch"
+    href="/quickstart"
+  >
+    Start integrate Neosantara APIs in minute's
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference"
+  >
+    Start using Neosantara Culture AI Intelligence
+  </Card>
+  <Card
+    title="Token Balance Overview"
+    icon="fa-money"
+    href="/about/tokens"
+  >
+    Learn how manage token usage Neosantara APIs
+  </Card>
+  <Card
+    title="Rate Limits"
+    icon="fa-tachometer"
+    href="/about/rate-limits"
+  >
+    Learn about Neosantara's Rate Limiting
+  </Card>
+</CardGroup>

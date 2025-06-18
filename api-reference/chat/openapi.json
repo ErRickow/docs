@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "NusantaraAI API",
-    "description": "API NusantaraAI - OpenAI Compatible\n\n**Rate Limit**\nSetiap API KEY memiliki limit berdasarkan tier:\n- Free: 10 request/menit, 100/hari, 10.000 tokens/menit, 50.000/hari\n- Basic: 50 request/menit, 500/hari, 100.000 tokens/menit, 500.000/hari\n- Standard: 60 request/menit, 2000/hari, 100.000 tokens/menit, 1.000.000/hari\n- Pro: 120 request/menit, 10.000/hari, 200.000 tokens/menit, 5.000.000/hari\n- Enterprise: 200 request/menit, 50.000/hari, 500.000 tokens/menit, 10.000.000/hari\n\nLimit berlaku **per API key** dan juga **per user** (akumulasi).\nJika limit terlewati, akan mendapat error 429.\nReset harian dan bulanan otomatis, serta auto-downgrade ke Free jika subscription habis.\n\nUntuk detail sistem rate limit, lihat dokumentasi MDX.\n\n**Auth:** Gunakan header `Authorization: Bearer <API_KEY>`.",
-    "version": "1.0.0"
+    "title": "NeosantaraAI API",
+    "description": "NeosantaraAI API - OpenAI Compatible\n\n**Rate Limits**\nEach API KEY has limits based on tier:\n- Free: 10 requests/minute, 100/day, 10,000 tokens/minute, 50,000/day\n- Basic: 50 requests/minute, 500/day, 100,000 tokens/minute, 500,000/day\n- Standard: 60 requests/minute, 2000/day, 100,000 tokens/minute, 1,000,000/day\n- Pro: 120 requests/minute, 10,000/day, 200,000 tokens/minute, 5,000,000/day\n- Enterprise: 200 requests/minute, 50,000/day, 500,000 tokens/minute, 10,000,000/day\n\nLimits apply **per API key** and also **per user** (cumulative).\nIf limits are exceeded, you will receive a 429 error.\nDaily and monthly resets are automatic, with auto-downgrade to Free if subscription expires.\n\nOpenAI-compatible API from NeosantaraAI. Supports endpoints `/v1/chat/completions`, `/v1/completions`, `/v1/models`, `/v1/embeddings`, `/v1/moderations`, `/v1/usage`, `/v1/reasoning`, and others.\n**Auth:** Use header `Authorization: Bearer <API_KEY>`.",
+    "version": "5.0.0"
   },
   "servers": [
     {
@@ -12,25 +12,25 @@
   ],
   "security": [
     {
-      "ApiKeyAuth": []
+      "apiKey": []
     }
   ],
   "tags": [
     {
       "name": "chat",
-      "description": "Chat completion ala OpenAI"
-    },
-    {
-      "name": "embeddings",
-      "description": "Embeddings ala OpenAI"
+      "description": "Chat completion endpoints"
     },
     {
       "name": "completions",
-      "description": "Text completions"
+      "description": "Text completion endpoints"
+    },
+    {
+      "name": "embeddings",
+      "description": "Text embeddings generation"
     },
     {
       "name": "models",
-      "description": "Model management"
+      "description": "Model information and management"
     },
     {
       "name": "moderations",
@@ -38,23 +38,23 @@
     },
     {
       "name": "usage",
-      "description": "Usage statistics"
+      "description": "Usage statistics and monitoring"
     },
     {
       "name": "reasoning",
-      "description": "Enhanced reasoning"
+      "description": "Enhanced reasoning capabilities"
     },
     {
       "name": "system",
-      "description": "System status"
+      "description": "System status and information"
     }
   ],
   "paths": {
     "/chat/completions": {
       "post": {
         "tags": ["chat"],
-        "summary": "Create chat completion (OpenAI-Compatible)",
-        "description": "Membuat completion chat seperti OpenAI API. Kirim array messages (role: user/assistant, content: string).",
+        "summary": "Create chat completion",
+        "description": "Create chat completion like OpenAI API. Send array of messages (role: user/assistant, content: string).",
         "operationId": "chatCompletions",
         "requestBody": {
           "required": true,
@@ -65,35 +65,33 @@
               },
               "examples": {
                 "simple": {
-                  "summary": "Contoh request sederhana",
+                  "summary": "Simple request example",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
                       {
                         "role": "user",
-                        "content": "Apa itu NusantaraAI?"
+                        "content": "What is NeosantaraAI?"
                       }
                     ]
                   }
                 },
-                "advanced": {
-                  "summary": "Contoh request dengan parameter lengkap",
+                "with_system": {
+                  "summary": "Request with system message",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
                       {
                         "role": "system",
-                        "content": "Kamu adalah asisten AI yang membantu."
+                        "content": "You are a helpful AI assistant."
                       },
                       {
                         "role": "user",
-                        "content": "Jelaskan tentang AI dalam bahasa Indonesia."
+                        "content": "Explain machine learning in simple terms."
                       }
                     ],
                     "temperature": 0.7,
-                    "max_tokens": 1000,
-                    "stream": false,
-                    "web_search": false
+                    "max_tokens": 1000
                   }
                 }
               }
@@ -110,9 +108,9 @@
                 },
                 "examples": {
                   "success": {
-                    "summary": "Contoh response sukses",
+                    "summary": "Successful response example",
                     "value": {
-                      "id": "chatcmpl-xyz",
+                      "id": "chatcmpl-124",
                       "object": "chat.completion",
                       "created": 1717950000,
                       "model": "nusantara-base",
@@ -121,7 +119,7 @@
                           "index": 0,
                           "message": {
                             "role": "assistant",
-                            "content": "NusantaraAI adalah platform AI lokal."
+                            "content": "NeosantaraAI is a local AI platform."
                           },
                           "finish_reason": "stop"
                         }
@@ -156,15 +154,15 @@
                 },
                 "examples": {
                   "auth": {
-                    "summary": "Contoh error API key",
+                    "summary": "API key error example",
                     "value": {
                       "error": {
                         "message": "API key is missing. Please provide your API key in the 'Authorization' header as 'Bearer <API_KEY>'.",
                         "type": "auth_error",
                         "code": "missing_api_key"
                       },
-                      "_metadata": {
-                        "creator": "nusantaraai",
+                      "info_metadata": {
+                        "creator": "NAIXyz",
                         "status": false,
                         "timestamp": "2025-06-09T16:00:00Z"
                       }
@@ -183,7 +181,7 @@
                 },
                 "examples": {
                   "limit": {
-                    "summary": "Contoh error rate limit",
+                    "summary": "Rate limit error example",
                     "value": {
                       "error": {
                         "message": "Too many requests. Limit: 10 RPM. Please try again later.",
@@ -196,8 +194,8 @@
                           "retry_after": 60
                         }
                       },
-                      "_metadata": {
-                        "creator": "nusantaraai",
+                      "info_metadata": {
+                        "creator": "NAIXyz",
                         "status": false,
                         "timestamp": "2025-06-09T16:00:00Z"
                       }
@@ -224,7 +222,7 @@
       "post": {
         "tags": ["completions"],
         "summary": "OpenAI compatible completions (text only)",
-        "description": "Membuat text completion menggunakan prompt string.",
+        "description": "Create text completions using prompt-based input.",
         "operationId": "textCompletions",
         "requestBody": {
           "required": true,
@@ -235,10 +233,12 @@
               },
               "examples": {
                 "simple": {
-                  "summary": "Contoh request sederhana",
+                  "summary": "Simple text completion",
                   "value": {
                     "model": "nusantara-base",
-                    "prompt": "Sebutkan 3 manfaat AI:"
+                    "prompt": "The future of artificial intelligence is",
+                    "max_tokens": 100,
+                    "temperature": 0.7
                   }
                 }
               }
@@ -303,7 +303,7 @@
       "get": {
         "tags": ["models"],
         "summary": "List available models",
-        "description": "Mendapatkan daftar model yang tersedia.",
+        "description": "Retrieve a list of all available models and their capabilities.",
         "operationId": "listModels",
         "responses": {
           "200": {
@@ -311,7 +311,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ModelsResponse"
+                  "$ref": "#/components/schemas/ModelsListResponse"
                 }
               }
             }
@@ -332,8 +332,8 @@
     "/embeddings": {
       "post": {
         "tags": ["embeddings"],
-        "summary": "Create embeddings (OpenAI-Compatible)",
-        "description": "Membuat embedding dari input text.",
+        "summary": "Create embeddings",
+        "description": "Generate vector embeddings from input text.",
         "operationId": "embeddings",
         "requestBody": {
           "required": true,
@@ -344,18 +344,17 @@
               },
               "examples": {
                 "simple": {
-                  "summary": "Contoh request sederhana",
+                  "summary": "Simple embedding request",
                   "value": {
-                    "model": "nusantara-embeddings",
-                    "input": "contoh kalimat"
+                    "model": "nusa-embeddings-0001",
+                    "input": "example sentence"
                   }
                 },
                 "multiple": {
-                  "summary": "Contoh multiple input",
+                  "summary": "Multiple inputs",
                   "value": {
-                    "model": "nusa-embedding-0001",
-                    "input": ["kalimat pertama", "kalimat kedua"],
-                    "encoding_format": "float"
+                    "model": "nusa-embeddings-0001",
+                    "input": ["first sentence", "second sentence", "third sentence"]
                   }
                 }
               }
@@ -372,7 +371,7 @@
                 },
                 "examples": {
                   "success": {
-                    "summary": "Contoh response sukses",
+                    "summary": "Successful embeddings response",
                     "value": {
                       "object": "list",
                       "data": [
@@ -382,7 +381,7 @@
                           "index": 0
                         }
                       ],
-                      "model": "nusantara-embeddings",
+                      "model": "nusa-embeddings-0001",
                       "usage": {
                         "prompt_tokens": 3,
                         "total_tokens": 3
@@ -404,7 +403,7 @@
             }
           },
           "401": {
-            "description": "API key missing or invalid",
+            "description": "Invalid API key",
             "content": {
               "application/json": {
                 "schema": {
@@ -440,7 +439,7 @@
       "post": {
         "tags": ["moderations"],
         "summary": "Content moderation check",
-        "description": "Melakukan pengecekan moderasi konten.",
+        "description": "Check content for policy violations and harmful content.",
         "operationId": "moderations",
         "requestBody": {
           "required": true,
@@ -451,9 +450,9 @@
               },
               "examples": {
                 "simple": {
-                  "summary": "Contoh request sederhana",
+                  "summary": "Simple moderation check",
                   "value": {
-                    "input": "Ini adalah teks yang akan dimoderasi",
+                    "input": "This is a test message for moderation.",
                     "model": "text-moderation-latest"
                   }
                 }
@@ -463,7 +462,7 @@
         },
         "responses": {
           "200": {
-            "description": "Moderation result",
+            "description": "Moderation results",
             "content": {
               "application/json": {
                 "schema": {
@@ -509,7 +508,7 @@
       "get": {
         "tags": ["usage"],
         "summary": "Get usage statistics",
-        "description": "Mendapatkan statistik penggunaan API.",
+        "description": "Retrieve detailed usage statistics for your API key.",
         "operationId": "usage",
         "parameters": [
           {
@@ -519,7 +518,7 @@
               "type": "string",
               "format": "date"
             },
-            "description": "Tanggal mulai (YYYY-MM-DD)"
+            "description": "Start date for usage statistics (YYYY-MM-DD)"
           },
           {
             "in": "query",
@@ -528,7 +527,7 @@
               "type": "string",
               "format": "date"
             },
-            "description": "Tanggal akhir (YYYY-MM-DD)"
+            "description": "End date for usage statistics (YYYY-MM-DD)"
           }
         ],
         "responses": {
@@ -559,7 +558,7 @@
       "post": {
         "tags": ["reasoning"],
         "summary": "Enhanced reasoning completion",
-        "description": "Completion dengan enhanced reasoning capabilities.",
+        "description": "Advanced reasoning capabilities with enhanced context understanding.",
         "operationId": "reasoning",
         "requestBody": {
           "required": true,
@@ -569,16 +568,18 @@
                 "$ref": "#/components/schemas/ReasoningRequest"
               },
               "examples": {
-                "simple": {
-                  "summary": "Contoh reasoning request",
+                "complex_reasoning": {
+                  "summary": "Complex reasoning task",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
                       {
                         "role": "user",
-                        "content": "Jelaskan langkah-langkah menyelesaikan masalah matematika kompleks."
+                        "content": "Solve this step by step: If a train travels 120 km in 2 hours, and then 180 km in 3 hours, what is the average speed for the entire journey?"
                       }
-                    ]
+                    ],
+                    "temperature": 0.3,
+                    "max_tokens": 1500
                   }
                 }
               }
@@ -633,7 +634,7 @@
       "get": {
         "tags": ["system"],
         "summary": "System status and info",
-        "description": "Mendapatkan status sistem dan informasi akun.",
+        "description": "Get current system status, your tier information, and usage limits.",
         "operationId": "systemStatus",
         "responses": {
           "200": {
@@ -662,7 +663,7 @@
   },
   "components": {
     "securitySchemes": {
-      "ApiKeyAuth": {
+      "apiKey": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "API_KEY"
@@ -671,30 +672,19 @@
     "schemas": {
       "ChatCompletionsRequest": {
         "type": "object",
-        "description": "Request untuk chat completion.",
+        "description": "Request for chat completion.",
+        "required": ["model", "messages"],
         "properties": {
           "model": {
             "type": "string",
             "example": "nusantara-base",
-            "description": "Nama model (wajib)."
+            "description": "Model name (required)."
           },
           "messages": {
             "type": "array",
-            "description": "Array pesan (role+content).",
+            "description": "Array of messages (role+content).",
             "items": {
-              "type": "object",
-              "properties": {
-                "role": {
-                  "type": "string",
-                  "enum": ["system", "user", "assistant"],
-                  "example": "user"
-                },
-                "content": {
-                  "type": "string",
-                  "example": "Apa itu NusantaraAI?"
-                }
-              },
-              "required": ["role", "content"]
+              "$ref": "#/components/schemas/ChatMessage"
             }
           },
           "temperature": {
@@ -702,23 +692,111 @@
             "default": 0.7,
             "minimum": 0,
             "maximum": 2,
-            "description": "Kontrol kreativitas response"
+            "description": "Sampling temperature between 0 and 2."
           },
           "max_tokens": {
             "type": "integer",
             "default": 1000,
             "minimum": 1,
-            "description": "Maksimal token output"
+            "description": "Maximum number of tokens to generate."
           },
           "stream": {
             "type": "boolean",
             "default": false,
-            "description": "Stream response"
+            "description": "Whether to stream responses."
           },
           "n": {
             "type": "integer",
             "default": 1,
-            "description": "Jumlah response yang dihasilkan"
+            "minimum": 1,
+            "maximum": 10,
+            "description": "Number of completions to generate."
+          },
+          "top_p": {
+            "type": "number",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Nucleus sampling parameter."
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2,
+            "description": "Frequency penalty parameter."
+          },
+          "presence_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2,
+            "description": "Presence penalty parameter."
+          },
+          "response_format": {
+            "$ref": "#/components/schemas/ResponseFormat"
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Function"
+            },
+            "description": "Available functions for the model to call."
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tool"
+            },
+            "description": "Available tools for the model to use."
+          },
+          "tool_choice": {
+            "oneOf": [
+              {"type": "string"},
+              {"$ref": "#/components/schemas/ToolChoice"}
+            ],
+            "default": "auto",
+            "description": "Tool choice strategy."
+          },
+          "web_search": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable web search capabilities."
+          }
+        }
+      },
+      "TextCompletionsRequest": {
+        "type": "object",
+        "required": ["model", "prompt"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "nusantara-base"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Text prompt for completion."
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7,
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 1000,
+            "minimum": 1
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "n": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 10
           },
           "top_p": {
             "type": "number",
@@ -739,169 +817,255 @@
             "maximum": 2
           },
           "response_format": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": ["text", "json_object"],
-                "default": "text"
-              }
-            }
-          },
-          "functions": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            },
-            "description": "Fungsi yang tersedia untuk dipanggil"
-          },
-          "tools": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            },
-            "description": "Tools yang tersedia"
-          },
-          "tool_choice": {
-            "type": "string",
-            "default": "auto",
-            "description": "Cara pemilihan tool"
-          },
-          "web_search": {
-            "type": "boolean",
-            "default": false,
-            "description": "Aktifkan web search"
-          }
-        },
-        "required": ["model", "messages"]
-      },
-      "ChatCompletionsResponse": {
-        "type": "object",
-        "description": "Response chat completion.",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "chatcmpl-xyz"
-          },
-          "object": {
-            "type": "string",
-            "example": "chat.completion"
-          },
-          "created": {
-            "type": "integer",
-            "example": 1717950000
-          },
-          "model": {
-            "type": "string",
-            "example": "nusantara-base"
-          },
-          "choices": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "index": {
-                  "type": "integer"
-                },
-                "message": {
-                  "type": "object",
-                  "properties": {
-                    "role": {
-                      "type": "string",
-                      "example": "assistant"
-                    },
-                    "content": {
-                      "type": "string",
-                      "example": "NusantaraAI adalah platform AI lokal."
-                    },
-                    "tool_calls": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                },
-                "finish_reason": {
-                  "type": "string",
-                  "example": "stop"
-                }
-              }
-            }
-          },
-          "usage": {
-            "type": "object",
-            "properties": {
-              "prompt_tokens": {
-                "type": "integer",
-                "example": 12
-              },
-              "completion_tokens": {
-                "type": "integer",
-                "example": 5
-              },
-              "total_tokens": {
-                "type": "integer",
-                "example": 17
-              }
-            }
-          },
-          "_metadata": {
-            "$ref": "#/components/schemas/Metadata"
+            "$ref": "#/components/schemas/ResponseFormat"
           }
         }
       },
-      "TextCompletionsRequest": {
+      "ReasoningRequest": {
         "type": "object",
+        "required": ["messages"],
         "properties": {
           "model": {
             "type": "string",
             "example": "nusantara-base"
           },
-          "prompt": {
-            "type": "string",
-            "example": "Sebutkan 3 manfaat AI:"
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            }
           },
           "temperature": {
             "type": "number",
-            "default": 0.7
+            "default": 0.7,
+            "minimum": 0,
+            "maximum": 2
           },
           "max_tokens": {
             "type": "integer",
-            "default": 1000
+            "default": 1500,
+            "minimum": 1
           },
           "stream": {
             "type": "boolean",
             "default": false
           },
-          "n": {
-            "type": "integer",
-            "default": 1
-          },
           "top_p": {
             "type": "number",
-            "default": 1
+            "default": 1,
+            "minimum": 0,
+            "maximum": 1
           },
           "frequency_penalty": {
             "type": "number",
-            "default": 0
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
           },
           "presence_penalty": {
             "type": "number",
-            "default": 0
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
           },
           "response_format": {
+            "$ref": "#/components/schemas/ResponseFormat"
+          }
+        }
+      },
+      "EmbeddingsRequest": {
+        "type": "object",
+        "description": "Request for embeddings.",
+        "required": ["input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "nusa-embeddings-0001",
+            "description": "Model to use for embeddings."
+          },
+          "input": {
+            "oneOf": [
+              {"type": "string"},
+              {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            ],
+            "description": "Input text(s) to generate embeddings for."
+          },
+          "encoding_format": {
+            "type": "string",
+            "default": "float",
+            "enum": ["float", "base64"],
+            "description": "Format for the embeddings."
+          }
+        }
+      },
+      "ModerationsRequest": {
+        "type": "object",
+        "required": ["input"],
+        "properties": {
+          "input": {
+            "oneOf": [
+              {"type": "string"},
+              {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            ],
+            "description": "Input text(s) to moderate."
+          },
+          "model": {
+            "type": "string",
+            "example": "text-moderation-latest",
+            "description": "Moderation model to use."
+          }
+        }
+      },
+      "ChatMessage": {
+        "type": "object",
+        "required": ["role", "content"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["system", "user", "assistant"],
+            "description": "Role of the message sender."
+          },
+          "content": {
+            "type": "string",
+            "description": "Content of the message."
+          },
+          "name": {
+            "type": "string",
+            "description": "Optional name of the message sender."
+          },
+          "tool_calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolCall"
+            },
+            "description": "Tool calls made by the assistant."
+          }
+        }
+      },
+      "ResponseFormat": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["text", "json_object"],
+            "default": "text",
+            "description": "Format of the response."
+          }
+        }
+      },
+      "Function": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Function name."
+          },
+          "description": {
+            "type": "string",
+            "description": "Function description."
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Function parameters schema."
+          }
+        }
+      },
+      "Tool": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["function"],
+            "description": "Tool type."
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          }
+        }
+      },
+      "ToolChoice": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["function"]
+          },
+          "function": {
             "type": "object",
             "properties": {
-              "type": {
-                "type": "string",
-                "enum": ["text", "json_object"],
-                "default": "text"
+              "name": {
+                "type": "string"
               }
             }
           }
-        },
-        "required": ["model", "prompt"]
+        }
+      },
+      "ToolCall": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["function"]
+          },
+          "function": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ChatCompletionsResponse": {
+        "type": "object",
+        "description": "Chat completion response.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Completion ID."
+          },
+          "object": {
+            "type": "string",
+            "example": "chat.completion",
+            "description": "Object type."
+          },
+          "created": {
+            "type": "integer",
+            "description": "Creation timestamp."
+          },
+          "model": {
+            "type": "string",
+            "description": "Model used."
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatChoice"
+            },
+            "description": "Completion choices."
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage"
+          },
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
       },
       "TextCompletionResponse": {
         "type": "object",
@@ -922,80 +1086,20 @@
           "choices": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "text": {
-                  "type": "string"
-                },
-                "index": {
-                  "type": "integer"
-                },
-                "logprobs": {
-                  "type": "string",
-                  "nullable": true
-                },
-                "finish_reason": {
-                  "type": "string"
-                }
-              }
+              "$ref": "#/components/schemas/TextChoice"
             }
           },
           "usage": {
-            "type": "object",
-            "properties": {
-              "prompt_tokens": {
-                "type": "integer"
-              },
-              "completion_tokens": {
-                "type": "integer"
-              },
-              "total_tokens": {
-                "type": "integer"
-              }
-            }
+            "$ref": "#/components/schemas/Usage"
           },
-          "_metadata": {
+          "info_metadata": {
             "$ref": "#/components/schemas/Metadata"
           }
         }
-      },
-      "EmbeddingsRequest": {
-        "type": "object",
-        "description": "Request untuk embeddings.",
-        "properties": {
-          "model": {
-            "type": "string",
-            "example": "nusantara-embeddings",
-            "description": "Nama model embeddings"
-          },
-          "input": {
-            "oneOf": [
-              {
-                "type": "string",
-                "example": "contoh kalimat"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": ["kalimat pertama", "kalimat kedua"]
-              }
-            ],
-            "description": "Text atau array text untuk diembedding"
-          },
-          "encoding_format": {
-            "type": "string",
-            "default": "float",
-            "enum": ["float", "base64"],
-            "description": "Format encoding output"
-          }
-        },
-        "required": ["input"]
       },
       "EmbeddingsResponse": {
         "type": "object",
-        "description": "Response dari embeddings endpoint.",
+        "description": "Response from embeddings endpoint.",
         "properties": {
           "object": {
             "type": "string",
@@ -1004,134 +1108,19 @@
           "data": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "object": {
-                  "type": "string",
-                  "example": "embedding"
-                },
-                "embedding": {
-                  "type": "array",
-                  "items": {
-                    "type": "number"
-                  },
-                  "example": [0.12, 0.34, 0.56]
-                },
-                "index": {
-                  "type": "integer",
-                  "example": 0
-                }
-              }
+              "$ref": "#/components/schemas/EmbeddingObject"
             }
           },
           "model": {
-            "type": "string",
-            "example": "nusantara-embeddings"
-          },
-          "usage": {
-            "type": "object",
-            "properties": {
-              "prompt_tokens": {
-                "type": "integer",
-                "example": 3
-              },
-              "total_tokens": {
-                "type": "integer",
-                "example": 3
-              }
-            }
-          },
-          "_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
-        }
-      },
-      "ModelsResponse": {
-        "type": "object",
-        "properties": {
-          "object": {
-            "type": "string",
-            "example": "list"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ModelInfo"
-            }
-          },
-          "_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
-        }
-      },
-      "ModelInfo": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "nusantara-base"
-          },
-          "object": {
-            "type": "string",
-            "example": "model"
-          },
-          "created": {
-            "type": "integer"
-          },
-          "owned_by": {
-            "type": "string",
-            "example": "nusantaraai"
-          },
-          "permission": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "root": {
             "type": "string"
           },
-          "parent": {
-            "type": "string",
-            "nullable": true
+          "usage": {
+            "$ref": "#/components/schemas/EmbeddingUsage"
           },
-          "description": {
-            "type": "string",
-            "example": "Model dasar NusantaraAI"
-          },
-          "capabilities": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": ["chat", "completion", "reasoning"]
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
           }
         }
-      },
-      "ModerationsRequest": {
-        "type": "object",
-        "properties": {
-          "input": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            ],
-            "description": "Text yang akan dimoderasi"
-          },
-          "model": {
-            "type": "string",
-            "example": "text-moderation-latest",
-            "description": "Model moderasi yang digunakan"
-          }
-        },
-        "required": ["input"]
       },
       "ModerationsResponse": {
         "type": "object",
@@ -1148,31 +1137,26 @@
               "$ref": "#/components/schemas/ModerationResult"
             }
           },
-          "_metadata": {
+          "info_metadata": {
             "$ref": "#/components/schemas/Metadata"
           }
         }
       },
-      "ModerationResult": {
+      "ModelsListResponse": {
         "type": "object",
         "properties": {
-          "flagged": {
-            "type": "boolean",
-            "description": "Apakah konten terflag"
+          "object": {
+            "type": "string",
+            "example": "list"
           },
-          "categories": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "boolean"
-            },
-            "description": "Kategori yang terflag"
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelInfo"
+            }
           },
-          "category_scores": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "number"
-            },
-            "description": "Skor setiap kategori"
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
           }
         }
       },
@@ -1186,206 +1170,431 @@
           "data": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "timestamp": {
-                  "type": "integer",
-                  "description": "Unix timestamp"
-                },
-                "usage": {
-                  "type": "integer",
-                  "description": "Jumlah token yang digunakan"
-                },
-                "requests": {
-                  "type": "integer",
-                  "description": "Jumlah request"
-                },
-                "model": {
-                  "type": "string",
-                  "description": "Nama model"
-                }
-              }
+              "$ref": "#/components/schemas/UsageData"
             }
           },
           "total_usage": {
             "type": "integer",
-            "description": "Total penggunaan token"
+            "description": "Total tokens used in the period."
           },
           "total_requests": {
             "type": "integer",
-            "description": "Total request"
+            "description": "Total requests made in the period."
           },
           "tier_info": {
-            "type": "object",
-            "properties": {
-              "current_tier": {
-                "type": "string",
-                "example": "Free"
-              },
-              "limits": {
-                "type": "object",
-                "properties": {
-                  "requests_per_minute": {
-                    "type": "integer"
-                  },
-                  "requests_per_day": {
-                    "type": "integer"
-                  },
-                  "tokens_per_minute": {
-                    "type": "integer"
-                  },
-                  "tokens_per_day": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/TierInfo"
           },
           "current_usage": {
-            "type": "object",
-            "properties": {
-              "requests_today": {
-                "type": "integer"
-              },
-              "tokens_today": {
-                "type": "integer"
-              },
-              "requests_this_minute": {
-                "type": "integer"
-              },
-              "tokens_this_minute": {
-                "type": "integer"
-              }
-            }
+            "$ref": "#/components/schemas/CurrentUsage"
           },
-          "_metadata": {
+          "info_metadata": {
             "$ref": "#/components/schemas/Metadata"
           }
         }
-      },
-      "ReasoningRequest": {
-        "type": "object",
-        "properties": {
-          "model": {
-            "type": "string",
-            "example": "nusantara-base",
-            "description": "Model yang digunakan"
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "role": {
-                  "type": "string",
-                  "enum": ["system", "user", "assistant"]
-                },
-                "content": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "temperature": {
-            "type": "number",
-            "default": 0.7
-          },
-          "max_tokens": {
-            "type": "integer",
-            "default": 1500
-          },
-          "stream": {
-            "type": "boolean",
-            "default": false
-          },
-          "top_p": {
-            "type": "number",
-            "default": 1
-          },
-          "frequency_penalty": {
-            "type": "number",
-            "default": 0
-          },
-          "presence_penalty": {
-            "type": "number",
-            "default": 0
-          },
-          "response_format": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": ["text", "json_object"],
-                "default": "text"
-              }
-            }
-          }
-        },
-        "required": ["messages"]
       },
       "SystemStatusResponse": {
         "type": "object",
         "properties": {
           "system": {
-            "type": "object",
-            "properties": {
-              "status": {
-                "type": "string",
-                "example": "operational"
-              },
-              "version": {
-                "type": "string",
-                "example": "1.0.0"
-              },
-              "uptime": {
-                "type": "integer",
-                "description": "Uptime dalam detik"
-              },
-              "models_available": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/components/schemas/SystemInfo"
           },
           "your_tier": {
             "type": "string",
-            "example": "Free",
-            "description": "Tier akun Anda"
+            "enum": ["free", "basic", "standard", "pro", "enterprise"],
+            "description": "Your current subscription tier."
           },
           "your_usage": {
+            "$ref": "#/components/schemas/CurrentUsage"
+          },
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "ChatChoice": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": ["stop", "length", "function_call", "tool_calls", "content_filter"],
+            "description": "Reason for completion finish."
+          }
+        }
+      },
+      "TextChoice": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          },
+          "logprobs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": ["stop", "length", "content_filter"]
+          }
+        }
+      },
+      "EmbeddingObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "example": "embedding"
+          },
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Vector embedding values."
+          },
+          "index": {
+            "type": "integer",
+            "description": "Index of the input text."
+          }
+        }
+      },
+      "ModerationResult": {
+        "type": "object",
+        "properties": {
+          "flagged": {
+            "type": "boolean",
+            "description": "Whether the content was flagged."
+          },
+          "categories": {
             "type": "object",
             "properties": {
-              "requests_today": {
-                "type": "integer"
+              "hate": {
+                "type": "boolean"
               },
-              "tokens_today": {
-                "type": "integer"
+              "hate/threatening": {
+                "type": "boolean"
               },
-              "remaining_requests": {
-                "type": "integer"
+              "harassment": {
+                "type": "boolean"
               },
-              "remaining_tokens": {
-                "type": "integer"
+              "harassment/threatening": {
+                "type": "boolean"
+              },
+              "self-harm": {
+                "type": "boolean"
+              },
+              "self-harm/intent": {
+                "type": "boolean"
+              },
+              "self-harm/instructions": {
+                "type": "boolean"
+              },
+              "sexual": {
+                "type": "boolean"
+              },
+              "sexual/minors": {
+                "type": "boolean"
+              },
+              "violence": {
+                "type": "boolean"
+              },
+              "violence/graphic": {
+                "type": "boolean"
               }
+            },
+            "description": "Category flags for different types of harmful content."
+          },
+          "category_scores": {
+            "type": "object",
+            "properties": {
+              "hate": {
+                "type": "number"
+              },
+              "hate/threatening": {
+                "type": "number"
+              },
+              "harassment": {
+                "type": "number"
+              },
+              "harassment/threatening": {
+                "type": "number"
+              },
+              "self-harm": {
+                "type": "number"
+              },
+              "self-harm/intent": {
+                "type": "number"
+              },
+              "self-harm/instructions": {
+                "type": "number"
+              },
+              "sexual": {
+                "type": "number"
+              },
+              "sexual/minors": {
+                "type": "number"
+              },
+              "violence": {
+                "type": "number"
+              },
+              "violence/graphic": {
+                "type": "number"
+              }
+            },
+            "description": "Confidence scores for each category (0-1)."
+          }
+        }
+      },
+      "ModelInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Model identifier."
+          },
+          "object": {
+            "type": "string",
+            "example": "model"
+          },
+          "created": {
+            "type": "integer",
+            "description": "Model creation timestamp."
+          },
+          "owned_by": {
+            "type": "string",
+            "example": "NeosantaraAI",
+            "description": "Organization that owns the model."
+          },
+          "permission": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-stainless-empty-object": true
             }
           },
-          "_metadata": {
-            "$ref": "#/components/schemas/Metadata"
+          "root": {
+            "type": "string",
+            "description": "Root model identifier."
+          },
+          "parent": {
+            "type": "string",
+            "nullable": true,
+            "description": "Parent model identifier."
+          },
+          "description": {
+            "type": "string",
+            "description": "Model description."
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Model capabilities."
+          },
+          "max_tokens": {
+            "type": "integer",
+            "description": "Maximum context length."
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/ModelPricing"
+          }
+        }
+      },
+      "ModelPricing": {
+        "type": "object",
+        "properties": {
+          "input_tokens": {
+            "type": "number",
+            "description": "Cost per 1K input tokens."
+          },
+          "output_tokens": {
+            "type": "number",
+            "description": "Cost per 1K output tokens."
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          }
+        }
+      },
+      "UsageData": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "integer",
+            "description": "Usage timestamp."
+          },
+          "usage": {
+            "type": "integer",
+            "description": "Token usage."
+          },
+          "requests": {
+            "type": "integer",
+            "description": "Number of requests."
+          },
+          "model": {
+            "type": "string",
+            "description": "Model used."
+          },
+          "endpoint": {
+            "type": "string",
+            "description": "API endpoint used."
+          }
+        }
+      },
+      "TierInfo": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": ["free", "basic", "standard", "pro", "enterprise"]
+          },
+          "limits": {
+            "$ref": "#/components/schemas/TierLimits"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Tier expiration date."
+          }
+        }
+      },
+      "TierLimits": {
+        "type": "object",
+        "properties": {
+          "requests_per_minute": {
+            "type": "integer"
+          },
+          "requests_per_day": {
+            "type": "integer"
+          },
+          "tokens_per_minute": {
+            "type": "integer"
+          },
+          "tokens_per_day": {
+            "type": "integer"
+          }
+        }
+      },
+      "CurrentUsage": {
+        "type": "object",
+        "properties": {
+          "requests_today": {
+            "type": "integer"
+          },
+          "tokens_today": {
+            "type": "integer"
+          },
+          "requests_this_minute": {
+            "type": "integer"
+          },
+          "tokens_this_minute": {
+            "type": "integer"
+          },
+          "reset_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When daily limits reset."
+          }
+        }
+      },
+      "SystemInfo": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["operational", "degraded", "maintenance", "down"]
+          },
+          "version": {
+            "type": "string"
+          },
+          "uptime": {
+            "type": "number",
+            "description": "System uptime in seconds."
+          },
+          "region": {
+            "type": "string",
+            "description": "Server region."
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer",
+            "description": "Tokens in the prompt."
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "description": "Tokens in the completion."
+          },
+          "total_tokens": {
+            "type": "integer",
+            "description": "Total tokens used."
+          }
+        }
+      },
+      "EmbeddingUsage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          }
+        }
+      },
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "creator": {
+            "type": "string",
+            "example": "NeosantaraAI"
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_id": {
+            "type": "string",
+            "description": "Unique request identifier."
+          },
+          "processing_time": {
+            "type": "number",
+            "description": "Processing time in milliseconds."
           }
         }
       },
       "RateLimitError": {
         "type": "object",
-        "description": "Error jika terkena rate limit.",
+        "description": "Error when rate limit is exceeded.",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
               "message": {
                 "type": "string",
-                "example": "Too many requests. Limit: 10 RPM. Please try again later."
+                "description": "Error message."
               },
               "type": {
                 "type": "string",
@@ -1397,45 +1606,45 @@
               },
               "details": {
                 "type": "object",
-                "description": "Detail informasi rate limit",
+                "description": "Additional error details.",
                 "properties": {
                   "limit": {
                     "type": "integer",
-                    "description": "Batas maksimal"
+                    "description": "Rate limit threshold."
                   },
                   "remaining": {
                     "type": "integer",
-                    "description": "Sisa kuota"
+                    "description": "Remaining requests in the current window."
                   },
                   "reset": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "Waktu reset limit"
+                    "description": "When the rate limit resets."
                   },
                   "retry_after": {
                     "type": "integer",
-                    "description": "Retry setelah berapa detik"
+                    "description": "Seconds to wait before retrying."
                   }
                 }
               }
             },
             "required": ["message", "type", "code"]
           },
-          "_metadata": {
+          "info_metadata": {
             "$ref": "#/components/schemas/Metadata"
           }
         }
       },
       "AuthError": {
         "type": "object",
-        "description": "Error jika API key salah/kurang.",
+        "description": "Error when API key is wrong/missing.",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
               "message": {
                 "type": "string",
-                "example": "API key is missing. Please provide your API key in the 'Authorization' header as 'Bearer <API_KEY>'."
+                "description": "Error message."
               },
               "type": {
                 "type": "string",
@@ -1443,27 +1652,27 @@
               },
               "code": {
                 "type": "string",
-                "example": "invalid_api_key",
-                "enum": ["missing_api_key", "invalid_api_key", "expired_api_key"]
+                "enum": ["missing_api_key", "invalid_api_key", "expired_api_key"],
+                "example": "invalid_api_key"
               }
             },
             "required": ["message", "type", "code"]
           },
-          "_metadata": {
+          "info_metadata": {
             "$ref": "#/components/schemas/Metadata"
           }
         }
       },
       "BadRequestError": {
         "type": "object",
-        "description": "Error untuk request yang tidak valid.",
+        "description": "Error for bad request format or parameters.",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
               "message": {
                 "type": "string",
-                "example": "Invalid request format or missing required parameters."
+                "description": "Error message."
               },
               "type": {
                 "type": "string",
@@ -1471,30 +1680,31 @@
               },
               "code": {
                 "type": "string",
-                "example": "invalid_request_format"
+                "enum": ["invalid_parameter", "missing_parameter", "invalid_format"],
+                "example": "invalid_parameter"
               },
               "details": {
                 "type": "object",
-                "description": "Detail kesalahan request"
+                "description": "Additional error details."
               }
             },
             "required": ["message", "type", "code"]
           },
-          "_metadata": {
+          "info_metadata": {
             "$ref": "#/components/schemas/Metadata"
           }
         }
       },
       "ServerError": {
         "type": "object",
-        "description": "Error server internal.",
+        "description": "Internal server error.",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
               "message": {
                 "type": "string",
-                "example": "Internal server error. Please try again later."
+                "description": "Error message."
               },
               "type": {
                 "type": "string",
@@ -1502,45 +1712,14 @@
               },
               "code": {
                 "type": "string",
+                "enum": ["internal_error", "service_unavailable", "timeout"],
                 "example": "internal_error"
               }
             },
             "required": ["message", "type", "code"]
           },
-          "_metadata": {
+          "info_metadata": {
             "$ref": "#/components/schemas/Metadata"
-          }
-        }
-      },
-      "Metadata": {
-        "type": "object",
-        "description": "Metadata response dari NusantaraAI.",
-        "properties": {
-          "creator": {
-            "type": "string",
-            "example": "nusantaraai",
-            "description": "Pembuat API"
-          },
-          "status": {
-            "type": "boolean",
-            "example": true,
-            "description": "Status response (true = sukses, false = error)"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2025-06-09T16:00:00Z",
-            "description": "Timestamp response"
-          },
-          "request_id": {
-            "type": "string",
-            "example": "req_abc123",
-            "description": "ID unik untuk request"
-          },
-          "processing_time": {
-            "type": "number",
-            "example": 1.234,
-            "description": "Waktu pemrosesan dalam detik"
           }
         }
       }
