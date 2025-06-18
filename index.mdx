@@ -3,15 +3,17 @@ title: Welcome
 description: "Selamat Datang Di Neosantara Docs"
 ---
 
-<div style={{
-  opacity: 0,
-  animation: 'fadeInUp 1.5s ease-out forwards'
-}}>
+<div className="animated-content">
   <h2>Next-Gen AI With Culture Intelligence</h2>
   <p>Get Started Integrate Neosantara AI</p>
 </div>
 
-<style jsx>{`
+<style>{`
+  .animated-content {
+    opacity: 0;
+    animation: fadeInUp 1.5s ease-out forwards;
+  }
+  
   @keyframes fadeInUp {
     from {
       opacity: 0;
