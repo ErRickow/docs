@@ -6,12 +6,7 @@ description: 'Start integrate Neosantara APIs in minutes'
 ## Account setup
 
 To get started, create a Neosantara account here:
-
-<Card
-  title="Plant Store Endpoints"
-  icon="key"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
+<Card title="Create Account" icon="key" href="https://nusaai-edit.mintlify.com">
   Create your account now!
   Get 30k tokens per month and 10k tokens per day, FOR FREE! Register Now!
 </Card>
@@ -19,19 +14,23 @@ To get started, create a Neosantara account here:
 After that, go to the "API keys" page and make a new API key by clicking "Generate new key".
 Make sure to copy the API key, save it safely, and do not share it with anyone.
 
-## Your First API Call
+### Your First API Call
 
 The Neosantara API uses an API format compatible with OpenAI. By modifying the configuration, you can use the OpenAI SDK or softwares compatible with the OpenAI API to access the Neosantara API.
 
-<Note> 
-**Neosantara AI** doesn't have the sdk yet. You can either use fetch or via openai!
-</Note>
+<Icon icon="info" iconType="solid" /> **Neosantara AI** doesn't have the sdk yet. You can either using fetch or via openai!
 
-## Invoke The Chat API Calls
+| PARAM | VALUE                           |
+| -------- | ------------------------------------- |
+| baseURL     | `https://api.neosantara.xyz/v1`                     |
+| apiKey      | `<Your neosantara Apikey>`                          |
+
+### Invoke The Chat API Calls
 
 This is a non-stream example, you can set the `stream` parameter to `true` to get stream response.
 
 <CodeGroup>
+
 ```javascript openNAI.js lines icon="square-js"
 // Please install OpenAI SDK first: `npm install openai`
 
