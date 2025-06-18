@@ -57,17 +57,6 @@
       }
     ],
     "global": {
-      "languages": [
-        {
-          "language": "id",
-          "default": true,
-          "href": "/id"
-        },
-        {
-          "language": "en",
-          "href": "/en"
-        }
-      ],
       "anchors": [
         {
           "anchor": "Documentation",
