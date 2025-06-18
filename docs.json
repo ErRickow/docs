@@ -89,7 +89,6 @@
   "contextual": {
     "options": [
       "copy",
-      "view",
       "chatgpt",
       "claude"
     ]
