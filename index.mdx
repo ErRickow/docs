@@ -1,12 +1,28 @@
 ---
-title: Introduction
+title: Welcome
 description: "Selamat Datang Di Neosantara Docs"
 ---
 
-<Frame caption="try ing">
-  <img src="/images/hero.png" />
-</Frame>
+<div style={{
+  opacity: 0,
+  animation: 'fadeInUp 1.5s ease-out forwards'
+}}>
+  <h2>Next-Gen AI With Culture Intelligence</h2>
+  <p>Get Started Integrate Neosantara AI</p>
+</div>
 
+<style jsx>{`
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`}</style>
 
 
 <CardGroup cols={2}>
@@ -26,14 +42,14 @@ description: "Selamat Datang Di Neosantara Docs"
   </Card>
   <Card
     title="Token Balance Overview"
-    icon="fa-money"
+    icon="money"
     href="/about/tokens"
   >
     Learn how manage token usage Neosantara APIs
   </Card>
   <Card
     title="Rate Limits"
-    icon="fa-tachometer"
+    icon="tachometer"
     href="/about/rate-limits"
   >
     Learn about Neosantara's Rate Limiting
