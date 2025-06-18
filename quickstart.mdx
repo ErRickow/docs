@@ -18,7 +18,10 @@ Make sure to copy the API key, save it safely, and do not share it with anyone.
 
 The Neosantara API uses an API format compatible with OpenAI. By modifying the configuration, you can use the OpenAI SDK or softwares compatible with the OpenAI API to access the Neosantara API.
 
-<Icon icon="info" iconType="solid" /> **Neosantara AI** doesn't have the sdk yet. You can either using fetch or via openai!
+<Note>
+**Neosantara AI** doesn't have the sdk yet. 
+You can either use fetch or via openai!
+</Note>
 
 | PARAM | VALUE                           |
 | -------- | ------------------------------------- |
@@ -73,7 +76,7 @@ print(response.choices[0].message.content)
 ```
 
 ```bash curlNAI.sh lines icon="terminal"
-curl https://api.neosantara.xyz/chat/completions \
+curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <NEOSANTARA API Key>" \
   -d '{
