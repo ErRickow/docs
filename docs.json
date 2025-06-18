@@ -2,11 +2,8 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Neo",
-  "background": {
-    "decoration": "gradient"
-  },
   "colors": {
-    "primary": "#88888",
+    "primary": "#797979",
     "light": "#E0E0E0",
     "dark": "#FFFFFF"
   },
