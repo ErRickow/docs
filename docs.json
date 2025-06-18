@@ -1,28 +1,28 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Neo",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#797979",
+    "light": "#E0E0E0",
+    "dark": "#FFFFFF"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/nusa-black.ico",
   "navigation": {
-    "tabs": [
+    "dropdowns": [
       {
-        "tab": "Guides",
+        "dropdown": "Home",
+        "icon": "house",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Welcome",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "quickstart"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "About",
             "pages": [
               "essentials/markdown",
               "essentials/code",
@@ -35,7 +35,8 @@
         ]
       },
       {
-        "tab": "API Reference",
+        "dropdown": "API Reference",
+        "icon": "terminal",
         "groups": [
           {
             "group": "API Documentation",
@@ -44,41 +45,23 @@
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Available Endpoint's",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook",
+              "api-reference/chat/create-chat-completion-openai-compatible",
+              "api-reference/embeddings/create-embeddings-openai-compatible",
+              "api-reference/models/list-available-models",
+              "api-reference/moderations/content-moderation-check",
+              "api-reference/usage/get-usage-statistics",
               "api-reference/completions/openai-compatible-completions-text-only"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/neosa.svg",
+    "dark": "/logo/neosa.svg"
   },
   "navbar": {
     "links": [
@@ -95,9 +78,75 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
+      "x": "https://x.com/NeosantaraAI",
       "github": "https://github.com/mintlify",
       "linkedin": "https://linkedin.com/company/mintlify"
+    }
+  },
+  "banner": {
+    "content": "hello world [see](https://nusaai-edit.mintlify.com)"
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "chatgpt",
+      "claude"
+    ]
+  },
+  "errors": {
+    "404": {
+      "redirect": true
+    }
+  },
+  "seo": {
+    "metatags": {
+      "charset": "UTF-8",
+      "viewport": "width=device-width, initial-scale=1.0",
+      "description": "Start Using Neosantara AI For Free Now!",
+      "keywords": "ai, aiimage, neosantara-ai, neosantaradocs, neosantaraai, neosantara-docs, api-docs-ai, apidocsai, aidocs, dokumentasi-neosantaraai, docs-neosantara, neosantara_xyz",
+      "author": "Er",
+      "robots": "index, follow",
+      "googlebot": "index, follow",
+      "google": "notranslate",
+      "generator": "Mintlify",
+      "theme-color": "#000000",
+      "color-scheme": "light dark",
+      "format-detection": "telephone=no",
+      "referrer": "origin",
+      "refresh": "30",
+      "rating": "general",
+      "revisit-after": "7 days",
+      "language": "en",
+      "copyright": "Copyright 2025",
+      "reply-to": "support@neosantara.xyz",
+      "distribution": "global",
+      "coverage": "Worldwide",
+      "category": "Technology, AI Indonesia, Cultural AI, AI That Grow With You, Indo AI, AI, APIs",
+      "target": "all",
+      "HandheldFriendly": "True",
+      "MobileOptimized": "320",
+      "apple-mobile-web-app-capable": "yes",
+      "apple-mobile-web-app-status-bar-style": "black",
+      "og:title": "Neosantara AI Docs",
+      "og:type": "website",
+      "og:url": "https://docs.neosantara.xyz",
+      "og:image": "https:///image.jpg",
+      "og:description": "Get Started With Neosantara AI",
+      "og:site_name": "Neosantara AI",
+      "og:locale": "en_US",
+      "twitter:card": "summary",
+      "twitter:site": "@NeosantaraAI",
+      "twitter:creator": "@ErRickow",
+      "twitter:title": "Neosantara AI",
+      "twitter:description": "Lets Get Started With Neosantara AI",
+      "twitter:image": "https://example.com/image.jpg",
+      "twitter:image:alt": "NAI Image",
+      "article:published_time": "2024-01-01T00:00:00+00:00",
+      "article:modified_time": "2024-01-02T00:00:00+00:00",
+      "article:expiration_time": "2024-12-31T00:00:00+00:00",
+      "article:author": "Er",
+      "article:section": "Technology, AI, Artificial Intelligence, AI Documentation",
+      "article:tag": "ai, neosantaraai, nai, indonesianAi"
     }
   }
 }
