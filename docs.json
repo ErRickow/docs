@@ -3,15 +3,16 @@
   "theme": "mint",
   "name": "Neo",
   "colors": {
-    "primary": "#FFFFFF",
+    "primary": "#888888",
     "light": "#E0E0E0",
-    "dark": "#888888"
+    "dark": "#FFFFFF"
   },
   "favicon": "/nusa-black.ico",
   "navigation": {
     "dropdowns": [
       {
         "dropdown": "Home",
+        "icon": "home",
         "groups": [
           {
             "group": "Welcome",
@@ -77,8 +78,8 @@
     }
   },
   "logo": {
-    "light": "/logo/the-docs.svg",
-    "dark": "/logo/the-docs.svg"
+    "light": "/logo/neosa.svg",
+    "dark": "/logo/neosa.svg"
   },
   "navbar": {
     "links": [
