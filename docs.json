@@ -5,10 +5,7 @@
   "colors": {
     "primary": "#4CAF50",
     "light": "#E0E0E0",
-    "dark": "#1A1A1A",
-    "background": "#121212",
-    "foreground": "#FAFAFA",
-    "hover": "#388E3C"
+    "dark": "#1A1A1A"
   },
   "favicon": "/nusa-black.ico",
   "navigation": {
