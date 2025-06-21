@@ -1,20 +1,19 @@
----
-title: Available Models
-description: Model List Neosantara AI
----
+# Available Models
+
+> A list of Neosantara AI Models you can access.
 
 ## Models
 
-Neosantara AI menyediakan akses ke berbagai model AI dengan kemampuan berbeda:
+Neosantara AI provides access to various AI models with different capabilities, optimized for diverse needs:
 
 ## Indonesian-Optimized Models
 
 <AccordionGroup>
   <Accordion title='nusantara-base'>
   
-  - **Description**: Model dasar untuk tugas umum dengan keseimbangan kinerja dan kecepatan
+  - **Description**: A specialized model for Indonesian content with a deep awareness of cultural context.
   - **Capabilities**: function_calling, json_mode
-  - **Best for**: Tugas-tugas umum dalam Bahasa Indonesia
+  - **Best for**: Understanding cultural nuances, local context, and complex Indonesian texts
 
   </Accordion>
 
@@ -28,9 +27,9 @@ Neosantara AI menyediakan akses ke berbagai model AI dengan kemampuan berbeda:
   
   <Accordion title="bahasa-llm">
   
-	- **Description**: Model cepat dan efisien yang dioptimalkan untuk pemahaman Bahasa Indonesia
+	- **Description**: A fast and efficient model optimized for Indonesian language understanding and rapid responses.
 	- **Capabilities**: function_calling, json_mode
-	- **Best for**: Pemrosesan cepat dengan konteks lokal
+	- **Best for**: Fast processing, concise understanding, and function calls within an Indonesian context.
 
   </Accordion>
 </AccordionGroup>
@@ -40,51 +39,87 @@ Neosantara AI menyediakan akses ke berbagai model AI dengan kemampuan berbeda:
 <AccordionGroup>
   <Accordion title='gemini-2.0-flash'>
   
-  - **Description**: Model dasar untuk tugas umum dengan keseimbangan kinerja dan kecepatan
+  - **Description**: A newer Google Gemini model, optimized for quick answers and efficient responses.
   - **Capabilities**: function_calling, json_mode
-  - **Best for**: Tugas-tugas umum dalam Bahasa Indonesia
+  - **Best for**: Factual questions, quick summaries, and general tasks.
+
+  </Accordion>
+  
+  <Accordion title='gemini-1.5-pro'>
+  
+  - **Description**: A powerful Google Gemini Pro model for complex tasks and multimodal processing (text and images).
+  - **Capabilities**: function_calling, json_mode
+  - **Best for**: In-depth analysis, complex reasoning, and creative tasks
+
+  </Accordion>
+  
+  <Accordion title='gpt-3.5-turbo'>
+  
+  - **Description**: A general-purpose model from OpenAI, fast and responsive for various use cases.
+  - **Capabilities**: function_calling, json_mode
+  - **Best for**: General conversations, text generation, and automation tasks.
+
+  </Accordion>
+  
+  <Accordion title='gpt-4o-mini'>
+  
+  - **Description**: A compact model from OpenAI, efficient and capable of handling complex tasks at an affordable price.
+  - **Capabilities**: function_calling, json_mode
+  - **Best for**: High-accuracy tasks and cost-efficiency.
+
+  </Accordion>
+
+  <Accordion title="command-r">
+  
+	- **Description**: Cohere's Command-R model, offering solid reasoning and language understanding capabilities.
+	- **Capabilities**: json_mode
+	- **Best for**: Natural language understanding and summarization tasks.
 
   </Accordion>
 
   <Accordion title="command-r-plus">
   
-	- **Description**: Model provider dari Cohere AI
+	- **Description**: Cohere's Command-R Plus model, featuring advanced reasoning and web search capabilities.
 	- **Capabilities**: web_search, json_mode
-	- **Best for**: Pencarian informasi real-time
+	- **Best for**: Questions requiring real-time information or external references.
 
   </Accordion>
   
   <Accordion title="gemma2-9b-it">
   
-	- **Description**: Model Provider dari Groq
+	- **Description**: A Gemma2 model from Groq, optimized for speed and efficiency in language processing.
 	- **Capabilities**: json_mode
-	- **Best for**: jawaban panjang, mendapat jawaban lebih rinci
+	- **Best for**: Fast responses and lightweight text generation.
 
   </Accordion>
 </AccordionGroup>
 
 ## Model Selection Guide
 
-Gunakan panduan ini untuk memilih model yang tepat:
+Use this guide to choose the right model for your needs:
 
-1. **Konten Bahasa Indonesia**:
-   - Utamakan: nusantara-base, archipelago-7b, bahasa-llm
+1. **Indonesian Content & Local Context**:
+   - Prioritize: nusantara-base, archipelago-7b, bahasa-llm
 
-2. **Pemrosesan Cepat**:
-   - Utamakan: bahasa-llm, gemini-1.5-flash
+2. **Fast & Efficient Processing**:
+   - Prioritize: bahasa-llm, gemini-1.5-flash, gemini-2.0-flash, gemma2-9b-it
 
-3. **Pencarian & Analisis**:
-   - Utamakan: command-r-plus (web search)
-   - Embedding: nusa-embedding-0001
+3. **Information Retrieval & In-depth Analysis**:
+   - Prioritize: command-r-plus (for web search), gemini-1.5-pro (for analysis)
 
 4. **Function Calling**:
-   - Utamakan: nusantara-base, bahasa-llm
+   - Prioritize: nusantara-base, bahasa-llm, gemini-1.5-flash, gemini-1.5-pro, gpt-3.5-turbo, gpt-4o-mini
+
+5. **Embedding (Text Mapping)**:
+   - Use: nusa-embedding-0001
 
 ## Model Capabilities
 
+Here is a list of the main capabilities supported by Neosantara AI models:
+
 | Capability | Description |
 |------------|-------------|
-| function_calling | Kemampuan memanggil fungsi eksternal |
-| json_mode | Output dalam format JSON terstruktur |
-| web_search | Kemampuan mencari informasi dari web |
-| streaming | Mendukung response streaming |
+| function_calling | The ability of the model to call external functions |
+| json_mode | The ability of the model to generate output in structured JSON format |
+| web_search | The ability of the model to search for information from the web |
+| streaming | Supports streaming responses (gradual output) |

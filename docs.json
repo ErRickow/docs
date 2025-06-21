@@ -3,34 +3,38 @@
   "theme": "mint",
   "name": "Neo",
   "colors": {
-    "primary": "#757575",
-    "light": "#E0E0E0",
-    "dark": "#959595"
+    "primary": "#212121",
+    "light": "#F5F5F5",
+    "dark": "#424242" 
   },
   "favicon": "/nusa-black.ico",
   "navigation": {
     "dropdowns": [
       {
-        "dropdown": "Home",
+        "dropdown": "Documentation",
         "icon": "house",
         "groups": [
           {
-            "group": "Welcome",
+            "group": "Overview",
             "pages": [
               "index",
+              "about",
               "quickstart",
+              "token-credits",
+              "rate-limits",
               "model"
             ]
           },
           {
-            "group": "About",
+            "group": "API Reference",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "api-reference/introduction",
+              "api-reference/chat/create-chat-completion-openai-compatible",
+              "api-reference/embeddings/create-embeddings-openai-compatible",
+              "api-reference/models/list-available-models",
+              "api-reference/moderations/content-moderation-check",
+              "api-reference/usage/get-usage-statistics",
+              "api-reference/completions/openai-compatible-completions-text-only"
             ]
           }
         ]
@@ -80,8 +84,7 @@
   "footer": {
     "socials": {
       "x": "https://x.com/NeosantaraAI",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/mintlify"
     }
   },
   "banner": {
