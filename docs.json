@@ -7,7 +7,7 @@
     "light": "#E0E0E0",
     "dark": "#1A1A1A"
   },
-  "favicon": "/nusa-black.ico",
+  "favicon": "/favicon.ico",
   "navigation": {
     "dropdowns": [
       {
@@ -54,8 +54,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/neosa.svg",
-    "dark": "/logo/neosa.svg"
+    "light": "/logo/logdark.svg",
+    "dark": "/logo/logdark.svg"
   },
   "navbar": {
     "links": [
