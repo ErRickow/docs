@@ -11,13 +11,24 @@
   "navigation": {
     "dropdowns": [
       {
-        "dropdown": "Documentation",
+        "dropdown": "Home",
+        "icon": "house",
+        "groups": [
+          {
+            "group": "Welcome",
+            "pages": [
+              "index"
+            ]
+          }
+        ]
+      },
+      {
+        "anchor": "Documentation",
         "icon": "book",
         "groups": [
           {
             "group": "Overview",
             "pages": [
-              "index",
               "about",
               "quickstart",
               "token-credits",
@@ -26,48 +37,16 @@
             ]
           },
           {
-            "group": "API Reference",
-            "pages": [
-              "api-reference/introduction",
-              "api-reference/chat/create-chat-completion-openai-compatible",
-              "api-reference/embeddings/create-embeddings-openai-compatible",
-              "api-reference/models/list-available-models",
-              "api-reference/moderations/content-moderation-check",
-              "api-reference/completions/openai-compatible-completions-text-only",
-              "api-reference/reasoning/enhanced-reasoning-completion",
-              "api-reference/authentication/check-api-key-status",
-              "api-reference/api-key-management/generate-new-api-key",
-              "api-reference/api-key-management/list-api-keys",
-              "api-reference/api-key-management/deactivate-an-api-key",
-              "api-reference/api-key-management/permanently-delete-an-api-key"
-            ]
-          }
-        ]
-      },
-      {
-        "dropdown": "API Reference",
-        "icon": "terminal",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
             "group": "Available Endpoint's",
             "pages": [
-              "api-reference/chat/create-chat-completion-openai-compatible",
+              "api-reference/introduction",
+              "api-reference/chat/create-chat-completion",
               "api-reference/embeddings/create-embeddings-openai-compatible",
               "api-reference/models/list-available-models",
               "api-reference/moderations/content-moderation-check",
               "api-reference/completions/openai-compatible-completions-text-only",
               "api-reference/reasoning/enhanced-reasoning-completion",
-              "api-reference/authentication/check-api-key-status",
-              "api-reference/api-key-management/generate-new-api-key",
-              "api-reference/api-key-management/list-api-keys",
-              "api-reference/api-key-management/deactivate-an-api-key",
-              "api-reference/api-key-management/permanently-delete-an-api-key"
+              "api-reference/auth/key"
             ]
           }
         ]

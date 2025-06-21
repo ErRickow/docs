@@ -1,31 +1,64 @@
 ---
 title: 'Introduction'
-description: 'Start using Neosantara Culture AI Intelligence'
+description: '> Start using Neosantara Culture AI Intelligence'
 ---
 
-## Neosantara API
+## Base URL
 
-To use the Neosantara API, please create [an apikey first!](https://mintlify.com/docs/api-playground/openapi/setup)
+The base URL for all requests to the Neosantara API is:
 
-<Card
-  title="All Available Endpoints"
-  icon="rocket-launch"
-  href="/api-reference/chat/create-chat-completion-openai-compatible"
->
-  View the OpenAPI specification file
-</Card>
+```plaintext with prefix /v1
+https://api.neosantara.xyz/v1
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All Neosantara endpoints are authenticated using API keys.
+[Get your free API key](https://neosantara.xyz).
 
-```json
-"security": [
-  {
-    "bearer": []
-  }
-]
+```bash
+curl -X POST https://api.neosantara.xyz/v1/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"query": "Is 2045 the future of Indonesia?"}'
 ```
 
-### Contact
-Neosantara Support: support@neosantara.xyz
+## Endpoints
+
+<CardGroup cols={6}>
+  <Card icon="magnifying-glass" horizontal href="/api-reference/chat/create-chat-completions">
+    **`/chat/completions`**
+
+    Completions Neosantara API Endpoint.
+  </Card>
+  
+  <Card icon="magnifying-glass" horizontal href="/api-reference/completions">
+    **`/completions`**
+
+    Legacy Completions Neosantara API Endpoint.
+  </Card>
+
+  <Card icon="file-lines" horizontal href="/api-reference/reasoning/enhanced-reasoning-completion">
+    **`/reasoning`**
+
+    Neosantara Reasoning API Endpoint.
+  </Card>
+
+  <Card icon="circle-nodes" horizontal href="/api-reference/moderations">
+    **`/moderations`**
+
+    Neosantara Content Moderation API Endpoint.
+  </Card>
+  
+  <Card icon="circle-nodes" horizontal href="/api-reference/embeddings">
+    **`/embeddings`**
+
+    Neosantara Embeddings API Endpoint.
+  </Card>
+  
+  <Card icon="circle-nodes" horizontal href="/api-reference/auth/key">
+    **`/auth/key`**
+
+    Neosantara API Endpoint KEY Metadata.
+  </Card>
+</CardGroup>
