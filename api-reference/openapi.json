@@ -2,17 +2,13 @@
   "openapi": "3.0.3",
   "info": {
     "title": "NeosantaraAI API",
-    "description": "NeosantaraAI API - OpenAI Compatible\n\n**Rate Limits**\nOur rate limiting is token-based. Limits apply **per API key** and also **per user** (cumulative).\nDaily and monthly resets are automatic, with auto-downgrade to Free if subscription expires.\n\nFor detailed tier limits and pricing, please refer to our [Pricing Documentation](https://docs.neosantara.xyz/pricing).\n\n**Available Endpoints:** `/v1/chat/completions`, `/v1/completions`, `/v1/models`, `/v1/embeddings`, `/v1/moderations`, `/v1/reasoning`, `/v1/auth/key` (for API key status), `/get/getkey` (for key generation), `/api/keys` (for key management), `/api/keys/{apiKeyString}` (for key deactivation), `/api/keys/{apiKeyString}/permanent` (for permanent key deletion).\n\n**Auth:** Use header `Authorization: Bearer <API_KEY>` for API calls.\n**Note:** `API_KEY` here refers to the key obtained from `/get/getkey`, not your user login token.",
+    "description": "NeosantaraAI API - OpenAI Compatible\n\n**Rate Limits**\nOur rate limiting is token-based. Limits apply **per API key** and also **per user** (cumulative).\nDaily and monthly resets are automatic, with auto-downgrade to Free if subscription expires.\n\nFor detailed tier limits and pricing, please refer to our [Pricing Documentation](https://docs.neosantara.xyz/pricing).\n\n**Available Endpoints:** `/v1/chat/completions`, `/v1/completions` (legacy), `/v1/models`, `/v1/embeddings`, `/v1/moderations`, `/v1/reasoning`, and `/v1/auth/key` (API key status).\n\n**Auth:** Use header `Authorization: Bearer <API_KEY>`.",
     "version": "5.0.0"
   },
   "servers": [
     {
       "url": "https://api.neosantara.xyz/v1",
       "description": "Base URL for v1 API endpoints"
-    },
-    {
-      "url": "https://api.neosantara.xyz",
-      "description": "Base URL for non-v1 API endpoints (e.g., /api/keys, /get/getkey)"
     }
   ],
   "security": [
@@ -27,7 +23,7 @@
     },
     {
       "name": "completions",
-      "description": "Text completion endpoints"
+      "description": "Text completion endpoints (Legacy)"
     },
     {
       "name": "embeddings",
@@ -46,8 +42,8 @@
       "description": "Enhanced reasoning capabilities"
     },
     {
-      "name": "api_key_management",
-      "description": "API Key generation and management for users"
+      "name": "authentication",
+      "description": "API Key authentication and status"
     }
   ],
   "paths": {
@@ -55,7 +51,7 @@
       "post": {
         "tags": ["chat"],
         "summary": "Create chat completion",
-        "description": "Create chat completion like OpenAI API. Send array of messages (role: user/assistant, content: string/array). Supports multimodal input (image_url).",
+        "description": "Create chat completion compatible with OpenAI API. Send an array of messages (role: user/assistant, content: string/array). Supports multimodal input (image_url) and tool calling.",
         "operationId": "chatCompletions",
         "requestBody": {
           "required": true,
@@ -65,70 +61,70 @@
                 "$ref": "#/components/schemas/ChatCompletionsRequest"
               },
               "examples": {
-                "simple": {
-                  "summary": "Simple text request example",
+                "simple_text_input": {
+                  "summary": "Simple chat completion with text input",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
                       {
                         "role": "user",
-                        "content": "What is NeosantaraAI?"
+                        "content": "Hello, how are you?"
                       }
                     ]
                   }
                 },
-                "with_system": {
-                  "summary": "Request with system message",
+                "with_system_message": {
+                  "summary": "Chat completion with a system message",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
                       {
                         "role": "system",
-                        "content": "You are a helpful AI assistant."
+                        "content": "You are a friendly and helpful assistant from NeosantaraAI."
                       },
                       {
                         "role": "user",
-                        "content": "Explain machine learning in simple terms."
+                        "content": "Tell me about Indonesian culture."
                       }
                     ],
                     "temperature": 0.7,
-                    "max_tokens": 1000
+                    "max_tokens": 500
                   }
                 },
-                "with_image": {
-                  "summary": "Request with image input (multimodal)",
+                "multimodal_image_input": {
+                  "summary": "Chat completion with image input (multimodal)",
                   "value": {
                     "model": "vision-emas-2045",
                     "messages": [
                       {
                         "role": "user",
                         "content": [
-                          { "type": "text", "text": "What is in this image?" },
+                          { "type": "text", "text": "What do you see in this picture?" },
                           { "type": "image_url", "image_url": { "url": "data:image/jpeg;base64,..." } }
                         ]
                       }
                     ]
                   }
                 },
-                "with_tool_call": {
-                  "summary": "Request with tool calling (example)",
+                "tool_calling_example": {
+                  "summary": "Chat completion demonstrating tool calling",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
-                      { "role": "user", "content": "What's the weather in Jakarta?" }
+                      { "role": "user", "content": "What's the current time in Jakarta?" }
                     ],
                     "tools": [
                       {
                         "type": "function",
                         "function": {
-                          "name": "get_current_weather",
-                          "description": "Gets the current weather in a given location.",
+                          "name": "get_current_time",
+                          "description": "Gets the current time for a specified city.",
                           "parameters": {
                             "type": "object",
                             "properties": {
-                              "location": { "type": "string", "description": "The city name." }
+                              "city": { "type": "string", "description": "The city name (e.g., Jakarta)." }
                             },
-                            "required": ["location"]
+                            "required": ["city"]
                           }
                         }
                       }
@@ -147,6 +143,32 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChatCompletionsResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful response example",
+                    "value": {
+                      "id": "chatcmpl-12345",
+                      "object": "chat.completion",
+                      "created": 1717950000,
+                      "model": "nusantara-base",
+                      "choices": [
+                        {
+                          "index": 0,
+                          "message": {
+                            "role": "assistant",
+                            "content": "NeosantaraAI is an independent AI platform offering various models."
+                          },
+                          "finish_reason": "stop"
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 15,
+                        "completion_tokens": 8,
+                        "total_tokens": 23
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -172,8 +194,8 @@
                 "$ref": "#/components/schemas/TextCompletionsRequest"
               },
               "examples": {
-                "simple": {
-                  "summary": "Simple text completion",
+                "simple_text_prompt": {
+                  "summary": "Simple text prompt completion",
                   "value": {
                     "model": "nusantara-base",
                     "prompt": "The future of artificial intelligence is",
@@ -192,6 +214,30 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TextCompletionResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful text completion response",
+                    "value": {
+                      "id": "cmpl-abc123def456",
+                      "object": "text_completion",
+                      "created": 1717950000,
+                      "model": "nusantara-base",
+                      "choices": [
+                        {
+                          "text": " exciting and full of possibilities.",
+                          "index": 0,
+                          "logprobs": null,
+                          "finish_reason": "length"
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 6,
+                        "completion_tokens": 7,
+                        "total_tokens": 13
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -216,6 +262,38 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ModelsListResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful models list response",
+                    "value": {
+                      "object": "list",
+                      "data": [
+                        {
+                          "id": "nusantara-base",
+                          "object": "model",
+                          "created": 1717950000,
+                          "owned_by": "NeosantaraAI",
+                          "permission": [],
+                          "root": "nusantara-base",
+                          "parent": null,
+                          "description": "Model dasar untuk tugas umum dengan keseimbangan kinerja dan kecepatan",
+                          "capabilities": ["function_calling", "json_mode"]
+                        },
+                        {
+                          "id": "vision-emas-2045",
+                          "object": "model",
+                          "created": 1717950000,
+                          "owned_by": "NeosantaraAI",
+                          "permission": [],
+                          "root": "vision-emas-2045",
+                          "parent": null,
+                          "description": "Model visi canggih untuk analisis gambar KTP, struk, dan tugas visual lainnya",
+                          "capabilities": ["vision", "json_mode"]
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             }
@@ -238,15 +316,15 @@
                 "$ref": "#/components/schemas/EmbeddingsRequest"
               },
               "examples": {
-                "simple": {
+                "simple_input": {
                   "summary": "Simple embedding request",
                   "value": {
                     "model": "nusa-embeddings-0001",
                     "input": "example sentence"
                   }
                 },
-                "multiple": {
-                  "summary": "Multiple inputs",
+                "multiple_inputs": {
+                  "summary": "Multiple inputs embedding request",
                   "value": {
                     "model": "nusa-embeddings-0001",
                     "input": ["first sentence", "second sentence", "third sentence"]
@@ -263,6 +341,26 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EmbeddingsResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful embeddings response",
+                    "value": {
+                      "object": "list",
+                      "data": [
+                        {
+                          "object": "embedding",
+                          "embedding": [0.123, 0.456, 0.789],
+                          "index": 0
+                        }
+                      ],
+                      "model": "nusa-embeddings-0001",
+                      "usage": {
+                        "prompt_tokens": 3,
+                        "total_tokens": 3
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -288,10 +386,17 @@
                 "$ref": "#/components/schemas/ModerationsRequest"
               },
               "examples": {
-                "simple": {
+                "simple_check": {
                   "summary": "Simple moderation check",
                   "value": {
                     "input": "This is a test message for moderation.",
+                    "model": "text-moderation-latest"
+                  }
+                },
+                "flagged_content": {
+                  "summary": "Example of flagged content",
+                  "value": {
+                    "input": "I want to kill myself.",
                     "model": "text-moderation-latest"
                   }
                 }
@@ -306,6 +411,56 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ModerationsResponse"
+                },
+                "examples": {
+                  "clean_content": {
+                    "summary": "Successful moderation response (clean content)",
+                    "value": {
+                      "id": "modr-abc123xyz456",
+                      "model": "text-moderation-latest",
+                      "results": [
+                        {
+                          "flagged": false,
+                          "categories": {
+                            "hate": false,
+                            "self-harm": false,
+                            "sexual": false,
+                            "violence": false
+                          },
+                          "category_scores": {
+                            "hate": 0.001,
+                            "self-harm": 0.0005,
+                            "sexual": 0.0003,
+                            "violence": 0.0002
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "flagged_content_response": {
+                    "summary": "Successful moderation response (flagged content)",
+                    "value": {
+                      "id": "modr-abc123xyz456",
+                      "model": "text-moderation-latest",
+                      "results": [
+                        {
+                          "flagged": true,
+                          "categories": {
+                            "hate": true,
+                            "self-harm": true,
+                            "sexual": false,
+                            "violence": false
+                          },
+                          "category_scores": {
+                            "hate": 0.95,
+                            "self-harm": 0.88,
+                            "sexual": 0.005,
+                            "violence": 0.003
+                          }
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             }
@@ -321,7 +476,7 @@
       "post": {
         "tags": ["reasoning"],
         "summary": "Enhanced reasoning completion",
-        "description": "Advanced reasoning capabilities with enhanced context understanding.",
+        "description": "Advanced reasoning capabilities with enhanced context understanding. This endpoint encourages step-by-step thinking for complex problems.",
         "operationId": "reasoning",
         "requestBody": {
           "required": true,
@@ -331,18 +486,32 @@
                 "$ref": "#/components/schemas/ReasoningRequest"
               },
               "examples": {
-                "complex_reasoning": {
-                  "summary": "Complex reasoning task",
+                "complex_math_problem": {
+                  "summary": "Complex reasoning task: Math problem",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
                       {
                         "role": "user",
-                        "content": "Solve this step by step: If a train travels 120 km in 2 hours, and then 180 km in 3 hours, what is the average speed for the entire journey?"
+                        "content": "A car travels at 60 km/h for 2 hours and then 80 km/h for 3 hours. What is the average speed of the car for the entire journey?"
                       }
                     ],
                     "temperature": 0.3,
-                    "max_tokens": 1500
+                    "max_tokens": 500
+                  }
+                },
+                "logical_reasoning_task": {
+                  "summary": "Complex reasoning task: Logical puzzle",
+                  "value": {
+                    "model": "nusantara-base",
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": "If all A are B, and some B are C, what can we conclude about A and C?"
+                      }
+                    ],
+                    "temperature": 0.3,
+                    "max_tokens": 500
                   }
                 }
               }
@@ -356,6 +525,32 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChatCompletionsResponse"
+                },
+                "examples": {
+                  "reasoning_output": {
+                    "summary": "Example reasoning output",
+                    "value": {
+                      "id": "reasoning-cmpl-123",
+                      "object": "chat.completion",
+                      "created": 1717950000,
+                      "model": "nusantara-base",
+                      "choices": [
+                        {
+                          "index": 0,
+                          "message": {
+                            "role": "assistant",
+                            "content": "First, calculate total distance: 120km + 180km = 300km. Next, calculate total time: 2h + 3h = 5h. Finally, average speed = total distance / total time = 300km / 5h = 60 km/h."
+                          },
+                          "finish_reason": "stop"
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 30,
+                        "completion_tokens": 50,
+                        "total_tokens": 80
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -369,9 +564,9 @@
     },
     "/auth/key": {
       "get": {
-        "tags": ["api_key_management"],
+        "tags": ["authentication"],
         "summary": "Check API Key status",
-        "description": "Check the status and remaining usage of your provided API Key.",
+        "description": "Check the status and remaining usage of your provided API Key. This endpoint requires an active NeosantaraAI API Key in the Authorization header. It returns usage information for both the specific API Key and the overall user account.",
         "operationId": "checkApiKeyStatus",
         "responses": {
           "200": {
@@ -391,6 +586,35 @@
                     "tier": { "type": "string", "example": "Free" },
                     "usage_info": { "$ref": "#/components/schemas/UsageInfo" },
                     "_metadata": { "$ref": "#/components/schemas/Metadata" }
+                  }
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Example of successful API Key status response",
+                    "value": {
+                      "object": "authorization",
+                      "organization": "org-neosantara-ai",
+                      "permissions": ["chat.completions", "embeddings", "moderations"],
+                      "authorized": true,
+                      "created": 1717950000,
+                      "expires": null,
+                      "id": "auth-xyz123abc456",
+                      "tier": "Free",
+                      "usage_info": {
+                        "daily": {
+                          "used": 1500,
+                          "limit": 10000,
+                          "remaining": 8500,
+                          "reset_at": "2025-06-21T00:00:00Z"
+                        },
+                        "monthly": {
+                          "used": 5000,
+                          "limit": 30000,
+                          "remaining": 25000,
+                          "reset_at": "2025-07-01T00:00:00Z"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -427,7 +651,10 @@
             "type": "array",
             "description": "Array of messages (role+content).",
             "items": {
-              "$ref": "#/components/schemas/ChatMessage"
+              "oneOf": [
+                { "$ref": "#/components/schemas/TextMessage" },
+                { "$ref": "#/components/schemas/ImageMessage" }
+              ]
             }
           },
           "temperature": {
@@ -505,74 +732,41 @@
             "type": "boolean",
             "default": false,
             "description": "Enable web search capabilities."
-          },
-          "enable_reasoning": {
-            "type": "boolean",
-            "default": false,
-            "description": "Enable enhanced step-by-step reasoning for the response."
-          },
-          "force_lang": {
-            "type": "string",
-            "enum": ["id", "en"],
-            "nullable": true,
-            "description": "Force reasoning language (id/en), otherwise detected automatically."
           }
+        }
+      },
+      "TextMessage": {
+        "type": "object",
+        "required": ["role", "content"],
+        "properties": {
+          "role": { "type": "string", "enum": ["system", "user", "assistant", "tool"], "description": "Role of the message sender." },
+          "content": { "type": "string", "description": "Text content of the message." },
+          "name": { "type": "string", "description": "Optional name of the message sender." },
+          "tool_call_id": { "type": "string", "description": "The ID of the tool call this message is responding to." }
+        }
+      },
+      "ImageMessage": {
+        "type": "object",
+        "required": ["type", "image_url"],
+        "properties": {
+          "type": { "type": "string", "enum": ["image_url"] },
+          "image_url": { "type": "object", "properties": { "url": { "type": "string", "format": "uri" } }, "required": ["url"] }
         }
       },
       "TextCompletionsRequest": {
         "type": "object",
         "required": ["model", "prompt"],
         "properties": {
-          "model": {
-            "type": "string",
-            "example": "nusantara-base"
-          },
-          "prompt": {
-            "type": "string",
-            "description": "Text prompt for completion."
-          },
-          "temperature": {
-            "type": "number",
-            "default": 0.7,
-            "minimum": 0,
-            "maximum": 2
-          },
-          "max_tokens": {
-            "type": "integer",
-            "default": 1000,
-            "minimum": 1
-          },
-          "stream": {
-            "type": "boolean",
-            "default": false
-          },
-          "n": {
-            "type": "integer",
-            "default": 1,
-            "minimum": 1,
-            "maximum": 10
-          },
-          "top_p": {
-            "type": "number",
-            "default": 1,
-            "minimum": 0,
-            "maximum": 1
-          },
-          "frequency_penalty": {
-            "type": "number",
-            "default": 0,
-            "minimum": -2,
-            "maximum": 2
-          },
-          "presence_penalty": {
-            "type": "number",
-            "default": 0,
-            "minimum": -2,
-            "maximum": 2
-          },
-          "response_format": {
-            "$ref": "#/components/schemas/ResponseFormat"
-          }
+          "model": { "type": "string", "example": "nusantara-base" },
+          "prompt": { "type": "string", "description": "Text prompt for completion." },
+          "temperature": { "type": "number", "default": 0.7, "minimum": 0, "maximum": 2 },
+          "max_tokens": { "type": "integer", "default": 1000, "minimum": 1 },
+          "stream": { "type": "boolean", "default": false },
+          "n": { "type": "integer", "default": 1, "minimum": 1, "maximum": 10 },
+          "top_p": { "type": "number", "default": 1, "minimum": 0, "maximum": 1 },
+          "frequency_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
+          "presence_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
+          "response_format": { "$ref": "#/components/schemas/ResponseFormat" }
         }
       },
       "ReasoningRequest": {
@@ -580,52 +774,15 @@
         "description": "Request for enhanced reasoning completion.",
         "required": ["messages"],
         "properties": {
-          "model": {
-            "type": "string",
-            "example": "nusantara-base"
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChatMessage"
-            }
-          },
-          "temperature": {
-            "type": "number",
-            "default": 0.7,
-            "minimum": 0,
-            "maximum": 2
-          },
-          "max_tokens": {
-            "type": "integer",
-            "default": 1500,
-            "minimum": 1
-          },
-          "stream": {
-            "type": "boolean",
-            "default": false
-          },
-          "top_p": {
-            "type": "number",
-            "default": 1,
-            "minimum": 0,
-            "maximum": 1
-          },
-          "frequency_penalty": {
-            "type": "number",
-            "default": 0,
-            "minimum": -2,
-            "maximum": 2
-          },
-          "presence_penalty": {
-            "type": "number",
-            "default": 0,
-            "minimum": -2,
-            "maximum": 2
-          },
-          "response_format": {
-            "$ref": "#/components/schemas/ResponseFormat"
-          }
+          "model": { "type": "string", "example": "nusantara-base" },
+          "messages": { "type": "array", "items": { "$ref": "#/components/schemas/ChatMessage" } },
+          "temperature": { "type": "number", "default": 0.7, "minimum": 0, "maximum": 2 },
+          "max_tokens": { "type": "integer", "default": 1500, "minimum": 1 },
+          "stream": { "type": "boolean", "default": false },
+          "top_p": { "type": "number", "default": 1, "minimum": 0, "maximum": 1 },
+          "frequency_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
+          "presence_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
+          "response_format": { "$ref": "#/components/schemas/ResponseFormat" }
         }
       },
       "EmbeddingsRequest": {
@@ -633,267 +790,30 @@
         "description": "Request for embeddings.",
         "required": ["input"],
         "properties": {
-          "model": {
-            "type": "string",
-            "example": "nusa-embeddings-0001",
-            "description": "Model to use for embeddings."
-          },
-          "input": {
-            "oneOf": [
-              {"type": "string"},
-              {
-                "type": "array",
-                "items": {"type": "string"}
-              }
-            ],
-            "description": "Input text(s) to generate embeddings for."
-          },
-          "encoding_format": {
-            "type": "string",
-            "default": "float",
-            "enum": ["float", "base64"],
-            "description": "Format for the embeddings."
-          }
+          "model": { "type": "string", "example": "nusa-embeddings-0001", "description": "Model to use for embeddings." },
+          "input": { "oneOf": [ {"type": "string"}, { "type": "array", "items": {"type": "string"} } ], "description": "Input text(s) to generate embeddings for." },
+          "encoding_format": { "type": "string", "default": "float", "enum": ["float", "base64"], "description": "Format for the embeddings." }
         }
       },
       "ModerationsRequest": {
         "type": "object",
         "required": ["input"],
         "properties": {
-          "input": {
-            "oneOf": [
-              {"type": "string"},
-              {
-                "type": "array",
-                "items": {"type": "string"}
-              }
-            ],
-            "description": "Input text(s) to moderate."
-          },
-          "model": {
-            "type": "string",
-            "example": "text-moderation-latest",
-            "description": "Moderation model to use."
-          }
-        }
-      },
-      "KTPExtractionResponse": {
-        "type": "object",
-        "description": "Response schema for KTP data extraction.",
-        "properties": {
-          "status": { "type": "boolean" },
-          "creator": { "type": "string" },
-          "result": {
-            "type": "object",
-            "properties": {
-              "nik": { "type": "string", "nullable": true },
-              "nama": { "type": "string", "nullable": true },
-              "tempat_lahir": { "type": "string", "nullable": true },
-              "tgl_lahir": { "type": "string", "format": "date", "example": "DD-MM-YYYY", "nullable": true },
-              "jenis_kelamin": { "type": "string", "nullable": true },
-              "gol_darah": { "type": "string", "nullable": true },
-              "alamat": { "type": "string", "nullable": true },
-              "rt_rw": { "type": "string", "nullable": true },
-              "kel_desa": { "type": "string", "nullable": true },
-              "kecamatan": { "type": "string", "nullable": true },
-              "agama": { "type": "string", "nullable": true },
-              "status_perkawinan": { "type": "string", "nullable": true },
-              "pekerjaan": { "type": "string", "nullable": true },
-              "kewarganegaraan": { "type": "string", "nullable": true },
-              "berlaku_hingga": { "type": "string", "nullable": true }
-            }
-          },
-          "_metadata": { "$ref": "#/components/schemas/Metadata" }
-        }
-      },
-      "ReceiptExtractionResponse": {
-        "type": "object",
-        "description": "Response schema for retail receipt data extraction.",
-        "properties": {
-          "status": { "type": "boolean" },
-          "creator": { "type": "string" },
-          "result": {
-            "type": "object",
-            "properties": {
-              "nama_toko": { "type": "string", "nullable": true },
-              "alamat_toko": { "type": "string", "nullable": true },
-              "tanggal": { "type": "string", "format": "date", "example": "YYYY-MM-DD", "nullable": true },
-              "items": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "nama": { "type": "string" },
-                    "jumlah": { "type": "number" },
-                    "harga_satuan": { "type": "number" },
-                    "harga_total": { "type": "number" }
-                  },
-                  "required": ["nama", "jumlah", "harga_satuan", "harga_total"]
-                }
-              }
-            }
-          }
-        }
-      },
-      "ChatMessage": {
-        "type": "object",
-        "required": ["role", "content"],
-        "properties": {
-          "role": {
-            "type": "string",
-            "enum": ["system", "user", "assistant", "tool"],
-            "description": "Role of the message sender."
-          },
-          "content": {
-            "oneOf": [
-              {"type": "string"},
-              {"type": "array", "items": {"$ref": "#/components/schemas/ContentPart"}}
-            ],
-            "description": "Content of the message. Can be a string or an array for multimodal content."
-          },
-          "name": {
-            "type": "string",
-            "description": "Optional name of the message sender for tool calls."
-          },
-          "tool_calls": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ToolCall"
-            },
-            "description": "Tool calls made by the assistant."
-          },
-          "tool_call_id": {
-            "type": "string",
-            "description": "The ID of the tool call this message is responding to."
-          }
-        }
-      },
-      "ContentPart": {
-        "type": "object",
-        "properties": {
-          "type": { "type": "string", "enum": ["text", "image_url"] },
-          "text": { "type": "string", "description": "Text content." },
-          "image_url": { "type": "object", "properties": { "url": { "type": "string", "format": "uri" } } }
-        },
-        "required": ["type"]
-      },
-      "ResponseFormat": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": ["text", "json_object"],
-            "default": "text",
-            "description": "Format of the response."
-          }
-        }
-      },
-      "Function": {
-        "type": "object",
-        "required": ["name", "description"],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Function name."
-          },
-          "description": {
-            "type": "string",
-            "description": "Function description."
-          },
-          "parameters": {
-            "type": "object",
-            "description": "Function parameters schema (JSON Schema object)."
-          }
-        }
-      },
-      "Tool": {
-        "type": "object",
-        "required": ["type"],
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": ["function"],
-            "description": "Tool type."
-          },
-          "function": {
-            "$ref": "#/components/schemas/Function"
-          }
-        }
-      },
-      "ToolChoice": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": ["function"]
-          },
-          "function": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "ToolCall": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": ["function"]
-          },
-          "function": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "arguments": {
-                "type": "string"
-              }
-            }
-          }
+          "input": { "oneOf": [ {"type": "string"}, { "type": "array", "items": {"type": "string"} } ], "description": "Input text(s) to moderate." },
+          "model": { "type": "string", "example": "text-moderation-latest", "description": "Moderation model to use." }
         }
       },
       "ChatCompletionsResponse": {
         "type": "object",
         "description": "Chat completion response.",
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "Completion ID."
-          },
-          "object": {
-            "type": "string",
-            "example": "chat.completion",
-            "description": "Object type."
-          },
-          "created": {
-            "type": "integer",
-            "description": "Creation timestamp (Unix epoch seconds)."
-          },
-          "model": {
-            "type": "string",
-            "description": "Model used."
-          },
-          "choices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChatChoice"
-            },
-            "description": "Completion choices."
-          },
-          "usage": {
-            "$ref": "#/components/schemas/Usage"
-          },
-          "_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
+          "id": { "type": "string", "description": "Completion ID." },
+          "object": { "type": "string", "example": "chat.completion", "description": "Object type." },
+          "created": { "type": "integer", "description": "Creation timestamp (Unix epoch seconds)." },
+          "model": { "type": "string", "description": "Model used." },
+          "choices": { "type": "array", "items": { "$ref": "#/components/schemas/ChatChoice" }, "description": "Completion choices." },
+          "usage": { "$ref": "#/components/schemas/Usage" },
+          "_metadata": { "$ref": "#/components/schemas/Metadata" }
         }
       },
       "TextCompletionResponse": {
@@ -1082,6 +1002,113 @@
           "is_key_downgraded": { "type": "boolean", "description": "If the API key was downgraded.", "nullable": true },
           "upstash_rate_limiting_active": { "type": "boolean", "description": "If Upstash rate limiting is active.", "nullable": true }
         }
+      },
+      "BadRequestError": {
+        "type": "object",
+        "description": "Error for bad request format or parameters.",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "type": { "type": "string", "example": "invalid_request_error" },
+              "code": { "type": "string", "enum": ["invalid_parameter", "missing_parameter", "invalid_format", "invalid_messages"], "example": "invalid_parameter" },
+              "param": { "type": "string", "description": "Parameter that caused the error.", "nullable": true },
+              "details": { "type": "object", "description": "Additional error details.", "additionalProperties": true, "nullable": true }
+            },
+            "required": ["message", "type", "code"]
+          },
+          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+        }
+      },
+      "AuthError": {
+        "type": "object",
+        "description": "Error when authentication fails (API key missing/invalid/expired).",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "type": { "type": "string", "example": "auth_error" },
+              "code": { "type": "string", "enum": ["missing_api_key", "invalid_api_key", "token_expired", "session_expired", "invalid_token"], "example": "invalid_api_key" },
+              "details": { "type": "object", "description": "Additional error details.", "additionalProperties": true, "nullable": true }
+            },
+            "required": ["message", "type", "code"]
+          },
+          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+        }
+      },
+      "RateLimitError": {
+        "type": "object",
+        "description": "Error when rate limit is exceeded.",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "type": { "type": "string", "example": "rate_limit_exceeded" },
+              "code": { "type": "string", "enum": ["rpm_exceeded", "tpm_exceeded", "user_total_daily_limit_exceeded", "user_total_monthly_limit_exceeded"], "example": "rpm_exceeded" },
+              "details": { "$ref": "#/components/schemas/RateLimitDetails", "nullable": true }
+            },
+            "required": ["message", "type", "code"]
+          },
+          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+        }
+      },
+      "RateLimitDetails": {
+        "type": "object",
+        "properties": {
+          "limit": { "type": "integer", "description": "Rate limit threshold." },
+          "remaining": { "type": "integer", "description": "Remaining requests/tokens in the current window." },
+          "reset": { "type": "string", "format": "date-time", "description": "When the rate limit resets." },
+          "retry_after": { "type": "integer", "description": "Seconds to wait before retrying.", "nullable": true }
+        }
+      },
+      "ServerError": {
+        "type": "object",
+        "description": "Internal server error.",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "type": { "type": "string", "example": "server_error" },
+              "code": { "type": "string", "enum": ["internal_error", "service_unavailable", "timeout"], "example": "internal_error" },
+              "details": { "type": "object", "description": "Additional error details.", "additionalProperties": true, "nullable": true }
+            },
+            "required": ["message", "type", "code"]
+          },
+          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+        }
+      },
+      "UsagePeriodInfo": {
+        "type": "object",
+        "properties": {
+          "used": { "type": "integer", "description": "Tokens/requests used in the period." },
+          "limit": { "type": "integer", "description": "Total tokens/requests allowed in the period." },
+          "remaining": { "type": "integer", "description": "Remaining tokens/requests in the period." },
+          "reset_at": { "type": "string", "format": "date-time", "description": "When the period resets." }
+        },
+        "required": ["used", "limit", "remaining", "reset_at"]
+      },
+      "Usage": {
+        "type": "object",
+        "description": "Token usage for a single completion.",
+        "properties": {
+          "prompt_tokens": { "type": "integer", "description": "Tokens in the prompt." },
+          "completion_tokens": { "type": "integer", "description": "Tokens in the completion." },
+          "total_tokens": { "type": "integer", "description": "Total tokens used." }
+        },
+        "required": ["prompt_tokens", "completion_tokens", "total_tokens"]
+      },
+      "EmbeddingUsage": {
+        "type": "object",
+        "description": "Token usage for embeddings.",
+        "properties": {
+          "prompt_tokens": { "type": "integer" },
+          "total_tokens": { "type": "integer" }
+        },
+        "required": ["prompt_tokens", "total_tokens"]
       }
     },
     "responses": {
