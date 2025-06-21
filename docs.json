@@ -41,12 +41,12 @@
             "pages": [
               "api-reference/introduction",
               "api-reference/chat/create-chat-completion",
-              "api-reference/embeddings/create-embeddings-openai-compatible",
+              "api-reference/embeddings/create-embeddings",
               "api-reference/models/list-available-models",
               "api-reference/moderations/content-moderation-check",
-              "api-reference/completions/openai-compatible-completions-text-only",
+              "api-reference/completions/create-text-completion-legacy",
               "api-reference/reasoning/enhanced-reasoning-completion",
-              "api-reference/auth/key"
+              "api-reference/authentication/check-api-key-status"
             ]
           }
         ]
