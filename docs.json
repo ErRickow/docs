@@ -54,8 +54,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/logdark.svg",
-    "dark": "/logo/logdark.svg"
+    "light": "/logo/nu.svg",
+    "dark": "/logo/nu.svg"
   },
   "navbar": {
     "links": [
