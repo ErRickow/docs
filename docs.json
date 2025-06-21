@@ -23,7 +23,7 @@
         ]
       },
       {
-        "anchor": "Documentation",
+        "dropdown": "Documentation",
         "icon": "book",
         "groups": [
           {
