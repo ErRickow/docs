@@ -2,12 +2,17 @@
   "openapi": "3.0.3",
   "info": {
     "title": "NeosantaraAI API",
-    "description": "NeosantaraAI API - OpenAI Compatible\n\n**Rate Limits**\nEach API KEY has limits based on tier:\n- Free: 10 requests/minute, 100/day, 10,000 tokens/minute, 50,000/day\n- Basic: 50 requests/minute, 500/day, 100,000 tokens/minute, 500,000/day\n- Standard: 60 requests/minute, 2000/day, 100,000 tokens/minute, 1,000,000/day\n- Pro: 120 requests/minute, 10,000/day, 200,000 tokens/minute, 5,000,000/day\n- Enterprise: 200 requests/minute, 50,000/day, 500,000 tokens/minute, 10,000,000/day\n\nLimits apply **per API key** and also **per user** (cumulative).\nIf limits are exceeded, you will receive a 429 error.\nDaily and monthly resets are automatic, with auto-downgrade to Free if subscription expires.\n\nOpenAI-compatible API from NeosantaraAI. Supports endpoints `/v1/chat/completions`, `/v1/completions`, `/v1/models`, `/v1/embeddings`, `/v1/moderations`, `/v1/usage`, `/v1/reasoning`, and others.\n**Auth:** Use header `Authorization: Bearer <API_KEY>`.",
+    "description": "NeosantaraAI API - OpenAI Compatible\n\n**Rate Limits**\nOur rate limiting is token-based. Limits apply **per API key** and also **per user** (cumulative).\nDaily and monthly resets are automatic, with auto-downgrade to Free if subscription expires.\n\nFor detailed tier limits and pricing, please refer to our [Pricing Documentation](https://docs.neosantara.xyz/pricing).\n\n**Available Endpoints:** `/v1/chat/completions`, `/v1/completions`, `/v1/models`, `/v1/embeddings`, `/v1/moderations`, `/v1/reasoning`, `/v1/auth/key` (for API key status), `/get/getkey` (for key generation), `/api/keys` (for key management), `/api/keys/{apiKeyString}` (for key deactivation), `/api/keys/{apiKeyString}/permanent` (for permanent key deletion).\n\n**Auth:** Use header `Authorization: Bearer <API_KEY>` for API calls.\n**Note:** `API_KEY` here refers to the key obtained from `/get/getkey`, not your user login token.",
     "version": "5.0.0"
   },
   "servers": [
     {
-      "url": "https://api.neosantara.xyz/v1"
+      "url": "https://api.neosantara.xyz/v1",
+      "description": "Base URL for v1 API endpoints"
+    },
+    {
+      "url": "https://api.neosantara.xyz",
+      "description": "Base URL for non-v1 API endpoints (e.g., /api/keys, /get/getkey)"
     }
   ],
   "security": [
@@ -37,16 +42,12 @@
       "description": "Content moderation"
     },
     {
-      "name": "usage",
-      "description": "Usage statistics and monitoring"
-    },
-    {
       "name": "reasoning",
       "description": "Enhanced reasoning capabilities"
     },
     {
-      "name": "system",
-      "description": "System status and information"
+      "name": "api_key_management",
+      "description": "API Key generation and management for users"
     }
   ],
   "paths": {
@@ -54,7 +55,7 @@
       "post": {
         "tags": ["chat"],
         "summary": "Create chat completion",
-        "description": "Create chat completion like OpenAI API. Send array of messages (role: user/assistant, content: string).",
+        "description": "Create chat completion like OpenAI API. Send array of messages (role: user/assistant, content: string/array). Supports multimodal input (image_url).",
         "operationId": "chatCompletions",
         "requestBody": {
           "required": true,
@@ -65,7 +66,7 @@
               },
               "examples": {
                 "simple": {
-                  "summary": "Simple request example",
+                  "summary": "Simple text request example",
                   "value": {
                     "model": "nusantara-base",
                     "messages": [
@@ -93,6 +94,47 @@
                     "temperature": 0.7,
                     "max_tokens": 1000
                   }
+                },
+                "with_image": {
+                  "summary": "Request with image input (multimodal)",
+                  "value": {
+                    "model": "vision-emas-2045",
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": [
+                          { "type": "text", "text": "What is in this image?" },
+                          { "type": "image_url", "image_url": { "url": "data:image/jpeg;base64,..." } }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "with_tool_call": {
+                  "summary": "Request with tool calling (example)",
+                  "value": {
+                    "model": "nusantara-base",
+                    "messages": [
+                      { "role": "user", "content": "What's the weather in Jakarta?" }
+                    ],
+                    "tools": [
+                      {
+                        "type": "function",
+                        "function": {
+                          "name": "get_current_weather",
+                          "description": "Gets the current weather in a given location.",
+                          "parameters": {
+                            "type": "object",
+                            "properties": {
+                              "location": { "type": "string", "description": "The city name." }
+                            },
+                            "required": ["location"]
+                          }
+                        }
+                      }
+                    ],
+                    "tool_choice": "auto"
+                  }
                 }
               }
             }
@@ -105,124 +147,22 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChatCompletionsResponse"
-                },
-                "examples": {
-                  "success": {
-                    "summary": "Successful response example",
-                    "value": {
-                      "id": "chatcmpl-124",
-                      "object": "chat.completion",
-                      "created": 1717950000,
-                      "model": "nusantara-base",
-                      "choices": [
-                        {
-                          "index": 0,
-                          "message": {
-                            "role": "assistant",
-                            "content": "NeosantaraAI is a local AI platform."
-                          },
-                          "finish_reason": "stop"
-                        }
-                      ],
-                      "usage": {
-                        "prompt_tokens": 12,
-                        "completion_tokens": 5,
-                        "total_tokens": 17
-                      }
-                    }
-                  }
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "API key missing or invalid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                },
-                "examples": {
-                  "auth": {
-                    "summary": "API key error example",
-                    "value": {
-                      "error": {
-                        "message": "API key is missing. Please provide your API key in the 'Authorization' header as 'Bearer <API_KEY>'.",
-                        "type": "auth_error",
-                        "code": "missing_api_key"
-                      },
-                      "info_metadata": {
-                        "creator": "NAIXyz",
-                        "status": false,
-                        "timestamp": "2025-06-09T16:00:00Z"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RateLimitError"
-                },
-                "examples": {
-                  "limit": {
-                    "summary": "Rate limit error example",
-                    "value": {
-                      "error": {
-                        "message": "Too many requests. Limit: 10 RPM. Please try again later.",
-                        "type": "rate_limit_exceeded",
-                        "code": "rpm_exceeded",
-                        "details": {
-                          "limit": 10,
-                          "remaining": 0,
-                          "reset": "2025-06-09T17:00:00Z",
-                          "retry_after": 60
-                        }
-                      },
-                      "info_metadata": {
-                        "creator": "NAIXyz",
-                        "status": false,
-                        "timestamp": "2025-06-09T16:00:00Z"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerError"
-                }
-              }
-            }
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/AuthError" },
+          "429": { "$ref": "#/components/responses/RateLimitError" },
+          "500": { "$ref": "#/components/responses/ServerError" }
         }
       }
     },
     "/completions": {
       "post": {
         "tags": ["completions"],
-        "summary": "OpenAI compatible completions (text only)",
-        "description": "Create text completions using prompt-based input.",
+        "summary": "Create text completion (Legacy)",
+        "description": "Create text completions using prompt-based input. This endpoint is maintained for legacy compatibility; `/v1/chat/completions` is recommended for new implementations.",
         "operationId": "textCompletions",
         "requestBody": {
           "required": true,
@@ -256,46 +196,10 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RateLimitError"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerError"
-                }
-              }
-            }
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/AuthError" },
+          "429": { "$ref": "#/components/responses/RateLimitError" },
+          "500": { "$ref": "#/components/responses/ServerError" }
         }
       }
     },
@@ -316,16 +220,7 @@
               }
             }
           },
-          "401": {
-            "description": "Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                }
-              }
-            }
-          }
+          "401": { "$ref": "#/components/responses/AuthError" }
         }
       }
     },
@@ -368,70 +263,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EmbeddingsResponse"
-                },
-                "examples": {
-                  "success": {
-                    "summary": "Successful embeddings response",
-                    "value": {
-                      "object": "list",
-                      "data": [
-                        {
-                          "object": "embedding",
-                          "embedding": [0.12, 0.34, 0.56],
-                          "index": 0
-                        }
-                      ],
-                      "model": "nusa-embeddings-0001",
-                      "usage": {
-                        "prompt_tokens": 3,
-                        "total_tokens": 3
-                      }
-                    }
-                  }
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RateLimitError"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerError"
-                }
-              }
-            }
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/AuthError" },
+          "429": { "$ref": "#/components/responses/RateLimitError" },
+          "500": { "$ref": "#/components/responses/ServerError" }
         }
       }
     },
@@ -471,86 +310,10 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/usage": {
-      "get": {
-        "tags": ["usage"],
-        "summary": "Get usage statistics",
-        "description": "Retrieve detailed usage statistics for your API key.",
-        "operationId": "usage",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "start_date",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            },
-            "description": "Start date for usage statistics (YYYY-MM-DD)"
-          },
-          {
-            "in": "query",
-            "name": "end_date",
-            "schema": {
-              "type": "string",
-              "format": "date"
-            },
-            "description": "End date for usage statistics (YYYY-MM-DD)"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Usage statistics",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UsageResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                }
-              }
-            }
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/AuthError" },
+          "429": { "$ref": "#/components/responses/RateLimitError" },
+          "500": { "$ref": "#/components/responses/ServerError" }
         }
       }
     },
@@ -597,66 +360,45 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestError"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerError"
-                }
-              }
-            }
-          }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/AuthError" },
+          "429": { "$ref": "#/components/responses/RateLimitError" },
+          "500": { "$ref": "#/components/responses/ServerError" }
         }
       }
     },
-    "/system/status": {
+    "/auth/key": {
       "get": {
-        "tags": ["system"],
-        "summary": "System status and info",
-        "description": "Get current system status, your tier information, and usage limits.",
-        "operationId": "systemStatus",
+        "tags": ["api_key_management"],
+        "summary": "Check API Key status",
+        "description": "Check the status and remaining usage of your provided API Key.",
+        "operationId": "checkApiKeyStatus",
         "responses": {
           "200": {
-            "description": "System status information",
+            "description": "API Key status and usage information",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SystemStatusResponse"
+                  "type": "object",
+                  "properties": {
+                    "object": { "type": "string", "example": "authorization" },
+                    "organization": { "type": "string", "example": "org-indonesia-ai" },
+                    "permissions": { "type": "array", "items": { "type": "string" } },
+                    "authorized": { "type": "boolean" },
+                    "created": { "type": "integer" },
+                    "expires": { "type": "string", "nullable": true },
+                    "id": { "type": "string", "example": "auth-..." },
+                    "tier": { "type": "string", "example": "Free" },
+                    "usage_info": { "$ref": "#/components/schemas/UsageInfo" },
+                    "_metadata": { "$ref": "#/components/schemas/Metadata" }
+                  }
                 }
               }
             }
           },
-          "401": {
-            "description": "Invalid API key",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthError"
-                }
-              }
-            }
-          }
+          "401": { "$ref": "#/components/responses/AuthError" },
+          "429": { "$ref": "#/components/responses/RateLimitError" },
+          "500": { "$ref": "#/components/responses/ServerError" }
         }
       }
     }
@@ -666,7 +408,8 @@
       "apiKey": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "API_KEY"
+        "bearerFormat": "API_KEY",
+        "description": "Your NeosantaraAI API Key (e.g., nai...)."
       }
     },
     "schemas": {
@@ -741,7 +484,7 @@
             "items": {
               "$ref": "#/components/schemas/Function"
             },
-            "description": "Available functions for the model to call."
+            "description": "Available functions for the model to call. (Deprecated: use 'tools' instead)"
           },
           "tools": {
             "type": "array",
@@ -762,6 +505,17 @@
             "type": "boolean",
             "default": false,
             "description": "Enable web search capabilities."
+          },
+          "enable_reasoning": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable enhanced step-by-step reasoning for the response."
+          },
+          "force_lang": {
+            "type": "string",
+            "enum": ["id", "en"],
+            "nullable": true,
+            "description": "Force reasoning language (id/en), otherwise detected automatically."
           }
         }
       },
@@ -823,6 +577,7 @@
       },
       "ReasoningRequest": {
         "type": "object",
+        "description": "Request for enhanced reasoning completion.",
         "required": ["messages"],
         "properties": {
           "model": {
@@ -922,22 +677,83 @@
           }
         }
       },
+      "KTPExtractionResponse": {
+        "type": "object",
+        "description": "Response schema for KTP data extraction.",
+        "properties": {
+          "status": { "type": "boolean" },
+          "creator": { "type": "string" },
+          "result": {
+            "type": "object",
+            "properties": {
+              "nik": { "type": "string", "nullable": true },
+              "nama": { "type": "string", "nullable": true },
+              "tempat_lahir": { "type": "string", "nullable": true },
+              "tgl_lahir": { "type": "string", "format": "date", "example": "DD-MM-YYYY", "nullable": true },
+              "jenis_kelamin": { "type": "string", "nullable": true },
+              "gol_darah": { "type": "string", "nullable": true },
+              "alamat": { "type": "string", "nullable": true },
+              "rt_rw": { "type": "string", "nullable": true },
+              "kel_desa": { "type": "string", "nullable": true },
+              "kecamatan": { "type": "string", "nullable": true },
+              "agama": { "type": "string", "nullable": true },
+              "status_perkawinan": { "type": "string", "nullable": true },
+              "pekerjaan": { "type": "string", "nullable": true },
+              "kewarganegaraan": { "type": "string", "nullable": true },
+              "berlaku_hingga": { "type": "string", "nullable": true }
+            }
+          },
+          "_metadata": { "$ref": "#/components/schemas/Metadata" }
+        }
+      },
+      "ReceiptExtractionResponse": {
+        "type": "object",
+        "description": "Response schema for retail receipt data extraction.",
+        "properties": {
+          "status": { "type": "boolean" },
+          "creator": { "type": "string" },
+          "result": {
+            "type": "object",
+            "properties": {
+              "nama_toko": { "type": "string", "nullable": true },
+              "alamat_toko": { "type": "string", "nullable": true },
+              "tanggal": { "type": "string", "format": "date", "example": "YYYY-MM-DD", "nullable": true },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nama": { "type": "string" },
+                    "jumlah": { "type": "number" },
+                    "harga_satuan": { "type": "number" },
+                    "harga_total": { "type": "number" }
+                  },
+                  "required": ["nama", "jumlah", "harga_satuan", "harga_total"]
+                }
+              }
+            }
+          }
+        }
+      },
       "ChatMessage": {
         "type": "object",
         "required": ["role", "content"],
         "properties": {
           "role": {
             "type": "string",
-            "enum": ["system", "user", "assistant"],
+            "enum": ["system", "user", "assistant", "tool"],
             "description": "Role of the message sender."
           },
           "content": {
-            "type": "string",
-            "description": "Content of the message."
+            "oneOf": [
+              {"type": "string"},
+              {"type": "array", "items": {"$ref": "#/components/schemas/ContentPart"}}
+            ],
+            "description": "Content of the message. Can be a string or an array for multimodal content."
           },
           "name": {
             "type": "string",
-            "description": "Optional name of the message sender."
+            "description": "Optional name of the message sender for tool calls."
           },
           "tool_calls": {
             "type": "array",
@@ -945,8 +761,21 @@
               "$ref": "#/components/schemas/ToolCall"
             },
             "description": "Tool calls made by the assistant."
+          },
+          "tool_call_id": {
+            "type": "string",
+            "description": "The ID of the tool call this message is responding to."
           }
         }
+      },
+      "ContentPart": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["text", "image_url"] },
+          "text": { "type": "string", "description": "Text content." },
+          "image_url": { "type": "object", "properties": { "url": { "type": "string", "format": "uri" } } }
+        },
+        "required": ["type"]
       },
       "ResponseFormat": {
         "type": "object",
@@ -973,7 +802,7 @@
           },
           "parameters": {
             "type": "object",
-            "description": "Function parameters schema."
+            "description": "Function parameters schema (JSON Schema object)."
           }
         }
       },
@@ -1046,7 +875,7 @@
           },
           "created": {
             "type": "integer",
-            "description": "Creation timestamp."
+            "description": "Creation timestamp (Unix epoch seconds)."
           },
           "model": {
             "type": "string",
@@ -1062,7 +891,7 @@
           "usage": {
             "$ref": "#/components/schemas/Usage"
           },
-          "info_metadata": {
+          "_metadata": {
             "$ref": "#/components/schemas/Metadata"
           }
         }
@@ -1070,285 +899,114 @@
       "TextCompletionResponse": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "object": {
-            "type": "string",
-            "example": "text_completion"
-          },
-          "created": {
-            "type": "integer"
-          },
-          "model": {
-            "type": "string"
-          },
-          "choices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TextChoice"
-            }
-          },
-          "usage": {
-            "$ref": "#/components/schemas/Usage"
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
+          "id": { "type": "string" },
+          "object": { "type": "string", "example": "text_completion" },
+          "created": { "type": "integer" },
+          "model": { "type": "string" },
+          "choices": { "type": "array", "items": { "$ref": "#/components/schemas/TextChoice" } },
+          "usage": { "$ref": "#/components/schemas/Usage" },
+          "_metadata": { "$ref": "#/components/schemas/Metadata" }
         }
       },
       "EmbeddingsResponse": {
         "type": "object",
         "description": "Response from embeddings endpoint.",
         "properties": {
-          "object": {
-            "type": "string",
-            "example": "list"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EmbeddingObject"
-            }
-          },
-          "model": {
-            "type": "string"
-          },
-          "usage": {
-            "$ref": "#/components/schemas/EmbeddingUsage"
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
+          "object": { "type": "string", "example": "list" },
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/EmbeddingObject" } },
+          "model": { "type": "string" },
+          "usage": { "$ref": "#/components/schemas/EmbeddingUsage" },
+          "_metadata": { "$ref": "#/components/schemas/Metadata" }
         }
       },
       "ModerationsResponse": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string"
-          },
-          "results": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ModerationResult"
-            }
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
+          "id": { "type": "string" },
+          "model": { "type": "string" },
+          "results": { "type": "array", "items": { "$ref": "#/components/schemas/ModerationResult" } },
+          "_metadata": { "$ref": "#/components/schemas/Metadata" }
         }
       },
       "ModelsListResponse": {
         "type": "object",
         "properties": {
-          "object": {
-            "type": "string",
-            "example": "list"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ModelInfo"
-            }
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
-        }
-      },
-      "UsageResponse": {
-        "type": "object",
-        "properties": {
-          "object": {
-            "type": "string",
-            "example": "usage"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UsageData"
-            }
-          },
-          "total_usage": {
-            "type": "integer",
-            "description": "Total tokens used in the period."
-          },
-          "total_requests": {
-            "type": "integer",
-            "description": "Total requests made in the period."
-          },
-          "tier_info": {
-            "$ref": "#/components/schemas/TierInfo"
-          },
-          "current_usage": {
-            "$ref": "#/components/schemas/CurrentUsage"
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
+          "object": { "type": "string", "example": "list" },
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/ModelInfo" } },
+          "_metadata": { "$ref": "#/components/schemas/Metadata" }
         }
       },
       "SystemStatusResponse": {
         "type": "object",
         "properties": {
-          "system": {
-            "$ref": "#/components/schemas/SystemInfo"
-          },
-          "your_tier": {
-            "type": "string",
-            "enum": ["free", "basic", "standard", "pro", "enterprise"],
-            "description": "Your current subscription tier."
-          },
-          "your_usage": {
-            "$ref": "#/components/schemas/CurrentUsage"
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
-          }
+          "system": { "$ref": "#/components/schemas/SystemInfo" },
+          "your_tier": { "type": "string", "enum": ["free", "basic", "standard", "pro", "enterprise"] },
+          "your_usage": { "$ref": "#/components/schemas/UsageInfo" },
+          "_metadata": { "$ref": "#/components/schemas/Metadata" }
         }
       },
       "ChatChoice": {
         "type": "object",
         "properties": {
-          "index": {
-            "type": "integer"
-          },
-          "message": {
-            "$ref": "#/components/schemas/ChatMessage"
-          },
-          "finish_reason": {
-            "type": "string",
-            "enum": ["stop", "length", "function_call", "tool_calls", "content_filter"],
-            "description": "Reason for completion finish."
-          }
+          "index": { "type": "integer" },
+          "message": { "$ref": "#/components/schemas/ChatMessage" },
+          "finish_reason": { "type": "string", "enum": ["stop", "length", "function_call", "tool_calls", "content_filter"] }
         }
       },
       "TextChoice": {
         "type": "object",
         "properties": {
-          "text": {
-            "type": "string"
-          },
-          "index": {
-            "type": "integer"
-          },
-          "logprobs": {
-            "type": "object",
-            "nullable": true,
-            "additionalProperties": true
-          },
-          "finish_reason": {
-            "type": "string",
-            "enum": ["stop", "length", "content_filter"]
-          }
+          "text": { "type": "string" },
+          "index": { "type": "integer" },
+          "logprobs": { "type": "object", "nullable": true, "additionalProperties": true },
+          "finish_reason": { "type": "string", "enum": ["stop", "length", "content_filter"] }
         }
       },
       "EmbeddingObject": {
         "type": "object",
         "properties": {
-          "object": {
-            "type": "string",
-            "example": "embedding"
-          },
-          "embedding": {
-            "type": "array",
-            "items": {
-              "type": "number"
-            },
-            "description": "Vector embedding values."
-          },
-          "index": {
-            "type": "integer",
-            "description": "Index of the input text."
-          }
+          "object": { "type": "string", "example": "embedding" },
+          "embedding": { "type": "array", "items": { "type": "number" }, "description": "Vector embedding values." },
+          "index": { "type": "integer", "description": "Index of the input text." }
         }
       },
       "ModerationResult": {
         "type": "object",
         "properties": {
-          "flagged": {
-            "type": "boolean",
-            "description": "Whether the content was flagged."
-          },
+          "flagged": { "type": "boolean" },
           "categories": {
             "type": "object",
             "properties": {
-              "hate": {
-                "type": "boolean"
-              },
-              "hate/threatening": {
-                "type": "boolean"
-              },
-              "harassment": {
-                "type": "boolean"
-              },
-              "harassment/threatening": {
-                "type": "boolean"
-              },
-              "self-harm": {
-                "type": "boolean"
-              },
-              "self-harm/intent": {
-                "type": "boolean"
-              },
-              "self-harm/instructions": {
-                "type": "boolean"
-              },
-              "sexual": {
-                "type": "boolean"
-              },
-              "sexual/minors": {
-                "type": "boolean"
-              },
-              "violence": {
-                "type": "boolean"
-              },
-              "violence/graphic": {
-                "type": "boolean"
-              }
+              "hate": { "type": "boolean" },
+              "hate/threatening": { "type": "boolean" },
+              "harassment": { "type": "boolean" },
+              "harassment/threatening": { "type": "boolean" },
+              "self-harm": { "type": "boolean" },
+              "self-harm/intent": { "type": "boolean" },
+              "self-harm/instructions": { "type": "boolean" },
+              "sexual": { "type": "boolean" },
+              "sexual/minors": { "type": "boolean" },
+              "violence": { "type": "boolean" },
+              "violence/graphic": { "type": "boolean" },
+              "profanity": { "type": "boolean" }
             },
             "description": "Category flags for different types of harmful content."
           },
           "category_scores": {
             "type": "object",
             "properties": {
-              "hate": {
-                "type": "number"
-              },
-              "hate/threatening": {
-                "type": "number"
-              },
-              "harassment": {
-                "type": "number"
-              },
-              "harassment/threatening": {
-                "type": "number"
-              },
-              "self-harm": {
-                "type": "number"
-              },
-              "self-harm/intent": {
-                "type": "number"
-              },
-              "self-harm/instructions": {
-                "type": "number"
-              },
-              "sexual": {
-                "type": "number"
-              },
-              "sexual/minors": {
-                "type": "number"
-              },
-              "violence": {
-                "type": "number"
-              },
-              "violence/graphic": {
-                "type": "number"
-              }
+              "hate": { "type": "number" },
+              "hate/threatening": { "type": "number" },
+              "harassment": { "type": "number" },
+              "harassment/threatening": { "type": "number" },
+              "self-harm": { "type": "number" },
+              "self-harm/intent": { "type": "number" },
+              "self-harm/instructions": { "type": "number" },
+              "sexual": { "type": "number" },
+              "sexual/minors": { "type": "number" },
+              "violence": { "type": "number" },
+              "violence/graphic": { "type": "number" },
+              "profanity": { "type": "number" }
             },
             "description": "Confidence scores for each category (0-1)."
           }
@@ -1357,369 +1015,105 @@
       "ModelInfo": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "Model identifier."
-          },
-          "object": {
-            "type": "string",
-            "example": "model"
-          },
-          "created": {
-            "type": "integer",
-            "description": "Model creation timestamp."
-          },
-          "owned_by": {
-            "type": "string",
-            "example": "NeosantaraAI",
-            "description": "Organization that owns the model."
-          },
-          "permission": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "x-stainless-empty-object": true
-            }
-          },
-          "root": {
-            "type": "string",
-            "description": "Root model identifier."
-          },
-          "parent": {
-            "type": "string",
-            "nullable": true,
-            "description": "Parent model identifier."
-          },
-          "description": {
-            "type": "string",
-            "description": "Model description."
-          },
-          "capabilities": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Model capabilities."
-          },
-          "max_tokens": {
-            "type": "integer",
-            "description": "Maximum context length."
-          },
-          "pricing": {
-            "$ref": "#/components/schemas/ModelPricing"
-          }
+          "id": { "type": "string", "description": "Model identifier." },
+          "object": { "type": "string", "example": "model" },
+          "created": { "type": "integer", "description": "Model creation timestamp." },
+          "owned_by": { "type": "string", "example": "NeosantaraAI", "description": "Organization that owns the model." },
+          "permission": { "type": "array", "items": { "type": "object", "x-stainless-empty-object": true } },
+          "root": { "type": "string", "description": "Root model identifier." },
+          "parent": { "type": "string", "nullable": true, "description": "Parent model identifier." },
+          "description": { "type": "string", "description": "Model description." },
+          "capabilities": { "type": "array", "items": { "type": "string" }, "description": "Model capabilities." },
+          "max_tokens": { "type": "integer", "description": "Maximum context length." },
+          "pricing": { "$ref": "#/components/schemas/ModelPricing" }
         }
       },
       "ModelPricing": {
         "type": "object",
         "properties": {
-          "input_tokens": {
-            "type": "number",
-            "description": "Cost per 1K input tokens."
-          },
-          "output_tokens": {
-            "type": "number",
-            "description": "Cost per 1K output tokens."
-          },
-          "currency": {
-            "type": "string",
-            "example": "USD"
-          }
+          "input_tokens": { "type": "number", "description": "Cost per 1K input tokens." },
+          "output_tokens": { "type": "number", "description": "Cost per 1K output tokens." },
+          "currency": { "type": "string", "example": "USD" }
         }
       },
-      "UsageData": {
+      "UsageInfo": {
         "type": "object",
+        "description": "Detailed usage information for a period (daily or monthly).",
         "properties": {
-          "timestamp": {
-            "type": "integer",
-            "description": "Usage timestamp."
-          },
+          "used": { "type": "integer", "description": "Tokens/requests used in the period." },
+          "limit": { "type": "integer", "description": "Total tokens/requests allowed in the period." },
+          "remaining": { "type": "integer", "description": "Remaining tokens/requests in the period." },
+          "reset_at": { "type": "string", "format": "date-time", "description": "When the period resets." }
+        },
+        "required": ["used", "limit", "remaining", "reset_at"]
+      },
+      "ApiKey": {
+        "type": "object",
+        "description": "Details of an API Key associated with a user's account.",
+        "properties": {
+          "id": { "type": "string", "description": "The unique API Key string identifier (e.g., nai...)." },
+          "name": { "type": "string", "description": "A user-defined name for the API Key." },
+          "tier": { "type": "string", "description": "The pricing tier associated with this API Key." },
+          "created_at": { "type": "string", "format": "date-time", "description": "Timestamp when the API Key was created." },
+          "last_used": { "type": "string", "format": "date-time", "nullable": true, "description": "Last time this API Key was used." },
+          "is_active": { "type": "boolean", "description": "Whether the API Key is currently active." },
           "usage": {
-            "type": "integer",
-            "description": "Token usage."
-          },
-          "requests": {
-            "type": "integer",
-            "description": "Number of requests."
-          },
-          "model": {
-            "type": "string",
-            "description": "Model used."
-          },
-          "endpoint": {
-            "type": "string",
-            "description": "API endpoint used."
+            "type": "object",
+            "properties": {
+              "daily": { "$ref": "#/components/schemas/UsagePeriodInfo" },
+              "monthly": { "$ref": "#/components/schemas/UsagePeriodInfo" }
+            }
           }
-        }
-      },
-      "TierInfo": {
-        "type": "object",
-        "properties": {
-          "tier": {
-            "type": "string",
-            "enum": ["free", "basic", "standard", "pro", "enterprise"]
-          },
-          "limits": {
-            "$ref": "#/components/schemas/TierLimits"
-          },
-          "expires_at": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "Tier expiration date."
-          }
-        }
-      },
-      "TierLimits": {
-        "type": "object",
-        "properties": {
-          "requests_per_minute": {
-            "type": "integer"
-          },
-          "requests_per_day": {
-            "type": "integer"
-          },
-          "tokens_per_minute": {
-            "type": "integer"
-          },
-          "tokens_per_day": {
-            "type": "integer"
-          }
-        }
-      },
-      "CurrentUsage": {
-        "type": "object",
-        "properties": {
-          "requests_today": {
-            "type": "integer"
-          },
-          "tokens_today": {
-            "type": "integer"
-          },
-          "requests_this_minute": {
-            "type": "integer"
-          },
-          "tokens_this_minute": {
-            "type": "integer"
-          },
-          "reset_time": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When daily limits reset."
-          }
-        }
-      },
-      "SystemInfo": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "enum": ["operational", "degraded", "maintenance", "down"]
-          },
-          "version": {
-            "type": "string"
-          },
-          "uptime": {
-            "type": "number",
-            "description": "System uptime in seconds."
-          },
-          "region": {
-            "type": "string",
-            "description": "Server region."
-          },
-          "last_updated": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "Usage": {
-        "type": "object",
-        "properties": {
-          "prompt_tokens": {
-            "type": "integer",
-            "description": "Tokens in the prompt."
-          },
-          "completion_tokens": {
-            "type": "integer",
-            "description": "Tokens in the completion."
-          },
-          "total_tokens": {
-            "type": "integer",
-            "description": "Total tokens used."
-          }
-        }
-      },
-      "EmbeddingUsage": {
-        "type": "object",
-        "properties": {
-          "prompt_tokens": {
-            "type": "integer"
-          },
-          "total_tokens": {
-            "type": "integer"
-          }
-        }
+        },
+        "required": ["id", "name", "tier", "created_at", "is_active", "usage"]
       },
       "Metadata": {
         "type": "object",
+        "description": "Standard response metadata.",
         "properties": {
-          "creator": {
-            "type": "string",
-            "example": "NeosantaraAI"
-          },
-          "status": {
-            "type": "boolean"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "request_id": {
-            "type": "string",
-            "description": "Unique request identifier."
-          },
-          "processing_time": {
-            "type": "number",
-            "description": "Processing time in milliseconds."
-          }
+          "creator": { "type": "string", "example": "NeosantaraAI" },
+          "status": { "type": "boolean" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "request_id": { "type": "string", "description": "Unique request identifier.", "nullable": true },
+          "processing_time": { "type": "number", "description": "Processing time in milliseconds.", "nullable": true },
+          "tier": { "type": "string", "description": "Tier name.", "nullable": true },
+          "user_total_usage": { "$ref": "#/components/schemas/UsageInfo", "description": "Aggregated usage across all user's keys.", "nullable": true },
+          "key_specific_usage": { "$ref": "#/components/schemas/UsageInfo", "description": "Usage for the specific API key used.", "nullable": true },
+          "is_key_downgraded": { "type": "boolean", "description": "If the API key was downgraded.", "nullable": true },
+          "upstash_rate_limiting_active": { "type": "boolean", "description": "If Upstash rate limiting is active.", "nullable": true }
         }
-      },
-      "RateLimitError": {
-        "type": "object",
-        "description": "Error when rate limit is exceeded.",
-        "properties": {
-          "error": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string",
-                "description": "Error message."
-              },
-              "type": {
-                "type": "string",
-                "example": "rate_limit_exceeded"
-              },
-              "code": {
-                "type": "string",
-                "example": "rpm_exceeded"
-              },
-              "details": {
-                "type": "object",
-                "description": "Additional error details.",
-                "properties": {
-                  "limit": {
-                    "type": "integer",
-                    "description": "Rate limit threshold."
-                  },
-                  "remaining": {
-                    "type": "integer",
-                    "description": "Remaining requests in the current window."
-                  },
-                  "reset": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "When the rate limit resets."
-                  },
-                  "retry_after": {
-                    "type": "integer",
-                    "description": "Seconds to wait before retrying."
-                  }
-                }
-              }
-            },
-            "required": ["message", "type", "code"]
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/BadRequestError" }
           }
         }
       },
       "AuthError": {
-        "type": "object",
-        "description": "Error when API key is wrong/missing.",
-        "properties": {
-          "error": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string",
-                "description": "Error message."
-              },
-              "type": {
-                "type": "string",
-                "example": "auth_error"
-              },
-              "code": {
-                "type": "string",
-                "enum": ["missing_api_key", "invalid_api_key", "expired_api_key"],
-                "example": "invalid_api_key"
-              }
-            },
-            "required": ["message", "type", "code"]
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
+        "description": "Authentication failed (API key missing/invalid/expired).",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/AuthError" }
           }
         }
       },
-      "BadRequestError": {
-        "type": "object",
-        "description": "Error for bad request format or parameters.",
-        "properties": {
-          "error": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string",
-                "description": "Error message."
-              },
-              "type": {
-                "type": "string",
-                "example": "bad_request"
-              },
-              "code": {
-                "type": "string",
-                "enum": ["invalid_parameter", "missing_parameter", "invalid_format"],
-                "example": "invalid_parameter"
-              },
-              "details": {
-                "type": "object",
-                "description": "Additional error details."
-              }
-            },
-            "required": ["message", "type", "code"]
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
+      "RateLimitError": {
+        "description": "Rate limit exceeded",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/RateLimitError" }
           }
         }
       },
       "ServerError": {
-        "type": "object",
         "description": "Internal server error.",
-        "properties": {
-          "error": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string",
-                "description": "Error message."
-              },
-              "type": {
-                "type": "string",
-                "example": "server_error"
-              },
-              "code": {
-                "type": "string",
-                "enum": ["internal_error", "service_unavailable", "timeout"],
-                "example": "internal_error"
-              }
-            },
-            "required": ["message", "type", "code"]
-          },
-          "info_metadata": {
-            "$ref": "#/components/schemas/Metadata"
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ServerError" }
           }
         }
       }
