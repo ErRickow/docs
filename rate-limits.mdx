@@ -1,4 +1,7 @@
-# Rate Limits
+---
+title: 'Rate Limits'
+description: '> Learn about Neosantara's Rate Limiting'
+---
 
 Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources.
 
@@ -18,7 +21,7 @@ These are the maximum Token limits per day and per month for each plan.
 
 Every API response will include usage information within the `_metadata` field. This allows you to track your current consumption against your plan limits directly from your application.
 
-```json _metadata field
+```json _metadata field icon="terminal"
 {
   "_metadata": {
     "usage": {
@@ -47,7 +50,7 @@ Every API response will include usage information within the `_metadata` field. 
 
 When your API usage exceeds the allocated rate limit for your plan, the API will return an HTTP Status Code `429: Too Many Requests.` The response body will include details about the exceeded limit and when it will reset.
 
-```json errors detail apis
+```json errors 429 icon="terminal"
 {
   "status": false,
   "creator": "Nusantara AI",
