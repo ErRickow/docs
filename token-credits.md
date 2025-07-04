@@ -1,6 +1,7 @@
-# Token Credits & Pricing
-
-> Learn how manage token credits Neosantara APIs.
+---
+title: 'Token Credits'
+description: '> Learn how manage token credits Neosantara APIs.'
+---
 
 ## Free Token Credits
 
@@ -20,7 +21,7 @@ Neosantara AI operates on a simple, transparent credit-based model:
 | **Pro**                      | 1,500,00               | 50,000              | Rp 399          |
 | **Enterprise**                   | Custom               | Custom             | Custom            |
 
-Visit your [Dashboard](https://neosantara.xyz/dashboard/pricing) or [Pricing Page](https://neosantara.xyz/dashboard/pricing) to explore our plan options and manage your subscription.
+Visit your [Dashboard](https://app.neosantara.xyz/pricing) or [Pricing Page](https://neosantara.xyz/dashboard/pricing) to explore our plan options and manage your subscription.
 
 ## API Credits Costs
 
@@ -36,4 +37,4 @@ Neosantara AI API usage is calculated based on the number of Tokens processed pe
 
 ### Tracking Your Usage
 
-The most accurate way to track the Token cost of each request, especially for advanced features and multimodal inputs, is through the `tokens_used field in the API response's _metadata` section or by checking your Usage [Dashboard](https://neosantara.xyz)
+The most accurate way to track the Token cost of each request, especially for advanced features and multimodal inputs, is through the `tokens_used field in the API response's _metadata` section or by checking your [Usage Dashboard](https://app.neosantara.xyz/usage)

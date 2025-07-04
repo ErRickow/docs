@@ -402,7 +402,7 @@
     "/reasoning": {
       "post": {
         "tags": ["reasoning"],
-        "summary": "Enhanced reasoning completion",
+        "summary": "Reasoning completion",
         "description": "Advanced reasoning capabilities with enhanced context understanding. This endpoint encourages step-by-step thinking for complex problems.",
         "operationId": "reasoning",
         "requestBody": {

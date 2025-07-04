@@ -1,4 +1,7 @@
-# Rate Limits
+---
+title: 'Rate Limits'
+description: '> Learn about Neosantara's Rate Limiting'
+---
 
 Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources.
 
@@ -50,11 +53,11 @@ When your API usage exceeds the allocated rate limit for your plan, the API will
 ```json errors detail apis
 {
   "status": false,
-  "creator": "Nusantara AI",
+  "creator": "neosantara.xyz",
   "error": {
    "message": "Daily rate limit exceeded for your account (10000).",
    "type": "usage_limit_exceeded",
-   "code": "user_total_daily_limit_exceeded"
+   "code": "total_daily_limit_exceeded"
  },
   "usage": {
     "current": 10000,

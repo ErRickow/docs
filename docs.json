@@ -9,9 +9,9 @@
   },
   "favicon": "/favicon.ico",
   "navigation": {
-    "dropdowns": [
+    "tabs": [
       {
-        "dropdown": "Home",
+        "tab": "Home",
         "icon": "house",
         "groups": [
           {
@@ -23,7 +23,7 @@
         ]
       },
       {
-        "dropdown": "Documentation",
+        "tab": "Documentation",
         "icon": "book",
         "groups": [
           {
@@ -76,7 +76,7 @@
     }
   },
   "banner": {
-    "content": "Explore Neosantara AI: Seamless API access for cutting-edge AI models! [Learn more](https://docs.neosantara.xyz)"
+    "content": "Introducing Neosantara Model's With Cost Effective! [Learn more](https://docs.neosantara.xyz/models)"
   },
   "contextual": {
     "options": [
