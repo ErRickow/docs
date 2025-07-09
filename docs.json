@@ -54,8 +54,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/black.svg",
-    "dark": "/logo/black.svg"
+    "light": "/logo/neosantara-black.svg",
+    "dark": "/logo/neosantara-black.svg"
   },
   "navbar": {
     "links": [
