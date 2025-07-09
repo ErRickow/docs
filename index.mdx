@@ -1,4 +1,4 @@
-<div className="relative w-full pt-12 pb-12">
+<div className="relative w-full pt-12 pb-12 bg-gradient-to-b from-gray-900 to-gray-800">
   <div className="relative z-10 flex flex-col md:flex-row items-center gap-6" style={{ 
     maxWidth: '70rem', 
     margin: '0 auto', 
@@ -9,8 +9,8 @@
       <img 
         src="/images/logo.svg"
         alt="Neosantara AI" 
+        className="w-full max-w-md"
         style={{ 
-          maxWidth: '100%', 
           height: 'auto', 
           maxHeight: '20rem',
           borderRadius: '12px',
@@ -20,46 +20,38 @@
     </div>
 
     <div className="flex-1 text-center md:text-left order-2 md:order-1" style={{ color: "#FFFFFF" }}>
-      <div id="home-header">
-        <span className="build-with" style={{
-          display: 'block',
-          fontSize: '1.5rem',
-          marginBottom: '0.5rem',
-          color: 'rgba(255,255,255,0.8)',
+      <div id="home-header" className="mb-8">
+        <span className="build-with block mb-2" style={{
+          fontSize: '1.75rem',
+          color: 'rgba(255,255,255,0.9)',
           letterSpacing: '0.5px',
-          fontWeight: '500'
+          fontWeight: '500',
+          textTransform: 'uppercase'
         }}>Build with</span>
 
-        <div style={{
-          height: '3rem',
-          marginBottom: '1rem',
+        <div className="mb-4" style={{
+          height: '2rem',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start'
+          alignItems: 'center'
         }}>
           <img 
             src="/logo/black.svg" 
             alt="Neosantara" 
-            style={{ 
-              height: '80%',
-              width: 'auto',
+            className="h-full w-auto"
             }}
           />
         </div>
 
-      <p
-        className="description-text"
-        style={{
+        <p className="description-text" style={{
           fontWeight: '400',
           fontSize: '1.1rem',
           maxWidth: '42rem',
           color: 'rgba(255,255,255,0.9)',
-          lineHeight: '1.6',
-          marginTop: '1.5rem'
-        }}
-      >
-        Learn how to get started with the Neosantara API, integrate our Culture Intelligence, and build amazing applications.
-      </p>
+          lineHeight: '1.6'
+        }}>
+          Learn how to get started with the Neosantara API, integrate our Culture Intelligence, and build amazing applications.
+        </p>
+      </div>
     </div>
   </div>
 
