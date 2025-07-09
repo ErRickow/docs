@@ -3,7 +3,7 @@
   "theme": "mint",
   "name": "Neosantara AI Docs",
   "colors": {
-    "primary": "#4CAF50",
+    "primary": "#FF5722",
     "light": "#E0E0E0",
     "dark": "#1A1A1A"
   },
@@ -54,8 +54,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/nu.svg",
-    "dark": "/logo/nu.svg"
+    "light": "/logo/black.svg",
+    "dark": "/logo/black.svg"
   },
   "navbar": {
     "links": [
