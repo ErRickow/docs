@@ -7,7 +7,7 @@
   }}>
     <div className="flex-1 flex justify-center md:justify-end order-1 md:order-2">
       <img 
-        src="https://files.catbox.moe/pcwjnv.jpg"
+        src="/images/logo.svg"
         alt="Neosantara AI" 
         style={{ 
           maxWidth: '100%', 
@@ -23,28 +23,40 @@
       <div id="home-header">
         <span className="build-with" style={{
           display: 'block',
-          fontSize: '1.25rem',
+          fontSize: '1.5rem',
           marginBottom: '0.5rem',
-          color: 'rgba(255,255,255,0.8)'
+          color: 'rgba(255,255,255,0.8)',
+          letterSpacing: '0.5px',
+          fontWeight: '500'
         }}>Build with</span>
 
-        <span className="neosantara-wordmark-wrapper">
-        <img 
+        <div style={{
+          height: '3rem',
+          marginBottom: '1rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start'
+        }}>
+          <img 
             src="/logo/black.svg" 
             alt="Neosantara" 
-            style={{ height: '4rem', width: 'auto' }}
+            style={{ 
+              height: '80%',
+              width: 'auto',
+              filter: 'brightness(0) invert(1)'
+            }}
           />
-        </span>
-      </div>
+        </div>
 
       <p
         className="description-text"
         style={{
           fontWeight: '400',
-          fontSize: '20px',
+          fontSize: '1.1rem',
           maxWidth: '42rem',
           color: 'rgba(255,255,255,0.9)',
-          lineHeight: '1.6'
+          lineHeight: '1.6',
+          marginTop: '1.5rem'
         }}
       >
         Learn how to get started with the Neosantara API, integrate our Culture Intelligence, and build amazing applications.
