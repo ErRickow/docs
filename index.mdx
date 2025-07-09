@@ -1,38 +1,107 @@
-<div style={{ marginTop: "100px", marginBottom: "100px" }}>
-  <div style={{ textAlign: "center" }}>
-    <p style={{ 
-      fontSize: "2rem", 
-      fontWeight: "bold", 
-      color: "#FFFFFF",
-      margin: "0 auto"
-    }}>
-      Get Started With Neosantara AI
-    </p>
+<div className="relative w-full pt-12 pb-12">
+  <div id="background-div" className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-10" />
+  
+  <div style={{ marginTop: "100px", marginBottom: "100px" }} className="relative z-10">
+    <div style={{ textAlign: "center" }}>
+      <p style={{ 
+        fontSize: "2rem", 
+        fontWeight: "bold", 
+        color: "#FFFFFF",
+        margin: "0 auto"
+      }}>
+        Get Started With Neosantara AI
+      </p>
+    </div>
+
+    <div style={{ textAlign: "center", color: "#FFFFFF" }}>
+      Your integration with our Culture Intelligence.
+    </div>
   </div>
 
-  <div style={{ textAlign: "center" }}>
-    Your integration with our Culture Intelligence.
-  </div>
-</div>
+  <div className="relative z-10 flex flex-col md:flex-row items-center gap-6" style={{ 
+    maxWidth: '70rem', 
+    margin: '0 auto', 
+    padding: '0 1.25rem',
+    marginBottom: '50px'
+  }}>
+    <div className="flex-1 flex justify-center md:justify-end order-1 md:order-2">
+      <img 
+        src="https://files.catbox.moe/pcwjnv.jpg"
+        alt="Neosantara AI" 
+        style={{ 
+          maxWidth: '100%', 
+          height: 'auto', 
+          maxHeight: '20rem',
+          borderRadius: '12px',
+          boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+        }} 
+      />
+    </div>
 
-<div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 20px" }}>
-  <CardGroup cols={3}>
-    <Card title="Quickstart" icon="rocket-launch" href="quickstart">
-      Start integrate Neosantara APIs in minute's
-    </Card>
-    
-    <Card title="API Reference" icon="square-terminal" href="/api-reference">
-      Start using Neosantara Culture AI Intelligence
-    </Card>
-    <Card title="API Credits Overview" icon="book-open" href="about/token-credits">
-      Learn how manage token credits Neosantara APIs
-    </Card>
-    <Card title="Rate Limits" icon="gauge" href="/rate-limits">
-      Learn about Neosantara's Rate Limiting
-    </Card>
-    
-    <Card title="Models" icon="world" href="quickstart">
-      Explore Our Available Models
-    </Card>
-  </CardGroup>
+    <div className="flex-1 text-center md:text-left order-2 md:order-1" style={{ color: "#FFFFFF" }}>
+      <div id="home-header">
+        <span className="build-with" style={{
+          display: 'block',
+          fontSize: '1.25rem',
+          marginBottom: '0.5rem',
+          color: 'rgba(255,255,255,0.8)'
+        }}>Build with</span>
+
+        <span className="neosantara-wordmark-wrapper">
+          <h1 style={{
+            fontSize: '3rem',
+            fontWeight: '700',
+            margin: '0 0 1rem 0',
+            background: 'linear-gradient(90deg, #ffffff, #a5b4fc)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent'
+          }}>
+            Neosantara AI
+          </h1>
+        </span>
+      </div>
+
+      <p
+        className="description-text"
+        style={{
+          fontWeight: '400',
+          fontSize: '20px',
+          maxWidth: '42rem',
+          color: 'rgba(255,255,255,0.9)',
+          lineHeight: '1.6'
+        }}
+      >
+        Learn how to get started with the Neosantara API, integrate our Culture Intelligence, and build amazing applications.
+      </p>
+    </div>
+  </div>
+
+  <div style={{ 
+    maxWidth: "900px", 
+    margin: "0 auto", 
+    padding: "0 20px",
+    position: 'relative',
+    zIndex: 10
+  }}>
+    <CardGroup cols={3}>
+      <Card title="Quickstart" icon="rocket-launch" href="quickstart">
+        Start integrate Neosantara APIs in minute's
+      </Card>
+      
+      <Card title="API Reference" icon="square-terminal" href="/api-reference">
+        Start using Neosantara Culture AI Intelligence
+      </Card>
+      <Card title="API Credits Overview" icon="book-open" href="about/token-credits">
+        Learn how manage token credits Neosantara APIs
+      </Card>
+      <Card title="Rate Limits" icon="gauge" href="/rate-limits">
+        Learn about Neosantara's Rate Limiting
+      </Card>
+      
+      <Card title="Models" icon="world" href="quickstart">
+        Explore Our Available Models
+      </Card>
+    </CardGroup>
+  </div>
 </div>
