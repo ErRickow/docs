@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Neosantara AI Docs",
+  "name": "Neosantara AI Documentation",
   "colors": {
     "primary": "#FF5722",
     "light": "#E0E0E0",
@@ -44,7 +44,6 @@
               "api-reference/embeddings/create-embeddings",
               "api-reference/models/list-available-models",
               "api-reference/moderations/content-moderation-check",
-              "api-reference/completions/create-text-completion-legacy",
               "api-reference/reasoning/enhanced-reasoning-completion",
               "api-reference/authentication/check-api-key-status"
             ]
@@ -61,7 +60,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hub@erdev.biz.id"
+        "href": "mailto:halo@neosantara.xyz"
       }
     ],
     "primary": {

@@ -1,14 +1,14 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "NeosantaraAI API",
-    "description": "NeosantaraAI API - OpenAI Compatible\n\n**Rate Limits**\nOur rate limiting is token-based. Limits apply **per API key** and also **per user** (cumulative).\nDaily and monthly resets are automatic, with auto-downgrade to Free if subscription expires.\n\nFor detailed tier limits and pricing, please refer to our [Pricing Documentation](https://docs.neosantara.xyz/pricing).\n\n**Available Endpoints:** `/v1/chat/completions`, `/v1/completions` (legacy), `/v1/models`, `/v1/embeddings`, `/v1/moderations`, `/v1/reasoning`, and `/v1/auth/key` (API key status).\n\n**Auth:** Use header `Authorization: Bearer <API_KEY>`.",
-    "version": "5.0.0"
+    "title": "Neosantara AI API",
+    "description": "API for NeosantaraAI services.",
+    "version": "1.0.0"
   },
   "servers": [
     {
       "url": "https://api.neosantara.xyz/v1",
-      "description": "Base URL for v1 API endpoints"
+      "description": "API Base URL"
     }
   ],
   "security": [
@@ -18,40 +18,35 @@
   ],
   "tags": [
     {
-      "name": "chat",
-      "description": "Chat completion endpoints"
+      "name": "chat"
     },
     {
-      "name": "completions",
-      "description": "Text completion endpoints (Legacy)"
+      "name": "completions"
     },
     {
-      "name": "embeddings",
-      "description": "Text embeddings generation"
+      "name": "embeddings"
     },
     {
-      "name": "models",
-      "description": "Model information and management"
+      "name": "models"
     },
     {
-      "name": "moderations",
-      "description": "Content moderation"
+      "name": "moderations"
     },
     {
-      "name": "reasoning",
-      "description": "Enhanced reasoning capabilities"
+      "name": "reasoning"
     },
     {
-      "name": "authentication",
-      "description": "API Key authentication and status"
+      "name": "authentication"
     }
   ],
   "paths": {
     "/chat/completions": {
       "post": {
-        "tags": ["chat"],
+        "tags": [
+          "chat"
+        ],
         "summary": "Create chat completion",
-        "description": "Create chat completion compatible with OpenAI API. Send an array of messages (role: user/assistant, content: string/array). Supports multimodal input (image_url) and tool calling.",
+        "description": "Generate chat responses from a list of messages.",
         "operationId": "chatCompletions",
         "requestBody": {
           "required": true,
@@ -100,18 +95,28 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/AuthError" },
-          "429": { "$ref": "#/components/responses/RateLimitError" },
-          "500": { "$ref": "#/components/responses/ServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
         }
       }
     },
     "/completions": {
       "post": {
-        "tags": ["completions"],
+        "tags": [
+          "completions"
+        ],
         "summary": "Create text completion (Legacy)",
-        "description": "Create text completions using prompt-based input. This endpoint is maintained for legacy compatibility; `/v1/chat/completions` is recommended for new implementations.",
+        "description": "Legacy endpoint for text completions. Use /v1/chat/completions for new implementations.",
         "operationId": "textCompletions",
         "requestBody": {
           "required": true,
@@ -169,16 +174,26 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/AuthError" },
-          "429": { "$ref": "#/components/responses/RateLimitError" },
-          "500": { "$ref": "#/components/responses/ServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
         }
       }
     },
     "/models": {
       "get": {
-        "tags": ["models"],
+        "tags": [
+          "models"
+        ],
         "summary": "List available models",
         "description": "Retrieve a list of all available models and their capabilities.",
         "operationId": "listModels",
@@ -205,7 +220,10 @@
                           "root": "nusantara-base",
                           "parent": null,
                           "description": "Model dasar untuk tugas umum dengan keseimbangan kinerja dan kecepatan",
-                          "capabilities": ["function_calling", "json_mode"]
+                          "capabilities": [
+                            "function_calling",
+                            "json_mode"
+                          ]
                         },
                         {
                           "id": "vision-emas-2045",
@@ -216,7 +234,10 @@
                           "root": "vision-emas-2045",
                           "parent": null,
                           "description": "Model visi canggih untuk analisis gambar KTP, struk, dan tugas visual lainnya",
-                          "capabilities": ["vision", "json_mode"]
+                          "capabilities": [
+                            "vision",
+                            "json_mode"
+                          ]
                         }
                       ]
                     }
@@ -225,13 +246,17 @@
               }
             }
           },
-          "401": { "$ref": "#/components/responses/AuthError" }
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          }
         }
       }
     },
     "/embeddings": {
       "post": {
-        "tags": ["embeddings"],
+        "tags": [
+          "embeddings"
+        ],
         "summary": "Create embeddings",
         "description": "Generate vector embeddings from input text.",
         "operationId": "embeddings",
@@ -254,7 +279,11 @@
                   "summary": "Multiple inputs embedding request",
                   "value": {
                     "model": "nusa-embeddings-0001",
-                    "input": ["first sentence", "second sentence", "third sentence"]
+                    "input": [
+                      "first sentence",
+                      "second sentence",
+                      "third sentence"
+                    ]
                   }
                 }
               }
@@ -277,7 +306,11 @@
                       "data": [
                         {
                           "object": "embedding",
-                          "embedding": [0.123, 0.456, 0.789],
+                          "embedding": [
+                            0.123,
+                            0.456,
+                            0.789
+                          ],
                           "index": 0
                         }
                       ],
@@ -292,16 +325,26 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/AuthError" },
-          "429": { "$ref": "#/components/responses/RateLimitError" },
-          "500": { "$ref": "#/components/responses/ServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
         }
       }
     },
     "/moderations": {
       "post": {
-        "tags": ["moderations"],
+        "tags": [
+          "moderations"
+        ],
         "summary": "Content moderation check",
         "description": "Check content for policy violations and harmful content.",
         "operationId": "moderations",
@@ -392,18 +435,28 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/AuthError" },
-          "429": { "$ref": "#/components/responses/RateLimitError" },
-          "500": { "$ref": "#/components/responses/ServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
         }
       }
     },
     "/reasoning": {
       "post": {
-        "tags": ["reasoning"],
+        "tags": [
+          "reasoning"
+        ],
         "summary": "Reasoning completion",
-        "description": "Advanced reasoning capabilities with enhanced context understanding. This endpoint encourages step-by-step thinking for complex problems.",
+        "description": "Generate reasoning for complex problems.",
         "operationId": "reasoning",
         "requestBody": {
           "required": true,
@@ -452,37 +505,75 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/AuthError" },
-          "429": { "$ref": "#/components/responses/RateLimitError" },
-          "500": { "$ref": "#/components/responses/ServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
         }
       }
     },
     "/auth/key": {
       "get": {
-        "tags": ["authentication"],
+        "tags": [
+          "authentication"
+        ],
         "summary": "Check API Key status",
-        "description": "Check the status and remaining usage of your provided API Key. This endpoint requires an active NeosantaraAI API Key in the Authorization header. It returns usage information for both the specific API Key and the overall user account.",
+        "description": "Check status and remaining usage of API Key.",
         "operationId": "checkApiKeyStatus",
         "responses": {
           "200": {
-            "description": "API Key status and usage information",
+            "description": "API Key status and usage info",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "object": { "type": "string", "example": "authorization" },
-                    "organization": { "type": "string", "example": "org-indonesia-ai" },
-                    "permissions": { "type": "array", "items": { "type": "string" } },
-                    "authorized": { "type": "boolean" },
-                    "created": { "type": "integer" },
-                    "expires": { "type": "string", "nullable": true },
-                    "id": { "type": "string", "example": "auth-..." },
-                    "tier": { "type": "string", "example": "Free" },
-                    "usage_info": { "$ref": "#/components/schemas/UsageInfo" },
-                    "_metadata": { "$ref": "#/components/schemas/Metadata" }
+                    "object": {
+                      "type": "string",
+                      "example": "authorization"
+                    },
+                    "organization": {
+                      "type": "string",
+                      "example": "org-indonesia-ai"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "authorized": {
+                      "type": "boolean"
+                    },
+                    "created": {
+                      "type": "integer"
+                    },
+                    "expires": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "auth-..."
+                    },
+                    "tier": {
+                      "type": "string",
+                      "example": "Free"
+                    },
+                    "usage_info": {
+                      "$ref": "#/components/schemas/UsageInfo"
+                    },
+                    "_metadata": {
+                      "$ref": "#/components/schemas/Metadata"
+                    }
                   }
                 },
                 "examples": {
@@ -491,7 +582,11 @@
                     "value": {
                       "object": "authorization",
                       "organization": "org-neosantara-ai",
-                      "permissions": ["chat.completions", "embeddings", "moderations"],
+                      "permissions": [
+                        "chat.completions",
+                        "embeddings",
+                        "moderations"
+                      ],
                       "authorized": true,
                       "created": 1717950000,
                       "expires": null,
@@ -517,9 +612,15 @@
               }
             }
           },
-          "401": { "$ref": "#/components/responses/AuthError" },
-          "429": { "$ref": "#/components/responses/RateLimitError" },
-          "500": { "$ref": "#/components/responses/ServerError" }
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
         }
       }
     }
@@ -530,31 +631,30 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "API_KEY",
-        "description": "Your NeosantaraAI API Key (e.g., nai...)."
+        "description": "Your NeosantaraAI API Key."
       }
     },
     "schemas": {
       "ChatCompletionsRequest": {
         "type": "object",
-        "description": "Request for chat completion.",
-        "required": ["model", "messages"],
+        "required": [
+          "model",
+          "messages"
+        ],
         "properties": {
           "model": {
-            "type": "string",
-            "description": "Model name (eg, archipelago-7b).",
-            "items": {
-              "oneOf": [
-                { "$ref": "#/components/schemas/ModelList" }
-              ]
-            }
+            "type": "string"
           },
           "messages": {
             "type": "array",
-            "description": "Array of messages (role+content).",
             "items": {
               "oneOf": [
-                { "$ref": "#/components/schemas/TextMessage" },
-                { "$ref": "#/components/schemas/ImageMessage" }
+                {
+                  "$ref": "#/components/schemas/TextMessage"
+                },
+                {
+                  "$ref": "#/components/schemas/ImageMessage"
+                }
               ]
             }
           },
@@ -562,47 +662,40 @@
             "type": "number",
             "default": 0.7,
             "minimum": 0,
-            "maximum": 2,
-            "description": "Sampling temperature between 0 and 2."
+            "maximum": 2
           },
           "max_tokens": {
             "type": "integer",
             "default": 1000,
-            "minimum": 1,
-            "description": "Maximum number of tokens to generate."
+            "minimum": 1
           },
           "stream": {
             "type": "boolean",
-            "default": false,
-            "description": "Whether to stream responses."
+            "default": false
           },
           "n": {
             "type": "integer",
             "default": 1,
             "minimum": 1,
-            "maximum": 10,
-            "description": "Number of completions to generate."
+            "maximum": 10
           },
           "top_p": {
             "type": "number",
             "default": 1,
             "minimum": 0,
-            "maximum": 1,
-            "description": "Nucleus sampling parameter."
+            "maximum": 1
           },
           "frequency_penalty": {
             "type": "number",
             "default": 0,
             "minimum": -2,
-            "maximum": 2,
-            "description": "Frequency penalty parameter."
+            "maximum": 2
           },
           "presence_penalty": {
             "type": "number",
             "default": 0,
             "minimum": -2,
-            "maximum": 2,
-            "description": "Presence penalty parameter."
+            "maximum": 2
           },
           "response_format": {
             "$ref": "#/components/schemas/ResponseFormat"
@@ -611,412 +704,1089 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Function"
-            },
-            "description": "Available functions for the model to call. (Deprecated: use 'tools' instead)"
+            }
           },
           "tools": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Tool"
-            },
-            "description": "Available tools for the model to use."
+            }
           },
           "tool_choice": {
             "oneOf": [
-              {"type": "string"},
-              {"$ref": "#/components/schemas/ToolChoice"}
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/ToolChoice"
+              }
             ],
-            "default": "auto",
-            "description": "Tool choice strategy."
+            "default": "auto"
           },
           "web_search": {
             "type": "boolean",
-            "default": false,
-            "description": "Enable web search capabilities."
+            "default": false
           }
-        }
-      },
-      "ModelList": {
-        "type": "object",
-        "required": ["model"],
-        "properties": {
-          "model": { "type": "string", "enum": ["nusantara-base", "archipelago-7b", "bahasa-llm"], "description": "The Neosantara Models" }
         }
       },
       "TextMessage": {
         "type": "object",
-        "required": ["role", "content"],
+        "required": [
+          "role",
+          "content"
+        ],
         "properties": {
-          "role": { "type": "string", "enum": ["system", "user", "assistant", "tool"], "description": "Role of the message sender." },
-          "content": { "type": "string", "description": "Text content of the message." },
-          "name": { "type": "string", "description": "Optional name of the message sender." },
-          "tool_call_id": { "type": "string", "description": "The ID of the tool call this message is responding to." }
+          "role": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tool_call_id": {
+            "type": "string"
+          }
         }
       },
       "ImageMessage": {
         "type": "object",
-        "required": ["type", "image_url"],
+        "required": [
+          "type",
+          "image_url"
+        ],
         "properties": {
-          "type": { "type": "string", "enum": ["image_url"] },
-          "image_url": { "type": "object", "properties": { "url": { "type": "string", "format": "uri" } }, "required": ["url"] }
+          "type": {
+            "type": "string",
+            "enum": [
+              "image_url"
+            ]
+          },
+          "image_url": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
         }
       },
       "TextCompletionsRequest": {
         "type": "object",
-        "required": ["model", "prompt"],
+        "required": [
+          "model",
+          "prompt"
+        ],
         "properties": {
-          "model": { "type": "string", "example": "nusantara-base" },
-          "prompt": { "type": "string", "description": "Text prompt for completion." },
-          "temperature": { "type": "number", "default": 0.7, "minimum": 0, "maximum": 2 },
-          "max_tokens": { "type": "integer", "default": 1000, "minimum": 1 },
-          "stream": { "type": "boolean", "default": false },
-          "n": { "type": "integer", "default": 1, "minimum": 1, "maximum": 10 },
-          "top_p": { "type": "number", "default": 1, "minimum": 0, "maximum": 1 },
-          "frequency_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
-          "presence_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
-          "response_format": { "$ref": "#/components/schemas/ResponseFormat" }
+          "model": {
+            "type": "string",
+            "example": "nusantara-base"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7,
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 1000,
+            "minimum": 1
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "n": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 10
+          },
+          "top_p": {
+            "type": "number",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 1
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "presence_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "response_format": {
+            "$ref": "#/components/schemas/ResponseFormat"
+          }
         }
       },
       "ReasoningRequest": {
         "type": "object",
-        "description": "Request for enhanced reasoning completion.",
-        "required": ["messages"],
+        "required": [
+          "messages"
+        ],
         "properties": {
-          "model": { "type": "string", "example": "nusantara-base" },
-          "messages": { "type": "array", "items": { "$ref": "#/components/schemas/ChatMessage" } },
-          "temperature": { "type": "number", "default": 0.7, "minimum": 0, "maximum": 2 },
-          "max_tokens": { "type": "integer", "default": 1500, "minimum": 1 },
-          "stream": { "type": "boolean", "default": false },
-          "top_p": { "type": "number", "default": 1, "minimum": 0, "maximum": 1 },
-          "frequency_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
-          "presence_penalty": { "type": "number", "default": 0, "minimum": -2, "maximum": 2 },
-          "response_format": { "$ref": "#/components/schemas/ResponseFormat" }
+          "model": {
+            "type": "string",
+            "example": "nusantara-base"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7,
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 1500,
+            "minimum": 1
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "top_p": {
+            "type": "number",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 1
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "presence_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "response_format": {
+            "$ref": "#/components/schemas/ResponseFormat"
+          }
         }
       },
       "EmbeddingsRequest": {
         "type": "object",
-        "description": "Request for embeddings.",
-        "required": ["input"],
+        "required": [
+          "input"
+        ],
         "properties": {
-          "model": { "type": "string", "example": "nusa-embeddings-0001", "description": "Model to use for embeddings." },
-          "input": { "oneOf": [ {"type": "string"}, { "type": "array", "items": {"type": "string"} } ], "description": "Input text(s) to generate embeddings for." },
-          "encoding_format": { "type": "string", "default": "float", "enum": ["float", "base64"], "description": "Format for the embeddings." }
+          "model": {
+            "type": "string",
+            "example": "nusa-embeddings-0001"
+          },
+          "input": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "encoding_format": {
+            "type": "string",
+            "default": "float",
+            "enum": [
+              "float",
+              "base64"
+            ]
+          }
         }
       },
       "ModerationsRequest": {
         "type": "object",
-        "required": ["input"],
+        "required": [
+          "input"
+        ],
         "properties": {
-          "input": { "oneOf": [ {"type": "string"}, { "type": "array", "items": {"type": "string"} } ], "description": "Input text(s) to moderate." },
-          "model": { "type": "string", "example": "text-moderation-latest", "description": "Moderation model to use." }
+          "input": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "model": {
+            "type": "string",
+            "example": "text-moderation-latest"
+          }
         }
       },
       "ChatCompletionsResponse": {
         "type": "object",
-        "description": "Chat completion response.",
         "properties": {
-          "id": { "type": "string", "description": "Completion ID." },
-          "object": { "type": "string", "example": "chat.completion", "description": "Object type." },
-          "created": { "type": "integer", "description": "Creation timestamp (Unix epoch seconds)." },
-          "model": { "type": "string", "description": "Model used." },
-          "choices": { "type": "array", "items": { "$ref": "#/components/schemas/ChatChoice" }, "description": "Completion choices." },
-          "usage": { "$ref": "#/components/schemas/Usage" },
-          "_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "example": "chat.completion"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatChoice"
+            }
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "TextCompletionResponse": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "object": { "type": "string", "example": "text_completion" },
-          "created": { "type": "integer" },
-          "model": { "type": "string" },
-          "choices": { "type": "array", "items": { "$ref": "#/components/schemas/TextChoice" } },
-          "usage": { "$ref": "#/components/schemas/Usage" },
-          "_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "example": "text_completion"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TextChoice"
+            }
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "EmbeddingsResponse": {
         "type": "object",
-        "description": "Response from embeddings endpoint.",
         "properties": {
-          "object": { "type": "string", "example": "list" },
-          "data": { "type": "array", "items": { "$ref": "#/components/schemas/EmbeddingObject" } },
-          "model": { "type": "string" },
-          "usage": { "$ref": "#/components/schemas/EmbeddingUsage" },
-          "_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "object": {
+            "type": "string",
+            "example": "list"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmbeddingObject"
+            }
+          },
+          "model": {
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/EmbeddingUsage"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "ModerationsResponse": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "model": { "type": "string" },
-          "results": { "type": "array", "items": { "$ref": "#/components/schemas/ModerationResult" } },
-          "_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "id": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModerationResult"
+            }
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "ModelsListResponse": {
         "type": "object",
         "properties": {
-          "object": { "type": "string", "example": "list" },
-          "data": { "type": "array", "items": { "$ref": "#/components/schemas/ModelInfo" } },
-          "_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "object": {
+            "type": "string",
+            "example": "list"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelInfo"
+            }
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "SystemStatusResponse": {
         "type": "object",
         "properties": {
-          "system": { "$ref": "#/components/schemas/SystemInfo" },
-          "your_tier": { "type": "string", "enum": ["free", "basic", "standard", "pro", "enterprise"] },
-          "your_usage": { "$ref": "#/components/schemas/UsageInfo" },
-          "_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "system": {
+            "$ref": "#/components/schemas/SystemInfo"
+          },
+          "your_tier": {
+            "type": "string",
+            "enum": [
+              "free",
+              "basic",
+              "standard",
+              "pro",
+              "enterprise"
+            ]
+          },
+          "your_usage": {
+            "$ref": "#/components/schemas/UsageInfo"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "ChatChoice": {
         "type": "object",
         "properties": {
-          "index": { "type": "integer" },
-          "message": { "$ref": "#/components/schemas/ChatMessage" },
-          "finish_reason": { "type": "string", "enum": ["stop", "length", "function_call", "tool_calls", "content_filter"] }
+          "index": {
+            "type": "integer"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "length",
+              "function_call",
+              "tool_calls",
+              "content_filter"
+            ]
+          }
         }
       },
       "TextChoice": {
         "type": "object",
         "properties": {
-          "text": { "type": "string" },
-          "index": { "type": "integer" },
-          "logprobs": { "type": "object", "nullable": true, "additionalProperties": true },
-          "finish_reason": { "type": "string", "enum": ["stop", "length", "content_filter"] }
+          "text": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          },
+          "logprobs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "length",
+              "content_filter"
+            ]
+          }
         }
       },
       "EmbeddingObject": {
         "type": "object",
         "properties": {
-          "object": { "type": "string", "example": "embedding" },
-          "embedding": { "type": "array", "items": { "type": "number" }, "description": "Vector embedding values." },
-          "index": { "type": "integer", "description": "Index of the input text." }
+          "object": {
+            "type": "string",
+            "example": "embedding"
+          },
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "index": {
+            "type": "integer"
+          }
         }
       },
       "ModerationResult": {
         "type": "object",
         "properties": {
-          "flagged": { "type": "boolean" },
+          "flagged": {
+            "type": "boolean"
+          },
           "categories": {
             "type": "object",
             "properties": {
-              "hate": { "type": "boolean" },
-              "hate/threatening": { "type": "boolean" },
-              "harassment": { "type": "boolean" },
-              "harassment/threatening": { "type": "boolean" },
-              "self-harm": { "type": "boolean" },
-              "self-harm/intent": { "type": "boolean" },
-              "self-harm/instructions": { "type": "boolean" },
-              "sexual": { "type": "boolean" },
-              "sexual/minors": { "type": "boolean" },
-              "violence": { "type": "boolean" },
-              "violence/graphic": { "type": "boolean" },
-              "profanity": { "type": "boolean" }
-            },
-            "description": "Category flags for different types of harmful content."
+              "hate": {
+                "type": "boolean"
+              },
+              "hate/threatening": {
+                "type": "boolean"
+              },
+              "harassment": {
+                "type": "boolean"
+              },
+              "harassment/threatening": {
+                "type": "boolean"
+              },
+              "self-harm": {
+                "type": "boolean"
+              },
+              "self-harm/intent": {
+                "type": "boolean"
+              },
+              "self-harm/instructions": {
+                "type": "boolean"
+              },
+              "sexual": {
+                "type": "boolean"
+              },
+              "sexual/minors": {
+                "type": "boolean"
+              },
+              "violence": {
+                "type": "boolean"
+              },
+              "violence/graphic": {
+                "type": "boolean"
+              },
+              "profanity": {
+                "type": "boolean"
+              }
+            }
           },
           "category_scores": {
             "type": "object",
             "properties": {
-              "hate": { "type": "number" },
-              "hate/threatening": { "type": "number" },
-              "harassment": { "type": "number" },
-              "harassment/threatening": { "type": "number" },
-              "self-harm": { "type": "number" },
-              "self-harm/intent": { "type": "number" },
-              "self-harm/instructions": { "type": "number" },
-              "sexual": { "type": "number" },
-              "sexual/minors": { "type": "number" },
-              "violence": { "type": "number" },
-              "violence/graphic": { "type": "number" },
-              "profanity": { "type": "number" }
-            },
-            "description": "Confidence scores for each category (0-1)."
+              "hate": {
+                "type": "number"
+              },
+              "hate/threatening": {
+                "type": "number"
+              },
+              "harassment": {
+                "type": "number"
+              },
+              "harassment/threatening": {
+                "type": "number"
+              },
+              "self-harm": {
+                "type": "number"
+              },
+              "self-harm/intent": {
+                "type": "number"
+              },
+              "self-harm/instructions": {
+                "type": "number"
+              },
+              "sexual": {
+                "type": "number"
+              },
+              "sexual/minors": {
+                "type": "number"
+              },
+              "violence": {
+                "type": "number"
+              },
+              "violence/graphic": {
+                "type": "number"
+              },
+              "profanity": {
+                "type": "number"
+              }
+            }
           }
         }
       },
       "ModelInfo": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "description": "Model identifier." },
-          "object": { "type": "string", "example": "model" },
-          "created": { "type": "integer", "description": "Model creation timestamp." },
-          "owned_by": { "type": "string", "example": "NeosantaraAI", "description": "Organization that owns the model." },
-          "permission": { "type": "array", "items": { "type": "object", "x-stainless-empty-object": true } },
-          "root": { "type": "string", "description": "Root model identifier." },
-          "parent": { "type": "string", "nullable": true, "description": "Parent model identifier." },
-          "description": { "type": "string", "description": "Model description." },
-          "capabilities": { "type": "array", "items": { "type": "string" }, "description": "Model capabilities." },
-          "max_tokens": { "type": "integer", "description": "Maximum context length." },
-          "pricing": { "$ref": "#/components/schemas/ModelPricing" }
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "example": "model"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "owned_by": {
+            "type": "string",
+            "example": "NeosantaraAI"
+          },
+          "permission": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-stainless-empty-object": true
+            }
+          },
+          "root": {
+            "type": "string"
+          },
+          "parent": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "max_tokens": {
+            "type": "integer"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/ModelPricing"
+          }
         }
       },
       "ModelPricing": {
         "type": "object",
         "properties": {
-          "input_tokens": { "type": "number", "description": "Cost per 1K input tokens." },
-          "output_tokens": { "type": "number", "description": "Cost per 1K output tokens." },
-          "currency": { "type": "string", "example": "USD" }
+          "input_tokens": {
+            "type": "number"
+          },
+          "output_tokens": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          }
         }
       },
       "UsageInfo": {
         "type": "object",
-        "description": "Detailed usage information for a period (daily or monthly).",
         "properties": {
-          "used": { "type": "integer", "description": "Tokens/requests used in the period." },
-          "limit": { "type": "integer", "description": "Total tokens/requests allowed in the period." },
-          "remaining": { "type": "integer", "description": "Remaining tokens/requests in the period." },
-          "reset_at": { "type": "string", "format": "date-time", "description": "When the period resets." }
+          "used": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "reset_at": {
+            "type": "string",
+            "format": "date-time"
+          }
         },
-        "required": ["used", "limit", "remaining", "reset_at"]
+        "required": [
+          "used",
+          "limit",
+          "remaining",
+          "reset_at"
+        ]
       },
       "ApiKey": {
         "type": "object",
-        "description": "Details of an API Key associated with a user's account.",
         "properties": {
-          "id": { "type": "string", "description": "The unique API Key string identifier (e.g., nai...)." },
-          "name": { "type": "string", "description": "A user-defined name for the API Key." },
-          "tier": { "type": "string", "description": "The pricing tier associated with this API Key." },
-          "created_at": { "type": "string", "format": "date-time", "description": "Timestamp when the API Key was created." },
-          "last_used": { "type": "string", "format": "date-time", "nullable": true, "description": "Last time this API Key was used." },
-          "is_active": { "type": "boolean", "description": "Whether the API Key is currently active." },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_used": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "is_active": {
+            "type": "boolean"
+          },
           "usage": {
             "type": "object",
             "properties": {
-              "daily": { "$ref": "#/components/schemas/UsagePeriodInfo" },
-              "monthly": { "$ref": "#/components/schemas/UsagePeriodInfo" }
+              "daily": {
+                "$ref": "#/components/schemas/UsagePeriodInfo"
+              },
+              "monthly": {
+                "$ref": "#/components/schemas/UsagePeriodInfo"
+              }
             }
           }
         },
-        "required": ["id", "name", "tier", "created_at", "is_active", "usage"]
+        "required": [
+          "id",
+          "name",
+          "tier",
+          "created_at",
+          "is_active",
+          "usage"
+        ]
       },
       "Metadata": {
         "type": "object",
-        "description": "Standard response metadata.",
         "properties": {
-          "creator": { "type": "string", "example": "NeosantaraAI" },
-          "status": { "type": "boolean" },
-          "timestamp": { "type": "string", "format": "date-time" },
-          "request_id": { "type": "string", "description": "Unique request identifier.", "nullable": true },
-          "processing_time": { "type": "number", "description": "Processing time in milliseconds.", "nullable": true },
-          "tier": { "type": "string", "description": "Tier name.", "nullable": true },
-          "user_total_usage": { "$ref": "#/components/schemas/UsageInfo", "description": "Aggregated usage across all user's keys.", "nullable": true },
-          "key_specific_usage": { "$ref": "#/components/schemas/UsageInfo", "description": "Usage for the specific API key used.", "nullable": true },
-          "is_key_downgraded": { "type": "boolean", "description": "If the API key was downgraded.", "nullable": true },
-          "upstash_rate_limiting_active": { "type": "boolean", "description": "If Upstash rate limiting is active.", "nullable": true }
+          "creator": {
+            "type": "string",
+            "example": "NeosantaraAI"
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "processing_time": {
+            "type": "number",
+            "nullable": true
+          },
+          "tier": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_total_usage": {
+            "$ref": "#/components/schemas/UsageInfo",
+            "nullable": true
+          },
+          "key_specific_usage": {
+            "$ref": "#/components/schemas/UsageInfo",
+            "nullable": true
+          },
+          "is_key_downgraded": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "upstash_rate_limiting_active": {
+            "type": "boolean",
+            "nullable": true
+          }
         }
       },
       "BadRequestError": {
         "type": "object",
-        "description": "Error for bad request format or parameters.",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
-              "message": { "type": "string" },
-              "type": { "type": "string", "example": "invalid_request_error" },
-              "code": { "type": "string", "enum": ["invalid_parameter", "missing_parameter", "invalid_format", "invalid_messages"], "example": "invalid_parameter" },
-              "param": { "type": "string", "description": "Parameter that caused the error.", "nullable": true },
-              "details": { "type": "object", "description": "Additional error details.", "additionalProperties": true, "nullable": true }
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "invalid_request_error"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "invalid_parameter",
+                  "missing_parameter",
+                  "invalid_format",
+                  "invalid_messages"
+                ],
+                "example": "invalid_parameter"
+              },
+              "param": {
+                "type": "string",
+                "nullable": true
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true,
+                "nullable": true
+              }
             },
-            "required": ["message", "type", "code"]
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
           },
-          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "AuthError": {
         "type": "object",
-        "description": "Error when authentication fails (API key missing/invalid/expired).",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
-              "message": { "type": "string" },
-              "type": { "type": "string", "example": "auth_error" },
-              "code": { "type": "string", "enum": ["missing_api_key", "invalid_api_key", "token_expired", "session_expired", "invalid_token"], "example": "invalid_api_key" },
-              "details": { "type": "object", "description": "Additional error details.", "additionalProperties": true, "nullable": true }
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "auth_error"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "missing_api_key",
+                  "invalid_api_key",
+                  "token_expired",
+                  "session_expired",
+                  "invalid_token"
+                ],
+                "example": "invalid_api_key"
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true,
+                "nullable": true
+              }
             },
-            "required": ["message", "type", "code"]
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
           },
-          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "RateLimitError": {
         "type": "object",
-        "description": "Error when rate limit is exceeded.",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
-              "message": { "type": "string" },
-              "type": { "type": "string", "example": "rate_limit_exceeded" },
-              "code": { "type": "string", "enum": ["rpm_exceeded", "tpm_exceeded", "user_total_daily_limit_exceeded", "user_total_monthly_limit_exceeded"], "example": "rpm_exceeded" },
-              "details": { "$ref": "#/components/schemas/RateLimitDetails", "nullable": true }
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "rate_limit_exceeded"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "rpm_exceeded",
+                  "tpm_exceeded",
+                  "user_total_daily_limit_exceeded",
+                  "user_total_monthly_limit_exceeded"
+                ],
+                "example": "rpm_exceeded"
+              },
+              "details": {
+                "$ref": "#/components/schemas/RateLimitDetails",
+                "nullable": true
+              }
             },
-            "required": ["message", "type", "code"]
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
           },
-          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "RateLimitDetails": {
         "type": "object",
         "properties": {
-          "limit": { "type": "integer", "description": "Rate limit threshold." },
-          "remaining": { "type": "integer", "description": "Remaining requests/tokens in the current window." },
-          "reset": { "type": "string", "format": "date-time", "description": "When the rate limit resets." },
-          "retry_after": { "type": "integer", "description": "Seconds to wait before retrying.", "nullable": true }
+          "limit": {
+            "type": "integer"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "reset": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retry_after": {
+            "type": "integer",
+            "nullable": true
+          }
         }
       },
       "ServerError": {
         "type": "object",
-        "description": "Internal server error.",
         "properties": {
           "error": {
             "type": "object",
             "properties": {
-              "message": { "type": "string" },
-              "type": { "type": "string", "example": "server_error" },
-              "code": { "type": "string", "enum": ["internal_error", "service_unavailable", "timeout"], "example": "internal_error" },
-              "details": { "type": "object", "description": "Additional error details.", "additionalProperties": true, "nullable": true }
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "server_error"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "internal_error",
+                  "service_unavailable",
+                  "timeout"
+                ],
+                "example": "internal_error"
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true,
+                "nullable": true
+              }
             },
-            "required": ["message", "type", "code"]
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
           },
-          "info_metadata": { "$ref": "#/components/schemas/Metadata" }
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
         }
       },
       "UsagePeriodInfo": {
         "type": "object",
         "properties": {
-          "used": { "type": "integer", "description": "Tokens/requests used in the period." },
-          "limit": { "type": "integer", "description": "Total tokens/requests allowed in the period." },
-          "remaining": { "type": "integer", "description": "Remaining tokens/requests in the period." },
-          "reset_at": { "type": "string", "format": "date-time", "description": "When the period resets." }
+          "used": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "reset_at": {
+            "type": "string",
+            "format": "date-time"
+          }
         },
-        "required": ["used", "limit", "remaining", "reset_at"]
+        "required": [
+          "used",
+          "limit",
+          "remaining",
+          "reset_at"
+        ]
       },
       "Usage": {
         "type": "object",
-        "description": "Token usage for a single completion.",
         "properties": {
-          "prompt_tokens": { "type": "integer", "description": "Tokens in the prompt." },
-          "completion_tokens": { "type": "integer", "description": "Tokens in the completion." },
-          "total_tokens": { "type": "integer", "description": "Total tokens used." }
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "completion_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          }
         },
-        "required": ["prompt_tokens", "completion_tokens", "total_tokens"]
+        "required": [
+          "prompt_tokens",
+          "completion_tokens",
+          "total_tokens"
+        ]
       },
       "EmbeddingUsage": {
         "type": "object",
-        "description": "Token usage for embeddings.",
         "properties": {
-          "prompt_tokens": { "type": "integer" },
-          "total_tokens": { "type": "integer" }
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          }
         },
-        "required": ["prompt_tokens", "total_tokens"]
+        "required": [
+          "prompt_tokens",
+          "total_tokens"
+        ]
+      },
+      "ResponseFormat": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "json_object"
+            ]
+          }
+        },
+        "default": {
+          "type": "text"
+        }
+      },
+      "Function": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      },
+      "Tool": {
+        "type": "object",
+        "required": [
+          "type",
+          "function"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "function"
+            ]
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          }
+        }
+      },
+      "ToolChoice": {
+        "type": "object",
+        "required": [
+          "type",
+          "function"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "function"
+            ]
+          },
+          "function": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        }
+      },
+      "ChatMessage": {
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tool_call_id": {
+            "type": "string"
+          }
+        }
+      },
+      "SystemInfo": {
+        "type": "object",
+        "properties": {
+          "upstash_enabled": {
+            "type": "boolean"
+          },
+          "redis_connected": {
+            "type": "boolean"
+          },
+          "tiers_available": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "responses": {
@@ -1024,15 +1794,19 @@
         "description": "Bad request",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/BadRequestError" }
+            "schema": {
+              "$ref": "#/components/schemas/BadRequestError"
+            }
           }
         }
       },
       "AuthError": {
-        "description": "Authentication failed (API key missing/invalid/expired).",
+        "description": "Authentication failed",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/AuthError" }
+            "schema": {
+              "$ref": "#/components/schemas/AuthError"
+            }
           }
         }
       },
@@ -1040,15 +1814,19 @@
         "description": "Rate limit exceeded",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/RateLimitError" }
+            "schema": {
+              "$ref": "#/components/schemas/RateLimitError"
+            }
           }
         }
       },
       "ServerError": {
-        "description": "Internal server error.",
+        "description": "Internal server error",
         "content": {
           "application/json": {
-            "schema": { "$ref": "#/components/schemas/ServerError" }
+            "schema": {
+              "$ref": "#/components/schemas/ServerError"
+            }
           }
         }
       }
