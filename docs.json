@@ -34,28 +34,44 @@
       }]
     },
     {
-      "tab": "API Reference",
+      "tab": "API reference",
       "icon": "book",
       "groups": [
       {
-        "group": "Overview",
+        "group": "Welcome",
         "pages": [
-          "about",
+          "api-reference/chat/create-chat-completion"
+        ]
+      }]
+    },
+    {
+      "tab": "API Guide",
+      "icon": "book",
+      "groups": [
+      {
+        "group": "Using the APIs",
+        "pages": [
+          "api-reference/introduction",
           "token-credits",
           "rate-limits",
           "model"
         ]
       },
       {
-        "group": "Available Endpoint's",
+        "group": "API reference",
         "pages": [
-          "api-reference/introduction",
           "api-reference/chat/create-chat-completion",
           "api-reference/embeddings/create-embeddings",
           "api-reference/models/list-available-models",
           "api-reference/moderations/content-moderation-check",
           "api-reference/reasoning/enhanced-reasoning-completion",
           "api-reference/authentication/check-api-key-status"
+        ]
+      },
+      {
+        "group": "SDKs",
+        "pages": [
+          "api-reference/sdk/openai-compatible"
         ]
       }]
     }]

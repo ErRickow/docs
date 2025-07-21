@@ -13,6 +13,7 @@ Neosantara AI provides access to various AI models with different capabilities, 
   <Accordion title='nusantara-base'>
   
   - **Description**: A specialized model for Indonesian content with a deep awareness of cultural context.
+  - **Context Window**: 64000 Tokens
   - **Capabilities**: function_calling, json_mode
   - **Best for**: Understanding cultural nuances, local context, and complex Indonesian texts
 
@@ -21,6 +22,7 @@ Neosantara AI provides access to various AI models with different capabilities, 
   <Accordion title="archipelago-7b">
   
 	- **Description**: Model khusus untuk konten Bahasa Indonesia dengan kesadaran konteks budaya
+	- **Context Window**: 4096 Tokens
 	- **Capabilities**: json_mode
 	- **Best for**: Pemahaman budaya dan konteks lokal
 
@@ -29,6 +31,7 @@ Neosantara AI provides access to various AI models with different capabilities, 
   <Accordion title="bahasa-llm">
   
 	- **Description**: A fast and efficient model optimized for Indonesian language understanding and rapid responses.
+	- **Context Window**: 8192 Tokens
 	- **Capabilities**: function_calling, json_mode
 	- **Best for**: Fast processing, concise understanding, and function calls within an Indonesian context.
 
@@ -38,17 +41,28 @@ Neosantara AI provides access to various AI models with different capabilities, 
 ## General Purpose Models
 
 <AccordionGroup>
+  <Accordion title='gemini-1.5-flash'>
+  
+  - **Description**: A newer Google Gemini Flash model, optimized for quick answers and efficient responses.
+  - **Context Window**: 1000000 Tokens
+  - **Capabilities**: text_generation, function_calling, json_mode
+  - **Best for**: Factual questions, quick summaries, and general tasks.
+
+  </Accordion>
+
   <Accordion title='gemini-2.0-flash'>
   
-  - **Description**: A newer Google Gemini model, optimized for quick answers and efficient responses.
-  - **Capabilities**: function_calling, json_mode
-  - **Best for**: Factual questions, quick summaries, and general tasks.
+  - **Description**: A general purpose Google Gemini model for fast questions answers.
+  - **Context Window**: 32768 Tokens
+  - **Capabilities**: text_generation, function_calling, json_mode
+  - **Best for**: General conversations, text generation, and automation tasks.
 
   </Accordion>
   
   <Accordion title='gemini-1.5-pro'>
   
   - **Description**: A powerful Google Gemini Pro model for complex tasks and multimodal processing (text and images).
+  - **Context Window**: 1000000 Tokens
   - **Capabilities**: function_calling, json_mode
   - **Best for**: In-depth analysis, complex reasoning, and creative tasks
 
@@ -57,7 +71,8 @@ Neosantara AI provides access to various AI models with different capabilities, 
   <Accordion title='gpt-3.5-turbo'>
   
   - **Description**: A general-purpose model from OpenAI, fast and responsive for various use cases.
-  - **Capabilities**: function_calling, json_mode
+  - **Context Window**: 16385 Tokens
+  - **Capabilities**: text_generation, function_calling, json_mode
   - **Best for**: General conversations, text generation, and automation tasks.
 
   </Accordion>
@@ -65,7 +80,8 @@ Neosantara AI provides access to various AI models with different capabilities, 
   <Accordion title='gpt-4o-mini'>
   
   - **Description**: A compact model from OpenAI, efficient and capable of handling complex tasks at an affordable price.
-  - **Capabilities**: function_calling, json_mode
+  - **Context Window**: 128000 Tokens
+  - **Capabilities**: text_generation, function_calling, json_mode
   - **Best for**: High-accuracy tasks and cost-efficiency.
 
   </Accordion>
@@ -73,7 +89,8 @@ Neosantara AI provides access to various AI models with different capabilities, 
   <Accordion title="command-r">
   
 	- **Description**: Cohere's Command-R model, offering solid reasoning and language understanding capabilities.
-	- **Capabilities**: json_mode
+	- **Context Window**: 128000 Tokens
+	- **Capabilities**: text_generation, json_mode
 	- **Best for**: Natural language understanding and summarization tasks.
 
   </Accordion>
@@ -81,16 +98,107 @@ Neosantara AI provides access to various AI models with different capabilities, 
   <Accordion title="command-r-plus">
   
 	- **Description**: Cohere's Command-R Plus model, featuring advanced reasoning and web search capabilities.
-	- **Capabilities**: web_search, json_mode
+	- **Context Window**: 128000 Tokens
+	- **Capabilities**: text_generation, web_search, json_mode
 	- **Best for**: Questions requiring real-time information or external references.
 
   </Accordion>
+
+  <Accordion title="firefunction-v1">
   
+	- **Description**: Fireworks model with function calling capabilities.
+	- **Context Window**: 32768 Tokens
+	- **Capabilities**: text_generation, function_calling, json_mode
+	- **Best for**: Text generation requiring custom function integrations.
+
+  </Accordion>
+  
+  <Accordion title="replicate-prediction">
+  
+	- **Description**: A general-purpose Llama2 model hosted on Replicate.
+	- **Context Window**: 4096 Tokens
+	- **Capabilities**: text_generation, json_mode
+	- **Best for**: General text generation tasks with flexible deployment.
+
+  </Accordion>
+
   <Accordion title="gemma2-9b-it">
   
 	- **Description**: A Gemma2 model from Groq, optimized for speed and efficiency in language processing.
-	- **Capabilities**: json_mode
+	- **Context Window**: 8192 Tokens
+	- **Capabilities**: text_generation, json_mode
 	- **Best for**: Fast responses and lightweight text generation.
+
+  </Accordion>
+
+  <Accordion title="llama-3.3-70b-instruct">
+  
+	- **Description**: Llama 3.3 70B optimized to be faster.
+	- **Context Window**: 24000 Tokens
+	- **Capabilities**: text_generation, function_calling
+	- **Best for**: High-performance text generation and complex instructions.
+
+  </Accordion>
+
+  <Accordion title="luminai">
+  
+	- **Description**: LuminAI gateway to various models. Target model can be changed via options.
+	- **Context Window**: 8192 Tokens
+	- **Capabilities**: text_generation
+	- **Best for**: Flexible model access via LuminAI's integrated gateway.
+
+  </Accordion>
+
+  <Accordion title="vision-emas-2045">
+  
+	- **Description**: Advanced vision model for analyzing ID cards, receipts, and other visual tasks, optimized for Indonesian context.
+	- **Context Window**: 1000000 Tokens
+	- **Capabilities**: vision, json_mode, text_generation
+	- **Best for**: Image analysis and visual data extraction.
+
+  </Accordion>
+</AccordionGroup>
+
+## Image Generation Models
+
+<AccordionGroup>
+  <Accordion title='neosantara-gen-2045'>
+  
+  - **Description**: Neosantara AI main image generation model, hosted on Together AI.
+  - **Context Window**: 0 Tokens
+  - **Capabilities**: image_generation
+  - **Best for**: Creating high-quality images from text prompts.
+
+  </Accordion>
+
+  <Accordion title="replicate-stable-diffusion-xl">
+  
+	- **Description**: Stable Diffusion XL on Replicate as fallback for image generation.
+	- **Context Window**: 0 Tokens
+	- **Capabilities**: image_generation
+	- **Best for**: Generating diverse images as a reliable alternative.
+
+  </Accordion>
+</AccordionGroup>
+
+## Embedding Models
+
+<AccordionGroup>
+  <Accordion title='nusa-embedding-0001'>
+  
+  - **Description**: Text embedding model for search and recommendation systems.
+  - **Context Window**: 0 Tokens
+  - **Capabilities**: embedding
+  - **Best for**: Converting text into numerical vectors for similarity tasks.
+
+  </Accordion>
+
+  <Accordion title="together-embed-v2-L">
+  
+	- **Description**: Together AI Embeddings v2 Large for high-quality text embeddings.
+	- **Context Window**: 0 Tokens
+	- **Capabilities**: embedding
+	- **Best for**: Advanced semantic search and large-scale text similarity.
 
   </Accordion>
 </AccordionGroup>
@@ -100,19 +208,25 @@ Neosantara AI provides access to various AI models with different capabilities, 
 Use this guide to choose the right model for your needs:
 
 1. **Indonesian Content & Local Context**:
-   - Prioritize: nusantara-base, archipelago-7b, bahasa-llm
+    - Prioritize: nusantara-base, archipelago-7b, bahasa-llm
 
 2. **Fast & Efficient Processing**:
-   - Prioritize: bahasa-llm, gemini-1.5-flash, gemini-2.0-flash, gemma2-9b-it
+    - Prioritize: bahasa-llm, gemini-1.5-flash, gemini-2.0-flash, gemma2-9b-it
 
 3. **Information Retrieval & In-depth Analysis**:
-   - Prioritize: command-r-plus (for web search), gemini-1.5-pro (for analysis)
+    - Prioritize: command-r-plus (for web search), gemini-1.5-pro (for analysis)
 
 4. **Function Calling**:
-   - Prioritize: nusantara-base, bahasa-llm, gemini-1.5-flash, gemini-1.5-pro, gpt-3.5-turbo, gpt-4o-mini
+    - Prioritize: nusantara-base, bahasa-llm, gemini-1.5-flash, gemini-1.5-pro, gpt-3.5-turbo, gpt-4o-mini, firefunction-v1, llama-3.3-70b-instruct
 
-5. **Embedding (Text Mapping)**:
-   - Use: nusa-embedding-0001
+5. **Image Generation**:
+    - Use: neosantara-gen-2045, replicate-stable-diffusion-xl
+
+6. **Image Analysis (Vision)**:
+    - Use: vision-emas-2045
+
+7. **Embedding (Text Mapping)**:
+    - Use: nusa-embedding-0001, together-embed-v2-L
 
 ## Model Capabilities
 
@@ -124,3 +238,6 @@ Here is a list of the main capabilities supported by Neosantara AI models:
 | json_mode | The ability of the model to generate output in structured JSON format |
 | web_search | The ability of the model to search for information from the web |
 | streaming | Supports streaming responses (gradual output) |
+| image_generation | The ability of the model to create images from text prompts |
+| vision | The ability of the model to analyze and understand content from images |
+| embedding | The ability of the model to convert text into numerical vector representations |
