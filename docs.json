@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "linden",
   "name": "Neosantara AI Documentation",
   "colors": {
     "primary": "#E0E0E0",
