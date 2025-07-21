@@ -3,66 +3,73 @@
   "theme": "mint",
   "name": "Neosantara AI Documentation",
   "colors": {
-    "primary": "#FF5722",
-    "light": "#E0E0E0",
+    "primary": "#E0E0E0",
+    "light": "#FF5722",
     "dark": "#1A1A1A"
   },
   "favicon": "/favicon.ico",
   "navigation": {
     "tabs": [
+    {
+      "tab": "Home",
+      "icon": "house",
+      "groups": [
       {
-        "tab": "Home",
-        "icon": "house",
-        "groups": [
-          {
-            "group": "Welcome",
-            "pages": [
-              "index"
-            ]
-          }
+        "group": "Welcome",
+        "pages": [
+          "index"
+        ]
+      }]
+    },
+    {
+      "tab": "First steps",
+      "icon": "book",
+      "groups": [
+      {
+        "group": "Welcome",
+        "pages": [
+          "about",
+          "quickstart"
+        ]
+      }]
+    },
+    {
+      "tab": "API Reference",
+      "icon": "book",
+      "groups": [
+      {
+        "group": "Overview",
+        "pages": [
+          "about",
+          "token-credits",
+          "rate-limits",
+          "model"
         ]
       },
       {
-        "tab": "Documentation",
-        "icon": "book",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "about",
-              "quickstart",
-              "token-credits",
-              "rate-limits",
-              "model"
-            ]
-          },
-          {
-            "group": "Available Endpoint's",
-            "pages": [
-              "api-reference/introduction",
-              "api-reference/chat/create-chat-completion",
-              "api-reference/embeddings/create-embeddings",
-              "api-reference/models/list-available-models",
-              "api-reference/moderations/content-moderation-check",
-              "api-reference/reasoning/enhanced-reasoning-completion",
-              "api-reference/authentication/check-api-key-status"
-            ]
-          }
+        "group": "Available Endpoint's",
+        "pages": [
+          "api-reference/introduction",
+          "api-reference/chat/create-chat-completion",
+          "api-reference/embeddings/create-embeddings",
+          "api-reference/models/list-available-models",
+          "api-reference/moderations/content-moderation-check",
+          "api-reference/reasoning/enhanced-reasoning-completion",
+          "api-reference/authentication/check-api-key-status"
         ]
-      }
-    ]
+      }]
+    }]
   },
   "logo": {
-    "light": "/images/logo.svg",
-    "dark": "/images/logo.svg"
+    "light": "/logo.svg",
+    "dark": "/logo.svg"
   },
   "navbar": {
     "links": [
-      {
-        "label": "Support",
-        "href": "mailto:halo@neosantara.xyz"
-      }
-    ],
+    {
+      "label": "Support",
+      "href": "mailto:halo@neosantara.xyz"
+    }],
     "primary": {
       "type": "button",
       "label": "Dashboard",
@@ -74,14 +81,25 @@
       "x": "https://x.com/NeosantaraAI"
     }
   },
-  "banner": {
-    "content": "Introducing Neosantara Model's With Cost Effective! [Learn more](https://docs.neosantara.xyz/models)"
-  },
   "contextual": {
     "options": [
       "copy",
       "chatgpt",
-      "claude"
+      "claude",
+      "perplexity",
+      {
+        "title": "Ask Gemini",
+        "description": "Ask Google Gemini about this page",
+        "icon": "sparkle",
+        "href": {
+          "base": "https://gemini.google.com/app",
+          "query": [
+          {
+            "key": "q",
+            "value": "can you explain this https://docs.neosantara.xyz$path.md"
+          }]
+        }
+      }
     ]
   },
   "errors": {
