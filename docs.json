@@ -36,13 +36,7 @@
     {
       "tab": "API reference",
       "icon": "book",
-      "groups": [
-      {
-        "group": "Welcome",
-        "pages": [
-          "api-reference/chat/create-chat-completion"
-        ]
-      }]
+      "openapi": "https://app.stainless.com/api/spec/documented/neosantara/openapi.documented.yml"
     },
     {
       "tab": "API Guide",
