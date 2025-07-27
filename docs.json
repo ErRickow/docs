@@ -22,8 +22,18 @@
       }]
     },
     {
+      "tab": "First steps",
+      "groups": [
+      {
+        "group": "Welcome",
+        "pages": [
+          "about",
+          "quickstart"
+        ]
+      }]
+    },
+    {
       "tab": "API Guide",
-      "icon": "book",
       "groups": [
       {
         "group": "Using the APIs",
@@ -57,15 +67,9 @@
       "anchors": [
         {
           "anchor": "Documentation",
-          "icon": "book-open-cover",
-          "groups": [
-          {
-            "group": "Welcome",
-            "pages": [
-              "about",
-              "quickstart"
-            ]
-          }]        },
+          "href": "/about",
+          "icon": "book-open-cover"
+        },
         {
           "anchor": "Community",
           "href": "https://mintlify.com/community",
