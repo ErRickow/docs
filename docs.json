@@ -18,16 +18,38 @@
         "default": true,
         "anchors": [
         {
-          "anchor": "First steps",
+          "anchor": "Developer Guide",
           "groups": [
           {
-            "group": "Welcome",
+            "group": "First steps",
             "icon": "feather",
             "pages": [
               "en/about",
               "en/api-reference/quickstart"
             ]
-          }]
+          },
+          {
+            "group": "Models & Pricing",
+            "pages": [
+              "en/models-overview"
+            ]
+          },
+          {
+            "group": "Capabilities",
+            "pages": [
+              "en/capability/embeddings",
+              "en/capability/image-generation",
+              "en/capability/stream"
+            ]
+          },
+          {
+            "group": "Tools",
+            "pages": [
+              "en/tools",
+              "en/how-tools"
+            ]
+          }
+          ]
         },
         {
           "anchor": "API Guide",

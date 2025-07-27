@@ -1,0 +1,130 @@
+---
+title: 'Embeddings'
+description: 'Convert text into high-dimensional numerical vectors for various AI tasks.'
+---
+
+Embeddings are numerical representations of text that capture semantic meaning. They convert human-readable text into high-dimensional vectors that machine learning models can understand and process. These vectors enable tasks such as semantic search, recommendation systems, clustering, and anomaly detection.
+
+## How Embeddings Work
+
+When you send text to the embeddings endpoint, the underlying AI model processes the text and outputs a list of floating-point numbers (a vector). Texts with similar meanings will have vectors that are numerically "closer" to each other in the high-dimensional space.
+
+The NeosantaraAI API provides an `/v1/embeddings` endpoint to generate these vectors.
+
+## Usage
+
+To generate embeddings, send a POST request to the `/v1/embeddings` endpoint with your text input.
+
+### Endpoint
+
+`POST /v1/embeddings`
+
+### Request Body
+
+```json
+{
+  "input": "The quick brown fox jumps over the lazy dog.",
+  "model": "nusa-embedding-0001",
+  "encoding_format": "float"
+}
+```
+
+#### Parameters
+
+* **`input`** (string or array of strings, **required**): The text(s) to embed. Can be a single string or an array of strings.
+* **`model`** (string, optional, default: `"nusa-embedding-0001"`): The ID of the embedding model to use.
+* **`encoding_format`** (string, optional, default: `"float"`): The format of the returned embeddings. Currently, `"float"` is the primary supported format.
+
+### Supported Embedding Models
+
+The NusantaraAI API supports various embedding models, often utilizing intelligent fallbacks to ensure reliability. Some of the available models include:
+
+* **`nusa-embedding-0001`**: The primary embedding model, offering good performance for general-purpose embeddings.
+* **`together-embed-v2-L`**: A large embedding model provided via Together AI, suitable for high-quality text embeddings.
+
+### Example Response
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "embedding": [
+        0.00539745,
+        -0.007137805,
+        0.02102179,
+        -0.003181825,
+        // ... (truncated for brevity)
+        -0.010260487
+      ],
+      "index": 0
+    }
+  ],
+  "model": "nusa-embedding-0001",
+  "usage": {
+    "prompt_tokens": 9,
+    "total_tokens": 9
+  },
+  "_metadata": {
+    "creator": "neosantara.xyz",
+    "status": true,
+    "tier": "Free"
+    // ... (other metadata)
+  }
+}
+```
+
+## Python Example (with OpenAI SDK)
+
+You can generate embeddings using the OpenAI Python SDK by configuring its `base_url` to point to the NusantaraAI API.
+
+```python
+from openai import OpenAI
+
+# Initialize the OpenAI client with your API key
+# Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+client = OpenAI(
+    api_key="YOUR_API_KEY",
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
+    """
+    Generates embeddings for a list of texts using the NusantaraAI API.
+    """
+    print(f"Generating embeddings for model: {model}")
+
+    try:
+        response = client.embeddings.create(
+            model=model,
+            input=texts,
+            encoding_format="float"
+        )
+
+        # The response.data contains a list of embedding objects
+        # Each object has 'embedding' (the vector) and 'index'
+        embeddings = [item.embedding for item in response.data]
+
+        print(f"Generated {len(embeddings)} embeddings. Dimension: {len(embeddings[0]) if embeddings else 0}")
+        print(f"Total tokens used: {response.usage.total_tokens}")
+
+        return embeddings
+
+    except Exception as e:
+        print(f"An error occurred during embedding generation: {e}")
+        return None
+
+if __name__ == "__main__":
+    example_texts = [
+        "Artificial intelligence is transforming industries.",
+        "Machine learning is a subset of AI.",
+        "Deep learning enables neural networks."
+    ]
+    
+    generated_vectors = get_embeddings(example_texts)
+
+    if generated_vectors:
+        print("\nFirst embedding vector (truncated):")
+        print(generated_vectors[0][:10], "...") # Print first 10 elements
+```
