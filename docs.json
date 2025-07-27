@@ -39,7 +39,9 @@
       "groups": [
       {
         "group": "Using the APIs",
+        "icon": "cake",
         "pages": [
+          "api-reference/introduction",
           "api-reference/token-credits",
           "api-reference/rate-limits",
           "api-reference/model"
@@ -48,7 +50,6 @@
       {
         "group": "API reference",
         "pages": [
-          "api-reference/introduction",
           "api-reference/chat/create-chat-completion",
           "api-reference/embeddings/create-embeddings",
           "api-reference/models/list-available-models",
