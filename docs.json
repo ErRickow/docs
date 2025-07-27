@@ -9,9 +9,9 @@
   },
   "favicon": "/favicon.ico",
   "navigation": {
-    "tabs": [
+    "anchors": [
     {
-      "tab": "Home",
+      "anchor": "Home",
       "groups": [
       {
         "group": "Welcome",
@@ -22,7 +22,7 @@
       }]
     },
     {
-      "tab": "First steps",
+      "anchor": "First steps",
       "groups": [
       {
         "group": "Welcome",
@@ -34,7 +34,7 @@
       }]
     },
     {
-      "tab": "API Guide",
+      "anchor": "API Guide",
       "groups": [
       {
         "group": "Using the APIs",
