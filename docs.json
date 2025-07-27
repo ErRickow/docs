@@ -47,27 +47,27 @@
             "icon": "hashtag",
             "pages": [
               "en/api-reference/introduction",
-              "about/token-credits",
-              "about/rate-limits",
-              "about/model"
+              "en/about/token-credits",
+              "en/about/rate-limits",
+              "en/about/model"
             ]
           },
           {
             "group": "API reference",
             "icon": "square-terminal",
             "pages": [
-              "api-reference/chat/create-chat-completion",
-              "api-reference/embeddings/create-embeddings",
-              "api-reference/models/list-available-models",
-              "api-reference/moderations/content-moderation-check",
-              "api-reference/reasoning/enhanced-reasoning-completion",
-              "api-reference/authentication/check-api-key-status"
+              "en/api-reference/chat/create-chat-completion",
+              "en/api-reference/embeddings/create-embeddings",
+              "en/api-reference/models/list-available-models",
+              "en/api-reference/moderations/content-moderation-check",
+              "en/api-reference/reasoning/enhanced-reasoning-completion",
+              "en/api-reference/authentication/check-api-key-status"
             ]
           },
           {
             "group": "SDKs",
             "pages": [
-              "api-reference/sdk/openai-compatible"
+              "en/api-reference/sdk/openai-compatible"
             ]
           }]
           
