@@ -14,6 +14,65 @@
   "navigation": {
     "languages": [
       {
+        "language": "id",
+        "anchors": [
+        {
+          "anchor": "Home",
+          "groups": [
+          {
+            "group": "Welcome",
+            "icon": "house",
+            "pages": [
+              "id/index"
+            ]
+          }]
+        },
+        {
+          "anchor": "First steps",
+          "groups": [
+          {
+            "group": "Welcome",
+            "icon": "feather",
+            "pages": [
+              "id/about",
+              "id/api-reference/quickstart"
+            ]
+          }]
+        },
+        {
+          "anchor": "API Guide",
+          "groups": [
+          {
+            "group": "Using the APIs",
+            "icon": "hashtag",
+            "pages": [
+              "id/api-reference/introduction",
+              "id/about/token-credits",
+              "id/about/rate-limits",
+              "id/about/model"
+            ]
+          },
+          {
+            "group": "API reference",
+            "icon": "square-terminal",
+            "pages": [
+              "id/api-reference/chat/create-chat-completion",
+              "id/api-reference/embeddings/create-embeddings",
+              "id/api-reference/models/list-available-models",
+              "id/api-reference/moderations/content-moderation-check",
+              "id/api-reference/reasoning/enhanced-reasoning-completion",
+              "id/api-reference/authentication/check-api-key-status"
+            ]
+          },
+          {
+            "group": "SDKs",
+            "pages": [
+              "id/api-reference/sdk/openai-compatible"
+            ]
+          }]
+        }]
+      },
+      {
         "language": "en",
         "anchors": [
         {
