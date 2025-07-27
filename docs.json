@@ -66,14 +66,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
+          "anchor": "Get Started",
           "href": "https://docs.neosantara.xyz/about",
-          "icon": "book-open-cover"
+          "icon": "rocket-launch"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "anchor": "Documentations",
+          "href": "https://docs.neosantara.xyz/api-reference/introduction",
+          "icon": "book-open-cover"
         },
         {
           "anchor": "Blog",
