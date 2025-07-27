@@ -28,7 +28,7 @@
         "group": "Welcome",
         "pages": [
           "about",
-          "quickstart"
+          "api-reference/quickstart"
         ]
       }]
     },
@@ -37,12 +37,12 @@
       "groups": [
       {
         "group": "Using the APIs",
-        "icon": "cake",
+        "icon": "rocket-launch",
         "pages": [
           "api-reference/introduction",
-          "api-reference/token-credits",
-          "api-reference/rate-limits",
-          "api-reference/model"
+          "about/token-credits",
+          "about/rate-limits",
+          "about/model"
         ]
       },
       {
