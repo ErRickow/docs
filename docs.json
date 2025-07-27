@@ -22,18 +22,6 @@
       }]
     },
     {
-      "tab": "First steps",
-      "icon": "book",
-      "groups": [
-      {
-        "group": "Welcome",
-        "pages": [
-          "about",
-          "quickstart"
-        ]
-      }]
-    },
-    {
       "tab": "API Guide",
       "icon": "book",
       "groups": [
@@ -64,8 +52,34 @@
           "api-reference/sdk/openai-compatible"
         ]
       }]
-    }]
-  },
+    }],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Documentation",
+          "href": "https://mintlify.com/docs",
+          "icon": "book-open-cover",
+          "groups": [
+          {
+            "group": "Welcome",
+            "pages": [
+              "about",
+              "quickstart"
+            ]
+          }]        },
+        {
+          "anchor": "Community",
+          "href": "https://mintlify.com/community",
+          "icon": "slack"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://mintlify.com/blog",
+          "icon": "newspaper"
+        }
+      ]
+    }
+  },  
   "logo": {
     "light": "/logo/logo.svg",
     "dark": "/logo/logo.svg"
