@@ -9,9 +9,9 @@
   },
   "favicon": "/favicon.ico",
   "navigation": {
-    "anchors": [
+    "tabs": [
     {
-      "anchor": "Home",
+      "tab": "Home",
       "icon": "house",
       "groups": [
       {
@@ -22,7 +22,7 @@
       }]
     },
     {
-      "anchor": "First steps",
+      "tab": "First steps",
       "icon": "book",
       "groups": [
       {
@@ -34,13 +34,12 @@
       }]
     },
     {
-      "anchor": "API Guide",
+      "tab": "API Guide",
       "icon": "book",
       "groups": [
       {
         "group": "Using the APIs",
         "pages": [
-          "api-reference/introduction",
           "api-reference/token-credits",
           "api-reference/rate-limits",
           "api-reference/model"
@@ -49,6 +48,7 @@
       {
         "group": "API reference",
         "pages": [
+          "api-reference/introduction",
           "api-reference/chat/create-chat-completion",
           "api-reference/embeddings/create-embeddings",
           "api-reference/models/list-available-models",
