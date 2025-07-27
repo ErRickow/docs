@@ -4,8 +4,8 @@
   "name": "Neosantara",
   "colors": {
     "primary": "#FF5722",
-    "light": "#FFAB91",
-    "dark": "#BF360C"
+    "light": "#FF8A65",
+    "dark": "#D84315"
   },
   "favicon": "/favicon.ico",
   "navigation": {
