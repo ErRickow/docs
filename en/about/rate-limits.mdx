@@ -3,7 +3,7 @@ title: 'Rate Limits'
 description: '> Learn about Neosantaras Rate Limiting'
 ---
 
-Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources. Limits are enforced on **tokens per day** and **tokens per month** (stored in our database). Additional limits on requests per day and per minute are enforced programmatically using Upstash Redis. See [Token Credits & Pricing](/token-credits) for more details.
+Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources. Limits are enforced on **tokens per day** and **tokens per month** (stored in our database). Additional limits on requests per day and per minute are enforced programmatically using Upstash Redis. See [Token Credits & Pricing](/about/token-credits) for more details.
 
 ## Tier Limits
 
@@ -53,7 +53,7 @@ When your API usage exceeds the allocated rate limit for your plan, the API will
 ```json
 {
   "status": false,
-  "creator": "Nusantara AI",
+  "creator": "neosantara.xyz",
   "error": {
     "message": "Daily token limit exceeded for your account (1500).",
     "type": "usage_limit_exceeded",

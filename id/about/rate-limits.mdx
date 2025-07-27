@@ -1,15 +1,15 @@
 ---
-title: 'Rate Limits'
-description: '> Learn about Neosantaras Rate Limiting'
+judul: 'Batas Penggunaan'
+deskripsi: '> Pelajari tentang Batas Penggunaan Neosantara'
 ---
 
-Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources. Limits are enforced on **tokens per day** and **tokens per month** (stored in our database). Additional limits on requests per day and per minute are enforced programmatically using Upstash Redis. See [Token Credits & Pricing](/token-credits) for more details.
+Batas penggunaan kami berbasis token, memastikan pendekatan yang adil dan transparan untuk penggunaan API. Sistem ini menjaga kualitas layanan untuk semua pengguna dengan mencegah penggunaan sumber daya berlebihan. Batas diterapkan pada **token per hari** dan **token per bulan** (disimpan di database kami). Batas tambahan untuk permintaan per hari dan per menit diterapkan secara terprogram menggunakan Upstash Redis. Lihat [Kredit Token & Harga](/token-credits) untuk detail lebih lanjut.
 
-## Tier Limits
+## Batas Tingkatan
 
-These are the maximum token limits for each plan, tracked in our database.
+Berikut adalah batas maksimum token untuk setiap paket, yang dilacak di database kami.
 
-| Tier       | Tokens per Day | Tokens per Month | Cost per 1K Tokens |
+| Tingkatan   | Token per Hari | Token per Bulan | Biaya per 1K Token |
 |------------|----------------|------------------|-------------------|
 | Free       | 1,500          | 7,500            | Rp 0              |
 | Basic      | 3,000          | 10,000           | Rp 7.50           |
@@ -17,9 +17,9 @@ These are the maximum token limits for each plan, tracked in our database.
 | Pro        | 10,000         | 1,500,000        | Rp 1.49           |
 | Enterprise | Custom         | Custom           | Custom            |
 
-## Response Headers
+## Header Respons
 
-Every API response includes usage information within the `_metadata` field. This allows you to track your current consumption against your plan limits directly from your application.
+Setiap respons API menyertakan informasi penggunaan dalam kolom `_metadata`. Ini memungkinkan Anda melacak konsumsi saat ini terhadap batas paket langsung dari aplikasi Anda.
 
 ```json
 {
@@ -27,13 +27,13 @@ Every API response includes usage information within the `_metadata` field. This
     "usage": {
       "daily": {
         "current": 50,
-        "limit": 1500, // Example limit for Free tier
+        "limit": 1500, // Contoh batas untuk tingkatan Gratis
         "reset_date": "2025-07-28T00:00:00Z",
         "remaining": 1450
       },
       "monthly": {
         "current": 500,
-        "limit": 7500, // Example limit for Free tier
+        "limit": 7500, // Contoh batas untuk tingkatan Gratis
         "reset_date": "2025-08-01T00:00:00Z",
         "remaining": 7000
       }
@@ -46,14 +46,14 @@ Every API response includes usage information within the `_metadata` field. This
 }
 ```
 
-## Rate Limit Errors
+## Kesalahan Batas Penggunaan
 
-When your API usage exceeds the allocated rate limit for your plan, the API will return an HTTP Status Code `429: Too Many Requests`. The response body will include details about the exceeded limit and when it will reset.
+Jika penggunaan API Anda melebihi batas yang dialokasikan untuk paket Anda, API akan mengembalikan Kode Status HTTP `429: Terlalu Banyak Permintaan`. Badan respons akan mencakup detail tentang batas yang terlampaui dan kapan akan diatur ulang.
 
 ```json
 {
   "status": false,
-  "creator": "Nusantara AI",
+  "creator": "neosantara.xyz",
   "error": {
     "message": "Daily token limit exceeded for your account (1500).",
     "type": "usage_limit_exceeded",

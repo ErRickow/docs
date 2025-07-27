@@ -1,58 +1,58 @@
 ---
-title: 'Introduction'
-description: '> Start using Neosantara Culture AI Intelligence'
+judul: 'Pengenalan'
+deskripsi: '> Mulai pakai Neosantara Culture AI Intelligence'
 ---
 
-## Base URL
+## URL Dasar
 
-The base URL for all requests to the Neosantara API is:
+URL dasar untuk semua permintaan ke API Neosantara adalah:
 
 ```plaintext with prefix /v1
 https://api.neosantara.xyz/v1
 ```
 
-## Authentication
+## Otentikasi
 
-All Neosantara endpoints are authenticated using API keys.
-[Get your free API key](https://app.neosantara.xyz/api-keys).
+Semua endpoint Neosantara menggunakan kunci API untuk otentikasi.
+[Dapatkan kunci API gratis Anda](https://app.neosantara.xyz/api-keys).
 
 ```bash icon="terminal"
 curl -X POST https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{"query": "Is 2045 the future of Indonesia?"}'
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_ANDA" \
+  -d '{"query": "Apakah 2045 masa depan Indonesia?"}'
 ```
 
-## Endpoints
+## Endpoint
 
 <CardGroup cols={6}>
   <Card icon="magnifying-glass" horizontal href="/api-reference/chat/create-chat-completion">
     **`/chat/completions`**
 
-    Completions Neosantara API Endpoint.
+    Endpoint API Completions Neosantara.
   </Card>
   
   <Card icon="lightbulb" horizontal href="/api-reference/reasoning/enhanced-reasoning-completion">
     **`/reasoning`**
 
-    Neosantara Reasoning API Endpoint.
+    Endpoint API Penalaran Neosantara.
   </Card>
 
   <Card icon="shield-halved" horizontal href="/api-reference/moderations">
     **`/moderations`**
 
-    Neosantara Content Moderation API Endpoint.
+    Endpoint API Moderasi Konten Neosantara.
   </Card>
   
   <Card icon="code" horizontal href="/api-reference/embeddings">
     **`/embeddings`**
 
-    Neosantara Embeddings API Endpoint.
+    Endpoint API Embeddings Neosantara.
   </Card>
   
   <Card icon="key" horizontal href="/api-reference/auth/key">
     **`/auth/key`**
 
-    Neosantara API Endpoint KEY Metadata.
+    Endpoint API Metadata Kunci API Neosantara.
   </Card>
 </CardGroup>

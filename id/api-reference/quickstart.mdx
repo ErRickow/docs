@@ -1,52 +1,51 @@
 ---
-title: 'Quickstart'
-description: 'Start integrate Neosantara APIs in minutes'
+judul: 'Panduan Cepat'
+deskripsi: 'Integrasi API Neosantara dalam hitungan menit, mudah dan cepat!'
 ---
 
-## Account setup
+## Siapkan Akun
 
-To get started, create a Neosantara account here:
+Langkah awal, buat akun Neosantara di sini:
 
-<Card icon="key" href="https://app.neosantara.xyz/signup" title="Create Free Account" horizontal>
-  You get 10,000 free Token Credits every day & 30,000 Token Credits every month. **No credit card required.**
+<Card icon="key" href="https://app.neosantara.xyz/signup" title="Buat Akun Gratis" horizontal>
+  Dapatkan 7.500 Token gratis setiap bulan. **Tanpa perlu kartu kredit.**
 </Card>
 
-After that, go to the "API keys" page and make a new API key by clicking "Generate new key".
-Make sure to copy the API key, save it safely, and do not share it with anyone.
+Setelah daftar, kunjungi halaman "Kunci API" dan klik "Buat Kunci Baru". Salin kunci API-nya, simpan dengan aman, dan jangan dibagikan ke siapa pun.
 
-### Your First API Call
+### Panggilan API Pertama
 
-The Neosantara API uses an API format compatible with OpenAI. By modifying the configuration, you can use the OpenAI SDK or softwares compatible with the OpenAI API to access the Neosantara API.
+API Neosantara kompatibel dengan format OpenAI. Dengan sedikit pengaturan, kamu bisa pakai OpenAI SDK atau perangkat lunak yang mendukung API OpenAI untuk akses Neosantara.
 
 <Note>
-**Neosantara AI** doesn't have the sdk yet. 
-You can either use fetch or via openai!
+**Neosantara AI** belum punya SDK sendiri. 
+Gunakan fetch atau akses melalui OpenAI untuk saat ini.
 </Note>
 
-| PARAM | VALUE                           |
+| PARAM | NILAI                           |
 | -------- | ------------------------------------- |
 | baseURL     | `https://api.neosantara.xyz/v1`                     |
-| apiKey      | `<Your Neosantara Apikey>`                          |
+| apiKey      | `<Kunci API Neosantara Anda>`                          |
 
-### Invoke The Chat API Calls
+### Panggil API Chat
 
-This is a non-stream example, you can set the `stream` parameter to `true` to get stream response.
+Berikut contoh tanpa streaming. Jika ingin respons streaming, cukup set parameter `stream` ke `true`.
 
 <CodeGroup>
 
 ```javascript openNAI.js lines icon="square-js"
-// Please install OpenAI SDK first: `npm install openai`
+// Install OpenAI SDK terlebih dahulu: `npm install openai`
 
-const OpenAI = require("openai"); // or import statement
+const OpenAI = require("openai"); // atau gunakan import
 
 const Nai = new OpenAI({
         baseURL: 'https://api.neosantara.xyz/v1',
-        apiKey: '<NEOSANTARA API Key>'
+        apiKey: '<Kunci API NEOSANTARA>'
 });
 
 async function main() {
   const completion = await Nai.chat.completions.create({
-    messages: [{ role: "user", content: "what is neosantara ai?" }],
+    messages: [{ role: "user", content: "Apa itu Neosantara AI?" }],
     model: "nusantara-base",
   });
 
@@ -57,17 +56,17 @@ main();
 ```
 
 ```python openNAI.py lines icon="python"
-# Please install OpenAI SDK first: `pip3 install openai`
+# Install OpenAI SDK terlebih dahulu: `pip3 install openai`
 
 from openai import OpenAI
 
-client = OpenAI(api_key="<NEOSANTARA API Key>", base_url="https://api.neosantara.xyz")
+client = OpenAI(api_key="<Kunci API NEOSANTARA>", base_url="https://api.neosantara.xyz")
 
 response = client.chat.completions.create(
     model="nusantara-base",
     messages=[
-        {"role": "system", "content": "You are a helpful assistant"},
-        {"role": "user", "content": "Hallo"},
+        {"role": "system", "content": "Anda adalah asisten yang siap membantu."},
+        {"role": "user", "content": "Halo!"}
     ],
     stream=False
 )
@@ -78,11 +77,11 @@ print(response.choices[0].message.content)
 ```bash curlNAI.sh lines icon="terminal"
 curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <NEOSANTARA API Key>" \
+  -H "Authorization: Bearer <Kunci API NEOSANTARA>" \
   -d '{
         "model": "nusantara-base",
         "messages": [
-          {"role": "system", "content": "You are a helpful assistant."},
+          {"role": "system", "content": "Anda adalah asisten yang siap membantu."},
           {"role": "user", "content": "Halo!"}
         ],
         "stream": false
