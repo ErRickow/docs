@@ -17,17 +17,6 @@
         "language": "id",
         "anchors": [
         {
-          "anchor": "Home",
-          "groups": [
-          {
-            "group": "Welcome",
-            "icon": "house",
-            "pages": [
-              "id/index"
-            ]
-          }]
-        },
-        {
           "anchor": "First steps",
           "groups": [
           {
@@ -74,18 +63,8 @@
       },
       {
         "language": "en",
+        "default": true,
         "anchors": [
-        {
-          "anchor": "Home",
-          "groups": [
-          {
-            "group": "Welcome",
-            "icon": "house",
-            "pages": [
-              "en/index"
-            ]
-          }]
-        },
         {
           "anchor": "First steps",
           "groups": [
