@@ -1,0 +1,71 @@
+---
+title: 'Rate Limits'
+description: '> Learn about Neosantara's Rate Limiting'
+---
+
+Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources.
+
+## Tier Limits
+
+These are the maximum Token limits per day and per month for each plan. 
+
+| Tier | Daily Tokens | Monthly Tokens | Cost per 1K Tokens |
+|------|-------------|---------------|-------------------|
+| Free | 10,000 | 30,000 | Rp 0 |
+| Basic | 13,000 | 150,000 | Rp 227 |
+| Standard | 25,000 | 300,000 | Rp 330 |
+| Pro | 100,000 | 1,5000,00 | Rp 256 |
+| Enterprise | custom | custom | custom |
+
+## Response Headers
+
+Every API response will include usage information within the `_metadata` field. This allows you to track your current consumption against your plan limits directly from your application.
+
+```json _metadata field
+{
+  "_metadata": {
+    "usage": {
+      "daily": {
+        "current": 50,
+        "limit": 10000, // Example limit for Free tier
+        "reset_date": "2025-06-21T00:00:00Z",
+        "remaining": 9950
+      },
+      "monthly": {
+        "current": 500,
+        "limit": 30000, // Example limit for Free tier
+        "reset_date": "2025-07-01T00:00:00Z",
+        "remaining": 29500
+      }
+    },
+    "tier": {
+      "name": "Free",
+      "priority": 1
+    }
+  }
+}
+```
+
+## Rate Limit Errors
+
+When your API usage exceeds the allocated rate limit for your plan, the API will return an HTTP Status Code `429: Too Many Requests.` The response body will include details about the exceeded limit and when it will reset.
+
+```json errors detail apis
+{
+  "status": false,
+  "creator": "neosantara.xyz",
+  "error": {
+   "message": "Daily rate limit exceeded for your account (10000).",
+   "type": "usage_limit_exceeded",
+   "code": "total_daily_limit_exceeded"
+ },
+  "usage": {
+    "current": 10000,
+    "limit": 10000,
+    "reset_date": "2025-06-21T00:00:00Z",
+    "remaining": 0
+  },
+  "tier": "Free",
+  "timestamp": "2025-06-20 17:45:59"
+}
+```
