@@ -12,10 +12,10 @@
     "tabs": [
     {
       "tab": "Home",
-      "icon": "house",
       "groups": [
       {
         "group": "Welcome",
+        "icon": "house",
         "pages": [
           "index"
         ]
@@ -26,6 +26,7 @@
       "groups": [
       {
         "group": "Welcome",
+        "icon": "feather",
         "pages": [
           "about",
           "api-reference/quickstart"
@@ -37,7 +38,7 @@
       "groups": [
       {
         "group": "Using the APIs",
-        "icon": "rocket-launch",
+        "icon": "hashtag",
         "pages": [
           "api-reference/introduction",
           "about/token-credits",
@@ -47,6 +48,7 @@
       },
       {
         "group": "API reference",
+        "icon": "square-terminal",
         "pages": [
           "api-reference/chat/create-chat-completion",
           "api-reference/embeddings/create-embeddings",
