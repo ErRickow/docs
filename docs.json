@@ -8,6 +8,9 @@
     "dark": "#D84315"
   },
   "favicon": "/favicon.ico",
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
   "navigation": {
     "anchors": [
     {
