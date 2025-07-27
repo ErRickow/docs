@@ -3,9 +3,9 @@
   "theme": "linden",
   "name": "Neosantara",
   "colors": {
-    "primary": "#E0E0E0",
-    "light": "#FF5722",
-    "dark": "#1A1A1A"
+    "primary": "#FF5722",
+    "light": "#FF8A65",
+    "dark": "#D84315"
   },
   "favicon": "/favicon.ico",
   "navigation": {
