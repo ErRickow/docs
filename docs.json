@@ -12,6 +12,17 @@
     "eyebrows": "breadcrumbs"
   },
   "navigation": {
+    "languages": [
+      {
+        "language": "en",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["en/overview", "en/quickstart", "en/development"]
+          }
+        ]
+      }
+    ],
     "anchors": [
     {
       "anchor": "Home",
@@ -67,6 +78,7 @@
           "api-reference/sdk/openai-compatible"
         ]
       }]
+      
     }],
     "global": {
       "anchors": [
