@@ -34,11 +34,6 @@
       }]
     },
     {
-      "tab": "API reference",
-      "icon": "book",
-      "openapi": "https://app.stainless.com/api/spec/documented/neosantara/openapi.documented.yml"
-    },
-    {
       "tab": "API Guide",
       "icon": "book",
       "groups": [
