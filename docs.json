@@ -15,71 +15,65 @@
     "languages": [
       {
         "language": "en",
-        "groups": [
+        "anchors": [
+        {
+          "anchor": "Home",
+          "groups": [
           {
-            "group": "Getting Started",
-            "pages": ["en/overview", "en/quickstart", "en/development"]
-          }
-        ]
+            "group": "Welcome",
+            "icon": "house",
+            "pages": [
+              "en/index"
+            ]
+          }]
+        },
+        {
+          "anchor": "First steps",
+          "groups": [
+          {
+            "group": "Welcome",
+            "icon": "feather",
+            "pages": [
+              "en/about",
+              "en/api-reference/quickstart"
+            ]
+          }]
+        },
+        {
+          "anchor": "API Guide",
+          "groups": [
+          {
+            "group": "Using the APIs",
+            "icon": "hashtag",
+            "pages": [
+              "en/api-reference/introduction",
+              "about/token-credits",
+              "about/rate-limits",
+              "about/model"
+            ]
+          },
+          {
+            "group": "API reference",
+            "icon": "square-terminal",
+            "pages": [
+              "api-reference/chat/create-chat-completion",
+              "api-reference/embeddings/create-embeddings",
+              "api-reference/models/list-available-models",
+              "api-reference/moderations/content-moderation-check",
+              "api-reference/reasoning/enhanced-reasoning-completion",
+              "api-reference/authentication/check-api-key-status"
+            ]
+          },
+          {
+            "group": "SDKs",
+            "pages": [
+              "api-reference/sdk/openai-compatible"
+            ]
+          }]
+          
+        }]
       }
     ],
-    "anchors": [
-    {
-      "anchor": "Home",
-      "groups": [
-      {
-        "group": "Welcome",
-        "icon": "house",
-        "pages": [
-          "index"
-        ]
-      }]
-    },
-    {
-      "anchor": "First steps",
-      "groups": [
-      {
-        "group": "Welcome",
-        "icon": "feather",
-        "pages": [
-          "about",
-          "api-reference/quickstart"
-        ]
-      }]
-    },
-    {
-      "anchor": "API Guide",
-      "groups": [
-      {
-        "group": "Using the APIs",
-        "icon": "hashtag",
-        "pages": [
-          "api-reference/introduction",
-          "about/token-credits",
-          "about/rate-limits",
-          "about/model"
-        ]
-      },
-      {
-        "group": "API reference",
-        "icon": "square-terminal",
-        "pages": [
-          "api-reference/chat/create-chat-completion",
-          "api-reference/embeddings/create-embeddings",
-          "api-reference/models/list-available-models",
-          "api-reference/moderations/content-moderation-check",
-          "api-reference/reasoning/enhanced-reasoning-completion",
-          "api-reference/authentication/check-api-key-status"
-        ]
-      },
-      {
-        "group": "SDKs",
-        "pages": [
-          "api-reference/sdk/openai-compatible"
-        ]
-      }]
-      
-    }],
     "global": {
       "anchors": [
         {
