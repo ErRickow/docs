@@ -79,8 +79,6 @@ Here's an example of how to provide tools to NeosantaraAI using the chat complet
   ```
 </CodeGroup>
 
-***
-
 ## How Tool Use Works
 
 NeosantaraAI's tool use functionality follows a common pattern, similar to OpenAI's function calling, where you provide the model with descriptions of available tools, and the model decides if and how to use them.
@@ -110,9 +108,9 @@ Integrate client-side tools with NeosantaraAI in these steps:
   </Step>
 </Steps>
 
-Note: Steps 3 and 4 are optional. For some workflows, NeosantaraAI's tool use request (step 2) might be all you need, without sending results back to the model.
-
-***
+<Note>
+Steps 3 and 4 are optional. For some workflows, NeosantaraAI's tool use request (step 2) might be all you need, without sending results back to the model.
+</Note>
 
 ## Tool Use Examples
 
@@ -905,8 +903,6 @@ Here are a few code examples demonstrating various tool use patterns and techniq
   </Accordion>
 </AccordionGroup>
 
-***
-
 ## Pricing
 
 Tool use requests are priced based on:
@@ -926,8 +922,6 @@ These token counts are added to your normal input and output tokens to calculate
 Refer to our [pricing documentation](https://app.neosantara.xyz/pricing) for current per-model prices and usage tiers.
 
 When you send a tool use prompt, just like any other API request, the response will output both input and output token counts as part of the reported `usage` metrics.
-
-***
 
 ## Next Steps
 
