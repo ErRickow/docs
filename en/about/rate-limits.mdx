@@ -2,15 +2,13 @@
 
 > Learn about Neosantara's Rate Limiting
 
-Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources. Limits are enforced on **tokens per day** and **tokens per month** (stored in our database). Additional limits on requests per day and per minute are enforced programmatically. See [Token Credits & Pricing](/en/about/token-credits#pricing-overview) for more details.
+Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources. Limits are enforced on **tokens per day** and **tokens per month** (stored in our database). Additional limits on requests per day and per minute are enforced programmatically using Upstash Redis. See [Token Credits & Pricing](/en/about/token-credits#pricing-overview) for more details.
 
 ## Tier Limits
 
 These are the maximum token limits for each plan, tracked in our database. All paid plans are priced at **Rp 149.99 per 1,000 tokens** (~Rp 0.15 per token). The **Custom** plan allows flexible top-ups starting from 66,667 tokens (Rp 9,999).
 
-<Note>
-Cost per 1K Tokens is calculated as Rp 0.15 per token × 1,000 = Rp 149.99, equivalent to Rp 149.999 per 1 million tokens.
-</Note>
+**Note**: Cost per 1K Tokens is calculated as Rp 0.15 per token × 1,000 = Rp 149.99, equivalent to Rp 149.999 per 1 million tokens.
 
 | Tier       | Tokens per Day | Tokens per Month   | Cost per 1K Tokens |
 |------------|----------------|--------------------|-------------------|
@@ -19,6 +17,12 @@ Cost per 1K Tokens is calculated as Rp 0.15 per token × 1,000 = Rp 149.99, equi
 | Standard   | 40,000         | 400,000            | Rp 149.99         |
 | Pro        | 100,000        | 1,000,000          | Rp 149.99         |
 | Custom     | 10% of Monthly | 66,667–10,000,000+ | Rp 149.99         |
+
+### Notes
+- **Free, Basic, Standard**: Include API access; Basic and Standard offer email and priority support, respectively.
+- **Pro**: Includes dedicated support, SLA guarantee (99.9% uptime), and white-label options.
+- **Custom**: Flexible top-up starting from Rp 9,999 (66,667 tokens). Includes dedicated support, custom integrations, and SLA guarantee for ≥1 million tokens. Contact [Support](https://app.neosantara.xyz/contact) for top-up details.
+- **SLA Guarantee**: For Pro and Custom plans (≥1 million tokens), we guarantee 99.9% API uptime and fast support response times (<1 hour for critical issues). Token credits may be issued if unmet.
 
 ## Response Headers
 
@@ -47,4 +51,3 @@ Every API response includes usage information within the `_metadata` field. This
     }
   }
 }
-```
