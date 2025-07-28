@@ -1,0 +1,39 @@
+# Kredit Token & Harga
+
+> Pelajari cara mengelola kredit token untuk API Neosantara.
+
+## Kredit Token Gratis
+
+<Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Dapatkan kunci API gratis Anda" horizontal>
+  Anda mendapatkan 7.500 Kredit Token gratis setiap bulan. **Tanpa perlu kartu kredit.**
+</Card>
+
+## Ikhtisar Harga
+
+Neosantara AI menggunakan model berbasis kredit yang sederhana dan transparan:
+
+| **Paket** | **Token per Bulan** | **Token per Hari** | **Harga Bulanan** | **Harga per Kredit** |
+|----------------------------------|----------------------|--------------------|-------------------|----------------------|
+| **Free**                         | 7,500                | 1,500              | Free              | -                    |
+| **Basic**                        | 10,000               | 3,000              | Rp 75,000         | Rp 7.5               |
+| **Standard**                     | 50,000               | 10,000             | Rp 300,000        | Rp 6.0               |
+| **Pro**                          | 1,500,000            | 10,000             | Rp 2,235,000      | Rp 1.49              |
+| **Enterprise**                   | Custom               | Custom             | Custom            | Custom               |
+
+Kunjungi [Dasbor](https://app.neosantara.xyz/dashboard) atau [Halaman Harga](https://app.neosantara.xyz/pricing) untuk melihat opsi paket dan mengelola langganan Anda.
+
+## Biaya Kredit API
+
+Penggunaan API Neosantara AI dihitung berdasarkan jumlah Token yang diproses per permintaan, baik untuk `input` maupun `output`. Setiap model memiliki karakteristik dan biaya Token yang berbeda.
+
+### Cara Perhitungan Biaya Token
+
+* **Pemrosesan Teks Dasar (misalnya, Chat Completions):**
+  * Setiap permintaan teks dasar mengonsumsi Token berdasarkan panjang teks input (prompt dan riwayat obrolan) serta teks output yang dihasilkan.
+
+* **Fungsi Khusus & Kemampuan Lanjutan (misalnya, function_calling, web_search):**
+  * Ketika model menggunakan kemampuan lanjutan seperti `memanggil fungsi eksternal` atau melakukan `pencarian web`, biaya Token untuk permintaan tersebut akan mencerminkan kompleksitas komputasi tambahan dan pemrosesan data yang terlibat. Biaya pastinya bervariasi per permintaan berdasarkan operasi aktual yang dilakukan oleh model.
+
+### Melacak Penggunaan Anda
+
+Cara paling akurat untuk melacak biaya Token setiap permintaan, terutama untuk fitur lanjutan dan input multimodal, adalah melalui kolom `tokens_used` di bagian `_metadata` respons API atau dengan memeriksa [Dasbor Penggunaan](https://app.neosantara.xyz/usage).

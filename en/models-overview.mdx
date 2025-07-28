@@ -1,0 +1,106 @@
+---
+title: 'Models Overview'
+description: '> Discover the range of state-of-the-art large language models provided by NeosantaraAI.'
+---
+
+NeosantaraAI offers a family of powerful large language models designed to meet diverse AI application needs. This guide introduces our models and compares their key features and performance.
+
+<CardGroup cols={2}>
+  <Card title="Nusantara-Base" icon="trophy" href="/en/models-overview#model-comparison-table">
+    Our foundational model for general tasks with balanced performance and speed.
+
+    * <Icon icon="inbox-in" iconType="thin" /> Text and image input
+    * <Icon icon="inbox-out" iconType="thin" /> Text output
+    * <Icon icon="book" iconType="thin" /> 64K context window
+  </Card>
+
+  <Card title="Neosantara-Gen-2045" icon="image" href="/en/models-overview#model-comparison-table">
+    Our main image generation model for creating high-quality visuals.
+
+    * <Icon icon="inbox-in" iconType="thin" /> Text prompt input
+    * <Icon icon="inbox-out" iconType="thin" /> Image output
+    * <Icon icon="palette" iconType="thin" /> Creative content generation
+  </Card>
+</CardGroup>
+
+***
+
+## Model Names and Aliases
+
+NeosantaraAI provides specific model IDs for direct use and convenient aliases that point to the latest stable versions.
+
+| Model Name           | NeosantaraAI API ID                                     | Capabilities                                  |
+| -------------------- | ------------------------------------------------------- | --------------------------------------------- |
+| **Nusantara-Base** | `nusantara-base`                                        | Text, Function Calling, JSON Mode             |
+| **Archipelago-7B** | `archipelago-7b`                                        | Text, JSON Mode                               |
+| **Bahasa-LLM** | `bahasa-llm`                                            | Text, Function Calling, JSON Mode             |
+| **LuminAI** | `luminai`                                               | Text                                          |
+| **Vision-Emas-2045** | `vision-emas-2045`                                      | Vision, JSON Mode, Text                       |
+| **Neosantara-Gen-2045** | `neosantara-gen-2045`                                   | Image Generation                              |
+| **Replicate-Stable-Diffusion-XL** | `replicate-stable-diffusion-xl`                 | Image Generation                              |
+| **Gemini-1.5-Flash** | `gemini-1.5-flash`                                      | Text, Function Calling, JSON Mode             |
+| **Gemini-2.0-Flash** | `gemini-2.0-flash`                                      | Text, Function Calling, JSON Mode             |
+| **Gemini-1.5-Pro** | `gemini-1.5-pro`                                        | Text, Function Calling, JSON Mode             |
+| **GPT-3.5-Turbo** | `gpt-3.5-turbo`                                         | Text, Function Calling, JSON Mode             |
+| **GPT-4o-Mini** | `gpt-4o-mini`                                           | Text, Function Calling, JSON Mode             |
+| **Command-R** | `command-r`                                             | Text, JSON Mode                               |
+| **Command-R-Plus** | `command-r-plus`                                        | Text, Web Search, JSON Mode                   |
+| **Firefunction-v1** | `firefunction-v1`                                       | Text, Function Calling, JSON Mode             |
+| **Replicate-Prediction** | `replicate-prediction`                                  | Text, JSON Mode                               |
+| **Gemma2-9B-IT** | `gemma2-9b-it`                                          | Text, JSON Mode                               |
+| **Nusa-Embedding-0001** | `nusa-embedding-0001`                                   | Embedding                                     |
+| **Together-Embed-v2-L** | `together-embed-v2-L`                                   | Embedding                                     |
+| **Llama-3.3-70B-Instruct** | `llama-3.3-70b-instruct`                             | Text, Function Calling                        |
+
+<Note>
+  For production applications, we recommend using specific model versions if they are provided, to ensure consistent behavior. Aliases are useful for development and testing.
+</Note>
+
+### Model Comparison Table
+
+To help you choose the right model for your needs, we've compiled a table comparing the key features and capabilities of some core NeosantaraAI models.
+
+| Feature             | Nusantara-Base                                                       | Neosantara-Gen-2045                                               | Bahasa-LLM                                                 |
+| :------------------ | :------------------------------------------------------------------- | :---------------------------------------------------------------- | :--------------------------------------------------------- |
+| **Description** | General-purpose model with balanced performance and speed.           | Our main image generation model.                                  | Fast and efficient model for Indonesian language.          |
+| **Strengths** | Versatile, good for most common tasks.                               | High-quality image generation, creative content.                  | Optimized for Indonesian language understanding.           |
+| **Multilingual** | Yes                                                                  | Yes (for prompts)                                                 | Yes                                                        |
+| **Vision** | Yes (via integration with underlying models like Gemini-2.0-Flash)   | No (Generates images, does not analyze them)                      | No                                                         |
+| **Function Calling**| Yes                                                                  | No (Not for text/chat function calling)                           | Yes                                                        |
+| **JSON Mode** | Yes                                                                  | No (Not for structured text output)                               | Yes                                                        |
+| **Context Window** | 64,000 tokens                                                        | 0 (Not applicable for image generation)                           | 8,192 tokens                                               |
+| **Max Output** | 2,048 tokens                                                         | 0 (Output is an image, not text tokens)                           | 2,048 tokens                                               |
+| **Training Data Cut-off** | Varies by underlying provider (latest available for Gemini-2.0-Flash) | Varies by underlying provider (e.g., Together AI's FLUX.1)        | Varies by underlying provider (latest available for Gemma2-9B-IT) |
+| **Comparative Latency** | Fast                                                                 | Fast                                                              | Fastest                                                    |
+
+### Model Pricing
+
+Pricing for NeosantaraAI models is based on a per-token usage model. The cost varies by model and usage tier.
+
+Refer to our [pricing documentation](https://neosantara.xyz/pricing) for current prices and usage tiers.
+
+When you make an API request, the response will output both input and output token counts as part of the reported `usage` metrics.
+
+***
+
+## Get Started with NeosantaraAI
+
+If you're ready to start exploring what NeosantaraAI can do for you, let's dive in! Whether you're a developer looking to integrate NeosantaraAI into your applications or a user wanting to experience the power of AI firsthand, we've got you covered.
+
+<Note>Looking to chat with NeosantaraAI? Visit our [Chatbot](https://chat.neosantara.xyz)!</Note>
+
+<CardGroup cols={3}>
+  <Card title="Quickstart" icon="bolt-lightning" href="/en/api-reference/quickstart">
+    Learn how to make your first API call in minutes.
+  </Card>
+
+  <Card title="API Reference" icon="code" href="/en/api-reference/introduction#reference">
+    Explore detailed API endpoints and their specifications.
+  </Card>
+
+  <Card title="Dashboard" icon="chart-line" href="https://app.neosantara.xyz/usage">
+    Manage your API keys and monitor usage.
+  </Card>
+</CardGroup>
+
+If you have any questions or need assistance, don't hesitate to reach out to our [support team](mailto:help@neosantara.xyz).
