@@ -1,9 +1,9 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "linden",
   "name": "Neosantara",
   "colors": {
-    "light": "#FF8A65"
+    "primary": "#FF5722"
   },
   "favicon": "/favicon.ico",
   "styling": {
@@ -43,7 +43,7 @@
           {
             "group": "Tools",
             "pages": [
-              "en/tools-overview",
+              "en/tools-overv",
               "en/how-tools"
             ]
           }
