@@ -1,9 +1,10 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "linden",
+  "theme": "maple",
   "name": "Neosantara",
   "colors": {
-    "primary": "#FF5722"
+    "primary": "#FF5722",
+    "light": "#FF8A65"
   },
   "favicon": "/favicon.ico",
   "styling": {
