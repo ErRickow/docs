@@ -13,15 +13,16 @@ description: "> Learn how to manage token credits for Neosantara APIs."
 
 Neosantara AI operates on a simple, transparent credit-based model. All paid plans are priced at **Rp 149.999 per 1 million tokens** (~Rp 0.15 per token, ~Rp 149.99 per 1,000 tokens). Choose a plan that fits your needs or top-up tokens flexibly with our Custom option.
 
-| Plan       | Tokens per Month | Tokens per Day | Monthly Price | Price per Token |
-|------------|------------------|----------------|---------------|-----------------|
-| **Free**   | 10,000           | 3,000          | Free          | -               |
-| **Basic**  | 66,667           | 10,000         | Rp 9,999      | Rp 0.15         |
-| **Standard** | 400,000        | 40,000         | Rp 59,999     | Rp 0.15         |
-| **Pro**    | 1,000,000        | 100,000        | Rp 149,999    | Rp 0.15         |
-| **Custom** | 66,667–10,000,000+ | 10% of Monthly | Rp 9,999–1,499,990+ | Rp 0.15         |
+| Plan         | Tokens per Month   | Tokens per Day | Monthly Price       | Price per Token |
+| ------------ | ------------------ | -------------- | ------------------- | --------------- |
+| **Free**     | 10,000             | 3,000          | Free                | -               |
+| **Basic**    | 66,667             | 10,000         | Rp 9,999            | Rp 0.15         |
+| **Standard** | 400,000            | 40,000         | Rp 59,999           | Rp 0.15         |
+| **Pro**      | 1,000,000          | 100,000        | Rp 149,999          | Rp 0.15         |
+| **Custom**   | 66,667–10,000,000+ | 10% of Monthly | Rp 9,999–1,499,990+ | Rp 0.15         |
 
 ### Plan Features
+
 - **Free**: 10,000 monthly tokens, 3,000 daily limit, API access, email support.
 - **Basic**: 66,667 monthly tokens, 10,000 daily limit, API access, email support.
 - **Standard**: 400,000 monthly tokens, 40,000 daily limit, API access, priority support, custom rate limits.
@@ -29,12 +30,15 @@ Neosantara AI operates on a simple, transparent credit-based model. All paid pla
 - **Custom**: Flexible top-up starting from 66,667 tokens (Rp 9,999), with dedicated support, custom integrations, SLA guarantee (for ≥1 million tokens), and white-label options.
 
 ### Custom Top-Up
+
 With the **Custom** plan, you can top-up tokens anytime to suit your needs, starting from 66,667 tokens (Rp 9,999). Pricing is consistent at **Rp 149.99 per 1,000 tokens** (or Rp 149.999 per 1 million tokens). Examples:
+
 - 100,000 tokens: Rp 15,000 (~Rp 149.99/1K tokens).
 - 1,000,000 tokens: Rp 149,999 (~Rp 149.999/1JT tokens).
 - 5,000,000 tokens: Rp 749,950 (~Rp 149.990/1JT tokens).
 
 To calculate costs:
+
 - $Price = Tokens \times Rp\ 0.15$ (per token).
 - $Price = \left( \frac{Tokens}{1,000} \right) \times Rp\ 149.99$ (per 1,000 tokens).
 - $Price = \left( \frac{Tokens}{1,000,000} \right) \times Rp\ 149,999$ (per 1 million tokens).
@@ -70,5 +74,6 @@ Neosantara AI API usage is calculated based on the number of tokens processed pe
 ### Tracking Your Usage
 
 Track token costs accurately via:
+
 - The `tokens_used` field in the API response's `_metadata` section.
 - Your [Usage Dashboard](https://app.neosantara.xyz/usage) for real-time insights.
