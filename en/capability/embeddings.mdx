@@ -75,11 +75,12 @@ The NusantaraAI API supports various embedding models, often utilizing intellige
 }
 ```
 
-## Python Example (with OpenAI SDK)
+## Python and JavaScript Examples (with OpenAI SDK)
 
-You can generate embeddings using the OpenAI Python SDK by configuring its `base_url` to point to the NusantaraAI API.
+You can generate embeddings using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
 
-```python
+<CodeGroup>
+```python Py icon="python"
 from openai import OpenAI
 
 # Initialize the OpenAI client with your API key
@@ -128,3 +129,57 @@ if __name__ == "__main__":
         print("\nFirst embedding vector (truncated):")
         print(generated_vectors[0][:10], "...") # Print first 10 elements
 ```
+
+```javascript Js icon="square-js"
+// Install the OpenAI Node.js library: npm install openai
+import OpenAI from 'openai';
+
+// Initialize the OpenAI client with your API key
+// Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+const client = new OpenAI({
+  apiKey: "YOUR_API_KEY",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function getEmbeddings(texts, model = "nusa-embedding-0001") {
+  console.log(`Generating embeddings for model: ${model}`);
+
+  try {
+    const response = client.embeddings.create({
+      model: model,
+      input: texts,
+      encoding_format: "float",
+    });
+
+    // The response.data contains a list of embedding objects
+    // Each object has 'embedding' (the vector) and 'index'
+    const embeddings = response.data.map(item => item.embedding);
+
+    console.log(`Generated ${embeddings.length} embeddings. Dimension: ${embeddings[0] ? embeddings[0].length : 0}`);
+    console.log(`Total tokens used: ${response.usage.total_tokens}`);
+
+    return embeddings;
+
+  } catch (error) {
+    console.error(`An error occurred during embedding generation: ${error.message}`);
+    return null;
+  }
+}
+
+// Example usage
+(async () => {
+  const exampleTexts = [
+    "Artificial intelligence is transforming industries.",
+    "Machine learning is a subset of AI.",
+    "Deep learning enables neural networks."
+  ];
+  
+  const generatedVectors = await getEmbeddings(exampleTexts);
+
+  if (generatedVectors) {
+    console.log("\nFirst embedding vector (truncated):");
+    console.log(generatedVectors[0].slice(0, 10), "..."); // Print first 10 elements
+  }
+})();
+```
+</CodeGroup>

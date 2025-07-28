@@ -7,7 +7,7 @@ Streaming allows you to receive partial responses from the API as they are gener
 
 ## How Streaming Works
 
-The NusantaraAI API implements streaming using Server-Sent Events (SSE) when the `stream` parameter is set to `true` in your request. When a streaming request is made:
+The NeosantaraAI API implements streaming using Server-Sent Events (SSE) when the `stream` parameter is set to `true` in your request. When a streaming request is made:
 
 1.  **Content-Type Header**: The API sets the `Content-Type` header to `text/event-stream`.
 2.  **Partial Data Chunks**: The server sends data in small chunks. Each chunk is prefixed with `data: ` and contains a JSON object representing a partial response.
@@ -52,7 +52,7 @@ data: {"id":"chatcmpl-a1b2c3d4e5f6","object":"chat.completion.chunk","created":1
 data: [DONE]
 ```
 
-### Python Example (with OpenAI SDK)
+### Python & Javascript Example (with OpenAI SDK)
 
 You can easily integrate streaming capabilities into your Python applications using the OpenAI Python SDK. Ensure you have the [`openai package`](https://www.npmjs.com/package/openai) installed (`pip install openai`).
 
@@ -61,7 +61,7 @@ You can easily integrate streaming capabilities into your Python applications us
   from openai import OpenAI
   
   # Initialize the OpenAI client with your API key
-  # Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+  # Replace "YOUR_API_KEY" with your actual NeosantaraAI API Key
   client = OpenAI(
       api_key="YOUR_API_KEY",
       base_url="https://api.neosantara.xyz/v1"
@@ -69,7 +69,7 @@ You can easily integrate streaming capabilities into your Python applications us
   
   def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
       """
-      Makes a streaming chat completion request to the NusantaraAI API.
+      Makes a streaming chat completion request to the NeosantaraAI API.
       """
       print(f"Streaming response for model: {model}")
       print(f"Prompt: {prompt}\n")
@@ -112,8 +112,8 @@ You can easily integrate streaming capabilities into your Python applications us
   // Install the OpenAI Node.js library: npm install openai
   import OpenAI from 'openai';
   
-  // Initialize the OpenAI client with your API key and custom base URL
-  // Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+  // Initialize the OpenAI client with your API key
+  // Replace "YOUR_API_KEY" with your actual NeosantaraAI API Key
   const client = new OpenAI({
     apiKey: "YOUR_API_KEY",
     baseURL: "https://api.neosantara.xyz/v1",
