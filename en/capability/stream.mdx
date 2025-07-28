@@ -1,6 +1,6 @@
 ---
 title: 'Streaming Responses'
-description: 'Receive partial results in real-time as they are generated.'
+description: '> Receive partial results in real-time as they are generated.'
 ---
 
 Streaming allows you to receive partial responses from the API as they are generated, rather than waiting for the entire response to be completed. This can significantly improve the perceived latency and user experience, especially for longer generations.
@@ -54,54 +54,110 @@ data: [DONE]
 
 ### Python Example (with OpenAI SDK)
 
-You can easily integrate streaming capabilities into your Python applications using the OpenAI Python SDK. Ensure you have the `openai` package installed (`pip install openai`).
+You can easily integrate streaming capabilities into your Python applications using the OpenAI Python SDK. Ensure you have the [`openai package`](https://www.npmjs.com/package/openai) installed (`pip install openai`).
 
-```python
-from openai import OpenAI
-
-# Initialize the OpenAI client with your API key
-# Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
-client = OpenAI(
-    api_key="YOUR_API_KEY",
-    base_url="https://api.neosantara.xyz/v1"
-)
-
-def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
-    """
-    Makes a streaming chat completion request to the NusantaraAI API.
-    """
-    print(f"Streaming response for model: {model}")
-    print(f"Prompt: {prompt}\n")
-
-    try:
-        stream = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
-            stream=True,  # Enable streaming
-            max_tokens=500,
-            temperature=0.7
-        )
-
-        full_response_content = ""
-        for chunk in stream:
-            # Each chunk is a ChatCompletionChunk object
-            content = chunk.choices[0].delta.content if chunk.choices[0].delta.content else ""
-            full_response_content += content
-            print(content, end="", flush=True) # Print incrementally
-
-        print("\n\n--- Stream finished ---")
-        return full_response_content
-
-    except Exception as e:
-        print(f"\nAn error occurred during streaming: {e}")
-        return None
-
-if __name__ == "__main__":
-    user_prompt = "Tell me a short story about a mythical creature from Indonesian folklore."
-    streamed_text = stream_chat_completion(user_prompt)
-
-    if streamed_text:
-        print(f"\nTotal streamed content length: {len(streamed_text)} characters")
-```
+<CodeGroup>
+  ```python Py icon="python"
+  from openai import OpenAI
+  
+  # Initialize the OpenAI client with your API key
+  # Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+  client = OpenAI(
+      api_key="YOUR_API_KEY",
+      base_url="https://api.neosantara.xyz/v1"
+  )
+  
+  def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
+      """
+      Makes a streaming chat completion request to the NusantaraAI API.
+      """
+      print(f"Streaming response for model: {model}")
+      print(f"Prompt: {prompt}\n")
+  
+      try:
+          stream = client.chat.completions.create(
+              model=model,
+              messages=[
+                  {"role": "user", "content": prompt}
+              ],
+              stream=True,  # Enable streaming
+              max_tokens=500,
+              temperature=0.7
+          )
+  
+          full_response_content = ""
+          for chunk in stream:
+              # Each chunk is a ChatCompletionChunk object
+              content = chunk.choices[0].delta.content if chunk.choices[0].delta.content else ""
+              full_response_content += content
+              print(content, end="", flush=True) # Print incrementally
+  
+          print("\n\n--- Stream finished ---")
+          return full_response_content
+  
+      except Exception as e:
+          print(f"\nAn error occurred during streaming: {e}")
+          return None
+  
+  if __name__ == "__main__":
+      user_prompt = "Tell me a short story about a mythical creature from Indonesian folklore."
+      streamed_text = stream_chat_completion(user_prompt)
+  
+      if streamed_text:
+          print(f"\nTotal streamed content length: {len(streamed_text)} characters")
+  
+  ```javascript JavaScript icon="square-js"
+  
+  // Install the OpenAI Node.js library: npm install openai
+  import OpenAI from 'openai';
+  
+  // Initialize the OpenAI client with your API key and custom base URL
+  // Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+  const client = new OpenAI({
+    apiKey: "YOUR_API_KEY",
+    baseURL: "https://api.neosantara.xyz/v1",
+  });
+  
+  async function streamChatCompletion(prompt, model = "nusantara-base") {
+    console.log(`Streaming response for model: ${model}`);
+    console.log(`Prompt: ${prompt}\n`);
+  
+    try {
+      const stream = await client.chat.completions.create({
+        model: model,
+        messages: [
+          { role: "user", content: prompt }
+        ],
+        stream: true, // Enable streaming
+        max_tokens: 500,
+        temperature: 0.7,
+      });
+  
+      let fullResponseContent = "";
+      for await (const chunk of stream) {
+        // Each chunk is a ChatCompletionChunk object
+        const content = chunk.choices[0]?.delta?.content || "";
+        fullResponseContent += content;
+        process.stdout.write(content); // Print incrementally
+      }
+  
+      console.log("\n\n--- Stream finished ---");
+      return fullResponseContent;
+  
+    } catch (error) {
+      console.error(`\nAn error occurred during streaming: ${error.message}`);
+      return null;
+    }
+  }
+  
+  // Example usage
+  (async () => {
+    const userPrompt = "Explain the concept of AI streaming in detail.";
+    const streamedText = await streamChatCompletion(userPrompt);
+  
+    if (streamedText) {
+      console.log(`\nTotal streamed content length: ${streamedText.length} characters`);
+    }
+  })();
+  ```
+</CodeGroup>
