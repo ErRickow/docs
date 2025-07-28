@@ -10,6 +10,9 @@
   "styling": {
     "eyebrows": "breadcrumbs"
   },
+  "background": {
+    "decoration": "grid"
+  },
   "navigation": {
     "languages": [
       {
@@ -23,8 +26,15 @@
             "group": "First steps",
             "icon": "feather",
             "pages": [
-              "en/about",
+              "en/intro",
               "en/api-reference/quickstart"
+            ]
+          },
+          {
+            "group": "Learn About Neosantara",
+            "icon": "feather",
+            "pages": [
+              "en/about"
             ]
           },
           {
