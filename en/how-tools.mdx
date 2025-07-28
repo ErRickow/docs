@@ -13,13 +13,13 @@ For more straightforward tools, models like `bahasa-llm` or `gemini-1.5-flash` c
 
 Tools (functions) are specified in the `tools` top-level parameter of your API request. Each tool definition includes:
 
-| Parameter     | Description                                                                                                                                                                              |
-| :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`        | Must be `"function"`.                                                                                                                                                                    |
-| `function`    | An object defining the function's metadata, including its name, description, and parameters.                                                                                             |
-| `name`        | (within `function`): The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.                                                                                                 |
-| `description` | (within `function`): A detailed plaintext description of what the tool does, when it should be used, and how it behaves. This is crucial for the model to understand the tool's purpose. |
-| `parameters`  | (within `function`): A [JSON Schema](https://json-schema.org/) object defining the expected parameters for the tool. This schema describes the `input` the tool expects.                 |
+| Parameter     | Description                                                                                                                                                                                                                                                                   |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`        | Must be `"function"`.                                                                                                                                                                                                                                                         |
+| `function`    | An object defining the function's metadata, including its name, description, and parameters.                                                                                                                                                                                  |
+| `name`        | (within `function`): The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`.                                                                                                                                                                                    |
+| `description` | (within `function`): A detailed plaintext description of what the tool does, when it should be used, and how it behaves. This is crucial for the model to understand the tool's purpose.                                                                                       |
+| `parameters`  | (within `function`): A [JSON Schema](https://json-schema.org/) object defining the expected parameters for the tool. This schema describes the `input` the tool expects.                                                                                                        |
 
 <Accordion title="Example Simple Tool Definition">
   ```json
@@ -38,7 +38,7 @@ Tools (functions) are specified in the `tools` top-level parameter of your API r
           "unit": {
             "type": "string",
             "enum": ["celsius", "fahrenheit"],
-            "description": "The unit of temperature, either 'celsius' or 'fahrenheit'"
+            "description": "The unit of temperature, either \"celsius\" or \"fahrenheit\""
           }
         },
         "required": ["location"]
@@ -47,20 +47,19 @@ Tools (functions) are specified in the `tools` top-level parameter of your API r
   }
   ```
 
-This tool, named `get_weather`, expects an input object with a required `location` string and an optional `unit` string that must be either "celsius" or "fahrenheit".
-
+  This tool, named `get_weather`, expects an input object with a required `location` string and an optional `unit` string that must be either "celsius" or "fahrenheit".
 </Accordion>
 
 ### Best Practices for Tool Definitions
 
 To get the best performance out of NeosantaraAI when using tools, follow these guidelines:
 
-- **Provide extremely detailed descriptions.** This is by far the most important factor in tool performance. Your descriptions should explain every detail about the tool, including:
-  - What the tool does.
-  - When it should be used (and when it shouldn't).
-  - What each parameter means and how it affects the tool's behavior.
-  - Any important caveats or limitations, such as what information the tool does not return if the tool name is unclear. The more context you can give the model about your tools, the better it will be at deciding when and how to use them. Aim for at least 3-4 sentences per tool description, more if the tool is complex.
-- **Prioritize descriptions over examples.** While you can include examples of how to use a tool in its description or in the accompanying prompt, this is less important than having a clear and comprehensive explanation of the tool's purpose and parameters. Only add examples after you've fully fleshed out the description.
+* **Provide extremely detailed descriptions.** This is by far the most important factor in tool performance. Your descriptions should explain every detail about the tool, including:
+    * What the tool does.
+    * When it should be used (and when it shouldn't).
+    * What each parameter means and how it affects the tool's behavior.
+    * Any important caveats or limitations, such as what information the tool does not return if the tool name is unclear. The more context you can give the model about your tools, the better it will be at deciding when and how to use them. Aim for at least 3-4 sentences per tool description, more if the tool is complex.
+* **Prioritize descriptions over examples.** While you can include examples of how to use a tool in its description or in the accompanying prompt, this is less important than having a clear and comprehensive explanation of the tool's purpose and parameters. Only add examples after you've fully fleshed out the description.
 
 <AccordionGroup>
   <Accordion title="Example of a Good Tool Description">
@@ -79,7 +78,7 @@ To get the best performance out of NeosantaraAI when using tools, follow these g
         "required": ["ticker"]
       }
     }
-    ```
+  ```
   </Accordion>
 
   <Accordion title="Example Poor Tool Description">
@@ -111,10 +110,10 @@ In some cases, you may want NeosantaraAI to use a specific tool to answer the us
 
 The `tool_choice` parameter offers four possible options:
 
-- `auto`: (Default when `tools` are provided) Allows the model to decide whether to call any provided tools or not.
-- `any`: Tells the model that it must use one of the provided tools, but doesn't force a particular tool.
-- `{"type": "function", "function": {"name": "your_tool_name"}}`: Allows you to force the model to always use a particular tool.
-- `none`: Prevents the model from using any tools. (Default when no `tools` are provided).
+* `auto`: (Default when `tools` are provided) Allows the model to decide whether to call any provided tools or not.
+* `any`: Tells the model that it must use one of the provided tools, but doesn't force a particular tool.
+* `{"type": "function", "function": {"name": "your_tool_name"}}`: Allows you to force the model to always use a particular tool.
+* `none`: Prevents the model from using any tools. (Default when no `tools` are provided).
 
 This diagram illustrates how each option works:
 
@@ -130,11 +129,11 @@ Tools do not necessarily need to be client functions — you can use tools anyti
 
 When using tools for JSON output:
 
-- You usually provide a **single** tool definition.
-- You should set `tool_choice` to `{"type": "function", "function": {"name": "your_tool_name"}}` to instruct the model to explicitly use that tool.
-- The `function`'s `parameters` define the exact JSON schema the model should adhere to.
+* You typically provide a **single** tool definition.
+* You should set `tool_choice` to `{"type": "function", "function": {"name": "your_tool_name"}}` to explicitly instruct the model to use that tool.
+* The `function`'s `parameters` define the exact JSON schema the model should adhere to.
 
-See the [Tool use with NeosantaraAI overview](/docs/tool-use-overview) for a full working example of JSON output for image description.
+See the [Tool use with NeosantaraAI overview](/en/tools-overview) for a full working example of JSON output for image description.
 
 ### Chain of Thought
 
@@ -142,10 +141,10 @@ When using tools, NeosantaraAI models often show their "chain of thought", i.e.,
 
 For example, given the prompt "What's the weather like in Jakarta right now, and what time is it there?", a model might implicitly reason:
 
-1.  _Identify intent:_ User wants weather and time for Jakarta.
-2.  _Identify tools:_ `get_weather` and `get_time` tools are available.
-3.  _Plan execution:_ Both operations are independent, so they can be called in parallel.
-4.  _Formulate calls:_ Generate `tool_calls` for `get_weather(location='Jakarta, ID')` and `get_time(timezone='Asia/Jakarta')`.
+1.  *Identify intent:* User wants weather and time for Jakarta.
+2.  *Identify tools:* `get_weather` and `get_time` tools are available.
+3.  *Plan execution:* Both operations are independent, so they can be called in parallel.
+4.  *Formulate calls:* Generate `tool_calls` for `get_weather(location='Jakarta, ID')` and `get_time(timezone='Asia/Jakarta')`.
 
 Your code should then execute these `tool_calls` and feed the results back to the model.
 
@@ -153,9 +152,9 @@ Your code should then execute these `tool_calls` and feed the results back to th
 
 NeosantaraAI's response for tool use will have a `finish_reason` of `tool_calls` and one or more `tool_calls` content blocks within the assistant's message. These blocks include:
 
-- `id`: A unique identifier for this particular tool call. This will be used to match up the tool results later.
-- `type`: Always `"function"`.
-- `function`: An object containing the name of the tool (`name`) and the arguments (`arguments`) to be passed to it as a JSON string.
+* `id`: A unique identifier for this particular tool call. This will be used to match up the tool results later.
+* `type`: Always `"function"`.
+* `function`: An object containing the name of the tool (`name`) and the arguments (`arguments`) to be passed to it as a JSON string.
 
 <Accordion title="Example API Response with `tool_calls` Content Block">
   ```json
@@ -195,16 +194,16 @@ When you receive a tool use response, you should:
 1.  Extract the `name`, `id`, and `arguments` (parsing the JSON string) from the `tool_calls` block.
 2.  Run the actual tool in your codebase corresponding to that tool name, passing in the parsed tool arguments.
 3.  Continue the conversation by sending a new message with the `role` of `tool`, and a `content` block containing the result of your tool's execution. This message must also include the `tool_call_id` to link it back to the original tool request.
-    - `tool_call_id`: The `id` of the `tool_calls` request this is a result for.
-    - `content`: The result of the tool, as a string. For complex results, it's often a JSON string.
-    - `is_error` (optional): Set to `true` if the tool execution resulted in an error. NeosantaraAI will then incorporate this error into its response.
+
+    * `tool_call_id`: The `id` of the `tool_calls` request this is a result for.
+    * `content`: The result of the tool, as a string. For complex results, it's often a JSON string.
+    * `is_error` (optional): This field is **accepted by the API layer for compatibility with OpenAI SDKs**, but the underlying AI model's interpretation of an error relies on the **content of this string** rather than a specific flag. Therefore, ensure your `content` clearly describes any error that occurred during tool execution.
 
 <Note>
   **Important Formatting Requirements**:
 
-- Tool messages (`"role": "tool"`) must always immediately follow their corresponding `assistant` message that contained the `tool_calls`. You cannot include any other messages between them.
-- When returning results for parallel tool calls, all `tool` messages must be provided in a single `messages` array in the subsequent API call.
-
+  * Tool messages (`"role": "tool"`) must always immediately follow their corresponding `assistant` message that contained the `tool_calls`. You cannot include any other messages between them.
+  * When returning results for parallel tool calls, all `tool` messages must be provided in a single `messages` array in the subsequent API call.
 </Note>
 
 <AccordionGroup>
@@ -215,11 +214,11 @@ When you receive a tool use response, you should:
       "tool_call_id": "call_toolu_01A09q90qw90lq917835lq9",
       "content": "{\"temperature\": 28, \"unit\": \"celsius\", \"description\": \"Partly cloudy\"}"
     }
-    ```
+  ```
   </Accordion>
 
   <Accordion title="Example of Tool Result with Error">
-    If the tool itself throws an error during execution (e.g., a network error when fetching weather data), you can return the error message in the `content` along with `"is_error": true`:
+    If the tool itself throws an error during execution (e.g., a network error when fetching weather data), you should return the error message in the `content` of the `tool` message. While the `is_error: true` flag is accepted by the API layer for compatibility, the model's understanding of the error relies on the descriptive text within the `content` field.
 
     ```json
     {
@@ -230,8 +229,7 @@ When you receive a tool use response, you should:
     }
     ```
 
-    NeosantaraAI will then incorporate this error into its response to the user, e.g., "I'm sorry, I was unable to retrieve the current weather because the weather service API is not available. Please try again later."
-
+    NeosantaraAI will then interpret this content and incorporate it into its response to the user, e.g., "I'm sorry, I was unable to retrieve the current weather because the weather service API is not available. Please try again later."
   </Accordion>
 </AccordionGroup>
 
@@ -259,7 +257,7 @@ Different models may have varying propensities for parallel tool use. Experiment
 
 If the model's attempted use of a tool is invalid (e.g., missing required parameters), it usually means that there wasn't enough information for the model to use the tool correctly, or the tool definition was unclear. Your best bet during development is to try the request again with more-detailed `description` values in your tool definitions.
 
-If a tool request is invalid or missing parameters, NeosantaraAI will typically retry 2-3 times with corrections before apologizing to the user. You can also return an error in the `tool` message by setting `"is_error": true` in its content.
+If a tool request is invalid or missing parameters, NeosantaraAI will typically retry 2-3 times with corrections before apologizing to the user. You can also return an error in the `tool` message by providing an error string in the `content` field.
 
 ## Pricing
 
@@ -269,22 +267,30 @@ Tool use requests are priced based on:
 2.  The number of output tokens generated (including tool calls generated by the model).
 3.  Additional charges may apply for specific capabilities (e.g., vision processing for image inputs).
 
+The additional tokens from tool use come from:
+
+* The `tools` array in API requests (tool names, descriptions, and parameter schemas).
+* `tool_calls` generated by the model in assistant messages.
+* `tool` messages (containing `tool_call_id` and `content`) sent by your application.
+
 These token counts are added to your normal input and output tokens to calculate the total cost of a request.
 
 Refer to our [pricing documentation](https://app.neosantara.xyz/pricing) for current per-model prices and usage tiers.
 
 When you send a tool use prompt, just like any other API request, the response will output both input and output token counts as part of the reported `usage` metrics.
 
+***
+
 ## Next Steps
 
 Explore our other capabilities and API references:
 
 <CardGroup cols={3}>
-  <Card title="Image Generation" icon="image-frame" href="/en/about/capability/image-generations">
+  <Card title="Image Generation" icon="image-frame" href="/en/capability/image-generation">
     Generate high-quality images from text prompts.
   </Card>
 
-  <Card title="Embeddings" icon="vector-bezier" href="/en/about/capability/embeddings">
+  <Card title="Embeddings" icon="vector-bezier" href="/en/capability/embeddings">
     Convert text into numerical vectors for semantic search.
   </Card>
 </CardGroup>
