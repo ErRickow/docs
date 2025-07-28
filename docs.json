@@ -53,8 +53,9 @@
           },
           {
             "group": "Tools",
+            "icon": "wrench",
             "pages": [
-              "en/tools-overv",
+              "en/tools-overview",
               "en/how-tools"
             ]
           }
