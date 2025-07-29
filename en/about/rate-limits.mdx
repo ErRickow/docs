@@ -1,23 +1,35 @@
 ---
 title: 'Rate Limits'
-description: '> Learn about Neosantaras Rate Limiting'
+description: '> Learn about Neosantara Rate Limiting'
 ---
 
-Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources. Limits are enforced on **tokens per day** and **tokens per month** (stored in our database). Additional limits on requests per day and per minute are enforced programmatically using Upstash Redis. See [Token Credits & Pricing](/en/about/token-credits#pricing-overview) for more details.
+Our **token-based** rate limiting system ensures a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive resource consumption. Limits are enforced on **tokens per day (TPD)** and **total monthly token limit (Monthly Token Limit)**, which are tracked and stored in our database. Additional limits on **requests per day (RPD)** and **requests per minute (RPM)** are enforced programmatically using Upstash Redis. For more details on token credits and pricing, please refer to [Token Credits & Pricing](/en/about/token-credits#pricing-overview).
+
+---
 
 ## Tier Limits
 
-These are the maximum token limits for each plan, tracked in our database. All paid plans are priced at **Rp 149.99 per 1,000 tokens** (~Rp 0.15 per token). The **Custom** plan allows flexible top-ups starting from 66,667 tokens (Rp 9,999).
+Rate limits are measured across five key dimensions:
 
-**Note**: Cost per 1K Tokens is calculated as $Rp 0.15 per token × 1,000 = Rp 149.99$, equivalent to Rp 149.999 per 1 million tokens.
+* **`Requests per minute (RPM)`**: The maximum number of API requests you can send within one minute.
+* **`Tokens per minute (TPM)`**: The maximum number of tokens (input) you can use within one minute.
+* **`Requests per day (RPD)`**: The maximum number of API requests you can send within one day.
+* **`Tokens per day (TPD)`**: The maximum number of tokens (both input and output) you can use within one day.
+* **`Monthly Token Limit`**: The maximum total tokens (both input and output) you can use within one calendar month.
 
-| Tier       | Tokens per Day | Tokens per Month   | Cost per 1K Tokens |
-|------------|----------------|--------------------|-------------------|
-| Free       | 3,000          | 10,000             | Rp 0              |
-| Basic      | 10,000         | 66,667             | Rp 149.99         |
-| Standard   | 40,000         | 400,000            | Rp 149.99         |
-| Pro        | 100,000        | 1,000,000          | Rp 149.99         |
-| Custom     | 10% of Monthly | custom | Rp 149.99         |
+Below are the maximum token limits for each plan, tracked in our database. All paid plans are priced at **Rp 149.99 per 1,000 tokens** (~Rp 0.15 per token). The **Custom** plan allows flexible top-ups starting from 66,667 tokens (Rp 9,999).
+
+**Note**: Cost per 1K Tokens is calculated as $Rp 0.15 \text{ per token} \times 1,000 = Rp 149.99$, equivalent to $Rp 149.999 \text{ per 1 million tokens}$.
+
+| Tier       | RPM   | TPD       | TPM (per minute) | Monthly Token Limit (Est.) | Cost per 1K Tokens |
+| :--------- | :---- | :-------- | :--------------- | :------------------------- | :----------------- |
+| Free       | 5     | 3,000     | 10,000           | 100,000 (Est.)             | Rp 0               |
+| Basic      | 30    | 10,000    | 66,667           | 500,000 (Est.)             | Rp 149.99          |
+| Standard   | 100   | 40,000    | 400,000          | 2,000,000 (Est.)           | Rp 149.99          |
+| Pro        | 400   | 100,000   | 1,000,000        | 5,000,000 (Est.)           | Rp 149.99          |
+| Custom     | Custom| Custom    | Custom           | Custom                     | Rp 149.99          |
+
+---
 
 ## Response Headers
 
@@ -29,13 +41,13 @@ Every API response includes usage information within the `_metadata` field. This
     "usage": {
       "daily": {
         "current": 50,
-        "limit": 1500, // Example limit for Free tier
+        "limit": 1500, // Example TPD limit for Free tier
         "reset_date": "2025-07-28T00:00:00Z",
         "remaining": 1450
       },
       "monthly": {
         "current": 500,
-        "limit": 7500, // Example limit for Free tier
+        "limit": 7500, // Example Monthly Token Limit for Free tier
         "reset_date": "2025-08-01T00:00:00Z",
         "remaining": 7000
       }
