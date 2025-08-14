@@ -632,7 +632,7 @@
         "tags": [
           "images"
         ],
-        "summary": "Create image generations",
+        "summary": "Create image generation",
         "description": "Generates one or more images from a text prompt.",
         "operationId": "imageGenerations",
         "requestBody": {
