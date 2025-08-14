@@ -191,10 +191,10 @@
         "description": "Share this page on X",
         "icon": "x",
         "href": {
-          "base": "https://x.com/intent/tweet",
+          "base": "https://twitter.com/share",
           "query": [
             {
-            "key": "q",
+            "key": "text",
             "value": "Check out this Neosantara documentation: $page"
           }]
         }
