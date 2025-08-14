@@ -191,7 +191,7 @@
         "description": "Share this page on X",
         "icon": "x",
         "href": {
-          "base": "https://twitter.com/share",
+          "base": "https://twitter.com/intent/post",
           "query": [
             {
             "key": "text",
