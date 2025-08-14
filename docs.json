@@ -191,12 +191,11 @@
         "description": "Share this page on X",
         "icon": "x",
         "href": {
-          "base": "https://twitter.com/intent",
-          "query": [
-            {
+          "base": "https://x.com/intent/tweet",
+          "query": {
             "key": "text",
             "value": "Check out this Neosantara documentation: $page"
-          }]
+          }
         }
       }
     ]
