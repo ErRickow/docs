@@ -205,7 +205,6 @@
   },
   "seo": {
     "metatags": {
-      "charset": "UTF-8",
       "viewport": "width=device-width, initial-scale=1.0",
       "description": "Start Using Neosantara AI For Free Now! Access powerful AI models for chat, embeddings, moderation, and more.",
       "keywords": "ai, aiimage, neosantara-ai, neosantaradocs, neosantaraai, neosantara-docs, api-docs-ai, apidocsai, aidocs, dokumentasi-neosantaraai, docs-neosantara, neosantara_xyz, artificial intelligence, LLM, multimodal, API, Indonesia AI",
@@ -228,11 +227,6 @@
       "coverage": "Worldwide",
       "category": "Technology, AI, Artificial Intelligence, AI Documentation",
       "target": "all",
-      "indexing": "all",
-      "HandheldFriendly": "True",
-      "MobileOptimized": "320",
-      "apple-mobile-web-app-capable": "yes",
-      "apple-mobile-web-app-status-bar-style": "black",
       "og:title": "Neosantara AI Docs - API Documentation",
       "og:type": "website",
       "og:url": "https://docs.neosantara.xyz",
@@ -247,9 +241,6 @@
       "twitter:description": "Access powerful AI models for chat, embeddings, moderation, and more with Neosantara AI.",
       "twitter:image": "https://docs.neosantara.xyz/twitter-image.jpg",
       "twitter:image:alt": "Neosantara AI Documentation",
-      "article:published_time": "2025-01-01T00:00:00+00:00",
-      "article:modified_time": "2025-06-21T00:00:00+00:00",
-      "article:expiration_time": "2026-01-01T00:00:00+00:00",
       "article:author": "Neosantara AI Team",
       "article:section": "Technology, AI, Artificial Intelligence, API Documentation",
       "article:tag": "ai, neosantaraai, nai, indonesianAi, LLM, API, documentation"
