@@ -37,6 +37,9 @@
     },
     {
       "name": "authentication"
+    },
+    {
+      "name": "image"
     }
   ],
   "paths": {
@@ -623,6 +626,83 @@
           }
         }
       }
+    },
+    "/images/generations": {
+      "post": {
+        "tags": [
+          "image"
+        ],
+        "summary": "Create image generations",
+        "description": "Generates one or more images from a text prompt.",
+        "operationId": "imageGenerations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImagesGenerationsRequest"
+              },
+              "examples": {
+                "simple_generation": {
+                  "summary": "Simple image generation request",
+                  "value": {
+                    "prompt": "A beautiful sunset over the mountains in an anime art style.",
+                    "n": 1,
+                    "size": "1024x1024",
+                    "model": "neosantara-gen-2045"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image generation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesGenerationsResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful image generation response",
+                    "value": {
+                      "id": "img-12345",
+                      "object": "image",
+                      "created": 1717950000,
+                      "model": "neosantara-gen-2045",
+                      "data": [
+                        {
+                          "url": "https://example.com/image.png",
+                          "b64_json": null
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 15,
+                        "completion_tokens": 8,
+                        "total_tokens": 23
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -953,6 +1033,49 @@
           }
         }
       },
+      "ImagesGenerationsRequest": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "The model to use for image generation.",
+            "example": "neosantara-gen-2045"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "A text description of the desired image(s). The maximum length is 1000 characters."
+          },
+          "n": {
+            "type": "integer",
+            "description": "The number of images to generate.",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 4
+          },
+          "size": {
+            "type": "string",
+            "description": "The size of the generated images.",
+            "default": "1024x1024",
+            "enum": [
+              "256x256",
+              "512x512",
+              "1024x1024"
+            ]
+          },
+          "response_format": {
+            "type": "string",
+            "description": "The format in which the generated images are returned.",
+            "default": "url",
+            "enum": [
+              "url",
+              "b64_json"
+            ]
+          }
+        }
+      },
       "ChatCompletionsResponse": {
         "type": "object",
         "properties": {
@@ -1036,6 +1159,66 @@
             "$ref": "#/components/schemas/Metadata"
           }
         }
+      },
+      "ImagesGenerationsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A unique identifier for the image generation request."
+          },
+          "object": {
+            "type": "string",
+            "example": "image",
+            "description": "The type of object returned."
+          },
+          "created": {
+            "type": "integer",
+            "description": "The timestamp of when the image was created."
+          },
+          "model": {
+            "type": "string",
+            "description": "The model used for the image generation."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageGenerationData"
+            },
+            "description": "A list of generated image objects."
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage",
+            "description": "Token usage information for the request."
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "ImageGenerationData": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "The URL of the generated image. Will be null if `response_format` is `b64_json`."
+          },
+          "b64_json": {
+            "type": "string",
+            "nullable": true,
+            "description": "The base64 encoded JSON of the generated image. Will be null if `response_format` is `url`."
+          }
+        },
+        "oneOf": [
+          {
+            "required": ["url"]
+          },
+          {
+            "required": ["b64_json"]
+          }
+        ]
       },
       "ModerationsResponse": {
         "type": "object",
