@@ -15,150 +15,147 @@
   },
   "navigation": {
     "languages": [
+    {
+      "language": "en",
+      "default": true,
+      "anchors": [
       {
-        "language": "en",
-        "default": true,
-        "anchors": [
+        "anchor": "Developer Guide",
+        "groups": [
         {
-          "anchor": "Developer Guide",
-          "groups": [
-          {
-            "group": "First steps",
-            "icon": "feather",
-            "pages": [
-              "en/intro",
-              "en/api-reference/quickstart"
-            ]
-          },
-          {
-            "group": "Learn About Neosantara",
-            "icon": "feather",
-            "pages": [
-              "en/about"
-            ]
-          },
-          {
-            "group": "Models & Pricing",
-            "pages": [
-              "en/models-overview"
-            ]
-          },
-          {
-            "group": "Capabilities",
-            "pages": [
-              "en/capability/embeddings",
-              "en/capability/image-generation",
-              "en/capability/stream"
-            ]
-          },
-          {
-            "group": "Tools",
-            "icon": "wrench",
-            "pages": [
-              "en/tools-overview",
-              "en/how-tools"
-            ]
-          }
+          "group": "First steps",
+          "icon": "feather",
+          "pages": [
+            "en/intro",
+            "en/api-reference/quickstart"
           ]
         },
         {
-          "anchor": "API Guide",
-          "groups": [
-          {
-            "group": "Using the APIs",
-            "icon": "hashtag",
-            "pages": [
-              "en/api-reference/introduction",
-              "en/about/token-credits",
-              "en/about/rate-limits",
-              "en/about/model"
-            ]
-          },
-          {
-            "group": "API reference",
-            "icon": "square-terminal",
-            "pages": [
-              "en/api-reference/chat/create-chat-completion",
-              "en/api-reference/embeddings/create-embeddings",
-              "en/api-reference/models/list-available-models",
-              "en/api-reference/moderations/content-moderation-check",
-              "en/api-reference/images/create-image-generation",
-              "en/api-reference/authentication/check-api-key-status"
-            ]
-          },
-          {
-            "group": "SDKs",
-            "pages": [
-              "en/api-reference/sdk/openai-compatible"
-            ]
-          }]
-          
+          "group": "Learn About Neosantara",
+          "icon": "feather",
+          "pages": [
+            "en/about"
+          ]
+        },
+        {
+          "group": "Models & Pricing",
+          "pages": [
+            "en/models-overview"
+          ]
+        },
+        {
+          "group": "Capabilities",
+          "pages": [
+            "en/capability/embeddings",
+            "en/capability/image-generation",
+            "en/capability/stream"
+          ]
+        },
+        {
+          "group": "Tools",
+          "icon": "wrench",
+          "pages": [
+            "en/tools-overview",
+            "en/how-tools"
+          ]
         }]
       },
       {
-        "language": "id",
-        "anchors": [
+        "anchor": "API Guide",
+        "groups": [
         {
-          "anchor": "Permulaan",
-          "groups": [
-          {
-            "group": "Selamat Datang",
-            "icon": "feather",
-            "pages": [
-              "id/about",
-              "id/api-reference/quickstart"
-            ]
-          }]
+          "group": "Using the APIs",
+          "icon": "hashtag",
+          "pages": [
+            "en/api-reference/introduction",
+            "en/about/token-credits",
+            "en/about/rate-limits",
+            "en/about/model"
+          ]
         },
         {
-          "anchor": "Cara Penggunaan API",
-          "groups": [
-          {
-            "group": "Menggunakan APIs",
-            "icon": "hashtag",
-            "pages": [
-              "id/api-reference/introduction",
-              "id/about/token-credits",
-              "id/about/rate-limits",
-              "id/about/model"
-            ]
-          },
-          {
-            "group": "API reference",
-            "icon": "square-terminal",
-            "pages": [
-              "id/api-reference/chat/create-chat-completion",
-              "id/api-reference/embeddings/create-embeddings",
-              "id/api-reference/models/list-available-models",
-              "id/api-reference/moderations/content-moderation-check",
-              "id/api-reference/reasoning/enhanced-reasoning-completion",
-              "id/api-reference/authentication/check-api-key-status"
-            ]
-          },
-          {
-            "group": "SDKs",
-            "pages": [
-              "id/api-reference/sdk/openai-compatible"
-            ]
-          }]
+          "group": "API reference",
+          "icon": "square-terminal",
+          "pages": [
+            "en/api-reference/chat/create-chat-completion",
+            "en/api-reference/embeddings/create-embeddings",
+            "en/api-reference/models/list-available-models",
+            "en/api-reference/moderations/content-moderation-check",
+            "en/api-reference/images/create-image-generation",
+            "en/api-reference/authentication/check-api-key-status"
+          ]
+        },
+        {
+          "group": "SDKs",
+          "pages": [
+            "en/api-reference/sdk/openai-compatible"
+          ]
         }]
-      }
-    ],
+        
+      }]
+    },
+    {
+      "language": "id",
+      "anchors": [
+      {
+        "anchor": "Permulaan",
+        "groups": [
+        {
+          "group": "Selamat Datang",
+          "icon": "feather",
+          "pages": [
+            "id/about",
+            "id/api-reference/quickstart"
+          ]
+        }]
+      },
+      {
+        "anchor": "Cara Penggunaan API",
+        "groups": [
+        {
+          "group": "Menggunakan APIs",
+          "icon": "hashtag",
+          "pages": [
+            "id/api-reference/introduction",
+            "id/about/token-credits",
+            "id/about/rate-limits",
+            "id/about/model"
+          ]
+        },
+        {
+          "group": "API reference",
+          "icon": "square-terminal",
+          "pages": [
+            "id/api-reference/chat/create-chat-completion",
+            "id/api-reference/embeddings/create-embeddings",
+            "id/api-reference/models/list-available-models",
+            "id/api-reference/moderations/content-moderation-check",
+            "id/api-reference/reasoning/enhanced-reasoning-completion",
+            "id/api-reference/authentication/check-api-key-status"
+          ]
+        },
+        {
+          "group": "SDKs",
+          "pages": [
+            "id/api-reference/sdk/openai-compatible"
+          ]
+        }]
+      }]
+    }],
     "global": {
       "anchors": [
-        {
-          "anchor": "Get Started",
-          "href": "https://docs.neosantara.xyz/about",
-          "icon": "rocket-launch"
-        },
-        {
-          "anchor": "Documentations",
-          "href": "https://docs.neosantara.xyz/api-reference/introduction",
-          "icon": "book-open-cover"
-        }
-      ]
+      {
+        "anchor": "Get Started",
+        "href": "https://docs.neosantara.xyz/about",
+        "icon": "rocket-launch"
+      },
+      {
+        "anchor": "Documentations",
+        "href": "https://docs.neosantara.xyz/api-reference/introduction",
+        "icon": "book-open-cover"
+      }]
     }
-  },  
+  },
   "logo": {
     "light": "/logo/logo.svg",
     "dark": "/logo/logo.svg"
@@ -192,10 +189,11 @@
         "icon": "x",
         "href": {
           "base": "https://x.com/intent/tweet",
-          "query": {
+          "query": [
+          {
             "key": "text",
             "value": "Check out this Neosantara documentation: $page"
-          }
+          }]
         }
       }
     ]
@@ -241,7 +239,7 @@
       "og:image": "https://docs.neosantara.xyz/og-image.jpg",
       "og:description": "Get Started With Neosantara AI - Your gateway to advanced AI models.",
       "og:site_name": "Neosantara AI Documentations",
-      "og:locale": "en_US",
+      "og:locale": "id_ID",
       "twitter:card": "summary_large_image",
       "twitter:site": "@NeosantaraAI",
       "twitter:creator": "@ErRickow",
