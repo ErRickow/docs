@@ -39,7 +39,7 @@
       "name": "authentication"
     },
     {
-      "name": "image"
+      "name": "images"
     }
   ],
   "paths": {
@@ -630,7 +630,7 @@
     "/images/generations": {
       "post": {
         "tags": [
-          "image"
+          "images"
         ],
         "summary": "Create image generations",
         "description": "Generates one or more images from a text prompt.",

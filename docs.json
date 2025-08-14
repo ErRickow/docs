@@ -82,7 +82,6 @@
               "en/api-reference/embeddings/create-embeddings",
               "en/api-reference/models/list-available-models",
               "en/api-reference/moderations/content-moderation-check",
-              "en/api-reference/reasoning/enhanced-reasoning-completion",
               "en/api-reference/authentication/check-api-key-status"
             ]
           },
@@ -187,19 +186,6 @@
       "claude",
       "perplexity",
       {
-        "title": "Ask Gemini",
-        "description": "Ask Google Gemini about this page",
-        "icon": "sparkle",
-        "href": {
-          "base": "https://gemini.google.com/app",
-          "query": [
-          {
-            "key": "q",
-            "value": "can you explain this https://docs.neosantara.xyz$path.md"
-          }]
-        }
-      },
-      {
         "title": "Share on X",
         "description": "Share this page on X",
         "icon": "x",
@@ -207,7 +193,7 @@
           "base": "https://x.com/intent/tweet",
           "query": [
             {
-            "key": "text",
+            "key": "q",
             "value": "Check out this Neosantara documentation: $page"
           }]
         }
