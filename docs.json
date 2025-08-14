@@ -82,6 +82,7 @@
               "en/api-reference/embeddings/create-embeddings",
               "en/api-reference/models/list-available-models",
               "en/api-reference/moderations/content-moderation-check",
+              "en/api-reference/images/create-image-generations",
               "en/api-reference/authentication/check-api-key-status"
             ]
           },
