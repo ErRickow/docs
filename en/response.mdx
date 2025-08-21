@@ -1,0 +1,116 @@
+---
+title: 'Responses vs. Chat Completions'
+description: '> Understanding the practical differences when using the OpenAI SDK with our endpoints.'
+---
+
+When you use an official OpenAI SDK (like `openai-python` or `openai-node`) with Neosantara AI's `base_url`, the library maps its methods to our API endpoints. While both `v1/responses` and `v1/chat/completions` can hold a conversation, how you interact with them through the SDK is fundamentally different.
+
+For all new projects, we strongly recommend using the **`client.responses.create()`** method.
+
+---
+
+## Key SDK Differences
+
+### 1. The Method You Call
+
+The most direct difference is the method you invoke on the client object.
+
+- **Chat Completions** uses the nested `chat.completions.create()` method.
+- **Responses** uses the top-level `responses.create()` method, reflecting its status as a primary, modern API.
+
+<CodeGroup>
+```python
+# Chat Completions SDK Usage
+completion = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+````
+
+```python
+# Responses SDK Usage
+response = client.responses.create(
+    model="nusantara-base",
+    input="Hello!"
+)
+```
+
+</CodeGroup>
+
+### 2. Accessing the AI's Reply
+
+This is a critical difference. The structure of the returned object in the SDK reflects the underlying API response.
+
+  - **Chat Completions**: The response is always nested inside a `choices` array. To get the text, you must access `response.choices[0].message.content`.
+  - **Responses**: The SDK provides a convenient helper property called `output_text` that directly gives you the concatenated text. However, the most reliable way is to access the `output` array and get the `.text` from the first element, as `output` can also contain other types of content like function calls.
+
+<CodeGroup>
+
+```python
+# Chat Completions: Accessing the content
+# response = client.chat.completions.create(...)
+print(response.choices[0].message.content)
+```
+
+```python
+# Responses: Accessing the content
+# response = client.responses.create(...)
+
+# The reliable way (accessing the raw output structure)
+
+print(response.output[0].text)
+
+# The convenience helper (provided by the SDK)
+
+print(response.output_text)
+
+```
+
+</CodeGroup>
+
+### 3\. Managing Conversation History
+
+The Responses API was built to make multi-turn conversations easier, and this is reflected in the SDK usage.
+
+  - **Chat Completions**: You are fully responsible for managing the conversation. You must manually create a list, append the assistant's response, append the next user message, and send the entire list back every time.
+  - **Responses**: You can let the API manage the state. After the first turn, you simply pass the `previous_response_id` to continue the conversation. The SDK and your backend handle the rest.
+
+<CodeGroup>
+```python
+# Chat Completions: Manual state management
+messages = [{"role": "user", "content": "What is the capital of Indonesia?"}]
+completion = client.chat.completions.create(model="nusantara-base", messages=messages)
+
+# Manually append history for the next turn
+
+messages.append(completion.choices[0].message)
+messages.append({"role": "user", "content": "What is its population?"})
+next_completion = client.chat.completions.create(model="nusantara-base", messages=messages)
+
+````
+
+```python
+# Responses: Automatic state management
+# First turn
+response1 = client.responses.create(
+    model="nusantara-base",
+    input="What is the capital of Indonesia?",
+    store=True # Must be true to save the state
+)
+
+# Second turn - just use the ID
+response2 = client.responses.create(
+    model="nusantara-base",
+    previous_response_id=response1.id,
+    input="What is its population?"
+)
+```
+
+</CodeGroup>
+
+## Recommendation
+
+| If you are... | You should use... | Why? |
+| :--- | :--- | :--- |
+| **Starting a new project** | `client.responses.create()` | It's simpler, more powerful, and offers state management, advanced reasoning, and strict structured outputs. |
+| **Migrating an existing app** | `client.chat.completions.create()` | It provides a seamless, drop-in replacement for code already written for the OpenAI `chat/completions` endpoint. |

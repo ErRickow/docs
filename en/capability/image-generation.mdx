@@ -9,11 +9,11 @@ Image generation allows you to create unique visual content directly from textua
 
 You provide a text prompt describing the image you want to create, and the NeosantaraAI API utilizes advanced generative AI models to produce the corresponding image(s). You can specify parameters like the number of images, their size, and the format of the output.
 
-The NeosantaraAI API provides an `/v1/images/generations` endpoint for this purpose.
+The NeosantaraAI API provides an [`/v1/images/generations`](/api-reference/images/create-image-generation) endpoint for this purpose.
 
 ## Usage
 
-To generate images, send a POST request to the `/v1/images/generations` endpoint with your text prompt and desired parameters.
+To generate images, send a POST request to the [`/v1/images/generations`](/api-reference/images/create-image-generation) endpoint with your text prompt and desired parameters.
 
 ### Endpoint
 
@@ -48,7 +48,6 @@ To generate images, send a POST request to the `/v1/images/generations` endpoint
 The NeosantaraAI API supports the following image generation models:
 
 * **`neosantara-gen-2045`**: Our primary image generation model, hosted on Together AI. Recommended for quality and speed.
-* **`replicate-stable-diffusion-xl`**: A Stable Diffusion XL model hosted on Replicate, serving as a robust fallback for image generation.
 
 ### Example Response (`"response_format": "url"`)
 

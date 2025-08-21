@@ -79,7 +79,7 @@
           "group": "Using the APIs",
           "icon": "hashtag",
           "pages": [
-            "en/api-reference/introduction",
+            "api-reference/introduction",
             "en/about/token-credits",
             "en/about/rate-limits",
             "en/about/model"
@@ -101,7 +101,8 @@
         {
           "group": "SDKs",
           "pages": [
-            "api-reference/sdk/openai-compatible"
+            "api-reference/sdk/openai-compatible",
+            "en/response"
           ]
         }]
         
