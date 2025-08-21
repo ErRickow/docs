@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Neosantara AI API",
-    "description": "API for NeosantaraAI services.",
+    "description": "API for Neosantara AI services.",
     "version": "1.0.0"
   },
   "servers": [
@@ -129,7 +129,7 @@
                           "index": 0,
                           "message": {
                             "role": "assistant",
-                            "content": "NeosantaraAI is an independent AI platform offering various models."
+                            "content": "Neosantara AI is an independent AI platform offering various models."
                           },
                           "finish_reason": "stop"
                         }
@@ -265,7 +265,7 @@
                           "id": "nusantara-base",
                           "object": "model",
                           "created": 1717950000,
-                          "owned_by": "NeosantaraAI",
+                          "owned_by": "noesantara.xyz",
                           "permission": [],
                           "root": "nusantara-base",
                           "parent": null,
@@ -279,7 +279,7 @@
                           "id": "vision-emas-2045",
                           "object": "model",
                           "created": 1717950000,
-                          "owned_by": "NeosantaraAI",
+                          "owned_by": "noesantara.xyz",
                           "permission": [],
                           "root": "vision-emas-2045",
                           "parent": null,
@@ -967,7 +967,8 @@
         ],
         "properties": {
           "model": {
-            "type": "string"
+            "type": "string",
+            "default": "nusantara-base"
           },
           "messages": {
             "type": "array",
@@ -982,11 +983,13 @@
               ]
             }
           },
+          "reasoning": {
+            "$ref": "#/components/schemas/Reasoning",
+            "description": "Optional reasoning parameters for advanced problem solving."
+          },
           "temperature": {
             "type": "number",
-            "default": 0.7,
-            "minimum": 0,
-            "maximum": 2
+            "default": 0.7
           },
           "max_tokens": {
             "type": "integer",
@@ -1005,21 +1008,15 @@
           },
           "top_p": {
             "type": "number",
-            "default": 1,
-            "minimum": 0,
-            "maximum": 1
+            "default": 1
           },
           "frequency_penalty": {
             "type": "number",
-            "default": 0,
-            "minimum": -2,
-            "maximum": 2
+            "default": 0
           },
           "presence_penalty": {
             "type": "number",
-            "default": 0,
-            "minimum": -2,
-            "maximum": 2
+            "default": 0
           },
           "response_format": {
             "$ref": "#/components/schemas/ResponseFormat"
@@ -1037,15 +1034,7 @@
             }
           },
           "tool_choice": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/ToolChoice"
-              }
-            ],
-            "default": "auto"
+            "$ref": "#/components/schemas/ToolChoice"
           },
           "web_search": {
             "type": "boolean",
@@ -1165,6 +1154,19 @@
           }
         }
       },
+      "Reasoning": {
+        "type": "object",
+        "properties": {
+          "effort": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      },
       "ReasoningRequest": {
         "type": "object",
         "required": [
@@ -1280,13 +1282,14 @@
       "ImagesGenerationsRequest": {
         "type": "object",
         "required": [
-          "prompt"
+          "prompt",
+          "model"
         ],
         "properties": {
           "model": {
             "type": "string",
             "description": "The model to use for image generation.",
-            "example": "neosantara-gen-2045"
+            "default": "neosantara-gen-2045"
           },
           "prompt": {
             "type": "string",
@@ -1694,7 +1697,7 @@
           },
           "owned_by": {
             "type": "string",
-            "example": "NeosantaraAI"
+            "example": "noesantara.xyz"
           },
           "permission": {
             "type": "array",
@@ -1816,7 +1819,7 @@
         "properties": {
           "creator": {
             "type": "string",
-            "example": "NeosantaraAI"
+            "example": "noesantara.xyz"
           },
           "status": {
             "type": "boolean"
@@ -1839,18 +1842,6 @@
           },
           "user_total_usage": {
             "$ref": "#/components/schemas/UsageInfo",
-            "nullable": true
-          },
-          "key_specific_usage": {
-            "$ref": "#/components/schemas/UsageInfo",
-            "nullable": true
-          },
-          "is_key_downgraded": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "upstash_rate_limiting_active": {
-            "type": "boolean",
             "nullable": true
           }
         }
@@ -2131,6 +2122,9 @@
       },
       "Function": {
         "type": "object",
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -2144,27 +2138,37 @@
         }
       },
       "ToolChoice": {
-        "type": "object",
-        "required": [
-          "type",
-          "function"
-        ],
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "function"
-            ]
+        "oneOf": [
+          {
+            "type": "string"
           },
-          "function": {
+          {
             "type": "object",
+            "required": [
+              "type",
+              "function"
+            ],
             "properties": {
-              "name": {
-                "type": "string"
+              "type": {
+                "type": "string",
+                "enum": [
+                  "function"
+                ]
+              },
+              "function": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
               }
             }
           }
-        }
+        ]
       },
       "ChatMessage": {
         "type": "object",
