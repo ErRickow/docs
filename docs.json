@@ -77,6 +77,7 @@
           "group": "API reference",
           "icon": "square-terminal",
           "pages": [
+            "en/api-reference/response/create-a-response",
             "en/api-reference/chat/create-chat-completion",
             "en/api-reference/embeddings/create-embeddings",
             "en/api-reference/models/list-available-models",
