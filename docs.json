@@ -6,6 +6,16 @@
     "primary": "#FF5722",
     "light": "#FF8A65"
   },
+  "fonts": {
+    "heading": {
+      "family": "IBM Plex Mono",
+      "weight": 600
+    },
+    "body": {
+      "family": "IBM Plex Sans",
+      "weight": 400
+    }
+  },
   "favicon": "/favicon.ico",
   "styling": {
     "eyebrows": "breadcrumbs"
@@ -24,27 +34,29 @@
         "groups": [
         {
           "group": "First steps",
-          "icon": "feather",
+          "icon": "arrow-right-to-arc",
           "pages": [
             "en/intro",
-            "en/api-reference/quickstart"
+            "/api-reference/quickstart"
           ]
         },
         {
           "group": "Learn About Neosantara",
-          "icon": "feather",
+          "icon": "circle-info",
           "pages": [
             "en/about"
           ]
         },
         {
           "group": "Models & Pricing",
+          "icon": "arrow-up-from-ground-water",
           "pages": [
             "en/models-overview"
           ]
         },
         {
           "group": "Capabilities",
+          "icon": "diagram-project",
           "pages": [
             "en/capability/embeddings",
             "en/capability/image-generation",
@@ -77,19 +89,19 @@
           "group": "API reference",
           "icon": "square-terminal",
           "pages": [
-            "en/api-reference/response/create-a-response",
-            "en/api-reference/chat/create-chat-completion",
-            "en/api-reference/embeddings/create-embeddings",
-            "en/api-reference/models/list-available-models",
-            "en/api-reference/moderations/content-moderation-check",
-            "en/api-reference/images/create-image-generation",
-            "en/api-reference/authentication/check-api-key-status"
+            "api-reference/response/create-a-response",
+            "api-reference/chat/create-chat-completion",
+            "api-reference/embeddings/create-embeddings",
+            "api-reference/models/list-available-models",
+            "api-reference/moderations/content-moderation-check",
+            "api-reference/images/create-image-generation",
+            "api-reference/authentication/check-api-key-status"
           ]
         },
         {
           "group": "SDKs",
           "pages": [
-            "en/api-reference/sdk/openai-compatible"
+            "api-reference/sdk/openai-compatible"
           ]
         }]
         
