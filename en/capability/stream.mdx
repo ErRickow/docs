@@ -57,54 +57,52 @@ data: {"type":"response.completed","response":{...}}
 
 <CodeGroup>
 
-```python
+```python NAI.py icon="python" lines
 from openai import OpenAI
 
 # Initialize the client for Nusantara AI
-
 client = OpenAI(
-api_key="<YOUR_NUSANTARA_API_KEY>",
-base_url="https://api.neosantara.xyz/v1"
+    api_key="<YOUR_NUSANTARA_API_KEY>", 
+    base_url="https://api.neosantara.xyz/v1"
 )
 
 def stream_response(prompt: str, model: str = "nusantara-base"):
-"""Makes a streaming request to the Responses API."""
-print(f"Streaming from /v1/responses for model: {model}")
-print(f"Prompt: {prompt}\n")
+    """Makes a streaming request to the Responses API."""
+    print(f"Streaming from /v1/responses for model: {model}")
+    print(f"Prompt: {prompt}\n")
 
-try:
-stream = client.responses.create(
-model=model,
-input=prompt,
-stream=True,
-max_tokens=500
-)
+    try:
+        stream = client.responses.create(
+            model=model,
+            input=prompt,
+            stream=True,
+            max_tokens=2045
+        )
 
+        full_response_content = ""
+        print("AI Response: ", end="", flush=True)
+        for event in stream:
+            # Check for the event type containing text chunks
+            if event.type == 'response.output_text.delta':
+                content = event.delta
+                full_response_content += content
+                print(content, end="", flush=True)
 
-full_response_content = ""
-print("AI Response: ", end="", flush=True)
-for event in stream:
-    # Check for the event type containing text chunks
-    if event.type == 'response.output_text.delta':
-        content = event.delta
-        full_response_content += content
-        print(content, end="", flush=True)
+        print("\n\n--- Stream finished ---")
+        return full_response_content
 
-print("\n\n--- Stream finished ---")
-return full_response_content
+    except Exception as e:
+        print(f"\nAn error occurred: {e}")
+        return None
 
-except Exception as e:
-print(f"\nAn error occurred: {e}")
-return None
-
-if name == "main":
-user_prompt = "Tell me a short story about a mythical creature from Indonesian folklore."
-streamed_text = stream_response(user_prompt)
-if streamed_text:
-print(f"\nTotal streamed content length: {len(streamed_text)} characters")
+if __name__ == "__main__":
+    user_prompt = "Tell me a short story about a mythical creature from Indonesian folklore."
+    streamed_text = stream_response(user_prompt)
+    if streamed_text:
+        print(f"\nTotal streamed content length: {len(streamed_text)} characters")
 ```
 
-```javascript
+```javascript NAI.ts icon="square-js" lines
 import OpenAI from 'openai';
 
 // Initialize the client for Nusantara AI
@@ -115,14 +113,14 @@ const client = new OpenAI({
 
 async function streamResponse(prompt, model = "nusantara-base") {
   console.log(`Streaming from /v1/responses for model: ${model}`);
-  console.log(`Prompt: ${prompt}n`);
+  console.log(`Prompt: ${prompt}\n`);
 
   try {
     const stream = await client.responses.create({
       model: model,
       input: prompt,
       stream: true,
-      max_tokens: 500,
+      max_tokens: 2045,
     });
 
     let fullResponseContent = "";
@@ -190,54 +188,52 @@ data: [DONE]
 
 <CodeGroup>
 
-```python
+```python NAI.py icon="python" lines
 from openai import OpenAI
 
 # Initialize the client for Nusantara AI
-
 client = OpenAI(
-api_key="<YOUR_NUSANTARA_API_KEY>",
-base_url="https://api.neosantara.xyz/v1"
+    api_key="<YOUR_NUSANTARA_API_KEY>",
+    base_url="https://api.neosantara.xyz/v1"
 )
 
 def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
-"""Makes a streaming request to the Chat Completions API."""
-print(f"Streaming from /v1/chat/completions for model: {model}")
-print(f"Prompt: {prompt}\n")
+    """Makes a streaming request to the Chat Completions API."""
+    print(f"Streaming from /v1/chat/completions for model: {model}")
+    print(f"Prompt: {prompt}\n")
 
-try:
-stream = client.chat.completions.create(
-model=model,
-messages=[
-{"role": "user", "content": prompt}
-],
-stream=True,
-max_tokens=500
-)
+    try:
+        stream = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            stream=True,
+            max_tokens=500
+        )
 
-full_response_content = ""
-print("AI Response: ", end="", flush=True)
-for chunk in stream:
-    content = chunk.choices[0].delta.content or ""
-    full_response_content += content
-    print(content, end="", flush=True)
-    
-print("\n\n--- Stream finished ---")
-return full_response_content
+        full_response_content = ""
+        print("AI Response: ", end="", flush=True)
+        for chunk in stream:
+            content = chunk.choices[0].delta.content or ""
+            full_response_content += content
+            print(content, end="", flush=True)
+            
+        print("\n\n--- Stream finished ---")
+        return full_response_content
 
-except Exception as e:
-print(f"\nAn error occurred: {e}")
-return None
+    except Exception as e:
+        print(f"\nAn error occurred: {e}")
+        return None
 
-if name == "main":
-user_prompt = "Explain the concept of AI streaming in detail.";
-streamed_text = stream_chat_completion(user_prompt)
-if streamed_text:
-print(f"\nTotal streamed content length: {len(streamed_text)} characters")
-
+if __name__ == "__main__":
+    user_prompt = "Explain the concept of AI streaming in detail."
+    streamed_text = stream_chat_completion(user_prompt)
+    if streamed_text:
+        print(f"\nTotal streamed content length: {len(streamed_text)} characters")
 ```
 
-```javascript
+```javascript NAI.ts icon="square-js" lines
 import OpenAI from 'openai';
 
 // Initialize the client for Nusantara AI

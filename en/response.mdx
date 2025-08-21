@@ -3,10 +3,9 @@ title: 'Responses vs. Chat Completions'
 description: '> Understanding the practical differences when using the OpenAI SDK with our endpoints.'
 ---
 
-When you use an official OpenAI SDK (like `openai-python` or `openai-node`) with Neosantara AI's `base_url`, the library maps its methods to our API endpoints. While both `v1/responses` and `v1/chat/completions` can hold a conversation, how you interact with them through the SDK is fundamentally different.
+When you use an official OpenAI SDK like [`openai-python`](https://pypi.org/project/openai/) or [`openai-node`](https://www.npmjs.com/package/openai)) with Neosantara AI's `base_url`, the library maps its methods to our API endpoints. While both [`v1/responses`](api-reference/response) and [`v1/chat/completions`](api-reference/chat) can hold a conversation, how you interact with them through the SDK is fundamentally different.
 
-For all new projects, we strongly recommend using the **`client.responses.create()`** method.
-
+For new projects, we strongly recommend using the **`client.responses.create()`** method.
 ---
 
 ## Key SDK Differences
@@ -19,7 +18,7 @@ The most direct difference is the method you invoke on the client object.
 - **Responses** uses the top-level `responses.create()` method, reflecting its status as a primary, modern API.
 
 <CodeGroup>
-```python
+```python completions.py icon="python"
 # Chat Completions SDK Usage
 completion = client.chat.completions.create(
     model="nusantara-base",
@@ -27,7 +26,7 @@ completion = client.chat.completions.create(
 )
 ````
 
-```python
+```python response.py icon="python"
 # Responses SDK Usage
 response = client.responses.create(
     model="nusantara-base",
@@ -46,13 +45,13 @@ This is a critical difference. The structure of the returned object in the SDK r
 
 <CodeGroup>
 
-```python
+```python example completions icon="python"
 # Chat Completions: Accessing the content
 # response = client.chat.completions.create(...)
 print(response.choices[0].message.content)
 ```
 
-```python
+```python example response icon="python"
 # Responses: Accessing the content
 # response = client.responses.create(...)
 
@@ -68,7 +67,7 @@ print(response.output_text)
 
 </CodeGroup>
 
-### 3\. Managing Conversation History
+### 3. Managing Conversation History
 
 The Responses API was built to make multi-turn conversations easier, and this is reflected in the SDK usage.
 
@@ -76,7 +75,7 @@ The Responses API was built to make multi-turn conversations easier, and this is
   - **Responses**: You can let the API manage the state. After the first turn, you simply pass the `previous_response_id` to continue the conversation. The SDK and your backend handle the rest.
 
 <CodeGroup>
-```python
+```python completion icon="python"
 # Chat Completions: Manual state management
 messages = [{"role": "user", "content": "What is the capital of Indonesia?"}]
 completion = client.chat.completions.create(model="nusantara-base", messages=messages)
@@ -86,10 +85,9 @@ completion = client.chat.completions.create(model="nusantara-base", messages=mes
 messages.append(completion.choices[0].message)
 messages.append({"role": "user", "content": "What is its population?"})
 next_completion = client.chat.completions.create(model="nusantara-base", messages=messages)
-
 ````
 
-```python
+```python response icon="python"
 # Responses: Automatic state management
 # First turn
 response1 = client.responses.create(
