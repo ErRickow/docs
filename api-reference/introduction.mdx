@@ -17,15 +17,31 @@ All Neosantara endpoints are authenticated using API keys.
 [Get your free API key](https://app.neosantara.xyz/api-keys).
 
 ```bash icon="terminal"
-curl -X POST https://api.neosantara.xyz/v1/chat/completions \
+curl "https://api.neosantara.xyz/v1/chat/completions" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{"query": "Is 2045 the future of Indonesia?"}'
+  -H "Authorization: Bearer <YOUR_NUSANTARA_API_KEY>" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Ceritakan sebuah kisah singkat tentang seekor kancil yang cerdik."
+      }
+    ],
+    "stream": false
+  }'
 ```
 
-## Reference
+## Core Endpoints
 
 <CardGroup cols={6}>
+  <Card title="Responses API" icon="pen-nib"
+  horizontal
+  href="/en/api-reference/responses">
+  **`/response`**
+  
+  The main, modern endpoint for all use cases, including chat, function calling, and structured outputs.
+  </Card>
   <Card icon="magnifying-glass" horizontal href="/en/api-reference/chat/create-chat-completion">
     **`/chat/completions`**
 
