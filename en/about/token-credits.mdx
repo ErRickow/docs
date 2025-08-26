@@ -29,13 +29,13 @@ Choose from our structured plans below, or go with our flexible Custom option fo
 
 [Learn more about Neosantara token credits](/en/about/token-credits#how-api-costs-work)
 
-**Ready to upgrade?** Visit your [Dashboard](https://app.neosantara.xyz/dashboard) or [Pricing Page](https://app.neosantara.xyz/pricing) to explore plan options and manage your subscription.
+**Ready to upgrade?** [Reach Us](mailto:halo@neosantara.xyz) or [Pricing Page](https://app.neosantara.xyz/pricing) to explore plan options and manage your subscription.
 
 ---
 
 ## How API Costs Work
 
-Neosantara AI API usage is calculated based on **total tokens processed per request**, including both input (your prompts) and output (AI responses). Each model has different pricing based on its capabilities and computational requirements.
+Neosantara AI API usage is calculated based on **total tokens processed per request**, including both `input (your prompts)` and `output (AI responses)`. Each model has different pricing based on its capabilities and computational requirements.
 
 ### Cost Calculation Formula
 
@@ -47,8 +47,11 @@ $$Price = \text{Tokens} \times \text{Rp } 0.15 \text{ (per token)}$$
 $$Price = \left( \frac{\text{Tokens}}{1000} \right) \times \text{Rp } 149.99 \text{ (per 1,000 tokens)}$$
 
 **Example:** For 100,000 tokens:
+---
 $$Price = 100,000 \times 0.15 = \text{Rp } 15,000$$
+---
 or
+---
 $$Price = \left( \frac{100,000}{1,000} \right) \times 149.99 = \text{Rp } 14,999$$
 
 Both calculations yield approximately **Rp 15,000** (rounded for simplicity).
@@ -86,14 +89,13 @@ Not sure which model to choose? Here's a quick comparison to help you decide:
 | **Premium Indonesian Content** | `archipelago-70b` | Rp 4,710 / Rp 36,543 | Complex tasks requiring deep cultural and contextual understanding |
 | **Fast & Efficient Processing** | `garda-beta-mini` | Rp 2,500 / Rp 10,499 | Quick responses with large context window support |
 | **Multilingual & Programming** | `llama-3.3-nemotron-super-49b-v1.5`| Rp 1,850 / Rp 7,700 | English content, coding tasks, and major world languages |
-| **Image Analysis & OCR** | `vision-emas-2045` | Rp 1,650 / Rp 6,600 | Document reading, ID cards, receipts, and visual content |
 
 ---
 
 ## Understanding Token Usage
 
 ### Basic Text Processing
-Standard text requests (like chat completions) consume tokens based on:
+Standard text requests (like [`chat completions`](api-reference/chat)) consume tokens based on:
 - **Input length:** Your prompts and conversation history
 - **Output length:** The AI-generated response text
 
