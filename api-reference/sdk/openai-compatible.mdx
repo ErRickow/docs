@@ -1,297 +1,157 @@
-# OpenAI SDK compatibility
+---
+title: 'OpenAI SDK Compatibility'
+description: '> Use the official OpenAI SDK to interact with the Neosantara AI API.'
+---
 
-> NeosantaraAI provides a compatibility layer that enables you to use the OpenAI SDK to test the NeosantaraAI API. With a few code changes, you can quickly evaluate NeosantaraAI model capabilities.
+Neosantara AI provides a robust compatibility layer that enables you to use the official OpenAI SDKs to interact with our API. With only a few minor code changes, you can quickly evaluate Neosantara AI model capabilities or even migrate existing applications.
 
 <Note>
-  This compatibility layer is primarily intended to test and compare model capabilities, and is not considered a long-term or production-ready solution for most use cases. While we do intend to keep it fully functional and not make breaking changes, our priority is the reliability and effectiveness of the [NeosantaraAI API](/api-reference/introduction).
-
-  For more information on known compatibility limitations, see [Important OpenAI compatibility limitations](#important-openai-compatibility-limitations).
-
-  If you encounter any issues with the OpenAI SDK compatibility feature, please let us know at help@neosantara.xyz.
+  While this compatibility layer is fully supported, our priority remains the reliability and performance of the native **[Neosantara AI API](/api-reference/introduction)**. For the best experience and access to our complete feature set, we recommend using our modern `/v1/responses` endpoint.
 </Note>
 
-<Tip>
-  For the best experience and access to NeosantaraAI API full feature set, we recommend using our native API (check [getting started guide](/api-reference/getting-started)).
-</Tip>
+## Getting Started
 
-## Getting started with the OpenAI SDK
+To use the OpenAI SDK, you only need to change three things in your existing code:
+1.  **Update the `base_url`** to point to Neosantara AI's API endpoint.
+2.  **Replace your API key** with a [Neosantara AI API key](https://app.neosantara.xyz/dashboard).
+3.  **Update the model name** to a [Neosantara AI model](/en/about/model).
 
-To use the OpenAI SDK compatibility feature, you'll need to:
+### Quick Start: `responses` API (Recommended)
 
-1. Use an official OpenAI SDK
-2. Change the following
-   * Update your base URL to point to NeosantaraAI's API
-   * Replace your API key with a [NeosantaraAI API key](https://app.neosantara.xyz/dashboard)
-   * Update your model name to use a [NeosantaraAI model](/v1/models)
-3. Review the documentation below for what features are supported
-
-### Quick start example
+The `/v1/responses` endpoint is our most powerful and modern API. Use `client.responses.create()` to access it.
 
 <CodeGroup>
-  ```Python Python
-  from openai import OpenAI
+```python
+from openai import OpenAI
 
-  client = OpenAI(
-      api_key="NEOSANTARA_API_KEY",  # Your NeosantaraAI API key
-      base_url="[https://api.neosantara.xyz/v1/](https://api.neosantara.xyz/v1/)"  # NeosantaraAI's API endpoint
-  )
+client = OpenAI(
+    api_key="<YOUR_NUSANTARA_API_KEY>",
+    base_url="https://api.neosantara.xyz/v1"
+)
 
-  response = client.chat.completions.create(
-      model="nusantara-base", # NeosantaraAI model name
-      messages=[
-          {"role": "system", "content": "You are a helpful assistant."},
-          {"role": "user", "content": "Who are you?"}
-      ],
-  )
+response = client.responses.create(
+    model="nusantara-base",
+    input="Who are you?"
+)
 
-  print(response.choices[0].message.content)
-  ```
+# Access the response text
+print(response.output[0].text)
+````
 
-  ```TypeScript TypeScript
-  import OpenAI from 'openai';
-  
-  const openai = new OpenAI({
-      apiKey: "NEOSANTARA_API_KEY",   // Your NeosantaraAI API key
-      baseURL: "[https://api.neosantara.xyz/v1/](https://api.neosantara.xyz/v1/)",  // NeosantaraAI API endpoint
-  });
-  
-  const response = await openai.chat.completions.create({
-      messages: [
-          { role: "user", content: "Who are you?" }
-      ],
-      model: "nusantara-base", // NeosantaraAI model name
-  });
-  
-  console.log(response.choices[0].message.content);
-  ```
+```typescript
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+    apiKey: "<YOUR_NUSANTARA_API_KEY>",
+    baseURL: "https://api.neosantara.xyz/v1",
+});
+
+const response = await openai.responses.create({
+    input: "Who are you?",
+    model: "nusantara-base",
+});
+
+console.log(response.output[0].text);
+```
+
 </CodeGroup>
 
-## Important OpenAI compatibility limitations
+### Quick Start: `chat/completions` API (Legacy)
 
-#### API behavior
-
-Here are the most substantial differences from using OpenAI:
-
-* The `strict` parameter for function calling is ignored, which means the tool use JSON is not guaranteed to follow the supplied schema.
-* Audio input is not supported; it will simply be ignored and stripped from input
-* Prompt caching is not supported
-* System messages are prepended to the first user message for some models.
-
-Most unsupported fields are silently ignored rather than producing errors. These are all documented below.
-
-#### Output quality considerations
-
-If you’ve done lots of tweaking to your prompt, it’s likely to be well-tuned to OpenAI specifically.
-
-#### System / Developer message hoisting
-
-Most of the inputs to the OpenAI SDK clearly map directly to NeosantaraAI’s API parameters, but one distinct difference is the handling of system prompts. System messages are handled by prepending their content to the first user message for some underlying models, or passed as a system role to others.
-
-#### Extended thinking support
-
-NeosantaraAI supports advanced reasoning capabilities via its dedicated /v1/reasoning endpoint. This Anthropic-specific thinking parameter is ignored.
+The `/v1/chat/completions` endpoint is available for seamless compatibility with existing applications. Use `client.chat.completions.create()` to access it.
 
 <CodeGroup>
-  ```Python Python
-  response = client.chat.completions.create(
-      model="nusantara-base",
-      messages=...,
-      # The 'thinking' parameter here will be ignored by NeosantaraAI
-      extra_body={
-          &quot;thinking&quot;: { &quot;type&quot;: &quot;enabled&quot;, &quot;budget_tokens&quot;: 2000 }
-      }
-  )
-  ```
 
-  ```TypeScript TypeScript
-  const response = await openai.chat.completions.create({
-      messages: [
-          { role: "user", content: "Who are you?" }
-      ],
-      model: "nusantara-base",
-      // The 'thinking' parameter here will be ignored by NeosantaraAI
-      // @ts-expect-error
-      thinking: { type: "enabled", budget_tokens: 2000 }
-  });
+```python
+from openai import OpenAI
 
-  ```
+client = OpenAI(
+api_key="<YOUR_NUSANTARA_API_KEY>",
+base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.chat.completions.create(
+model="nusantara-base",
+messages=[
+{"role": "user", "content": "Who are you?"}
+],
+)
+
+print(response.choices[0].message.content)
+
+```
+
+```typescript
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+    apiKey: "<YOUR_NUSANTARA_API_KEY>",
+    baseURL: "https://api.neosantara.xyz/v1",
+});
+
+const response = await openai.chat.completions.create({
+    messages: [
+        { role: "user", content: "Who are you?" }
+    ],
+    model: "nusantara-base",
+});
+
+console.log(response.choices[0].message.content);
+```
+
 </CodeGroup>
 
-## Rate limits
+## Feature Compatibility Details
 
-Rate limits follow NeosantaraAI's [standard limits](rate-limits).
+While we aim for maximum compatibility, there are some differences in how certain features are implemented.
 
-## Detailed OpenAI Compatible API Support
+#### System / Developer Messages
 
-### Request fields
+The concept of a `system` prompt is fully supported. For some underlying providers that don't have a native system role, the content of your system message will be automatically prepended to the first user message to ensure the model follows your instructions.
 
-#### Simple fields
+#### Reasoning
 
-| Field                   | Support status                                          |
-| ----------------------- | ------------------------------------------------------- |
-| `model`                 | Use NeosantaraAI model names                            |
-| `max_tokens`            | Fully supported                                         |
-| `max_completion_tokens` | Ignored (use `max_tokens` instead)                      |
-| `stream`                | Fully supported                                         |
-| `stream_options`        | Ignored                                                 |
-| `top_p`                 | Fully supported                                         |
-| `parallel_tool_calls`   | Supported via `tools` array                             |
-| `stop`                  | Fully supported                                         |
-| `temperature`           | Fully supported                                         |
-| `n`                     | Must be exactly 1                                       |
-| `logprobs`              | Ignored                                                 |
-| `metadata`              | Ignored                                                 |
-| `response_format`       | Fully supported (`text`, `json_object`)                 |
-| `prediction`            | Ignored                                                 |
-| `presence_penalty`      | Fully supported                                         |
-| `frequency_penalty`     | Fully supported                                         |
-| `seed`                  | Ignored                                                 |
-| `service_tier`          | Ignored                                                 |
-| `audio`                 | Ignored                                                 |
-| `logit_bias`            | Ignored                                                 |
-| `store`                 | Ignored                                                 |
-| `user`                  | Ignored                                                 |
-| `modalities`            | Ignored                                                 |
-| `top_logprobs`          | Ignored                                                 |
-| `reasoning_effort`      | Ignored (use `/v1/reasoning` endpoint instead)          |
+Neosantara AI supports advanced reasoning through a special `reasoning` parameter available in both the `/v1/responses` and `/v1/chat/completions` endpoints.
 
-#### `tools` / `functions` fields
+```python
+# This parameter is supported by Neosantara AI
+response = client.responses.create(
+    model="nusantara-base",
+    input="Solve this complex logic puzzle...",
+    reasoning={"effort": "high"}
+)
+```
 
-<Accordion title="Show fields">
-  <Tabs>
-    <Tab title="Tools">
-      `tools[n].function` fields
+#### Conversation State (`store`)
 
-      | Field         | Support status  |
-      | ------------- | --------------- |
-      | `name`        | Fully supported |
-      | `description` | Fully supported |
-      | `parameters`  | Fully supported |
-      | `strict`      | Ignored         |
-    </Tab>
+The `store: true` and `previous_response_id` parameters are **fully supported** in the `/v1/responses` endpoint. This allows you to build stateful conversations without manually resending the entire chat history. This feature is not available for `/v1/chat/completions`.
 
-    <Tab title="Functions">
-      `functions[n]` fields
+#### Tools
 
-      <Info>
-        OpenAI has deprecated the `functions` field and suggests using `tools` instead.
-      </Info>
+The `tools: {}` is not supported on `/v1/responses` endpoint. Use the `/v1/chat/completions` instead.
 
-      | Field         | Support status  |
-      | ------------- | --------------- |
-      | `name`        | Fully supported |
-      | `description` | Fully supported |
-      | `parameters`  | Fully supported |
-      | `strict`      | Ignored         |
-    </Tab>
-  </Tabs>
-</Accordion>
+## Detailed Parameter Support
 
-#### `messages` array fields
+Most unsupported fields are silently ignored to prevent errors.
 
-<Accordion title="Show fields">
-  <Tabs>
-    <Tab title="Developer role">
-      Fields for `messages[n].role == "developer"`
+| Field | Support Status & Notes |
+|---|---|
+| `model` | **Fully supported**. Use Neosantara AI model names. |
+| `messages` | **Fully supported** in `/v1/chat/completions`. |
+| `input` / `instructions`| **Fully supported** in `/v1/responses`. |
+| `max_tokens` | **Fully supported**. |
+| `stream` | **Fully supported** for both endpoints. |
+| `temperature` | **Fully supported**. |
+| `top_p` | **Fully supported**. |
+| `stop` | **Fully supported**. |
+| `presence_penalty` | **Fully supported**. |
+| `frequency_penalty` | **Fully supported**. |
+| `response_format` | **Fully supported**. `json_schema` is only available in `/v1/responses`. |
+| `tools` / `functions` | **Fully supported**. `strict` mode is handled on a best-effort basis by the underlying provider. |
+| `tool_choice` | **Fully supported**. |
+| `n` | Ignored. Only one choice (`n=1`) is supported. |
+| `logprobs` / `top_logprobs` | Ignored. |
+| `user` / `metadata` | Ignored. |
+| `seed` | Ignored. |
 
-      <Info>
-        NeosantaraAI does not explicitly support a separate "developer" message role.
-      </Info>
-
-      | Field     | Support status        |
-      | --------- | --------------------- |
-      | `content` | Not applicable (ignored) |
-      | `name`    | Ignored               |
-    </Tab>
-
-    <Tab title="System role">
-      Fields for `messages[n].role == "system"`
-
-      <Info>
-        System messages are prepended to the first user message for some models.
-      </Info>
-
-      | Field     | Support status                   |
-      | --------- | -------------------------------- |
-      | `content` | Fully supported (prepended for some models) |
-      | `name`    | Ignored                          |
-    </Tab>
-
-    <Tab title="User role">
-      Fields for `messages[n].role == "user"`
-
-      | Field     | Variant                          | Sub-field | Support status                 |
-      | --------- | -------------------------------- | --------- | ------------------------------ |
-      | `content` | `string`                         |           | Fully supported                |
-      |           | `array`, `type == "text"`        |           | Fully supported                |
-      |           | `array`, `type == "image_url"`   | `url`     | Fully supported (for vision models) |
-      |           |                                  | `detail`  | Ignored                        |
-      |           | `array`, `type == "input_audio"` |           | Ignored                        |
-      |           | `array`, `type == "file"`        |           | Ignored                        |
-      | `name`    |                                  |           | Ignored                        |
-    </Tab>
-
-    <Tab title="Assistant role">
-      Fields for `messages[n].role == "assistant"`
-
-      | Field           | Variant                      | Support status                  |
-      | --------------- | ---------------------------- | ------------------------------- |
-      | `content`       | `string`                     | Fully supported                 |
-      |                 | `array`, `type == "text"`    | Supported (content is string)   |
-      |                 | `array`, `type == "refusal"` | Ignored                         |
-      | `tool_calls`    |                              | Fully supported                 |
-      | `function_call` |                              | Fully supported (converted to `tool_calls`) |
-      | `audio`         |                              | Ignored                         |
-      | `refusal`       |                              | Ignored                         |
-    </Tab>
-
-    <Tab title="Tool role">
-      Fields for `messages[n].role == "tool"`
-
-      | Field          | Variant                   | Support status                  |
-      | -------------- | ------------------------- | ------------------------------- |
-      | `content`      | `string`                  | Fully supported                 |
-      |                | `array`, `type == "text"` | Supported (content is string)   |
-      | `tool_call_id` |                           | Fully supported                 |
-      | `tool_choice`  |                           | Not applicable (request parameter) |
-      | `name`         |                           | Ignored (tool name inferred from `tool_call_id` if needed) |
-    </Tab>
-
-    <Tab title="Function role">
-      Fields for `messages[n].role == "function"`
-
-      <Info>
-        This is not a standard OpenAI message role. Messages with this role will be ignored.
-      </Info>
-
-      | Field         | Variant                   | Support status        |
-      | ------------- | ------------------------- | --------------------- |
-      | `content`     | `string`                  | Ignored               |
-      |               | `array`, `type == "text"` | Ignored               |
-      | `tool_choice` |                           | Not applicable (request parameter) |
-      | `name`        |                           | Ignored               |
-    </Tab>
-  </Tabs>
-</Accordion>
-
-### Error message compatibility
-
-The compatibility layer maintains consistent error formats with the OpenAI API. However, the detailed error messages will not be equivalent. We recommend only using the error messages for logging and debugging.
-
-### Header compatibility
-
-While the OpenAI SDK automatically manages headers, here is the complete list of headers supported by NeosantaraAI's API for developers who need to work with them directly.
-
-| Header                           | Support Status                 |
-| -------------------------------- | ------------------------------ |
-| `x-ratelimit-limit-requests`     | Fully supported                |
-| `x-ratelimit-limit-tokens`       | Fully supported                |
-| `x-ratelimit-remaining-requests` | Fully supported                |
-| `x-ratelimit-remaining-tokens`   | Fully supported                |
-| `x-ratelimit-reset-requests`     | Fully supported                |
-| `x-ratelimit-reset-tokens`       | Fully supported                |
-| `retry-after`                    | Not supported                  |
-| `request-id`                     | Not supported                  |
-| `openai-version`                 | Not supported                  |
-| `authorization`                  | Fully supported                |
-| `openai-processing-ms`           | Not supported                  |
+```
