@@ -21,7 +21,7 @@ To use the OpenAI SDK, you only need to change three things in your existing cod
 The `/v1/responses` endpoint is our most powerful and modern API. Use `client.responses.create()` to access it.
 
 <CodeGroup>
-```python
+```python icon="python" py
 from openai import OpenAI
 
 client = OpenAI(
@@ -38,7 +38,7 @@ response = client.responses.create(
 print(response.output[0].text)
 ````
 
-```typescript
+```typescript icon="square-js" js
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -62,7 +62,7 @@ The `/v1/chat/completions` endpoint is available for seamless compatibility with
 
 <CodeGroup>
 
-```python
+```python icon="python" py
 from openai import OpenAI
 
 client = OpenAI(
@@ -81,7 +81,7 @@ print(response.choices[0].message.content)
 
 ```
 
-```typescript
+```typescript icon="square-js" js
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -153,5 +153,3 @@ Most unsupported fields are silently ignored to prevent errors.
 | `logprobs` / `top_logprobs` | Ignored. |
 | `user` / `metadata` | Ignored. |
 | `seed` | Ignored. |
-
-```
