@@ -29,44 +29,75 @@ NeosantaraAI offers a family of powerful large language models designed to meet 
 
 Neosantara AI provides specific model IDs for direct use and convenient aliases that point to the latest stable versions.
 
+### Indonesian-Optimized Models
+
 | Model Name           | NeosantaraAI API ID                                     | Capabilities                                  |
 | -------------------- | ------------------------------------------------------- | --------------------------------------------- |
-| **Nusantara-Base** | `nusantara-base`                                        | Text, Function Calling, JSON Mode             |
-| **Archipelago-70B** | `archipelago-7b`                                        | Text, JSON Mode                               |
-| **Garda-Beta-Mini** | `garda-beta-mini`                                            | Text, JSON Mode             |
+| **Nusantara-Base** | `nusantara-base`                                        | Text, Function Calling, JSON Mode, Vision     |
+| **Archipelago-70B** | `archipelago-70b`                                       | Text, JSON Mode, Function Calling             |
+| **Garda-Beta-Mini** | `garda-beta-mini`                                       | Text, JSON Mode                               |
 | **LuminAI** | `luminai`                                               | Text                                          |
-| **Neosantara-Gen-2045** | `neosantara-gen-2045`                                   | Image Generation                              |
-| **Gemini-1.5-Flash** | `gemini-1.5-flash`                                      | Text, Function Calling, JSON Mode             |
-| **Gemini-2.0-Flash** | `gemini-2.0-flash`                                      | Text, Function Calling, JSON Mode             |
-| **Gemini-1.5-Pro** | `gemini-1.5-pro`                                        | Text, Function Calling, JSON Mode             |
-| **GPT-3.5-Turbo** | `gpt-3.5-turbo`                                         | Text, Function Calling, JSON Mode             |
-| **GPT-4o-Mini** | `gpt-4o-mini`                                           | Text, Function Calling, JSON Mode             |
+
+### Third-Party Models
+
+| Model Name           | NeosantaraAI API ID                                     | Capabilities                                  |
+| -------------------- | ------------------------------------------------------- | --------------------------------------------- |
+| **Llama-3.3-Nemotron-Super-49B** | `llama-3.3-nemotron-super-49b-v1.5`                    | Text, Function Calling, JSON Mode            |
+| **GPT-5-Mini** | `gpt-5-mini`                                            | Text, Function Calling, JSON Mode            |
+| **GPT-5-Nano** | `gpt-5-nano`                                            | Text, Function Calling, JSON Mode            |
+| **GPT-4o-Mini** | `gpt-4o-mini`                                           | Text, Function Calling, JSON Mode            |
+| **GPT-4.1-Nano** | `gpt-4.1-nano`                                          | Text, Function Calling, JSON Mode            |
+| **Gemini-2.5-Pro** | `gemini-2.5-pro`                                        | Text, Function Calling, JSON Mode            |
+| **Gemini-2.5-Flash** | `gemini-2.5-flash`                                      | Text, Function Calling, JSON Mode            |
+| **Gemini-2.5-Flash-Lite** | `gemini-2.5-flash-lite`                                 | Text, Function Calling, JSON Mode            |
+| **Gemini-2.0-Flash** | `gemini-2.0-flash`                                      | Text, Function Calling, JSON Mode            |
+| **Gemini-2.0-Flash-Lite** | `gemini-2.0-flash-lite`                                 | Text, Function Calling, JSON Mode            |
+| **Gemini-1.5-Pro** | `gemini-1.5-pro`                                        | Text, Function Calling, JSON Mode            |
+| **Gemini-1.5-Flash** | `gemini-1.5-flash`                                      | Text, Function Calling, JSON Mode            |
+| **Gemma-3-27B-IT** | `gemma-3-27b-it`                                        | Text, Function Calling, JSON Mode            |
+| **Llama-3.3-70B-Instruct** | `llama-3.3-70b-instruct`                               | Text, Function Calling                       |
+| **Command-R-Plus** | `command-r-plus`                                        | Text, Web Search, JSON Mode                  |
 | **Gemma2-9B-IT** | `gemma2-9b-it`                                          | Text, JSON Mode                               |
+
+### Specialized Models
+
+| Model Name           | NeosantaraAI API ID                                     | Capabilities                                  |
+| -------------------- | ------------------------------------------------------- | --------------------------------------------- |
+| **Neosantara-Gen-2045** | `neosantara-gen-2045`                                   | Image Generation                              |
 | **Nusa-Embedding-0001** | `nusa-embedding-0001`                                   | Embedding                                     |
-| **Llama-3.3-70B-Instruct** | `llama-3.3-70b-instruct`                             | Text, Function Calling                        |
 
 ### Model Comparison Table
 
-To help you choose the right model for your needs, we've compiled a table comparing the key features and capabilities of some core NeosantaraAI models.
+To help you choose the right model for your needs, we've compiled a table comparing the key features and capabilities of our core NeosantaraAI models.
 
-| Feature             | Nusantara-Base                                                       | Neosantara-Gen-2045                                               | Garda-Beta-Mini                                                |
-| :------------------ | :------------------------------------------------------------------- | :---------------------------------------------------------------- | :--------------------------------------------------------- |
-| **Description** | General-purpose model with balanced performance and speed.           | Our main image generation model.                                  | Fast and efficient model for Indonesian language.          |
-| **Strengths** | Versatile, good for most common tasks.                               | High-quality image generation, creative content.                  | Optimized for Indonesian language understanding.           |
-| **Multilingual** | Yes                                                                  | Yes (for prompts)                                                 | Yes                                                        |
-| **Vision** | Yes (via integration with underlying models like Gemini-2.0-Flash)   | No (Generates images, does not analyze them)                      | No                                                         |
-| **Function Calling**| Yes                                                                  | No                           | Yes                                                        |
-| **JSON Mode** | Yes                                                                  | No (Not for structured text output)                               | Yes                                                        |
-| **Context Window** | 64,000 tokens                                                        | 0 (Not applicable for image generation)                           | 8,192 tokens                                               |
-| **Max Output** | 2,048 tokens                                                         | 0 (Output is an image, not text tokens)                           | 2,048 tokens                                               |
-| **Training Data Cut-off** | Varies by underlying provider | Varies by underlying provider        | Varies by underlying provider |
-| **Comparative Latency** | Fast                                                                 | Fast                                                              | Fastest                                                    |
+| Feature             | Nusantara-Base                                                       | Archipelago-70B                                               | Garda-Beta-Mini                                                | Neosantara-Gen-2045                |
+| :------------------ | :------------------------------------------------------------------- | :------------------------------------------------------------ | :------------------------------------------------------------- | :--------------------------------- |
+| **Description** | Base model for general tasks with balanced performance, cost and speed | Specialized model for Indonesian language content with cultural context awareness | Fast and efficient model optimized for Indonesian language understanding | Main image generation model hosted on Together AI |
+| **Strengths** | Versatile, good for most common tasks, vision support               | Deep Indonesian cultural understanding, specialized content    | Optimized for speed and Indonesian language                    | High-quality image generation      |
+| **Multilingual** | Yes                                                                  | Yes (Indonesian-focused)                                      | Yes (Indonesian-optimized)                                     | Yes (for prompts)                  |
+| **Vision** | Yes                                                                  | No                                                            | No                                                             | No (Generates images, does not analyze them) |
+| **Function Calling**| Yes                                                                  | Yes                                                           | No                                                             | No                                 |
+| **JSON Mode** | Yes                                                                  | Yes                                                           | Yes                                                            | No                                 |
+| **Context Window** | 64,000 tokens                                                        | 24,000 tokens                                                 | 131,072 tokens                                                 | 0 (Not applicable)                 |
+| **Max Output** | 2,048 tokens                                                         | 2,048 tokens                                                  | 8,192 tokens                                                   | 0 (Image output)                   |
+| **Pricing** | Rp 300/1,500 per 1M tokens                                          | Rp 4,710/36,543 per 1M tokens                                | Rp 2,500/10,499 per 1M tokens                                 | Per image pricing                  |
+| **Training Data Cut-off** | Varies by underlying provider                                        | Varies by underlying provider                                 | Varies by underlying provider                                  | Varies by underlying provider      |
+| **Comparative Latency** | Fast                                                                 | Medium                                                        | Fastest                                                        | Fast                               |
 
 ### Model Pricing
 
-Pricing for NeosantaraAI models is based on a per-token usage model. The cost varies by model and usage tier.
+Pricing for NeosantaraAI models is based on a per-token usage model for text models and per-image for generation models. The cost varies by model complexity and capabilities.
 
-Refer to our [pricing documentation](https://neosantara.xyz/pricing) for current prices and usage tiers.
+**Indonesian-Optimized Models:**
+- `nusantara-base`: Rp 300/1,500 per 1M tokens (input/output)
+- `archipelago-70b`: Rp 4,710/36,543 per 1M tokens (input/output)
+- `garda-beta-mini`: Rp 2,500/10,499 per 1M tokens (input/output)
+- `luminai`: Free
+
+**Image Generation:**
+- `neosantara-gen-2045`: Rp 2,000 (1024x1024), Rp 1,200 (512x512), Rp 500 (256x256)
+
+Refer to our [pricing documentation](/en/about/token-credits) for complete pricing details and usage tiers.
 
 When you make an API request, the response will output both input and output token counts as part of the reported `usage` metrics.
 
