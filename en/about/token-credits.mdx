@@ -62,18 +62,42 @@ Both calculations yield approximately **Rp 15,000** (rounded for simplicity).
 
 Our pricing structure is designed for simplicity and scalability. Choose the model that best fits your specific use case and budget. All prices are listed in Indonesian Rupiah (IDR) per 1 million tokens.
 
-### Language & Chat Models
+### Indonesian-Optimized Models
 
 | Model | Input/1M Tokens | Output/1M Tokens |
 | :--- | :--- | :--- |
-| `nusantara-base` | Rp 1,424 | Rp 5,700 |
+| `nusantara-base` | Rp 300 | Rp 1,500 |
 | `archipelago-70b` | Rp 4,710 | Rp 36,543 |
 | `garda-beta-mini` | Rp 2,500 | Rp 10,499 |
-| `llama-3.3-nemotron-super-49b-v1.5` | Rp 3,450 | Rp 26,890 |
-| `gemini-2.5-flash` | Rp 2,430 | Rp 39,999 |
+| `luminai` | Free | Free |
+
+### Third-Party Models
+
+| Model | Input/1M Tokens | Output/1M Tokens |
+| :--- | :--- | :--- |
+| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 |
+| `gpt-5-mini` | Rp 4,052 | Rp 32,423 |
+| `gpt-5-nano` | Rp 810 | Rp 6,485 |
+| `gpt-4o-mini` | Rp 6,482 | Rp 25,930 |
+| `gpt-4.1-nano` | Rp 1,620 | Rp 6,481 |
+| `gemini-2.5-pro` | Rp 40,525 | Rp 243,187 |
+| `gemini-2.5-flash` | Rp 4,864 | Rp 40,536 |
+| `gemini-2.5-flash-lite` | Rp 1,621 | Rp 6,485 |
 | `gemini-2.0-flash` | Rp 1,621 | Rp 6,485 |
-| `gpt-4.1-nano` | Rp 1,621 | Rp 6,485 |
-| `gpt-4.1-mini` | Rp 6,485 | Rp 25,868 |
+| `gemini-2.0-flash-lite` | Rp 1,621 | Rp 6,485 |
+| `gemini-1.5-pro` | Rp 40,536 | Rp 162,144 |
+| `gemini-1.5-flash` | Rp 1,850 | Rp 7,700 |
+| `gemma-3-27b-it` | Rp 200 | Rp 1,000 |
+| `llama-3.3-70b-instruct` | Free | Free |
+| `command-r-plus` | Free | Free |
+| `gemma2-9b-it` | Free | Free |
+
+### Special Models
+
+| Model | Pricing Model | Notes |
+| :--- | :--- | :--- |
+| `neosantara-gen-2045` | Per Image | 1024x1024: Rp 2,000<br>512x512: Rp 1,200<br>256x256: Rp 500 |
+| `nusa-embedding-0001` | Per Request | Contact sales for pricing |
 
 <Note>
 **Image Generation** and **Embedding Models** use different billing metrics (per image or per request rather than tokens). Check your dashboard for detailed usage tracking of these services.
@@ -85,22 +109,25 @@ Not sure which model to choose? Here's a quick comparison to help you decide:
 
 | **Use Case** | **Recommended Model** | **Price (Input/Output per 1M)** | **Best For** |
 | :--- | :--- | :--- | :--- |
-| **Balanced General Use** | `nusantara-base` | Rp 1,424 / Rp 5,700 | Cost-effective Indonesian language tasks with good performance |
+| **Budget-Friendly Indonesian** | `nusantara-base` | Rp 300 / Rp 1,500 | Cost-effective Indonesian language tasks with balanced performance |
 | **Premium Indonesian Content** | `archipelago-70b` | Rp 4,710 / Rp 36,543 | Complex tasks requiring deep cultural and contextual understanding |
-| **Fast & Efficient Processing** | `garda-beta-mini` | Rp 2,500 / Rp 10,499 | Quick responses with large context window support |
-| **Multilingual & Programming** | `llama-3.3-nemotron-super-49b-v1.5`| Rp 1,850 / Rp 7,700 | English content, coding tasks, and major world languages |
+| **Fast Indonesian Processing** | `garda-beta-mini` | Rp 2,500 / Rp 10,499 | Quick responses with large context window support |
+| **Free Indonesian AI** | `luminai` | Free / Free | Basic Indonesian conversational AI |
+| **Budget General Purpose** | `gemma-3-27b-it` | Rp 200 / Rp 1,000 | Lightweight multilingual tasks |
+| **Advanced Reasoning** | `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 / Rp 31,991 | Complex reasoning and multilingual tasks |
+| **Premium Google AI** | `gemini-2.5-pro` | Rp 40,525 / Rp 243,187 | Highest quality for critical applications |
 
 ---
 
 ## Understanding Token Usage
 
 ### Basic Text Processing
-Standard text requests (like [`chat completions`](api-reference/chat)) consume tokens based on:
+Standard text requests (like [`chat completions`](/api-reference/chat)) consume tokens based on:
 - **Input length:** Your prompts and conversation history
 - **Output length:** The AI-generated response text
 
 ### Advanced Features
-When using enhanced capabilities such as **function calling** or **web search**, token costs will be higher due to:
+When using enhanced capabilities such as **function calling**, **web search**, or **vision**, token costs will be higher due to:
 - Additional computational complexity
 - Extra data processing requirements
 - Enhanced model capabilities being utilized
@@ -111,7 +138,7 @@ The exact cost varies per request based on the specific operations performed by 
 
 For the most accurate tracking of your token consumption:
 
-1. **API Response:** Check the `tokens_used` field in the `_metadata` section of each API response
+1. **API Response:** Check the `tokens_used` field using [`/auth/key`](/api-reference/authentication/check-api-key-status)
 2. **Usage Dashboard:** Visit your [Usage Dashboard](https://app.neosantara.xyz/usage) to view:
    - Remaining credits
    - Usage patterns and trends
