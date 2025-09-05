@@ -87,12 +87,7 @@
                 "en/autogen"
               ]
             },
-            {
-              "group": "Integrations",
-              "pages": [
-                "en/integrations"
-              ]
-            }
+            "en/integrations"
           ]
         }
         ]
