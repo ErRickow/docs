@@ -15,7 +15,7 @@ npm i ai @ai-sdk/openai
 
 Instantiate the Neosantara client and call the generateText function with GPT-5 Mini to generate some text.
 
-```typescript TypeScript
+```typescript TypeScript icon="square-js"
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText } from 'ai';
 
@@ -47,7 +47,7 @@ pip install llama-index
 
 Here's sample code to get you started with Llama Index + Neosantara AI:
 
-```python Python
+```python Python icon="python"
 from llama_index.llms.openai_like import OpenAILike
 
 llm = OpenAILike(
@@ -79,11 +79,11 @@ export NAI_API_KEY=***
 
 Build an multi-agent workflow:
 
-```python Python
+```python Python icon="python"
 import os
 from crewai import LLM, Task, Agent, Crew
 
-llm = LLM(model="openai/neosantara_xyz/nusantara-base",
+llm = LLM(model="openai/nusantara-base",
           api_key=os.environ.get("NAI_API_KEY"),
           base_url="https://api.neosantara.xyz/v1"
         )
@@ -132,7 +132,7 @@ export NAI_API_KEY=***
 
 Build PydanticAI agents using Neosantara AI models
 
-```python Python
+```python Python icon="python"
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -178,7 +178,7 @@ Prerequisites:
 Gmail Configuration:
 
 <CodeGroup>
-  ```shell Shell
+  ```shell Shell icon="terminal"
   import os
   from arcadepy import Arcade
   from openai import OpenAI
@@ -222,7 +222,7 @@ export NAI_API_KEY=***
 
 Build a question answering agent
 
-```python Python
+```python Python icon="python"
 import dspy
 
 #Configure dspy with a LLM from Neosantara AI
@@ -266,7 +266,7 @@ export NAI_API_KEY=***
 
 Build a coding agent
 
-```python Python
+```python Python icon="python"
 import os
 from pathlib import Path
 from autogen import AssistantAgent, UserProxyAgent
@@ -332,7 +332,7 @@ pip install -U agno ddgs
 
 Build a search and answer agent
 
-```python Python
+```python Python icon="python"
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
 from agno.tools.duckduckgo import DuckDuckGoTools
@@ -357,7 +357,7 @@ Learn more in our [Agno Guide](/en/agno).
 
 Here's some sample code to get you started with Pinecone + Neosantara AI:
 
-```python Python
+```python Python icon="python"
 from pinecone import Pinecone, ServerlessSpec
 from openai import OpenAI
 

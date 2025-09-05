@@ -24,11 +24,11 @@ Set your Together AI API key:
 ## Example
 
 <CodeGroup>
-  ```python Python
+  ```python Python icon="python"
   import os
   from crewai import LLM, Task, Agent, Crew
 
-  llm = LLM(model="openai/neosantara_xyz/nusantara-base",
+  llm = LLM(model="openai/nusantara-base",
             api_key=os.environ.get("NAI_API_KEY"),
             base_url="https://api.neosantara.xyz/v1"
           )

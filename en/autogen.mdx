@@ -26,7 +26,7 @@ Set your Neosantara AI API key:
 Setup and configure AutoGen to use LLMs from Neosantara AI
 
 <CodeGroup>
-  ```python Python
+  ```python Python icon="python"
   import os
 
   config_list = [
@@ -48,7 +48,7 @@ Setup and configure AutoGen to use LLMs from Neosantara AI
 Importantly, we have tweaked the system message so that the model doesn't return the termination keyword, which we've changed to FINISH, with the code block.
 
 <CodeGroup>
-  ```python Python
+  ```python Python icon="python"
   from pathlib import Path
   from autogen import AssistantAgent, UserProxyAgent
   from autogen.coding import LocalCommandLineCodeExecutor
