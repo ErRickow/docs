@@ -58,7 +58,8 @@
           "pages": [
             "en/capability/embeddings",
             "en/capability/image-generation",
-            "en/capability/stream"
+            "en/capability/stream",
+            "en/capability/structured"
           ]
         },
         {
@@ -99,7 +100,6 @@
         "groups": [
         {
           "group": "Using the APIs",
-          "icon": "hashtag",
           "pages": [
             "api-reference/introduction",
             "en/about/token-credits",
@@ -109,7 +109,6 @@
         },
         {
           "group": "API reference",
-          "icon": "square-terminal",
           "pages": [
             "api-reference/response/create-a-response",
             "api-reference/chat/create-chat-completion",
