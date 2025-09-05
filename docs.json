@@ -9,11 +9,11 @@
   "fonts": {
     "heading": {
       "family": "IBM Plex Mono",
-      "weight": 800
+      "weight": 600
     },
     "body": {
       "family": "IBM Plex Sans",
-      "weight": 400
+      "weight": 600
     }
   },
   "favicon": "/favicon.ico",
