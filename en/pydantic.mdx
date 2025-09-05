@@ -1,0 +1,55 @@
+# PydanticAI
+
+> Using PydanticAI with Neosantara
+
+PydanticAI is an agent framework created by the Pydantic team to simplify building production-grade generative AI applications. It brings the ergonomic design philosophy of FastAPI to AI agent development, offering a familiar and type-safe approach to working with language models.
+
+## Installing Libraries
+
+<CodeGroup>
+  ```shell Shell
+  pip install pydantic-ai -q
+  ```
+</CodeGroup>
+
+Set your Neosantara AI API key:
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+## Example
+
+<CodeGroup>
+  ```python Python
+  from pydantic_ai import Agent
+  from pydantic_ai.models.openai import OpenAIChatModel
+  from pydantic_ai.providers.openai import OpenAIProvider
+  
+  ## Connect PydanticAI to LLMs on Neosantara
+  model = OpenAIChatModel(
+      'nusantara-base',
+      provider=OpenAIProvider(
+          base_url="https://api.neosantara.xyz/v1",
+          api_key=os.environ.get("NAI_API_KEY"),
+      ),
+  )
+  
+  ## Setup the agent
+  agent = Agent(
+      model,
+      system_prompt='Be concise, reply with one sentence.',
+  )
+  
+  result = agent.run_sync('Where does "hello world" come from?')  
+  print(result.output)
+  ```
+</CodeGroup>
+
+### Output
+
+```
+It originated with Brian Kernighan's examples for the B programming language, later popularized in "The C Programming Language" book.
+```

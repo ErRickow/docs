@@ -1,0 +1,74 @@
+# Agno
+
+> Using Agno with Neosantara AI
+
+Agno is an open-source library for creating multimodal agents. It supports interactions with text, images, audio, and video while remaining model-agnostic, allowing you to use any model in the Neosantara AI library with our integration.
+
+## Install Libraries
+
+```bash
+pip install -U agno ddgs -q
+```
+
+## Authentication
+
+Set your `NAI_API_KEY` environment variable.
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+## Example
+
+Below is a simple agent with access to web search.
+
+<CodeGroup>
+  ```python Python
+  from agno.agent import Agent
+  from agno.models.openai.like import OpenAILike
+  from agno.tools.duckduckgo import DuckDuckGoTools
+  
+  agent = Agent(
+      model=OpenAILike(
+          id="nusantara-base"
+          api_key=os.environ.get("NAI_API_KEY")
+          base_url="https://api.neosantara.xyz/v1"
+      ),
+      tools=[DuckDuckGoTools()],
+      markdown=True
+  )
+  agent.print_response("What's happening in Indonesia?", stream=True)
+  ```
+</CodeGroup>
+
+<Accordion title="See output.">
+  The output will return an string for answer below:
+
+   ```bash output
+▰▰▰▰▰▰▰ Thinking...
+┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                                                                                                 ┃
+┃ What's happening in Indonesia?                                                                                  ┃
+┃                                                                                                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┏━ Tool Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                                                                                                 ┃
+┃ • duckduckgo_news(query=Indonesia)                                                                              ┃
+┃                                                                                                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┏━ Response (6.3s) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                                                                                                 ┃
+┃ Saat ini, Indonesia mengalami gelombang protes nasional terkait kesulitan ekonomi dan tunjangan anggota         ┃
+┃ parlemen. Protes ini telah menyebabkan bentrokan kekerasan dan menimbulkan kekhawatiran tentang respons aparat  ┃
+┃ keamanan yang keras. Beberapa pihak melihat situasi ini sebagai ujian besar bagi pemerintahan Presiden Prabowo  ┃
+┃ Subianto dan mengingatkan pada masa-masa kelam dalam sejarah negara itu.                                        ┃
+┃                                                                                                                 ┃
+┃ Di sisi lain, Presiden Prabowo Subianto juga telah bertemu dengan Presiden Tiongkok Xi Jinping di Beijing untuk ┃
+┃ membahas kerja sama dalam proyek infrastruktur besar, termasuk pembangunan tanggul laut dan kereta api cepat.   ┃
+┃                                                                                                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+WARNING:ddgs.engines.yahoo_news:Error post-processing results: IndexError('list index out of range')
+  ```
+</Accordion>

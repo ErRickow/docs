@@ -34,10 +34,12 @@
         "groups": [
         {
           "group": "First steps",
-          "icon": "arrow-right-to-arc",
+          "icon": "rocket-launch",
           "pages": [
             "en/intro",
-            "/api-reference/quickstart"
+            "/api-reference/quickstart",
+            "api-reference/sdk/openai-compatible",
+            "en/response"
           ]
         },
         {
@@ -70,7 +72,30 @@
             "en/tools-overview",
             "en/how-tools"
           ]
-        }]
+        },
+        {
+          "group": "Examples",
+          "pages": [
+            {
+              "group": "Agent Integrations",
+              "pages": [
+                "en/agent-overview",
+                "en/crewai",
+                "en/dspy",
+                "en/pydantic-ai",
+                "en/agno",
+                "en/autogen"
+              ]
+            },
+            {
+              "group": "Integrations",
+              "pages": [
+                "en/integrations"
+              ]
+            }
+          ]
+        }
+        ]
       },
       {
         "anchor": "API Guide",
