@@ -54,29 +54,18 @@ Here's a simplified diagram illustrating the core flow of the Neosantara AI API:
 
 ```mermaid
 graph TD
-   A[Your Application / Client] --> B(Neosantara AI API);
-   B --> C{Internal Logic};
-   C --> D1(Google Gemini);
-   C --> D2(OpenAI);
-   C --> D3(Cohere);
-   C --> D4(HuggingFace);
-   C --> D5(Fireworks AI);
-   C --> D6(Groq);
-   C --> D7(Replicate);
-   D1 --> F[Response];
-   D2 --> F;
-   D3 --> F;
-   D4 --> F;
-   D5 --> F;
-   D6 --> F;
-   D7 --> F;
-   F --> B;
-   B --> A;
+   A[Your Application] --> B(Neosantara AI API);
+   B --> C[AI Response];
+   C --> A;
 
-   subgraph Neosantara AI Backend
-       B
-       C
-   end
+   %% Styling
+   classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+   classDef api fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000  
+   classDef response fill:#fff8e1,stroke:#f57f17,stroke-width:2px,color:#000
+
+   class A client
+   class B api
+   class C response
 ```
 
 ## Getting started

@@ -21,7 +21,7 @@
     "eyebrows": "breadcrumbs"
   },
   "background": {
-    "decoration": "grid"
+    "decoration": "windows"
   },
   "navigation": {
     "languages": [
@@ -34,7 +34,6 @@
         "groups": [
         {
           "group": "First steps",
-          "icon": "rocket-launch",
           "pages": [
             "en/intro",
             "/api-reference/quickstart",
@@ -44,21 +43,18 @@
         },
         {
           "group": "Learn About Neosantara",
-          "icon": "circle-info",
           "pages": [
             "en/about"
           ]
         },
         {
           "group": "Models & Pricing",
-          "icon": "arrow-up-from-ground-water",
           "pages": [
             "en/models-overview"
           ]
         },
         {
           "group": "Capabilities",
-          "icon": "diagram-project",
           "pages": [
             "en/capability/embeddings",
             "en/capability/image-generation",
@@ -67,7 +63,6 @@
         },
         {
           "group": "Tools",
-          "icon": "wrench",
           "pages": [
             "en/tools-overview",
             "en/how-tools"
@@ -88,6 +83,13 @@
               ]
             },
             "en/integrations"
+          ]
+        },
+        {
+          "group": "Guides",
+          "pages": [
+            "en/llama-index",
+            "en/using-neosantara-with-vercels-ai-sdk"
           ]
         }
         ]
@@ -179,14 +181,9 @@
     "global": {
       "anchors": [
       {
-        "anchor": "Get Started",
-        "href": "https://docs.neosantara.xyz/about",
-        "icon": "rocket-launch"
-      },
-      {
-        "anchor": "Documentations",
-        "href": "https://docs.neosantara.xyz/api-reference/introduction",
-        "icon": "book-open-cover"
+        "anchor": "Contact Us",
+        "href": "mailto:halo@neosantara.xyz",
+        "icon": "envelope"
       }]
     }
   },
