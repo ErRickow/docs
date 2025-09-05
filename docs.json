@@ -3,7 +3,7 @@
   "theme": "aspen",
   "name": "Neosantara",
   "colors": {
-    "primary": "#FF5722",
+    "primary": "#FFFFFF",
     "light": "#FF8A65"
   },
   "fonts": {
@@ -13,7 +13,7 @@
     },
     "body": {
       "family": "IBM Plex Sans",
-      "weight": 600
+      "weight": 400
     }
   },
   "favicon": "/favicon.ico",
