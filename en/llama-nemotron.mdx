@@ -20,7 +20,7 @@ By default, the model will provide a step-by-step thought process before the fin
 To get a direct answer without the chain-of-thought process, add `/no_think` to the beginning of your **system prompt**.
 
 <CodeGroup>
-```python Python
+```python Python icon="python"
 from openai import OpenAI
 
 client = OpenAI(
@@ -45,7 +45,7 @@ for chunk in stream:
         print(chunk.choices[0].delta.content, end="", flush=True)
 ```
 
-```typescript TypeScript
+```typescript TypeScript icon="square-js"
 import OpenAI from "openai";
 
 const neosantara = new OpenAI({
@@ -68,7 +68,7 @@ for await (const chunk of stream) {
 }
 ```
 
-``` curl cURL
+```curl cURL icon="terminal"
 curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
   -H "Authorization: Bearer <YOUR_NUSANTARA_API_KEY>" \
   -H "Content-Type: application/json" \
