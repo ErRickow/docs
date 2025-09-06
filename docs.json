@@ -215,9 +215,15 @@
       "perplexity",
       {
         "title": "Share on X",
-        "description": "Share tis page on X",
+        "description": "Share this page on X",
         "icon": "x-twitter",
-        "href": "https://twitter.com/intent/post?text=Check out this Neosantara AI Documentations: $page"
+        "href": {
+          "base": "https://x.com/intent/tweet",
+          "query": {
+            "key": "text",
+            "value": "Check out this documentation: $page"
+          }
+        }
       }
     ]
   },
