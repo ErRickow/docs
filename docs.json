@@ -215,18 +215,16 @@
       "perplexity",
       {
         "title": "Share on X",
-        "description": "Share this page on X",
-        "icon": "x",
-        "href": {
-          "base": "https://x.com/intent/tweet",
-          "query": [
-          {
-            "key": "text",
-            "value": "Check out this Neosantara documentation: $page"
-          }]
-        }
+        "description": "Share tis page on X",
+        "icon": "plus",
+        "href": "https://twitter.com/intent/post?text=Check%20out%20this%20Neosantara%20documentation%3A%20%24$page"
       }
     ]
+  },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-LTC6L7QF4V"
+    }
   },
   "errors": {
     "404": {
