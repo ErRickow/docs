@@ -59,7 +59,8 @@
             "en/capability/embeddings",
             "en/capability/image-generation",
             "en/capability/stream",
-            "en/capability/structured"
+            "en/capability/structured",
+            "en/capability/reasoning"
           ]
         },
         {
@@ -110,23 +111,50 @@
         {
           "group": "API reference",
           "pages": [
-            "api-reference/response/create-a-response",
-            "api-reference/chat/create-chat-completion",
-            "api-reference/embeddings/create-embeddings",
-            "api-reference/models/list-available-models",
-            "api-reference/moderations/content-moderation-check",
-            "api-reference/images/create-image-generation",
-            "api-reference/authentication/check-api-key-status"
-          ]
-        },
-        {
-          "group": "SDKs",
-          "pages": [
-            "api-reference/sdk/openai-compatible",
-            "en/response"
+            {
+              "group": "Response",
+              "pages": [
+                "api-reference/response/create-a-response"
+                ]
+            },
+            {
+              "group": "Chat",
+              "pages": [
+                "api-reference/chat/create-chat-completion"
+              ]
+            },
+            {
+              "group": "Embeddings",
+              "pages": [
+                "api-reference/embeddings/create-embeddings"
+                ]
+            },
+            {
+              "group": "Models",
+              "pages": [
+                "api-reference/models/list-available-models"
+              ]
+            },
+            {
+              "group": "Content Moderation",
+              "pages": [
+                "api-reference/moderations/content-moderation-check"
+              ]
+            },
+            {
+              "group": "Image Generation",
+              "pages": [
+                "api-reference/images/create-image-generation"
+              ]
+            },
+            {
+              "group": "Status",
+              "pages": [
+                "api-reference/images/create-image-generation"
+              ]
+            }
           ]
         }]
-        
       }]
     },
     {
