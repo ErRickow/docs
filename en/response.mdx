@@ -42,6 +42,17 @@ response = client.responses.create(
 
 </CodeGroup>
 
+**Diff Comparison:**
+```python icon="code" lines
+# SDK Method Usage
+completion = client.chat.completions.create( # [!code --]
+response = client.responses.create( # [!code ++]
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Hello!"}] # [!code --]
+    input="Hello!" # [!code ++]
+)
+```
+
 ### 2. Accessing the AI's Reply
 
 This is a critical difference. The structure of the returned object in the SDK reflects the underlying API response.
@@ -72,6 +83,15 @@ print(response.output_text)
 ```
 
 </CodeGroup>
+
+**Diff Comparison:**
+```python icon="code" lines
+# Accessing AI Response Content
+print(response.choices[0].message.content) # [!code --]
+print(response.output[0].text) # [!code ++]
+# Or use the convenience helper
+print(response.output_text) # [!code ++]
+```
 
 ### 3. Managing Conversation History
 
@@ -111,6 +131,60 @@ response2 = client.responses.create(
 ```
 
 </CodeGroup>
+
+**Diff Comparison - Conversation Management:**
+```python icon="code" lines
+# Manual history management (Chat Completions)
+messages = [{"role": "user", "content": "What is the capital of Indonesia?"}] # [!code --]
+completion = client.chat.completions.create(model="nusantara-base", messages=messages) # [!code --]
+
+# Manually append history for next turn # [!code --]
+messages.append(completion.choices[0].message) # [!code --]
+messages.append({"role": "user", "content": "What is its population?"}) # [!code --]
+next_completion = client.chat.completions.create(model="nusantara-base", messages=messages) # [!code --]
+
+# Automatic state management (Responses) # [!code ++]
+response1 = client.responses.create( # [!code ++]
+    model="nusantara-base", # [!code ++]
+    input="What is the capital of Indonesia?", # [!code ++]
+    store=True # [!code ++]
+) # [!code ++]
+
+# Second turn - just use the ID # [!code ++]
+response2 = client.responses.create( # [!code ++]
+    model="nusantara-base", # [!code ++]
+    previous_response_id=response1.id, # [!code ++]
+    input="What is its population?" # [!code ++]
+) # [!code ++]
+```
+
+## Complete Migration Example
+
+Here's how you would migrate from Chat Completions to Responses:
+
+```python icon="code" lines
+# Before: Chat Completions approach
+import openai # [!code --]
+client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code --]
+
+messages = [{"role": "user", "content": "Hello, how are you?"}] # [!code --]
+completion = client.chat.completions.create( # [!code --]
+    model="nusantara-base", # [!code --]
+    messages=messages # [!code --]
+) # [!code --]
+ai_response = completion.choices[0].message.content # [!code --]
+
+# After: Responses approach
+import openai # [!code ++]
+client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code ++]
+
+response = client.responses.create( # [!code ++]
+    model="nusantara-base", # [!code ++]
+    input="Hello, how are you?", # [!code ++]
+    store=True # [!code ++]
+) # [!code ++]
+ai_response = response.output_text # [!code ++]
+```
 
 ## Recommendation
 
