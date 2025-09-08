@@ -43,6 +43,10 @@ To generate images, send a POST request to the [`/v1/images/generations`](/api-r
     * `"url"`: Returns a temporary URL to the generated image. These URLs are typically valid for a short period (e.g., 5 minutes).
     * `"b64_json"`: Returns the image data directly as a base64-encoded JSON string.
 
+<Note>
+For b64_json output, may encountered an error. We will fix that later
+</Note>
+
 ### Supported Image Generation Models
 
 The NeosantaraAI API supports the following image generation models:

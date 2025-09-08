@@ -64,13 +64,6 @@
           ]
         },
         {
-          "group": "Tools",
-          "pages": [
-            "en/tools-overview",
-            "en/how-tools"
-          ]
-        },
-        {
           "group": "Examples",
           "pages": [
             {
@@ -90,11 +83,17 @@
         {
           "group": "Guides",
           "pages": [
+            {
+              "group": "Tools",
+              "pages": [
+                "en/tools-overview",
+                "en/how-tools"
+              ]
+            },
             "en/llama-index",
             "en/using-neosantara-with-vercels-ai-sdk"
           ]
-        }
-        ]
+        }]
       },
       {
         "anchor": "API Guide",
@@ -111,49 +110,48 @@
         {
           "group": "API reference",
           "pages": [
-            {
-              "group": "Response",
-              "pages": [
-                "api-reference/response/create-a-response"
-                ]
-            },
-            {
-              "group": "Chat",
-              "pages": [
-                "api-reference/chat/create-chat-completion"
-              ]
-            },
-            {
-              "group": "Embeddings",
-              "pages": [
-                "api-reference/embeddings/create-embeddings"
-                ]
-            },
-            {
-              "group": "Models",
-              "pages": [
-                "api-reference/models/list-available-models"
-              ]
-            },
-            {
-              "group": "Content Moderation",
-              "pages": [
-                "api-reference/moderations/content-moderation-check"
-              ]
-            },
-            {
-              "group": "Image Generation",
-              "pages": [
-                "api-reference/images/create-image-generation"
-              ]
-            },
-            {
-              "group": "Status",
-              "pages": [
-                "api-reference/images/create-image-generation"
-              ]
-            }
-          ]
+          {
+            "group": "Response",
+            "pages": [
+              "api-reference/response/create-a-response"
+            ]
+          },
+          {
+            "group": "Chat",
+            "pages": [
+              "api-reference/chat/create-chat-completion"
+            ]
+          },
+          {
+            "group": "Embeddings",
+            "pages": [
+              "api-reference/embeddings/create-embeddings"
+            ]
+          },
+          {
+            "group": "Models",
+            "pages": [
+              "api-reference/models/list-available-models"
+            ]
+          },
+          {
+            "group": "Content Moderation",
+            "pages": [
+              "api-reference/moderations/content-moderation-check"
+            ]
+          },
+          {
+            "group": "Image Generation",
+            "pages": [
+              "api-reference/images/create-image-generation"
+            ]
+          },
+          {
+            "group": "Status",
+            "pages": [
+              "api-reference/images/create-image-generation"
+            ]
+          }]
         }]
       }]
     },
@@ -244,13 +242,14 @@
       {
         "title": "Share on X",
         "description": "Share this page on X",
-        "icon": "x-twitter",
+        "icon": "x",
         "href": {
           "base": "https://x.com/intent/tweet",
-          "query": {
+          "query": [
+          {
             "key": "text",
             "value": "Check out this documentation: $page"
-          }
+          }]
         }
       }
     ]
