@@ -264,6 +264,15 @@
       "redirect": true
     }
   },
+  "redirects": [
+  {
+    "source": "/id",
+    "destination": "/en"
+  },
+  {
+    "source": "/id/:slug*",
+    "destination": "/en/:slug*"
+  }],
   "seo": {
     "metatags": {
       "viewport": "width=device-width, initial-scale=1.0",
