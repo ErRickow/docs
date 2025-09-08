@@ -37,8 +37,7 @@
           "pages": [
             "en/intro",
             "/api-reference/quickstart",
-            "api-reference/sdk/openai-compatible",
-            "en/response"
+            "api-reference/sdk/openai-compatible"
           ]
         },
         {
@@ -83,6 +82,7 @@
         {
           "group": "Guides",
           "pages": [
+            "en/response",
             {
               "group": "Tools",
               "pages": [
