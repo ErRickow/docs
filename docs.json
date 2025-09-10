@@ -277,6 +277,7 @@
     "destination": "/en/:slug*"
   }],
   "seo": {
+    "indexing": "all",
     "metatags": {
       "viewport": "width=device-width, initial-scale=1.0",
       "description": "Start Using Neosantara AI For Free Now! Access powerful AI models for chat, embeddings, moderation, and more.",
