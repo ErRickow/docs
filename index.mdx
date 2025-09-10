@@ -12,8 +12,25 @@ export function openSearch() {
       <div id="home-header">
         <span className="build-with">Build with</span>
 
-        <span className="claude-wordmark-wrapper">
-          <img src="logo/logo.svg?fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=0bd1a46d17016e53435d2362ce8213b4" alt="Neosantara" className="claude-wordmark" width="866" height="206" data-path="logo/logo.svg" srcset="logo/logo.svg?w=280&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=8b78573a942f36218583ab4a878d3eb7 280w, logo/logo.svg?w=560&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=285caa0bb7c4dd959c50e9551fabd547 560w, logo/logo.svg?w=840&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=d8892fe238d19bcbda5fa4c3558a456b 840w, logo/logo.svg?w=1100&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=68c1cf210584b18a229aadfd31d2e2c4 1100w, logo/logo.svg?w=1650&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=97af32d59e652003a4e152d58925884e 1650w, logo/logo.svg?w=2500&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=44ed7f0bdeb7a454ccf47ebadac8ca00 2500w" data-optimize="true" data-opv="2" />
+        <span className="neosantara-wordmark">
+          <img 
+            src="/logo/logo.svg?fit=max&auto=format&q=85" 
+            alt="Neosantara" 
+            className="neosantara-logo" 
+            width="866" 
+            height="206"
+            srcSet="
+              /logo/logo.svg?w=280&fit=max&auto=format&q=85 280w,
+              /logo/logo.svg?w=560&fit=max&auto=format&q=85 560w,
+              /logo/logo.svg?w=840&fit=max&auto=format&q=85 840w,
+              /logo/logo.svg?w=1100&fit=max&auto=format&q=85 1100w,
+              /logo/logo.svg?w=1650&fit=max&auto=format&q=85 1650w,
+              /logo/logo.svg?w=2500&fit=max&auto=format&q=85 2500w
+            "
+            sizes="(max-width: 768px) 280px, (max-width: 1024px) 560px, 866px"
+            loading="lazy"
+            data-optimize="true"
+          />
         </span>
       </div>
 
@@ -48,7 +65,7 @@ export function openSearch() {
 </div>
 
 <div style={{ maxWidth: '70rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.25rem', paddingRight: '1.25rem', marginTop: '3rem' }}>
-  <h2 className="description-text" style={{ fontFamily: 'IBM-Plex-Mono, IBM-Plex-Sans', fontWeight: '300', fontSize: '28px', marginBottom: '1.5rem', textAlign: 'center' }}>
+  <h2 className="description-text" style={{ fontFamily: 'IBM-Plex-Sans, IBM-Plex-Mono', fontWeight: '', fontSize: '28px', marginBottom: '1.5rem', textAlign: 'center' }}>
     Developer Platform
   </h2>
 

@@ -1,0 +1,28 @@
+.build-with {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #666;
+  margin-right: 0.5rem;
+}
+
+.neosantara-wordmark {
+  display: inline-block;
+}
+
+.neosantara-logo {
+  max-width: 100%;
+  height: auto;
+}
+
+.description-text {
+  font-weight: 400;
+  line-height: 1.6;
+  color: #333;
+}
+
+.home-cards-custom {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
