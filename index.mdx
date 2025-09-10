@@ -2,52 +2,45 @@ export function openSearch() {
   document.getElementById("search-bar-entry").click();
 }
 
-<div className="relative w-full pt-12 pb-12">
-  {/* Hero Section */}
-  <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 max-w-6xl mx-auto px-5 mb-12">
-    {/* Image Section */}
-    <div className="flex-1 flex justify-center lg:justify-end order-1 lg:order-2">
-      <img 
-        src="/logo/hands.png"
-        alt="Neosantara AI" 
-        style={{ 
-          maxWidth: '100%', 
-          height: 'auto', 
-          maxHeight: '20rem',
-          borderRadius: '12px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
-        }} 
-      />
-    </div>
+<div className="relative w-full pt-12 pb-0">
+  <div id="background-div" className="absolute inset-0" />
 
-    {/* Content Section */}
-    <div className="flex-1 order-2 lg:order-1 text-center lg:text-left">
-      <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 mb-6">
-        <span className="text-3xl lg:text-4xl font-medium text-white/80">
-          Integrate
+  <div className="relative z-10 flex flex-col md:flex-row gap-6" style={{ maxWidth: '70rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.25rem', paddingRight: '1.25rem' }}>
+    {/* Text content - Centered */}
+
+    <div className="flex-1 text-center">
+      <div id="home-header">
+        <span className="build-with">Build with</span>
+
+        <span className="claude-wordmark-wrapper">
+          <img src="logo/logo.svg?fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=0bd1a46d17016e53435d2362ce8213b4" alt="Neosantara" className="claude-wordmark" width="866" height="206" data-path="logo/logo.svg" srcset="logo/logo.svg?w=280&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=8b78573a942f36218583ab4a878d3eb7 280w, logo/logo.svg?w=560&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=285caa0bb7c4dd959c50e9551fabd547 560w, logo/logo.svg?w=840&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=d8892fe238d19bcbda5fa4c3558a456b 840w, logo/logo.svg?w=1100&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=68c1cf210584b18a229aadfd31d2e2c4 1100w, logo/logo.svg?w=1650&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=97af32d59e652003a4e152d58925884e 1650w, logo/logo.svg?w=2500&fit=max&auto=format&n=PF_69UDRSEsLpN9D&q=85&s=44ed7f0bdeb7a454ccf47ebadac8ca00 2500w" data-optimize="true" data-opv="2" />
         </span>
-        <img 
-          src="/logo/black.svg" 
-          alt="Neosantara logo" 
-          className="h-8 w-auto"
-        />
       </div>
-    
-      <p className="text-lg text-white/90 leading-relaxed max-w-lg mx-auto lg:mx-0">
-        Learn how to get started with the Neosantara API, integrate our Culture Intelligence, and build amazing applications.
+
+      <p
+        className="description-text"
+        style={{
+        fontWeight: '400',
+        fontSize: '20px',
+        maxWidth: '42rem',
+        textAlign: 'center',
+        margin: '0 auto 1rem auto',
+      }}
+      >
+        Learn how to get started with the Neosantara API
       </p>
       
       <div className="flex items-center justify-center">
         <button
           type="button"
-          className="w-full flex items-center text-sm leading-6 rounded-lg mt-6 py-2.5 px-4 shadow-sm text-gray-400 bg-white dark:bg-white ring-1 ring-gray-400/20 hover:ring-gray-600/25 focus:outline-primary"
+          className="w-full flex items-center text-sm leading-6 rounded-lg mt-6 py-2.5 px-4 shadow-sm text-white ring-1 ring-gray-400/20 hover:ring-gray-600/25 focus:outline-primary"
           id="home-search-entry"
           style={{
         maxWidth: '32rem',
       }}
           onClick={openSearch}
         >
-          <span className="ml-[-0.3rem]">Ask Neosantara about docs...</span>
+          <span className="ml-[-0.3rem]">Search Neosantara docs...</span>
         </button>
       </div>
     </div>
@@ -55,7 +48,7 @@ export function openSearch() {
 </div>
 
 <div style={{ maxWidth: '70rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.25rem', paddingRight: '1.25rem', marginTop: '3rem' }}>
-  <h2 className="description-text" style={{ fontFamily: 'Copernicus, serif', fontWeight: '300', fontSize: '28px', marginBottom: '1.5rem', textAlign: 'center' }}>
+  <h2 className="description-text" style={{ fontFamily: 'IBM-Plex-Mono, IBM-Plex-Sans', fontWeight: '300', fontSize: '28px', marginBottom: '1.5rem', textAlign: 'center' }}>
     Developer Platform
   </h2>
 
