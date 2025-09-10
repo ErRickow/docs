@@ -1,3 +1,7 @@
+export function openSearch() {
+  document.getElementById("search-bar-entry").click();
+}
+
 <div className="relative w-full pt-12 pb-12">
   {/* Hero Section */}
   <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 max-w-6xl mx-auto px-5 mb-12">
@@ -32,51 +36,47 @@
       <p className="text-lg text-white/90 leading-relaxed max-w-lg mx-auto lg:mx-0">
         Learn how to get started with the Neosantara API, integrate our Culture Intelligence, and build amazing applications.
       </p>
+      
+      <div className="flex items-center justify-center">
+        <button
+          type="button"
+          className="w-full flex items-center text-sm leading-6 rounded-lg mt-6 py-2.5 px-4 shadow-sm text-gray-400 bg-white dark:bg-white ring-1 ring-gray-400/20 hover:ring-gray-600/25 focus:outline-primary"
+          id="home-search-entry"
+          style={{
+        maxWidth: '32rem',
+      }}
+          onClick={openSearch}
+        >
+          <span className="ml-[-0.3rem]">Ask Neosantara about docs...</span>
+        </button>
+      </div>
     </div>
   </div>
 
-  {/* Cards Section */}
-  <div className="max-w-6xl mx-auto px-5 relative z-10">
-    <CardGroup cols={3}>
-      <Card 
-        title="Quickstart" 
-        icon="rocket-launch" 
-        href="/api-reference/quickstart"
-      >
-        Start integrating Neosantara APIs in minutes
-      </Card>
-      
-      <Card 
-        title="API Reference" 
-        icon="square-terminal" 
-        href="/api-reference"
-      >
-        Start using Neosantara Culture AI Intelligence
-      </Card>
-      
-      <Card 
-        title="API Credits Overview" 
-        icon="book-open" 
-        href="/en/about/token-credits"
-      >
-        Learn how to manage token credits for Neosantara APIs
-      </Card>
-      
-      <Card 
-        title="Rate Limits" 
-        icon="gauge" 
-        href="/en/about/rate-limits"
-      >
-        Learn about Neosantara's Rate Limiting
-      </Card>
-      
-      <Card 
-        title="Models" 
-        icon="globe" 
-        href="/en/models-overview"
-      >
-        Explore Our Available Models
-      </Card>
-    </CardGroup>
+<div style={{ maxWidth: '70rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.25rem', paddingRight: '1.25rem', marginTop: '3rem' }}>
+  <h2 className="description-text" style={{ fontFamily: 'Copernicus, serif', fontWeight: '300', fontSize: '28px', marginBottom: '1.5rem', textAlign: 'center' }}>
+    Developer Platform
+  </h2>
+
+  <div className="home-cards-custom">
+    <Card title="Get started" icon="play" href="/api-reference/quickstart">
+      Make your first API call in minutes.
+    </Card>
+
+    <Card title="API reference" icon="code-simple" href="/api-reference/introduction">
+      Integrate and scale using our APIs.
+    </Card>
+
+    <Card title="Neosantara APP" icon="computer" href="https://app.neosantara.xyz">
+      Craft and test powerful prompts directly in your browser.
+    </Card>
+
+    <Card title="Integrations" icon="star" href="/en/agent-overview">
+      Learn how to build agent with Neosantara.
+    </Card>
+
+    <Card title="Try Neosantara Models" icon="head-side-gear" href="/en/models-overview">
+      Explore Neosantara models and their capability.
+    </Card>
   </div>
 </div>

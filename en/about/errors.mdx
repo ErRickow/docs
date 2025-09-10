@@ -1,0 +1,53 @@
+---
+title: 'Errors'
+---
+
+#### **HTTP Errors**
+
+Our API follows a predictable HTTP error code format to help you handle issues programmatically.
+
+  * **400 - `invalid_request_error`**: There was an issue with the format or content of your request. This can be caused by missing parameters or invalid values.
+  * **401 - `authentication_error`**: Your API key is missing, invalid, or inactive. Please check your key and try again.
+  * **404 - `not_found_error`**: The requested resource, such as a specific model or prompt template, was not found.
+  * **429 - `rate_limit_exceeded`**: Your account has exceeded its allowed usage limits (e.g., Requests Per Minute or Tokens Per Day). The response body will contain details about the specific limit that was hit.
+  * **500 - `api_error`**: An unexpected error has occurred internal to Nusantara AI's systems.
+  * **503 - `service_unavailable`**: The service is temporarily unavailable, often due to high traffic or maintenance. Please try again after a short delay.
+
+<br/>
+
+#### **Error Structure**
+
+Errors are always returned as JSON, with a top-level `error` object that includes a `type` and `message`. The response will also include a `request_id` for easier tracking and debugging.
+
+**Example Error Response:**
+
+```json
+{
+  "error": {
+    "message": "API key is missing. Please provide your API key in the `Authorization` header.",
+    "type": "auth_error",
+    "code": "missing_api_key",
+    "request_id": "req_e951d673bf8238dd787f9329"
+  }
+}
+```
+
+-----
+
+#### **Request ID**
+
+Every API response, whether successful or not, includes a unique `X-Request-Id` header. This ID is crucial for debugging. When contacting support about a specific request, please include this ID to help us resolve your issue quickly.
+
+**Example Header:**
+
+```
+X-Request-Id: req_e951d673bf8238dd787f9329
+```
+-----
+
+#### **Handling Long Requests**
+
+For requests that may take a significant amount of time to process (e.g., generating a very long text or a high-resolution image), we highly recommend using **streaming**.
+
+  * **Streaming Endpoints**: Endpoints like `/v1/chat/completions` and `/v1/responses` support a `stream: true` parameter.
+  * **Benefits**: Streaming provides a much better user experience by delivering the response piece by piece, and it helps avoid timeouts that can occur on some networks for long-running, non-streaming connections.

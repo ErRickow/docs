@@ -1,0 +1,54 @@
+---
+title: 'Prompt Templates'
+description: '> Learn how to create and reuse prompts to streamline your API calls.'
+---
+
+Prompt templates allow you to save and manage frequently used prompts on the Neosantara AI platform. Instead of sending long instruction sets with every API call, you can simply send the template's unique ID and fill in the variables. This makes your requests cleaner, faster, and easier to manage.
+
+-----
+
+### 1. Creating a Prompt Template
+
+You can create new templates directly from your user dashboard.
+
+1.  Navigate to your **[Dashboard](https://app.neosantara.xyz/dashboard)**.
+2.  Select the **"Prompt Templates"** section.
+3.  Click the **"Create New Template"** button.
+4.  Fill in the form:
+      * **ID**: A unique, machine-readable identifier for your template (e.g., `doctor-assistant`, `formal-email-writer`). Use `kebab-case`.
+      * **Content**: The body of your prompt. Use double curly braces `{{variable_name}}` to define placeholders that you can fill in later during your API call.
+
+**Example Template Content:**
+
+```text
+You are a specialist doctor named {{doctor_name}}. Greet the patient, {{patient_name}}, and ask how you can help them with their {{health_issue}}.
+```
+
+-----
+
+### 2. Using a Template in an API Call
+
+Once your template is saved, you can use it by calling the `/v1/responses` endpoint. Instead of the standard `messages` array, you will provide a `prompt` object.
+
+The `prompt` object must contain the `id` of your template and a `variables` object to fill in the placeholders you defined.
+
+**Example `curl` Request:**
+
+This example calls the `doctor-assistant` template we created and dynamically fills in the variables.
+
+```bash
+curl -X POST 'https://api.neosantara.xyz/v1/responses' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer <YOUR_API_KEY>' \
+-d '{
+    "model": "nusantara-base",
+    "prompt": {
+        "id": "doctor-assistant",
+        "variables": {
+            "doctor_name": "Dr. Arifin",
+            "patient_name": "Bapak Budi",
+            "health_issue": "persistent headache"
+        }
+    }
+}'
+```
