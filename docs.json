@@ -84,7 +84,6 @@
             "en/capability/reasoning",
             "en/response",
             "en/about/prompt-templates",
-            "en/about/prompt-templates",
             {
               "group": "Tools",
               "pages": [
