@@ -244,14 +244,18 @@
       "perplexity",
       {
         "title": "Share on X",
-        "description": "Share this page on X",
-        "icon": "x", 
+        "description": "Share this page on X", 
+        "icon": "x",
         "href": {
           "base": "https://x.com/intent/tweet",
           "query": [
             {
               "key": "text",
-              "value": "Check out this documentation"
+              "value": "Check out this documentation: $path"
+            },
+            {
+              "key": "url", 
+              "value": "$path"
             }
           ]
         }
