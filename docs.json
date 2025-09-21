@@ -245,14 +245,15 @@
       {
         "title": "Share on X",
         "description": "Share this page on X",
-        "icon": "x",
+        "icon": "x", 
         "href": {
           "base": "https://x.com/intent/tweet",
           "query": [
-          {
-            "key": "text",
-            "value": "Check out this documentation: $page"
-          }]
+            {
+              "key": "text",
+              "value": "Check out this documentation"
+            }
+          ]
         }
       }
     ]
