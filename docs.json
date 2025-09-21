@@ -245,13 +245,13 @@
       {
         "title": "Share on X",
         "description": "Share this page on X", 
-        "icon": "x",
+        "icon": "x-twitter",
         "href": {
           "base": "https://x.com/intent/tweet",
           "query": [
             {
               "key": "text",
-              "value": "Check out this documentation: $path"
+              "value": "Found this helpful AI API documentation - worth checking out! https: //docs.neosantara.xyz$path"
             },
             {
               "key": "url", 
@@ -304,7 +304,7 @@
       "reply-to": "support@neosantara.xyz",
       "distribution": "global",
       "coverage": "Worldwide",
-      "category": "Technology, AI, Artificial Intelligence, AI Documentation, AI Apps",
+      "category": "Technology, AI, Artificial Intelligence, AI Documentation, AI Apps, AI APIs Documentations, AI APIs",
       "target": "all",
       "og:title": "Neosantara API Documentations",
       "og:type": "website",
@@ -318,7 +318,7 @@
       "twitter:creator": "@ErRickow",
       "twitter:title": "Neosantara AI - API Documentation",
       "twitter:description": "Access powerful AI models for chat, embeddings, moderation, and more with Neosantara AI.",
-      "twitter:image": "https://docs.neosantara.xyz/twitter-image.jpg",
+      "twitter:image": "https://docs.neosantara.xyz/og-image.png",
       "twitter:image:alt": "Neosantara AI Documentation",
       "article:author": "Neosantara AI Team",
       "article:section": "Technology, AI, Artificial Intelligence, API Documentation",
