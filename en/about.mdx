@@ -4,7 +4,7 @@ description: '> Welcome To Neosantara AI'
 ---
 
 <Note>
-  Looking for a step-by-step tutorial to get started in under 5 minutes? Head to our [Quickstart guide](/en/api-reference/quickstart#invoke-the-chat-api-calls) and start coding!
+  Looking for a step-by-step tutorial to get started in under 5 minutes? Head to our [Quickstart guide](/api-reference/quickstart#invoke-the-chat-api-calls) and start coding!
 </Note>
 
 ## Who are we?
@@ -34,7 +34,7 @@ Neosantara AI shines where others might fall short, with an AI API optimized for
 <AccordionGroup>
 
   <Accordion title="Integration-friendly">
-    We appreciate the essence of adaptability. That's why integrating our API with your existing setup is a breeze. You can use our simple API call and You can also use Neosantara APIs through [Openai SDK](/en/api-reference/quickstart)
+    We appreciate the essence of adaptability. That's why integrating our API with your existing setup is a breeze. You can use our simple API call and You can also use Neosantara APIs through [Openai SDK](/api-reference/quickstart)
   </Accordion>
 
   <Accordion title="Transparent & Informative">
@@ -54,40 +54,29 @@ Here's a simplified diagram illustrating the core flow of the Neosantara AI API:
 
 ```mermaid
 graph TD
-   A[Your Application / Client] --> B(Neosantara AI API);
-   B --> C{Internal Logic};
-   C --> D1(Google Gemini);
-   C --> D2(OpenAI);
-   C --> D3(Cohere);
-   C --> D4(HuggingFace);
-   C --> D5(Fireworks AI);
-   C --> D6(Groq);
-   C --> D7(Replicate);
-   D1 --> F[Response];
-   D2 --> F;
-   D3 --> F;
-   D4 --> F;
-   D5 --> F;
-   D6 --> F;
-   D7 --> F;
-   F --> B;
-   B --> A;
+   A[Your Application] --> B(Neosantara AI API);
+   B --> C[AI Response];
+   C --> A;
 
-   subgraph Neosantara AI Backend
-       B
-       C
-   end
+   %% Styling
+   classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+   classDef api fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000  
+   classDef response fill:#fff8e1,stroke:#f57f17,stroke-width:2px,color:#000
+
+   class A client
+   class B api
+   class C response
 ```
 
 ## Getting started
 
-[Sign up](https://app.neosantara.xyz/signup) for Neosantara AI to get your API Key. You receive **7,500 free API Tokens every month**. No credit card required.
+[Sign up](https://app.neosantara.xyz/signup) for Neosantara AI to get your API Key. You receive **10,000 free API Tokens every month**. No credit card required.
 
 <Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
-  7,500 free API Tokens every month. **No credit card required.**
+  10,000 free API Tokens every month. **No credit card required.**
 </Card>
 
-To get started with Neosantara APIs, head to our [Quickstart Guide](/en/api-reference/quickstart) and follow the steps.
+To get started with Neosantara APIs, head to our [Quickstart Guide](/api-reference/quickstart) and follow the steps.
 
 <Note>
   Got questions? Stumbled upon an issue? Simply intrigued? Don't hesitate! Our support team is always on standby, eager to assist. Join us, dive deep, and redefine your experience! [Contact us!](mailto:halo@neosantara.xyz)

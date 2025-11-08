@@ -1,60 +1,131 @@
-# Token Credits & Pricing
+---
+title: 'Token Credits & Pricing'
+description: 'Learn how to manage token credits for Neosantara APIs.'
+---
 
-> Learn how to manage token credits for Neosantara APIs.
-
-## Free Token Credits
+## Get Started with Free Credits
 
 <Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
-  7,500 Token Credits every month. **No credit card required.**
+  Start with **10,000 Monthly Token Limit** on our Free Plan. **No credit card required.** Your tokens automatically reset on the 1st of each month.
 </Card>
 
-## Pricing Overview
+---
 
-Neosantara AI operates on a simple, transparent credit-based model. All paid plans are priced at **Rp 149.999 per 1 million tokens** (~Rp 0.15 per token, ~Rp 149.99 per 1,000 tokens). Choose a plan that fits your needs or top-up tokens flexibly with our Custom option.
+## Simple, Transparent Pricing
 
-| <div align="left">**Plan**</div> | **Tokens per month** | **Tokens per day** | **Monthly price** | **Price per credit** |
-|------------|------------------|----------------|---------------|-----------------|
-| **Free**   | 10,000           | 3,000          | Free          | -               |
-| **Basic**  | 66,667           | 10,000         | Rp 9,999      | Rp 0.15         |
-| **Standard** | 400,000        | 40,000         | Rp 59,999     | Rp 0.15         |
-| **Pro**    | 1,000,000        | 100,000        | Rp 149,999    | Rp 0.15         |
-| **Custom** | custom | 10% of Monthly | custom | Rp 0.15         |
+Neosantara AI uses a straightforward credit-based system. All paid plans follow a consistent rate of **Rp 149,999 per 1 million tokens** (approximately **Rp 0.15 per token** or **Rp 149.99 per 1,000 tokens**). 
 
-Visit your [Dashboard](https://app.neosantara.xyz/dashboard) or [Pricing Page](https://app.neosantara.xyz/pricing) to explore our plan options and manage your subscription.
+Choose from our structured plans below, or go with our flexible Custom option for unique requirements.
 
-## API Credits Costs
-.
-Neosantara AI API usage is calculated based on the number of Tokens processed per request, for both `input` and `output`. Each model has different characteristics and Token costs.
+### Plan Comparison
 
-To calculate costs:
-- **Price = Tokens x Rp 0.15** (per token).
-- **Price = (Tokens ÷ 1,000) x Rp 149.99** (per 1,000 tokens).
+| <div align="left">**Plan**</div> | **RPM** | **TPM** | **TPD** | **Monthly Token Limit** |
+| :---: | :---: | :---: | :---: | :---: |
+| Free | 5 | 3,000 | 2,000 | 10,000 (Est.) |
+| Basic | 30 | 10,000 | 10,000 | 66,667 (Est.) |
+| Standard | 100 | 40,000 | 100,000 | 400,000 (Est.) |
+| Pro | 400 | 100,000 | 200,000 | 1,000,000 (Est.) |
+| Enterprise | Custom| Custom | Custom | Custom |
 
-- $Price = Tokens \times Rp\ 0.15$ (per token).
-- $Price = \left( \frac{Tokens}{1000} \right) \times Rp\ 149.99$ (per 1,000 tokens).
-- $Price = \left( \frac{Tokens}{1000000} \right) \times Rp\ 149999$ (per 1 million tokens).
+[Learn more about Neosantara token credits](/en/about/token-credits#how-api-costs-work)
 
-<RequestExample>
-For 100,000 tokens:
-  $$
-  Price = 100000 \times 0.15 = 15,000
-  $$
-  or
-  $$
-  Price = \left( \frac{100,000}{1,000} \right) \times 149.99 = 14,999
-  $$
-  Both give Rp 15,000 (rounded).
-</RequestExample>
+**Ready to upgrade?** [Reach Us](mailto:halo@neosantara.xyz) or [Pricing Page](https://app.neosantara.xyz/pricing) to explore plan options and manage your subscription.
 
+---
 
-### How Token Costs Are Calculated
+## How API Costs Work
 
-* **Basic Text Processing (e.g., Chat Completions):**
-  * Each basic text request consumes Tokens based on the length of the input text (prompt and chat history) and the generated output text.
+Neosantara AI API usage is calculated based on **total tokens processed per request**, including both `input (your prompts)` and `output (AI responses)`. Each model has different pricing based on its capabilities and computational requirements.
 
-* **Special Functions & Advanced Capabilities (e.g., function_calling, web_search):**
-  * When models utilize advanced capabilities such as `calling external functions` or performing `web searches`, the Token cost for that request will reflect the additional computational complexity and data processing involved. The exact cost varies per request based on the actual operations performed by the model.
+### Cost Calculation Formula
 
-### Tracking Your Usage
+- **Price = Tokens × Rp 0.15** (per token)
+- **Price = (Tokens ÷ 1,000) × Rp 149.99** (per 1,000 tokens)
 
-The most accurate way to track the Token cost of each request, especially for advanced features and multimodal inputs, is through the `tokens_used` field in the API response's `_metadata` section or by checking your [Usage Dashboard](https://app.neosantara.xyz/usage).
+$$Price = \text{Tokens} \times \text{Rp } 0.15 \text{ (per token)}$$
+
+$$Price = \left( \frac{\text{Tokens}}{1000} \right) \times \text{Rp } 149.99 \text{ (per 1,000 tokens)}$$
+
+**Example:** For 100,000 tokens:
+---
+$$Price = 100,000 \times 0.15 = \text{Rp } 15,000$$
+---
+or
+---
+$$Price = \left( \frac{100,000}{1,000} \right) \times 149.99 = \text{Rp } 14,999$$
+
+Both calculations yield approximately **Rp 15,000** (rounded for simplicity).
+
+---
+
+## Model Pricing & Selection
+
+Our pricing structure is designed for simplicity and scalability. Choose the model that best fits your specific use case and budget. All prices are listed in Indonesian Rupiah (IDR) per 1 million tokens.
+
+### Indonesian-Optimized Models
+
+| Model | Input/1M Tokens | Output/1M Tokens |
+| :--- | :--- | :--- |
+| `nusantara-base` | Rp 300 | Rp 1,500 |
+| `archipelago-70b` | Rp 4,710 | Rp 36,543 |
+| `garda-beta-mini` | Rp 2,500 | Rp 10,499 |
+| `luminai` | Free | Free |
+
+### Third-Party Models
+
+| Model | Input/1M Tokens | Output/1M Tokens |
+| :--- | :--- | :--- |
+| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 |
+| `gemma-3-27b-it` | Rp 200 | Rp 1,000 |
+| `llama-3.3-70b-instruct` | Free | Free |
+| `gemma2-9b-it` | Free | Free |
+
+### Special Models
+
+| Model | Pricing Model | Notes |
+| :--- | :--- | :--- |
+| `neosantara-gen-2045` | Per Image | 1024x1024: Rp 2,000, 512x512: Rp 1,200, 256x256: Rp 500 |
+| `nusa-embedding-0001` | Per Request | Contact sales for pricing |
+
+<Note>
+**Image Generation** and **Embedding Models** use different billing metrics (per image or per request rather than tokens). Check your dashboard for detailed usage tracking of these services.
+</Note>
+
+### Model Selection Guide
+
+Not sure which model to choose? Here's a quick comparison to help you decide:
+
+| **Use Case** | **Recommended Model** | **Price (Input/Output per 1M)** | **Best For** |
+| :--- | :--- | :--- | :--- |
+| **Budget-Friendly Indonesian** | `nusantara-base` | Rp 300 / Rp 1,500 | Cost-effective Indonesian language tasks with balanced performance |
+| **Premium Indonesian Content** | `archipelago-70b` | Rp 4,710 / Rp 36,543 | Complex tasks requiring deep cultural and contextual understanding |
+| **Fast Indonesian Processing** | `garda-beta-mini` | Rp 2,500 / Rp 10,499 | Quick responses with large context window support |
+| **Free Indonesian AI** | `luminai` | Free / Free | Basic Indonesian conversational AI |
+| **Budget General Purpose** | `gemma-3-27b-it` | Rp 200 / Rp 1,000 | Lightweight multilingual tasks |
+| **Advanced Reasoning** | `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 / Rp 31,991 | Complex reasoning and multilingual tasks |
+---
+
+## Understanding Token Usage
+
+### Basic Text Processing
+Standard text requests (like [`chat completions`](/api-reference/chat/create-chat-completion)) consume tokens based on:
+- **Input length:** Your prompts and conversation history
+- **Output length:** The AI-generated response text
+
+### Advanced Features
+When using enhanced capabilities such as **function calling**, **web search**, or **vision**, token costs will be higher due to:
+- Additional computational complexity
+- Extra data processing requirements
+- Enhanced model capabilities being utilized
+
+The exact cost varies per request based on the specific operations performed by the model.
+
+### Track Your Usage
+
+For the most accurate tracking of your token consumption:
+
+1. **API Response:** Check the `tokens_used` field using [`/auth/key`](/api-reference/authentication/check-api-key-status)
+2. **Usage Dashboard:** Visit your [Usage Dashboard](https://app.neosantara.xyz/usage) to view:
+   - Remaining credits
+   - Usage patterns and trends
+   - Detailed breakdowns by model and feature

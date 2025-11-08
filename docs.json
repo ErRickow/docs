@@ -1,164 +1,220 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "aspen",
+  "theme": "maple",
   "name": "Neosantara",
   "colors": {
     "primary": "#FF5722",
     "light": "#FF8A65"
+  },
+  "fonts": {
+    "heading": {
+      "family": "IBM Plex Mono",
+      "weight": 600
+    },
+    "body": {
+      "family": "IBM Plex Sans",
+      "weight": 400
+    }
   },
   "favicon": "/favicon.ico",
   "styling": {
     "eyebrows": "breadcrumbs"
   },
   "background": {
-    "decoration": "grid"
+    "decoration": "windows"
   },
   "navigation": {
     "languages": [
+    {
+      "language": "en",
+      "default": true,
+      "anchors": [
       {
-        "language": "en",
-        "default": true,
-        "anchors": [
+        "anchor": "Developer Guide",
+        "groups": [
         {
-          "anchor": "Developer Guide",
-          "groups": [
-          {
-            "group": "First steps",
-            "icon": "feather",
-            "pages": [
-              "en/intro",
-              "en/api-reference/quickstart"
-            ]
-          },
-          {
-            "group": "Learn About Neosantara",
-            "icon": "feather",
-            "pages": [
-              "en/about"
-            ]
-          },
-          {
-            "group": "Models & Pricing",
-            "pages": [
-              "en/models-overview"
-            ]
-          },
-          {
-            "group": "Capabilities",
-            "pages": [
-              "en/capability/embeddings",
-              "en/capability/image-generation",
-              "en/capability/stream"
-            ]
-          },
-          {
-            "group": "Tools",
-            "icon": "wrench",
-            "pages": [
-              "en/tools-overview",
-              "en/how-tools"
-            ]
-          }
+          "group": "First steps",
+          "pages": [
+            "en/intro",
+            "/api-reference/quickstart",
+            "api-reference/sdk/openai-compatible"
           ]
         },
         {
-          "anchor": "API Guide",
-          "groups": [
-          {
-            "group": "Using the APIs",
-            "icon": "hashtag",
-            "pages": [
-              "en/api-reference/introduction",
-              "en/about/token-credits",
-              "en/about/rate-limits",
-              "en/about/model"
-            ]
-          },
-          {
-            "group": "API reference",
-            "icon": "square-terminal",
-            "pages": [
-              "en/api-reference/chat/create-chat-completion",
-              "en/api-reference/embeddings/create-embeddings",
-              "en/api-reference/models/list-available-models",
-              "en/api-reference/moderations/content-moderation-check",
-              "en/api-reference/reasoning/enhanced-reasoning-completion",
-              "en/api-reference/authentication/check-api-key-status"
-            ]
-          },
-          {
-            "group": "SDKs",
-            "pages": [
-              "en/api-reference/sdk/openai-compatible"
-            ]
-          }]
-          
+          "group": "Learn About Neosantara",
+          "pages": [
+            "en/about"
+          ]
+        },
+        {
+          "group": "Models & Pricing",
+          "pages": [
+            "en/models-overview"
+          ]
+        },
+        {
+          "group": "Capabilities",
+          "pages": [
+            "en/capability/embeddings",
+            "en/capability/image-generation",
+            "en/capability/stream",
+            "en/capability/structured"
+          ]
+        },
+        {
+          "group": "Examples",
+          "pages": [
+            {
+              "group": "Agent Integrations",
+              "pages": [
+                "en/agent-overview",
+                "en/crewai",
+                "en/dspy",
+                "en/pydantic-ai",
+                "en/agno",
+                "en/autogen"
+              ]
+            },
+            "en/integrations"
+          ]
+        },
+        {
+          "group": "Guides",
+          "pages": [
+            "en/capability/reasoning",
+            "en/response",
+            "en/about/prompt-templates",
+            {
+              "group": "Tools",
+              "pages": [
+                "en/tools-overview",
+                "en/how-tools"
+              ]
+            },
+            "en/e2b",
+            "en/llama-index",
+            "en/llama-nemotron",
+            "en/using-neosantara-with-vercels-ai-sdk"
+          ]
         }]
       },
       {
-        "language": "id",
-        "anchors": [
+        "anchor": "API Guide",
+        "groups": [
         {
-          "anchor": "Permulaan",
-          "groups": [
-          {
-            "group": "Selamat Datang",
-            "icon": "feather",
-            "pages": [
-              "id/about",
-              "id/api-reference/quickstart"
-            ]
-          }]
+          "group": "Using the APIs",
+          "pages": [
+            "api-reference/introduction",
+            "en/about/token-credits",
+            "en/about/rate-limits",
+            "en/about/errors"
+          ]
         },
         {
-          "anchor": "Cara Penggunaan API",
-          "groups": [
+          "group": "API reference",
+          "pages": [
           {
-            "group": "Menggunakan APIs",
-            "icon": "hashtag",
+            "group": "Response",
             "pages": [
-              "id/api-reference/introduction",
-              "id/about/token-credits",
-              "id/about/rate-limits",
-              "id/about/model"
+              "api-reference/response/create-a-response"
             ]
           },
           {
-            "group": "API reference",
-            "icon": "square-terminal",
+            "group": "Chat",
             "pages": [
-              "id/api-reference/chat/create-chat-completion",
-              "id/api-reference/embeddings/create-embeddings",
-              "id/api-reference/models/list-available-models",
-              "id/api-reference/moderations/content-moderation-check",
-              "id/api-reference/reasoning/enhanced-reasoning-completion",
-              "id/api-reference/authentication/check-api-key-status"
+              "api-reference/chat/create-chat-completion"
             ]
           },
           {
-            "group": "SDKs",
+            "group": "Embeddings",
             "pages": [
-              "id/api-reference/sdk/openai-compatible"
+              "api-reference/embeddings/create-embeddings"
+            ]
+          },
+          {
+            "group": "Models",
+            "pages": [
+              "api-reference/models/list-available-models"
+            ]
+          },
+          {
+            "group": "Content Moderation",
+            "pages": [
+              "api-reference/moderations/content-moderation-check"
+            ]
+          },
+          {
+            "group": "Image Generation",
+            "pages": [
+              "api-reference/images/create-image-generation"
+            ]
+          },
+          {
+            "group": "Status",
+            "pages": [
+              "api-reference/system/system-status-and-info"
             ]
           }]
         }]
-      }
-    ],
-    "global": {
+      }]
+    },
+    {
+      "language": "id",
       "anchors": [
+      {
+        "anchor": "Permulaan",
+        "groups": [
         {
-          "anchor": "Get Started",
-          "href": "https://docs.neosantara.xyz/about",
-          "icon": "rocket-launch"
+          "group": "Selamat Datang",
+          "icon": "feather",
+          "pages": [
+            "id/about",
+            "id/api-reference/quickstart"
+          ]
+        }]
+      },
+      {
+        "anchor": "Cara Penggunaan API",
+        "groups": [
+        {
+          "group": "Menggunakan APIs",
+          "icon": "hashtag",
+          "pages": [
+            "id/api-reference/introduction",
+            "id/about/token-credits",
+            "id/about/rate-limits",
+            "id/about/model"
+          ]
         },
         {
-          "anchor": "Documentations",
-          "href": "https://docs.neosantara.xyz/api-reference/introduction",
-          "icon": "book-open-cover"
-        }
-      ]
+          "group": "API reference",
+          "icon": "square-terminal",
+          "pages": [
+            "id/api-reference/chat/create-chat-completion",
+            "id/api-reference/embeddings/create-embeddings",
+            "id/api-reference/models/list-available-models",
+            "id/api-reference/moderations/content-moderation-check",
+            "id/api-reference/reasoning/enhanced-reasoning-completion",
+            "id/api-reference/authentication/check-api-key-status"
+          ]
+        },
+        {
+          "group": "SDKs",
+          "pages": [
+            "id/api-reference/sdk/openai-compatible"
+          ]
+        }]
+      }]
+    }],
+    "global": {
+      "anchors": [
+      {
+        "anchor": "Contact Us",
+        "href": "mailto:halo@neosantara.xyz",
+        "icon": "envelope"
+      }]
     }
-  },  
+  },
   "logo": {
     "light": "/logo/logo.svg",
     "dark": "/logo/logo.svg"
@@ -187,28 +243,47 @@
       "claude",
       "perplexity",
       {
-        "title": "Ask Gemini",
-        "description": "Ask Google Gemini about this page",
-        "icon": "sparkle",
+        "title": "Share on X",
+        "description": "Share this page on X", 
+        "icon": "x-twitter",
         "href": {
-          "base": "https://gemini.google.com/app",
+          "base": "https://x.com/intent/tweet",
           "query": [
-          {
-            "key": "q",
-            "value": "can you explain this https://docs.neosantara.xyz$path.md"
-          }]
+            {
+              "key": "text",
+              "value": "Found this helpful AI API documentation - worth checking out! https: //docs.neosantara.xyz$path"
+            },
+            {
+              "key": "url", 
+              "value": "$path"
+            }
+          ]
         }
       }
     ]
+  },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-LTC6L7QF4V"
+    }
   },
   "errors": {
     "404": {
       "redirect": true
     }
   },
+  "redirects": [
+  {
+    "source": "/id",
+    "destination": "/en"
+  },
+  {
+    "source": "/id/:slug*",
+    "destination": "/en/:slug*"
+  }],
   "seo": {
+    "indexing": "all",
     "metatags": {
-      "charset": "UTF-8",
       "viewport": "width=device-width, initial-scale=1.0",
       "description": "Start Using Neosantara AI For Free Now! Access powerful AI models for chat, embeddings, moderation, and more.",
       "keywords": "ai, aiimage, neosantara-ai, neosantaradocs, neosantaraai, neosantara-docs, api-docs-ai, apidocsai, aidocs, dokumentasi-neosantaraai, docs-neosantara, neosantara_xyz, artificial intelligence, LLM, multimodal, API, Indonesia AI",
@@ -229,29 +304,20 @@
       "reply-to": "support@neosantara.xyz",
       "distribution": "global",
       "coverage": "Worldwide",
-      "category": "Technology, AI, Artificial Intelligence, AI Documentation",
+      "category": "Technology, AI, Artificial Intelligence, AI Documentation, AI Apps, AI APIs Documentations, AI APIs",
       "target": "all",
-      "HandheldFriendly": "True",
-      "MobileOptimized": "320",
-      "apple-mobile-web-app-capable": "yes",
-      "apple-mobile-web-app-status-bar-style": "black",
-      "og:title": "Neosantara AI Docs - API Documentation",
       "og:type": "website",
       "og:url": "https://docs.neosantara.xyz",
-      "og:image": "https://docs.neosantara.xyz/og-image.jpg",
+      "og:image": "https://docs.neosantara.xyz/og-image.png",
       "og:description": "Get Started With Neosantara AI - Your gateway to advanced AI models.",
-      "og:site_name": "Neosantara AI",
-      "og:locale": "en_US",
+      "og:locale": "id_ID",
       "twitter:card": "summary_large_image",
       "twitter:site": "@NeosantaraAI",
       "twitter:creator": "@ErRickow",
       "twitter:title": "Neosantara AI - API Documentation",
       "twitter:description": "Access powerful AI models for chat, embeddings, moderation, and more with Neosantara AI.",
-      "twitter:image": "https://docs.neosantara.xyz/twitter-image.jpg",
+      "twitter:image": "https://docs.neosantara.xyz/og-image.png",
       "twitter:image:alt": "Neosantara AI Documentation",
-      "article:published_time": "2025-01-01T00:00:00+00:00",
-      "article:modified_time": "2025-06-21T00:00:00+00:00",
-      "article:expiration_time": "2026-01-01T00:00:00+00:00",
       "article:author": "Neosantara AI Team",
       "article:section": "Technology, AI, Artificial Intelligence, API Documentation",
       "article:tag": "ai, neosantaraai, nai, indonesianAi, LLM, API, documentation"
