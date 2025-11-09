@@ -1,0 +1,68 @@
+---
+title: 'Introduction'
+description: '> Start using Neosantara Culture AI Intelligence'
+---
+
+## Base URL
+
+The base URL for all requests to the Neosantara API is:
+
+```plaintext with prefix /v1
+https://api.neosantara.xyz/v1
+```
+
+## Authentication
+
+All Neosantara endpoints are authenticated using API keys.
+[Get your free API key](https://app.neosantara.xyz/api-keys).
+
+```bash icon="terminal"
+curl "https://api.neosantara.xyz/v1/chat/completions" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_NUSANTARA_API_KEY>" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Ceritakan sebuah kisah singkat tentang seekor kancil yang cerdik."
+      }
+    ],
+    "stream": false
+  }'
+```
+
+## Core Endpoints
+
+<CardGroup cols={6}>
+  <Card title="Responses API" icon="pen-nib"
+  horizontal
+  href="/api-reference/response/create-a-response">
+  **`/response`**
+  
+  The main, modern endpoint for all use cases, including chat, function calling, and structured outputs.
+  </Card>
+  <Card icon="magnifying-glass" horizontal href="/api-reference/chat/create-chat-completion">
+    **`/chat/completions`**
+
+    Completions Neosantara API Endpoint.
+  </Card>
+
+  <Card icon="shield-halved" horizontal href="/api-reference/moderations">
+    **`/moderations`**
+
+    Neosantara Content Moderation API Endpoint.
+  </Card>
+  
+  <Card icon="code" horizontal href="/api-reference/embeddings">
+    **`/embeddings`**
+
+    Neosantara Embeddings API Endpoint.
+  </Card>
+  
+  <Card icon="key" horizontal href="/api-reference/authentication/check-api-key-status">
+    **`/auth/key`**
+
+    Neosantara API Endpoint KEY Metadata.
+  </Card>
+</CardGroup>

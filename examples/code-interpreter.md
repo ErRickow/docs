@@ -259,7 +259,3 @@ run()
 ### Here You Go!
 
 Congratulations 🎉  You are Done Integrate Code Interpreter With [E2B](https://e2b.dev) and [Neosantara AI](https://neosantara.xyz)
-
-<Note>
-This example is overwritten from `[Groq Code Interpreter](https://github.com/)`. We modified the original example to make sure working with Neosantara Client's
-</Note>
