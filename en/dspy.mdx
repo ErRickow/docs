@@ -1,0 +1,92 @@
+---
+title: 'DSPy'
+description: '> Using DSPy with Neosantara AI.'
+---
+
+DSPy is a framework for programming language models rather than relying on static prompts. It enables you to build modular AI systems with code instead of hand-crafted prompting, and it offers methods to automatically optimize these systems.
+
+Features
+
+* Programmatic approach to LLM interactions through Python
+* Modular components for building complex AI pipelines
+* Self-improvement algorithms that optimize prompts and weights
+* Support for various applications from simple classifiers to RAG systems and agent loops
+
+## Installing Libraries
+
+<CodeGroup>
+  ```shell Shell
+  pip install -U dspy -q
+  ```
+</CodeGroup>
+
+Set your Neosantara AI API key:
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+## Example
+
+Setup and connect DSPy to LLMs on Neosantara AI
+
+<CodeGroup>
+  ```python Python icon="python"
+  import dspy
+
+  #Configure dspy with a LLM from Neosantara AI
+  lm = dspy.LM('openai/nusantara-nase',
+               api_key=os.environ.get("NAI_API_KEY"),
+               api_base="https://api.neosantara.xyz/v1")
+
+  #now you can call the LLM directly as follows
+  lm("Say this is a test!", temperature=0.7)  # => ['Ini adalah sebuah tes.']
+  lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['Ini adalah sebuah tes.']
+  ```
+</CodeGroup>
+
+Now we can set up a DSPy module, like `dspy.ReAct` with a task-specific signature. For example, `question -> answer: str` tells the module to take a question and to produce a string answer below.
+
+<CodeGroup>
+  ```python Python icon="python"
+  #Configure dspy to use the LLM
+  import dspy
+  
+  #Configure dspy with a LLM from Neosantara AI
+  lm = dspy.LM('openai/archipelago-70b',
+               api_key=os.environ.get("NAI_API_KEY"),
+               api_base="https://api.neosantara.xyz/v1")
+  
+  #Configure dspy to use the LLM
+  dspy.configure(lm=lm)
+  
+  ## Gives the agent access to a wikipedia search tool
+  def search_wikipedia(query: str):
+      # Use a more general search or the specific page if known to be reliable
+      # For a general search, you might use a different tool or API
+      # For this specific case, we stick to the provided URL but simplify the output
+      results = dspy.ColBERTv2(url='https://id.m.wikipedia.org/wiki/Prabowo_Subianto')(query, k=5) # Get 5 result
+      # Return the raw text content for the LLM to process
+      return results[0]['text'] if results else "No relevant information found."
+  
+  
+  ## setup ReAct module with question and string answer signature
+  # Changed the signature to expect a string answer
+  react = dspy.ReAct("question -> answer: str", tools=[search_wikipedia])
+  
+  # Use the question that needs a text answer
+  pred = react(question="when the birthday prabowo?")
+  
+  print(pred.answer)
+  ```
+</CodeGroup>
+
+<Accordion title="See output">
+  The output will return an string for answer below:
+
+   ```bash output
+    Prabowo Subianto lahir pada tanggal 17 Oktober 1951.
+  ```
+</Accordion>
