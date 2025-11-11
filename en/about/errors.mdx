@@ -6,12 +6,18 @@ title: 'Errors'
 
 Our API follows a predictable HTTP error code format to help you handle issues programmatically.
 
-  * **400 - `invalid_request_error`**: There was an issue with the format or content of your request. This can be caused by missing parameters or invalid values.
-  * **401 - `authentication_error`**: Your API key is missing, invalid, or inactive. Please check your key and try again.
-  * **404 - `not_found_error`**: The requested resource, such as a specific model or prompt template, was not found.
-  * **429 - `rate_limit_exceeded`**: Your account has exceeded its allowed usage limits (e.g., Requests Per Minute or Tokens Per Day). The response body will contain details about the specific limit that was hit.
-  * **500 - `api_error`**: An unexpected error has occurred internal to Nusantara AI's systems.
-  * **503 - `service_unavailable`**: The service is temporarily unavailable, often due to high traffic or maintenance. Please try again after a short delay.
+
+| Status Code | Type | Description |
+|-------------|------|-------------|
+| **400** | `invalid_request_error` | Malformed request, missing/invalid parameters |
+| **401** | `authentication_error` | Invalid or missing API key |
+| **404** | `not_found_error` | Resource not found (model, conversation, etc) |
+| **429** | `rate_limit_exceeded` | Too many requests, rate limit hit |
+| **500** | `api_error` | Internal server error |
+| **503** | `service_unavailable` | Service temporarily unavailable |
+| **504** | `gateway_timeout` | Request timed out |
+
+---
 
 <br/>
 
@@ -23,12 +29,11 @@ Errors are always returned as JSON, with a top-level `error` object that include
 
 ```json
 {
-  "error": {
-    "message": "API key is missing. Please provide your API key in the `Authorization` header.",
-    "type": "auth_error",
-    "code": "missing_api_key",
-    "request_id": "req_e951d673bf8238dd787f9329"
-  }
+    "error": {
+        "message": "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). You can obtain an API key from https://app.neosantara.xyz/api-keys.",
+        "type": "auth_error",
+        "code": "missing_api_key"
+    }
 }
 ```
 

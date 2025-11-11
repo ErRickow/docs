@@ -1,0 +1,628 @@
+---
+title: 'DeepSeek OCR'
+description: 'Get started using DeepSeek OCR on Neosantara API'
+---
+
+## Optical Character Recognition
+
+The DeepSeek OCR API enables you to extract text from images with high accuracy. This powerful OCR model can process images from URLs or base64-encoded data, making it ideal for document processing, receipt scanning, ID card extraction, and other text recognition tasks.
+
+## Key Features
+
+- **High Accuracy**: Advanced OCR model for precise text extraction
+- **Flexible Input**: Support for both URL and base64-encoded images
+- **Fast Processing**: Optimized for quick text extraction
+- **Optional Image Return**: Get back an annotated image with recognized text regions
+- **OpenAI-Compatible**: Standard API format for easy integration
+
+## API Endpoint
+
+```
+POST https://api.neosantara.xyz/v1/ocr
+```
+
+## Authentication
+
+Include your API key in the request header:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Warning>
+  **First Request Latency**: The initial OCR request may experience a 10-15 second delay due to cold start initialization. Subsequent requests will process much faster (2-5 seconds). If you receive a timeout error on your first request, please retry after a few seconds.
+</Warning>
+
+## Request Parameters
+
+<ParamField path="model" type="string" default="deepseek-ocr">
+  The OCR model to use. Currently supports `deepseek-ocr`.
+</ParamField>
+
+<ParamField path="image" type="string" required>
+  The image to process. Can be either:
+  - A publicly accessible image URL (when `image_type` is "url")
+  - Base64-encoded image data (when `image_type` is "base64")
+</ParamField>
+
+<ParamField path="image_type" type="string" default="url">
+  The type of image data being provided. Must be either:
+  - `"url"` - Image is provided as a URL
+  - `"base64"` - Image is provided as base64-encoded data
+</ParamField>
+
+<ParamField path="return_image" type="boolean" default={false}>
+  Whether to return an annotated image with recognized text regions. When set to `true`, the response will include `result_image_base64` field containing the processed image.
+</ParamField>
+
+## Response Format
+
+The API returns a JSON response in OpenAI-compatible format with the following structure:
+
+```json
+{
+  "id": "ocr-abc123def456",
+  "object": "ocr.completion",
+  "created": 1234567890,
+  "model": "deepseek-ocr",
+  "choices": [
+    {
+      "index": 0,
+      "text": "The recognized text from your image...",
+      "finish_reason": "stop"
+    }
+  ],
+  "result_image_base64": "iVBORw0KG...", // Only if return_image is true
+  "usage": {
+    "prompt_tokens": 50,
+    "completion_tokens": 0,
+    "total_tokens": 50
+  }
+}
+```
+
+### Response Fields
+
+- **id**: Unique identifier for this OCR request
+- **object**: Type of response object, always "ocr.completion"
+- **created**: Unix timestamp of when the request was processed
+- **model**: The model used for OCR processing (e.g., "deepseek-ocr")
+- **choices**: Array containing the OCR results
+  - **index**: Choice index, always 0 for OCR
+  - **text**: The text extracted from the image
+  - **finish_reason**: Completion status, typically "stop"
+- **result_image_base64**: Base64-encoded annotated image (only included if `return_image` is true)
+- **usage**: Token usage information for billing
+
+## Quick Start Testing
+
+Want to try the OCR API immediately? Use this test image URL to extract text from a sample receipt:
+
+**Test Image URL**: `https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg`
+
+<Tip>
+  This sample image is a receipt from Mandiri BNI. You can use it to test the API without needing your own image. Expected result: merchant info, transaction details, amounts, and date/time.
+</Tip>
+
+### Quick Test with Curl
+
+```bash
+curl -X POST https://api.neosantara.xyz/v1/ocr \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "deepseek-ocr",
+    "image": "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    "image_type": "url",
+    "return_image": false
+  }'
+```
+
+<Note>
+  Remember: The first request may take 10-15 seconds due to cold start. If you get a timeout, wait a few seconds and try again.
+</Note>
+
+## Code Examples
+
+<CodeGroup>
+  ```python Python icon="python"
+  import requests
+  import base64
+
+  # Example 1: OCR from URL
+  def ocr_from_url(image_url, api_key):
+      url = "https://api.neosantara.xyz/v1/ocr"
+
+      headers = {
+          "Authorization": f"Bearer {api_key}",
+          "Content-Type": "application/json"
+      }
+
+      payload = {
+          "model": "deepseek-ocr",
+          "image": image_url,
+          "image_type": "url",
+          "return_image": False
+      }
+
+      response = requests.post(url, json=payload, headers=headers)
+      result = response.json()
+
+      print("Extracted Text:", result["choices"][0]["text"])
+      return result
+
+  # Example 2: OCR from base64 image
+  def ocr_from_base64(image_path, api_key):
+      url = "https://api.neosantara.xyz/v1/ocr"
+
+      # Read and encode image
+      with open(image_path, "rb") as image_file:
+          image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+
+      headers = {
+          "Authorization": f"Bearer {api_key}",
+          "Content-Type": "application/json"
+      }
+
+      payload = {
+          "model": "deepseek-ocr",
+          "image": image_base64,
+          "image_type": "base64",
+          "return_image": True  # Get annotated image back
+      }
+
+      response = requests.post(url, json=payload, headers=headers)
+      result = response.json()
+
+      print("Extracted Text:", result["choices"][0]["text"])
+
+      # Save annotated image if returned
+      if "result_image_base64" in result:
+          with open("annotated_image.png", "wb") as f:
+              f.write(base64.b64decode(result["result_image_base64"]))
+          print("Annotated image saved as 'annotated_image.png'")
+
+      return result
+
+  # Usage
+  api_key = "your_api_key_here"
+
+  # OCR from URL (using test image)
+  result = ocr_from_url(
+      "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+      api_key
+  )
+
+  # OCR from local file
+  result = ocr_from_base64("./document.png", api_key)
+  ```
+
+  ```javascript JavaScript icon="js"
+  // Example 1: OCR from URL
+  async function ocrFromUrl(imageUrl, apiKey) {
+    const url = "https://api.neosantara.xyz/v1/ocr";
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "deepseek-ocr",
+        image: imageUrl,
+        image_type: "url",
+        return_image: false
+      })
+    });
+
+    const result = await response.json();
+    console.log("Extracted Text:", result.choices[0].text);
+    return result;
+  }
+
+  // Example 2: OCR from base64 (Node.js)
+  const fs = require('fs');
+
+  async function ocrFromBase64(imagePath, apiKey) {
+    const url = "https://api.neosantara.xyz/v1/ocr";
+
+    // Read and encode image
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageBase64 = imageBuffer.toString('base64');
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "deepseek-ocr",
+        image: imageBase64,
+        image_type: "base64",
+        return_image: true  // Get annotated image back
+      })
+    });
+
+    const result = await response.json();
+    console.log("Extracted Text:", result.choices[0].text);
+
+    // Save annotated image if returned
+    if (result.result_image_base64) {
+      const buffer = Buffer.from(result.result_image_base64, 'base64');
+      fs.writeFileSync('annotated_image.png', buffer);
+      console.log("Annotated image saved as 'annotated_image.png'");
+    }
+
+    return result;
+  }
+
+  // Usage
+  const apiKey = "your_api_key_here";
+
+  // OCR from URL (using test image)
+  ocrFromUrl(
+    "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    apiKey
+  );
+
+  // OCR from local file
+  ocrFromBase64("./document.png", apiKey);
+  ```
+
+  ```bash Curl icon="square-terminal"
+  # Example 1: OCR from URL (using test image)
+  curl -X POST https://api.neosantara.xyz/v1/ocr \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "model": "deepseek-ocr",
+      "image": "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+      "image_type": "url",
+      "return_image": false
+    }'
+
+  # Example 2: OCR from base64 image
+  # First, encode your image to base64
+  IMAGE_BASE64=$(base64 -w 0 document.png)
+
+  curl -X POST https://api.neosantara.xyz/v1/ocr \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"model\": \"deepseek-ocr\",
+      \"image\": \"$IMAGE_BASE64\",
+      \"image_type\": \"base64\",
+      \"return_image\": true
+    }"
+  ```
+
+  ```php PHP icon="php"
+  <?php
+  // Example 1: OCR from URL
+  function ocrFromUrl($imageUrl, $apiKey) {
+      $url = "https://api.neosantara.xyz/v1/ocr";
+
+      $payload = [
+          "model" => "deepseek-ocr",
+          "image" => $imageUrl,
+          "image_type" => "url",
+          "return_image" => false
+      ];
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_POST, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+      curl_setopt($ch, CURLOPT_HTTPHEADER, [
+          "Authorization: Bearer " . $apiKey,
+          "Content-Type: application/json"
+      ]);
+
+      $response = curl_exec($ch);
+      curl_close($ch);
+
+      $result = json_decode($response, true);
+      echo "Extracted Text: " . $result["choices"][0]["text"] . "\n";
+
+      return $result;
+  }
+
+  // Example 2: OCR from base64 image
+  function ocrFromBase64($imagePath, $apiKey) {
+      $url = "https://api.neosantara.xyz/v1/ocr";
+
+      // Read and encode image
+      $imageData = file_get_contents($imagePath);
+      $imageBase64 = base64_encode($imageData);
+
+      $payload = [
+          "model" => "deepseek-ocr",
+          "image" => $imageBase64,
+          "image_type" => "base64",
+          "return_image" => true  // Get annotated image back
+      ];
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_POST, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+      curl_setopt($ch, CURLOPT_HTTPHEADER, [
+          "Authorization: Bearer " . $apiKey,
+          "Content-Type: application/json"
+      ]);
+
+      $response = curl_exec($ch);
+      curl_close($ch);
+
+      $result = json_decode($response, true);
+      echo "Extracted Text: " . $result["choices"][0]["text"] . "\n";
+
+      // Save annotated image if returned
+      if (isset($result["result_image_base64"])) {
+          file_put_contents(
+              "annotated_image.png",
+              base64_decode($result["result_image_base64"])
+          );
+          echo "Annotated image saved as 'annotated_image.png'\n";
+      }
+
+      return $result;
+  }
+
+  // Usage
+  $apiKey = "your_api_key_here";
+
+  // OCR from URL (using test image)
+  $result = ocrFromUrl(
+      "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+      $apiKey
+  );
+
+  // OCR from local file
+  $result = ocrFromBase64("./document.png", $apiKey);
+  ?>
+  ```
+</CodeGroup>
+
+## Use Cases
+
+### Document Processing
+Extract text from scanned documents, PDFs converted to images, or photographed papers for digital archival and processing.
+
+```python
+# Process a scanned document
+result = ocr_from_url(
+    "https://example.com/scanned-document.jpg",
+    api_key
+)
+print("Document Text:", result["choices"][0]["text"])
+```
+
+### Receipt Scanning
+Automatically extract transaction details, amounts, and merchant information from receipt images for expense tracking.
+
+```python
+# Extract receipt information (using test receipt)
+result = ocr_from_url(
+    "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    api_key
+)
+# Parse extracted text for specific fields
+# (amount, merchant, date, etc.)
+print("Merchant:", "DUNNY MANDIRI - BNI OBP")
+print("Amount:", "Rp 100.000")
+```
+
+### ID Card & Document Verification
+Extract information from ID cards, passports, and other identity documents for verification processes.
+
+```python
+# Extract ID card information
+result = ocr_from_base64("./id-card.jpg", api_key)
+# Parse extracted text for name, ID number, etc.
+```
+
+### Image Annotation
+Use the `return_image` parameter to get back an annotated image showing detected text regions, useful for debugging and visualization.
+
+```python
+# Get annotated image with text regions (using test receipt)
+import requests
+
+url = "https://api.neosantara.xyz/v1/ocr"
+headers = {
+    "Authorization": f"Bearer {api_key}",
+    "Content-Type": "application/json"
+}
+payload = {
+    "model": "deepseek-ocr",
+    "image": "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    "image_type": "url",
+    "return_image": True  # Request annotated image
+}
+
+result = requests.post(url, json=payload, headers=headers).json()
+# result["result_image_base64"] contains the annotated image
+print("Has annotated image:", "result_image_base64" in result)
+```
+
+## Error Handling
+
+The API returns structured error responses for invalid requests:
+
+```json
+{
+  "error": {
+    "message": "Detailed error message",
+    "type": "invalid_request_error",
+    "param": "image",
+    "code": "parameter_missing"
+  }
+}
+```
+
+### Common Error Codes
+
+- **model_not_found**: The specified model does not exist
+- **unsupported_capability**: The model does not support OCR
+- **parameter_missing**: Required parameter is missing
+- **invalid_parameter**: Parameter value is invalid
+- **invalid_parameter_type**: Parameter has wrong data type
+- **invalid_url_format**: Image URL is malformed
+- **invalid_url_protocol**: Image URL must use HTTP/HTTPS
+- **invalid_base64_format**: Base64 data is not valid
+
+### Error Handling Example
+
+<CodeGroup>
+  ```python Python icon="python"
+  import requests
+
+  def ocr_with_error_handling(image, api_key, image_type="url"):
+      url = "https://api.neosantara.xyz/v1/ocr"
+
+      headers = {
+          "Authorization": f"Bearer {api_key}",
+          "Content-Type": "application/json"
+      }
+
+      payload = {
+          "model": "deepseek-ocr",
+          "image": image,
+          "image_type": image_type,
+          "return_image": False
+      }
+
+      try:
+          response = requests.post(url, json=payload, headers=headers)
+
+          # Check for HTTP errors
+          if response.status_code != 200:
+              error_data = response.json()
+              error = error_data.get("error", {})
+              print(f"Error: {error.get('message')}")
+              print(f"Type: {error.get('type')}")
+              print(f"Code: {error.get('code')}")
+              return None
+
+          result = response.json()
+          return result["choices"][0]["text"]
+
+      except requests.exceptions.RequestException as e:
+          print(f"Request failed: {str(e)}")
+          return None
+
+  # Usage
+  text = ocr_with_error_handling(
+      "https://example.com/document.jpg",
+      "your_api_key_here"
+  )
+
+  if text:
+      print("Extracted:", text)
+  ```
+
+  ```javascript JavaScript icon="js"
+  async function ocrWithErrorHandling(image, apiKey, imageType = "url") {
+    const url = "https://api.neosantara.xyz/v1/ocr";
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "deepseek-ocr",
+          image: image,
+          image_type: imageType,
+          return_image: false
+        })
+      });
+
+      const result = await response.json();
+
+      // Check for errors
+      if (!response.ok) {
+        const error = result.error || {};
+        console.error(`Error: ${error.message}`);
+        console.error(`Type: ${error.type}`);
+        console.error(`Code: ${error.code}`);
+        return null;
+      }
+
+      return result.choices[0].text;
+
+    } catch (error) {
+      console.error(`Request failed: ${error.message}`);
+      return null;
+    }
+  }
+
+  // Usage
+  const text = await ocrWithErrorHandling(
+    "https://example.com/document.jpg",
+    "your_api_key_here"
+  );
+
+  if (text) {
+    console.log("Extracted:", text);
+  }
+  ```
+</CodeGroup>
+
+## Pricing
+
+The DeepSeek OCR API uses token-based pricing:
+
+- **Per Image Processing**: 100 tokens equivalent (approximately 50 tokens)
+- **Token Cost**: Charged according to your Neosantara AI pricing tier
+
+Token usage is reported in the `usage` field of the response.
+
+<Note>
+  The `return_image` parameter does not affect token usage. Annotated images are provided at no additional cost.
+</Note>
+
+## Best Practices
+
+1. **First Request Latency**: The first OCR request may take 10-15 seconds due to cold start initialization. Subsequent requests will be significantly faster (2-5 seconds). If you encounter a timeout on the first request, retry after a few seconds.
+2. **Image Quality**: Use high-resolution, clear images for best results
+3. **Image Format**: Supported formats include JPEG, PNG, and other common image formats
+4. **URL Accessibility**: Ensure image URLs are publicly accessible when using `image_type: "url"`
+5. **Base64 Size**: Be mindful of base64 encoded image sizes for large images
+6. **Error Handling**: Always implement proper error handling in your application, including retry logic for timeout errors
+7. **Rate Limits**: Respect API rate limits according to your tier
+
+## Rate Limits
+
+Rate limits vary by your Neosantara AI subscription tier. Check your tier limits in the [dashboard](https://app.neosantara.xyz/billing).
+
+<Tip>
+  Upgrade your tier for higher rate limits and additional features. Contact [support@neosantara.xyz](mailto:support@neosantara.xyz) for enterprise solutions.
+</Tip>
+
+## Support
+
+Need help with the OCR API? We are here to assist:
+
+- **Email**: [support@neosantara.xyz](mailto:support@neosantara.xyz)
+- **Documentation**: [API Reference](/api-reference/quickstart)
+- **Community**: Join our Discord community
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Chat Completions API" icon="comments" href="/api-reference/chat/create-chat-completion">
+    Learn about our Chat Completions API for conversational AI
+  </Card>
+  <Card title="Error Codes" icon="triangle-exclamation" href="/en/about/errors">
+    Complete reference of API error codes
+  </Card>
+  <Card title="Rate Limits" icon="gauge-high" href="/en/about/rate-limits">
+    Understanding rate limits and quotas
+  </Card>
+</CardGroup>
