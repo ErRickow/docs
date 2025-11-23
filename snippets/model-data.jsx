@@ -1,5 +1,5 @@
 export const glm4Data = {
-  modelId: "gpt-oss-120b",
+  modelId: "glm-4.6",
   modelCardUrl: "https://openai.com/index/gpt-oss-model-card/",
   contextLength: {
     freeTier: "65k tokens",
@@ -28,19 +28,21 @@ export const glm4Data = {
     }
   ],
   pricing: {
-    inputPrice: "$0.35 / M tokens",
-    outputPrice: "$0.75 / M tokens"
+    inputPrice: "350",
+    outputPrice: "750",
+    currency: "IDR",
+    inputUnit: "per 1,000,000 tokens",
+    pricingUrl: "https://app.neosantara.xyz/pricing",
+    contactUrl: "https://app.neosantara.xyz/contact"
   },
-  endpoints: ["Chat Completions"],
-  features: ["Reasoning", "Streaming", "Structured Outputs", "Tool Calling"],
+  endpoints: ["Responses", "Chat Completions"],
+  features: ["reasoning", "streaming", "structured_output", "json_schema"],
   inputOutput: {
     inputFormats: ["text"],
     outputFormats: ["text"]
   },
   knownLimitations: [
-    <span>Use the <code>reasoning_effort</code> parameter to control reasoning for this model. The default effort level is <code>medium</code>. Learn more in our <a href="/capabilities/reasoning" className="font-semibold underline underline-offset-4 decoration-2 hover:decoration-4" style={{ textDecorationColor: '#f97316' }}>reasoning guide</a>.</span>,
-    <span>When <code>min_tokens</code> is set, the model may generate EOS (End of Sequence) tokens which may cause parser failures. <b>Use at your own risk.</b></span>,
-    <span>This model may call tools that aren't directly specified due to it's training. Monitor for non-approved tools and reprompt with "you're hallucinating a tool call" to help the model self-correct and stick to provided tools.</span>,
-    <span>For this model, our API maps the "system" role to developer-level instructions in our prompt hierarchy. See our <a href="/resources/openai#developer-role" className="font-semibold underline underline-offset-4 decoration-2 hover:decoration-4" style={{ textDecorationColor: '#f97316' }}>OpenAI Compatibility guide</a> for more details.</span>
+    <span>Use the <code>reasoning_effort</code> parameter to control reasoning for this model. The default effort level is <code>medium</code>.</span>,
+    <span>When <code>min_tokens</code> is set, the model may generate EOS tokens which may cause parser failures. <b>Use at your own risk.</b></span>
   ]
 };
