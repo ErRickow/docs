@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * ModelInfo - Neosantara-adapted version
  * - Highlights /v1/responses endpoint
