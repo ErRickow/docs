@@ -1,4 +1,4 @@
-export const ModelInfo({
+export function ModelInfo({
   modelId,
   modelCardUrl,
   contextLength = {},
