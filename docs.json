@@ -4,7 +4,8 @@
   "name": "Neosantara",
   "colors": {
     "primary": "#FF5722",
-    "light": "#FF8A65"
+    "light": "#FF8A65",
+    "dark": "#211205"
   },
   "fonts": {
     "heading": {
