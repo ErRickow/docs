@@ -1,3 +1,6 @@
+// glm4Data.jsx
+import React from "react";
+
 export const glm4Data = {
   modelId: "gpt-oss-120b",
   modelCardUrl: "https://openai.com/index/gpt-oss-model-card/",
@@ -11,20 +14,12 @@ export const glm4Data = {
     unit: "tokens/sec"
   },
   rateLimits: [
-    {
-      tier: "Free",
-      requestsPerMin: "30",
-      inputTokensPerMin: "60k",
-      dailyTokens: "1M"
-    },
-    {
-      tier: "Developer",
-      requestsPerMin: "1K",
-      inputTokensPerMin: "1M",
-      dailyTokens: "N/A"
-    }
+    { tier: "Free", requestsPerMin: "30", inputTokensPerMin: "60k", dailyTokens: "1M" },
+    { tier: "Developer", requestsPerMin: "1K", inputTokensPerMin: "1M", dailyTokens: "N/A" }
   ],
   pricing: {
+    // gunakan string siap-tampil atau angka terstruktur — di sini saya tetap string siap-tampil,
+    // tapi sertakan currency + unit agar komponen bisa menampilkan konsisten.
     inputPrice: "350",
     outputPrice: "750",
     currency: "IDR",
@@ -34,12 +29,9 @@ export const glm4Data = {
   },
   endpoints: ["Responses", "Chat Completions"],
   features: ["reasoning", "streaming", "structured_output", "json_schema"],
-  inputOutput: {
-    inputFormats: ["text"],
-    outputFormats: ["text"]
-  },
+  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] },
   knownLimitations: [
-    <span>Use the <code>reasoning_effort</code> parameter to control reasoning for this model.</span>,
-    <span>When <code>min_tokens</code> is set, the model may generate EOS tokens. <b>Use at your own risk.</b></span>
+    <span key="k1">Use the <code>reasoning_effort</code> parameter to control reasoning for this model.</span>,
+    <span key="k2">When <code>min_tokens</code> is set, the model may generate EOS tokens. <b>Use at your own risk.</b></span>
   ]
 };
