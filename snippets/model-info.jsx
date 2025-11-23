@@ -17,14 +17,14 @@ export default function ModelInfo({
     if (typeof val === 'number') return `${val.toLocaleString()} tokens`;
     return String(val);
   };
-  
+
   const endpointUrls = {
     'Responses': '/v1/responses',
     'Chat Completions': '/v1/chat/completions',
     'Completions': '/v1/completions',
     'Models': '/v1/models'
   };
-  
+
   const featureLabelMap = {
     'reasoning': 'Enhanced reasoning',
     'streaming': 'Streaming (progressive responses)',
@@ -35,13 +35,21 @@ export default function ModelInfo({
     'multimodal': 'Multimodal (text + image + audio + video)',
     'safety': 'Safety filters / moderation'
   };
-  
+
+  const renderFormatIcon = (format, index) => {
+    const iconName = format === 'image' ? 'image'
+      : format === 'audio' ? 'headphones'
+      : format === 'video' ? 'video'
+      : 'text';
+    return <Icon key={index} icon={iconName} size={18} color="#fb923c" />;
+  };
+
   const inputPrice = pricing.inputPrice || null;
   const outputPrice = pricing.outputPrice || null;
   const inputUnit = pricing.inputUnit || 'per 1,000,000 tokens';
-  const pricingUrl = pricing.pricingUrl || 'https://www.neosantara.xyz/pricing';
+  const pricingUrl = pricing.pricingUrl || 'https://app.neosantara.xyz/pricing';
   const currency = pricing.currency || 'IDR';
-  
+
   return (
     <div className="space-y-6 not-prose">
       {modelId && (
@@ -58,7 +66,7 @@ export default function ModelInfo({
               className="inline-flex items-center gap-1 text-sm text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors"
             >
               Model card
-              <Icon icon="external-link" size={14} />
+              <Icon icon="external-link" size={14} color="currentColor" />
             </a>
           )}
         </div>
@@ -84,25 +92,13 @@ export default function ModelInfo({
             <div className="flex items-center justify-center gap-2 h-12">
               <div className="flex items-center gap-1">
                 {inputOutput.inputFormats && inputOutput.inputFormats.length > 0
-                  ? inputOutput.inputFormats.map((format, index) => {
-                      const iconName = format === 'image' ? 'image'
-                        : format === 'audio' ? 'headphones'
-                        : format === 'video' ? 'video'
-                        : 'text';
-                      return <Icon key={index} icon={iconName} size={18} color="#fb923c" />;
-                    })
+                  ? inputOutput.inputFormats.map((format, index) => renderFormatIcon(format, index))
                   : <span className="text-zinc-400 text-sm">text</span>}
               </div>
               <span className="text-zinc-400 text-lg">/</span>
               <div className="flex items-center gap-1">
                 {inputOutput.outputFormats && inputOutput.outputFormats.length > 0
-                  ? inputOutput.outputFormats.map((format, index) => {
-                      const iconName = format === 'image' ? 'image'
-                        : format === 'audio' ? 'headphones'
-                        : format === 'video' ? 'video'
-                        : 'text';
-                      return <Icon key={index} icon={iconName} size={18} color="#fb923c" />;
-                    })
+                  ? inputOutput.outputFormats.map((format, index) => renderFormatIcon(format, index))
                   : <span className="text-zinc-400 text-sm">text</span>}
               </div>
             </div>
