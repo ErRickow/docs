@@ -1,5 +1,5 @@
 import React from "react";
-// import Icon from "path/to/Icon"; // sesuaikan path Icon
+// import Icon from "path/to/Icon"; // sesuaikan
 
 export const ModelInfo = ({
   modelId,
@@ -9,6 +9,7 @@ export const ModelInfo = ({
   speed = {},
   inputOutput = {},
   pricing = {},
+  tokenCredits = {},      // NEW: token credits info from Neosantara
   rateLimits = [],
   endpoints = [],
   features = [],
@@ -51,33 +52,15 @@ export const ModelInfo = ({
   const pricingUrl = pricing.pricingUrl ?? "#";
   const currency = pricing.currency ?? "";
 
-  const renderMaxOutput = (mOut) => {
-    if (mOut == null) return <div className="text-sm text-zinc-600 dark:text-zinc-400">N/A</div>;
-
-    if (typeof mOut === "object" && (mOut.freeTier || mOut.paidTiers || mOut.paidTier)) {
-      return (
-        <div className="space-y-2">
-          <div>
-            <div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>
-            <div className="text-sm font-medium text-zinc-900 dark:text-white">
-              {formatTokens(mOut.freeTier ?? mOut.free ?? "N/A")}
-            </div>
-          </div>
-          <div>
-            <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
-            <div className="text-sm font-medium text-zinc-900 dark:text-white">
-              {formatTokens(mOut.paidTiers ?? mOut.paid ?? mOut.paidTier ?? "N/A")}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return <div className="text-2xl font-bold text-orange-500 dark:text-orange-400">{formatTokens(mOut)}</div>;
-  };
+  // tokenCredits fields (from Neosantara docs)
+  const freeMonthlyCredits = tokenCredits.freeMonthlyCredits ?? null;
+  const pricePerMillion = tokenCredits.pricePerMillion ?? tokenCredits.pricePerMillion ?? null; // Rp 149,999
+  const pricePerToken = tokenCredits.pricePerToken ?? tokenCredits.pricePerToken ?? null; // Rp 0.15
+  const docsUrl = tokenCredits.docsUrl ?? tokenCredits.docsUrl ?? "#";
 
   return (
     <div className="space-y-6 not-prose">
+      {/* Header */}
       {modelId && (
         <div className="flex items-center justify-between">
           <div>
@@ -98,6 +81,7 @@ export const ModelInfo = ({
         </div>
       )}
 
+      {/* Model Stats */}
       <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
@@ -132,7 +116,7 @@ export const ModelInfo = ({
             </div>
           </div>
 
-          {/* CONTEXT */}
+          {/* CONTEXT (no pricing) */}
           <div className="text-center">
             <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">CONTEXT</div>
             <div className="space-y-2">
@@ -144,25 +128,76 @@ export const ModelInfo = ({
                 <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
                 <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(contextLength.paidTiers)}</div>
               </div>
+              <div className="text-xs text-zinc-500 dark:text-zinc-400">Note: context length is a usage limit (tokens), not a pricing metric.</div>
             </div>
           </div>
 
-          {/* MAX OUTPUT */}
+          {/* MAX OUTPUT (no pricing) */}
           <div className="text-center">
             <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">MAX OUTPUT</div>
-            <div className="space-y-2">{renderMaxOutput(maxOutput)}</div>
+            <div className="space-y-2">
+              {/* if maxOutput is object with free/paid */}
+              {maxOutput && typeof maxOutput === "object" && (maxOutput.freeTier || maxOutput.paidTiers) ? (
+                <>
+                  <div>
+                    <div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>
+                    <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.freeTier)}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
+                    <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.paidTiers)}</div>
+                  </div>
+                </>
+              ) : (
+                <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput)}</div>
+              )}
+              <div className="text-xs text-zinc-500 dark:text-zinc-400">Note: max output is a token limit — costs are calculated from total tokens used (input + output) via token credits/pricing.</div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* PRICING — tampilkan kalau ada salah satu */}
+      {/* TOKEN CREDITS (Neosantara) */}
+      {(freeMonthlyCredits || pricePerMillion || pricePerToken) && (
+        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
+              <Icon icon="key" size={18} color="#fb923c" />
+            </div>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Token Credits & Pricing</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-sm">
+              <div className="text-xs text-zinc-600 dark:text-zinc-400">Free monthly credits</div>
+              <div className="text-lg font-medium text-zinc-900 dark:text-white">{safe(freeMonthlyCredits, "10,000")}</div>
+            </div>
+
+            <div className="text-sm">
+              <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per 1M)</div>
+              <div className="text-lg font-medium text-zinc-900 dark:text-white">{pricePerMillion ? `Rp ${pricePerMillion}` : "Rp 149,999"}</div>
+            </div>
+
+            <div className="text-sm">
+              <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per token)</div>
+              <div className="text-lg font-medium text-zinc-900 dark:text-white">{pricePerToken ? `Rp ${pricePerToken}` : "Rp 0.15"}</div>
+            </div>
+          </div>
+
+          <div className="pt-4 text-sm text-zinc-600 dark:text-zinc-400">
+            Costs are calculated from total tokens processed per request (input + output). See <a href={docsUrl} className="underline font-semibold" target="_blank" rel="noopener noreferrer">Token Credits docs</a>.
+          </div>
+        </div>
+      )}
+
+      {/* PRICING — model-specific (show if any) */}
       {(inputPrice || outputPrice) && (
         <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
               <Icon icon="dollar-sign" size={18} color="#fb923c" />
             </div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Pricing</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Model Pricing (per 1M tokens)</h3>
           </div>
 
           <div className="space-y-4">
@@ -182,9 +217,14 @@ export const ModelInfo = ({
               </div>
             </div>
 
+            <div className="pt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              Note: model pricing is listed per 1M tokens. Actual cost for a request = (input tokens + output tokens) × token price (see Token Credits section).
+              For overall account limits and free credits, check the Token Credits section above.
+            </div>
+
             <div className="pt-4">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                Exploration pricing shown above is {inputUnit} {currency && `(${currency})`}. For volume discounts and enterprise features, see our{" "}
+                For volume discounts and enterprise features, see our{" "}
                 <a href={pricingUrl} className="text-black font-semibold underline decoration-orange-500 underline-offset-4 decoration-1 hover:decoration-2" target="_blank" rel="noopener noreferrer">pricing page</a>.
               </p>
             </div>
@@ -202,11 +242,11 @@ export const ModelInfo = ({
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Model Notes</h3>
           </div>
           <div className="space-y-2">
-            {knownLimitations.map((limitation, index) => (
-              <div key={index} className="flex items-start gap-2 py-2">
+            {knownLimitations.map((lim, idx) => (
+              <div key={idx} className="flex items-start gap-2 py-2">
                 <div className="w-1.5 h-1.5 bg-zinc-400 dark:bg-zinc-500 rounded-full flex-shrink-0 mt-2"></div>
                 <div className="text-zinc-900 dark:text-white text-sm leading-relaxed prose-sm max-w-none">
-                  {React.isValidElement(limitation) ? limitation : String(limitation)}
+                  {React.isValidElement(lim) ? lim : String(lim)}
                 </div>
               </div>
             ))}
@@ -214,7 +254,7 @@ export const ModelInfo = ({
         </div>
       )}
 
-      {/* RATE LIMITS */}
+      {/* RATE LIMITS (with monthlyTokens) */}
       {Array.isArray(rateLimits) && rateLimits.length > 0 && (
         <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
@@ -228,18 +268,20 @@ export const ModelInfo = ({
               <thead>
                 <tr className="border-b border-zinc-200 dark:border-zinc-800">
                   <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">Tier</th>
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">Requests/min</th>
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">Input Tokens/min</th>
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">Daily Tokens</th>
+                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">RPM</th>
+                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">TPM</th>
+                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">TPD</th>
+                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">Monthly Tokens</th>
                 </tr>
               </thead>
               <tbody>
-                {rateLimits.map((limit, index) => (
-                  <tr key={index} className="border-b border-zinc-200/50 dark:border-zinc-800/50 last:border-b-0">
+                {rateLimits.map((limit = {}, i) => (
+                  <tr key={i} className="border-b border-zinc-200/50 dark:border-zinc-800/50 last:border-b-0">
                     <td className="py-3 px-2 text-zinc-900 dark:text-white font-medium">{safe(limit.tier, "—")}</td>
                     <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.requestsPerMin, "—")}</td>
                     <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.inputTokensPerMin, "—")}</td>
                     <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.dailyTokens, "—")}</td>
+                    <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.monthlyTokens, "—")}</td>
                   </tr>
                 ))}
               </tbody>
@@ -259,11 +301,11 @@ export const ModelInfo = ({
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Endpoints</h3>
             </div>
             <div className="space-y-3">
-              {endpoints.map((endpoint, index) => {
+              {endpoints.map((endpoint, idx) => {
                 const endpointName = typeof endpoint === "string" ? endpoint : endpoint?.name ?? "Endpoint";
                 const endpointUrl = (typeof endpoint === "object" && endpoint?.url) || endpointUrls[endpointName] || endpointUrls["Responses"];
                 return (
-                  <div key={index} className="flex items-start gap-2 py-2">
+                  <div key={idx} className="flex items-start gap-2 py-2">
                     <span className="text-zinc-400 dark:text-zinc-500 text-sm">→</span>
                     <div>
                       <div className="text-sm text-zinc-900 dark:text-white">{endpointName}</div>
@@ -285,8 +327,8 @@ export const ModelInfo = ({
               <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Capabilities</h3>
             </div>
             <div className="space-y-2">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-2 py-2">
+              {features.map((feature, idx) => (
+                <div key={idx} className="flex items-center gap-2 py-2">
                   <span className="text-green-500 dark:text-green-400 text-sm">✓</span>
                   <span className="text-zinc-900 dark:text-white text-sm">{feature}</span>
                 </div>
