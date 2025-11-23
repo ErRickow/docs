@@ -20,6 +20,12 @@
   "styling": {
     "eyebrows": "breadcrumbs"
   },
+  "appearance": {
+    "default": "dark"
+  },
+  "banner": {
+    "content": "Get a Virtual Private Server for just Rp 10,000 - the perfect fit for your server needs. [Get here](https://bihost.my.id)"
+  },
   "background": {
     "decoration": "windows"
   },
@@ -217,7 +223,7 @@
     }
   },
   "logo": {
-    "light": "/logo/logo.svg",
+    "light": "/logo/logo-blk.svg",
     "dark": "/logo/logo.svg"
   },
   "navbar": {
