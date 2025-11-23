@@ -1,4 +1,4 @@
-export default function ModelInfo({
+export const ModelInfo({
   modelId,
   modelCardUrl,
   contextLength = {},
