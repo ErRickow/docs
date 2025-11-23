@@ -1,15 +1,8 @@
-/**
- * ModelInfo - Neosantara-adapted version
- * - Highlights /v1/responses endpoint
- * - Shows pricing units (IDR / 1M tokens) and pricing URL override
- * - Maps common Neosantara capabilities to readable labels
- * - Formats token-based numbers with unit fallback
- */
 export default function ModelInfo({
   modelId,
   modelCardUrl,
   contextLength = {},
-  maxOutput = {},
+  maxOutput,
   speed = {},
   inputOutput = {},
   pricing = {},
@@ -54,7 +47,7 @@ export default function ModelInfo({
   const inputPrice = pricing.inputPrice || null;
   const outputPrice = pricing.outputPrice || null;
   const inputUnit = pricing.inputUnit || 'per 1,000,000 tokens';
-  const pricingUrl = pricing.pricingUrl || 'https://app.neosantara.xyz/pricing';
+  const pricingUrl = pricing.pricingUrl || 'https://www.neosantara.xyz/pricing';
   const currency = pricing.currency || 'IDR';
 
   return (
@@ -125,19 +118,14 @@ export default function ModelInfo({
             </div>
           </div>
 
-          <div className="text-center">
-            <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">MAX OUTPUT</div>
-            <div className="space-y-2">
-              <div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>
-                <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.freeTier)}</div>
-              </div>
-              <div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
-                <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.paidTiers)}</div>
+          {maxOutput && (
+            <div className="text-center">
+              <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">MAX OUTPUT</div>
+              <div className="text-2xl font-bold text-orange-500 dark:text-orange-400">
+                {formatTokens(maxOutput)}
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 

@@ -1,14 +1,11 @@
 export const glm4Data = {
-  modelId: "glm-4.6",
+  modelId: "gpt-oss-120b",
   modelCardUrl: "https://openai.com/index/gpt-oss-model-card/",
   contextLength: {
     freeTier: "65k tokens",
     paidTiers: "131k tokens"
   },
-  maxOutput: {
-    freeTier: "32k tokens",
-    paidTiers: "40k tokens"
-  },
+  maxOutput: "32k tokens",
   speed: {
     value: "~3000",
     unit: "tokens/sec"
@@ -42,7 +39,7 @@ export const glm4Data = {
     outputFormats: ["text"]
   },
   knownLimitations: [
-    <span>Use the <code>reasoning_effort</code> parameter to control reasoning for this model. The default effort level is <code>medium</code>.</span>,
-    <span>When <code>min_tokens</code> is set, the model may generate EOS tokens which may cause parser failures. <b>Use at your own risk.</b></span>
+    <span>Use the <code>reasoning_effort</code> parameter to control reasoning for this model.</span>,
+    <span>When <code>min_tokens</code> is set, the model may generate EOS tokens. <b>Use at your own risk.</b></span>
   ]
 };
