@@ -21,8 +21,8 @@ export const glm4Data = {
     {
       tier: "Free",
       requestsPerMin: "5",
-      inputTokensPerMin: "2,000",
-      dailyTokens: "3,000",
+      inputTokensPerMin: "3,000",
+      dailyTokens: "2,000",
       monthlyTokens: "10,000"
     },
     {
@@ -35,21 +35,40 @@ export const glm4Data = {
     {
       tier: "Standard",
       requestsPerMin: "100",
-      inputTokensPerMin: "100,000",
-      dailyTokens: "40,000",
+      inputTokensPerMin: "40,000",
+      dailyTokens: "100,000",
       monthlyTokens: "400,000"
     },
     {
       tier: "Pro",
       requestsPerMin: "400",
-      inputTokensPerMin: "200,000",
-      dailyTokens: "100,000",
+      inputTokensPerMin: "100,000",
+      dailyTokens: "200,000",
       monthlyTokens: "1,000,000"
+    },
+    {
+      tier: "Enterprise",
+      requestsPerMin: "Custom",
+      inputTokensPerMin: "Custom",
+      dailyTokens: "Custom",
+      monthlyTokens: "Custom"
     }
   ],
 
+  tokenCredits: {
+    freeMonthlyCredits: "10,000",
+    pricePerMillion: "149,999", // Rp 149,999 per 1M tokens
+    pricePerToken: "0.15",      // Rp 0.15 per token
+    pricePerThousand: "149.99", // Rp 149.99 per 1k tokens
+    docsUrl: "https://docs.neosantara.xyz/en/about/token-credits",
+    example: {
+      tokens: 100000,
+      cost: "Rp 15,000"
+    }
+  },
+
   pricing: {
-    inputPrice: "350",
+    inputPrice: "350",   // model-specific (your OSS model; display only)
     outputPrice: "750",
     currency: "IDR",
     inputUnit: "per 1,000,000 tokens",
@@ -59,12 +78,7 @@ export const glm4Data = {
 
   endpoints: ["Responses", "Chat Completions"],
 
-  features: [
-    "reasoning",
-    "streaming",
-    "structured_output",
-    "json_schema"
-  ],
+  features: ["reasoning", "streaming", "structured_output", "json_schema"],
 
   inputOutput: {
     inputFormats: ["text"],

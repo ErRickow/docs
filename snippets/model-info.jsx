@@ -1,5 +1,6 @@
+// snippets/ModelInfo.jsx
 import React from "react";
-// import Icon from "path/to/Icon"; // sesuaikan
+// import Icon from "path/to/Icon"; // <- sesuaikan import Icon kamu
 
 export const ModelInfo = ({
   modelId,
@@ -9,13 +10,13 @@ export const ModelInfo = ({
   speed = {},
   inputOutput = {},
   pricing = {},
-  tokenCredits = {},      // NEW: token credits info from Neosantara
+  tokenCredits = {},
   rateLimits = [],
   endpoints = [],
   features = [],
   knownLimitations = []
 }) => {
-  // helpers
+  // --- helpers ---
   const safe = (v, fallback = "N/A") => (v === undefined || v === null || v === "" ? fallback : v);
 
   const formatTokens = (val) => {
@@ -34,8 +35,8 @@ export const ModelInfo = ({
     return "text";
   };
 
-  const renderFormatIcon = (format, index) => (
-    <Icon key={index} icon={formatIconName(format)} size={18} color="#fb923c" />
+  const renderFormatIcon = (format, key) => (
+    <Icon key={key} icon={formatIconName(format)} size={18} color="#fb923c" />
   );
 
   const endpointUrls = {
@@ -45,18 +46,18 @@ export const ModelInfo = ({
     Models: "/v1/models"
   };
 
-  // pricing defaults
+  // pricing fields
   const inputPrice = pricing.inputPrice ?? null;
   const outputPrice = pricing.outputPrice ?? null;
   const inputUnit = pricing.inputUnit ?? "per 1,000,000 tokens";
   const pricingUrl = pricing.pricingUrl ?? "#";
   const currency = pricing.currency ?? "";
 
-  // tokenCredits fields (from Neosantara docs)
-  const freeMonthlyCredits = tokenCredits.freeMonthlyCredits ?? null;
-  const pricePerMillion = tokenCredits.pricePerMillion ?? tokenCredits.pricePerMillion ?? null; // Rp 149,999
-  const pricePerToken = tokenCredits.pricePerToken ?? tokenCredits.pricePerToken ?? null; // Rp 0.15
-  const docsUrl = tokenCredits.docsUrl ?? tokenCredits.docsUrl ?? "#";
+  // tokenCredits fields (Neosantara)
+  const freeMonthlyCredits = tokenCredits.freeMonthlyCredits ?? tokenCredits.freeMonthlyCredits ?? "10,000";
+  const pricePerMillion = tokenCredits.pricePerMillion ?? "149,999"; // Rp per 1M
+  const pricePerToken = tokenCredits.pricePerToken ?? "0.15"; // Rp per token
+  const docsUrl = tokenCredits.docsUrl ?? "#";
 
   return (
     <div className="space-y-6 not-prose">
@@ -67,6 +68,7 @@ export const ModelInfo = ({
             <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Model ID: </span>
             <code className="text-sm font-mono font-semibold text-zinc-900 dark:text-white">{modelId}</code>
           </div>
+
           {modelCardUrl && (
             <a
               href={modelCardUrl}
@@ -102,21 +104,21 @@ export const ModelInfo = ({
           <div className="text-center">
             <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">INPUT / OUTPUT</div>
             <div className="flex items-center justify-center gap-2 h-12">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1" aria-label="input formats">
                 {Array.isArray(inputOutput.inputFormats) && inputOutput.inputFormats.length > 0
-                  ? inputOutput.inputFormats.map((format, index) => renderFormatIcon(format, `in-${index}`))
+                  ? inputOutput.inputFormats.map((fmt, i) => renderFormatIcon(fmt, `in-${i}`))
                   : <span className="text-zinc-400 text-sm">text</span>}
               </div>
               <span className="text-zinc-400 text-lg">/</span>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1" aria-label="output formats">
                 {Array.isArray(inputOutput.outputFormats) && inputOutput.outputFormats.length > 0
-                  ? inputOutput.outputFormats.map((format, index) => renderFormatIcon(format, `out-${index}`))
+                  ? inputOutput.outputFormats.map((fmt, i) => renderFormatIcon(fmt, `out-${i}`))
                   : <span className="text-zinc-400 text-sm">text</span>}
               </div>
             </div>
           </div>
 
-          {/* CONTEXT (no pricing) */}
+          {/* CONTEXT (limit only — no pricing) */}
           <div className="text-center">
             <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">CONTEXT</div>
             <div className="space-y-2">
@@ -128,15 +130,13 @@ export const ModelInfo = ({
                 <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
                 <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(contextLength.paidTiers)}</div>
               </div>
-              <div className="text-xs text-zinc-500 dark:text-zinc-400">Note: context length is a usage limit (tokens), not a pricing metric.</div>
             </div>
           </div>
 
-          {/* MAX OUTPUT (no pricing) */}
+          {/* MAX OUTPUT (limit only — no pricing) */}
           <div className="text-center">
             <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">MAX OUTPUT</div>
             <div className="space-y-2">
-              {/* if maxOutput is object with free/paid */}
               {maxOutput && typeof maxOutput === "object" && (maxOutput.freeTier || maxOutput.paidTiers) ? (
                 <>
                   <div>
@@ -151,46 +151,44 @@ export const ModelInfo = ({
               ) : (
                 <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput)}</div>
               )}
-              <div className="text-xs text-zinc-500 dark:text-zinc-400">Note: max output is a token limit — costs are calculated from total tokens used (input + output) via token credits/pricing.</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* TOKEN CREDITS (Neosantara) */}
-      {(freeMonthlyCredits || pricePerMillion || pricePerToken) && (
-        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-              <Icon icon="key" size={18} color="#fb923c" />
-            </div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Token Credits & Pricing</h3>
+      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
+            <Icon icon="key" size={18} color="#fb923c" />
+          </div>
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Token Credits & Pricing</h3>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="text-sm">
+            <div className="text-xs text-zinc-600 dark:text-zinc-400">Free monthly credits</div>
+            <div className="text-lg font-medium text-zinc-900 dark:text-white">{safe(freeMonthlyCredits)}</div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-sm">
-              <div className="text-xs text-zinc-600 dark:text-zinc-400">Free monthly credits</div>
-              <div className="text-lg font-medium text-zinc-900 dark:text-white">{safe(freeMonthlyCredits, "10,000")}</div>
-            </div>
-
-            <div className="text-sm">
-              <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per 1M)</div>
-              <div className="text-lg font-medium text-zinc-900 dark:text-white">{pricePerMillion ? `Rp ${pricePerMillion}` : "Rp 149,999"}</div>
-            </div>
-
-            <div className="text-sm">
-              <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per token)</div>
-              <div className="text-lg font-medium text-zinc-900 dark:text-white">{pricePerToken ? `Rp ${pricePerToken}` : "Rp 0.15"}</div>
-            </div>
+          <div className="text-sm">
+            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per 1M)</div>
+            <div className="text-lg font-medium text-zinc-900 dark:text-white">Rp {pricePerMillion}</div>
           </div>
 
-          <div className="pt-4 text-sm text-zinc-600 dark:text-zinc-400">
-            Costs are calculated from total tokens processed per request (input + output). See <a href={docsUrl} className="underline font-semibold" target="_blank" rel="noopener noreferrer">Token Credits docs</a>.
+          <div className="text-sm">
+            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per token)</div>
+            <div className="text-lg font-medium text-zinc-900 dark:text-white">Rp {pricePerToken}</div>
           </div>
         </div>
-      )}
 
-      {/* PRICING — model-specific (show if any) */}
+        <div className="pt-4 text-sm text-zinc-600 dark:text-zinc-400">
+          Costs are calculated from total tokens processed per request (input + output). See{" "}
+          <a href={docsUrl} className="underline font-semibold" target="_blank" rel="noopener noreferrer">Token Credits docs</a>.
+        </div>
+      </div>
+
+      {/* MODEL PRICING (if provided) */}
       {(inputPrice || outputPrice) && (
         <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
@@ -218,8 +216,7 @@ export const ModelInfo = ({
             </div>
 
             <div className="pt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              Note: model pricing is listed per 1M tokens. Actual cost for a request = (input tokens + output tokens) × token price (see Token Credits section).
-              For overall account limits and free credits, check the Token Credits section above.
+              Note: model pricing is per 1M tokens. Actual request cost = (input tokens + output tokens) × token price (see Token Credits).
             </div>
 
             <div className="pt-4">
@@ -254,7 +251,7 @@ export const ModelInfo = ({
         </div>
       )}
 
-      {/* RATE LIMITS (with monthlyTokens) */}
+      {/* RATE LIMITS TABLE (includes monthlyTokens) */}
       {Array.isArray(rateLimits) && rateLimits.length > 0 && (
         <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
@@ -290,7 +287,7 @@ export const ModelInfo = ({
         </div>
       )}
 
-      {/* ENDPOINTS & FEATURES */}
+      {/* Endpoints & Features */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {Array.isArray(endpoints) && endpoints.length > 0 && (
           <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
@@ -338,7 +335,7 @@ export const ModelInfo = ({
         )}
       </div>
 
-      {/* CONTACT */}
+      {/* Contact */}
       <div className="bg-gradient-to-r from-orange-600/10 to-red-500/10 border border-orange-600/20 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
