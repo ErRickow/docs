@@ -1,6 +1,4 @@
-// snippets/ModelInfo.jsx
 import React from "react";
-// import Icon from "path/to/Icon"; // <- sesuaikan import Icon kamu
 
 export const ModelInfo = ({
   modelId,
@@ -123,13 +121,13 @@ export const ModelInfo = ({
             <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">CONTEXT</div>
             <div className="space-y-2">
               <div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>
+                {/*<div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>*/}
                 <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(contextLength.freeTier)}</div>
               </div>
-              <div>
+             {/* <div>
                 <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
                 <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(contextLength.paidTiers)}</div>
-              </div>
+              </div>*/}
             </div>
           </div>
 
@@ -139,14 +137,14 @@ export const ModelInfo = ({
             <div className="space-y-2">
               {maxOutput && typeof maxOutput === "object" && (maxOutput.freeTier || maxOutput.paidTiers) ? (
                 <>
-                  <div>
-                    <div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>
+                 <div>
+                   {/* <div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>*/}
                     <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.freeTier)}</div>
                   </div>
-                  <div>
+                 {/* <div>
                     <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
                     <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.paidTiers)}</div>
-                  </div>
+                  </div>*/}
                 </>
               ) : (
                 <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput)}</div>
@@ -172,12 +170,12 @@ export const ModelInfo = ({
           </div>
 
           <div className="text-sm">
-            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per 1M)</div>
+            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price / 1M</div>
             <div className="text-lg font-medium text-zinc-900 dark:text-white">Rp {pricePerMillion}</div>
           </div>
 
           <div className="text-sm">
-            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price (per token)</div>
+            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price / Token</div>
             <div className="text-lg font-medium text-zinc-900 dark:text-white">Rp {pricePerToken}</div>
           </div>
         </div>
@@ -195,7 +193,7 @@ export const ModelInfo = ({
             <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
               <Icon icon="dollar-sign" size={18} color="#fb923c" />
             </div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Model Pricing (per 1M tokens)</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Model Pricing / 1M Tokens</h3>
           </div>
 
           <div className="space-y-4">
@@ -216,7 +214,7 @@ export const ModelInfo = ({
             </div>
 
             <div className="pt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              Note: model pricing is per 1M tokens. Actual request cost = (input tokens + output tokens) × token price (see Token Credits).
+              Note: model pricing is per 1M tokens. Actual request cost = (input tokens + output tokens) × token price [see Token Credits](en/about/token-credits)
             </div>
 
             <div className="pt-4">

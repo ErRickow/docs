@@ -1,15 +1,13 @@
 export const glm4Data = {
-  modelId: "gpt-oss-120b",
-  modelCardUrl: "https://openai.com/index/gpt-oss-model-card/",
+  modelId: "glm-4.6",
+  modelCardUrl: "https:///",
 
   contextLength: {
-    freeTier: "65k tokens",
-    paidTiers: "131k tokens"
+    freeTier: "205k tokens"
   },
 
   maxOutput: {
-    freeTier: "32k tokens",
-    paidTiers: "40k tokens"
+    freeTier: "32k tokens"
   },
 
   speed: {
@@ -60,7 +58,7 @@ export const glm4Data = {
     pricePerMillion: "149,999", // Rp 149,999 per 1M tokens
     pricePerToken: "0.15",      // Rp 0.15 per token
     pricePerThousand: "149.99", // Rp 149.99 per 1k tokens
-    docsUrl: "https://docs.neosantara.xyz/en/about/token-credits",
+    docsUrl: "en/about/token-credits",
     example: {
       tokens: 100000,
       cost: "Rp 15,000"
@@ -68,25 +66,24 @@ export const glm4Data = {
   },
 
   pricing: {
-    inputPrice: "350",   // model-specific (your OSS model; display only)
-    outputPrice: "750",
+    inputPrice: "823",   // model-specific (your OSS model; display only)
+    outputPrice: "2,823",
     currency: "IDR",
     inputUnit: "per 1,000,000 tokens",
-    pricingUrl: "https://app.neosantara.xyz/pricing",
-    contactUrl: "https://app.neosantara.xyz/contact"
+    pricingUrl: "https://www.neosantara.xyz/pricing",
+    contactUrl: "https://www.neosantara.xyz/contact"
   },
 
   endpoints: ["Responses", "Chat Completions"],
 
-  features: ["reasoning", "streaming", "structured_output", "json_schema"],
+  features: ["streaming"],
 
   inputOutput: {
-    inputFormats: ["text"],
+    inputFormats: ["text", "image"],
     outputFormats: ["text"]
   },
 
   knownLimitations: [
-    "Use the reasoning_effort parameter to control reasoning for this model.",
-    "When min_tokens is set, the model may generate EOS tokens. Use at your own risk."
+    "",
   ]
 };
