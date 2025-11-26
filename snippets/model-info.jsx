@@ -214,7 +214,7 @@ export const ModelInfo = ({
             </div>
 
             <div className="pt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              Note: model pricing is per 1M tokens. Actual request cost = (input tokens + output tokens) × token price [see Token Credits](en/about/token-credits)
+              Note: model pricing is per 1M tokens. Actual request cost = (input tokens + output tokens) × token price
             </div>
 
             <div className="pt-4">
