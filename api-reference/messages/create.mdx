@@ -1,219 +1,317 @@
 ---
 title: 'Create a Message'
-description: '> Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.'
+description: 'Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.'
 ---
 
 ## Overview
 
 The `/v1/messages` endpoint implements the [**Anthropic Claude API specification**](https://platform.claude.com/docs/en/api/messages/create).
 
-## Parameters
+## Authentication
+
+All requests require an API key in the Authorization header:
+
+```bash
+Authorization: Bearer $API_KEY
+```
+
+## Request Parameters
 
 <ParamField path="model" type="string" required>
-The model ID to use for the request.
-
-**Example:** `"garda-beta-mini"`, `"nusantara-base"`
-
+  The model ID to use for the request.
+  
+  **Example:** `"garda-beta-mini"`, `"nusantara-base"`
 </ParamField>
 
 <ParamField path="messages" type="array[object]" required>
-Array of message objects with alternating user/assistant roles.
+  Array of message objects with alternating user/assistant roles.
 
-**Constraints:**
+  **Constraints:**
   - Must be non-empty array
   - Maximum 100,000 messages
   - First message must have role `"user"`
   - Messages must alternate between `"user"` and `"assistant"` roles (strict)
   - Cannot have consecutive messages with same role
   
-**Valid Structure:**
-```json
-{
-  "messages": [
-    {
-      "role": "user",
-      "content": "What is the capital of France?"
-    },
-    {
-      "role": "assistant",
-      "content": "The capital of France is Paris."
-    },
-    {
-      "role": "user",
-      "content": "Tell me more about it."
-    }
-  ]
-}
-```
+  <Expandable title="message structure">
+    <ParamField path="role" type="string" required>
+      The role of the message sender. Must be either `"user"` or `"assistant"`.
+    </ParamField>
+    
+    <ParamField path="content" type="string | array[object]" required>
+      The content of the message. Can be a string or array of content blocks.
+      
+      **Content Types:**
+      - **Text:** `{"type": "text", "text": "..."}`
+      - **Image URL:** `{"type": "image_url", "image_url": {"url": "https://..."}}`
+      - **Document:** `{"type": "document", "..."}`
+      - **String:** Direct string (automatically converted to text block)
+    </ParamField>
+  </Expandable>
 
-**Message Content Types:**
-- **Text:** `{"type": "text", "text": "..."}`
-- **Image URL:** `{"type": "image_url", "image_url": {"url": "https://..."}}`
-- **Document:** `{"type": "document", "..."}`
-- **String Content:** Direct string (converted to text)
-
+  **Example:**
+  ```json
+  {
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is the capital of France?"
+      },
+      {
+        "role": "assistant",
+        "content": "The capital of France is Paris."
+      },
+      {
+        "role": "user",
+        "content": "Tell me more about it."
+      }
+    ]
+  }
+  ```
 </ParamField>
 
 <ParamField path="max_tokens" type="integer" required>
-Maximum tokens for the response.
+  Maximum tokens for the response.
 
-**Range:** `≥ 1`
-
-</ParamField>
-
-<ParamField path="temperature" type="number" default="1.0">
-Controls randomness. Higher = more random, Lower = more deterministic.
-
-**Range:** `0.0 - 1.0`
-
-</ParamField>
-
-<ParamField path="stream" type="boolean" default="false">
-Enable streaming responses (Server-Sent Events format).
-
-**Streaming Events:**
-- `message_start` - Initial message metadata
-- `content_block_start` - Text block starts
-- `content_block_delta` - Text chunk delta
-- `content_block_stop` - Text block ends
-- `message_delta` - Message metadata update
-- `message_stop` - Stream complete
-
-</ParamField>
-
-<ParamField path="top_p" type="number" default="1.0">
-Nucleus sampling - cumulative probability threshold.
-
-**Range:** `0.0 - 1.0`
-
-</ParamField>
-
-<ParamField path="top_k" type="number">
-Sample from top K tokens by probability.
-
-**Range:** `> 0`
-
-</ParamField>
-
-<ParamField path="stop_sequences" type="array[string]" default="[]">
-Sequences where generation stops.
-
-**Max Items:** Typically 5 sequences
-
+  **Range:** `≥ 1`
 </ParamField>
 
 <ParamField path="system" type="string | array[object]">
-System prompt/instructions for the model.
+  System prompt/instructions for the model.
 
-**Format:**
+  **Format:**
   - **String:** Direct system message
   - **Array:** Array of system blocks `[{"type": "text", "text": "..."}]`
+  
+  **Example:**
+  ```json
+  "system": "You are a helpful Python expert assistant."
+  ```
+</ParamField>
 
+<ParamField path="temperature" type="number" default="1.0">
+  Controls randomness. Higher = more random, Lower = more deterministic.
+
+  **Range:** `0.0 - 1.0`
+  
+  **Examples:**
+  - `0.0` - Completely deterministic
+  - `0.7` - Balanced creativity
+  - `1.0` - Maximum randomness
+</ParamField>
+
+<ParamField path="stream" type="boolean" default="false">
+  Enable streaming responses (Server-Sent Events format).
+
+  <Expandable title="streaming events">
+    - `message_start` - Initial message metadata
+    - `content_block_start` - Text block starts
+    - `content_block_delta` - Text chunk delta
+    - `content_block_stop` - Text block ends
+    - `message_delta` - Message metadata update
+    - `message_stop` - Stream complete
+  </Expandable>
+</ParamField>
+
+<ParamField path="top_p" type="number" default="1.0">
+  Nucleus sampling - cumulative probability threshold.
+
+  **Range:** `0.0 - 1.0`
+</ParamField>
+
+<ParamField path="top_k" type="number">
+  Sample from top K tokens by probability.
+
+  **Range:** `> 0`
+</ParamField>
+
+<ParamField path="stop_sequences" type="array[string]" default="[]">
+  Sequences where generation stops.
+
+  **Max Items:** Typically 5 sequences
+  
+  **Example:**
+  ```json
+  "stop_sequences": ["END", "\n\n---"]
+  ```
 </ParamField>
 
 <ParamField path="tools" type="array[object]" default="[]">
-Array of tool/function definitions.
+  Array of tool/function definitions.
 
-**Format:** Standard Anthropic tool format
+  <Expandable title="tool structure">
+    <ParamField path="name" type="string" required>
+      The name of the tool/function.
+    </ParamField>
+    
+    <ParamField path="description" type="string" required>
+      A description of what the tool does.
+    </ParamField>
+    
+    <ParamField path="input_schema" type="object" required>
+      JSON Schema defining the tool's input parameters.
+    </ParamField>
+  </Expandable>
+
+  **Example:**
+  ```json
+  "tools": [
+    {
+      "name": "calculate",
+      "description": "Calculate math expression",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "expression": {"type": "string"}
+        },
+        "required": ["expression"]
+      }
+    }
+  ]
+  ```
 </ParamField>
 
 <ParamField path="tool_choice" type="string" default="auto">
-How to handle tool selection.
+  How to handle tool selection.
 
-**Options:** `"auto"`, `"any"`, `{"type": "tool", "name": "..."}`
-
-</ParamField>
-
-<ParamField path="metadata" type="object" default="{}">
-Custom metadata for tracking/logging.
-
-</ParamField>
-
-<ParamField path="service_tier" type="string" default="auto">
-Which service tier to use.
-
-**Options:** `"auto"`, `"standard_only"`
-
+  **Options:** 
+  - `"auto"` - Model decides whether to use a tool
+  - `"any"` - Model must use a tool
+  - `{"type": "tool", "name": "..."}` - Use specific tool
 </ParamField>
 
 <ParamField path="thinking" type="object">
-Enable extended thinking mode.
+  Enable extended thinking mode.
 
-**Structure:**
-```json
-{
-  "type": "enabled",
-  "budget_tokens": 5000
-}
-```
+  <Expandable title="thinking properties">
+    <ParamField path="type" type="string" required>
+      Must be `"enabled"` to activate thinking mode.
+    </ParamField>
+    
+    <ParamField path="budget_tokens" type="integer" required>
+      Number of tokens allocated for thinking.
+      
+      **Constraints:**
+      - Must be `≥ 1024`
+      - Must be `< max_tokens`
+    </ParamField>
+  </Expandable>
 
-**Constraints:**
-  - `budget_tokens` must be `≥ 1024`
-  - `budget_tokens` must be `< max_tokens`
-
+  **Example:**
+  ```json
+  {
+    "type": "enabled",
+    "budget_tokens": 5000
+  }
+  ```
 </ParamField>
 
-## Response
+<ParamField path="metadata" type="object" default="{}">
+  Custom metadata for tracking/logging.
+
+  **Example:**
+  ```json
+  "metadata": {
+    "user_id": "user_123",
+    "session_id": "sess_456"
+  }
+  ```
+</ParamField>
+
+<ParamField path="service_tier" type="string" default="auto">
+  Which service tier to use.
+
+  **Options:** `"auto"`, `"standard_only"`
+</ParamField>
+
+## Response Format
 
 <ResponseField name="id" type="string">
-The unique identifier for the message.
+  The unique identifier for the message.
 </ResponseField>
 
 <ResponseField name="type" type="string">
-The type of the response, always "message".
+  The type of the response, always `"message"`.
 </ResponseField>
 
 <ResponseField name="role" type="string">
-The role of the responder, always "assistant".
+  The role of the responder, always `"assistant"`.
 </ResponseField>
 
 <ResponseField name="model" type="string">
-The model used for the response.
+  The model used for the response.
 </ResponseField>
 
 <ResponseField name="stop_reason" type="string">
-The reason generation stopped, e.g., "end_turn".
+  The reason generation stopped, e.g., `"end_turn"`.
 </ResponseField>
 
 <ResponseField name="stop_sequence" type="string | null">
-The stop sequence that triggered the end, if any.
+  The stop sequence that triggered the end, if any.
 </ResponseField>
 
 <ResponseField name="content" type="array[object]">
-The generated content.
-
-<ResponseField name="type" type="string">
-The type of content block, e.g., "text".
-</ResponseField>
-
-<ResponseField name="text" type="string">
-The text content.
-</ResponseField>
-
+  The generated content.
+  
+  <Expandable title="content structure">
+    <ResponseField name="type" type="string">
+      The type of content block, e.g., `"text"`.
+    </ResponseField>
+    
+    <ResponseField name="text" type="string">
+      The text content.
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
 <ResponseField name="usage" type="object">
-Token usage statistics.
-
-<ResponseField name="input_tokens" type="integer">
-Number of input tokens.
+  Token usage statistics.
+  
+  <Expandable title="usage properties">
+    <ResponseField name="input_tokens" type="integer">
+      Number of input tokens.
+    </ResponseField>
+    
+    <ResponseField name="output_tokens" type="integer">
+      Number of output tokens.
+    </ResponseField>
+    
+    <ResponseField name="cache_creation_input_tokens" type="integer">
+      Cache creation input tokens.
+    </ResponseField>
+    
+    <ResponseField name="cache_read_input_tokens" type="integer">
+      Cache read input tokens.
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
-<ResponseField name="output_tokens" type="integer">
-Number of output tokens.
-</ResponseField>
+### Example Response
 
-<ResponseField name="cache_creation_input_tokens" type="integer">
-Cache creation input tokens.
-</ResponseField>
-
-<ResponseField name="cache_read_input_tokens" type="integer">
-Cache read input tokens.
-</ResponseField>
-
-</ResponseField>
+```json
+{
+  "id": "msg_01XYZ...",
+  "type": "message",
+  "role": "assistant",
+  "model": "nusantara-base",
+  "content": [
+    {
+      "type": "text",
+      "text": "The capital of France is Paris."
+    }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 12,
+    "output_tokens": 8
+  }
+}
+```
 
 ### Streaming Response (SSE Format)
+
+When `stream: true`, responses are sent as Server-Sent Events:
+
 ```
 event: message_start
 data: {"type": "message_start", "message": {...}}
@@ -248,138 +346,118 @@ data: {"type": "message_stop"}
 
 ### Error Response Format
 
-<Response>
-
-<ResponseField name="error" type="object">
-
-<ResponseField name="message" type="string">
-The error message.
-</ResponseField>
-
-<ResponseField name="type" type="string">
-The type of error, e.g., "invalid_request_error".
-</ResponseField>
-
-<ResponseField name="code" type="string">
-The error code.
-</ResponseField>
-
-</ResponseField>
-
-</Response>
+```json
+{
+  "error": {
+    "message": "Invalid temperature value",
+    "type": "invalid_request_error",
+    "code": "invalid_temperature"
+  }
+}
+```
 
 ## Request Examples
 
 <AccordionGroup>
 
-<Accordion title="Simple Chat">
-
-```bash
-curl https://api.neosantara.xyz/v1/messages \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "max_tokens": 1024,
-    "messages": [
-      {"role": "user", "content": "What is 2+2?"}
-    ]
-  }'
-```
-
+<Accordion title="Simple Chat" icon="comment">
+  ```bash
+  curl https://api.neosantara.xyz/v1/messages \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $API_KEY" \
+    -d '{
+      "model": "nusantara-base",
+      "max_tokens": 1024,
+      "messages": [
+        {"role": "user", "content": "What is 2+2?"}
+      ]
+    }'
+  ```
 </Accordion>
 
-<Accordion title="With System Prompt">
-
-```bash
-curl https://api.neosantara.xyz/v1/messages \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "max_tokens": 1024,
-    "system": "You are a Python expert.",
-    "messages": [
-      {"role": "user", "content": "Write a hello world function."}
-    ]
-  }'
-```
-
+<Accordion title="With System Prompt" icon="terminal">
+  ```bash
+  curl https://api.neosantara.xyz/v1/messages \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $API_KEY" \
+    -d '{
+      "model": "nusantara-base",
+      "max_tokens": 1024,
+      "system": "You are a Python expert.",
+      "messages": [
+        {"role": "user", "content": "Write a hello world function."}
+      ]
+    }'
+  ```
 </Accordion>
 
-<Accordion title="Streaming with Temperature">
-
-```bash
-curl https://api.neosantara.xyz/v1/messages \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "max_tokens": 2048,
-    "temperature": 0.8,
-    "stream": true,
-    "messages": [
-      {"role": "user", "content": "Tell me a creative story."}
-    ]
-  }'
-```
-
+<Accordion title="Streaming with Temperature" icon="water">
+  ```bash
+  curl https://api.neosantara.xyz/v1/messages \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $API_KEY" \
+    -d '{
+      "model": "nusantara-base",
+      "max_tokens": 2048,
+      "temperature": 0.8,
+      "stream": true,
+      "messages": [
+        {"role": "user", "content": "Tell me a creative story."}
+      ]
+    }'
+  ```
 </Accordion>
 
-<Accordion title="Function Calling">
-
-```bash
-curl https://api.neosantara.xyz/v1/messages \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "max_tokens": 1024,
-    "tools": [
-      {
-        "name": "calculate",
-        "description": "Calculate math expression",
-        "input_schema": {
-          "type": "object",
-          "properties": {
-            "expression": {"type": "string"}
-          },
-          "required": ["expression"]
+<Accordion title="Function Calling" icon="wrench">
+  ```bash
+  curl https://api.neosantara.xyz/v1/messages \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $API_KEY" \
+    -d '{
+      "model": "nusantara-base",
+      "max_tokens": 1024,
+      "tools": [
+        {
+          "name": "calculate",
+          "description": "Calculate math expression",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "expression": {"type": "string"}
+            },
+            "required": ["expression"]
+          }
         }
-      }
-    ],
-    "messages": [
-      {"role": "user", "content": "What is 15 * 3?"}
-    ]
-  }'
-```
-
+      ],
+      "messages": [
+        {"role": "user", "content": "What is 15 * 3?"}
+      ]
+    }'
+  ```
 </Accordion>
 
-<Accordion title="Extended Thinking">
-
-```bash
-curl https://api.neosantara.xyz/v1/messages \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "max_tokens": 10000,
-    "thinking": {
-      "type": "enabled",
-      "budget_tokens": 5000
-    },
-    "messages": [
-      {"role": "user", "content": "Solve this complex problem..."}
-    ]
-  }'
-```
-
+<Accordion title="Extended Thinking" icon="brain">
+  ```bash
+  curl https://api.neosantara.xyz/v1/messages \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $API_KEY" \
+    -d '{
+      "model": "nusantara-base",
+      "max_tokens": 10000,
+      "thinking": {
+        "type": "enabled",
+        "budget_tokens": 5000
+      },
+      "messages": [
+        {"role": "user", "content": "Solve this complex problem..."}
+      ]
+    }'
+  ```
 </Accordion>
 
 </AccordionGroup>
 
-## Compatibility
+## Compatibility Matrix
 
 | Parameter | Required | Type | Claude SDK | Default | Notes |
 |-----------|----------|------|-----------|---------|-------|
