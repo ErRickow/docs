@@ -3,7 +3,6 @@ title: 'Create a Message'
 description: 'Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.'
 api: 'POST /v1/messages'
 playground: 'simple'
-authMethod: 'bearer'
 ---
 
 ## Overview
@@ -15,7 +14,7 @@ The `/v1/messages` endpoint implements the [**Anthropic Claude API specification
 All requests require an API key in the Authorization header:
 
 ```bash
-Authorization: X-api-key $API_KEY
+Authorization: x-api-key $API_KEY
 ```
 
 ## Request Parameters
@@ -28,13 +27,6 @@ Authorization: X-api-key $API_KEY
 
 <ParamField path="messages" type="array[object]" required>
   Array of message objects with alternating user/assistant roles.
-
-  **Constraints:**
-  - Must be non-empty array
-  - Maximum 100,000 messages
-  - First message must have role `"user"`
-  - Messages must alternate between `"user"` and `"assistant"` roles (strict)
-  - Cannot have consecutive messages with same role
   
   <Expandable title="message structure">
     <ParamField path="role" type="string" required>
@@ -51,26 +43,6 @@ Authorization: X-api-key $API_KEY
       - **String:** Direct string (automatically converted to text block)
     </ParamField>
   </Expandable>
-
-  **Example:**
-  ```json
-  {
-    "messages": [
-      {
-        "role": "user",
-        "content": "What is the capital of France?"
-      },
-      {
-        "role": "assistant",
-        "content": "The capital of France is Paris."
-      },
-      {
-        "role": "user",
-        "content": "Tell me more about it."
-      }
-    ]
-  }
-  ```
 </ParamField>
 
 <ParamField path="max_tokens" type="integer" required>
@@ -82,14 +54,11 @@ Authorization: X-api-key $API_KEY
 <ParamField path="system" type="string | array[object]">
   System prompt/instructions for the model.
 
-  **Format:**
+  <Expandable title="Format">
   - **String:** Direct system message
   - **Array:** Array of system blocks `[{"type": "text", "text": "..."}]`
-  
-  **Example:**
-  ```json
-  "system": "You are a helpful Python expert assistant."
-  ```
+
+  </Expandable>
 </ParamField>
 
 <ParamField path="temperature" type="number" default="1.0">
@@ -97,10 +66,12 @@ Authorization: X-api-key $API_KEY
 
   **Range:** `0.0 - 1.0`
   
-  **Examples:**
+  <Expandable title="Example">
   - `0.0` - Completely deterministic
   - `0.7` - Balanced creativity
   - `1.0` - Maximum randomness
+
+  </Expandable>
 </ParamField>
 
 <ParamField path="stream" type="boolean" default="false">
@@ -133,10 +104,6 @@ Authorization: X-api-key $API_KEY
 
   **Max Items:** Typically 5 sequences
   
-  **Example:**
-  ```json
-  "stop_sequences": ["END", "\n\n---"]
-  ```
 </ParamField>
 
 <ParamField path="tools" type="array[object]" default="[]">
@@ -156,7 +123,7 @@ Authorization: X-api-key $API_KEY
     </ParamField>
   </Expandable>
 
-  **Example:**
+  <Expandable title="Example">
   ```json
   "tools": [
     {
@@ -172,15 +139,19 @@ Authorization: X-api-key $API_KEY
     }
   ]
   ```
+  
+  </Expandable>
 </ParamField>
 
 <ParamField path="tool_choice" type="string" default="auto">
   How to handle tool selection.
 
-  **Options:** 
+  <Expandable title="options">
   - `"auto"` - Model decides whether to use a tool
   - `"any"` - Model must use a tool
   - `{"type": "tool", "name": "..."}` - Use specific tool
+
+  </Expandable>
 </ParamField>
 
 <ParamField path="thinking" type="object">
@@ -199,32 +170,18 @@ Authorization: X-api-key $API_KEY
       - Must be `< max_tokens`
     </ParamField>
   </Expandable>
-
-  **Example:**
-  ```json
-  {
-    "type": "enabled",
-    "budget_tokens": 5000
-  }
-  ```
 </ParamField>
 
 <ParamField path="metadata" type="object" default="{}">
   Custom metadata for tracking/logging.
-
-  **Example:**
-  ```json
-  "metadata": {
-    "user_id": "user_123",
-    "session_id": "sess_456"
-  }
-  ```
 </ParamField>
 
 <ParamField path="service_tier" type="string" default="auto">
   Which service tier to use.
 
-  **Options:** `"auto"`, `"standard_only"`
+  <Expandable title="option">
+  `"auto"`, `"standard_only"`
+  </Expandable>
 </ParamField>
 
 ## Response Format
@@ -288,177 +245,6 @@ Authorization: X-api-key $API_KEY
     </ResponseField>
   </Expandable>
 </ResponseField>
-
-### Example Response
-
-```json
-{
-  "id": "msg_01XYZ...",
-  "type": "message",
-  "role": "assistant",
-  "model": "nusantara-base",
-  "content": [
-    {
-      "type": "text",
-      "text": "The capital of France is Paris."
-    }
-  ],
-  "stop_reason": "end_turn",
-  "usage": {
-    "input_tokens": 12,
-    "output_tokens": 8
-  }
-}
-```
-
-### Streaming Response (SSE Format)
-
-When `stream: true`, responses are sent as Server-Sent Events:
-
-```
-event: message_start
-data: {"type": "message_start", "message": {...}}
-
-event: content_block_start
-data: {"type": "content_block_start", "content_block": {"type": "text", "text": ""}}
-
-event: content_block_delta
-data: {"type": "content_block_delta", "delta": {"type": "text_delta", "text": "The"}}
-
-event: content_block_delta
-data: {"type": "content_block_delta", "delta": {"type": "text_delta", "text": " capital"}}
-
-event: message_stop
-data: {"type": "message_stop"}
-```
-
-## Error Handling
-
-### Common Error Codes
-
-| Code | Status | Description |
-|------|--------|-------------|
-| `missing_model` | 400 | Model parameter not provided |
-| `model_not_found` | 404 | Model doesn't exist |
-| `missing_messages` | 400 | Messages array not provided |
-| `invalid_message_role` | 400 | Invalid role or non-alternating |
-| `too_many_messages` | 400 | Messages exceed 100,000 limit |
-| `invalid_temperature` | 400 | Temperature outside 0.0-1.0 range |
-| `context_window_exceeded` | 400 | Input tokens exceed context window |
-| `insufficient_context_for_output` | 400 | Not enough context for response |
-
-### Error Response Format
-
-```json
-{
-  "error": {
-    "message": "Invalid temperature value",
-    "type": "invalid_request_error",
-    "code": "invalid_temperature"
-  }
-}
-```
-
-## Request Examples
-
-<AccordionGroup>
-
-<Accordion title="Simple Chat" icon="comment">
-  ```bash
-  curl https://api.neosantara.xyz/v1/messages \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $API_KEY" \
-    -d '{
-      "model": "nusantara-base",
-      "max_tokens": 1024,
-      "messages": [
-        {"role": "user", "content": "What is 2+2?"}
-      ]
-    }'
-  ```
-</Accordion>
-
-<Accordion title="With System Prompt" icon="terminal">
-  ```bash
-  curl https://api.neosantara.xyz/v1/messages \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $API_KEY" \
-    -d '{
-      "model": "nusantara-base",
-      "max_tokens": 1024,
-      "system": "You are a Python expert.",
-      "messages": [
-        {"role": "user", "content": "Write a hello world function."}
-      ]
-    }'
-  ```
-</Accordion>
-
-<Accordion title="Streaming with Temperature" icon="water">
-  ```bash
-  curl https://api.neosantara.xyz/v1/messages \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $API_KEY" \
-    -d '{
-      "model": "nusantara-base",
-      "max_tokens": 2048,
-      "temperature": 0.8,
-      "stream": true,
-      "messages": [
-        {"role": "user", "content": "Tell me a creative story."}
-      ]
-    }'
-  ```
-</Accordion>
-
-<Accordion title="Function Calling" icon="wrench">
-  ```bash
-  curl https://api.neosantara.xyz/v1/messages \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $API_KEY" \
-    -d '{
-      "model": "nusantara-base",
-      "max_tokens": 1024,
-      "tools": [
-        {
-          "name": "calculate",
-          "description": "Calculate math expression",
-          "input_schema": {
-            "type": "object",
-            "properties": {
-              "expression": {"type": "string"}
-            },
-            "required": ["expression"]
-          }
-        }
-      ],
-      "messages": [
-        {"role": "user", "content": "What is 15 * 3?"}
-      ]
-    }'
-  ```
-</Accordion>
-
-<Accordion title="Extended Thinking" icon="brain">
-  ```bash
-  curl https://api.neosantara.xyz/v1/messages \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $API_KEY" \
-    -d '{
-      "model": "nusantara-base",
-      "max_tokens": 10000,
-      "thinking": {
-        "type": "enabled",
-        "budget_tokens": 5000
-      },
-      "messages": [
-        {"role": "user", "content": "Solve this complex problem..."}
-      ]
-    }'
-  ```
-</Accordion>
-
-</AccordionGroup>
 
 ## Compatibility Matrix
 
