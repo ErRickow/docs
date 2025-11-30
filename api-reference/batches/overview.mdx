@@ -1,0 +1,307 @@
+---
+title: 'Batches API Overview'
+description: 'Process multiple API requests asynchronously with 50% cost savings'
+---
+
+## Introduction
+
+The Batches API allows you to process large volumes of API requests asynchronously at half the cost of standard API calls. Perfect for bulk operations, data processing pipelines, and overnight jobs that don't require immediate responses.
+
+<Card icon="sparkles" title="Save 50% with Batch Processing" color="#16a34a">
+Batch API offers **50% cost savings** compared to standard synchronous API calls. Process thousands of requests efficiently while you sleep!
+</Card>
+
+### Key Benefits
+
+- 💰 **50% Cost Reduction**: Significantly lower costs for bulk processing
+- ⚡ **Async Processing**: Submit jobs and retrieve results when ready
+- 📊 **Progress Tracking**: Monitor completion status in real-time
+- 🔄 **Automatic Retries**: Built-in retry logic for failed requests
+- 📁 **Organized Results**: Separate output files for successes and errors
+- ⏱️ **24-Hour Window**: All batches complete within 24 hours
+
+### How It Works
+
+1. **Upload** a JSONL file containing your requests
+2. **Create** a batch job referencing the uploaded file
+3. **Monitor** progress as requests are processed asynchronously
+4. **Download** results from output files when complete
+
+## API Endpoints
+
+<CardGroup cols={2}>
+  <Card 
+    title="Create Batch" 
+    icon="play" 
+    href="/api-reference/batches/create"
+    color="#10b981"
+  >
+    Start a new batch job for asynchronous request processing
+  </Card>
+  
+  <Card 
+    title="Get Batch" 
+    icon="chart-line" 
+    href="/api-reference/batches/get"
+    color="#3b82f6"
+  >
+    Check the status and progress of a batch job
+  </Card>
+  
+  <Card 
+    title="Cancel Batch" 
+    icon="stop" 
+    href="/api-reference/batches/cancel"
+    color="#ef4444"
+  >
+    Cancel a running batch job before completion
+  </Card>
+  
+  <Card 
+    title="List Batches" 
+    icon="list" 
+    href="/api-reference/batches/list"
+    color="#f59e0b"
+  >
+    View all your batch jobs with filtering and pagination
+  </Card>
+</CardGroup>
+
+## Supported Endpoints
+
+Batch processing is available for the following endpoints:
+
+<CardGroup cols={3}>
+  <Card title="Chat Completions" icon="comments">
+    `/v1/chat/completions`
+    
+    Process conversations at scale
+  </Card>
+  <Card title="Embeddings" icon="vector-square">
+    `/v1/embeddings`
+    
+    Generate embeddings in bulk
+  </Card>
+  <Card title="Responses" icon="message-bot">
+    `/v1/responses`
+    
+    Batch response generation
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+### Step 1: Prepare Your Input File
+
+Create a JSONL file with your requests:
+
+```json
+{"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Translate to Indonesian: Hello"}], "max_tokens": 100}}
+{"custom_id": "request-2", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Translate to Indonesian: Goodbye"}], "max_tokens": 100}}
+{"custom_id": "request-3", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Translate to Indonesian: Thank you"}], "max_tokens": 100}}
+```
+
+### Step 2: Upload the File
+
+```bash
+curl https://api.neosantara.xyz/v1/files \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -F purpose="batch" \
+  -F file="@batch_input.jsonl"
+```
+
+Response:
+```json
+{
+  "id": "file-abc123",
+  "purpose": "batch",
+  "filename": "batch_input.jsonl",
+  "bytes": 1024,
+  "created_at": 1699564800
+}
+```
+
+### Step 3: Create the Batch
+
+```bash
+curl https://api.neosantara.xyz/v1/batches \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input_file_id": "file-abc123",
+    "endpoint": "/v1/chat/completions",
+    "completion_window": "24h"
+  }'
+```
+
+Response:
+```json
+{
+  "id": "batch-xyz789",
+  "status": "validating",
+  "request_counts": {
+    "total": 3,
+    "completed": 0,
+    "failed": 0
+  }
+}
+```
+
+### Step 4: Monitor Progress
+
+```bash
+curl https://api.neosantara.xyz/v1/batches/batch-xyz789 \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Step 5: Download Results
+
+Once the batch status is `completed`:
+
+```bash
+# Download successful results
+curl https://api.neosantara.xyz/v1/files/file-output-123/content \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --output results.jsonl
+
+# Download errors (if any)
+curl https://api.neosantara.xyz/v1/files/file-errors-456/content \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --output errors.jsonl
+```
+
+## Batch Status Lifecycle
+
+```mermaid
+graph LR
+    A[validating] --> B[in_progress]
+    B --> C[finalizing]
+    C --> D[completed]
+    B --> E[failed]
+    A --> E
+    B --> F[canceled]
+    A --> F
+    B --> G[expired]
+```
+
+| Status | Description |
+|--------|-------------|
+| `validating` | Input file is being validated |
+| `in_progress` | Requests are being processed |
+| `finalizing` | Results are being compiled |
+| `completed` | Batch finished successfully |
+| `failed` | Batch encountered an error |
+| `canceled` | Batch was manually canceled |
+| `expired` | Batch exceeded 24-hour window |
+
+## Tier Limitations
+
+<Warning>
+**Free Tier**: Batch API is not available on the Free tier. [Upgrade to Basic or higher](https://app.neosantara.xyz/billing) to unlock batch processing.
+</Warning>
+
+| Tier | Concurrent Batches | Status |
+|------|-------------------|---------|
+| Free | 0 | ❌ Not Available |
+| Basic | 5 | ✅ Available |
+| Pro | 10 | ✅ Available |
+| Enterprise | Custom | ✅ Available |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Optimize Batch Size" icon="gauge-high">
+    Balance between batch size and completion time. Larger batches (1000+ requests) maximize cost savings, while smaller batches complete faster. Consider your use case requirements.
+  </Accordion>
+  
+  <Accordion title="Use Custom IDs Effectively" icon="hashtag">
+    Assign meaningful `custom_id` values to each request. This helps you map results back to your original data when processing output files.
+  </Accordion>
+  
+  <Accordion title="Handle Partial Failures" icon="triangle-exclamation">
+    Always check both output and error files. Some requests may succeed while others fail. Implement retry logic for failed requests if needed.
+  </Accordion>
+  
+  <Accordion title="Monitor Concurrent Limits" icon="chart-line">
+    Stay within your tier's concurrent batch limit. Queue additional batches to start after current ones complete.
+  </Accordion>
+  
+  <Accordion title="Set Appropriate Timeouts" icon="clock">
+    All batches complete within 24 hours. For time-sensitive operations, consider using standard API calls instead.
+  </Accordion>
+  
+  <Accordion title="Validate Input Format" icon="check">
+    Ensure your JSONL file is properly formatted before creating a batch. Invalid format will cause immediate failure during validation.
+  </Accordion>
+</AccordionGroup>
+
+## Output File Format
+
+Successful results are returned in JSONL format:
+
+```json
+{"id": "batch-req-1", "custom_id": "request-1", "response": {"status_code": 200, "body": {"id": "chatcmpl-123", "object": "chat.completion", "choices": [{"message": {"role": "assistant", "content": "Halo"}}]}}}
+{"id": "batch-req-2", "custom_id": "request-2", "response": {"status_code": 200, "body": {"id": "chatcmpl-124", "object": "chat.completion", "choices": [{"message": {"role": "assistant", "content": "Selamat tinggal"}}]}}}
+```
+
+Error file format:
+
+```json
+{"id": "batch-req-3", "custom_id": "request-3", "error": {"code": "invalid_request", "message": "Invalid model specified"}}
+```
+
+## Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Data Labeling" icon="tags">
+    Classify or label thousands of text samples for ML training datasets
+  </Card>
+  
+  <Card title="Content Moderation" icon="shield-check">
+    Analyze large volumes of user-generated content for policy compliance
+  </Card>
+  
+  <Card title="Translation" icon="language">
+    Translate documentation or content into multiple languages at scale
+  </Card>
+  
+  <Card title="Sentiment Analysis" icon="face-smile">
+    Process customer feedback, reviews, or social media posts in bulk
+  </Card>
+  
+  <Card title="Embeddings Generation" icon="brain">
+    Create vector embeddings for entire document collections or knowledge bases
+  </Card>
+  
+  <Card title="Report Generation" icon="file-invoice">
+    Generate hundreds of personalized reports from structured data
+  </Card>
+</CardGroup>
+
+## Error Handling
+
+Common batch errors and solutions:
+
+| Error Code | Description | Solution |
+|------------|-------------|----------|
+| `batch_api_not_allowed` | Free tier restriction | Upgrade to Basic tier or higher |
+| `missing_required_field` | Required parameter missing | Include all required fields in request |
+| `invalid_endpoint` | Unsupported endpoint | Use supported endpoints only |
+| `invalid_input_file` | File not found or wrong purpose | Ensure file exists and has `purpose="batch"` |
+| `invalid_jsonl` | JSONL validation failed | Check file format for syntax errors |
+| `concurrent_batches_limit` | Too many active batches | Wait for existing batches to complete |
+| `batch_not_found` | Batch ID doesn't exist | Verify the batch_id is correct |
+| `cannot_cancel` | Batch already finished | Can only cancel in-progress batches |
+
+## Rate Limits
+
+Batch processing has different rate limits than standard API calls:
+
+- **Concurrent Jobs**: Based on your tier (see table above)
+- **Requests per Batch**: No hard limit, but recommend 10,000 max for optimal performance
+- **File Size**: Maximum 100MB per input file
+- **Processing Time**: All batches complete within 24 hours
+
+<Tip>
+For processing more than 50,000 requests or custom concurrent limits, [contact our enterprise team](https://neosantara.xyz/contact) for a custom plan.
+</Tip>

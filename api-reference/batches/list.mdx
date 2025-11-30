@@ -1,0 +1,193 @@
+---
+title: 'List Batches'
+api: 'GET /v1/batches'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+List all batch jobs for the authenticated user, ordered by creation time (newest first).
+
+<ParamField path="limit" type="integer" default="20">
+The maximum number of batches to return. The API may return fewer batches than the specified limit.
+</ParamField>
+
+<ParamField path="after" type="string">
+A cursor for pagination. Use the ID of the last batch from the previous page to get the next page of results.
+</ParamField>
+
+### Returns
+
+<ResponseField name="object" type="string">
+The object type, which is always `list`.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+An array of batch objects.
+
+<Expandable title="batch object properties">
+<ResponseField name="id" type="string">
+The unique identifier of the batch.
+</ResponseField>
+
+<ResponseField name="object" type="string">
+The object type, always `batch`.
+</ResponseField>
+
+<ResponseField name="endpoint" type="string">
+The API endpoint used for the batch.
+</ResponseField>
+
+<ResponseField name="errors" type="object or null">
+Any errors encountered.
+</ResponseField>
+
+<ResponseField name="input_file_id" type="string">
+The input file ID.
+</ResponseField>
+
+<ResponseField name="completion_window" type="string">
+The completion time window.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+The current batch status.
+</ResponseField>
+
+<ResponseField name="output_file_id" type="string or null">
+The output file ID if available.
+</ResponseField>
+
+<ResponseField name="error_file_id" type="string or null">
+The error file ID if available.
+</ResponseField>
+
+<ResponseField name="created_at" type="integer">
+Unix timestamp of creation.
+</ResponseField>
+
+<ResponseField name="in_progress_at" type="integer or null">
+Unix timestamp when processing started.
+</ResponseField>
+
+<ResponseField name="expires_at" type="integer">
+Unix timestamp of expiration.
+</ResponseField>
+
+<ResponseField name="finalizing_at" type="integer or null">
+Unix timestamp when finalizing started.
+</ResponseField>
+
+<ResponseField name="completed_at" type="integer or null">
+Unix timestamp of completion.
+</ResponseField>
+
+<ResponseField name="failed_at" type="integer or null">
+Unix timestamp of failure.
+</ResponseField>
+
+<ResponseField name="expired_at" type="integer or null">
+Unix timestamp of expiration.
+</ResponseField>
+
+<ResponseField name="cancelled_at" type="integer or null">
+Unix timestamp of cancellation.
+</ResponseField>
+
+<ResponseField name="request_counts" type="object">
+Request statistics.
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+Custom metadata.
+</ResponseField>
+</Expandable>
+</ResponseField>
+
+<ResponseField name="first_id" type="string or null">
+The ID of the first batch in the list, useful for pagination.
+</ResponseField>
+
+<ResponseField name="last_id" type="string or null">
+The ID of the last batch in the list, useful for pagination.
+</ResponseField>
+
+<ResponseField name="has_more" type="boolean">
+Indicates whether there are more batches available beyond this page.
+</ResponseField>
+
+<CodeGroup>
+
+```json Response 200
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "batch-abc123",
+      "object": "batch",
+      "endpoint": "/v1/chat/completions",
+      "errors": null,
+      "input_file_id": "file-xyz789",
+      "completion_window": "24h",
+      "status": "completed",
+      "output_file_id": "file-output-123",
+      "error_file_id": "file-errors-456",
+      "created_at": 1699564800,
+      "in_progress_at": 1699565000,
+      "expires_at": 1699651200,
+      "finalizing_at": 1699568000,
+      "completed_at": 1699568500,
+      "failed_at": null,
+      "expired_at": null,
+      "cancelled_at": null,
+      "request_counts": {
+        "total": 100,
+        "completed": 98,
+        "failed": 2
+      },
+      "metadata": {
+        "project": "data-analysis"
+      }
+    },
+    {
+      "id": "batch-def456",
+      "object": "batch",
+      "endpoint": "/v1/embeddings",
+      "errors": null,
+      "input_file_id": "file-abc999",
+      "completion_window": "24h",
+      "status": "in_progress",
+      "output_file_id": null,
+      "error_file_id": null,
+      "created_at": 1699550000,
+      "in_progress_at": 1699550200,
+      "expires_at": 1699636400,
+      "finalizing_at": null,
+      "completed_at": null,
+      "failed_at": null,
+      "expired_at": null,
+      "cancelled_at": null,
+      "request_counts": {
+        "total": 50,
+        "completed": 30,
+        "failed": 0
+      },
+      "metadata": {}
+    }
+  ],
+  "first_id": "batch-abc123",
+  "last_id": "batch-def456",
+  "has_more": false
+}
+```
+
+```json Response 200 - Empty List
+{
+  "object": "list",
+  "data": [],
+  "first_id": null,
+  "last_id": null,
+  "has_more": false
+}
+```
+
+</CodeGroup>
