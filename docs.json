@@ -175,7 +175,7 @@
           {
             "group": "Status",
             "pages": [
-              "api-reference/images/create-image-generation"
+              "api-reference/authentication/check-api-key-status"
             ]
           }]
         }]
