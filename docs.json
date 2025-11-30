@@ -17,6 +17,12 @@
       "weight": 400
     }
   },
+  "scripts": [
+    {
+      "type": "text/javascript",
+      "src": "/signin-button.js"
+    }
+  ],
   "favicon": "/favicon.ico",
   "styling": {
     "eyebrows": "breadcrumbs"

@@ -1,25 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Tunggu navbar sepenuhnya dimuat
-  const addSignInButton = () => {
-    const topbarRight = document.getElementById('topbar-right-container');
-    const navbar = document.getElementById('navbar');
-    
-    // Coba targetkan topbar-right-container dulu, kalau tidak ada gunakan navbar
-    const targetElement = topbarRight || navbar;
-    
-    if (targetElement && !document.querySelector('.custom-signin-btn')) {
-      const signInButton = document.createElement('a');
-      signInButton.href = 'https://app.neosantara.xyz/signin';
-      signInButton.textContent = 'Sign In';
-      signInButton.className = 'custom-signin-btn';
-      signInButton.target = '_blank'; // Buka di tab baru (opsional)
-      
-      targetElement.appendChild(signInButton);
-    }
-  };
-  
-  // Coba beberapa kali karena navbar mungkin dimuat secara dinamis
-  addSignInButton();
-  setTimeout(addSignInButton, 100);
-  setTimeout(addSignInButton, 500);
+document.addEventListener('DOMContentLoaded', () => {
+  const searchBar = document.getElementById('search-bar-entry');
+  if (searchBar) {
+    const signupButton = document.createElement('a');
+    signupButton.href = 'https://app.neosantara.xyz/signup';
+    signupButton.textContent = 'Sign Up';
+    signupButton.style.cssText = 'margin-right: 12px; padding: 8px 16px; background: #0066FF; color: white; border-radius: 6px; text-decoration: none; font-weight: 500;';
+    searchBar.parentNode.insertBefore(signupButton, searchBar);
+  }
 });
