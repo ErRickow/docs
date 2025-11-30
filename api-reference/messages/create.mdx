@@ -1,23 +1,12 @@
 ---
 title: 'Create a Message'
-description: 'Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.'
 api: 'POST /v1/messages'
 playground: 'simple'
 ---
 
-## Overview
-
-The `/v1/messages` endpoint implements the [**Anthropic Claude API specification**](https://platform.claude.com/docs/en/api/messages/create).
-
-## Authentication
-
-All requests require an API key in the Authorization header:
-
-```bash
-Authorization: x-api-key $API_KEY
-```
-
-## Request Parameters
+<Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
+  Start with **10,000 Monthly Token Limit** on our Free Plan. **No credit card required.** Your tokens automatically reset on the 1st of each month.
+</Card>
 
 <ParamField path="model" type="string" required>
   The model ID to use for the request.
@@ -184,7 +173,7 @@ Authorization: x-api-key $API_KEY
   </Expandable>
 </ParamField>
 
-## Response Format
+## Returns
 
 <ResponseField name="id" type="string">
   The unique identifier for the message.
@@ -245,6 +234,27 @@ Authorization: x-api-key $API_KEY
     </ResponseField>
   </Expandable>
 </ResponseField>
+
+## Return Examples
+```json Response 200
+{
+  "id": "msg_01XYZ...",
+  "type": "message",
+  "role": "assistant",
+  "model": "nusantara-base",
+  "content": [
+    {
+      "type": "text",
+      "text": "The capital of France is Paris."
+    }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 12,
+    "output_tokens": 8
+  }
+}
+```
 
 ## Compatibility Matrix
 
