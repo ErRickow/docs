@@ -28,5 +28,6 @@ To meet the demand for using the Anthropic API ecosystem, our API has added supp
     cd my-project
     claude
     ```
+    </Step>
 </Steps>
 
