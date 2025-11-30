@@ -33,6 +33,18 @@
   "background": {
     "decoration": "windows"
   },
+  "api": {
+    "mdx": {
+      "server": "https://api.neosantara.xyz",
+      "auth": {
+        "method": "key",
+        "name": "x-api-key"
+      }
+    },
+    "playground": {
+      "display": "simple"
+    }
+  },
   "navigation": {
     "languages": [
     {

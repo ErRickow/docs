@@ -1,6 +1,9 @@
 ---
 title: 'Create a Message'
 description: 'Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.'
+api: 'POST /v1/messages'
+playground: 'simple'
+authMethod: 'bearer'
 ---
 
 ## Overview
@@ -12,7 +15,7 @@ The `/v1/messages` endpoint implements the [**Anthropic Claude API specification
 All requests require an API key in the Authorization header:
 
 ```bash
-Authorization: Bearer $API_KEY
+Authorization: X-api-key $API_KEY
 ```
 
 ## Request Parameters
