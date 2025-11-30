@@ -10,12 +10,8 @@ authMethod: 'bearer'
   Start with **10,000 Monthly Token Limit** on our Free Plan. **No credit card required.** Your tokens automatically reset on the 1st of each month.
 </Card>
 
-<AccordionGroup>
-
-<Accordion title="Request Parameters">
-
 <ParamField path="model" type="string" required>
-  Model identifier (see [`/v1/models`](/api-reference/list-available-models).
+  Model identifier (see `/v1/models`).
 </ParamField>
 
 <ParamField path="input" type="string or array" required>
@@ -86,9 +82,7 @@ authMethod: 'bearer'
   Reasoning configuration (effort: "low", "medium", "high").
 </ParamField>
 
-</Accordion>
-
-<Accordion title="Response Fields">
+## Returns
 
 <ResponseField name="id" type="string">
   Response ID (format: `resp_` + 48 hex chars).
@@ -203,10 +197,6 @@ authMethod: 'bearer'
 <ResponseField name="metadata" type="object">
   Custom metadata if provided.
 </ResponseField>
-
-</Accordion>
-
-</AccordionGroup>
 
 ## Return Examples
 
