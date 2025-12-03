@@ -50,7 +50,7 @@ import OpenAI from "openai";
 
 const neosantara = new OpenAI({
   baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "<YOUR_NUSANTARA_API_KEY>",
+  apiKey: "<NAI_API_KEY>",
 });
 
 const stream = await neosantara.chat.completions.create({
@@ -70,7 +70,7 @@ for await (const chunk of stream) {
 
 ```curl cURL icon="terminal"
 curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
-  -H "Authorization: Bearer <YOUR_NUSANTARA_API_KEY>" \
+  -H "Authorization: Bearer <NAI_API_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "llama-3.3-nemotron-super-49b-v1.5",

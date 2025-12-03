@@ -255,22 +255,3 @@ playground: 'simple'
   }
 }
 ```
-
-## Compatibility Matrix
-
-| Parameter | Required | Type | Claude SDK | Default | Notes |
-|-----------|----------|------|-----------|---------|-------|
-| `model` | ✅ Yes | string | ✅ Yes | - | Use Neosantara model instead |
-| `messages` | ✅ Yes | array | ✅ Yes | - | Alternating user/assistant |
-| `max_tokens` | ✅ Yes | integer | ✅ Yes | - | Min 1 token |
-| `temperature` | ❌ No | number | ✅ Yes | 1.0 | Range: 0.0-1.0 |
-| `stream` | ❌ No | boolean | ✅ Yes | false | SSE format |
-| `top_p` | ❌ No | number | ✅ Yes | 1.0 | Range: 0.0-1.0 |
-| `top_k` | ❌ No | number | ✅ Yes | - | Must be > 0 |
-| `stop_sequences` | ❌ No | array | ✅ Yes | [] | Max 5 sequences |
-| `system` | ❌ No | string/array | ✅ Yes | - | Separate parameter |
-| `tools` | ❌ No | array | ✅ Yes | [] | Function definitions |
-| `tool_choice` | ❌ No | string | ✅ Yes | "auto" | auto/any/specific |
-| `metadata` | ❌ No | object | ✅ Yes | {} | Custom tracking |
-| `service_tier` | ❌ No | string | ✅ Yes | "auto" | auto/standard_only |
-| `thinking` | ❌ No | object | ✅ Yes | - | Extended thinking mode |

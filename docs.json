@@ -5,7 +5,7 @@
   "colors": {
     "primary": "#FF5722",
     "light": "#FF8A65",
-    "dark": "#211205"
+    "dark": "#1F1F1F"
   },
   "fonts": {
     "heading": {
@@ -17,12 +17,6 @@
       "weight": 400
     }
   },
-  "scripts": [
-    {
-      "type": "text/javascript",
-      "src": "/signin-button.js"
-    }
-  ],
   "favicon": "/favicon.ico",
   "styling": {
     "eyebrows": "breadcrumbs"
@@ -34,7 +28,7 @@
     "timestamp": true
   },
   "banner": {
-    "content": "Get a Virtual Private Server for just Rp 10,000 - the perfect fit for your server needs. [Get here](https://bihost.my.id)"
+    "content": "🎁 Get a Virtual Private Server for just Rp 10,000 - the perfect fit for your server needs. [Get here](https://bihost.my.id)"
   },
   "background": {
     "decoration": "windows"
@@ -64,8 +58,9 @@
           "group": "First steps",
           "pages": [
             "en/intro",
-            "/api-reference/quickstart",
-            "api-reference/sdk/openai-compatible"
+            "api-reference/quickstart",
+            "api-reference/sdk/openai-compatible",
+            "api-reference/sdk/anthropic-compatible"
           ]
         },
         {
@@ -263,6 +258,10 @@
   "footer": {
     "socials": {
       "x": "https://x.com/NeosantaraAI"
+    },
+    "links": {
+      "Terms of service": "https://www.neosantara.xyz/terms",
+      "Privacy policy": "https://www.neosantara.xyz/privacy"
     }
   },
   "contextual": {

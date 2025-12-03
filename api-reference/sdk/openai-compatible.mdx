@@ -25,7 +25,7 @@ The `/v1/responses` endpoint is our most powerful and modern API. Use `client.re
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="<YOUR_NUSANTARA_API_KEY>",
+    api_key="<NAI_API_KEY>",
     base_url="https://api.neosantara.xyz/v1"
 )
 
@@ -35,14 +35,14 @@ response = client.responses.create(
 )
 
 # Access the response text
-print(response.output[0].text)
+print(response.output_text)
 ````
 
 ```typescript icon="square-js" js
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
-    apiKey: "<YOUR_NUSANTARA_API_KEY>",
+    apiKey: "<NAI_API_KEY>",
     baseURL: "https://api.neosantara.xyz/v1",
 });
 
@@ -51,7 +51,7 @@ const response = await openai.responses.create({
     model: "nusantara-base",
 });
 
-console.log(response.output[0].text);
+console.log(response.output_text);
 ```
 
 </CodeGroup>
@@ -66,7 +66,7 @@ The `/v1/chat/completions` endpoint is available for seamless compatibility with
 from openai import OpenAI
 
 client = OpenAI(
-api_key="<YOUR_NUSANTARA_API_KEY>",
+api_key="<NAI_API_KEY>",
 base_url="https://api.neosantara.xyz/v1"
 )
 
@@ -85,7 +85,7 @@ print(response.choices[0].message.content)
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
-    apiKey: "<YOUR_NUSANTARA_API_KEY>",
+    apiKey: "<NAI_API_KEY>",
     baseURL: "https://api.neosantara.xyz/v1",
 });
 
