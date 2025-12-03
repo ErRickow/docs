@@ -259,10 +259,21 @@
     "socials": {
       "x": "https://x.com/NeosantaraAI"
     },
-    "links": {
-      "Terms of service": "https://www.neosantara.xyz/terms",
-      "Privacy policy": "https://www.neosantara.xyz/privacy"
-    }
+    "links": [
+      {
+        "header": "Resources",
+        "items": [
+            {
+              "label": "TOC",
+              "href": "https://www.neosantara.xyz/terms"
+            },
+            {
+              "label": "Privacy",
+              "href": "https://www.neosantara.xyz/privacy"
+            }
+        ]
+      }
+    ]
   },
   "contextual": {
     "options": [
