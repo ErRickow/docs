@@ -118,7 +118,7 @@ The `tool_choice` parameter offers four possible options:
 This diagram illustrates how each option works:
 
 <Frame>
-  <img src="https://mintlify.s3.us-west-1.amazonaws.com/anthropic/images/tool_choice.png" />
+  <img src="https://mintlify.s3.us-west-1.amazonaws.com/anthropic/images/tool_choice.png" alt="Diagram illustrating the options for tool_choice parameter: auto, any, specific tool, and none." />
 </Frame>
 
 If you would like to keep chain-of-thought (where the model provides its reasoning steps) while still requesting that the model use a specific tool, you can use `tool_choice: "auto"` (the default) and add explicit instructions in a user message. For example: `"What's the weather like in London? Use the get_weather tool in your response."`

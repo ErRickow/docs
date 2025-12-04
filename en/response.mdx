@@ -3,7 +3,7 @@ title: 'Responses vs. Chat Completions'
 description: '> Understanding the practical differences when using the OpenAI SDK with our endpoints.'
 ---
 
-When you use an official OpenAI SDK like [`openai-python`](https://pypi.org/project/openai/) or [`openai-node`](https://www.npmjs.com/package/openai)) with Neosantara AI's `base_url`, the library maps its methods to our API endpoints. While both [`v1/responses`](api-reference/response) and [`v1/chat/completions`](api-reference/chat) can hold a conversation, how you interact with them through the SDK is fundamentally different.
+When you use an official OpenAI SDK like [`openai-python`](https://pypi.org/project/openai/) or [`openai-node`](https://www.npmjs.com/package/openai)) with Neosantara AI's `base_url`, the library maps its methods to our API endpoints. While both [`v1/responses`](/api-reference/responses/create) and [`v1/chat/completions`](api-reference/chat/completions/create) can hold a conversation, how you interact with them through the SDK is fundamentally different.
 
 For new projects, we strongly recommend using the **`client.responses.create()`** method.
 

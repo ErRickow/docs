@@ -49,7 +49,7 @@ E2B_API_KEY=your_e2b_api_key
 
 ### Define The Models
 
-You can choose any [model's Neosantara](/models)
+You can choose any [model\'s Neosantara](/en/models-overview)
 
 ```
 // Choose the model
