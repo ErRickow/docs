@@ -105,6 +105,7 @@
           "group": "Guides",
           "pages": [
             "en/capability/reasoning",
+            "en/capability/rag",
             "en/response",
             "en/about/prompt-templates",
             {

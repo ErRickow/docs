@@ -1,0 +1,65 @@
+---
+title: 'Retrieval-Augmented Generation (RAG)'
+description: 'Enhance model responses with your own data'
+---
+
+**Retrieval-Augmented Generation (RAG)** is a technique to provide LLMs with extra information from your own data sources (like documents, databases, or wikis) that they weren't trained on. This allows the model to answer questions about your specific domain accurately.
+
+## How RAG Works with Neosantara
+
+1.  **Embed**: Convert your documents into vectors using our [Embedding API](/api-reference/embeddings/create-embeddings).
+2.  **Store**: Save these vectors in a vector database (like Pinecone, Weaviate, or Supabase).
+3.  **Retrieve**: When a user asks a question, search your database for relevant content.
+4.  **Generate**: Send the user's question *plus* the retrieved content to our [Chat API](/api-reference/chat/completions/create).
+
+## Step-by-Step Implementation
+
+### 1. Generate Embeddings
+
+Use the `nusa-embedding-0001` model to turn text into numbers.
+
+```bash Request
+curl https://api.neosantara.xyz/v1/embeddings \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "input": "Neosantara AI provides affordable LLM access.",
+    "model": "nusa-embedding-0001"
+  }'
+```
+
+### 2. Perform Retrieval
+
+*This step happens in your application logic.* Query your vector database using the embedding vector from step 1 to find relevant text chunks.
+
+### 3. Generate Answer
+
+Pass the retrieved context to the model.
+
+```javascript
+const context = "Neosantara AI provides affordable LLM access..."; // From DB
+const question = "What does Neosantara do?";
+
+const response = await client.chat.completions.create({
+  model: "nusantara-base",
+  messages: [
+    {
+      role: "system",
+      content: "You are a helpful assistant. Answer the question based ONLY on the provided context."
+    },
+    {
+      role: "user",
+      content: `Context: ${context}\n\nQuestion: ${question}`
+    }
+  ]
+});
+```
+
+## Recommended Models for RAG
+
+*   **Embedding**: `nusa-embedding-0001` (Optimized for Indonesian/English retrieval).
+*   **Generation**:
+    *   `nusantara-base`: Great for summarizing context.
+    *   `garda-beta-mini`: Excellent for massive context windows (131k tokens) if you retrieve many documents.
+    *   `llama-3.3-nemotron`: Powerful reasoning for complex synthesis.
+
+```
