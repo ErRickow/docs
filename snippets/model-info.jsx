@@ -1,3 +1,5 @@
+import React from "react";
+
 export const ModelInfo = ({
   modelId,
   modelCardUrl,
@@ -239,7 +241,7 @@ export const ModelInfo = ({
               <div key={idx} className="flex items-start gap-2 py-2">
                 <div className="w-1.5 h-1.5 bg-zinc-400 dark:bg-zinc-500 rounded-full flex-shrink-0 mt-2"></div>
                 <div className="text-zinc-900 dark:text-white text-sm leading-relaxed prose-sm max-w-none">
-                  {lim}
+                  {React.isValidElement(lim) ? lim : String(lim)}
                 </div>
               </div>
             ))}
