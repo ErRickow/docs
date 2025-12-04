@@ -1,61 +1,24 @@
-export const defaultRateLimits = [
-  {
-    tier: "Free",
-    requestsPerMin: "5",
-    inputTokensPerMin: "3,000",
-    dailyTokens: "2,000",
-    monthlyTokens: "10,000"
-  },
-  {
-    tier: "Basic",
-    requestsPerMin: "30",
-    inputTokensPerMin: "10,000",
-    dailyTokens: "10,000",
-    monthlyTokens: "66,667"
-  },
-  {
-    tier: "Standard",
-    requestsPerMin: "100",
-    inputTokensPerMin: "40,000",
-    dailyTokens: "100,000",
-    monthlyTokens: "400,000"
-  },
-  {
-    tier: "Pro",
-    requestsPerMin: "400",
-    inputTokensPerMin: "100,000",
-    dailyTokens: "200,000",
-    monthlyTokens: "1,000,000"
-  },
-  {
-    tier: "Enterprise",
-    requestsPerMin: "Custom",
-    inputTokensPerMin: "Custom",
-    dailyTokens: "Custom",
-    monthlyTokens: "Custom"
-  }
-];
-
-export const defaultTokenCredits = {
-  freeMonthlyCredits: "10,000",
-  pricePerMillion: "149,999",
-  pricePerToken: "0.15",
-  pricePerThousand: "149.99",
-  docsUrl: "en/about/token-credits",
-  example: {
-    tokens: 100000,
-    cost: "Rp 15,000"
-  }
-};
-
 export const glm4Data = {
   modelId: "glm-4.6",
   modelCardUrl: "https://huggingface.co/zai-org/GLM-4.6",
   contextLength: { freeTier: "128k tokens" },
   maxOutput: { freeTier: "8192 tokens" },
   speed: { value: "~3000", unit: "tokens/sec" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: {
     inputPrice: "823",
     outputPrice: "2,823",
@@ -75,8 +38,21 @@ export const nusantaraBaseData = {
   contextLength: { freeTier: "64k tokens" },
   maxOutput: { freeTier: "2048 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "300", outputPrice: "1500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "vision", "streaming"],
@@ -89,8 +65,21 @@ export const archipelago70bData = {
   contextLength: { freeTier: "24k tokens" },
   maxOutput: { freeTier: "2048 tokens" },
   speed: { value: "Medium", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "4710", outputPrice: "36543", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
@@ -103,8 +92,21 @@ export const gardaBetaMiniData = {
   contextLength: { freeTier: "131k tokens" },
   maxOutput: { freeTier: "8192 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "2500", outputPrice: "10499", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
@@ -117,8 +119,21 @@ export const seaLionV4Data = {
   contextLength: { freeTier: "128k tokens" },
   maxOutput: { freeTier: "4096 tokens" },
   speed: { value: "Medium", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "350", outputPrice: "560", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "function_calling", "json_mode", "streaming"],
@@ -131,8 +146,21 @@ export const luminaiData = {
   contextLength: { freeTier: "8k tokens" },
   maxOutput: { freeTier: "2048 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "0", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "streaming"],
@@ -145,8 +173,21 @@ export const gemma327bItData = {
   contextLength: { freeTier: "32k tokens" },
   maxOutput: { freeTier: "4096 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "200", outputPrice: "1500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
@@ -159,8 +200,21 @@ export const granite38bInstructData = {
   contextLength: { freeTier: "128k tokens" },
   maxOutput: { freeTier: "2048 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "2880", outputPrice: "11520", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "function_calling", "streaming"],
@@ -173,8 +227,21 @@ export const llama33NemotronData = {
   contextLength: { freeTier: "132k tokens" },
   maxOutput: { freeTier: "128k tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "4560", outputPrice: "31991", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
@@ -187,8 +254,21 @@ export const llama3370bInstructData = {
   contextLength: { freeTier: "24k tokens" },
   maxOutput: { freeTier: "4096 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "4560", outputPrice: "31991", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "streaming"],
@@ -201,8 +281,21 @@ export const gemma29bItData = {
   contextLength: { freeTier: "8k tokens" },
   maxOutput: { freeTier: "8k tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "200", outputPrice: "1000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
@@ -215,8 +308,21 @@ export const llama3370bTurboData = {
   contextLength: { freeTier: "8k tokens" },
   maxOutput: { freeTier: "4096 tokens" },
   speed: { value: "Turbo", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "300", outputPrice: "1200", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
@@ -229,8 +335,21 @@ export const deepseekR1Llama70bData = {
   contextLength: { freeTier: "131k tokens" },
   maxOutput: { freeTier: "8192 tokens" },
   speed: { value: "Medium", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "400", outputPrice: "1600", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
@@ -243,8 +362,21 @@ export const llama3211bData = {
   contextLength: { freeTier: "8k tokens" },
   maxOutput: { freeTier: "2048 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "100", outputPrice: "400", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
@@ -257,8 +389,21 @@ export const neosantaraGen2045Data = {
   contextLength: { freeTier: "0 tokens" },
   maxOutput: { freeTier: "Image" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "1500", outputPrice: "0", currency: "IDR", inputUnit: "per Image (1024x1024)", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Image Generations"],
   features: ["image_generation"],
@@ -271,8 +416,21 @@ export const nusaEmbedding0001Data = {
   contextLength: { freeTier: "8k tokens" },
   maxOutput: { freeTier: "Embedding Vector" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "100", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Embeddings"],
   features: ["embedding"],
@@ -286,8 +444,21 @@ export const kimiK2LatestData = {
   contextLength: { freeTier: "128k tokens" },
   maxOutput: { freeTier: "4096 tokens" },
   speed: { value: "Medium", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
@@ -312,8 +483,21 @@ export const glm46PlusData = {
   contextLength: { freeTier: "128k tokens" },
   maxOutput: { freeTier: "8192 tokens" },
   speed: { value: "Medium", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "823", outputPrice: "2832", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "streaming"],
@@ -326,8 +510,21 @@ export const deepseekChatV31Data = {
   contextLength: { freeTier: "164k tokens" },
   maxOutput: { freeTier: "4029 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "streaming"],
@@ -340,8 +537,21 @@ export const tongyiDeepresearchData = {
   contextLength: { freeTier: "131k tokens" },
   maxOutput: { freeTier: "4029 tokens" },
   speed: { value: "Medium", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
@@ -354,8 +564,21 @@ export const qwen3CoderData = {
   contextLength: { freeTier: "262k tokens" },
   maxOutput: { freeTier: "4029 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
@@ -368,8 +591,21 @@ export const vercelClaude35SonnetData = {
   contextLength: { freeTier: "200k tokens" },
   maxOutput: { freeTier: "4096 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "3.00", outputPrice: "15.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
@@ -382,8 +618,21 @@ export const vercelGpt4oData = {
   contextLength: { freeTier: "128k tokens" },
   maxOutput: { freeTier: "4096 tokens" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "5.00", outputPrice: "15.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
@@ -396,8 +645,21 @@ export const deepseekOcrData = {
   contextLength: { freeTier: "0 tokens" },
   maxOutput: { freeTier: "Text" },
   speed: { value: "Fast", unit: "latency" },
-  rateLimits: defaultRateLimits,
-  tokenCredits: defaultTokenCredits,
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "5", inputTokensPerMin: "3,000", dailyTokens: "2,000", monthlyTokens: "10,000" },
+  { tier: "Basic", requestsPerMin: "30", inputTokensPerMin: "10,000", dailyTokens: "10,000", monthlyTokens: "66,667" },
+  { tier: "Standard", requestsPerMin: "100", inputTokensPerMin: "40,000", dailyTokens: "100,000", monthlyTokens: "400,000" },
+  { tier: "Pro", requestsPerMin: "400", inputTokensPerMin: "100,000", dailyTokens: "200,000", monthlyTokens: "1,000,000" },
+  { tier: "Enterprise", requestsPerMin: "Custom", inputTokensPerMin: "Custom", dailyTokens: "Custom", monthlyTokens: "Custom" }
+],
+  tokenCredits: {
+  freeMonthlyCredits: "10,000",
+  pricePerMillion: "149,999",
+  pricePerToken: "0.15",
+  pricePerThousand: "149.99",
+  docsUrl: "en/about/token-credits",
+  example: { tokens: 100000, cost: "Rp 15,000" }
+},
   pricing: { inputPrice: "100", outputPrice: "0", currency: "IDR", inputUnit: "per Image", pricingUrl: "https://www.neosantara.xyz/pricing" },
   endpoints: ["Chat Completions"], // Accessible via chat with image input
   features: ["ocr", "vision"],
