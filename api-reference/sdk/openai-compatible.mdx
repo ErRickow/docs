@@ -16,7 +16,7 @@ The **Responses API** (`/v1/responses`) is our modern, unified interface for bui
 
 ### Quick Start
 
-Use the `client.responses.create` helper (if using a compatible SDK fork) or the generic `client.post` method to access this endpoint.
+Access the Responses API directly using the client.
 
 <CodeGroup>
 ```python Python
@@ -28,20 +28,17 @@ client = OpenAI(
 )
 
 # Generate a response
-response = client.post(
-    "/responses",
-    body={
-        "model": "nusantara-base",
-        "input": "Write a one-sentence bedtime story about a unicorn.",
-        "store": True
-    }
-).cast_to(dict) # Ensure we get a dictionary back
+response = client.responses.create(
+    model="nusantara-base",
+    input="Write a one-sentence bedtime story about a unicorn.",
+    store=True
+)
 
-# Access output text easily
-print(response.get("output_text", "Check response['output'] structure"))
+# Access output text directly
+print(response.output_text)
 
 # Continue conversation using the response ID
-print(f"Response ID: {response['id']}")
+print(f"Response ID: {response.id}")
 ```
 
 ```javascript Node.js
@@ -53,7 +50,7 @@ const openai = new OpenAI({
 });
 
 async function main() {
-  const response = await openai.post("/responses", {
+  const response = await openai.responses.create({
     model: "nusantara-base",
     input: "Write a one-sentence bedtime story about a unicorn.",
     store: true
@@ -73,7 +70,7 @@ main();
 curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NAI_API_KEY" \
-  -d '{ 
+  -d '{
     "model": "nusantara-base",
     "input": "Write a one-sentence bedtime story about a unicorn.",
     "store": true
@@ -196,7 +193,7 @@ main();
 curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NAI_API_KEY" \
-  -d '{ 
+  -d '{
     "model": "nusantara-base",
     "messages": [
       {"role": "user", "content": "Write a one-sentence bedtime story about a unicorn."}
