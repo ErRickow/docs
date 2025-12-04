@@ -24,7 +24,7 @@ The **Responses API** (`/v1/responses`) is a modern alternative to Chat Completi
 
 ### Quick Start
 
-Since this is a custom endpoint, you access it using the SDK's generic request methods (or custom extensions if available).
+Since this is a custom endpoint, you access it using the SDK's generic `post` method.
 
 <CodeGroup>
 ```python Python
@@ -43,10 +43,13 @@ response = client.post(
         "input": "Who are you?",
         "store": True  # Enable conversation history
     }
-)
+).cast_to(dict) # Cast to dict for easier access
 
-print(response.output[0].content[0].text)
-# Response includes an 'id' you can use for the next turn!
+# Response structure: { "output": [ { "content": [ { "text": "..." } ] } ] }
+print(response["output"][0]["content"][0]["text"])
+
+# Save the ID for the next turn!
+print(f"Response ID: {response['id']}")
 ```
 
 ```javascript Node.js
@@ -65,7 +68,11 @@ async function main() {
     store: true,
   });
 
+  // Response structure: { output: [ { content: [ { text: "..." } ] } ] }
   console.log(response.output[0].content[0].text);
+  
+  // Save the ID for the next turn!
+  console.log(`Response ID: ${response.id}`);
 }
 
 main();
