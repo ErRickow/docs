@@ -183,7 +183,8 @@
           {
             "group": "Models",
             "pages": [
-              "api-reference/models/list-available-models"
+              "api-reference/models/list-available-models",
+              "api-reference/models/get"
             ]
           },
           {
