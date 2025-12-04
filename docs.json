@@ -128,6 +128,7 @@
           "group": "Using the APIs",
           "pages": [
             "api-reference/introduction",
+            "api-reference/responses/conversation-management",
             "en/about/token-credits",
             "en/about/rate-limits",
             "en/about/errors",

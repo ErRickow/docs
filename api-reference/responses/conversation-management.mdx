@@ -1,0 +1,124 @@
+---
+title: 'Conversation Management'
+description: 'Learn how to manage stateful conversations using the Responses API'
+---
+
+One of the most powerful features of the [Responses API](/api-reference/responses/create) is built-in **Conversation Management**. Unlike the traditional Chat Completions API where you must send the entire message history with every request, the Responses API allows you to maintain conversation state on the server.
+
+## Why Stateful Conversations?
+
+*   **Reduced Latency & Cost**: You don't need to re-upload thousands of tokens of history for every new turn.
+*   **Simpler Client Logic**: No need to manage a complex `messages` array in your application state.
+*   **Context Continuity**: Ensures the model "remembers" previous tools calls, reasoning steps, and context automatically.
+
+## How it Works
+
+The system tracks conversation threads using **Response IDs**. Every time you generate a response with `store: true` (default), the system saves the input and output. To continue the conversation, you simply pass the ID of the last response you received.
+
+### 1. Starting a Conversation
+
+To start a new conversation, simply make a request. Ensure `store` is set to `true` (it is by default).
+
+```bash Request
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": "My name is Alice. I am a software engineer.",
+    "store": true
+  }'
+```
+
+The API will return a response containing an `id`.
+
+```json Response
+{
+  "id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
+  "model": "nusantara-base",
+  "output_text": "Hello Alice! Nice to meet you. How can I help you with your software engineering tasks today?"
+  // ... other fields
+}
+```
+
+### 2. Continuing the Conversation
+
+To reply, provide your new input and the `previous_response_id` from the last turn. You do **not** need to resend "My name is Alice".
+
+```bash Request
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": "What allows me to manage state in React?",
+    "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b"
+  }'
+```
+
+The model will respond with context awareness:
+
+```json Response
+{
+  "id": "resp_78dd...new_id...",
+  "model": "nusantara-base",
+  "output_text": "In React, you can manage state using hooks like `useState` and `useReducer` for local state, or libraries like Redux or Zustand for global state, Alice."
+}
+```
+
+Notice it remembers your name ("Alice") without you sending it again.
+
+## Managing Context Window
+
+While the server manages history, the underlying model still has a [context window limit](/en/models-overview).
+
+*   **Automatic Truncation**: Neosantara attempts to manage context intelligently.
+*   **Manual Control**: You can use the `truncation` parameter ("auto" or "disabled") to control behavior when the history exceeds the model's limit.
+
+## Branching Conversations
+
+You can create "forks" in a conversation by referencing an older `previous_response_id`.
+
+<Steps>
+  <Step title="Turn 1">
+    User: "Let's write a poem." -> Response A (`resp_A`)
+  </Step>
+  <Step title="Turn 2 (Branch 1)">
+    User: "Make it sad." -> Input references `resp_A` -> Response B1
+  </Step>
+  <Step title="Turn 2 (Branch 2)">
+    User: "Make it happy." -> Input references `resp_A` -> Response B2
+  </Step>
+</Steps>
+
+This creates two separate conversation trees branching from the same root.
+
+## Stateless Mode (Privacy & ZDR)
+
+If you have strict Zero Data Retention (ZDR) requirements or simply don't want to store history, set `store: false`.
+
+```json
+{
+  "model": "nusantara-base",
+  "input": "Process this sensitive data...",
+  "store": false
+}
+```
+
+**Implications of `store: false`:**
+*   The conversation is **not** saved to the database.
+*   You **cannot** use `previous_response_id` to continue this conversation later.
+*   The response `id` cannot be referenced.
+
+## Metadata & Tagging
+
+You can attach metadata to any response to help organize your conversations. This is useful for filtering or identifying sessions in your dashboard.
+
+```json
+{
+  "model": "nusantara-base",
+  "input": "Support ticket #1234",
+  "metadata": {
+    "session_id": "session_user_5678",
+    "department": "support"
+  }
+}
+```
