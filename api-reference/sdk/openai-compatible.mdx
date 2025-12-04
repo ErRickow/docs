@@ -80,7 +80,7 @@ curl https://api.neosantara.xyz/v1/responses \
 
 ### Tool Calling Example
 
-The Responses API simplifies tool use. You can define tools and let the model call them. The output structure cleanly separates tool calls.
+The Responses API simplifies tool use. You can define tools and let the model call them. The output structure cleanly separates tool calls. For a comprehensive guide, see our [Tool Calling documentation](/en/how-tools).
 
 ```python Python
 tools = [{
@@ -110,7 +110,7 @@ for item in response.output:
 
 ### Response Structure
 
-The Responses API returns a `response` object containing an `output` array of items.
+The Responses API returns a `response` object containing an `output` array of items. For full details on the response format, refer to the [Responses API Reference](/api-reference/responses).
 
 ```json
 {
@@ -138,7 +138,7 @@ The Responses API returns a `response` object containing an `output` array of it
 
 ### Handling Errors
 
-The Responses API uses standard HTTP status codes and detailed error messages.
+The Responses API uses standard HTTP status codes and detailed error messages. For a complete list of error codes and their meanings, see [API Error Codes](/en/about/errors).
 
 ```json
 {
@@ -155,10 +155,10 @@ The Responses API uses standard HTTP status codes and detailed error messages.
 | Feature | Status | Note |
 | :--- | :---: | :--- |
 | **Endpoint** | `/v1/responses` | Dedicated endpoint for stateful interaction |
-| **State Management** | ✅ Supported | Managed via `store: true` and `previous_response_id` |
-| **Input Format** | Flexible | Supports `string` or `array` of messages |
-| **Tool Use** | ✅ Enhanced | Supports native tool definitions and execution |
-| **Streaming** | ✅ Supported | Use `stream: true` for SSE |
+| **State Management** | ✅ Supported | Managed via `store: true` and `previous_response_id`. See [Conversation Management](/api-reference/responses#conversation-management). |
+| **Input Format** | Flexible | Supports `string` or `array` of messages. See [Input Formats](/api-reference/responses#input-formats). |
+| **Tool Use** | ✅ Enhanced | Supports native tool definitions and execution. See [Tool Calling](/api-reference/responses#function-tool-calling). |
+| **Streaming** | ✅ Supported | Use `stream: true` for SSE. See [Streaming](/api-reference/responses#streaming). |
 | **Legacy Support** | ❌ No | Not compatible with legacy Chat Completion apps without changes |
 
 </View>
@@ -234,7 +234,7 @@ curl https://api.neosantara.xyz/v1/chat/completions \
 
 ### Tool Calling Example
 
-This uses the standard OpenAI format for defining tools and handling function call responses.
+This uses the standard OpenAI format for defining tools and handling function call responses. For a detailed guide on tool use, refer to our [Tool Calling documentation](/en/how-tools).
 
 ```python Python
 tools = [{
@@ -266,7 +266,7 @@ if tool_calls:
 
 ### Response Structure
 
-Returns the standard Chat Completion object.
+Returns the standard Chat Completion object. For full details on the response format, refer to the [Chat Completions API Reference](/api-reference/chat/completions/create).
 
 ```json
 {
@@ -294,8 +294,8 @@ Returns the standard Chat Completion object.
 | **Endpoint** | `/v1/chat/completions` | Standard OpenAI compatible endpoint |
 | **State Management** | ❌ Stateless | Client must manage and send full history |
 | **Input Format** | Strict | Requires `messages` array |
-| **Tool Use** | ✅ Supported | Standard function calling format |
-| **Streaming** | ✅ Supported | Standard SSE format |
+| **Tool Use** | ✅ Supported | Standard function calling format. See [Tool Calling Guide](/en/how-tools). |
+| **Streaming** | ✅ Supported | Standard SSE format. |
 | **Legacy Support** | ✅ Yes | Drop-in replacement for existing OpenAI apps |
 
 </View>
