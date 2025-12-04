@@ -239,14 +239,14 @@ graph LR
 
 Successful results are returned in JSONL format:
 
-```json
+```json example.jsonl
 {"id": "batch-req-1", "custom_id": "request-1", "response": {"status_code": 200, "body": {"id": "chatcmpl-123", "object": "chat.completion", "choices": [{"message": {"role": "assistant", "content": "Halo"}}]}}}
 {"id": "batch-req-2", "custom_id": "request-2", "response": {"status_code": 200, "body": {"id": "chatcmpl-124", "object": "chat.completion", "choices": [{"message": {"role": "assistant", "content": "Selamat tinggal"}}]}}}
 ```
 
 Error file format:
 
-```json
+```json Response error
 {"id": "batch-req-3", "custom_id": "request-3", "error": {"code": "invalid_request", "message": "Invalid model specified"}}
 ```
 

@@ -138,15 +138,40 @@
           "group": "API reference",
           "pages": [
           {
-            "group": "Response",
+            "group": "Responses",
             "pages": [
               "api-reference/responses/create"
+            ]
+          },
+          {
+            "group": "Messages",
+            "pages": [
+              "api-reference/messages/create"
             ]
           },
           {
             "group": "Chat",
             "pages": [
               "api-reference/chat/create-chat-completion"
+            ]
+          },
+          {
+            "group": "Batches",
+            "pages": [
+              "api-reference/batches/create",
+              "api-reference/batches/cancel",
+              "api-reference/batches/get",
+              "api-reference/batches/list"
+            ]
+          },
+          {
+            "group": "Files",
+            "pages": [
+              "api-reference/files/delete",
+              "api-reference/files/download",
+              "api-reference/files/get",
+              "api-reference/files/uploud",
+              "api-reference/files/list"
             ]
           },
           {
