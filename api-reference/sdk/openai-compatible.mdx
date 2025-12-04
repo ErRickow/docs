@@ -1,4 +1,4 @@
---- 
+---
 title: 'OpenAI Compatibility'
 description: 'Use the official OpenAI SDK to interact with Neosantara AI.'
 ---
@@ -16,7 +16,7 @@ The **Responses API** (`/v1/responses`) is our modern, unified interface for bui
 
 ### Quick Start
 
-Access the Responses API directly using the client.
+Use the `client.responses.create` helper (if using a compatible SDK fork) or the generic `client.post` method to access this endpoint.
 
 <CodeGroup>
 ```python Python
@@ -77,6 +77,36 @@ curl https://api.neosantara.xyz/v1/responses \
   }'
 ```
 </CodeGroup>
+
+### Tool Calling Example
+
+The Responses API simplifies tool use. You can define tools and let the model call them. The output structure cleanly separates tool calls.
+
+```python Python
+tools = [{
+    "type": "function",
+    "name": "get_weather",
+    "description": "Get current weather",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "location": {"type": "string"}
+        },
+        "required": ["location"]
+    }
+}]
+
+response = client.responses.create(
+    model="nusantara-base",
+    input="What's the weather in Jakarta?",
+    tools=tools
+)
+
+# Iterate through output items to find tool calls
+for item in response.output:
+    if item.type == "function_call":
+        print(f"Tool Call: {item.name} with args {item.arguments}")
+```
 
 ### Response Structure
 
@@ -201,6 +231,38 @@ curl https://api.neosantara.xyz/v1/chat/completions \
   }'
 ```
 </CodeGroup>
+
+### Tool Calling Example
+
+This uses the standard OpenAI format for defining tools and handling function call responses.
+
+```python Python
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Get current weather",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {"type": "string"}
+            },
+            "required": ["location"]
+        }
+    }
+}]
+
+completion = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "What's the weather in Jakarta?"}],
+    tools=tools
+)
+
+tool_calls = completion.choices[0].message.tool_calls
+if tool_calls:
+    for tc in tool_calls:
+        print(f"Function: {tc.function.name}, Args: {tc.function.arguments}")
+```
 
 ### Response Structure
 
