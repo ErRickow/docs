@@ -60,11 +60,32 @@ A list of tools the model may call. Currently, only functions are supported as a
 Controls which (if any) tool is called by the model. Can be `none`, `auto`, `required`, or a specific tool object.
 </ParamField>
 
+<ParamField path="reasoning" type="object">
+  Enable reasoning capabilities for supported models (e.g., `nusantara-base`, `garda-beta-mini`).
+  <Expandable title="properties">
+    <ParamField path="effort" type="string">
+      Controls the reasoning effort. Can be `low`, `medium`, or `high`. (Cannot be used with `max_tokens`)
+    </ParamField>
+    <ParamField path="max_tokens" type="integer">
+      The maximum number of tokens to reserve for reasoning. (Cannot be used with `effort`)
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="web_search_options" type="object">
+  Configuration for web search capabilities on supported models.
+  <Expandable title="properties">
+    <ParamField path="search_depth" type="string">
+      The depth of the search. Can be `basic` or `advanced`.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
 <ParamField path="response_format" type="object">
 An object specifying the format that the model must output.
 <Expandable title="properties">
 <ParamField path="type" type="string">
-Must be one of `text` or `json_object`.
+Must be one of `text`, `json_object`, or `json_schema`.
 </ParamField>
 </Expandable>
 </ParamField>
