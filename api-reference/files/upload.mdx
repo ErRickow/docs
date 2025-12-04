@@ -7,11 +7,11 @@ authMethod: 'bearer'
 
 Upload a file that can be used for batch processing, assistants, or fine-tuning purposes.
 
-<ParamField path="file" type="file" required>
+<ParamField body="file" type="file" required>
 The file to upload. Must be a valid file object.
 </ParamField>
 
-<ParamField path="purpose" type="string" required>
+<ParamField body="purpose" type="string" required>
 The intended purpose of the uploaded file. Must be one of:
 - `batch` - For batch processing (requires JSONL format)
 - `assistants` - For use with assistants
