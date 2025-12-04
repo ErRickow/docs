@@ -1,4 +1,4 @@
----
+--- 
 title: 'OpenAI Compatibility'
 description: 'Use the official OpenAI SDK to interact with Neosantara AI.'
 ---
@@ -73,7 +73,7 @@ main();
 curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NAI_API_KEY" \
-  -d '{
+  -d '{ 
     "model": "nusantara-base",
     "input": "Write a one-sentence bedtime story about a unicorn.",
     "store": true
@@ -122,6 +122,17 @@ The Responses API uses standard HTTP status codes and detailed error messages.
   }
 }
 ```
+
+### Feature Support
+
+| Feature | Status | Note |
+| :--- | :---: | :--- |
+| **Endpoint** | `/v1/responses` | Dedicated endpoint for stateful interaction |
+| **State Management** | ✅ Supported | Managed via `store: true` and `previous_response_id` |
+| **Input Format** | Flexible | Supports `string` or `array` of messages |
+| **Tool Use** | ✅ Enhanced | Supports native tool definitions and execution |
+| **Streaming** | ✅ Supported | Use `stream: true` for SSE |
+| **Legacy Support** | ❌ No | Not compatible with legacy Chat Completion apps without changes |
 
 </View>
 
@@ -185,7 +196,7 @@ main();
 curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NAI_API_KEY" \
-  -d '{
+  -d '{ 
     "model": "nusantara-base",
     "messages": [
       {"role": "user", "content": "Write a one-sentence bedtime story about a unicorn."}
@@ -217,16 +228,15 @@ Returns the standard Chat Completion object.
 }
 ```
 
+### Feature Support
+
+| Feature | Status | Note |
+| :--- | :---: | :--- |
+| **Endpoint** | `/v1/chat/completions` | Standard OpenAI compatible endpoint |
+| **State Management** | ❌ Stateless | Client must manage and send full history |
+| **Input Format** | Strict | Requires `messages` array |
+| **Tool Use** | ✅ Supported | Standard function calling format |
+| **Streaming** | ✅ Supported | Standard SSE format |
+| **Legacy Support** | ✅ Yes | Drop-in replacement for existing OpenAI apps |
+
 </View>
-
-## Comparison Table
-
-| Feature | Chat Completions API | Responses API |
-| :--- | :--- | :--- |
-| **Endpoint** | `/v1/chat/completions` | `/v1/responses` |
-| **State** | Stateless (Client-managed) | Stateful (Server-managed via `store: true`) |
-| **Input** | `messages` array | `input` string or array |
-| **Output Access** | `choices[0].message.content` | `output_text` or `output` array |
-| **Tools** | Standard `tools` definition | Enhanced `tools` support |
-| **Best For** | Legacy apps, drop-in compatibility | New apps, agents, multimodal |
-
