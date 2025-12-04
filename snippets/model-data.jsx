@@ -1,4 +1,4 @@
-const defaultRateLimits = [
+export const defaultRateLimits = [
   {
     tier: "Free",
     requestsPerMin: "5",
@@ -36,7 +36,7 @@ const defaultRateLimits = [
   }
 ];
 
-const defaultTokenCredits = {
+export const defaultTokenCredits = {
   freeMonthlyCredits: "10,000",
   pricePerMillion: "149,999",
   pricePerToken: "0.15",
