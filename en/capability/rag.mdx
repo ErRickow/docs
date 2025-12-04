@@ -1,65 +1,178 @@
 ---
 title: 'Retrieval-Augmented Generation (RAG)'
-description: 'Enhance model responses with your own data'
+description: 'Build a Knowledge-Aware AI using Neosantara Embeddings and Chat'
 ---
 
-**Retrieval-Augmented Generation (RAG)** is a technique to provide LLMs with extra information from your own data sources (like documents, databases, or wikis) that they weren't trained on. This allows the model to answer questions about your specific domain accurately.
+This guide shows you how to build a "Real World" RAG application: a **Customer Support Assistant** that answers questions based on your company's documentation, rather than just its training data.
 
-## How RAG Works with Neosantara
+## What we're building
 
-1.  **Embed**: Convert your documents into vectors using our [Embedding API](/api-reference/embeddings/create-embeddings).
-2.  **Store**: Save these vectors in a vector database (like Pinecone, Weaviate, or Supabase).
-3.  **Retrieve**: When a user asks a question, search your database for relevant content.
-4.  **Generate**: Send the user's question *plus* the retrieved content to our [Chat API](/api-reference/chat/completions/create).
+We will build a system that:
+1.  **Reads** your support documents.
+2.  **Converts** them into vector embeddings using `nusa-embedding-0001`.
+3.  **Searches** for relevant info when a user asks a question.
+4.  **Generates** an accurate answer using `nusantara-base` or `garda-beta-mini`.
 
-## Step-by-Step Implementation
+## Prerequisites
 
-### 1. Generate Embeddings
+*   A Neosantara API Key.
+*   A simple vector store (we'll use a local in-memory example for simplicity, but you can use Pinecone, Supabase, or Qdrant).
 
-Use the `nusa-embedding-0001` model to turn text into numbers.
+---
 
-```bash Request
-curl https://api.neosantara.xyz/v1/embeddings \
-  -H "Authorization: Bearer $NAI_API_KEY" \
-  -d '{
-    "input": "Neosantara AI provides affordable LLM access.",
-    "model": "nusa-embedding-0001"
-  }'
-```
+## Step 1: Create Embeddings (Ingestion)
 
-### 2. Perform Retrieval
-
-*This step happens in your application logic.* Query your vector database using the embedding vector from step 1 to find relevant text chunks.
-
-### 3. Generate Answer
-
-Pass the retrieved context to the model.
+First, we need to turn your text data into numbers (vectors) so the AI can search it.
 
 ```javascript
-const context = "Neosantara AI provides affordable LLM access..."; // From DB
-const question = "What does Neosantara do?";
+import OpenAI from "openai";
 
-const response = await client.chat.completions.create({
-  model: "nusantara-base",
-  messages: [
-    {
-      role: "system",
-      content: "You are a helpful assistant. Answer the question based ONLY on the provided context."
-    },
-    {
-      role: "user",
-      content: `Context: ${context}\n\nQuestion: ${question}`
-    }
-  ]
+const client = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_API_KEY"
 });
+
+// Your "Knowledge Base"
+const documents = [
+  "To reset your password, go to Settings > Security > Reset Password.",
+  "Our refund policy allows returns within 30 days of purchase.",
+  "Support hours are Monday to Friday, 9 AM to 5 PM WIB.",
+  "Neosantara API rate limit for Free tier is 1000 RPM."
+];
+
+async function createKnowledgeBase() {
+  console.log("Creating embeddings...");
+  
+  const vectorStore = [];
+
+  for (const doc of documents) {
+    const response = await client.embeddings.create({
+      model: "nusa-embedding-0001", // Optimized for retrieval
+      input: doc
+    });
+
+    vectorStore.push({
+      text: doc,
+      vector: response.data[0].embedding
+    });
+  }
+  
+  return vectorStore;
+}
 ```
 
-## Recommended Models for RAG
+## Step 2: Search (Retrieval)
 
-*   **Embedding**: `nusa-embedding-0001` (Optimized for Indonesian/English retrieval).
-*   **Generation**:
-    *   `nusantara-base`: Great for summarizing context.
-    *   `garda-beta-mini`: Excellent for massive context windows (131k tokens) if you retrieve many documents.
-    *   `llama-3.3-nemotron`: Powerful reasoning for complex synthesis.
+When a user asks a question, we convert their question into a vector and find the closest matching documents using **Cosine Similarity**.
 
+```javascript
+// Simple cosine similarity function
+function cosineSimilarity(vecA, vecB) {
+  let dotProduct = 0.0;
+  let normA = 0.0;
+  let normB = 0.0;
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+async function retrieveContext(query, vectorStore) {
+  // 1. Embed the user's question
+  const queryResponse = await client.embeddings.create({
+    model: "nusa-embedding-0001",
+    input: query
+  });
+  const queryVector = queryResponse.data[0].embedding;
+
+  // 2. Calculate similarity with all docs
+  const scoredDocs = vectorStore.map(doc => ({
+    text: doc.text,
+    score: cosineSimilarity(queryVector, doc.vector)
+  }));
+
+  // 3. Get top 2 most relevant docs
+  scoredDocs.sort((a, b) => b.score - a.score);
+  return scoredDocs.slice(0, 2).map(d => d.text).join("\n\n");
+}
 ```
+
+## Step 3: Generate Answer (Generation)
+
+Finally, we pass the retrieved context to the LLM to generate a natural answer.
+
+```javascript
+async function answerUserQuestion(question, vectorStore) {
+  console.log(`User asks: "${question}"`);
+
+  // Retrieve relevant info
+  const context = await retrieveContext(question, vectorStore);
+  console.log(`Found context:\n${context}\n---`);
+
+  // Generate answer
+  const response = await client.chat.completions.create({
+    model: "nusantara-base", // General purpose model
+    messages: [
+      {
+        role: "system",
+        content: "You are a helpful support agent. Answer the user's question using ONLY the provided context. If the answer isn't in the context, say you don't know."
+      },
+      {
+        role: "user",
+        content: `Context:\n${context}\n\nQuestion: ${question}`
+      }
+    ]
+  });
+
+  console.log("AI Answer:", response.choices[0].message.content);
+}
+```
+
+## Running the Full Example
+
+Combining it all together:
+
+```javascript
+async function main() {
+  // 1. Setup
+  const kb = await createKnowledgeBase();
+
+  // 2. Ask a question that IS in the docs
+  await answerUserQuestion("How do I get a refund?", kb);
+  
+  // 3. Ask a question that IS NOT in the docs
+  await answerUserQuestion("How do I bake a cake?", kb);
+}
+
+main();
+```
+
+### Expected Output
+
+```text
+User asks: "How do I get a refund?"
+Found context:
+Our refund policy allows returns within 30 days of purchase.
+...
+AI Answer: You can request a refund within 30 days of your purchase according to our policy.
+
+User asks: "How do I bake a cake?"
+Found context:
+Support hours are Monday to Friday...
+...
+AI Answer: I don't know. I can only help with support questions related to our services.
+```
+
+## Why this matters?
+
+Without RAG, the model might hallucinate a fake refund policy (e.g., "14 days") or give generic advice. With RAG, it adheres strictly to **your** data (`30 days`).
+
+## Recommended Models
+
+| Task | Recommended Model | Why? |
+| :--- | :--- | :--- |
+| **Embedding** | `nusa-embedding-0001` | High performance, low cost, optimized for retrieval. |
+| **Chat (Simple)** | `nusantara-base` | Fast, cost-effective for summarizing context. |
+| **Chat (Complex)** | `garda-beta-mini` | **131k context window** allows you to feed entire manuals or long contracts as context. |
