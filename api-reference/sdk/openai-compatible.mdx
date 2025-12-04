@@ -12,57 +12,8 @@ Neosantara AI provides two primary ways to interact with our models using the of
   You can use the official OpenAI SDK for **both** endpoints. No special Neosantara SDK is required.
 </Note>
 
-## 1. Chat Completions API (Standard)
-
-This is the standard OpenAI format. Use this if you are migrating an existing application (e.g., LangChain, AutoGen) and want zero code changes.
-
-### Quick Start
-
-<CodeGroup>
-```python Python
-from openai import OpenAI
-
-# 1. Point to Neosantara's Base URL
-client = OpenAI(
-    base_url="https://api.neosantara.xyz/v1",
-    api_key="<YOUR_API_KEY>"
-)
-
-# 2. Use standard Chat Completions
-response = client.chat.completions.create(
-    model="nusantara-base",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Hello!"}
-    ],
-    stream=False
-)
-
-print(response.choices[0].message.content)
-```
-
-```javascript Node.js
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "<YOUR_API_KEY>",
-});
-
-async function main() {
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: "user", content: "Hello world" }],
-    model: "nusantara-base",
-  });
-
-  console.log(completion.choices[0].message.content);
-}
-
-main();
-```
-</CodeGroup>
-
-## 2. Responses API (Enhanced)
+<View title="Responses API (Enhanced)" icon="bolt">
+## Responses API (Enhanced)
 
 The **Responses API** (`/v1/responses`) is a modern alternative to Chat Completions. It simplifies the request structure (using `input` instead of a complex `messages` array) and supports **Server-Side State** (Conversation History).
 
@@ -120,6 +71,59 @@ async function main() {
 main();
 ```
 </CodeGroup>
+</View>
+
+<View title="Chat Completions API (Standard)" icon="message-circle-dots">
+## Chat Completions API (Standard)
+
+This is the standard OpenAI format. Use this if you are migrating an existing application (e.g., LangChain, AutoGen) and want zero code changes.
+
+### Quick Start
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+
+# 1. Point to Neosantara's Base URL
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+# 2. Use standard Chat Completions
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Hello!"}
+    ],
+    stream=False
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+async function main() {
+  const completion = await openai.chat.completions.create({
+    messages: [{ role: "user", content: "Hello world" }],
+    model: "nusantara-base",
+  });
+
+  console.log(completion.choices[0].message.content);
+}
+
+main();
+```
+</CodeGroup>
+</View>
 
 ## Feature Comparison
 
