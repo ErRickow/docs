@@ -35,7 +35,7 @@ const client = new OpenAI({
 // Your "Knowledge Base"
 const documents = [
   "To reset your password, go to Settings > Security > Reset Password.",
-  "Our refund policy allows returns within 30 days of purchase.",
+  "Our refund policy allows returns within 30 days of purchase. To initiate a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return.",
   "Support hours are Monday to Friday, 9 AM to 5 PM WIB.",
   "Neosantara API rate limit for Free tier is 1000 RPM."
 ];
@@ -154,25 +154,55 @@ main();
 ```text
 User asks: "How do I get a refund?"
 Found context:
-Our refund policy allows returns within 30 days of purchase.
+Our refund policy allows returns within 30 days of purchase. To initiate a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return.
 ...
-AI Answer: You can request a refund within 30 days of your purchase according to our policy.
+AI Answer: To get a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return.
 
 User asks: "How do I bake a cake?"
 Found context:
-Support hours are Monday to Friday...
+Support hours are Monday to Friday... (or other irrelevant context)
 ...
 AI Answer: I don't know. I can only help with support questions related to our services.
 ```
 
 ## Why this matters?
 
-Without RAG, the model might hallucinate a fake refund policy (e.g., "14 days") or give generic advice. With RAG, it adheres strictly to **your** data (`30 days`).
+Without RAG, the model might hallucinate a fake refund policy or give generic advice. With RAG, it adheres strictly to **your** data, providing accurate and actionable information.
 
-## Recommended Models
+---
 
-| Task | Recommended Model | Why? |
-| :--- | :--- | :--- |
-| **Embedding** | `nusa-embedding-0001` | High performance, low cost, optimized for retrieval. |
-| **Chat (Simple)** | `nusantara-base` | Fast, cost-effective for summarizing context. |
-| **Chat (Complex)** | `garda-beta-mini` | **131k context window** allows you to feed entire manuals or long contracts as context. |
+## Integrating with Vector Databases (e.g., Pinecone)
+
+For production-ready RAG applications, you'll need a scalable way to store and retrieve your embeddings. **Vector databases** like Pinecone, Weaviate, Qdrant, or Postgres with `pgvector` are designed for this purpose.
+
+The core RAG flow remains the same, but Step 1 (Create Embeddings) and Step 2 (Search) will involve interacting with your chosen vector database instead of a local in-memory array.
+
+### High-Level Steps for Pinecone Integration:
+
+1.  **Setup Pinecone Index**: Initialize a Pinecone client and create an index with the appropriate `dimension` (e.g., 768 for `nusa-embedding-0001`).
+2.  **Upsert Embeddings**: When creating your knowledge base, instead of pushing to `vectorStore`, you'll `upsert` your document chunks and their corresponding embeddings to your Pinecone index.
+3.  **Query Pinecone**: For retrieval, embed the user's query and then use the Pinecone client to query your index for the top-k (e.g., top 2) most similar vectors. Pinecone handles the similarity calculation for you.
+4.  **Retrieve Full Context**: From the Pinecone query results, extract the original text content of the relevant documents to pass to the LLM.
+
+```javascript
+// Example (conceptual):
+// import { Pinecone } from '@pinecone-database/pinecone';
+// const pc = new Pinecone({ apiKey: 'YOUR_API_KEY' });
+// const index = pc.index('my-rag-index');
+
+async function createPineconeKnowledgeBase(documents) {
+  // ... (embed documents as before)
+  // await index.upsert(vectors_with_metadata);
+}
+
+async function retrievePineconeContext(query) {
+  // ... (embed query as before)
+  // const queryVector = ...;
+  // const queryResult = await index.query({ vector: queryVector, topK: 2 });
+  // return queryResult.matches.map(m => m.metadata.text).join("\n\n");
+}
+```
+
+By leveraging a robust vector database, your RAG application can scale to millions of documents while maintaining fast and accurate retrieval.
+
+```
