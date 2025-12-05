@@ -100,22 +100,31 @@
             },
             "en/integrations"
           ]
-        },
+        }]
+      },
+      {
+        "anchor": "Guides & Solutions",
+        "groups": [
         {
-          "group": "Guides",
+          "group": "Core Concepts",
           "pages": [
             "en/capability/reasoning",
-            "en/capability/rag",
             "en/response",
-            "en/about/prompt-templates",
-            {
-              "group": "Tools",
-              "pages": [
-                "en/tools-overview",
-                "en/how-tools"
-              ]
-            },
-            "en/e2b",
+            "en/about/prompt-templates"
+          ]
+        },
+        {
+          "group": "Tools & Agents",
+          "pages": [
+            "en/tools-overview",
+            "en/how-tools",
+            "en/e2b"
+          ]
+        },
+        {
+          "group": "Use Cases & Tutorials",
+          "pages": [
+            "en/capability/rag",
             "en/deepseek-ocr",
             "en/llama-index",
             "en/using-neosantara-with-vercels-ai-sdk"
