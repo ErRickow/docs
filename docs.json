@@ -126,6 +126,7 @@
           "pages": [
             "en/capability/rag",
             "en/guides/rag-chromadb-example",
+            "en/guides/rag-cloudflare-vectorize-example",
             "en/deepseek-ocr",
             "en/llama-index",
             "en/using-neosantara-with-vercels-ai-sdk"
