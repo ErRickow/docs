@@ -1,10 +1,6 @@
---- 
-title: 'RAG with ChromaDB'
-description: 'Build a full RAG application using Neosantara AI and ChromaDB'
 ---
 
-This guide demonstrates how to build a complete Retrieval-Augmented Generation (RAG) application using Neosantara AI for embeddings and large language model (LLM) calls, integrated with [ChromaDB](https://www.trychroma.com/){:target="_blank"} as your vector database.
-
+This guide demonstrates how to build a complete Retrieval-Augmented Generation (RAG) application using Neosantara AI for embeddings and large language model (LLM) calls, integrated with [ChromaDB](https://www.trychroma.com/) as your vector database.
 ## Overview
 
 You will learn to:
@@ -25,7 +21,7 @@ pip install -U openai chromadb numpy pandas
 
 ### Configure your Neosantara AI API Key
 
-You'll need a Neosantara AI API Key. If you don't have one, get it from your [Neosantara Dashboard](https://app.neosantara.xyz/dashboard){:target="_blank"}.
+You'll need a Neosantara AI API Key. If you don't have one, get it from your [Neosantara Dashboard](https://app.neosantara.xyz/dashboard).
 
 Set your API key and Neosantara AI base URL as environment variables or directly in your script:
 
@@ -184,8 +180,9 @@ Finally, construct a prompt with the retrieved passage and send it to a Neosanta
 import textwrap
 
 def make_prompt(query, relevant_passage):
-  # Escape single quotes and newlines in the passage for the prompt
-  escaped_passage = relevant_passage.replace("'", "\'\'").replace("\n", " ")
+  # Replace newlines with spaces to ensure it's a single logical line for the prompt context.
+  # The f-string with triple quotes handles internal single/double quotes well.
+  processed_passage = relevant_passage.replace("\n", " ")
   
   prompt = textwrap.dedent(f"""
     You are a helpful and informative bot that answers questions using
@@ -198,7 +195,7 @@ def make_prompt(query, relevant_passage):
     you may ignore it and say "I cannot answer this question based on the provided information."
 
     QUESTION: '{query}'
-    PASSAGE: '{escaped_passage}'
+    PASSAGE: '{processed_passage}'
 
     ANSWER:
   """)

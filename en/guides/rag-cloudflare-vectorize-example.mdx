@@ -1,4 +1,4 @@
---- 
+---
 title: 'RAG with Cloudflare Vectorize'
 description: 'Build a RAG application using Neosantara AI and Cloudflare Vectorize'
 ---
@@ -183,13 +183,15 @@ Finally, construct the prompt with the retrieved context and send it to a Neosan
 
 ```python
 def make_prompt(query, retrieved_context):
+    # Replace newlines with spaces for a cleaner context string in the prompt.
+    processed_context = retrieved_context.replace("\n", " ")
     return f"""
-You are a helpful support agent. Answer the user\'s question using ONLY the provided context.
-If the answer isn\'t in the context, say you don\'t know.
+You are a helpful support agent. Answer the user's question using ONLY the provided context.
+If the answer isn't in the context, say you don't know.
 
 QUESTION: '{query}'
 CONTEXT:
-{retrieved_context}
+{processed_context}
 
 ANSWER:
 """
