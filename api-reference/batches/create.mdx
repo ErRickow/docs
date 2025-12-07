@@ -15,22 +15,22 @@ Batch API offers **50% cost savings** compared to standard API calls. Perfect fo
 
 Create a new batch job for asynchronous processing of multiple API requests.
 
-<ParamField path="input_file_id" type="string" required>
+<ParamField body="input_file_id" type="string" required>
 The ID of an uploaded file that contains the requests for this batch. The file must be uploaded with `purpose="batch"` and be in valid JSONL format.
 </ParamField>
 
-<ParamField path="endpoint" type="string" required>
+<ParamField body="endpoint" type="string" required>
 The endpoint to be used for all requests in the batch. Currently supported endpoints:
 - `/v1/chat/completions` - For chat completion requests
 - `/v1/embeddings` - For embedding generation
 - `/v1/responses` - For response generation
 </ParamField>
 
-<ParamField path="completion_window" type="string" default="24h">
+<ParamField body="completion_window" type="string" default="24h">
 The time frame within which the batch should be processed. Currently only `24h` is supported.
 </ParamField>
 
-<ParamField path="metadata" type="object">
+<ParamField body="metadata" type="object">
 Optional custom metadata for the batch. Can contain any key-value pairs for tracking purposes.
 </ParamField>
 

@@ -1,68 +1,127 @@
 ---
 title: 'Introduction'
-description: '> Start using Neosantara Culture AI Intelligence'
+description: 'Welcome to the Neosantara AI API documentation.'
 ---
 
-## Base URL
+Neosantara AI provides a high-performance, culturally-aware Artificial Intelligence platform designed to empower developers with advanced language, reasoning, and multimodal capabilities. Our API is built to be **OpenAI-compatible**, ensuring a seamless integration experience for existing applications while offering specialized models optimized for Indonesian context.
 
-The base URL for all requests to the Neosantara API is:
+## Objective
 
-```plaintext with prefix /v1
-https://api.neosantara.xyz/v1
-```
+The primary goal of the Neosantara AI API is to provide developers with accessible, scalable, and intelligent tools to build next-generation applications. Whether you are building a customer support agent, a creative writing assistant, or a complex data analysis tool, our API delivers the intelligence you need with the cultural nuance that matters.
+
+## Scope and Capabilities
+
+The Neosantara AI API covers a wide range of AI capabilities, enabling you to:
+
+<CardGroup cols={2}>
+  <Card title="Text Generation" icon="message-bot">
+    Generate human-like text, code, and creative content using our advanced LLMs like `nusantara-base`.
+  </Card>
+  <Card title="Vision & Multimodal" icon="eye">
+    Analyze and understand images, documents, and visual data with our multimodal capabilities.
+  </Card>
+  <Card title="Image Generation" icon="image">
+    Create stunning visuals from text prompts using our state-of-the-art generation models.
+  </Card>
+  <Card title="Embeddings" icon="vector-square">
+    Convert text into vector representations for semantic search, clustering, and RAG applications.
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+Follow these steps to start integrating Neosantara AI into your application.
+
+<Steps>
+  <Step title="Get your API Key">
+    Sign up at the [Neosantara Dashboard](https://app.neosantara.xyz/dashboard) and generate your unique API key.
+  </Step>
+  <Step title="Configure Base URL">
+    All API requests should be directed to our production base URL:
+    ```bash
+    https://api.neosantara.xyz/v1
+    ```
+  </Step>
+  <Step title="Make your first request">
+    Use your favorite HTTP client or SDK to interact with the API.
+  </Step>
+</Steps>
 
 ## Authentication
 
-All Neosantara endpoints are authenticated using API keys.
-[Get your free API key](https://app.neosantara.xyz/api-keys).
+Authentication is handled via Bearer tokens. You must include your API key in the `Authorization` header of every request.
 
-```bash icon="terminal"
-curl "https://api.neosantara.xyz/v1/chat/completions" \
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <NAI_API_KEY>" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
   -d '{
     "model": "nusantara-base",
     "messages": [
-      {
-        "role": "user",
-        "content": "Ceritakan sebuah kisah singkat tentang seekor kancil yang cerdik."
-      }
-    ],
-    "stream": false
+      {"role": "user", "content": "Halo, apa kabar?"}
+    ]
   }'
 ```
 
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "user", "content": "Halo, apa kabar?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<YOUR_API_KEY>"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Halo, apa kabar?" }],
+  model: "nusantara-base",
+});
+
+console.log(completion.choices[0].message.content);
+```
+</CodeGroup>
+
 ## Core Endpoints
 
-<CardGroup cols={6}>
-  <Card title="Responses API" icon="pen-nib"
-  horizontal
-  href="/api-reference/response/create-a-response">
-  **`/response`**
-  
-  The main, modern endpoint for all use cases, including chat, function calling, and structured outputs.
-  </Card>
-  <Card icon="magnifying-glass" horizontal href="/api-reference/chat/create-chat-completion">
+Explore our primary endpoints to start building:
+
+<CardGroup cols={2}>
+  <Card title="Chat Completions" icon="comments" href="/api-reference/chat/completions/create">
     **`/chat/completions`**
-
-    Completions Neosantara API Endpoint.
+    <br/>
+    The standard endpoint for conversation and text generation.
   </Card>
-
-  <Card icon="shield-halved" horizontal href="/api-reference/moderations">
-    **`/moderations`**
-
-    Neosantara Content Moderation API Endpoint.
-  </Card>
-  
-  <Card icon="code" horizontal href="/api-reference/embeddings">
+  <Card title="Embeddings" icon="diagram-project" href="/api-reference/embeddings/create-embeddings">
     **`/embeddings`**
-
-    Neosantara Embeddings API Endpoint.
+    <br/>
+    Generate vector embeddings for your data.
   </Card>
-  
-  <Card icon="key" horizontal href="/api-reference/authentication/check-api-key-status">
-    **`/auth/key`**
-
-    Neosantara API Endpoint KEY Metadata.
+  <Card title="Image Generation" icon="paintbrush" href="/api-reference/images/create-image-generation">
+    **`/images/generations`**
+    <br/>
+    Create images from text descriptions.
+  </Card>
+  <Card title="Models" icon="layer-group" href="/api-reference/models/list-available-models">
+    **`/models`**
+    <br/>
+    List and retrieve available models.
   </Card>
 </CardGroup>

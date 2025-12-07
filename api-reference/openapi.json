@@ -302,6 +302,71 @@
         }
       }
     },
+    "/models/{model}": {
+      "get": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Retrieve model",
+        "description": "Retrieves a model instance, providing basic information about the model such as the owner and permissioning.",
+        "operationId": "retrieveModel",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the model to use for this request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Model information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Model"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful model retrieval response",
+                    "value": {
+                      "id": "nusantara-base",
+                      "object": "model",
+                      "created": 1717950000,
+                      "owned_by": "noesantara.xyz",
+                      "permission": [],
+                      "root": "nusantara-base",
+                      "parent": null,
+                      "description": "Model dasar untuk tugas umum dengan keseimbangan kinerja dan kecepatan",
+                      "capabilities": [
+                        "function_calling",
+                        "json_mode"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "404": {
+            "description": "Model not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/embeddings": {
       "post": {
         "tags": [
@@ -1320,6 +1385,13 @@
               "url",
               "b64_json"
             ]
+          },
+          "steps": {
+            "type": "integer",
+            "description": "The number of inference steps to perform.",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 50
           }
         }
       },

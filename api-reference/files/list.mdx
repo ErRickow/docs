@@ -7,15 +7,15 @@ authMethod: 'bearer'
 
 List all files that belong to the authenticated user.
 
-<ParamField path="purpose" type="string">
+<ParamField query="purpose" type="string">
 Filter files by purpose. If provided, only files with the specified purpose will be returned. Valid values: `batch`, `assistants`, `fine-tune`.
 </ParamField>
 
-<ParamField path="limit" type="integer" default="20">
+<ParamField query="limit" type="integer" default="20">
 The maximum number of files to return. Maximum value is determined by the API.
 </ParamField>
 
-<ParamField path="after" type="string">
+<ParamField query="after" type="string">
 A cursor for pagination. Use the ID of the last file from the previous page to get the next page of results.
 </ParamField>
 
