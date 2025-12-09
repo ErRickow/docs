@@ -1,0 +1,7 @@
+project_id: "853578"
+base_path: "."
+preserve_hierarchy: true
+
+files:
+  - source: /en/**/*.mdx
+    translation: /%two_letters_code%/**/%original_file_name%
