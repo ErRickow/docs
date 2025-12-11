@@ -72,27 +72,7 @@
         {
           "group": "Models & Pricing",
           "pages": [
-            "en/models-overview",
-            {
-              "group": "Models",
-              "pages": [
-                "models/deepseek-ocr",
-                "models/deepseek-chat-v3.1",
-                "models/sea-lion-v4-27b-it",
-                "models/kimi-k2",
-                "en/glm-46",
-                "models/glm-4.6-plus",
-                "models/llama-3.3-nemotron-super-49b-v1.5",
-                "models/llama-3.3-70b-instruct",
-                "models/llama-3.3-70b-turbo",
-                "models/gemma2-9b-it",
-                "models/gemma-3-27b-it",
-                "models/qwen3-coder",
-                "models/noesantara-gen-2045",
-                "models/nusantara-base",
-                "models/archelago-70b"
-              ]
-            }
+            "en/models-overview"
           ]
         },
         {
@@ -163,7 +143,6 @@
             "api-reference/responses/conversation-management",
             "en/about/token-credits",
             "en/about/rate-limits",
-            "en/about/context-window",
             "en/about/errors",
             "en/models-overview"
           ]
