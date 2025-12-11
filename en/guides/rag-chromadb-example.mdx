@@ -1,0 +1,276 @@
+---
+title: 'Build RAG Agent With ChromaDB'
+---
+
+This guide demonstrates how to build a complete Retrieval-Augmented Generation (RAG) application using Neosantara AI for embeddings and large language model (LLM) calls, integrated with [ChromaDB](https://www.trychroma.com/) as your vector database.
+## Overview
+
+You will learn to:
+1.  Set up your Neosantara AI API client.
+2.  Install and initialize ChromaDB.
+3.  Use Neosantara AI's embedding model (`nusa-embedding-0001`) to vectorize your documents.
+4.  Store these embeddings in ChromaDB.
+5.  Retrieve relevant documents from ChromaDB based on a user query.
+6.  Use Neosantara AI's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
+
+## Setup
+
+First, ensure you have Python installed. Then, install the necessary libraries:
+
+```bash
+pip install -U openai chromadb numpy pandas
+```
+
+### Configure your Neosantara AI API Key
+
+You'll need a Neosantara AI API Key. If you don't have one, get it from your [Neosantara Dashboard](https://app.neosantara.xyz/dashboard).
+
+Set your API key and Neosantara AI base URL as environment variables or directly in your script:
+
+```python
+import os
+from openai import OpenAI
+
+# Configure your Neosantara AI API key and base URL
+NEOSANTARA_API_KEY = os.getenv("NAI_API_KEY", "YOUR_API_KEY_HERE")
+NEOSANTARA_BASE_URL = os.getenv("NAI_BASE_URL", "https://api.neosantara.xyz/v1")
+
+# Initialize the OpenAI client pointing to Neosantara AI
+client = OpenAI(
+    base_url=NEOSANTARA_BASE_URL,
+    api_key=NEOSANTARA_API_KEY
+)
+
+# Define models to be used
+EMBEDDING_MODEL = "nusa-embedding-0001"
+CHAT_MODEL = "nusantara-base"
+```
+
+## Creating the Embedding Database with ChromaDB
+
+ChromaDB is a lightweight vector database that runs locally (or can be scaled up). You'll create a Chroma collection and populate it with your document embeddings.
+
+### Custom Embedding Function for ChromaDB
+
+ChromaDB allows you to define a custom embedding function. We'll wrap the Neosantara AI embedding API call within this function.
+
+```python
+import chromadb
+import numpy as np
+import pandas as pd
+from chromadb import Documents, EmbeddingFunction, Embeddings
+
+class NeosantaraEmbeddingFunction(EmbeddingFunction):
+  def __call__(self, input: Documents) -> Embeddings:
+    # Neosantara AI's embedding API expects a list of strings
+    # The input here is a list of documents (strings)
+    response = client.embeddings.create(
+        model=EMBEDDING_MODEL,
+        input=input # Pass the list of documents
+    )
+    # The response contains a list of embedding objects, extract their 'embedding' values
+    return [d.embedding for d in response.data]
+```
+
+### Your Data
+
+Here is a small set of documents you will use to create an embedding database. In a real application, these would come from your knowledge base, internal wikis, etc.
+
+```python
+DOCUMENT1 = """
+  Operating the Climate Control System  Your Googlecar has a climate control
+  system that allows you to adjust the temperature and airflow in the car.
+  To operate the climate control system, use the buttons and knobs located on
+  the center console.  Temperature: The temperature knob controls the
+  temperature inside the car. Turn the knob clockwise to increase the
+  temperature or counterclockwise to decrease the temperature.
+  Airflow: The airflow knob controls the amount of airflow inside the car.
+  Turn the knob clockwise to increase the airflow or counterclockwise to
+  decrease the airflow. Fan speed: The fan speed knob controls the speed
+  of the fan. Turn the knob clockwise to increase the fan speed or
+  counterclockwise to decrease the fan speed.
+  Mode: The mode button allows you to select the desired mode. The available
+  modes are: Auto: The car will automatically adjust the temperature and
+  airflow to maintain a comfortable level.
+  Cool: The car will blow cool air into the car.
+  Heat: The car will blow warm air into the car.
+  Defrost: The car will blow warm air onto the windshield to defrost it.
+"""
+DOCUMENT2 = """
+  Your Googlecar has a large touchscreen display that provides access to a
+  variety of features, including navigation, entertainment, and climate
+  control. To use the touchscreen display, simply touch the desired icon.
+  For example, you can touch the "Navigation" icon to get directions to
+  your destination or touch the "Music" icon to play your favorite songs.
+"""
+DOCUMENT3 = """
+  Shifting Gears Your Googlecar has an automatic transmission. To
+  shift gears, simply move the shift lever to the desired position.
+  Park: This position is used when you are parked. The wheels are locked
+  and the car cannot move.
+  Reverse: This position is used to back up.
+  Neutral: This position is used when you are stopped at a light or in traffic.
+  The car is not in gear and will not move unless you press the gas pedal.
+  Drive: This position is used to drive forward.
+  Low: This position is used for driving in snow or other slippery conditions.
+"""
+
+documents = [DOCUMENT1, DOCUMENT2, DOCUMENT3]
+```
+
+### Create and Populate ChromaDB
+
+Now, create a ChromaDB client, define a collection, and add your documents to it using the custom embedding function.
+
+```python
+def create_chroma_db(documents, name):
+  chroma_client = chromadb.Client() # Initializes an in-memory Chroma client
+  
+  # Delete existing collection if it exists to start fresh
+  try:
+      chroma_client.delete_collection(name=name)
+  except:
+      pass # Ignore if collection doesn't exist
+
+  db = chroma_client.create_collection(
+      name=name,
+      embedding_function=NeosantaraEmbeddingFunction() # Use our custom embedding function
+  )
+
+  for i, d in enumerate(documents):
+    db.add(
+      documents=d,
+      ids=[str(i)] # IDs must be a list of strings
+    )
+  return db
+
+# Set up the DB
+# This will embed documents and store them in ChromaDB
+vector_db = create_chroma_db(documents, "neosantara-car-manual-db")
+
+# Optional: Verify data was added
+# sample_data = vector_db.get(include=['documents', 'embeddings'])
+# df = pd.DataFrame({
+#     "IDs": sample_data['ids'],
+#     "Documents": sample_data['documents'],
+#     "Embeddings": [str(emb)[:50] + "..." for emb in sample_data['embeddings']]
+# })
+# print(df)
+```
+
+## Getting the Relevant Document (Retrieval)
+
+With ChromaDB populated, you can now query it to find documents relevant to a user's question.
+
+```python
+def get_relevant_passage(query, db):
+  # ChromaDB will use the embedding function to embed the query
+  # then find the nearest neighbors
+  results = db.query(query_texts=[query], n_results=1)
+  
+  # Extract the relevant document text
+  if results and results['documents'] and results['documents'][0]:
+    return results['documents'][0][0]
+  return "No relevant information found."
+```
+
+## Generating a Grounded Answer (Generation)
+
+Finally, construct a prompt with the retrieved passage and send it to a Neosantara AI chat model to generate a response.
+
+```python
+import textwrap
+
+def make_prompt(query, relevant_passage):
+  # Replace newlines with spaces to ensure it's a single logical line for the prompt context.
+  # The f-string with triple quotes handles internal single/double quotes well.
+  processed_passage = relevant_passage.replace("\n", " ")
+  
+  prompt = textwrap.dedent(f"""
+    You are a helpful and informative bot that answers questions using
+    text from the reference passage included below.
+    Be sure to respond in a complete sentence, being comprehensive,
+    including all relevant background information.
+    However, you are talking to a non-technical audience, so be sure to
+    break down complicated concepts and strike a friendly
+    and conversational tone. If the passage is irrelevant to the answer,
+    you may ignore it and say "I cannot answer this question based on the provided information."
+
+    QUESTION: '{query}'
+    PASSAGE: '{processed_passage}'
+
+    ANSWER:
+  """)
+  return prompt
+
+def generate_answer(query, db):
+  # 1. Retrieve the most relevant passage
+  passage = get_relevant_passage(query, db)
+  print(f"Retrieved Passage: {passage[:100]}...\n") # Print first 100 chars
+
+  # 2. Construct the prompt
+  full_prompt = make_prompt(query, passage)
+  
+  # 3. Call the Neosantara AI chat model
+  response = client.chat.completions.create(
+      model=CHAT_MODEL,
+      messages=[
+          {"role": "user", "content": full_prompt}
+      ]
+  )
+  return response.choices[0].message.content
+```
+
+## Full Example Execution
+
+Let's put it all together and test with some queries:
+
+```python
+if __name__ == "__main__":
+  # Ensure API Key and Base URL are set in environment or replace "YOUR_API_KEY_HERE"
+  if "YOUR_API_KEY_HERE" in NEOSANTARA_API_KEY:
+      print("⚠️ Please set your NEOSANTARA_API_KEY environment variable or replace 'YOUR_API_KEY_HERE' in the script.")
+  
+  print("Initializing ChromaDB and populating with document embeddings...")
+  vector_db = create_chroma_db(documents, "neosantara-car-manual-db")
+  print("ChromaDB ready.\n")
+
+  # Query 1: Information that IS in the documents
+  query1 = "How do you adjust the temperature in the car?"
+  print(f"User Query: {query1}")
+  answer1 = generate_answer(query1, vector_db)
+  print(f"AI Response: {answer1}\n")
+
+  # Query 2: Information that is NOT in the documents (or only partially)
+  query2 = "How do I make coffee in the Google car?"
+  print(f"User Query: {query2}")
+  answer2 = generate_answer(query2, vector_db)
+  print(f"AI Response: {answer2}\n")
+
+  # Query 3: Another query relevant to docs
+  query3 = "Tell me about the touchscreen display."
+  print(f"User Query: {query3}")
+  answer3 = generate_answer(query3, vector_db)
+  print(f"AI Response: {answer3}\n")
+```
+
+### Expected Output Example
+
+```text
+Initializing ChromaDB and populating with document embeddings...
+ChromaDB ready.
+
+User Query: How do you adjust the temperature in the car?
+Retrieved Passage:   Operating the Climate Control System  Your Googlecar has a climate control
+  system that allo...
+AI Response: To adjust the temperature in your Googlecar, you'll use the temperature knob on the center console. Turning it clockwise will make the car warmer, and turning it counterclockwise will make it cooler.
+
+User Query: How do I make coffee in the Google car?
+Retrieved Passage: No relevant information found....
+AI Response: I cannot answer this question based on the provided information.
+
+User Query: Tell me about the touchscreen display.
+Retrieved Passage:   Your Googlecar has a large touchscreen display that provides access to a
+  variety of features, ...
+AI Response: Your Googlecar features a large touchscreen display that offers a variety of functions, such as navigation, entertainment, and climate control. To use it, simply touch the icon for the feature you wish to access. For example, you can tap the "Navigation" icon to get directions or the "Music" icon to play songs.
+```

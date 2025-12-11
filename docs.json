@@ -3,7 +3,7 @@
   "theme": "maple",
   "name": "Neosantara",
   "colors": {
-    "primary": "#FF5722",
+    "primary": "#CC3300",
     "light": "#FF8A65",
     "dark": "#1F1F1F"
   },
@@ -72,7 +72,27 @@
         {
           "group": "Models & Pricing",
           "pages": [
-            "en/models-overview"
+            "en/models-overview",
+            {
+              "group": "Models",
+              "pages": [
+                "models/deepseek-ocr",
+                "models/deepseek-chat-v3.1",
+                "models/sea-lion-v4-27b-it",
+                "models/kimi-k2",
+                "en/glm-46",
+                "models/glm-4.6-plus",
+                "models/llama-3.3-nemotron-super-49b-v1.5",
+                "models/llama-3.3-70b-instruct",
+                "models/llama-3.3-70b-turbo",
+                "models/gemma2-9b-it",
+                "models/gemma-3-27b-it",
+                "models/qwen3-coder",
+                "models/noesantara-gen-2045",
+                "models/nusantara-base",
+                "models/archelago-70b"
+              ]
+            }
           ]
         },
         {
@@ -100,21 +120,33 @@
             },
             "en/integrations"
           ]
-        },
+        }]
+      },
+      {
+        "anchor": "Guides & Solutions",
+        "groups": [
         {
-          "group": "Guides",
+          "group": "Core Concepts",
           "pages": [
             "en/capability/reasoning",
             "en/response",
-            "en/about/prompt-templates",
-            {
-              "group": "Tools",
-              "pages": [
-                "en/tools-overview",
-                "en/how-tools"
-              ]
-            },
-            "en/e2b",
+            "en/about/prompt-templates"
+          ]
+        },
+        {
+          "group": "Tools & Agents",
+          "pages": [
+            "en/tools-overview",
+            "en/how-tools",
+            "en/e2b"
+          ]
+        },
+        {
+          "group": "Use Cases & Tutorials",
+          "pages": [
+            "en/capability/rag",
+            "en/guides/rag-chromadb-example",
+            "en/guides/rag-cloudflare-vectorize-example",
             "en/deepseek-ocr",
             "en/llama-index",
             "en/using-neosantara-with-vercels-ai-sdk"
@@ -128,10 +160,12 @@
           "group": "Using the APIs",
           "pages": [
             "api-reference/introduction",
+            "api-reference/responses/conversation-management",
             "en/about/token-credits",
             "en/about/rate-limits",
+            "en/about/context-window",
             "en/about/errors",
-            "en/about/model"
+            "en/models-overview"
           ]
         },
         {
@@ -152,7 +186,7 @@
           {
             "group": "Chat",
             "pages": [
-              "api-reference/chat/create-chat-completion"
+              "api-reference/chat/completions/create"
             ]
           },
           {
@@ -170,7 +204,7 @@
               "api-reference/files/delete",
               "api-reference/files/download",
               "api-reference/files/get",
-              "api-reference/files/uploud",
+              "api-reference/files/upload",
               "api-reference/files/list"
             ]
           },
@@ -183,7 +217,8 @@
           {
             "group": "Models",
             "pages": [
-              "api-reference/models/list-available-models"
+              "api-reference/models/list-available-models",
+              "api-reference/models/get"
             ]
           },
           {
@@ -329,6 +364,9 @@
   "integrations": {
     "ga4": {
       "measurementId": "G-LTC6L7QF4V"
+    },
+    "intercom": {
+      "appId": "via3388f"
     }
   },
   "errors": {

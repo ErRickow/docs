@@ -1,0 +1,286 @@
+---
+title: 'RAG with Cloudflare Vectorize'
+description: 'Build a RAG application using Neosantara AI and Cloudflare Vectorize'
+---
+
+This guide demonstrates how to build a scalable Retrieval-Augmented Generation (RAG) application leveraging **Cloudflare Vectorize** as your managed vector database, integrated with Neosantara AI for embeddings and large language model (LLM) calls.
+
+Cloudflare Vectorize offers a serverless and highly scalable solution for storing and querying vector embeddings, making it an excellent choice for RAG applications that need to handle large datasets.
+
+## Overview
+
+You will learn to:
+1.  Set up your Neosantara AI API client and Cloudflare API credentials.
+2.  Create and manage a Vectorize index.
+3.  Use Neosantara AI's embedding model (`nusa-embedding-0001`) to vectorize your documents.
+4.  Store these embeddings in Cloudflare Vectorize.
+5.  Retrieve relevant documents from Vectorize based on a user query.
+6.  Use Neosantara AI's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
+
+## Prerequisites
+
+*   A Cloudflare account with API Token access (with permissions for Vectorize).
+*   Your Cloudflare Account ID.
+*   A Neosantara AI API Key.
+
+## Setup
+
+First, install the necessary Python library:
+
+```bash
+pip install -U openai requests
+```
+
+### Configure your API Keys and Client
+
+```python
+import os
+import requests
+from openai import OpenAI
+
+# --- Neosantara AI Configuration ---
+NEOSANTARA_API_KEY = os.getenv("NAI_API_KEY", "YOUR_NEOSANTARA_API_KEY")
+NEOSANTARA_BASE_URL = os.getenv("NAI_BASE_URL", "https://api.neosantara.xyz/v1")
+
+neosantara_client = OpenAI(
+    base_url=NEOSANTARA_BASE_URL,
+    api_key=NEOSANTARA_API_KEY
+)
+
+EMBEDDING_MODEL = "nusa-embedding-0001"
+CHAT_MODEL = "nusantara-base" # Or "garda-beta-mini" for larger context
+
+# --- Cloudflare Vectorize Configuration ---
+CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN", "YOUR_CLOUDFLARE_API_TOKEN")
+CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "YOUR_CLOUDFLARE_ACCOUNT_ID")
+VECTORIZE_INDEX_NAME = "my-rag-index" # Choose a name for your Vectorize index
+
+# Cloudflare API Base URL for Vectorize
+CLOUDFLARE_API_BASE = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/vectorize/indexes"
+
+headers = {
+    "Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}",
+    "Content-Type": "application/json"
+}
+```
+
+## Step 1: Indexing Documents in Vectorize (Ingestion)
+
+First, let\'s define our documents and create a Vectorize index.
+
+### Create Vectorize Index
+
+You need to create an index in Cloudflare Vectorize. The `dimension` should match the output dimension of your embedding model (e.g., 768 for `nusa-embedding-0001`).
+
+```python
+def create_vectorize_index(index_name, dimension=768):
+    url = CLOUDFLARE_API_BASE
+    data = {"name": index_name, "config": {"vector_size": dimension, "metric": "cosine"}}
+
+    print(f"Attempting to create Vectorize index '{index_name}'...")
+    response = requests.post(url, headers=headers, json=data)
+
+    if response.status_code == 409: # Conflict - index already exists
+        print(f"Index '{index_name}' already exists. Skipping creation.")
+        return True
+    elif response.status_code == 200:
+        print(f"Index '{index_name}' created successfully.")
+        return True
+    else:
+        print(f"Failed to create index: {response.status_code} - {response.text}")
+        response.raise_for_status() # Raise an exception for HTTP errors
+    return False
+
+# Create the index (if it doesn\'t exist)
+create_vectorize_index(VECTORIZE_INDEX_NAME)
+```
+
+### Your Data
+
+```python
+documents = [
+  {"id": "doc1", "text": "Operating the Climate Control System. Your Googlecar has a climate control system that allows you to adjust the temperature and airflow in the car."},
+  {"id": "doc2", "text": "Our refund policy allows returns within 30 days of purchase. To initiate a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return."},
+  {"id": "doc3", "text": "Support hours are Monday to Friday, 9 AM to 5 PM WIB."},
+  {"id": "doc4", "text": "Neosantara API rate limit for Free tier is 1000 RPM."} 
+]
+```
+
+### Generate Embeddings and Upsert to Vectorize
+
+Now, we\'ll embed each document and send it to your Cloudflare Vectorize index.
+
+```python
+def upsert_to_vectorize(documents_with_ids):
+    url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/vectors"
+
+    vectors_to_upsert = []
+    for doc in documents_with_ids:
+        print(f"Embedding document ID: {doc['id']}...")
+        embedding_response = neosantara_client.embeddings.create(
+            model=EMBEDDING_MODEL,
+            input=doc['text']
+        )
+        vector_data = embedding_response.data[0].embedding
+
+        vectors_to_upsert.append({
+            "id": doc['id'],
+            "values": vector_data,
+            "metadata": {"text": doc['text']} # Store original text as metadata
+        })
+
+    print(f"Upserting {len(vectors_to_upsert)} vectors to Vectorize index '{VECTORIZE_INDEX_NAME}'...")
+    response = requests.post(url, headers=headers, json=vectors_to_upsert)
+
+    if response.status_code == 200:
+        print("Vectors upserted successfully.")
+    else:
+        print(f"Failed to upsert vectors: {response.status_code} - {response.text}")
+        response.raise_for_status()
+
+# Prepare documents with IDs for upserting
+documents_for_upsert = [{"id": doc["id"], "text": doc["text"]} for doc in documents]
+upsert_to_vectorize(documents_for_upsert)
+```
+
+## Step 2: Querying Vectorize (Retrieval)
+
+When a user asks a question, we embed their query and use Vectorize to find the most relevant document embeddings.
+
+```python
+def query_vectorize(query_text, top_k=2):
+    url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/query"
+
+    # 1. Embed the user\'s query
+    print(f"Embedding query: '{query_text}'...")
+    embedding_response = neosantara_client.embeddings.create(
+        model=EMBEDDING_MODEL,
+        input=query_text
+    )
+    query_vector = embedding_response.data[0].embedding
+
+    # 2. Query Vectorize
+    print(f"Querying Vectorize index '{VECTORIZE_INDEX_NAME}' for top {top_k} results...")
+    data = {"vector": query_vector, "topK": top_k, "returnMetadata": True}
+    response = requests.post(url, headers=headers, json=data)
+
+    if response.status_code == 200:
+        results = response.json()
+        relevant_passages = []
+        for match in results.get('result', {}).get('matches', []):
+            if match.get('metadata', {}).get('text'):
+                relevant_passages.append(match['metadata']['text'])
+        return "\n\n".join(relevant_passages)
+    else:
+        print(f"Failed to query Vectorize: {response.status_code} - {response.text}")
+        response.raise_for_status()
+        return "Error retrieving context."
+```
+
+## Step 3: Generate Answer (Generation)
+
+Finally, construct the prompt with the retrieved context and send it to a Neosantara AI chat model.
+
+```python
+def make_prompt(query, retrieved_context):
+    # Replace newlines with spaces for a cleaner context string in the prompt.
+    processed_context = retrieved_context.replace("\n", " ")
+    return f"""
+You are a helpful support agent. Answer the user's question using ONLY the provided context.
+If the answer isn't in the context, say you don't know.
+
+QUESTION: '{query}'
+CONTEXT:
+{processed_context}
+
+ANSWER:
+"""
+
+def generate_answer_with_rag(query_text):
+    # 1. Retrieve relevant context from Vectorize
+    context = query_vectorize(query_text)
+
+    if "Error retrieving context." in context or not context.strip():
+        print("No relevant context found, or an error occurred during retrieval.")
+        # Fallback or indicate inability to answer
+        return neosantara_client.chat.completions.create(
+            model=CHAT_MODEL,
+            messages=[
+                {"role": "system", "content": "You are a helpful support agent. You acknowledge if you cannot find relevant information."},
+                {"role": "user", "content": f"QUESTION: '{query_text}'\nCONTEXT: [No relevant information found.]\nANSWER:"}
+            ]
+        ).choices[0].message.content
+
+    print(f"Retrieved context:\n---\n{context}\n---\n")
+
+    # 2. Construct prompt for LLM
+    full_prompt = make_prompt(query_text, context)
+
+    # 3. Generate answer using Neosantara AI chat model
+    response = neosantara_client.chat.completions.create(
+        model=CHAT_MODEL,
+        messages=[
+            {"role": "user", "content": full_prompt}
+        ]
+    )
+    return response.choices[0].message.content
+```
+
+## Full Example Execution
+
+```python
+if __name__ == "__main__":
+    # Ensure all API keys and Account ID are set
+    if "YOUR_NEOSANTARA_API_KEY" in NEOSANTARA_API_KEY or \
+       "YOUR_CLOUDFLARE_API_TOKEN" in CLOUDFLARE_API_TOKEN or \
+       "YOUR_CLOUDFLARE_ACCOUNT_ID" in CLOUDFLARE_ACCOUNT_ID:
+        print("⚠️ Please set your API keys and Cloudflare Account ID environment variables.")
+        exit()
+
+    # Perform initial upsert of documents (you\'d typically do this once or when documents change)
+    # The upsert_to_vectorize function already calls create_vectorize_index internally.
+
+    # Test Queries
+    query1 = "How do I get a refund?"
+    print(f"\nUser Query: {query1}")
+    answer1 = generate_answer_with_rag(query1)
+    print(f"AI Response: {answer1}\n")
+
+    query2 = "What are the climate control features?"
+    print(f"\nUser Query: {query2}")
+    answer2 = generate_answer_with_rag(query2)
+    print(f"AI Response: {answer2}\n")
+
+    query3 = "How do I bake a cake?"
+    print(f"\nUser Query: {query3}")
+    answer3 = generate_answer_with_rag(query3)
+    print(f"AI Response: {answer3}\n")
+```
+
+### Expected Output Example
+
+```text
+User Query: How do I get a refund?
+Embedding query: 'How do I get a refund?'...
+Querying Vectorize index 'my-rag-index' for top 2 results...
+Retrieved context:
+---
+Our refund policy allows returns within 30 days of purchase. To initiate a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return.
+---
+AI Response: To get a refund, you need to contact our support team at support@neosantara.xyz with your order number and reason for return, as our refund policy allows returns within 30 days of purchase.
+
+User Query: What are the climate control features?
+Embedding query: 'What are the climate control features?'...
+Querying Vectorize index 'my-rag-index' for top 2 results...
+Retrieved context:
+---
+Operating the Climate Control System. Your Googlecar has a climate control system that allows you to adjust the temperature and airflow in the car.
+---
+AI Response: The climate control system in your Googlecar allows you to adjust the temperature and airflow using buttons and knobs on the center console. You can turn the temperature knob clockwise to increase it or counterclockwise to decrease it, and do the same for airflow and fan speed.
+
+User Query: How do I bake a cake?
+Embedding query: 'How do I bake a cake?'...
+Querying Vectorize index 'my-rag-index' for top 2 results...
+No relevant context found, or an error occurred during retrieval.
+AI Response: I cannot answer this question based on the provided information.
+```
