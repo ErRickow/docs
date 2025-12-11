@@ -344,6 +344,9 @@
   "integrations": {
     "ga4": {
       "measurementId": "G-LTC6L7QF4V"
+    },
+    "intercom": {
+      "appId": "via3388f"
     }
   },
   "errors": {
