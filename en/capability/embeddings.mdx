@@ -9,7 +9,7 @@ Embeddings are numerical representations of text that capture semantic meaning. 
 
 When you send text to the embeddings endpoint, the underlying AI model processes the text and outputs a list of floating-point numbers (a vector). Texts with similar meanings will have vectors that are numerically "closer" to each other in the high-dimensional space.
 
-The NeosantaraAI API provides an `/v1/embeddings` endpoint to generate these vectors.
+The Neosantara AI API provides an [`/v1/embeddings`](/api-reference/embeddings/create-embeddings) endpoint to generate these vectors.
 
 ## Usage
 
@@ -17,7 +17,7 @@ To generate embeddings, send a POST request to the `/v1/embeddings` endpoint wit
 
 ### Endpoint
 
-`POST /v1/embeddings`
+> POST https://api.neosantara.xyz/v1/embeddings
 
 ### Request Body
 
@@ -29,15 +29,11 @@ To generate embeddings, send a POST request to the `/v1/embeddings` endpoint wit
 }
 ```
 
-#### Parameters
-
-* **`input`** (string or array of strings, **required**): The text(s) to embed. Can be a single string or an array of strings.
-* **`model`** (string, optional, default: `"nusa-embedding-0001"`): The ID of the embedding model to use.
-* **`encoding_format`** (string, optional, default: `"float"`): The format of the returned embeddings. Currently, `"float"` is the primary supported format.
+See [full reference](/api-reference/embeddings/create-embeddings)
 
 ### Supported Embedding Models
 
-The NusantaraAI API supports various embedding models, often utilizing intelligent fallbacks to ensure reliability. Some of the available models include:
+The Neosantara AI API supports various embedding models, often utilizing intelligent fallbacks to ensure reliability. Some of the available models include:
 
 * **`nusa-embedding-0001`**: The primary embedding model, offering good performance for general-purpose embeddings.
 
@@ -68,16 +64,15 @@ The NusantaraAI API supports various embedding models, often utilizing intellige
 }
 ```
 
-## Python and JavaScript Examples (with OpenAI SDK)
+## Examples with OpenAI SDK
 
-You can generate embeddings using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
+You can generate embeddings using the OpenAI SDK by configuring its `base_url` to point to the Neosantara AI API.
 
 <CodeGroup>
 ```python Py icon="python"
 from openai import OpenAI
 
-# Initialize the OpenAI client with your API key
-# Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+# Replace "YOUR_API_KEY" with your actual Neosantara AI API Key
 client = OpenAI(
     api_key="YOUR_API_KEY",
     base_url="https://api.neosantara.xyz/v1"
@@ -85,7 +80,7 @@ client = OpenAI(
 
 def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
     """
-    Generates embeddings for a list of texts using the NusantaraAI API.
+    Generates embeddings for a list of texts using the Neosantara AI API.
     """
     print(f"Generating embeddings for model: {model}")
 
@@ -124,11 +119,9 @@ if __name__ == "__main__":
 ```
 
 ```javascript Js icon="square-js"
-// Install the OpenAI Node.js library: npm install openai
 import OpenAI from 'openai';
 
-// Initialize the OpenAI client with your API key
-// Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+// Replace "YOUR_API_KEY" with your actual Neosantara AI API Key
 const client = new OpenAI({
   apiKey: "YOUR_API_KEY",
   baseURL: "https://api.neosantara.xyz/v1",
