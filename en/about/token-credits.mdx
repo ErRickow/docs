@@ -1,100 +1,100 @@
 ---
 title: 'Token Credits & Pricing'
-description: 'Learn how to manage token credits and billing for Neosantara APIs.'
----
-
-## Get Started with Free Quota
-
-<Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
-  Start with a **10,000 Monthly Token Quota** on our Free Plan. **No credit card required.** Your tokens automatically reset on the 1st of each month.
-</Card>
-
+description: 'Learn how to manage token credits, quotas, and billing for Neosantara APIs.'
 ---
 
 ## Hybrid Billing System
 
-Neosantara AI uses a flexible **Hybrid Billing System** that combines subscription quotas with a Pay-As-You-Go model.
+Neosantara AI utilizes a flexible **Hybrid Billing System** designed to provide both predictability and scalability.
 
-1.  **Subscription Quota:** Each plan comes with a set amount of "Free Tokens" (Quota) that resets monthly.
-2.  **Pay-As-You-Go:** Once your quota is exhausted, you can continue using the API by topping up your **Credit Balance**.
-3.  **Automatic Switching:** If you exceed your Monthly Token Limit, your account automatically switches to **Pay-As-You-Go Mode** permanently to ensure uninterrupted service. **We grant you a Rp 10,000 bonus balance upon this switch!**
-
-### Base Pricing
-
-For Pay-As-You-Go usage, the base rate for standard models is approximately:
-
--   **Rp 149,999 per 1 million tokens**
--   **~Rp 0.15 per token**
+1.  **Subscription Quota (Included Tokens):** Every subscription plan (Free, Basic, etc.) comes with a monthly allowance of tokens. These are used first.
+2.  **Pay-As-You-Go (Credit Balance):** Once your subscription quota is exhausted (or if you choose to switch), usage is billed directly from your **Credit Balance (IDR)**.
 
 ---
 
-## Subscription Plans
+## How It Works
 
-Choose a plan that fits your monthly volume. All paid plans include a substantial token quota.
+### 1. Using Your Quota
+At the start of your billing cycle, you consume your **Monthly Token Quota**.
+*   **Daily Limits:** Subscription plans enforce a *Daily Token Limit* to ensure fair usage distribution throughout the month. If you hit this daily limit, you must wait until the next day (00:00 UTC) or upgrade your plan.
+*   **Monthly Reset:** Unused quota does not rollover; it resets on your billing date.
 
-| <div align="left">**Plan**</div> | **Daily Quota (TPD)** | **Monthly Quota** | **CLI Monthly Limit** |
-| :---: | :---: | :---: | :---: |
-| Free | 3,000 | 10,000 | 30,000 |
-| Basic | 10,000 | 66,667 | 100,000 |
-| Standard | 40,000 | 400,000 | 300,000 |
-| Pro | 100,000 | 1,000,000 | 1,000,000 |
-| Enterprise | Custom | Custom | Unlimited |
-
-[Learn more about Rate Limits](/en/about/rate-limits)
-
-**Ready to upgrade?** [Reach Us](mailto:halo@neosantara.xyz) or [Pricing Page](https://app.neosantara.xyz/pricing) to explore plan options.
+### 2. Switching to Pay-As-You-Go
+When you deplete your **Monthly Quota**, the system automatically upgrades your account to **Pay-As-You-Go Mode**.
+*   **Seamless Transition:** You will not experience downtime (unless your balance is empty).
+*   **Bonus Balance:** We grant a one-time **Rp 10,000 bonus** to jumpstart your balance upon this transition.
+*   **Unlimited Volume:** In Pay-As-You-Go mode, **Daily and Monthly volume limits are removed**. You are limited only by your available Credit Balance and technical throughput speeds (RPM/TPM).
 
 ---
 
-## Pay-As-You-Go Model Pricing
+## Subscription Plans (Quotas)
 
-When using your Credit Balance, costs are calculated per request based on the specific model used.
+These plans determine your **Initial Quota** and your **Throughput Speed** (Tier).
 
-### Indonesian-Optimized Models
-
-| Model | Input/1M Tokens | Output/1M Tokens |
-| :--- | :--- | :--- |
-| `nusantara-base` | Rp 300 | Rp 1,500 |
-| `archipelago-70b` | Rp 4,710 | Rp 36,543 |
-| `garda-beta-mini` | Rp 2,500 | Rp 10,499 |
-| `luminai` | Free | Free |
-
-### Third-Party Models
-
-| Model | Input/1M Tokens | Output/1M Tokens |
-| :--- | :--- | :--- |
-| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 |
-| `gemma-3-27b-it` | Rp 200 | Rp 1,000 |
-| `llama-3.3-70b-instruct` | Free | Free |
-| `gemma2-9b-it` | Free | Free |
-
-### Special Models
-
-| Model | Pricing Model | Notes |
-| :--- | :--- | :--- |
-| `neosantara-gen-2045` | Per Image | 1024x1024: Rp 2,000, 512x512: Rp 1,200, 256x256: Rp 500 |
-| `nusa-embedding-0001` | Per Request | Contact sales for pricing |
+| Plan | Daily Limit (Tokens) | Monthly Quota (Tokens) | Speed Tier |
+| :--- | :--- | :--- | :--- |
+| **Free** | 3,000 | 10,000 | Low |
+| **Basic** | 10,000 | 66,667 | Medium |
+| **Standard** | 40,000 | 400,000 | High |
+| **Pro** | 100,000 | 1,000,000 | Ultra |
+| **Enterprise** | Custom | Custom | Custom |
 
 <Note>
-**Image Generation** costs are deducted from your balance directly per image generated.
+  **Important:** Once you switch to Pay-As-You-Go, the "Daily Limit" and "Monthly Quota" columns no longer apply. You gain **Unlimited Volume** capability.
 </Note>
-
-### How Costs Are Calculated
-
-$$Price = (\text{Input Tokens} \times \text{Input Price}) + (\text{Output Tokens} \times \text{Output Price})$$
-
-**Example:**
-Using `nusantara-base` (Input: Rp 300/1M, Output: Rp 1,500/1M) for a request with 500 input tokens and 200 output tokens:
-
-1.  Input Cost: $500 / 1,000,000 \times 300 = \text{Rp } 0.15$
-2.  Output Cost: $200 / 1,000,000 \times 1,500 = \text{Rp } 0.30$
-3.  **Total:** Rp 0.45
 
 ---
 
-## Track Your Usage
+## Pay-As-You-Go Pricing
 
-For the most accurate tracking of your consumption:
+When using your Credit Balance, costs are calculated per request based on the model's pricing. We offer highly competitive rates optimized for the Indonesian market.
 
-1.  **API Response:** Check the `_metadata` field in every response.
-2.  **Usage Dashboard:** Visit your [Usage Dashboard](https://app.neosantara.xyz/usage) to view your remaining Quota and Credit Balance.
+### Standard Models (General Purpose)
+
+| Model | Input (per 1M tokens) | Output (per 1M tokens) |
+| :--- | :--- | :--- |
+| `nusantara-base` | **Rp 300** | **Rp 1,500** |
+| `gemma2-9b-it` | Rp 200 | Rp 1,000 |
+| `llama-3.3-70b-instruct` | Rp 4,560 | Rp 31,991 |
+
+### Premium & Specialized Models
+
+| Model | Input (per 1M tokens) | Output (per 1M tokens) |
+| :--- | :--- | :--- |
+| `archipelago-70b` | Rp 4,710 | Rp 36,543 |
+| `garda-beta-mini` | Rp 2,500 | Rp 10,499 |
+| `gpt-4o` (via Vercel) | ~$80,000 (est) | ~$240,000 (est) |
+| `claude-3.5-sonnet` | ~$48,000 (est) | ~$240,000 (est) |
+
+### Image Generation
+
+| Model | Resolution | Price per Image |
+| :--- | :--- | :--- |
+| `neosantara-gen-2045` | 1024x1024 | **Rp 2,000** |
+| `neosantara-gen-2045` | 512x512 | Rp 1,200 |
+
+### Cost Calculation Example
+
+**Scenario:** You generate a blog post about Indonesian history using `nusantara-base`.
+*   **Input:** 1,000 tokens (Prompt)
+*   **Output:** 2,000 tokens (Article)
+
+$$ Cost = (\frac{1,000}{1,000,000} \times 300) + (\frac{2,000}{1,000,000} \times 1,500) $$
+$$ Cost = 0.3 + 3.0 = \text{Rp } 3.3 $$
+
+**Total Cost:** Only **Rp 3.3** for the entire article.
+
+---
+
+## Managing Your Credits
+
+### Checking Balance
+You can view your remaining **Quota** and **Credit Balance** in real-time via:
+1.  **Dashboard:** The [Usage Page](https://app.neosantara.xyz/usage).
+2.  **API:** The `_metadata` field in every API response.
+
+### Top Up
+To add funds to your Credit Balance:
+1.  Go to the [Billing Page](https://app.neosantara.xyz/billing).
+2.  Select "Top Up Balance".
+3.  Pay via QRIS, GoPay, OVO, or Bank Transfer.

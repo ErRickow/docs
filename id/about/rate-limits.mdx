@@ -1,118 +1,97 @@
 ---
 title: 'Batas Penggunaan'
-description: '> Pelajari tentang Batas Penggunaan Neosantara'
+description: '> Pelajari tentang Batas Kecepatan (Rate Limiting) Neosantara'
 ---
 
-Neosantara AI menerapkan **Sistem Batas Penggunaan Hibrida** yang menggabungkan **Kuota Token** tradisional dengan model **Pay-As-You-Go** yang fleksibel. Ini memastikan penggunaan yang adil sambil memungkinkan layanan tanpa gangguan bagi pengguna yang perlu meningkatkan skala di luar batas paket mereka.
-
----
-
-## Cara Kerjanya
-
-1.  **Kuota Utama:** Anda menggunakan token gratis yang termasuk dalam paket langganan Anda (Kuota Harian dan Bulanan).
-2.  **Cadangan Pay-As-You-Go:** Jika Anda menghabiskan kuota harian atau bulanan, sistem secara otomatis memeriksa **Saldo Kredit** Anda. Jika Anda memiliki dana yang cukup, Anda dapat terus menggunakan API dengan basis berbayar per permintaan.
-3.  **Pengalihan Mode Otomatis:** Jika Anda melebihi **Batas Token Bulanan**, akun Anda secara otomatis dialihkan ke **Mode Pay-As-You-Go** secara permanen untuk mencegah gangguan layanan. Kami memberikan bonus satu kali sebesar **Rp 10.000** saat pengalihan ini agar Anda dapat langsung memulai.
+Neosantara AI menggunakan sistem **Rate Limiting Hibrida** yang tangguh, dirancang untuk memastikan stabilitas platform sambil memberikan fleksibilitas bagi semua pengguna. Sistem ini terdiri dari dua lapisan: **Batas Throughput** (Kecepatan) dan **Batas Volume** (Penagihan).
 
 ---
 
-## Dimensi Batas Penggunaan
+## 1. Batas Throughput (Kecepatan)
 
-Kami menerapkan batas di lima dimensi utama:
+Untuk mencegah penyalahgunaan dan memastikan penggunaan yang adil, kami memberlakukan batas kecepatan yang ketat berdasarkan **Permintaan Per Menit (RPM)**, **Token Input Per Menit (ITPM)**, dan **Token Output Per Menit (OTPM)**. Ini adalah batasan teknis dan berlaku untuk semua pengguna, termasuk mereka yang menggunakan Pay-As-You-Go.
 
-*   **`Permintaan per menit (RPM)`**: Batas lonjakan jangka pendek.
-*   **`Token per menit (TPM)`**: Kontrol kemacetan jangka pendek.
-*   **`Permintaan per hari (RPD)`**: Pedoman penggunaan wajar umum.
-*   **`Token per hari (TPD)`**: Kuota harian. Melebihi ini memicu Pay-As-You-Go untuk sisa hari tersebut.
-*   **`Batas Token Bulanan`**: Batas keras untuk paket. Melebihi ini memicu **Pengalihan Mode Otomatis**.
+### Batas Throughput per Tingkatan
 
-### Batas API Key (Standar)
+| Tingkatan | RPM (Permintaan/menit) | ITPM (Token Input/menit) | OTPM (Token Output/menit) |
+| :--- | :-- | :-- | :-- |
+| Free | 3 | 5.000 | 2.000 |
+| Basic | 50 | 20.000 | 5.000 |
+| Standard | 1.000 | 100.000 | 25.000 |
+| Pro | 2.000 | 200.000 | 50.000 |
+| Enterprise | 4.000 | 500.000 | 125.000 |
 
-Batas untuk penggunaan API Key standar (Integrasi Sisi Server/Aplikasi):
-
-| Tingkatan | RPM | TPM | Token Harian (TPD) | Batas Token Bulanan |
-| :--- | :-- | :-- | :----------------- | :------------------ |
-| Free | 3 | 5,000 | 3,000 | 10,000 |
-| Basic | 50 | 20,000 | 10,000 | 66,667 |
-| Standard | 1,000 | 100,000 | 40,000 | 400,000 |
-| Pro | 2,000 | 200,000 | 100,000 | 1,000,000 |
-| Enterprise | 4,000 | 500,000 | Custom | Custom |
-
-### Batas CLI (Device Flow)
-
-Batas khusus untuk pengguna yang melakukan autentikasi melalui Neosantara CLI:
-
-| Tingkatan | Token Harian (TPD) | Batas Token Bulanan |
-| :--- | :----------------- | :------------------ |
-| Free | 10,000 | 30,000 |
-| Basic | 15,000 | 100,000 |
-| Standard | 30,000 | 300,000 |
-| Pro | 100,000 | 1,000,000 |
-| Enterprise | Unlimited | Unlimited |
+<Note>
+  **Catatan:** Tingkatan Admin dan perjanjian Enterprise tertentu mungkin memiliki batas throughput khusus atau tanpa batas.
+</Note>
 
 ---
 
-## Mode Pay-As-You-Go
+## 2. Batas Volume (Penagihan)
 
-Saat beroperasi dalam mode **Pay-As-You-Go** (baik karena Anda melebihi kuota atau dialihkan secara permanen):
+Batas volume menentukan berapa total token yang dapat Anda konsumsi dalam sebulan berdasarkan langganan Anda.
 
-1.  **Estimasi Biaya:** Untuk setiap permintaan, sistem memperkirakan biaya berdasarkan harga model dan token input/output.
-2.  **Reservasi:** Jumlah perkiraan dipesan sementara dari saldo Anda.
-3.  **Penyelesaian:** Setelah permintaan selesai, biaya sebenarnya dipotong (atau dikembalikan jika permintaan gagal).
-
-Jika saldo Anda tidak mencukupi (kurang dari perkiraan biaya atau batas minimum yang diperlukan), Anda akan menerima kesalahan `402 Payment Required`.
+1.  **Pengguna Kuota (Legacy/Hibrida):** Anda memiliki Kuota Bulanan tetap (misalnya, 10.000 token untuk Free). Setelah terlampaui, Anda secara otomatis dialihkan ke Pay-As-You-Go.
+2.  **Pengguna Pay-As-You-Go:** Tidak ada **batas volume keras**. Anda dapat menghasilkan konten sebanyak yang Anda inginkan, selama Anda memiliki **Saldo Kredit** yang cukup.
 
 ---
 
 ## Header Respons
 
-Kami menyediakan header HTTP standar untuk membantu Anda melacak penggunaan Anda:
+Kami memberikan umpan balik transparan dan waktu nyata tentang batas penggunaan Anda saat ini melalui header HTTP standar. Header ini ada di setiap respons API.
 
-*   `X-RateLimit-Limit`: Total batas token bulanan Anda.
-*   `X-RateLimit-Remaining`: Token tersisa Anda untuk bulan ini.
-*   `X-RateLimit-Reset`: Timestamp (dalam detik) kapan batas bulanan Anda diatur ulang.
+| Header | Deskripsi |
+| :--- | :--- |
+| `x-neosantara-ratelimit-requests-limit` | Batas RPM Anda. |
+| `x-neosantara-ratelimit-requests-remaining` | Permintaan tersisa dalam jendela 1 menit saat ini. |
+| `x-neosantara-ratelimit-requests-reset` | Waktu (ISO 8601) ketika jendela RPM direset. |
+| `x-neosantara-ratelimit-input-tokens-limit` | Batas ITPM Anda. |
+| `x-neosantara-ratelimit-input-tokens-remaining` | Token input tersisa dalam jendela 1 menit saat ini. |
+| `x-neosantara-ratelimit-input-tokens-reset` | Waktu (ISO 8601) ketika jendela ITPM direset. |
+| `x-neosantara-ratelimit-output-tokens-limit` | Batas OTPM Anda. |
+| `x-neosantara-ratelimit-output-tokens-remaining` | Token output tersisa dalam jendela 1 menit saat ini. |
+| `x-neosantara-ratelimit-output-tokens-reset` | Waktu (ISO 8601) ketika jendela OTPM direset. |
+| `x-neosantara-tier` | Tingkatan Anda saat ini (misalnya, Free, Basic, Pro). |
 
-Selain itu, metadata penggunaan terperinci disertakan dalam respons JSON:
+### Contoh Header
+
+```http
+HTTP/1.1 200 OK
+x-neosantara-ratelimit-requests-limit: 50
+x-neosantara-ratelimit-requests-remaining: 49
+x-neosantara-ratelimit-requests-reset: 2025-12-16T10:30:00.000Z
+x-neosantara-ratelimit-input-tokens-limit: 20000
+x-neosantara-ratelimit-input-tokens-remaining: 19950
+x-neosantara-ratelimit-output-tokens-limit: 5000
+x-neosantara-ratelimit-output-tokens-remaining: 4900
+x-neosantara-tier: Basic
+```
+
+---
+
+## Penanganan Kesalahan
+
+### 429 Too Many Requests
+Terjadi ketika Anda melebihi salah satu batas throughput (RPM, ITPM, atau OTPM). Respons akan menyertakan header `Retry-After` yang menunjukkan berapa detik harus menunggu.
 
 ```json
 {
-  "_metadata": {
-    "usage": {
-      "daily": {
-        "current": 3500,
-        "limit": 3000,
-        "remaining": 0 // 0 menunjukkan penggunaan Pay-As-You-Go atau Batas Terlampaui
-      },
-      "monthly": {
-        "current": 10500,
-        "limit": 10000,
-        "remaining": 0
-      }
-    },
-    "tier": {
-      "name": "Free",
-      "upstash_enabled": true
+  "error": {
+    "message": "Too many requests. Please try again later.",
+    "type": "rate_limit_exceeded",
+    "code": "rpm_exceeded", // atau itpm_exceeded, otpm_exceeded
+    "details": {
+        "retry_after": 5,
+        "limit": 50,
+        "remaining": 0,
+        "reset": "2025-12-16T10:30:05.000Z"
     }
   }
 }
 ```
 
-## Kode Kesalahan
-
-### 429 Too Many Requests
-Terjadi ketika Anda mencapai batas ketat seperti RPM/TPM, atau jika Anda mencapai batas Kuota **DAN** tidak memiliki Saldo untuk cadangan.
-
-```json
-{
-  "error": {
-    "message": "Daily token limit for your account has been exceeded.",
-    "type": "usage_limit_exceeded",
-    "code": "daily_quota_exceeded"
-  }
-}
-```
-
 ### 402 Payment Required
-Terjadi ketika Anda berada dalam mode **Pay-As-You-Go** tetapi tidak memiliki dana yang cukup untuk memproses permintaan.
+Terjadi ketika Anda berada dalam mode Pay-As-You-Go tetapi memiliki **Saldo Kredit** yang tidak mencukupi.
 
 ```json
 {

@@ -3,116 +3,95 @@ title: 'Rate Limits'
 description: '> Learn about Neosantara Rate Limiting'
 ---
 
-Neosantara AI employs a **Hybrid Rate Limiting System** that combines traditional **Token Quotas** with a flexible **Pay-As-You-Go** model. This ensures fair usage while allowing uninterrupted service for users who need to scale beyond their plan's limits.
+Neosantara AI employs a robust **Hybrid Rate Limiting** system designed to ensure platform stability while providing flexibility for all users. This system consists of two layers: **Throughput Limits** (Speed) and **Volume Limits** (Billing).
 
 ---
 
-## How It Works
+## 1. Throughput Limits (Speed)
 
-1.  **Quota-First:** You consume the free tokens included in your subscription plan (Daily and Monthly quotas).
-2.  **Pay-As-You-Go Fallback:** If you exhaust your daily or monthly quota, the system automatically checks your **Credit Balance**. If you have sufficient funds, you can continue using the API on a per-request paid basis.
-3.  **Automatic Mode Switch:** If you exceed your **Monthly Token Limit**, your account is automatically switched to **Pay-As-You-Go Mode** permanently to prevent service interruption. We grant a one-time bonus of **Rp 10,000** upon this switch to get you started.
+To prevent abuse and ensure fair usage, we enforce strict speed limits based on **Requests Per Minute (RPM)**, **Input Tokens Per Minute (ITPM)**, and **Output Tokens Per Minute (OTPM)**. These are technical constraints and apply to all users, including those on Pay-As-You-Go.
 
----
+### Throughput Limits per Tier
 
-## Rate Limit Dimensions
+| Tier | RPM (Requests/min) | ITPM (Input Tokens/min) | OTPM (Output Tokens/min) |
+| :--- | :-- | :-- | :-- |
+| Free | 3 | 5,000 | 2,000 |
+| Basic | 50 | 20,000 | 5,000 |
+| Standard | 1,000 | 100,000 | 25,000 |
+| Pro | 2,000 | 200,000 | 50,000 |
+| Enterprise | 4,000 | 500,000 | 125,000 |
 
-We enforce limits across five key dimensions:
-
-*   **`Requests per minute (RPM)`**: Short-term burst limit.
-*   **`Tokens per minute (TPM)`**: Short-term congestion control.
-*   **`Requests per day (RPD)`**: General fair usage guideline.
-*   **`Tokens per day (TPD)`**: Daily quota. Exceeding this triggers Pay-As-You-Go for the rest of the day.
-*   **`Monthly Token Limit`**: Hard cap for the plan. Exceeding this triggers the **Automatic Mode Switch**.
-
-### API Key Limits (Standard)
-
-Limits for standard API Key usage (Server-side/App integrations):
-
-| Tier | RPM | TPM | Daily Tokens (TPD) | Monthly Token Limit |
-| :--- | :-- | :-- | :----------------- | :------------------ |
-| Free | 3 | 5,000 | 3,000 | 10,000 |
-| Basic | 50 | 20,000 | 10,000 | 66,667 |
-| Standard | 1,000 | 100,000 | 40,000 | 400,000 |
-| Pro | 2,000 | 200,000 | 100,000 | 1,000,000 |
-| Enterprise | 4,000 | 500,000 | Custom | Custom |
-
-### CLI Limits (Device Flow)
-
-Dedicated limits for users authenticating via the Neosantara CLI:
-
-| Tier | Daily Tokens (TPD) | Monthly Token Limit |
-| :--- | :----------------- | :------------------ |
-| Free | 10,000 | 30,000 |
-| Basic | 15,000 | 100,000 |
-| Standard | 30,000 | 300,000 |
-| Pro | 100,000 | 1,000,000 |
-| Enterprise | Unlimited | Unlimited |
+<Note>
+  **Note:** The Admin tier and specific Enterprise agreements may have custom or unlimited throughput limits.
+</Note>
 
 ---
 
-## Pay-As-You-Go Mode
+## 2. Volume Limits (Billing)
 
-When operating in **Pay-As-You-Go** mode (either because you exceeded a quota or were permanently switched):
+Volume limits determine how many total tokens you can consume in a month based on your subscription.
 
-1.  **Cost Estimation:** For each request, the system estimates the cost based on the model price and input/output tokens.
-2.  **Reservation:** The estimated amount is temporarily reserved from your balance.
-3.  **Settlement:** After the request completes, the actual cost is deducted (or refunded if the request failed).
-
-If your balance is insufficient (less than the estimated cost or the minimum required buffer), you will receive a `402 Payment Required` error.
+1.  **Quota Users (Legacy/Hybrid):** You have a fixed Monthly Quota (e.g., 10,000 tokens for Free). Once exceeded, you are automatically switched to Pay-As-You-Go.
+2.  **Pay-As-You-Go Users:** There are **no hard volume limits**. You can generate as much as you want, provided you have sufficient **Credit Balance**.
 
 ---
 
 ## Response Headers
 
-We provide standard HTTP headers to help you track your usage:
+We provide transparent, real-time feedback on your current usage limits via standard HTTP headers. These headers are present on every API response.
 
-*   `X-RateLimit-Limit`: Your total monthly token limit.
-*   `X-RateLimit-Remaining`: Your remaining tokens for the month.
-*   `X-RateLimit-Reset`: Timestamp (in seconds) when your monthly limit resets.
+| Header | Description |
+| :--- | :--- |
+| `x-neosantara-ratelimit-requests-limit` | Your RPM limit. |
+| `x-neosantara-ratelimit-requests-remaining` | Requests remaining in the current 1-minute window. |
+| `x-neosantara-ratelimit-requests-reset` | Time (ISO 8601) when the RPM window resets. |
+| `x-neosantara-ratelimit-input-tokens-limit` | Your ITPM limit. |
+| `x-neosantara-ratelimit-input-tokens-remaining` | Input tokens remaining in the current 1-minute window. |
+| `x-neosantara-ratelimit-input-tokens-reset` | Time (ISO 8601) when the ITPM window resets. |
+| `x-neosantara-ratelimit-output-tokens-limit` | Your OTPM limit. |
+| `x-neosantara-ratelimit-output-tokens-remaining` | Output tokens remaining in the current 1-minute window. |
+| `x-neosantara-ratelimit-output-tokens-reset` | Time (ISO 8601) when the OTPM window resets. |
+| `x-neosantara-tier` | Your current Tier (e.g., Free, Basic, Pro). |
 
-Additionally, detailed usage metadata is included in the JSON response:
+### Example Headers
+
+```http
+HTTP/1.1 200 OK
+x-neosantara-ratelimit-requests-limit: 50
+x-neosantara-ratelimit-requests-remaining: 49
+x-neosantara-ratelimit-requests-reset: 2025-12-16T10:30:00.000Z
+x-neosantara-ratelimit-input-tokens-limit: 20000
+x-neosantara-ratelimit-input-tokens-remaining: 19950
+x-neosantara-ratelimit-output-tokens-limit: 5000
+x-neosantara-ratelimit-output-tokens-remaining: 4900
+x-neosantara-tier: Basic
+```
+
+---
+
+## Error Handling
+
+### 429 Too Many Requests
+Occurs when you exceed any of the throughput limits (RPM, ITPM, or OTPM). The response will include a `Retry-After` header indicating how many seconds to wait.
 
 ```json
 {
-  "_metadata": {
-    "usage": {
-      "daily": {
-        "current": 3500,
-        "limit": 3000,
-        "remaining": 0 // 0 indicates usage of Pay-As-You-Go or Limit Exceeded
-      },
-      "monthly": {
-        "current": 10500,
-        "limit": 10000,
-        "remaining": 0
-      }
-    },
-    "tier": {
-      "name": "Free",
-      "upstash_enabled": true
+  "error": {
+    "message": "Too many requests. Please try again later.",
+    "type": "rate_limit_exceeded",
+    "code": "rpm_exceeded", // or itpm_exceeded, otpm_exceeded
+    "details": {
+        "retry_after": 5,
+        "limit": 50,
+        "remaining": 0,
+        "reset": "2025-12-16T10:30:05.000Z"
     }
   }
 }
 ```
 
-## Error Codes
-
-### 429 Too Many Requests
-Occurs when you hit a strict limit like RPM/TPM, or if you hit a Quota limit **AND** have no Balance to fall back on.
-
-```json
-{
-  "error": {
-    "message": "Daily token limit for your account has been exceeded.",
-    "type": "usage_limit_exceeded",
-    "code": "daily_quota_exceeded"
-  }
-}
-```
-
 ### 402 Payment Required
-Occurs when you are in **Pay-As-You-Go** mode but do not have enough funds to cover the request.
+Occurs when you are in Pay-As-You-Go mode but have insufficient **Credit Balance**.
 
 ```json
 {
