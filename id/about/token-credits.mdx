@@ -1,39 +1,100 @@
-# Kredit Token & Harga
+---
+title: 'Kredit Token & Harga'
+description: 'Pelajari cara mengelola kredit token dan penagihan untuk API Neosantara.'
+---
 
-> Pelajari cara mengelola kredit token untuk API Neosantara.
-
-## Kredit Token Gratis
+## Mulai dengan Kuota Gratis
 
 <Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Dapatkan kunci API gratis Anda" horizontal>
-  Anda mendapatkan 7.500 Kredit Token gratis setiap bulan. **Tanpa perlu kartu kredit.**
+  Mulai dengan **10.000 Kuota Token Bulanan** pada Paket Gratis kami. **Tanpa perlu kartu kredit.** Token Anda secara otomatis direset pada tanggal 1 setiap bulan.
 </Card>
 
-## Ikhtisar Harga
+---
 
-Neosantara AI menggunakan model berbasis kredit yang sederhana dan transparan:
+## Sistem Penagihan Hibrida
 
-| **Paket** | **Token per Bulan** | **Token per Hari** | **Harga Bulanan** | **Harga per Kredit** |
-|----------------------------------|----------------------|--------------------|-------------------|----------------------|
-| **Free**                         | 7,500                | 1,500              | Free              | -                    |
-| **Basic**                        | 10,000               | 3,000              | Rp 75,000         | Rp 7.5               |
-| **Standard**                     | 50,000               | 10,000             | Rp 300,000        | Rp 6.0               |
-| **Pro**                          | 1,500,000            | 10,000             | Rp 2,235,000      | Rp 1.49              |
-| **Enterprise**                   | Custom               | Custom             | Custom            | Custom               |
+Neosantara AI menggunakan **Sistem Penagihan Hibrida** yang fleksibel yang menggabungkan kuota berlangganan dengan model Pay-As-You-Go.
 
-Kunjungi [Dasbor](https://app.neosantara.xyz/dashboard) atau [Halaman Harga](https://app.neosantara.xyz/pricing) untuk melihat opsi paket dan mengelola langganan Anda.
+1.  **Kuota Berlangganan:** Setiap paket dilengkapi dengan sejumlah "Token Gratis" (Kuota) yang direset setiap bulan.
+2.  **Pay-As-You-Go:** Setelah kuota Anda habis, Anda dapat terus menggunakan API dengan mengisi ulang **Saldo Kredit** Anda.
+3.  **Pengalihan Otomatis:** Jika Anda melebihi Batas Token Bulanan, akun Anda secara otomatis beralih ke **Mode Pay-As-You-Go** secara permanen untuk memastikan layanan tanpa gangguan. **Kami memberikan bonus saldo Rp 10.000 saat pengalihan ini!**
 
-## Biaya Kredit API
+### Harga Dasar
 
-Penggunaan API Neosantara AI dihitung berdasarkan jumlah Token yang diproses per permintaan, baik untuk `input` maupun `output`. Setiap model memiliki karakteristik dan biaya Token yang berbeda.
+Untuk penggunaan Pay-As-You-Go, tarif dasar untuk model standar adalah sekitar:
 
-### Cara Perhitungan Biaya Token
+-   **Rp 149.999 per 1 juta token**
+-   **~Rp 0,15 per token**
 
-* **Pemrosesan Teks Dasar (misalnya, Chat Completions):**
-  * Setiap permintaan teks dasar mengonsumsi Token berdasarkan panjang teks input (prompt dan riwayat obrolan) serta teks output yang dihasilkan.
+---
 
-* **Fungsi Khusus & Kemampuan Lanjutan (misalnya, function_calling, web_search):**
-  * Ketika model menggunakan kemampuan lanjutan seperti `memanggil fungsi eksternal` atau melakukan `pencarian web`, biaya Token untuk permintaan tersebut akan mencerminkan kompleksitas komputasi tambahan dan pemrosesan data yang terlibat. Biaya pastinya bervariasi per permintaan berdasarkan operasi aktual yang dilakukan oleh model.
+## Paket Berlangganan
 
-### Melacak Penggunaan Anda
+Pilih paket yang sesuai dengan volume bulanan Anda. Semua paket berbayar mencakup kuota token yang substansial.
 
-Cara paling akurat untuk melacak biaya Token setiap permintaan, terutama untuk fitur lanjutan dan input multimodal, adalah melalui kolom `tokens_used` di bagian `_metadata` respons API atau dengan memeriksa [Dasbor Penggunaan](https://app.neosantara.xyz/usage).
+| <div align="left">**Paket**</div> | **Kuota Harian (TPD)** | **Kuota Bulanan** | **Batas Bulanan CLI** |
+| :---: | :---: | :---: | :---: |
+| Free | 3.000 | 10.000 | 30.000 |
+| Basic | 10.000 | 66.667 | 100.000 |
+| Standard | 40.000 | 400.000 | 300.000 |
+| Pro | 100.000 | 1.000.000 | 1.000.000 |
+| Enterprise | Custom | Custom | Unlimited |
+
+[Pelajari lebih lanjut tentang Batas Penggunaan](/id/about/rate-limits)
+
+**Siap untuk upgrade?** [Hubungi Kami](mailto:halo@neosantara.xyz) atau [Halaman Harga](https://app.neosantara.xyz/pricing) untuk menjelajahi opsi paket.
+
+---
+
+## Harga Model Pay-As-You-Go
+
+Saat menggunakan Saldo Kredit Anda, biaya dihitung per permintaan berdasarkan model spesifik yang digunakan.
+
+### Model Teroptimasi Indonesia
+
+| Model | Input/1Jt Token | Output/1Jt Token |
+| :--- | :--- | :--- |
+| `nusantara-base` | Rp 300 | Rp 1.500 |
+| `archipelago-70b` | Rp 4.710 | Rp 36.543 |
+| `garda-beta-mini` | Rp 2.500 | Rp 10.499 |
+| `luminai` | Free | Free |
+
+### Model Pihak Ketiga
+
+| Model | Input/1Jt Token | Output/1Jt Token |
+| :--- | :--- | :--- |
+| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4.560 | Rp 31.991 |
+| `gemma-3-27b-it` | Rp 200 | Rp 1.000 |
+| `llama-3.3-70b-instruct` | Free | Free |
+| `gemma2-9b-it` | Free | Free |
+
+### Model Spesial
+
+| Model | Model Harga | Catatan |
+| :--- | :--- | :--- |
+| `neosantara-gen-2045` | Per Gambar | 1024x1024: Rp 2.000, 512x512: Rp 1.200, 256x256: Rp 500 |
+| `nusa-embedding-0001` | Per Permintaan | Hubungi penjualan untuk harga |
+
+<Note>
+Biaya **Pembuatan Gambar** dipotong langsung dari saldo Anda per gambar yang dihasilkan.
+</Note>
+
+### Cara Perhitungan Biaya
+
+$$Harga = (\text{Token Input} \times \text{Harga Input}) + (\text{Token Output} \times \text{Harga Output})$$
+
+**Contoh:**
+Menggunakan `nusantara-base` (Input: Rp 300/1Jt, Output: Rp 1.500/1Jt) untuk permintaan dengan 500 token input dan 200 token output:
+
+1.  Biaya Input: $500 / 1.000.000 \times 300 = \text{Rp } 0,15$
+2.  Biaya Output: $200 / 1.000.000 \times 1.500 = \text{Rp } 0,30$
+3.  **Total:** Rp 0,45
+
+---
+
+## Lacak Penggunaan Anda
+
+Untuk pelacakan konsumsi Anda yang paling akurat:
+
+1.  **Respons API:** Periksa kolom `_metadata` di setiap respons.
+2.  **Dasbor Penggunaan:** Kunjungi [Dasbor Penggunaan](https://app.neosantara.xyz/usage) Anda untuk melihat sisa Kuota dan Saldo Kredit Anda.
