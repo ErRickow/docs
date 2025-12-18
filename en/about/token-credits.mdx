@@ -1,131 +1,125 @@
 ---
 title: 'Token Credits & Pricing'
-description: 'Learn how to manage token credits for Neosantara APIs.'
+description: 'Documentation on token credits management, billing structure, and pricing models for Neosantara APIs.'
 ---
 
-## Get Started with Free Credits
+## Pay-As-You-Go System
 
-<Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
-  Start with **10,000 Monthly Token Limit** on our Free Plan. **No credit card required.** Your tokens automatically reset on the 1st of each month.
-</Card>
-
----
-
-## Simple, Transparent Pricing
-
-Neosantara AI uses a straightforward credit-based system. All paid plans follow a consistent rate of **Rp 149,999 per 1 million tokens** (approximately **Rp 0.15 per token** or **Rp 149.99 per 1,000 tokens**). 
-
-Choose from our structured plans below, or go with our flexible Custom option for unique requirements.
-
-### Plan Comparison
-
-| <div align="left">**Plan**</div> | **RPM** | **TPM** | **TPD** | **Monthly Token Limit** |
-| :---: | :---: | :---: | :---: | :---: |
-| Free | 5 | 3,000 | 2,000 | 10,000 (Est.) |
-| Basic | 30 | 10,000 | 10,000 | 66,667 (Est.) |
-| Standard | 100 | 40,000 | 100,000 | 400,000 (Est.) |
-| Pro | 400 | 100,000 | 200,000 | 1,000,000 (Est.) |
-| Enterprise | Custom| Custom | Custom | Custom |
-
-[Learn more about Neosantara token credits](/en/about/token-credits#how-api-costs-work)
-
-**Ready to upgrade?** [Reach Us](mailto:halo@neosantara.xyz) or [Pricing Page](https://app.neosantara.xyz/pricing) to explore plan options and manage your subscription.
+Neosantara AI operates primarily on a **Pay-As-You-Go** billing system. Users are billed based on actual usage without mandatory monthly subscription fees or restrictive volume limits.
 
 ---
 
-## How API Costs Work
+## Legacy Users (Transition)
 
-Neosantara AI API usage is calculated based on **total tokens processed per request**, including both `input (your prompts)` and `output (AI responses)`. Each model has different pricing based on its capabilities and computational requirements.
-
-### Cost Calculation Formula
-
-- **Price = Tokens × Rp 0.15** (per token)
-- **Price = (Tokens ÷ 1,000) × Rp 149.99** (per 1,000 tokens)
-
-$$Price = \text{Tokens} \times \text{Rp } 0.15 \text{ (per token)}$$
-
-$$Price = \left( \frac{\text{Tokens}}{1000} \right) \times \text{Rp } 149.99 \text{ (per 1,000 tokens)}$$
-
-**Example:** For 100,000 tokens:
----
-$$Price = 100,000 \times 0.15 = \text{Rp } 15,000$$
----
-or
----
-$$Price = \left( \frac{100,000}{1,000} \right) \times 149.99 = \text{Rp } 14,999$$
-
-Both calculations yield approximately **Rp 15,000** (rounded for simplicity).
+Users registered prior to the Pay-As-You-Go update operate under a **Legacy Plan**:
+1.  **Quota Usage:** Monthly Token Quotas remain active and are prioritized.
+2.  **Automatic Migration:** Upon exceeding the monthly quota for the first time, the account is automatically and permanently migrated to the **Pay-As-You-Go Mode**.
+3.  **Transition Credit:** A one-time credit of **Rp 10,000** is granted upon migration to ensure service continuity.
 
 ---
 
-## Model Pricing & Selection
+## Pricing Structure
 
-Our pricing structure is designed for simplicity and scalability. Choose the model that best fits your specific use case and budget. All prices are listed in Indonesian Rupiah (IDR) per 1 million tokens.
+Usage costs are calculated per request based on the specific model selected. Prices are listed in **IDR (Rupiah)**. Models originally priced in USD are converted to IDR based on dynamic exchange rates.
 
-### Indonesian-Optimized Models
+### Batch Processing
 
-| Model | Input/1M Tokens | Output/1M Tokens |
-| :--- | :--- | :--- |
-| `nusantara-base` | Rp 300 | Rp 1,500 |
-| `archipelago-70b` | Rp 4,710 | Rp 36,543 |
-| `garda-beta-mini` | Rp 2,500 | Rp 10,499 |
-| `luminai` | Free | Free |
+The Batch API offers asynchronous processing for high-volume requests at a reduced rate. This is suitable for tasks that do not require immediate responses, such as bulk data processing.
 
-### Third-Party Models
-
-| Model | Input/1M Tokens | Output/1M Tokens |
-| :--- | :--- | :--- |
-| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 |
-| `gemma-3-27b-it` | Rp 200 | Rp 1,000 |
-| `llama-3.3-70b-instruct` | Free | Free |
-| `gemma2-9b-it` | Free | Free |
-
-### Special Models
-
-| Model | Pricing Model | Notes |
-| :--- | :--- | :--- |
-| `neosantara-gen-2045` | Per Image | 1024x1024: Rp 2,000, 512x512: Rp 1,200, 256x256: Rp 500 |
-| `nusa-embedding-0001` | Per Request | Contact sales for pricing |
+| Usage Type | Rate Adjustment |
+| :--- | :--- |
+| Batch Input | **50% of** standard input price |
+| Batch Output | **50% of** standard output price |
 
 <Note>
-**Image Generation** and **Embedding Models** use different billing metrics (per image or per request rather than tokens). Check your dashboard for detailed usage tracking of these services.
+The discount is applied automatically for requests sent to the [`/v1/batches`](/api-reference/batches/overview) endpoint.
 </Note>
 
-### Model Selection Guide
+### Model Pricing Table
 
-Not sure which model to choose? Here's a quick comparison to help you decide:
+| Model | Input/1M | Output/1M | Cache Read/1M | Cache Write/1M | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `nusantara-base` | **Rp 300** | **Rp 1,500** | N/A | N/A | |
+| `gemma2-9b-it` | Rp 200 | Rp 1,000 | N/A | N/A | |
+| `llama-3.3-70b-instruct` | Rp 4,560 | Rp 31,991 | N/A | N/A | |
+| `archipelago-70b` | Rp 4,710 | Rp 36,543 | N/A | N/A | |
+| `garda-beta-mini` | Rp 2,500 | Rp 10,499 | N/A | N/A | |
+| `luminai` | Rp 1,000 | Rp 3,000 | N/A | N/A | |
+| `sea-lion-v4-27b-it` | Rp 350 | Rp 560 | N/A | N/A | |
+| `granite-3-8b-instruct` | Rp 2,880 | Rp 11,520 | N/A | N/A | |
+| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 | N/A | N/A | |
+| `llama-3.3-70b-turbo` | Rp 300 | Rp 1,200 | N/A | N/A | |
+| `gpt-oss-20b` | Rp 400 | Rp 1,600 | N/A | N/A | |
+| `llama-3.2-11b` | Rp 100 | Rp 400 | N/A | N/A | |
+| `kimi-k2` | Rp 16,642 | Rp 49,929 | N/A | N/A | |
+| `deepseek-chat-v3.1` | Rp 3,333 | Rp 8,333 | N/A | N/A | |
+| `qwen3-coder` | Rp 3,333 | Rp 8,333 | N/A | N/A | |
+| `glm-4.6` | Rp 823 | Rp 2,823 | N/A | N/A | |
+| `glm-4.6-plus` | Rp 823 | Rp 2,832 | N/A | N/A | |
+| `gemma-3-27b-it` | Rp 200 | Rp 1,500 | N/A | N/A | |
+| `claude-4.5-sonnet` | $3.00 | $15.00 | $0.30 | $3.75 | USD (IDR Conversion) |
+| `gemini-3-flash` | $0.50 | $3.00 | $0.10 | $0.03 | USD (IDR Conversion) |
+| `grok-code-fast` | $0.20 | $1.50 | $0.05 | $0.13 | USD (IDR Conversion) |
+| `grok-4.1-fast-non-reasoning` | $0.30 | $0.72 | $0.10 | $0.15 | USD (IDR Conversion) |
 
-| **Use Case** | **Recommended Model** | **Price (Input/Output per 1M)** | **Best For** |
-| :--- | :--- | :--- | :--- |
-| **Budget-Friendly Indonesian** | `nusantara-base` | Rp 300 / Rp 1,500 | Cost-effective Indonesian language tasks with balanced performance |
-| **Premium Indonesian Content** | `archipelago-70b` | Rp 4,710 / Rp 36,543 | Complex tasks requiring deep cultural and contextual understanding |
-| **Fast Indonesian Processing** | `garda-beta-mini` | Rp 2,500 / Rp 10,499 | Quick responses with large context window support |
-| **Free Indonesian AI** | `luminai` | Free / Free | Basic Indonesian conversational AI |
-| **Budget General Purpose** | `gemma-3-27b-it` | Rp 200 / Rp 1,000 | Lightweight multilingual tasks |
-| **Advanced Reasoning** | `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 / Rp 31,991 | Complex reasoning and multilingual tasks |
 ---
 
-## Understanding Token Usage
+<Note>
+**Cache Read:** For models supporting caching, input tokens read from cache are billed at the 'Cache Read' rate. If 'N/A', standard input rates apply.
+**Cache Write:** Operations writing to cache are billed at the standard 'Input' token rate.
+**USD Pricing:** Models marked with USD pricing require conversion to IDR based on current exchange rates.
+</Note>
 
-### Basic Text Processing
-Standard text requests (like [`chat completions`](/api-reference/chat)) consume tokens based on:
-- **Input length:** Your prompts and conversation history
-- **Output length:** The AI-generated response text
+---
 
-### Advanced Features
-When using enhanced capabilities such as **function calling**, **web search**, or **vision**, token costs will be higher due to:
-- Additional computational complexity
-- Extra data processing requirements
-- Enhanced model capabilities being utilized
+### Image Generation
 
-The exact cost varies per request based on the specific operations performed by the model.
+| Model | Resolution | Price per Image |
+| :--- | :--- | :--- |
+| `neosantara-gen-2045` | 1024x1024 | **Rp 1,500** |
+| `neosantara-gen-2045` | 512x512 | Rp 800 |
+| `neosantara-gen-2045` | 256x256 | Rp 400 |
 
-### Track Your Usage
+### OCR
 
-For the most accurate tracking of your token consumption:
+| Model | Price per Image |
+| `deepseek-ocr` | Rp 100 |
 
-1. **API Response:** Check the `tokens_used` field using [`/auth/key`](/api-reference/authentication/check-api-key-status)
-2. **Usage Dashboard:** Visit your [Usage Dashboard](https://app.neosantara.xyz/usage) to view:
-   - Remaining credits
-   - Usage patterns and trends
-   - Detailed breakdowns by model and feature
+### Tool Usage
+
+Tool usage is billed based on the tokens consumed by tool definitions, calls, and results. These are calculated as standard input and output tokens associated with the selected model. No separate orchestration fee is applied.
+
+---
+
+## Throughput Tiers (Speed Limits)
+
+**Throughput Limits** (RPM/TPM) are determined by the account's Tier. The Tier level is automatically adjusted based on the **Total Lifetime Deposit**.
+
+| Tier | Min. Cumulative Deposit | RPM | ITPM | OTPM |
+| :--- | :--- | :--- | :--- | :--- |
+| **Free** | Rp 0 | 3 | 5,000 | 2,000 |
+| **Basic** | **Rp 85,000** | 50 | 20,000 | 5,000 |
+| **Standard** | **Rp 670,000** | 1,000 | 100,000 | 25,000 |
+| **Pro** | **Rp 3,350,000** | 2,000 | 200,000 | 50,000 |
+| **Enterprise** | **Rp 6,700,000** | 4,000 | 500,000 | 125,000 |
+
+<Note>
+**Tier Upgrade:** Tier upgrades occur automatically once the account's total deposit history reaches the specified threshold.
+</Note>
+
+---
+
+## Balance Management
+
+### Checking Balance
+Current **Credit Balance** and usage can be monitored via **Dashboard:** The [Usage Page](https://app.neosantara.xyz/usage).
+
+### Adding Funds
+Balance can be added through the following method:
+1.  Navigate to the [Billing Page](https://app.neosantara.xyz/billing).
+2.  Select "Top Up Balance".
+3.  Complete payment via QRIS, GoPay, OVO, or Bank Transfer.
+
+<Info>
+For credit card payments, please contact us via [support email](support@neosantara.xyz)
+</Info>
