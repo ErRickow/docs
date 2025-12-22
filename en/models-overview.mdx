@@ -5,16 +5,20 @@ description: '> Discover the range of state-of-the-art large language models pro
 
 Neosantara AI offers a curated selection of state-of-the-art models, ranging from our own Indonesian-optimized fine-tunes to the best open-source models from Meta, Google, Alibaba, and more.
 
+<Note>
+  **Billing & Pricing:** For a detailed explanation of how credits work, pricing mechanics (Pay-As-You-Go), and throughput tiers, please refer to the [Token Credits & Pricing](/en/about/token-credits) documentation.
+</Note>
+
 ## Featured Models
 
 <CardGroup cols={2}>
-  <Card title="Nusantara-Base" icon="trophy" href="#indonesian-optimized-models">
+  <Card title="Nusantara-Base" icon="trophy" href="#model-list">
     Our flagship model. Balanced performance for general tasks, optimized for Indonesian context.
     * **ID**: `nusantara-base`
     * **Context**: 64k
   </Card>
 
-  <Card title="Garda-Beta-Mini" icon="bolt" href="#indonesian-optimized-models">
+  <Card title="Garda-Beta-Mini" icon="bolt" href="#model-list">
     Lightning fast and efficient. Best for high-volume tasks and long context handling.
     * **ID**: `garda-beta-mini`
     * **Context**: 131k
@@ -25,8 +29,7 @@ Neosantara AI offers a curated selection of state-of-the-art models, ranging fro
 
 ## Model List
 
-### Indonesian-Optimized Models
-Models specifically fine-tuned or selected for superior performance in Bahasa Indonesia and regional context.
+Below is the complete list of available models on the Neosantara platform.
 
 | Model ID | Description | Context | Pricing (Input/Output) |
 | :--- | :--- | :--- | :--- |
@@ -34,54 +37,27 @@ Models specifically fine-tuned or selected for superior performance in Bahasa In
 | `garda-beta-mini` | **Fastest**. High efficiency, massive context. | 131k | Rp 2,500 / 10,499 |
 | `archipelago-70b` | **Deep Culture**. Llama-3.3 70B fine-tuned for cultural nuance. | 24k | Rp 4,710 / 36,543 |
 | `sea-lion-v4-27b-it` | **Regional**. Specialized for Southeast Asian languages. | 128k | Rp 350 / 560 |
-| `luminai` | **Free**. Lightweight conversational agent. | 8k | Free |
-
-### Reasoning & Deep Research
-Powerful models designed for complex logic, math, and extensive research tasks.
-
-| Model ID | Description | Context | Pricing |
-| :--- | :--- | :--- | :--- |
-| `deepseek-r1-llama-70b` | **SOTA Reasoning**. Distilled R1 for math & code. | 131k | Rp 400 / 1,600 |
-| `llama-3.3-nemotron...` | **Super**. 49B model with exceptional reasoning. | 132k | Rp 4,560 / 31,991 |
-| `kimi-k2` | **MoE**. 1T params (MoE) optimized for agentic tasks. | 131k | Rp 16,642 / 49,929 |
-| `tongyi-deepresearch...` | **Research**. 30B agentic model for deep tasks. | 131k | Rp 3,333 / 8,333 |
-| `glm-4.6` | **Z.ai**. SOTA coding and agent benchmarks. | 128k | Rp 823 / 2,823 |
 | `deepseek-chat-v3.1` | **Hybrid**. 671B MoE model. | 164k | Rp 3,333 / 8,333 |
-
-### General Purpose & Fast
-Reliable workhorses for standard chat, summarization, and instruction following.
-
-| Model ID | Description | Context | Pricing |
-| :--- | :--- | :--- | :--- |
+| `kimi-k2` | **MoE**. 1T params (MoE) optimized for agentic tasks. | 131k | Rp 16,642 / 49,929 |
+| `llama-3.3-nemotron-super-49b-v1.5` | **Super**. 49B model with exceptional reasoning. | 132k | Rp 4,560 / 31,991 |
+| `glm-4.6` | **Z.ai**. SOTA coding and agent benchmarks. | 128k | Rp 823 / 2,823 |
+| `glm-4.6-plus` | **Z.ai**. More powerful coding context. | 128k | Rp 823 / 2,832 |
+| `grok-4.1-fast-non-reasoning` | **Massive Context**. xAI's best tool-calling model. | 2M | $0.30 / $0.72 (USD) |
 | `llama-3.3-70b-instruct` | **Standard**. Robust general intelligence. | 24k | Rp 4,560 / 31,991 |
 | `llama-3.3-70b-turbo` | **Turbo**. Optimized version of Llama 70B. | 8k | Rp 300 / 1,200 |
 | `gemma-3-27b-it` | **New**. Google's latest open model. | 32k | Rp 200 / 1,500 |
 | `gemma2-9b-it` | **Efficient**. High quality for its size. | 8k | Rp 200 / 1,000 |
 | `llama-3.2-11b` | **Light**. Efficient vision-capable model. | 8k | Rp 100 / 400 |
 | `granite-3-8b-instruct` | **Enterprise**. IBM's enterprise-grade model. | 128k | Rp 2,880 / 11,520 |
-
-### Specialized (Coding, Gateway, OCR)
-
-| Model ID | Description | Context | Pricing |
-| :--- | :--- | :--- | :--- |
+| `gpt-oss-20b` | **Low Latency**. Medium-sized open-weight model. | 131k | Rp 400 / 1,600 |
+| `gemini-3-flash` | **Speed**. Google's most intelligent model built for speed. | 1M | $0.50 / $3.00 (USD) |
 | `qwen3-coder` | **Coding**. 480B MoE specialist. | 262k | Rp 3,333 / 8,333 |
+| `grok-code-fast` | **Coding**. xAI's latest coding model. | 256k | $0.20 / .50 (USD) |
+| `claude-4.5-sonnet`| **Gateway**. Access Anthropic via Vercel. | 200k | $3.00 / 5.00 (USD) |
 | `deepseek-ocr` | **Vision**. High-accuracy text extraction. | - | Rp 100 / image |
-| `vercel-claude-3.5-sonnet`| **Gateway**. Access Anthropic via Vercel. | 200k | $3.00 / $15.00 (USD) |
-| `vercel-gpt-4o` | **Gateway**. Access OpenAI via Vercel. | 128k | $5.00 / $15.00 (USD) |
-
-### Image Generation
-
-| Model ID | Description | Pricing |
-| :--- | :--- | :--- |
-| `neosantara-gen-2045` | **FLUX.1**. High-speed, high-quality generation. | Rp 1,500 (1024px) |
-
-### Embeddings
-
-| Model ID | Description | Pricing |
-| :--- | :--- | :--- |
-| `nusa-embedding-0001` | Text embedding for search and RAG. | Rp 100 / 1M tokens |
-
----
+| `neosantara-gen-2045` | **Image**. High-speed, high-quality generation. | - | Rp 1,500 (1024px) |
+| `nusa-embedding-0001` | **Embedding**. Text embedding for search and RAG. | - | Rp 100 / 1M |
+| `gemini-embedding-001` | **Embedding**. Gemini embedding model. | 2k | Free |
 
 <Note>
   **Pricing Note:** "Rp" indicates Indonesian Rupiah. "USD" indicates US Dollars. Prices are per 1 Million tokens unless otherwise stated.
