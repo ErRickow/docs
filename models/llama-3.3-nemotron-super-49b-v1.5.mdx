@@ -1,9 +1,59 @@
 ---
 title: "Llama 3.3 Nemotron Super 49B"
-description: "General purpose reasoning and chat model with exceptional performance."
+description: "General purpose reasoning and chat model intended for English and coding, with support for major European and Asian languages."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
 import { llama33NemotronData } from '/snippets/model-data.jsx';
 
 <ModelInfo {...llama33NemotronData} />
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "llama-3.3-nemotron-super-49b-v1.5",
+    "messages": [
+      { "role": "user", "content": "Hello!" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.chat.completions.create(
+    model="llama-3.3-nemotron-super-49b-v1.5",
+    messages=[
+        {"role": "user", "content": "Hello!"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<YOUR_API_KEY>"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Hello!" }],
+  model: "llama-3.3-nemotron-super-49b-v1.5",
+});
+
+console.log(completion.choices[0].message.content);
+```
+</CodeGroup>

@@ -1,8 +1,9 @@
 export const nusantaraBaseData = {
   modelId: "nusantara-base",
-  modelCardUrl: "#",
+  provider: "Neosantara AI",
+  modelCardUrl: "https://neosantara.xyz",
   contextLength: { freeTier: "64k tokens" },
-  maxOutput: { freeTier: "2048 tokens" },
+  // ...
   speed: { value: "Fast", unit: "latency" },
   rateLimits: [
   { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
@@ -23,8 +24,12 @@ export const nusantaraBaseData = {
 
 export const archipelago70bData = {
   modelId: "archipelago-70b",
-  modelCardUrl: "#",
+  provider: "Neosantara AI",
+  modelCardUrl: "https://neosantara.xyz/models/archipelago",
   contextLength: { freeTier: "24k tokens" },
+  // ...
+
+
   maxOutput: { freeTier: "2048 tokens" },
   speed: { value: "Medium", unit: "latency" },
   rateLimits: [
@@ -255,7 +260,7 @@ export const neosantaraGen2045Data = {
   modelId: "neosantara-gen-2045",
   modelCardUrl: "#",
   contextLength: { freeTier: "0 tokens" },
-  maxOutput: { freeTier: "Image" },
+  maxOutput: { freeTier: "1 Image" },
   speed: { value: "Fast", unit: "latency" },
   rateLimits: [
   { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
@@ -268,10 +273,21 @@ export const neosantaraGen2045Data = {
   docsUrl: "en/about/token-credits",
   freeBalance: "Rp 20,000"
 },
-  pricing: { inputPrice: "1500", outputPrice: "0", currency: "IDR", inputUnit: "per Image (1024x1024)", pricingUrl: "/en/about/token-credits" },
+  pricing: { 
+    inputPrice: "400 - 1,500", 
+    outputPrice: "0", 
+    currency: "Rp", 
+    inputUnit: "per Image", 
+    pricingUrl: "/en/about/token-credits" 
+  },
   endpoints: ["Image Generations"],
   features: ["image_generation"],
-  inputOutput: { inputFormats: ["text"], outputFormats: ["image"] }
+  inputOutput: { inputFormats: ["text"], outputFormats: ["image"] },
+  knownLimitations: [
+    "1024x1024: Rp 1,500 per image",
+    "512x512: Rp 800 per image",
+    "256x256: Rp 400 per image"
+  ]
 };
 
 export const nusaEmbedding0001Data = {
@@ -297,7 +313,7 @@ export const nusaEmbedding0001Data = {
   inputOutput: { inputFormats: ["text"], outputFormats: ["embedding"] }
 };
 
-export const kimiK2LatestData = {
+export const kimiK2Data = {
   modelId: "kimi-k2",
   modelCardUrl: "#",
   contextLength: { freeTier: "131k tokens" },
@@ -317,10 +333,153 @@ export const kimiK2LatestData = {
   pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
-  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] }
+  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
+  knownLimitations: ["Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model featuring 1 trillion parameters (32B active)."]
 };
 
-export const kimiK2Data = kimiK2LatestData; // Alias
+export const kimiK2LatestData = {
+  modelId: "kimi-k2:latest",
+  modelCardUrl: "#",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "128k tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/token-credits",
+  freeBalance: "Rp 20,000"
+},
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "vision", "file_interpretation", "streaming"],
+  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
+  knownLimitations: ["Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model featuring 1 trillion parameters (32B active)."]
+};
+
+export const kimiK2SearchData = {
+  modelId: "kimi-k2:search",
+  modelCardUrl: "#",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "128k tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/token-credits",
+  freeBalance: "Rp 20,000"
+},
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "vision", "file_interpretation", "streaming", "web_search"],
+  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
+  knownLimitations: ["Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model featuring 1 trillion parameters (32B active)."]
+};
+
+export const kimiK2ResearchData = {
+  modelId: "kimi-k2:research",
+  modelCardUrl: "#",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "128k tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/token-credits",
+  freeBalance: "Rp 20,000"
+},
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "vision", "file_interpretation", "streaming"],
+  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
+  knownLimitations: ["Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model featuring 1 trillion parameters (32B active)."]
+};
+
+export const kimiK2MathData = {
+  modelId: "kimi-k2:math",
+  modelCardUrl: "#",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "128k tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/token-credits",
+  freeBalance: "Rp 20,000"
+},
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "vision", "file_interpretation", "streaming"],
+  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
+  knownLimitations: ["Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model featuring 1 trillion parameters (32B active)."]
+};
+
+export const kimiK2SilentData = {
+  modelId: "kimi-k2:silent",
+  modelCardUrl: "#",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "128k tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/token-credits",
+  freeBalance: "Rp 20,000"
+},
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "vision", "file_interpretation", "streaming"],
+  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
+  knownLimitations: ["Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model featuring 1 trillion parameters (32B active)."]
+};
+
+export const kimiK1Data = {
+  modelId: "kimi-k1",
+  modelCardUrl: "#",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "128k tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/token-credits",
+  freeBalance: "Rp 20,000"
+},
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "vision", "file_interpretation", "streaming"],
+  inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
+  knownLimitations: ["The first generation Kimi model developed by Moonshot AI."]
+};
 
 export const glm46PlusData = {
   modelId: "glm-4.6-plus",

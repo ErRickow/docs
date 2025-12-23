@@ -1,25 +1,16 @@
 ---
-title: 'Token Credits & Pricing'
-description: 'Documentation on token credits management, billing structure, and pricing models for Neosantara APIs.'
+title: 'Billing & Pricing'
+description: 'Documentation on billing structure, pay-as-you-go rates, and throughput tiers for Neosantara APIs.'
 ---
 
 ## Pay-As-You-Go System
 
-Neosantara AI operates primarily on a **Pay-As-You-Go** billing system. Users are billed based on actual usage without mandatory monthly subscription fees or restrictive volume limits.
+Neosantara AI operates on a **Pay-As-You-Go** billing system. Users are billed based on actual usage (tokens processed or images generated) without mandatory monthly subscription fees or restrictive volume limits.
 
 ### Getting Started
 1.  **Registration:** Create a new account on the platform.
 2.  **Email Verification:** Verify your email address to receive an initial **Rp 20,000 Balance Credit**.
 3.  **API Access:** Access is granted immediately with usage billed against the credit balance. Volume is limited only by available funds.
-
----
-
-## Legacy Users (Transition)
-
-Users registered prior to the Pay-As-You-Go update operate under a **Legacy Plan**:
-1.  **Quota Usage:** Monthly Token Quotas remain active and are prioritized.
-2.  **Automatic Migration:** Upon exceeding the monthly quota for the first time, the account is automatically and permanently migrated to the **Pay-As-You-Go Mode**.
-3.  **Transition Credit:** A one-time credit of **Rp 10,000** is granted upon migration to ensure service continuity.
 
 ---
 
@@ -49,7 +40,6 @@ The discount is applied automatically for requests sent to the `/v1/batches` end
 | `llama-3.3-70b-instruct` | Rp 4,560 | Rp 31,991 | N/A | |
 | `archipelago-70b` | Rp 4,710 | Rp 36,543 | N/A | |
 | `garda-beta-mini` | Rp 2,500 | Rp 10,499 | N/A | |
-| `luminai` | Rp 1,000 | Rp 3,000 | N/A | |
 | `sea-lion-v4-27b-it` | Rp 350 | Rp 560 | N/A | |
 | `granite-3-8b-instruct` | Rp 2,880 | Rp 11,520 | N/A | |
 | `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 | N/A | |
@@ -58,24 +48,21 @@ The discount is applied automatically for requests sent to the `/v1/batches` end
 | `llama-3.2-11b` | Rp 100 | Rp 400 | N/A | |
 | `kimi-k2` | Rp 16,642 | Rp 49,929 | N/A | |
 | `deepseek-chat-v3.1` | Rp 3,333 | Rp 8,333 | N/A | |
-| `tongyi-deepresearch-30b-a3b` | Rp 3,333 | Rp 8,333 | N/A | |
 | `qwen3-coder` | Rp 3,333 | Rp 8,333 | N/A | |
 | `glm-4.6` | Rp 823 | Rp 2,823 | N/A | |
 | `glm-4.6-plus` | Rp 823 | Rp 2,832 | N/A | |
 | `gemini-2.5-pro` | Rp 40,525 | Rp 243,187 | Rp 4,052 | |
 | `gemini-2.5-flash` | Rp 4,864 | Rp 40,536 | Rp 486 | |
-| `gemini-2.5-flash-lite` | Rp 1,621 | Rp 6,485 | Rp 162 | |
 | `gemini-2.0-flash` | Rp 1,621 | Rp 6,485 | Rp 162 | |
-| `gemini-2.0-flash-lite` | Rp 1,621 | Rp 6,485 | Rp 162 | |
 | `gemini-1.5-pro` | Rp 40,536 | Rp 162,144 | Rp 4,053 | |
 | `gemini-1.5-flash` | Rp 1,850 | Rp 7,700 | Rp 185 | |
+| `gemini-3-flash` | $0.50 | $3.00 | $0.10 | USD (IDR Conversion) |
 | `gemma-3-27b-it` | Rp 200 | Rp 1,500 | N/A | |
-| `gpt-5-mini` | Rp 4,052 | Rp 32,423 | N/A | |
-| `gpt-5-nano` | Rp 810 | Rp 6,485 | N/A | |
 | `gpt-4o-mini` | Rp 6,482 | Rp 25,930 | N/A | |
 | `gpt-4.1-nano` | Rp 1,620 | Rp 6,481 | N/A | |
-| `vercel-gpt-4o` | $5.00 | $15.00 | N/A | USD (IDR Conversion) |
-| `vercel-claude-3.5-sonnet` | $3.00 | $15.00 | $0.30 | USD (IDR Conversion) |
+| `claude-4.5-sonnet` | $3.00 | $15.00 | $0.30 | USD (IDR Conversion) |
+| `grok-code-fast` | $0.20 | $1.50 | $0.05 | USD (IDR Conversion) |
+| `grok-4.1-fast-non-reasoning` | $0.30 | $0.72 | $0.10 | USD (IDR Conversion) |
 
 <Note>
 **Cache Read:** For models supporting caching, input tokens read from cache are billed at the 'Cache Read' rate. If 'N/A', standard input rates apply.
@@ -86,8 +73,9 @@ The discount is applied automatically for requests sent to the `/v1/batches` end
 
 | Model | Resolution | Price per Image |
 | :--- | :--- | :--- |
-| `neosantara-gen-2045` | 1024x1024 | **Rp 2,000** |
-| `neosantara-gen-2045` | 512x512 | Rp 1,200 |
+| `neosantara-gen-2045` | 1024x1024 | **Rp 1,500** |
+| `neosantara-gen-2045` | 512x512 | Rp 800 |
+| `neosantara-gen-2045` | 256x256 | Rp 400 |
 | `deepseek-ocr` | N/A | Rp 100 |
 
 ### Tool Usage

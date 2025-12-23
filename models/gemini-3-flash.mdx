@@ -7,3 +7,52 @@ import { ModelInfo } from '/snippets/model-info.jsx';
 import { gemini3FlashData } from '/snippets/model-data.jsx';
 
 <ModelInfo {...gemini3FlashData} />
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "gemini-3-flash",
+    "messages": [
+      { "role": "user", "content": "Hello!" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.chat.completions.create(
+    model="gemini-3-flash",
+    messages=[
+        {"role": "user", "content": "Hello!"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<YOUR_API_KEY>"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Hello!" }],
+  model: "gemini-3-flash",
+});
+
+console.log(completion.choices[0].message.content);
+```
+</CodeGroup>

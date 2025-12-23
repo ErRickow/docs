@@ -1,5 +1,6 @@
 export const ModelInfo = ({
   modelId,
+  provider,
   modelCardUrl,
   contextLength = {},
   maxOutput = {},
@@ -56,9 +57,16 @@ export const ModelInfo = ({
     <div className="space-y-6 not-prose mt-6">
       {/* Header Info */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Model ID</span>
-          <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-900 px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-800">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Model ID</span>
+            {provider && (
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium border border-zinc-200 dark:border-zinc-700">
+                {provider}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-900 px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-800 w-fit">
             <code className="text-zinc-900 dark:text-zinc-100 font-mono text-sm font-semibold">{modelId}</code>
             <button 
               onClick={() => {
@@ -73,28 +81,26 @@ export const ModelInfo = ({
             </button>
           </div>
         </div>
-        {modelCardUrl && modelCardUrl !== "#" && (
-          <a
-            href={modelCardUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
-          >
-            Model Card
-            <Icon icon="external-link" size={14} />
-          </a>
-        )}
+        <div className="flex items-center gap-3">
+          {modelCardUrl && modelCardUrl !== "#" && (
+            <a
+              href={modelCardUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
+            >
+              Model Card
+              <Icon icon="external-link" size={14} />
+            </a>
+          )}
+        </div>
       </div>
 
       {/* Primary Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
           <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Context Window</div>
           <div className="text-lg font-bold text-zinc-900 dark:text-white">{formatTokens(contextLength.freeTier)}</div>
-        </div>
-        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
-          <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Max Output</div>
-          <div className="text-lg font-bold text-zinc-900 dark:text-white">{formatTokens(maxOutput.freeTier)}</div>
         </div>
         <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
           <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Input / Output</div>
@@ -122,16 +128,18 @@ export const ModelInfo = ({
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div className="space-y-4">
-              <div className="flex items-baseline justify-between border-b border-zinc-100 dark:border-zinc-800/60 pb-2">
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">Input</span>
-                <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">{currency}{inputPrice ?? "0"} <span className="text-[10px] font-normal text-zinc-500">/ 1M</span></span>
+              <div className="flex items-baseline justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                <span className="text-sm text-zinc-600 dark:text-zinc-400">{outputPrice === "0" ? "Price" : "Input"}</span>
+                <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">{currency}{inputPrice ?? "0"} <span className="text-[10px] font-normal text-zinc-500">/ {inputUnit.replace('per ', '')}</span></span>
               </div>
-              <div className="flex items-baseline justify-between border-b border-zinc-100 dark:border-zinc-800/60 pb-2">
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">Output</span>
-                <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">{currency}{outputPrice ?? "0"} <span className="text-[10px] font-normal text-zinc-500">/ 1M</span></span>
-              </div>
+              {outputPrice !== "0" && (
+                <div className="flex items-baseline justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                  <span className="text-sm text-zinc-600 dark:text-zinc-400">Output</span>
+                  <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">{currency}{outputPrice ?? "0"} <span className="text-[10px] font-normal text-zinc-500">/ {inputUnit.replace('per ', '')}</span></span>
+                </div>
+              )}
               <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
-                Billed based on exact token usage.
+                {outputPrice === "0" ? "Billed per generation." : "Billed based on exact token usage."}
               </p>
             </div>
             

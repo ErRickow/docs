@@ -39,6 +39,12 @@ Below is the list of available text generation, reasoning, and coding models.
 | `sea-lion-v4-27b-it` | **Regional**. Specialized for Southeast Asian languages. | 128k | Rp 350 / 560 |
 | `deepseek-chat-v3.1` | **Hybrid**. 671B MoE model. | 164k | Rp 3,333 / 8,333 |
 | `kimi-k2` | **MoE**. 1T params (MoE) optimized for agentic tasks. | 131k | Rp 16,642 / 49,929 |
+| `kimi-k2:latest` | **MoE**. The latest standard Kimi K2 model. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:search` | **Search**. Kimi K2 with online search capability. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:research` | **Research**. Optimized for deep research tasks. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:math` | **Math**. Optimized for complex mathematical logic. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:silent` | **Silent**. Direct answers without search process logs. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k1` | **Legacy**. The first generation Kimi model. | 128k | Rp 16,642 / 49,929 |
 | `llama-3.3-nemotron-super-49b-v1.5` | **Super**. 49B model with exceptional reasoning. | 132k | Rp 4,560 / 31,991 |
 | `glm-4.6` | **Z.ai**. SOTA coding and agent benchmarks. | 128k | Rp 823 / 2,823 |
 | `glm-4.6-plus` | **Z.ai**. More powerful coding context. | 128k | Rp 823 / 2,832 |
@@ -61,7 +67,7 @@ Models specialized for image generation and optical character recognition (OCR).
 
 | Model ID | Description | Pricing |
 | :--- | :--- | :--- |
-| `neosantara-gen-2045` | **Image**. High-speed, high-quality generation. | Rp 1,500 (1024px) |
+| `neosantara-gen-2045` | **Image**. High-speed, high-quality generation. | 1024px: Rp 1,500<br/>512px: Rp 800<br/>256px: Rp 400 |
 | `deepseek-ocr` | **Vision**. High-accuracy text extraction. | Rp 100 / image |
 
 ## Embeddings
@@ -78,3 +84,16 @@ Models for generating text embeddings, useful for search, clustering, and RAG ap
 <Note>
   **Pricing Note:** "Rp" indicates Indonesian Rupiah. "USD" indicates US Dollars. Prices are per 1 Million tokens unless otherwise stated.
 </Note>
+
+## Ready to Build?
+
+Start integrating these models into your application today.
+
+<CardGroup cols={2}>
+  <Card title="Get API Key" icon="key" href="https://console.neosantara.xyz">
+    Get your free API key and start experimenting with Rp 20,000 free credits.
+  </Card>
+  <Card title="View Quickstart" icon="rocket" href="/en/api-reference/quickstart">
+    Follow our step-by-step guide to make your first API request in minutes.
+  </Card>
+</CardGroup>

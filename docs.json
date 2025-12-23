@@ -82,6 +82,12 @@
                 "models/sea-lion-v4-27b-it",
                 "models/deepseek-chat-v3.1",
                 "models/kimi-k2",
+                "models/kimi-k2-latest",
+                "models/kimi-k2-search",
+                "models/kimi-k2-research",
+                "models/kimi-k2-math",
+                "models/kimi-k2-silent",
+                "models/kimi-k1",
                 "models/llama-3.3-nemotron-super-49b-v1.5",
                 "models/glm-4.6",
                 "models/glm-4.6-plus",
@@ -334,7 +340,7 @@
         "header": "Resources",
         "items": [
             {
-              "label": "TOC",
+              "label": "TOS",
               "href": "https://www.neosantara.xyz/terms"
             },
             {

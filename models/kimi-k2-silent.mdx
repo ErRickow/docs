@@ -1,12 +1,12 @@
 ---
-title: "SEA-LION V4 27B IT"
-description: "SEA-LION v4: State-of-the-art multimodal LLM specialized for Southeast Asian languages including Bahasa Indonesia, with native-level fluency and cultural context understanding."
+title: "Kimi K2 Silent"
+description: "Kimi model that operates without search process output, providing direct answers."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
-import { seaLionV4Data } from '/snippets/model-data.jsx';
+import { kimiK2SilentData } from '/snippets/model-data.jsx';
 
-<ModelInfo {...seaLionV4Data} />
+<ModelInfo {...kimiK2SilentData} />
 
 ## Quick Integration
 
@@ -16,7 +16,7 @@ curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <YOUR_API_KEY>" \
   -d '{
-    "model": "sea-lion-v4-27b-it",
+    "model": "kimi-k2:silent",
     "messages": [
       { "role": "user", "content": "Hello!" }
     ]
@@ -32,7 +32,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="sea-lion-v4-27b-it",
+    model="kimi-k2:silent",
     messages=[
         {"role": "user", "content": "Hello!"}
     ]
@@ -51,7 +51,7 @@ const openai = new OpenAI({
 
 const completion = await openai.chat.completions.create({
   messages: [{ role: "user", content: "Hello!" }],
-  model: "sea-lion-v4-27b-it",
+  model: "kimi-k2:silent",
 });
 
 console.log(completion.choices[0].message.content);
