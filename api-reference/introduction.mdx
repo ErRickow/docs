@@ -1,0 +1,127 @@
+---
+title: 'Introduction'
+description: 'Welcome to the Neosantara AI API documentation.'
+---
+
+Neosantara AI provides a high-performance, culturally-aware Artificial Intelligence platform designed to empower developers with advanced language, reasoning, and multimodal capabilities. Our API is built to be **OpenAI-compatible**, ensuring a seamless integration experience for existing applications while offering specialized models optimized for Indonesian context.
+
+## Objective
+
+The primary goal of the Neosantara AI API is to provide developers with accessible, scalable, and intelligent tools to build next-generation applications. Whether you are building a customer support agent, a creative writing assistant, or a complex data analysis tool, our API delivers the intelligence you need with the cultural nuance that matters.
+
+## Scope and Capabilities
+
+The Neosantara AI API covers a wide range of AI capabilities, enabling you to:
+
+<CardGroup cols={2}>
+  <Card title="Text Generation" icon="message-bot">
+    Generate human-like text, code, and creative content using our advanced LLMs like `nusantara-base`.
+  </Card>
+  <Card title="Vision & Multimodal" icon="eye">
+    Analyze and understand images, documents, and visual data with our multimodal capabilities.
+  </Card>
+  <Card title="Image Generation" icon="image">
+    Create stunning visuals from text prompts using our state-of-the-art generation models.
+  </Card>
+  <Card title="Embeddings" icon="vector-square">
+    Convert text into vector representations for semantic search, clustering, and RAG applications.
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+Follow these steps to start integrating Neosantara AI into your application.
+
+<Steps>
+  <Step title="Get your API Key">
+    Sign up at the [Neosantara Dashboard](https://app.neosantara.xyz/dashboard) and generate your unique API key.
+  </Step>
+  <Step title="Configure Base URL">
+    All API requests should be directed to our production base URL:
+    ```bash
+    https://api.neosantara.xyz/v1
+    ```
+  </Step>
+  <Step title="Make your first request">
+    Use your favorite HTTP client or SDK to interact with the API.
+  </Step>
+</Steps>
+
+## Authentication
+
+Authentication is handled via Bearer tokens. You must include your API key in the `Authorization` header of every request.
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {"role": "user", "content": "Halo, apa kabar?"}
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "user", "content": "Halo, apa kabar?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<YOUR_API_KEY>"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Halo, apa kabar?" }],
+  model: "nusantara-base",
+});
+
+console.log(completion.choices[0].message.content);
+```
+</CodeGroup>
+
+## Core Endpoints
+
+Explore our primary endpoints to start building:
+
+<CardGroup cols={2}>
+  <Card title="Chat Completions" icon="comments" href="/api-reference/chat/completions/create">
+    **`/chat/completions`**
+    <br/>
+    The standard endpoint for conversation and text generation.
+  </Card>
+  <Card title="Embeddings" icon="diagram-project" href="/api-reference/embeddings/create-embeddings">
+    **`/embeddings`**
+    <br/>
+    Generate vector embeddings for your data.
+  </Card>
+  <Card title="Image Generation" icon="paintbrush" href="/api-reference/images/create-image-generation">
+    **`/images/generations`**
+    <br/>
+    Create images from text descriptions.
+  </Card>
+  <Card title="Models" icon="layer-group" href="/api-reference/models/list-available-models">
+    **`/models`**
+    <br/>
+    List and retrieve available models.
+  </Card>
+</CardGroup>

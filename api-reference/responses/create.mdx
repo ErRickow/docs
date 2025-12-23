@@ -1,0 +1,263 @@
+---
+title: 'Create a Response'
+api: 'POST /v1/responses'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+<Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
+  Start with **10,000 Monthly Token Limit** on our Free Plan. **No credit card required.** Your tokens automatically reset on the 1st of each month.
+</Card>
+
+<ParamField path="model" type="string" required>
+  Model identifier (see [`/v1/models`](/api-reference/models/list-available-models).
+</ParamField>
+
+<ParamField path="input" type="string or array" required>
+  User input (string or conversation array).
+</ParamField>
+
+<ParamField path="max_output_tokens" type="integer" required>
+  Maximum tokens in response (≥1).
+</ParamField>
+
+<ParamField path="max_tokens" type="integer">
+  Alias for `max_output_tokens` (deprecated, use `max_output_tokens`).
+</ParamField>
+
+<ParamField path="instructions" type="string or array">
+  System instructions/prompt.
+</ParamField>
+
+<ParamField path="temperature" type="number" default="0.7">
+  Sampling temperature (0.0-1.0).
+</ParamField>
+
+<ParamField path="top_p" type="number" default="1.0">
+  Nucleus sampling (0.0-1.0).
+</ParamField>
+
+<ParamField path="stream" type="boolean" default="false">
+  Enable streaming response.
+</ParamField>
+
+<ParamField path="tools" type="array" default="[]">
+  Available function/tool definitions.
+</ParamField>
+
+<ParamField path="tool_choice" type="string/object" default="auto">
+  Tool selection strategy.
+</ParamField>
+
+<ParamField path="parallel_tool_calls" type="boolean" default="true">
+  Enable parallel tool execution.
+</ParamField>
+
+<ParamField path="truncation" type="string" default="disabled">
+  Truncation strategy: "auto" or "disabled".
+</ParamField>
+
+<ParamField path="user" type="string">
+  End-user identifier for tracking.
+</ParamField>
+
+<ParamField path="metadata" type="object">
+  Custom metadata (max 16 key-value pairs).
+</ParamField>
+
+<ParamField path="store" type="boolean" default="true">
+  Store conversation in database.
+</ParamField>
+
+<ParamField path="previous_response_id" type="string">
+  Previous response ID for conversation continuation.
+</ParamField>
+
+<ParamField path="text" type="object">
+  Text output format configuration.
+</ParamField>
+
+<ParamField path="reasoning" type="object">
+  Reasoning configuration (effort: "low", "medium", "high").
+</ParamField>
+
+## Returns
+
+<ResponseField name="id" type="string">
+  Response ID (format: `resp_` + 48 hex chars).
+</ResponseField>
+
+<ResponseField name="object" type="string">
+  Always "response".
+</ResponseField>
+
+<ResponseField name="created_at" type="integer">
+  Unix timestamp (seconds).
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  "completed", "failed", "incomplete", "in_progress", "cancelled", "queued".
+</ResponseField>
+
+<ResponseField name="error" type="object/null">
+  Error details if `status` is "failed".
+</ResponseField>
+
+<ResponseField name="incomplete_details" type="object/null">
+  Reason if `status` is "incomplete".
+</ResponseField>
+
+<ResponseField name="instructions" type="string/array/null">
+  Echoed instructions parameter.
+</ResponseField>
+
+<ResponseField name="max_output_tokens" type="integer/null">
+  Echoed max output tokens.
+</ResponseField>
+
+<ResponseField name="model" type="string">
+  Model used for generation.
+</ResponseField>
+
+<ResponseField name="output" type="array">
+  Array of output items (messages, function calls, etc.).
+</ResponseField>
+
+<ResponseField name="parallel_tool_calls" type="boolean">
+  Whether parallel tool calls are enabled.
+</ResponseField>
+
+<ResponseField name="previous_response_id" type="string/null">
+  Previous response ID if continuation.
+</ResponseField>
+
+<ResponseField name="reasoning" type="object">
+  Reasoning effort and summary.
+</ResponseField>
+
+<ResponseField name="store" type="boolean">
+  Whether conversation was stored.
+</ResponseField>
+
+<ResponseField name="temperature" type="number">
+  Temperature used.
+</ResponseField>
+
+<ResponseField name="text" type="object">
+  Text format configuration.
+</ResponseField>
+
+<ResponseField name="tool_choice" type="string/object">
+  Tool choice strategy.
+</ResponseField>
+
+<ResponseField name="tools" type="array">
+  Available tools.
+</ResponseField>
+
+<ResponseField name="top_p" type="number">
+  Nucleus sampling parameter.
+</ResponseField>
+
+<ResponseField name="truncation" type="string">
+  Truncation strategy.
+</ResponseField>
+
+<ResponseField name="usage" type="object">
+  Detailed token usage.
+  
+  <Expandable title="usage properties">
+    <ResponseField name="input_tokens" type="integer">
+      Number of input tokens.
+    </ResponseField>
+    
+    <ResponseField name="input_tokens_details" type="object">
+      Cached, text, and audio token breakdown.
+    </ResponseField>
+    
+    <ResponseField name="output_tokens" type="integer">
+      Number of output tokens.
+    </ResponseField>
+    
+    <ResponseField name="output_tokens_details" type="object">
+      Reasoning, text, and audio token breakdown.
+    </ResponseField>
+    
+    <ResponseField name="total_tokens" type="integer">
+      Total tokens used.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="user" type="string/null">
+  User identifier if provided.
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Custom metadata if provided.
+</ResponseField>
+
+## Return Examples
+
+```json Response 200
+{
+  "id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
+  "object": "response",
+  "created_at": 1741476542,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": 1024,
+  "model": "nusantara-base",
+  "output": [
+    {
+      "type": "message",
+      "id": "msg_abc123...",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Hello! I'm doing well, thank you for asking.",
+          "annotations": []
+        }
+      ]
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "store": true,
+  "temperature": 0.7,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1.0,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 15,
+    "input_tokens_details": {
+      "cached_tokens": 0,
+      "text_tokens": 15,
+      "audio_tokens": 0
+    },
+    "output_tokens": 12,
+    "output_tokens_details": {
+      "reasoning_tokens": 0,
+      "text_tokens": 12,
+      "audio_tokens": 0
+    },
+    "total_tokens": 27
+  },
+  "user": null,
+  "metadata": {}
+}
+```

@@ -9,11 +9,11 @@ Image generation allows you to create unique visual content directly from textua
 
 You provide a text prompt describing the image you want to create, and the NeosantaraAI API utilizes advanced generative AI models to produce the corresponding image(s). You can specify parameters like the number of images, their size, and the format of the output.
 
-The NeosantaraAI API provides an `/v1/images/generations` endpoint for this purpose.
+The NeosantaraAI API provides an [`/v1/images/generations`](/api-reference/images/create-image-generation) endpoint for this purpose.
 
 ## Usage
 
-To generate images, send a POST request to the `/v1/images/generations` endpoint with your text prompt and desired parameters.
+To generate images, send a POST request to the [`/v1/images/generations`](/api-reference/images/create-image-generation) endpoint with your text prompt and desired parameters.
 
 ### Endpoint
 
@@ -43,12 +43,15 @@ To generate images, send a POST request to the `/v1/images/generations` endpoint
     * `"url"`: Returns a temporary URL to the generated image. These URLs are typically valid for a short period (e.g., 5 minutes).
     * `"b64_json"`: Returns the image data directly as a base64-encoded JSON string.
 
+<Note>
+For b64_json output, may encountered an error. We will fix that later
+</Note>
+
 ### Supported Image Generation Models
 
 The NeosantaraAI API supports the following image generation models:
 
-* **`neosantara-gen-2045`**: Our primary image generation model, hosted on Together AI. Recommended for quality and speed.
-* **`replicate-stable-diffusion-xl`**: A Stable Diffusion XL model hosted on Replicate, serving as a robust fallback for image generation.
+* **`neosantara-gen-2045`**: Our primary image generation model. Recommended for quality and speed.
 
 ### Example Response (`"response_format": "url"`)
 
@@ -60,7 +63,7 @@ The NeosantaraAI API supports the following image generation models:
   "model": "neosantara-gen-2045",
   "data": [
     {
-      "url": "[https://api.neosantara.xyz/share/generated/a1b2c3d4e5f67890a1b2c3d4e5f67890](https://api.neosantara.xyz/share/generated/a1b2c3d4e5f67890a1b2c3d4e5f67890)",
+      "url": "https://api.neosantara.xyz/share/generated/a1b2c3d4e5f67890a1b2c3d4e5f67890",
       "b64_json": null
     }
   ],
@@ -131,16 +134,14 @@ You can generate images using the OpenAI SDK by configuring its `base_url` to po
 from openai import OpenAI
 import base64 # Needed if you want to decode and save/display base64
 
-# Initialize the OpenAI client with your API key
-# Replace "YOUR_API_KEY" with your actual NeosantaraAI API Key
 client = OpenAI(
-    api_key="YOUR_API_KEY",
+    api_key="NAI_API_KEY",
     base_url="https://api.neosantara.xyz/v1"
 )
 
 def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: int = 1, size: str = "1024x1024", response_format: str = "url"):
     """
-    Generates images from a text prompt using the NeosantaraAI API.
+    Generates images from a text prompt using the Neosantara AI API.
     """
     print(f"Generating image(s) for prompt: '{prompt}' with model: {model}")
 

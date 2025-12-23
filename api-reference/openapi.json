@@ -1,0 +1,2333 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Neosantara AI API",
+    "description": "API for Neosantara AI services.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.neosantara.xyz/v1",
+      "description": "API Base URL"
+    }
+  ],
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "response"
+    },
+    {
+      "name": "chat"
+    },
+    {
+      "name": "completions"
+    },
+    {
+      "name": "embeddings"
+    },
+    {
+      "name": "models"
+    },
+    {
+      "name": "moderations"
+    },
+    {
+      "name": "reasoning"
+    },
+    {
+      "name": "authentication"
+    },
+    {
+      "name": "images"
+    }
+  ],
+  "paths": {
+    "/responses": {
+      "post": {
+        "tags": [
+          "responses"
+        ],
+        "summary": "Create a response",
+        "description": "It supports text generation, conversation state, function calling, structured outputs, and reasoning.",
+        "operationId": "createResponse",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponsesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/chat/completions": {
+      "post": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Create chat completion",
+        "description": "Generate chat responses from a list of messages.",
+        "operationId": "chatCompletions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat completion result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionsResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful response example",
+                    "value": {
+                      "id": "chatcmpl-12345",
+                      "object": "chat.completion",
+                      "created": 1717950000,
+                      "model": "nusantara-base",
+                      "choices": [
+                        {
+                          "index": 0,
+                          "message": {
+                            "role": "assistant",
+                            "content": "Neosantara AI is an independent AI platform offering various models."
+                          },
+                          "finish_reason": "stop"
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 15,
+                        "completion_tokens": 8,
+                        "total_tokens": 23
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/completions": {
+      "post": {
+        "tags": [
+          "completions"
+        ],
+        "summary": "Create text completion (Legacy)",
+        "description": "Legacy endpoint for text completions. Use /v1/chat/completions for new implementations.",
+        "operationId": "textCompletions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TextCompletionsRequest"
+              },
+              "examples": {
+                "simple_text_prompt": {
+                  "summary": "Simple text prompt completion",
+                  "value": {
+                    "model": "nusantara-base",
+                    "prompt": "The future of artificial intelligence is",
+                    "max_tokens": 100,
+                    "temperature": 0.7
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Text completion result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TextCompletionResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful text completion response",
+                    "value": {
+                      "id": "cmpl-abc123def456",
+                      "object": "text_completion",
+                      "created": 1717950000,
+                      "model": "nusantara-base",
+                      "choices": [
+                        {
+                          "text": " exciting and full of possibilities.",
+                          "index": 0,
+                          "logprobs": null,
+                          "finish_reason": "length"
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 6,
+                        "completion_tokens": 7,
+                        "total_tokens": 13
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/models": {
+      "get": {
+        "tags": [
+          "models"
+        ],
+        "summary": "List available models",
+        "description": "Retrieve a list of all available models and their capabilities.",
+        "operationId": "listModels",
+        "responses": {
+          "200": {
+            "description": "List of available models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelsListResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful models list response",
+                    "value": {
+                      "object": "list",
+                      "data": [
+                        {
+                          "id": "nusantara-base",
+                          "object": "model",
+                          "created": 1717950000,
+                          "owned_by": "noesantara.xyz",
+                          "permission": [],
+                          "root": "nusantara-base",
+                          "parent": null,
+                          "description": "Model dasar untuk tugas umum dengan keseimbangan kinerja dan kecepatan",
+                          "capabilities": [
+                            "function_calling",
+                            "json_mode"
+                          ]
+                        },
+                        {
+                          "id": "vision-emas-2045",
+                          "object": "model",
+                          "created": 1717950000,
+                          "owned_by": "noesantara.xyz",
+                          "permission": [],
+                          "root": "vision-emas-2045",
+                          "parent": null,
+                          "description": "Model visi canggih untuk analisis gambar KTP, struk, dan tugas visual lainnya",
+                          "capabilities": [
+                            "vision",
+                            "json_mode"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          }
+        }
+      }
+    },
+    "/models/{model}": {
+      "get": {
+        "tags": [
+          "models"
+        ],
+        "summary": "Retrieve model",
+        "description": "Retrieves a model instance, providing basic information about the model such as the owner and permissioning.",
+        "operationId": "retrieveModel",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the model to use for this request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Model information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Model"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful model retrieval response",
+                    "value": {
+                      "id": "nusantara-base",
+                      "object": "model",
+                      "created": 1717950000,
+                      "owned_by": "noesantara.xyz",
+                      "permission": [],
+                      "root": "nusantara-base",
+                      "parent": null,
+                      "description": "Model dasar untuk tugas umum dengan keseimbangan kinerja dan kecepatan",
+                      "capabilities": [
+                        "function_calling",
+                        "json_mode"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "404": {
+            "description": "Model not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/embeddings": {
+      "post": {
+        "tags": [
+          "embeddings"
+        ],
+        "summary": "Create embeddings",
+        "description": "Generate vector embeddings from input text.",
+        "operationId": "embeddings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbeddingsRequest"
+              },
+              "examples": {
+                "simple_input": {
+                  "summary": "Simple embedding request",
+                  "value": {
+                    "model": "nusa-embeddings-0001",
+                    "input": "example sentence"
+                  }
+                },
+                "multiple_inputs": {
+                  "summary": "Multiple inputs embedding request",
+                  "value": {
+                    "model": "nusa-embeddings-0001",
+                    "input": [
+                      "first sentence",
+                      "second sentence",
+                      "third sentence"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Embeddings result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbeddingsResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful embeddings response",
+                    "value": {
+                      "object": "list",
+                      "data": [
+                        {
+                          "object": "embedding",
+                          "embedding": [
+                            0.123,
+                            0.456,
+                            0.789
+                          ],
+                          "index": 0
+                        }
+                      ],
+                      "model": "nusa-embeddings-0001",
+                      "usage": {
+                        "prompt_tokens": 3,
+                        "total_tokens": 3
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/moderations": {
+      "post": {
+        "tags": [
+          "moderations"
+        ],
+        "summary": "Content moderation check",
+        "description": "Check content for policy violations and harmful content.",
+        "operationId": "moderations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModerationsRequest"
+              },
+              "examples": {
+                "simple_check": {
+                  "summary": "Simple moderation check",
+                  "value": {
+                    "input": "This is a test message for moderation.",
+                    "model": "text-moderation-latest"
+                  }
+                },
+                "flagged_content": {
+                  "summary": "Example of flagged content",
+                  "value": {
+                    "input": "I want to kill myself.",
+                    "model": "text-moderation-latest"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Moderation results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModerationsResponse"
+                },
+                "examples": {
+                  "clean_content": {
+                    "summary": "Successful moderation response (clean content)",
+                    "value": {
+                      "id": "modr-abc123xyz456",
+                      "model": "text-moderation-latest",
+                      "results": [
+                        {
+                          "flagged": false,
+                          "categories": {
+                            "hate": false,
+                            "self-harm": false,
+                            "sexual": false,
+                            "violence": false
+                          },
+                          "category_scores": {
+                            "hate": 0.001,
+                            "self-harm": 0.0005,
+                            "sexual": 0.0003,
+                            "violence": 0.0002
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "flagged_content_response": {
+                    "summary": "Successful moderation response (flagged content)",
+                    "value": {
+                      "id": "modr-abc123xyz456",
+                      "model": "text-moderation-latest",
+                      "results": [
+                        {
+                          "flagged": true,
+                          "categories": {
+                            "hate": true,
+                            "self-harm": true,
+                            "sexual": false,
+                            "violence": false
+                          },
+                          "category_scores": {
+                            "hate": 0.95,
+                            "self-harm": 0.88,
+                            "sexual": 0.005,
+                            "violence": 0.003
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/reasoning": {
+      "post": {
+        "tags": [
+          "reasoning"
+        ],
+        "summary": "Reasoning completion",
+        "description": "Generate reasoning for complex problems.",
+        "operationId": "reasoning",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReasoningRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reasoning completion result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionsResponse"
+                },
+                "examples": {
+                  "reasoning_output": {
+                    "summary": "Example reasoning output",
+                    "value": {
+                      "id": "reasoning-cmpl-123",
+                      "object": "chat.completion",
+                      "created": 1717950000,
+                      "model": "nusantara-base",
+                      "choices": [
+                        {
+                          "index": 0,
+                          "message": {
+                            "role": "assistant",
+                            "content": "First, calculate total distance: 120km + 180km = 300km. Next, calculate total time: 2h + 3h = 5h. Finally, average speed = total distance / total time = 300km / 5h = 60 km/h."
+                          },
+                          "finish_reason": "stop"
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 30,
+                        "completion_tokens": 50,
+                        "total_tokens": 80
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/auth/key": {
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Check API Key status",
+        "description": "Check status and remaining usage of API Key.",
+        "operationId": "checkApiKeyStatus",
+        "responses": {
+          "200": {
+            "description": "API Key status and usage info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "example": "authorization"
+                    },
+                    "organization": {
+                      "type": "string",
+                      "example": "org-indonesia-ai"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "authorized": {
+                      "type": "boolean"
+                    },
+                    "created": {
+                      "type": "integer"
+                    },
+                    "expires": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "auth-..."
+                    },
+                    "tier": {
+                      "type": "string",
+                      "example": "Free"
+                    },
+                    "usage_info": {
+                      "$ref": "#/components/schemas/UsageInfo"
+                    },
+                    "_metadata": {
+                      "$ref": "#/components/schemas/Metadata"
+                    }
+                  }
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Example of successful API Key status response",
+                    "value": {
+                      "object": "authorization",
+                      "organization": "org-neosantara-ai",
+                      "permissions": [
+                        "chat.completions",
+                        "embeddings",
+                        "moderations"
+                      ],
+                      "authorized": true,
+                      "created": 1717950000,
+                      "expires": null,
+                      "id": "auth-xyz123abc456",
+                      "tier": "Free",
+                      "usage_info": {
+                        "daily": {
+                          "used": 1500,
+                          "limit": 10000,
+                          "remaining": 8500,
+                          "reset_at": "2025-06-21T00:00:00Z"
+                        },
+                        "monthly": {
+                          "used": 5000,
+                          "limit": 30000,
+                          "remaining": 25000,
+                          "reset_at": "2025-07-01T00:00:00Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/images/generations": {
+      "post": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Create image generation",
+        "description": "Generates one or more images from a text prompt.",
+        "operationId": "imageGenerations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImagesGenerationsRequest"
+              },
+              "examples": {
+                "simple_generation": {
+                  "summary": "Simple image generation request",
+                  "value": {
+                    "prompt": "A beautiful sunset over the mountains in an anime art style.",
+                    "n": 1,
+                    "size": "1024x1024",
+                    "model": "neosantara-gen-2045"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image generation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesGenerationsResponse"
+                },
+                "examples": {
+                  "success_response": {
+                    "summary": "Successful image generation response",
+                    "value": {
+                      "id": "img-12345",
+                      "object": "image",
+                      "created": 1717950000,
+                      "model": "neosantara-gen-2045",
+                      "data": [
+                        {
+                          "url": "https://example.com/image.png",
+                          "b64_json": null
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 15,
+                        "completion_tokens": 8,
+                        "total_tokens": 23
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitError"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API_KEY",
+        "description": "Your NeosantaraAI API Key."
+      }
+    },
+    "schemas": {
+      "ResponsesRequest": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "nusantara-base"
+          },
+          "input": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InputMessage"
+                }
+              }
+            ]
+          },
+          "instructions": {
+            "type": "string",
+            "description": "System-level instructions for the model."
+          },
+          "previous_response_id": {
+            "type": "string",
+            "description": "ID of the previous response to continue a conversation."
+          },
+          "store": {
+            "type": "boolean",
+            "default": true
+          },
+          "reasoning": {
+            "type": "object",
+            "properties": {
+              "effort": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              }
+            }
+          },
+          "text": {
+            "type": "object",
+            "properties": {
+              "format": {
+                "$ref": "#/components/schemas/ResponseFormat"
+              }
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tool"
+            }
+          },
+          "tool_choice": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "function"
+                    ]
+                  },
+                  "function": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "ResponsesResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "example": "message"
+          },
+          "role": {
+            "type": "string",
+            "example": "assistant"
+          },
+          "model": {
+            "type": "string"
+          },
+          "output": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/OutputText"
+                },
+                {
+                  "$ref": "#/components/schemas/FunctionCall"
+                }
+              ]
+            }
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "input_tokens": {
+                "type": "integer"
+              },
+              "output_tokens": {
+                "type": "integer"
+              }
+            }
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "InputMessage": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "function_call_output",
+                  "function_call"
+                ]
+              },
+              "call_id": {
+                "type": "string"
+              },
+              "output": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "OutputText": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "output_text"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "FunctionCall": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "function_call"
+          },
+          "call_id": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatCompletionsRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "messages"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "default": "nusantara-base"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/TextMessage"
+                },
+                {
+                  "$ref": "#/components/schemas/ImageMessage"
+                }
+              ]
+            }
+          },
+          "reasoning": {
+            "$ref": "#/components/schemas/Reasoning",
+            "description": "Optional reasoning parameters for advanced problem solving."
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 1000,
+            "minimum": 1
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "n": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 10
+          },
+          "top_p": {
+            "type": "number",
+            "default": 1
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "default": 0
+          },
+          "presence_penalty": {
+            "type": "number",
+            "default": 0
+          },
+          "response_format": {
+            "$ref": "#/components/schemas/ResponseFormat"
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Function"
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tool"
+            }
+          },
+          "tool_choice": {
+            "$ref": "#/components/schemas/ToolChoice"
+          },
+          "web_search": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "TextMessage": {
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tool_call_id": {
+            "type": "string"
+          }
+        }
+      },
+      "ImageMessage": {
+        "type": "object",
+        "required": [
+          "type",
+          "image_url"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "image_url"
+            ]
+          },
+          "image_url": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        }
+      },
+      "TextCompletionsRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "prompt"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "nusantara-base"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7,
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 1000,
+            "minimum": 1
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "n": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 10
+          },
+          "top_p": {
+            "type": "number",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 1
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "presence_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "response_format": {
+            "$ref": "#/components/schemas/ResponseFormat"
+          }
+        }
+      },
+      "Reasoning": {
+        "type": "object",
+        "properties": {
+          "effort": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      },
+      "ReasoningRequest": {
+        "type": "object",
+        "required": [
+          "messages"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "nusantara-base"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7,
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 1500,
+            "minimum": 1
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "top_p": {
+            "type": "number",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 1
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "presence_penalty": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 2
+          },
+          "response_format": {
+            "$ref": "#/components/schemas/ResponseFormat"
+          }
+        }
+      },
+      "EmbeddingsRequest": {
+        "type": "object",
+        "required": [
+          "input"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "nusa-embeddings-0001"
+          },
+          "input": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "encoding_format": {
+            "type": "string",
+            "default": "float",
+            "enum": [
+              "float",
+              "base64"
+            ]
+          }
+        }
+      },
+      "ModerationsRequest": {
+        "type": "object",
+        "required": [
+          "input"
+        ],
+        "properties": {
+          "input": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "model": {
+            "type": "string",
+            "example": "text-moderation-latest"
+          }
+        }
+      },
+      "ImagesGenerationsRequest": {
+        "type": "object",
+        "required": [
+          "prompt",
+          "model"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "The model to use for image generation.",
+            "default": "neosantara-gen-2045"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "A text description of the desired image(s). The maximum length is 1000 characters."
+          },
+          "n": {
+            "type": "integer",
+            "description": "The number of images to generate.",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 4
+          },
+          "size": {
+            "type": "string",
+            "description": "The size of the generated images.",
+            "default": "1024x1024",
+            "enum": [
+              "256x256",
+              "512x512",
+              "1024x1024"
+            ]
+          },
+          "response_format": {
+            "type": "string",
+            "description": "The format in which the generated images are returned.",
+            "default": "url",
+            "enum": [
+              "url",
+              "b64_json"
+            ]
+          },
+          "steps": {
+            "type": "integer",
+            "description": "The number of inference steps to perform.",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 50
+          }
+        }
+      },
+      "ChatCompletionsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "example": "chat.completion"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatChoice"
+            }
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "TextCompletionResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "example": "text_completion"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TextChoice"
+            }
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "EmbeddingsResponse": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "example": "list"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmbeddingObject"
+            }
+          },
+          "model": {
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/EmbeddingUsage"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "ImagesGenerationsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A unique identifier for the image generation request."
+          },
+          "object": {
+            "type": "string",
+            "example": "image",
+            "description": "The type of object returned."
+          },
+          "created": {
+            "type": "integer",
+            "description": "The timestamp of when the image was created."
+          },
+          "model": {
+            "type": "string",
+            "description": "The model used for the image generation."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageGenerationData"
+            },
+            "description": "A list of generated image objects."
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage",
+            "description": "Token usage information for the request."
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "ImageGenerationData": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "The URL of the generated image. Will be null if `response_format` is `b64_json`."
+          },
+          "b64_json": {
+            "type": "string",
+            "nullable": true,
+            "description": "The base64 encoded JSON of the generated image. Will be null if `response_format` is `url`."
+          }
+        },
+        "oneOf": [
+          {
+            "required": ["url"]
+          },
+          {
+            "required": ["b64_json"]
+          }
+        ]
+      },
+      "ModerationsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModerationResult"
+            }
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "ModelsListResponse": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "example": "list"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelInfo"
+            }
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "SystemStatusResponse": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "$ref": "#/components/schemas/SystemInfo"
+          },
+          "your_tier": {
+            "type": "string",
+            "enum": [
+              "free",
+              "basic",
+              "standard",
+              "pro",
+              "enterprise"
+            ]
+          },
+          "your_usage": {
+            "$ref": "#/components/schemas/UsageInfo"
+          },
+          "_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "ChatChoice": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "length",
+              "function_call",
+              "tool_calls",
+              "content_filter"
+            ]
+          }
+        }
+      },
+      "TextChoice": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          },
+          "logprobs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "length",
+              "content_filter"
+            ]
+          }
+        }
+      },
+      "EmbeddingObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "example": "embedding"
+          },
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "index": {
+            "type": "integer"
+          }
+        }
+      },
+      "ModerationResult": {
+        "type": "object",
+        "properties": {
+          "flagged": {
+            "type": "boolean"
+          },
+          "categories": {
+            "type": "object",
+            "properties": {
+              "hate": {
+                "type": "boolean"
+              },
+              "hate/threatening": {
+                "type": "boolean"
+              },
+              "harassment": {
+                "type": "boolean"
+              },
+              "harassment/threatening": {
+                "type": "boolean"
+              },
+              "self-harm": {
+                "type": "boolean"
+              },
+              "self-harm/intent": {
+                "type": "boolean"
+              },
+              "self-harm/instructions": {
+                "type": "boolean"
+              },
+              "sexual": {
+                "type": "boolean"
+              },
+              "sexual/minors": {
+                "type": "boolean"
+              },
+              "violence": {
+                "type": "boolean"
+              },
+              "violence/graphic": {
+                "type": "boolean"
+              },
+              "profanity": {
+                "type": "boolean"
+              }
+            }
+          },
+          "category_scores": {
+            "type": "object",
+            "properties": {
+              "hate": {
+                "type": "number"
+              },
+              "hate/threatening": {
+                "type": "number"
+              },
+              "harassment": {
+                "type": "number"
+              },
+              "harassment/threatening": {
+                "type": "number"
+              },
+              "self-harm": {
+                "type": "number"
+              },
+              "self-harm/intent": {
+                "type": "number"
+              },
+              "self-harm/instructions": {
+                "type": "number"
+              },
+              "sexual": {
+                "type": "number"
+              },
+              "sexual/minors": {
+                "type": "number"
+              },
+              "violence": {
+                "type": "number"
+              },
+              "violence/graphic": {
+                "type": "number"
+              },
+              "profanity": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "ModelInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "example": "model"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "owned_by": {
+            "type": "string",
+            "example": "noesantara.xyz"
+          },
+          "permission": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-stainless-empty-object": true
+            }
+          },
+          "root": {
+            "type": "string"
+          },
+          "parent": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "max_tokens": {
+            "type": "integer"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/ModelPricing"
+          }
+        }
+      },
+      "ModelPricing": {
+        "type": "object",
+        "properties": {
+          "input_tokens": {
+            "type": "number"
+          },
+          "output_tokens": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          }
+        }
+      },
+      "UsageInfo": {
+        "type": "object",
+        "properties": {
+          "used": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "reset_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "used",
+          "limit",
+          "remaining",
+          "reset_at"
+        ]
+      },
+      "ApiKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_used": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "daily": {
+                "$ref": "#/components/schemas/UsagePeriodInfo"
+              },
+              "monthly": {
+                "$ref": "#/components/schemas/UsagePeriodInfo"
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "tier",
+          "created_at",
+          "is_active",
+          "usage"
+        ]
+      },
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "creator": {
+            "type": "string",
+            "example": "noesantara.xyz"
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "request_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "processing_time": {
+            "type": "number",
+            "nullable": true
+          },
+          "tier": {
+            "type": "string",
+            "nullable": true
+          },
+          "user_total_usage": {
+            "$ref": "#/components/schemas/UsageInfo",
+            "nullable": true
+          }
+        }
+      },
+      "BadRequestError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "invalid_request_error"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "invalid_parameter",
+                  "missing_parameter",
+                  "invalid_format",
+                  "invalid_messages"
+                ],
+                "example": "invalid_parameter"
+              },
+              "param": {
+                "type": "string",
+                "nullable": true
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true,
+                "nullable": true
+              }
+            },
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
+          },
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "AuthError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "auth_error"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "missing_api_key",
+                  "invalid_api_key",
+                  "token_expired",
+                  "session_expired",
+                  "invalid_token"
+                ],
+                "example": "invalid_api_key"
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true,
+                "nullable": true
+              }
+            },
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
+          },
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "RateLimitError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "rate_limit_exceeded"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "rpm_exceeded",
+                  "tpm_exceeded",
+                  "user_total_daily_limit_exceeded",
+                  "user_total_monthly_limit_exceeded"
+                ],
+                "example": "rpm_exceeded"
+              },
+              "details": {
+                "$ref": "#/components/schemas/RateLimitDetails",
+                "nullable": true
+              }
+            },
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
+          },
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "RateLimitDetails": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "reset": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retry_after": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ServerError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "example": "server_error"
+              },
+              "code": {
+                "type": "string",
+                "enum": [
+                  "internal_error",
+                  "service_unavailable",
+                  "timeout"
+                ],
+                "example": "internal_error"
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true,
+                "nullable": true
+              }
+            },
+            "required": [
+              "message",
+              "type",
+              "code"
+            ]
+          },
+          "info_metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "UsagePeriodInfo": {
+        "type": "object",
+        "properties": {
+          "used": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "reset_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "used",
+          "limit",
+          "remaining",
+          "reset_at"
+        ]
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "completion_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "prompt_tokens",
+          "completion_tokens",
+          "total_tokens"
+        ]
+      },
+      "EmbeddingUsage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "prompt_tokens",
+          "total_tokens"
+        ]
+      },
+      "ResponseFormat": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "json_object",
+              "json_schema"
+            ]
+          },
+          "schema": {
+            "type": "object"
+          }
+        }
+      },
+      "Tool": {
+        "type": "object",
+        "required": [
+          "type",
+          "function"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "function"
+            ]
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          }
+        }
+      },
+      "Function": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      },
+      "ToolChoice": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "function"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "function"
+                ]
+              },
+              "function": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ChatMessage": {
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tool_call_id": {
+            "type": "string"
+          }
+        }
+      },
+      "SystemInfo": {
+        "type": "object",
+        "properties": {
+          "upstash_enabled": {
+            "type": "boolean"
+          },
+          "redis_connected": {
+            "type": "boolean"
+          },
+          "tiers_available": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BadRequestError"
+            }
+          }
+        }
+      },
+      "AuthError": {
+        "description": "Authentication failed",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AuthError"
+            }
+          }
+        }
+      },
+      "RateLimitError": {
+        "description": "Rate limit exceeded",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RateLimitError"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ServerError"
+            }
+          }
+        }
+      }
+    }
+  }
+}

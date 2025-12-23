@@ -1,0 +1,257 @@
+---
+title: 'Create a Message'
+api: 'POST /v1/messages'
+playground: 'simple'
+---
+
+<Card icon="key" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
+  Start with **10,000 Monthly Token Limit** on our Free Plan. **No credit card required.** Your tokens automatically reset on the 1st of each month.
+</Card>
+
+<ParamField path="model" type="string" required>
+  The model ID to use for the request.
+  
+  **Example:** `"garda-beta-mini"`, `"nusantara-base"`
+</ParamField>
+
+<ParamField path="messages" type="array[object]" required>
+  Array of message objects with alternating user/assistant roles.
+  
+  <Expandable title="message structure">
+    <ParamField path="role" type="string" required>
+      The role of the message sender. Must be either `"user"` or `"assistant"`.
+    </ParamField>
+    
+    <ParamField path="content" type="string | array[object]" required>
+      The content of the message. Can be a string or array of content blocks.
+      
+      **Content Types:**
+      - **Text:** `{"type": "text", "text": "..."}`
+      - **Image URL:** `{"type": "image_url", "image_url": {"url": "https://..."}}`
+      - **Document:** `{"type": "document", "..."}`
+      - **String:** Direct string (automatically converted to text block)
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="max_tokens" type="integer" required>
+  Maximum tokens for the response.
+
+  **Range:** `≥ 1`
+</ParamField>
+
+<ParamField path="system" type="string | array[object]">
+  System prompt/instructions for the model.
+
+  <Expandable title="Format">
+  - **String:** Direct system message
+  - **Array:** Array of system blocks `[{"type": "text", "text": "..."}]`
+
+  </Expandable>
+</ParamField>
+
+<ParamField path="temperature" type="number" default="1.0">
+  Controls randomness. Higher = more random, Lower = more deterministic.
+
+  **Range:** `0.0 - 1.0`
+  
+  <Expandable title="Example">
+  - `0.0` - Completely deterministic
+  - `0.7` - Balanced creativity
+  - `1.0` - Maximum randomness
+
+  </Expandable>
+</ParamField>
+
+<ParamField path="stream" type="boolean" default="false">
+  Enable streaming responses (Server-Sent Events format).
+
+  <Expandable title="streaming events">
+    - `message_start` - Initial message metadata
+    - `content_block_start` - Text block starts
+    - `content_block_delta` - Text chunk delta
+    - `content_block_stop` - Text block ends
+    - `message_delta` - Message metadata update
+    - `message_stop` - Stream complete
+  </Expandable>
+</ParamField>
+
+<ParamField path="top_p" type="number" default="1.0">
+  Nucleus sampling - cumulative probability threshold.
+
+  **Range:** `0.0 - 1.0`
+</ParamField>
+
+<ParamField path="top_k" type="number">
+  Sample from top K tokens by probability.
+
+  **Range:** `> 0`
+</ParamField>
+
+<ParamField path="stop_sequences" type="array[string]" default="[]">
+  Sequences where generation stops.
+
+  **Max Items:** Typically 5 sequences
+  
+</ParamField>
+
+<ParamField path="tools" type="array[object]" default="[]">
+  Array of tool/function definitions.
+
+  <Expandable title="tool structure">
+    <ParamField path="name" type="string" required>
+      The name of the tool/function.
+    </ParamField>
+    
+    <ParamField path="description" type="string" required>
+      A description of what the tool does.
+    </ParamField>
+    
+    <ParamField path="input_schema" type="object" required>
+      JSON Schema defining the tool's input parameters.
+    </ParamField>
+  </Expandable>
+
+  <Expandable title="Example">
+  ```json
+  "tools": [
+    {
+      "name": "calculate",
+      "description": "Calculate math expression",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "expression": {"type": "string"}
+        },
+        "required": ["expression"]
+      }
+    }
+  ]
+  ```
+  
+  </Expandable>
+</ParamField>
+
+<ParamField path="tool_choice" type="string" default="auto">
+  How to handle tool selection.
+
+  <Expandable title="options">
+  - `"auto"` - Model decides whether to use a tool
+  - `"any"` - Model must use a tool
+  - `{"type": "tool", "name": "..."}` - Use specific tool
+
+  </Expandable>
+</ParamField>
+
+<ParamField path="thinking" type="object">
+  Enable extended thinking mode.
+
+  <Expandable title="thinking properties">
+    <ParamField path="type" type="string" required>
+      Must be `"enabled"` to activate thinking mode.
+    </ParamField>
+    
+    <ParamField path="budget_tokens" type="integer" required>
+      Number of tokens allocated for thinking.
+      
+      **Constraints:**
+      - Must be `≥ 1024`
+      - Must be `< max_tokens`
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField path="metadata" type="object" default="{}">
+  Custom metadata for tracking/logging.
+</ParamField>
+
+<ParamField path="service_tier" type="string" default="auto">
+  Which service tier to use.
+
+  <Expandable title="option">
+  `"auto"`, `"standard_only"`
+  </Expandable>
+</ParamField>
+
+## Returns
+
+<ResponseField name="id" type="string">
+  The unique identifier for the message.
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of the response, always `"message"`.
+</ResponseField>
+
+<ResponseField name="role" type="string">
+  The role of the responder, always `"assistant"`.
+</ResponseField>
+
+<ResponseField name="model" type="string">
+  The model used for the response.
+</ResponseField>
+
+<ResponseField name="stop_reason" type="string">
+  The reason generation stopped, e.g., `"end_turn"`.
+</ResponseField>
+
+<ResponseField name="stop_sequence" type="string | null">
+  The stop sequence that triggered the end, if any.
+</ResponseField>
+
+<ResponseField name="content" type="array[object]">
+  The generated content.
+  
+  <Expandable title="content structure">
+    <ResponseField name="type" type="string">
+      The type of content block, e.g., `"text"`.
+    </ResponseField>
+    
+    <ResponseField name="text" type="string">
+      The text content.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="usage" type="object">
+  Token usage statistics.
+  
+  <Expandable title="usage properties">
+    <ResponseField name="input_tokens" type="integer">
+      Number of input tokens.
+    </ResponseField>
+    
+    <ResponseField name="output_tokens" type="integer">
+      Number of output tokens.
+    </ResponseField>
+    
+    <ResponseField name="cache_creation_input_tokens" type="integer">
+      Cache creation input tokens.
+    </ResponseField>
+    
+    <ResponseField name="cache_read_input_tokens" type="integer">
+      Cache read input tokens.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Return Examples
+```json Response 200
+{
+  "id": "msg_01XYZ...",
+  "type": "message",
+  "role": "assistant",
+  "model": "nusantara-base",
+  "content": [
+    {
+      "type": "text",
+      "text": "The capital of France is Paris."
+    }
+  ],
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 12,
+    "output_tokens": 8
+  }
+}
+```

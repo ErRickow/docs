@@ -1,71 +1,486 @@
 ---
 title: 'Rate Limits'
-description: '> Learn about Neosantaras Rate Limiting'
+description: 'Understanding throughput limits, monitoring usage, and handling rate limit errors'
+tag: 'Updated'
 ---
 
-Our rate limiting is token-based, ensuring a fair and transparent approach to API usage. This system helps maintain service quality for all users by preventing excessive consumption of resources. Limits are enforced on **tokens per day** and **tokens per month** (stored in our database). Additional limits on requests per day and per minute are enforced programmatically using Upstash Redis. See [Token Credits & Pricing](/en/about/token-credits#pricing-overview) for more details.
+<Card icon="shield" title="Fair Usage & System Stability">
+  Neosantara AI implements throughput limits to ensure platform stability and fair resource allocation across all users.
+</Card>
 
-## Tier Limits
+## Overview
 
-These are the maximum token limits for each plan, tracked in our database.
+Rate limits control the speed at which you can make API requests and process tokens. These are **technical constraints** designed to prevent system overload and ensure consistent performance for all users.
 
-| Tier       | Tokens per Day | Tokens per Month | Cost per 1K Tokens |
-|------------|----------------|------------------|-------------------|
-| Free       | 1,500          | 7,500            | Rp 0              |
-| Basic      | 3,000          | 10,000           | Rp 7.50           |
-| Standard   | 10,000         | 50,000           | Rp 6.00           |
-| Pro        | 10,000         | 1,500,000        | Rp 1.49           |
-| Enterprise | Custom         | Custom           | Custom            |
+<Info>
+Looking for pricing and billing information? Check the [Token Credits & Pricing](/en/about/token-credits) documentation.
+</Info>
 
-## Response Headers
+---
 
-Every API response includes usage information within the `_metadata` field. This allows you to track your current consumption against your plan limits directly from your application.
+## How Rate Limits Work
 
-```json
+<CardGroup cols={3}>
+  <Card title="RPM" icon="arrows-rotate">
+    **Requests Per Minute**
+    
+    Maximum API calls per minute
+  </Card>
+  <Card title="ITPM" icon="arrow-down-to-bracket">
+    **Input Tokens Per Minute**
+    
+    Maximum tokens you can send
+  </Card>
+  <Card title="OTPM" icon="arrow-up-from-bracket">
+    **Output Tokens Per Minute**
+    
+    Maximum tokens generated
+  </Card>
+</CardGroup>
+
+<Accordion title="Understanding the Three Limit Types" icon="lightbulb">
+  All three limits apply **simultaneously**. You must stay within all three to avoid rate limit errors:
+
+  **Example Scenario:**
+  - You're on **Basic tier** (50 RPM, 20K ITPM, 5K OTPM)
+  - You make 45 requests in one minute (within RPM ✅)
+  - But each request uses 1,000 input tokens = 45,000 total (exceeds ITPM ❌)
+  - Result: Rate limit error even though RPM wasn't exceeded
+
+  **Best Practice:** Monitor all three metrics, not just request count!
+</Accordion>
+
+---
+
+## Throughput Tiers
+
+Your rate limits are determined by your account tier, which automatically upgrades based on your **total lifetime deposits**.
+
+| Tier | Min. Deposit | RPM | ITPM | OTPM | Best For |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Free** | Rp 0 | 3 | 5,000 | 2,000 | Testing & Learning |
+| **Basic** | Rp 85,000 | 50 | 20,000 | 5,000 | Small Projects |
+| **Standard** | Rp 670,000 | 1,000 | 100,000 | 25,000 | Production Apps |
+| **Pro** | Rp 3,350,000 | 2,000 | 200,000 | 50,000 | High-Volume Apps |
+| **Enterprise** | Rp 6,700,000 | 4,000 | 500,000 | 125,000 | Large Scale Operations |
+
+<Note>
+**Automatic Upgrades:** Your tier upgrades automatically when you reach the deposit threshold. See [Token Credits & Pricing](/en/about/token-credits#throughput-tiers) for details.
+</Note>
+
+<Tip>
+**Need custom limits?** Contact [our sales team](mailto:support@neosantara.xyz) for enterprise plans with dedicated infrastructure and higher throughput.
+</Tip>
+
+---
+
+## Monitoring Rate Limits
+
+### Response Headers
+
+Every API response includes headers showing your current rate limit status. Use these to **proactively** avoid hitting limits.
+
+<Tabs>
+  <Tab title="Request Limits">
+    ```http
+    x-neosantara-ratelimit-requests-limit: 50
+    x-neosantara-ratelimit-requests-remaining: 35
+    x-neosantara-ratelimit-requests-reset: 2025-12-19T10:30:00.000Z
+    ```
+    
+    | Header | Description |
+    | :--- | :--- |
+    | `requests-limit` | Your maximum RPM |
+    | `requests-remaining` | Requests left in current window |
+    | `requests-reset` | When the limit resets (ISO 8601) |
+  </Tab>
+  
+  <Tab title="Input Token Limits">
+    ```http
+    x-neosantara-ratelimit-input-tokens-limit: 20000
+    x-neosantara-ratelimit-input-tokens-remaining: 15500
+    x-neosantara-ratelimit-input-tokens-reset: 2025-12-19T10:30:00.000Z
+    ```
+    
+    | Header | Description |
+    | :--- | :--- |
+    | `input-tokens-limit` | Your maximum ITPM |
+    | `input-tokens-remaining` | Input tokens left in current window |
+    | `input-tokens-reset` | When the limit resets (ISO 8601) |
+  </Tab>
+  
+  <Tab title="Output Token Limits">
+    ```http
+    x-neosantara-ratelimit-output-tokens-limit: 5000
+    x-neosantara-ratelimit-output-tokens-remaining: 3200
+    x-neosantara-ratelimit-output-tokens-reset: 2025-12-19T10:30:00.000Z
+    ```
+    
+    | Header | Description |
+    | :--- | :--- |
+    | `output-tokens-limit` | Your maximum OTPM |
+    | `output-tokens-remaining` | Output tokens left in current window |
+    | `output-tokens-reset` | When the limit resets (ISO 8601) |
+  </Tab>
+  
+  <Tab title="Account Info">
+    ```http
+    x-neosantara-tier: Basic
+    ```
+    
+    | Header | Description |
+    | :--- | :--- |
+    | `x-neosantara-tier` | Your current throughput tier |
+  </Tab>
+</Tabs>
+
+### Complete Header Reference
+
+| Header | Type | Description |
+| :--- | :--- | :--- |
+| `x-neosantara-ratelimit-requests-limit` | integer | Maximum requests per minute |
+| `x-neosantara-ratelimit-requests-remaining` | integer | Requests remaining in current window |
+| `x-neosantara-ratelimit-requests-reset` | string | ISO 8601 timestamp when request limit resets |
+| `x-neosantara-ratelimit-input-tokens-limit` | integer | Maximum input tokens per minute |
+| `x-neosantara-ratelimit-input-tokens-remaining` | integer | Input tokens remaining in current window |
+| `x-neosantara-ratelimit-input-tokens-reset` | string | ISO 8601 timestamp when input limit resets |
+| `x-neosantara-ratelimit-output-tokens-limit` | integer | Maximum output tokens per minute |
+| `x-neosantara-ratelimit-output-tokens-remaining` | integer | Output tokens remaining in current window |
+| `x-neosantara-ratelimit-output-tokens-reset` | string | ISO 8601 timestamp when output limit resets |
+| `x-neosantara-tier` | string | Current account tier (Free, Basic, Standard, Pro, Enterprise) |
+
+---
+
+## Error Handling
+
+### 429 Too Many Requests
+
+This error occurs when you exceed any of the three throughput limits (RPM, ITPM, or OTPM).
+
+<CodeGroup>
+
+```json Error Response
 {
-  "_metadata": {
-    "usage": {
-      "daily": {
-        "current": 50,
-        "limit": 1500, // Example limit for Free tier
-        "reset_date": "2025-07-28T00:00:00Z",
-        "remaining": 1450
-      },
-      "monthly": {
-        "current": 500,
-        "limit": 7500, // Example limit for Free tier
-        "reset_date": "2025-08-01T00:00:00Z",
-        "remaining": 7000
-      }
-    },
-    "tier": {
-      "name": "Free",
-      "priority": 1
+  "error": {
+    "message": "Too many requests. Please try again later.",
+    "type": "rate_limit_exceeded",
+    "code": "rpm_exceeded",
+    "details": {
+      "retry_after": 5,
+      "limit": 50,
+      "remaining": 0,
+      "reset": "2025-12-19T10:30:05.000Z"
     }
   }
 }
 ```
 
-## Rate Limit Errors
-
-When your API usage exceeds the allocated rate limit for your plan, the API will return an HTTP Status Code `429: Too Many Requests`. The response body will include details about the exceeded limit and when it will reset.
-
-```json
-{
-  "status": false,
-  "creator": "neosantara.xyz",
-  "error": {
-    "message": "Daily token limit exceeded for your account (1500).",
-    "type": "usage_limit_exceeded",
-    "code": "user_total_daily_limit_exceeded"
-  },
-  "usage": {
-    "current": 1500,
-    "limit": 1500,
-    "reset_date": "2025-07-28T00:00:00Z",
-    "remaining": 0
-  },
-  "tier": "Free",
-  "timestamp": "2025-07-27T04:10:59Z"
-}
+```http Response Headers
+HTTP/1.1 429 Too Many Requests
+Retry-After: 5
+x-neosantara-ratelimit-requests-limit: 50
+x-neosantara-ratelimit-requests-remaining: 0
+x-neosantara-ratelimit-requests-reset: 2025-12-19T10:30:05.000Z
 ```
+
+</CodeGroup>
+
+#### Error Response Fields
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `error.code` | string | The specific limit exceeded: `rpm_exceeded`, `itpm_exceeded`, or `otpm_exceeded` |
+| `error.details.retry_after` | integer | Seconds to wait before retrying |
+| `error.details.limit` | integer | The limit value that was exceeded |
+| `error.details.remaining` | integer | Always 0 when rate limited |
+| `error.details.reset` | string | ISO 8601 timestamp when limit resets |
+
+#### HTTP Headers
+
+| Header | Description |
+| :--- | :--- |
+| `Retry-After` | Seconds to wait before making a new request |
+| Rate limit headers | Show which limit was exceeded (see Monitoring section) |
+
+---
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Implement Exponential Backoff" icon="clock-rotate-left">
+    When you receive a 429 error, implement exponential backoff with jitter:
+
+    ```python
+    import time
+    import random
+
+    def make_request_with_retry(max_retries=5):
+        for attempt in range(max_retries):
+            try:
+                response = make_api_request()
+                return response
+            except RateLimitError as e:
+                if attempt == max_retries - 1:
+                    raise
+                
+                # Exponential backoff with jitter
+                wait_time = (2 ** attempt) + random.uniform(0, 1)
+                time.sleep(wait_time)
+    ```
+
+    **Why this works:** Spreading out retries prevents thundering herd problems.
+  </Accordion>
+
+  <Accordion title="Monitor Response Headers" icon="chart-line">
+    Check rate limit headers **before** you hit the limit:
+
+    ```javascript
+    const response = await fetch('https://api.neosantara.xyz/v1/chat/completions', {
+      // ... request config
+    });
+
+    const remaining = parseInt(response.headers.get('x-neosantara-ratelimit-requests-remaining'));
+    const resetTime = response.headers.get('x-neosantara-ratelimit-requests-reset');
+
+    if (remaining < 5) {
+      console.warn(`Only ${remaining} requests remaining until ${resetTime}`);
+      // Slow down or queue requests
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Use Batch API for High Volume" icon="layer-group">
+    For large workloads, use the [Batch API](/api-reference/batches/overview) which:
+    - Has separate, higher rate limits
+    - Costs 50% less
+    - Better for non-urgent processing
+
+    **When to use Batch:**
+    - Processing 100+ requests
+    - Non-time-sensitive tasks
+    - Overnight or background jobs
+  </Accordion>
+
+  <Accordion title="Distribute Load Across Time" icon="calendar-days">
+    Instead of sending all requests at once:
+
+    ```python
+    import asyncio
+
+    async def rate_limited_requests(requests, rpm_limit):
+        delay = 60 / rpm_limit  # Seconds between requests
+        
+        for request in requests:
+            await make_request(request)
+            await asyncio.sleep(delay)
+    ```
+
+    This keeps you well within limits and provides smoother processing.
+  </Accordion>
+
+  <Accordion title="Implement Request Queuing" icon="list-check">
+    Build a queue system to manage high-volume scenarios:
+
+    ```python
+    from queue import Queue
+    import threading
+    import time
+
+    class RateLimitedQueue:
+        def __init__(self, rpm_limit):
+            self.queue = Queue()
+            self.rpm_limit = rpm_limit
+            self.delay = 60 / rpm_limit
+            
+        def add_request(self, request):
+            self.queue.put(request)
+            
+        def process_queue(self):
+            while True:
+                request = self.queue.get()
+                make_api_request(request)
+                time.sleep(self.delay)
+                self.queue.task_done()
+    ```
+  </Accordion>
+
+  <Accordion title="Cache Responses When Possible" icon="database">
+    Reduce API calls by caching responses for identical requests:
+
+    ```python
+    from functools import lru_cache
+    import hashlib
+    import json
+
+    @lru_cache(maxsize=1000)
+    def cached_api_call(prompt_hash):
+        return make_api_request(prompt_hash)
+
+    def make_cached_request(prompt):
+        # Create hash of prompt
+        prompt_hash = hashlib.md5(json.dumps(prompt).encode()).hexdigest()
+        return cached_api_call(prompt_hash)
+    ```
+  </Accordion>
+
+  <Accordion title="Upgrade Tier When Needed" icon="arrow-up">
+    If you consistently hit rate limits:
+
+    1. **Check your current tier** in the dashboard
+    2. **Calculate needed tier** based on your usage patterns
+    3. **Top up balance** to reach the next threshold
+    4. **Tier upgrades are automatic** and immediate
+
+    **ROI Example:** Upgrading from Free → Basic costs Rp 85,000 but gives you:
+    - 16× more requests (3 → 50 RPM)
+    - 4× more input tokens
+    - 2.5× more output tokens
+    - Access to Batch API (50% savings)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Rate Limit Calculation Examples
+
+<Tabs>
+  <Tab title="Example 1: Chat Application">
+    **Scenario:** Real-time chat with `nusantara-base`
+    
+    **Configuration:**
+    - Tier: Basic (50 RPM, 20K ITPM, 5K OTPM)
+    - Average input: 100 tokens/request
+    - Average output: 50 tokens/request
+    
+    **Calculation:**
+    ```
+    RPM bottleneck: 50 requests/minute
+    ITPM bottleneck: 20,000 / 100 = 200 requests/minute
+    OTPM bottleneck: 5,000 / 50 = 100 requests/minute
+    
+    Actual limit: min(50, 200, 100) = 50 RPM ✅
+    ```
+    
+    **Result:** RPM is the limiting factor. You can safely make 50 requests/minute.
+  </Tab>
+
+  <Tab title="Example 2: Document Processing">
+    **Scenario:** Processing long documents with `archipelago-70b`
+    
+    **Configuration:**
+    - Tier: Standard (1,000 RPM, 100K ITPM, 25K OTPM)
+    - Average input: 2,000 tokens/request (long docs)
+    - Average output: 500 tokens/request
+    
+    **Calculation:**
+    ```
+    RPM bottleneck: 1,000 requests/minute
+    ITPM bottleneck: 100,000 / 2,000 = 50 requests/minute
+    OTPM bottleneck: 25,000 / 500 = 50 requests/minute
+    
+    Actual limit: min(1,000, 50, 50) = 50 requests/minute ⚠️
+    ```
+    
+    **Result:** Token limits are the bottleneck, not RPM. You can only make 50 requests/minute despite 1,000 RPM limit.
+    
+    **Solution:** Upgrade to Pro tier or use smaller inputs/outputs.
+  </Tab>
+
+  <Tab title="Example 3: Batch Processing">
+    **Scenario:** Using Batch API for embeddings
+    
+    **Configuration:**
+    - Tier: Pro (2,000 RPM, 200K ITPM, 50K OTPM)
+    - Batch of 1,000 requests
+    - Average input: 50 tokens/request
+    
+    **Calculation:**
+    ```
+    Total input tokens: 1,000 × 50 = 50,000 tokens
+    Processing time: ~10-20 minutes (async)
+    
+    Cost vs Standard API:
+    - Standard: Would need 20 requests to stay under ITPM
+    - Batch: All 1,000 processed together + 50% cost savings ✅
+    ```
+    
+    **Result:** Batch API is ideal for this use case!
+  </Tab>
+</Tabs>
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What happens if I exceed rate limits?" icon="circle-question">
+    You'll receive a `429 Too Many Requests` error with a `Retry-After` header. Your request is not processed, and no tokens are charged. Wait for the specified time and retry.
+  </Accordion>
+
+  <Accordion title="Do rate limits reset every minute?" icon="circle-question">
+    Yes, rate limits operate on a **sliding window** basis. Each minute is independent, and limits reset at the beginning of each minute.
+  </Accordion>
+
+  <Accordion title="Are Batch API requests counted toward standard rate limits?" icon="circle-question">
+    No. Batch API has separate rate limiting mechanisms and doesn't count against your standard RPM/ITPM/OTPM limits.
+  </Accordion>
+
+  <Accordion title="Can I request temporary rate limit increases?" icon="circle-question">
+    Temporary increases are not available. However, tier upgrades are instant once you reach the deposit threshold. For permanent custom limits, contact our enterprise team.
+  </Accordion>
+
+  <Accordion title="Why do I get rate limited when my RPM is not exceeded?" icon="circle-question">
+    Rate limiting considers **all three metrics** simultaneously. You may have exceeded ITPM or OTPM limits even if RPM is fine. Check the `error.code` field to see which limit was hit.
+  </Accordion>
+
+  <Accordion title="Do streaming requests count differently?" icon="circle-question">
+    No. Streaming requests count the same as non-streaming requests. They consume 1 RPM slot and count all input/output tokens against your limits.
+  </Accordion>
+
+  <Accordion title="How do concurrent requests affect rate limits?" icon="circle-question">
+    All requests within a 1-minute window count toward your limits, regardless of whether they're sequential or concurrent. Be mindful when making parallel requests.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<Steps>
+  <Step title="Identify Which Limit Was Hit">
+    Check the `error.code` field in the 429 response:
+    - `rpm_exceeded` - Too many requests
+    - `itpm_exceeded` - Too many input tokens
+    - `otpm_exceeded` - Too many output tokens
+  </Step>
+
+  <Step title="Review Your Usage Pattern">
+    Analyze your request patterns:
+    - Are requests evenly distributed?
+    - Are you sending large batches at once?
+    - What's the average token count per request?
+  </Step>
+
+  <Step title="Implement Rate Limiting Logic">
+    Add client-side rate limiting:
+    - Track your own request count
+    - Monitor response headers
+    - Implement queuing or throttling
+  </Step>
+
+  <Step title="Consider Architecture Changes">
+    If you consistently hit limits:
+    - Use Batch API for bulk operations
+    - Implement caching for repeated queries
+    - Upgrade to a higher tier
+    - Split workload across multiple API keys (if appropriate)
+  </Step>
+</Steps>
+
+<Warning>
+Using multiple API keys to circumvent rate limits violates our [terms of service](https://www.neosantara.xyz/terms) and may result in account suspension. If you need higher limits, please upgrade your tier or contact support.
+</Warning>
+
+<Card icon="headset" title="Need Higher Limits?" horizontal>
+  If standard tiers don't meet your needs, [contact our enterprise team](mailto:support@neosantara.xyz) for custom rate limits, dedicated infrastructure, and priority support.
+</Card>

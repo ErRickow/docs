@@ -1,0 +1,58 @@
+---
+title: 'Errors'
+---
+
+#### **HTTP Errors**
+
+Our API follows a predictable HTTP error code format to help you handle issues programmatically.
+
+
+| Status Code | Type | Description |
+|-------------|------|-------------|
+| **400** | `invalid_request_error` | Malformed request, missing/invalid parameters |
+| **401** | `authentication_error` | Invalid or missing API key |
+| **404** | `not_found_error` | Resource not found (model, conversation, etc) |
+| **429** | `rate_limit_exceeded` | Too many requests, rate limit hit |
+| **500** | `api_error` | Internal server error |
+| **503** | `service_unavailable` | Service temporarily unavailable |
+| **504** | `gateway_timeout` | Request timed out |
+
+---
+
+<br/>
+
+#### **Error Structure**
+
+Errors are always returned as JSON, with a top-level `error` object that includes a `type` and `message`. The response will also include a `request_id` for easier tracking and debugging.
+
+**Example Error Response:**
+
+```json
+{
+    "error": {
+        "message": "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). You can obtain an API key from https://app.neosantara.xyz/api-keys.",
+        "type": "auth_error",
+        "code": "missing_api_key"
+    }
+}
+```
+
+-----
+
+#### **Request ID**
+
+Every API response, whether successful or not, includes a unique `X-Request-Id` header. This ID is crucial for debugging. When contacting support about a specific request, please include this ID to help us resolve your issue quickly.
+
+**Example Header:**
+
+```
+X-Request-Id: req_e951d673bf8238dd787f9329
+```
+-----
+
+#### **Handling Long Requests**
+
+For requests that may take a significant amount of time to process (e.g., generating a very long text or a high-resolution image), we highly recommend using **streaming**.
+
+  * **Streaming Endpoints**: Endpoints like `/v1/chat/completions` and `/v1/responses` support a `stream: true` parameter.
+  * **Benefits**: Streaming provides a much better user experience by delivering the response piece by piece, and it helps avoid timeouts that can occur on some networks for long-running, non-streaming connections.

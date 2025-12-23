@@ -1,0 +1,107 @@
+---
+title: 'List Files'
+api: 'GET /v1/files'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+List all files that belong to the authenticated user.
+
+<ParamField query="purpose" type="string">
+Filter files by purpose. If provided, only files with the specified purpose will be returned. Valid values: `batch`, `assistants`, `fine-tune`.
+</ParamField>
+
+<ParamField query="limit" type="integer" default="20">
+The maximum number of files to return. Maximum value is determined by the API.
+</ParamField>
+
+<ParamField query="after" type="string">
+A cursor for pagination. Use the ID of the last file from the previous page to get the next page of results.
+</ParamField>
+
+### Returns
+
+<ResponseField name="object" type="string">
+The object type, which is always `list`.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+An array of file objects.
+
+<Expandable title="file object properties">
+<ResponseField name="id" type="string">
+The unique identifier of the file.
+</ResponseField>
+
+<ResponseField name="object" type="string">
+The object type, always `file`.
+</ResponseField>
+
+<ResponseField name="bytes" type="integer">
+The size of the file in bytes.
+</ResponseField>
+
+<ResponseField name="created_at" type="integer">
+The Unix timestamp of when the file was created.
+</ResponseField>
+
+<ResponseField name="filename" type="string">
+The name of the file.
+</ResponseField>
+
+<ResponseField name="purpose" type="string">
+The purpose of the file.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+The current status of the file.
+</ResponseField>
+
+<ResponseField name="status_details" type="string or null">
+Additional status details.
+</ResponseField>
+</Expandable>
+</ResponseField>
+
+<ResponseField name="has_more" type="boolean">
+Indicates whether there are more files available beyond this page.
+</ResponseField>
+
+### Return Examples
+
+```json Response 200
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "file-abc123",
+      "object": "file",
+      "bytes": 120000,
+      "created_at": 1699564800,
+      "filename": "batch_requests.jsonl",
+      "purpose": "batch",
+      "status": "uploaded",
+      "status_details": null
+    },
+    {
+      "id": "file-def456",
+      "object": "file",
+      "bytes": 85000,
+      "created_at": 1699564700,
+      "filename": "training_data.jsonl",
+      "purpose": "fine-tune",
+      "status": "uploaded",
+      "status_details": null
+    }
+  ],
+  "has_more": false
+}
+```
+
+```json Response 200 - Empty List
+{
+  "object": "list",
+  "data": [],
+  "has_more": false
+}
+```

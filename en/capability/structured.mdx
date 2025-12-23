@@ -1,0 +1,226 @@
+---
+title: 'Structured Output'
+description: '> Get reliable, structured responses from our AI models in a clean JSON format, making it easy to integrate them directly into your application.'
+---
+
+### Introduction
+
+By default, language models generate plain text. This is great for applications like chatbots, but it becomes difficult to work with when you need to programmatically extract specific details from the response.
+
+Several models on the Nusantara AI platform have the capability to respond in a structured JSON format. This feature allows you to work directly with the model's output data in your application code without complex text parsing.
+
+To enable this feature, you simply need to add the `response_format` parameter to your API request.
+
+-----
+
+### Supported Models
+
+Nearly all major text-generation models on the Nusantara AI platform support JSON Mode, including:
+
+  * **`nusantara-base`**
+  * **`archipelago-70b`**
+  * **`garda-beta-mini`**
+
+Vision models like **`vision-emas-2045`** also support JSON extraction from images.
+
+-----
+
+### Handling and Parsing the Response
+
+Different models may return JSON in slightly different formats. To ensure your application is robust, it's best to parse the response with a helper function that can handle these variations. Some models wrap the JSON in markdown fences (e.g., ` ```json ... ``` `), while others might nest the JSON string inside another JSON object.
+
+The following examples include a robust parsing function.
+
+<Info>
+You **must** instruct the model to respond only in JSON format within your system prompt or user message, in addition to including the `response_format` parameter.
+</Info>
+
+<CodeGroup dropdown>
+
+```bash shell icon="terminal"
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": "I need a fried rice recipe. I have rice, an egg, shallots, garlic, and soy sauce. It should take about 15 minutes to cook."
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    }
+  }'
+```
+
+````python python icon="python"
+# You need to install: pip install openai
+import json
+import re
+from openai import OpenAI
+from json.decoder import JSONDecodeError
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+def robust_json_parser(raw_string: str):
+    """
+    Parses a string that might be a plain JSON, wrapped in markdown,
+    or a nested JSON string within a 'result' key.
+    """
+    # 1. Clean markdown fences (handles ```json and ```)
+    cleaned_str = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", raw_string)
+    if cleaned_str:
+        cleaned_str = cleaned_str.group(1).strip()
+    else:
+        cleaned_str = raw_string.strip()
+
+    # 2. Try to parse the cleaned string
+    try:
+        data = json.loads(cleaned_str)
+        # 3. Check for Gemini-style nested JSON
+        if isinstance(data, dict) and 'result' in data and isinstance(data['result'], str):
+            return json.loads(data['result'])
+        return data
+    except JSONDecodeError as e:
+        print(f"Failed to parse JSON: {e}")
+        return None
+
+def main():
+    try:
+        response = client.chat.completions.create(
+            model="nusantara-base", # Try with 'nusantara-base' or 'archipelago-70b'
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant that provides recipes in a structured JSON format. Ensure the response is ONLY the JSON object."
+                },
+                {
+                    "role": "user",
+                    "content": "I need a fried rice recipe. I have rice, an egg, shallots, garlic, and soy sauce. It should take about 15 minutes to cook."
+                }
+            ],
+            response_format={"type": "json_object"}
+        )
+
+        raw_content = response.choices[0].message.content
+        print("Raw response content received:\n", raw_content)
+        print("-" * 20)
+
+        # Use the robust parser
+        output = robust_json_parser(raw_content)
+
+        if output:
+            print("Successfully parsed final JSON:")
+            print(json.dumps(output, indent=2))
+        else:
+            print("Could not parse the response into a valid JSON object.")
+
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+main()
+````
+
+````javascript javascript icon="square-js"
+// You need to install: npm install openai
+import OpenAI from "openai";
+
+const neosantara = new OpenAI({
+    baseURL: "https://api.neosantara.xyz/v1",
+    apiKey: "<YOUR_API_KEY>",
+});
+
+/**
+ * Parses a string that might be a plain JSON, wrapped in markdown,
+ * or a nested JSON string within a 'result' key.
+ * @param {string} rawString - The raw string response from the API.
+ * @returns {object | null} - The parsed JSON object or null if parsing fails.
+ */
+function robustJsonParser(rawString) {
+    try {
+        // 1. Clean markdown fences
+        const match = rawString.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+        const cleanedStr = match ? match[1].trim() : rawString.trim();
+
+        // 2. Parse the cleaned string
+        const data = JSON.parse(cleanedStr);
+
+        // 3. Check for Gemini-style nested JSON
+        if (typeof data === 'object' && data !== null && 'result' in data && typeof data.result === 'string') {
+            return JSON.parse(data.result);
+        }
+        return data;
+    } catch (error) {
+        console.error("Failed to parse JSON:", error);
+        return null;
+    }
+}
+
+
+async function main() {
+    try {
+        const response = await neosantara.chat.completions.create({
+            model: "nusantara-base", // Try with 'nusantara-base' or 'archipelago-70b'
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a helpful assistant that provides recipes in a structured JSON format. Ensure the response is ONLY the JSON object.",
+                },
+                {
+                    role: "user",
+                    content: "I need a fried rice recipe. I have rice, an egg, shallots, garlic, and soy sauce. It should take about 15 minutes to cook.",
+                },
+            ],
+            response_format: {
+                type: "json_object",
+            },
+        });
+
+        const rawContent = response.choices[0].message.content;
+        console.log("Raw response content received:\n", rawContent);
+        console.log("-".repeat(20));
+
+        // Use the robust parser
+        const output = robustJsonParser(rawContent);
+
+        if (output) {
+            console.log("Successfully parsed final JSON:");
+            console.log(JSON.stringify(output, null, 2));
+        } else {
+            console.log("Could not parse the response into a valid JSON object.");
+        }
+    } catch (error) {
+        console.error("An unexpected error occurred:", error);
+    }
+}
+
+main();
+````
+</CodeGroup>
+
+-----
+
+### Expected Result
+
+After running any of the examples above, your `output` variable will contain a clean, parsed JSON object, regardless of which model responded:
+
+```json
+{
+  "recipe_name": "Simple Fried Rice",
+  "cooking_time": "15 minutes",
+  "ingredients": [
+    "Rice",
+    "Egg",
+    "Shallots",
+    "Garlic",
+    "Soy Sauce"
+  ]
+}
+```
+
+By using a robust parsing function on the client-side, you can reliably handle structured data from any model on the Nusantara AI platform.

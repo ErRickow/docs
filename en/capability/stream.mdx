@@ -7,17 +7,157 @@ Streaming allows you to receive partial responses from the API as they are gener
 
 ## How Streaming Works
 
-The NeosantaraAI API implements streaming using Server-Sent Events (SSE) when the `stream` parameter is set to `true` in your request. When a streaming request is made:
+The Nusantara AI API implements streaming using **Server-Sent Events (SSE)** when you set the `stream: true` parameter in your request. When a streaming request is made:
 
-1.  **Content-Type Header**: The API sets the `Content-Type` header to `text/event-stream`.
-2.  **Partial Data Chunks**: The server sends data in small chunks. Each chunk is prefixed with `data: ` and contains a JSON object representing a partial response.
-3.  **End of Stream Signal**: The stream is terminated by a `data: [DONE]` message, indicating that no further data will be sent for that request.
+1.  **`Content-Type` Header**: The API sets the `Content-Type` header to `text/event-stream`.
+2.  **Partial Data Chunks**: The server sends data in small chunks. Each chunk is an event with a specific type and data payload.
+3.  **End of Stream Signal**: The stream is terminated by a final event, like `response.completed` or a `data: [DONE]` message, indicating that no further data will be sent.
 
-This allows your client application to display or process the generated content incrementally, as it becomes available.
+This allows your client application to display or process the generated content incrementally.
 
-## Usage
+## Usage with SDKs
 
-To enable streaming for your chat completions or text completions, set the `stream` parameter to `true` in your request body.
+You can enable streaming easily by setting `stream: true` in your request body. Below are examples for both of our main endpoints.
+
+<Tabs>
+<Tab title="Responses API">
+The [`/v1/responses`](/api-reference/response) endpoint uses a modern, **event-driven stream**. Each chunk is a typed event, allowing you to easily handle different parts of the response, such as text deltas or function call arguments.
+
+### Request Body Example
+```json
+{
+  "model": "nusantara-base",
+  "input": "Explain the concept of AI streaming in detail.",
+  "stream": true
+}
+````
+
+### Example Streaming Events
+
+```text
+event: response.created
+data: {"type":"response.created","response":{"id":"resp_abc123",...}}
+
+event: response.output_item.added
+data: {"type":"response.output_item.added","item":{"id":"msg_def456",...}}
+
+event: response.output_text.delta
+data: {"type":"response.output_text.delta","delta":"AI "}
+
+event: response.output_text.delta
+data: {"type":"response.output_text.delta","delta":"streaming "}
+
+... more delta events ...
+
+event: response.completed
+data: {"type":"response.completed","response":{...}}
+```
+
+### Python & Javascript Examples
+
+<CodeGroup>
+
+```python NAI.py icon="python" lines
+from openai import OpenAI
+
+# Initialize the client for Nusantara AI
+client = OpenAI(
+    api_key="<NAI_API_KEY>", 
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+def stream_response(prompt: str, model: str = "nusantara-base"):
+    """Makes a streaming request to the Responses API."""
+    print(f"Streaming from /v1/responses for model: {model}")
+    print(f"Prompt: {prompt}\n")
+
+    try:
+        stream = client.responses.create(
+            model=model,
+            input=prompt,
+            stream=True,
+            max_tokens=2045
+        )
+
+        full_response_content = ""
+        print("AI Response: ", end="", flush=True)
+        for event in stream:
+            # Check for the event type containing text chunks
+            if event.type == 'response.output_text.delta':
+                content = event.delta
+                full_response_content += content
+                print(content, end="", flush=True)
+
+        print("\n\n--- Stream finished ---")
+        return full_response_content
+
+    except Exception as e:
+        print(f"\nAn error occurred: {e}")
+        return None
+
+if __name__ == "__main__":
+    user_prompt = "Tell me a short story about a mythical creature from Indonesian folklore."
+    streamed_text = stream_response(user_prompt)
+    if streamed_text:
+        print(f"\nTotal streamed content length: {len(streamed_text)} characters")
+```
+
+```javascript NAI.ts icon="square-js" lines
+import OpenAI from 'openai';
+
+// Initialize the client for Nusantara AI
+const client = new OpenAI({
+  apiKey: "<NAI_API_KEY>",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function streamResponse(prompt, model = "nusantara-base") {
+  console.log(`Streaming from /v1/responses for model: ${model}`);
+  console.log(`Prompt: ${prompt}\n`);
+
+  try {
+    const stream = await client.responses.create({
+      model: model,
+      input: prompt,
+      stream: true,
+      max_tokens: 2045,
+    });
+
+    let fullResponseContent = "";
+    process.stdout.write("AI Response: ");
+    for await (const event of stream) {
+      // Check for the event type containing text chunks
+      if (event.type === 'response.output_text.delta') {
+        const content = event.delta;
+        fullResponseContent += content;
+        process.stdout.write(content);
+      }
+    }
+
+    console.log("\n\n--- Stream finished ---");
+    return fullResponseContent;
+
+  } catch (error) {
+    console.error(`\nAn error occurred: ${error.message}`);
+    return null;
+  }
+}
+
+// Example usage
+(async () => {
+  const userPrompt = "Tell me a short story about a mythical creature from Indonesian folklore.";
+  const streamedText = await streamResponse(userPrompt);
+  if (streamedText) {
+    console.log(`\nTotal streamed content length: ${streamedText.length} characters`);
+  }
+})();
+```
+
+</CodeGroup>
+</Tab>
+
+<Tab title="Chat Completions API">
+The [`/v1/chat/completions`](/api-reference/chat) endpoint provides streaming for compatibility with existing OpenAI integrations. It sends a stream of `chat.completion.chunk` objects.
 
 ### Request Body Example
 
@@ -30,135 +170,119 @@ To enable streaming for your chat completions or text completions, set the `stre
       "content": "Explain the concept of AI streaming in detail."
     }
   ],
-  "temperature": 0.7,
-  "max_tokens": 1000,
   "stream": true
 }
 ```
 
-### Example Streaming Response (Truncated)
+### Example Streaming Chunks
 
-```json
-data: {"id":"chatcmpl-a1b2c3d4e5f6","object":"chat.completion.chunk","created":1701234567,"model":"nusantara-base","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-a1b2c3d4e5f6","object":"chat.completion.chunk","created":1701234567,"model":"nusantara-base","choices":[{"index":0,"delta":{"content":"AI "},"finish_reason":null}]}
-
-data: {"id":"chatcmpl-a1b2c3d4e5f6","object":"chat.completion.chunk","created":1701234567,"model":"nusantara-base","choices":[{"index":0,"delta":{"content":"streaming "},"finish_reason":null}]}
-
-// ... more data chunks ...
-
-data: {"id":"chatcmpl-a1b2c3d4e5f6","object":"chat.completion.chunk","created":1701234567,"model":"nusantara-base","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
-
+```text
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","content":""}}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"AI "}}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"streaming"}}]}
+... more data chunks ...
 data: [DONE]
 ```
 
-### Python & Javascript Example (with OpenAI SDK)
-
-You can easily integrate streaming capabilities into your Python applications using the OpenAI Python SDK. Ensure you have the [`openai package`](https://www.npmjs.com/package/openai) installed (`pip install openai`).
+### Python & Javascript Examples
 
 <CodeGroup>
-  ```python Py icon="python"
-  from openai import OpenAI
-  
-  # Initialize the OpenAI client with your API key
-  # Replace "YOUR_API_KEY" with your actual NeosantaraAI API Key
-  client = OpenAI(
-      api_key="YOUR_API_KEY",
-      base_url="https://api.neosantara.xyz/v1"
-  )
-  
-  def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
-      """
-      Makes a streaming chat completion request to the NeosantaraAI API.
-      """
-      print(f"Streaming response for model: {model}")
-      print(f"Prompt: {prompt}\n")
-  
-      try:
-          stream = client.chat.completions.create(
-              model=model,
-              messages=[
-                  {"role": "user", "content": prompt}
-              ],
-              stream=True,  # Enable streaming
-              max_tokens=500,
-              temperature=0.7
-          )
-  
-          full_response_content = ""
-          for chunk in stream:
-              # Each chunk is a ChatCompletionChunk object
-              content = chunk.choices[0].delta.content if chunk.choices[0].delta.content else ""
-              full_response_content += content
-              print(content, end="", flush=True) # Print incrementally
-  
-          print("\n\n--- Stream finished ---")
-          return full_response_content
-  
-      except Exception as e:
-          print(f"\nAn error occurred during streaming: {e}")
-          return None
-  
-  if __name__ == "__main__":
-      user_prompt = "Tell me a short story about a mythical creature from Indonesian folklore."
-      streamed_text = stream_chat_completion(user_prompt)
-  
-      if streamed_text:
-          print(f"\nTotal streamed content length: {len(streamed_text)} characters")
-  ```
-  
-  ```javascript Js icon="square-js"
-  
-  // Install the OpenAI Node.js library: npm install openai
-  import OpenAI from 'openai';
-  
-  // Initialize the OpenAI client with your API key
-  // Replace "YOUR_API_KEY" with your actual NeosantaraAI API Key
-  const client = new OpenAI({
-    apiKey: "YOUR_API_KEY",
-    baseURL: "https://api.neosantara.xyz/v1",
-  });
-  
-  async function streamChatCompletion(prompt, model = "nusantara-base") {
-    console.log(`Streaming response for model: ${model}`);
-    console.log(`Prompt: ${prompt}\n`);
-  
-    try {
-      const stream = await client.chat.completions.create({
-        model: model,
-        messages: [
-          { role: "user", content: prompt }
-        ],
-        stream: true, // Enable streaming
-        max_tokens: 500,
-        temperature: 0.7,
-      });
-  
-      let fullResponseContent = "";
-      for await (const chunk of stream) {
-        // Each chunk is a ChatCompletionChunk object
-        const content = chunk.choices[0]?.delta?.content || "";
-        fullResponseContent += content;
-        process.stdout.write(content); // Print incrementally
-      }
-  
-      console.log("\n\n--- Stream finished ---");
-      return fullResponseContent;
-  
-    } catch (error) {
-      console.error(`\nAn error occurred during streaming: ${error.message}`);
-      return null;
+
+```python NAI.py icon="python" lines
+from openai import OpenAI
+
+# Initialize the client for Nusantara AI
+client = OpenAI(
+    api_key="<NAI_API_KEY>",
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
+    """Makes a streaming request to the Chat Completions API."""
+    print(f"Streaming from /v1/chat/completions for model: {model}")
+    print(f"Prompt: {prompt}\n")
+
+    try:
+        stream = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            stream=True,
+            max_tokens=500
+        )
+
+        full_response_content = ""
+        print("AI Response: ", end="", flush=True)
+        for chunk in stream:
+            content = chunk.choices[0].delta.content or ""
+            full_response_content += content
+            print(content, end="", flush=True)
+            
+        print("\n\n--- Stream finished ---")
+        return full_response_content
+
+    except Exception as e:
+        print(f"\nAn error occurred: {e}")
+        return None
+
+if __name__ == "__main__":
+    user_prompt = "Explain the concept of AI streaming in detail."
+    streamed_text = stream_chat_completion(user_prompt)
+    if streamed_text:
+        print(f"\nTotal streamed content length: {len(streamed_text)} characters")
+```
+
+```javascript NAI.ts icon="square-js" lines
+import OpenAI from 'openai';
+
+// Initialize the client for Nusantara AI
+const client = new OpenAI({
+  apiKey: "<NAI_API_KEY>",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function streamChatCompletion(prompt, model = "nusantara-base") {
+  console.log(`Streaming from /v1/chat/completions for model: ${model}`);
+  console.log(`Prompt: ${prompt}\n`);
+
+  try {
+    const stream = await client.chat.completions.create({
+      model: model,
+      messages: [
+        { role: "user", content: prompt }
+      ],
+      stream: true,
+      max_tokens: 500,
+    });
+
+    let fullResponseContent = "";
+    process.stdout.write("AI Response: ");
+    for await (const chunk of stream) {
+      const content = chunk.choices[0]?.delta?.content || "";
+      fullResponseContent += content;
+      process.stdout.write(content);
     }
+
+    console.log("\n\n--- Stream finished ---");
+    return fullResponseContent;
+
+  } catch (error) {
+    console.error(`\nAn error occurred: ${error.message}`);
+    return null;
   }
-  
-  // Example usage
-  (async () => {
-    const userPrompt = "Explain the concept of AI streaming in detail.";
-    const streamedText = await streamChatCompletion(userPrompt);
-  
-    if (streamedText) {
-      console.log(`\nTotal streamed content length: ${streamedText.length} characters`);
-    }
-  })();
-  ```
+}
+
+// Example usage
+(async () => {
+  const userPrompt = "Explain the concept of AI streaming in detail.";
+  const streamedText = await streamChatCompletion(userPrompt);
+  if (streamedText) {
+    console.log(`\nTotal streamed content length: ${streamedText.length} characters`);
+  }
+})();
+```
+
 </CodeGroup>
+</Tab>
+</Tabs>

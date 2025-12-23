@@ -1,0 +1,180 @@
+---
+title: 'Get Batch'
+api: 'GET /v1/batches/:batch_id'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+Retrieve the status and details of a specific batch job.
+
+<ParamField path="batch_id" type="string" required>
+The ID of the batch to retrieve (e.g., `batch-abc123`).
+</ParamField>
+
+### Returns
+
+<ResponseField name="id" type="string">
+The unique identifier of the batch.
+</ResponseField>
+
+<ResponseField name="object" type="string">
+The object type, which is always `batch`.
+</ResponseField>
+
+<ResponseField name="endpoint" type="string">
+The API endpoint used for all requests in the batch.
+</ResponseField>
+
+<ResponseField name="errors" type="object or null">
+Any errors encountered during batch processing.
+</ResponseField>
+
+<ResponseField name="input_file_id" type="string">
+The ID of the input file.
+</ResponseField>
+
+<ResponseField name="completion_window" type="string">
+The time window for batch completion.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+The current status of the batch. See status values in Create Batch endpoint.
+</ResponseField>
+
+<ResponseField name="output_file_id" type="string or null">
+The ID of the output file with successful results.
+</ResponseField>
+
+<ResponseField name="error_file_id" type="string or null">
+The ID of the error file with failed requests.
+</ResponseField>
+
+<ResponseField name="created_at" type="integer">
+The Unix timestamp of when the batch was created.
+</ResponseField>
+
+<ResponseField name="in_progress_at" type="integer or null">
+The Unix timestamp when processing started.
+</ResponseField>
+
+<ResponseField name="expires_at" type="integer">
+The Unix timestamp when the batch expires.
+</ResponseField>
+
+<ResponseField name="finalizing_at" type="integer or null">
+The Unix timestamp when finalizing started.
+</ResponseField>
+
+<ResponseField name="completed_at" type="integer or null">
+The Unix timestamp when the batch completed.
+</ResponseField>
+
+<ResponseField name="failed_at" type="integer or null">
+The Unix timestamp when the batch failed.
+</ResponseField>
+
+<ResponseField name="expired_at" type="integer or null">
+The Unix timestamp when the batch expired.
+</ResponseField>
+
+<ResponseField name="cancelling_at" type="integer or null">
+The Unix timestamp when cancellation was initiated.
+</ResponseField>
+
+<ResponseField name="cancelled_at" type="integer or null">
+The Unix timestamp when the batch was cancelled.
+</ResponseField>
+
+<ResponseField name="request_counts" type="object">
+Statistics about the batch requests.
+
+<Expandable title="request_counts properties">
+<ResponseField name="total" type="integer">
+Total number of requests.
+</ResponseField>
+
+<ResponseField name="completed" type="integer">
+Number of successful requests.
+</ResponseField>
+
+<ResponseField name="failed" type="integer">
+Number of failed requests.
+</ResponseField>
+</Expandable>
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+Custom metadata for the batch.
+</ResponseField>
+
+<CodeGroup>
+
+```json Response 200 - In Progress
+{
+  "id": "batch-abc123",
+  "object": "batch",
+  "endpoint": "/v1/chat/completions",
+  "errors": null,
+  "input_file_id": "file-xyz789",
+  "completion_window": "24h",
+  "status": "in_progress",
+  "output_file_id": null,
+  "error_file_id": null,
+  "created_at": 1699564800,
+  "in_progress_at": 1699565000,
+  "expires_at": 1699651200,
+  "finalizing_at": null,
+  "completed_at": null,
+  "failed_at": null,
+  "expired_at": null,
+  "cancelling_at": null,
+  "cancelled_at": null,
+  "request_counts": {
+    "total": 100,
+    "completed": 45,
+    "failed": 2
+  },
+  "metadata": {}
+}
+```
+
+```json Response 200 - Completed
+{
+  "id": "batch-abc123",
+  "object": "batch",
+  "endpoint": "/v1/chat/completions",
+  "errors": null,
+  "input_file_id": "file-xyz789",
+  "completion_window": "24h",
+  "status": "completed",
+  "output_file_id": "file-output-123",
+  "error_file_id": "file-errors-456",
+  "created_at": 1699564800,
+  "in_progress_at": 1699565000,
+  "expires_at": 1699651200,
+  "finalizing_at": 1699568000,
+  "completed_at": 1699568500,
+  "failed_at": null,
+  "expired_at": null,
+  "cancelling_at": null,
+  "cancelled_at": null,
+  "request_counts": {
+    "total": 100,
+    "completed": 98,
+    "failed": 2
+  },
+  "metadata": {}
+}
+```
+
+```json Error 404 - Batch Not Found
+{
+  "error": {
+    "message": "Batch not found",
+    "type": "invalid_request_error",
+    "code": "batch_not_found"
+  }
+}
+```
+
+</CodeGroup>

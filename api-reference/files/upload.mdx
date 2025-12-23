@@ -1,0 +1,106 @@
+---
+title: 'Upload File'
+api: 'POST /v1/files'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+Upload a file that can be used for batch processing, assistants, or fine-tuning purposes.
+
+<ParamField body="file" type="file" required>
+The file to upload. Must be a valid file object.
+</ParamField>
+
+<ParamField body="purpose" type="string" required>
+The intended purpose of the uploaded file. Must be one of:
+- `batch` - For batch processing (requires JSONL format)
+- `assistants` - For use with assistants
+- `fine-tune` - For fine-tuning models
+</ParamField>
+
+### File Requirements
+
+- Maximum file size: 100MB
+- For `batch` purpose: File must be in valid JSONL format
+- Supported content types: `text/jsonl` and others depending on purpose
+
+### Returns
+
+<ResponseField name="id" type="string">
+A unique identifier for the uploaded file (e.g., `file-abc123`).
+</ResponseField>
+
+<ResponseField name="object" type="string">
+The object type, which is always `file`.
+</ResponseField>
+
+<ResponseField name="bytes" type="integer">
+The size of the file in bytes.
+</ResponseField>
+
+<ResponseField name="created_at" type="integer">
+The Unix timestamp (in seconds) of when the file was created.
+</ResponseField>
+
+<ResponseField name="filename" type="string">
+The name of the uploaded file.
+</ResponseField>
+
+<ResponseField name="purpose" type="string">
+The purpose of the file as specified during upload.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+The current status of the file. Will be `uploaded` for newly uploaded files.
+</ResponseField>
+
+<ResponseField name="status_details" type="string or null">
+Additional details about the file status, if any.
+</ResponseField>
+
+### Return Examples
+
+```json Response 200
+{
+  "id": "file-abc123",
+  "object": "file",
+  "bytes": 120000,
+  "created_at": 1699564800,
+  "filename": "batch_requests.jsonl",
+  "purpose": "batch",
+  "status": "uploaded",
+  "status_details": null
+}
+```
+
+```json Error 400 - Missing File
+{
+  "error": {
+    "message": "Missing required file parameter",
+    "type": "invalid_request_error",
+    "param": "file",
+    "code": "missing_file"
+  }
+}
+```
+
+```json Error 400 - Invalid Purpose
+{
+  "error": {
+    "message": "Invalid purpose. Must be one of: batch, assistants, fine-tune",
+    "type": "invalid_request_error",
+    "param": "purpose",
+    "code": "invalid_purpose"
+  }
+}
+```
+
+```json Error 400 - File Too Large
+{
+  "error": {
+    "message": "File too large. Maximum size is 100MB",
+    "type": "invalid_request_error",
+    "code": "file_too_large"
+  }
+}
+```

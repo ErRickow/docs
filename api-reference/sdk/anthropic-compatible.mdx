@@ -1,0 +1,94 @@
+---
+title: 'Anthropic API'
+description: 'Neosantara Anthropic Compatible'
+tag: 'beta'
+---
+
+To meet the demand for using the Anthropic API ecosystem, our API has added support for the Anthropic API format. With simple configuration, you can integrate the capabilities of Neosantara Model into the Anthropic API ecosystem.
+
+## Use Neosantara in Claude Code
+
+<Steps>
+  <Step title="Install Claude Code">
+    ```bash icon="terminal"
+    npm i -g @anthropic-ai/claude-code
+    ```
+  </Step>
+  <Step title="Config Environment Variables">
+    ```bash icon="terminal"
+    export ANTHROPIC_BASE_URL=https://api.neosantara.xyz/anthropic
+    export ANTHROPIC_AUTH_TOKEN=${YOUR_API_KEY}
+    export API_TIMEOUT_MS=600000
+    export ANTHROPIC_MODEL=nusantara-base
+    export ANTHROPIC_SMALL_FAST_MODEL=nusantara-base
+    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+    ```
+    <Info>The `API_TIMEOUT_MS` parameter is configured to prevent excessively long outputs that could cause the Claude Code client to time out. Here, we set the timeout duration to 10 minutes.</Info>
+  </Step>
+  <Step title="Run the Claude Code">
+    ```bash icon="terminal"
+    cd my-project
+    claude
+    ```
+    </Step>
+</Steps>
+
+### Invoke Neosantara Model via Anthropic API
+
+<Steps>
+  <Step title="Install Anthropic SDK">
+    ```python icon="py"
+    pip install anthropic
+    ```
+  </Step>
+  <Step title="Config Environment Variables">
+    ```bash icon="terminal"
+    export ANTHROPIC_BASE_URL=https://api.neosantara.xyz/anthropic
+    export ANTHROPIC_API_KEY=${NAI_API_KEY}
+    ```
+  </Step>
+  <Step title="Invoke the API">
+    ```python icon="py"
+    import anthropic
+    
+    client = anthropic.Anthropic()
+    
+    message = client.messages.create(
+        model="deepseek-r1-llama-70b",
+        max_tokens=1000,
+        system="You are a helpful assistant.",
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Hi, how are you?"
+                    }
+                ]
+            }
+        ]
+    )
+    print(message.content)
+    ```
+    </Step>
+</Steps>
+
+## Compatibility Matrix
+
+| Parameter | Required | Type | Claude SDK | Default | Notes |
+|-----------|----------|------|-----------|---------|-------|
+| `model` | ✅ Yes | string | ✅ Yes | - | Use Neosantara model instead |
+| `messages` | ✅ Yes | array | ✅ Yes | - | Alternating user/assistant |
+| `max_tokens` | ✅ Yes | integer | ✅ Yes | - | Min 1 token |
+| `temperature` | ❌ No | number | ✅ Yes | 1.0 | Range: 0.0-1.0 |
+| `stream` | ❌ No | boolean | ✅ Yes | false | SSE format |
+| `top_p` | ❌ No | number | ✅ Yes | 1.0 | Range: 0.0-1.0 |
+| `top_k` | ❌ No | number | ✅ Yes | - | Must be > 0 |
+| `stop_sequences` | ❌ No | array | ✅ Yes | [] | Max 5 sequences |
+| `system` | ❌ No | string/array | ✅ Yes | - | Separate parameter |
+| `tools` | ❌ No | array | ✅ Yes | [] | Function definitions |
+| `tool_choice` | ❌ No | string | ✅ Yes | "auto" | auto/any/specific |
+| `metadata` | ❌ No | object | ✅ Yes | {} | Custom tracking |
+| `service_tier` | ❌ No | string | ✅ Yes | "auto" | auto/standard_only |
+| `thinking` | ❌ No | object | ✅ Yes | - | Extended thinking mode |
