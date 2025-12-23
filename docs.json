@@ -72,7 +72,37 @@
         {
           "group": "Models & Pricing",
           "pages": [
-            "en/models-overview"
+            "en/models-overview",
+            {
+              "group": "Available Models",
+              "pages": [
+                "models/nusantara-base",
+                "models/archipelago-70b",
+                "models/garda-beta-mini",
+                "models/sea-lion-v4-27b-it",
+                "models/deepseek-chat-v3.1",
+                "models/kimi-k2",
+                "models/llama-3.3-nemotron-super-49b-v1.5",
+                "models/glm-4.6",
+                "models/glm-4.6-plus",
+                "models/grok-4.1-fast-non-reasoning",
+                "models/llama-3.3-70b-instruct",
+                "models/llama-3.3-70b-turbo",
+                "models/gemma-3-27b-it",
+                "models/gemma2-9b-it",
+                "models/llama-3.2-11b",
+                "models/granite-3-8b-instruct",
+                "models/gpt-oss-20b",
+                "models/gemini-3-flash",
+                "models/qwen3-coder",
+                "models/grok-code-fast",
+                "models/claude-4.5-sonnet",
+                "models/neosantara-gen-2045",
+                "models/deepseek-ocr",
+                "models/nusa-embedding-0001",
+                "models/gemini-embedding-001"
+              ]
+            }
           ]
         },
         {

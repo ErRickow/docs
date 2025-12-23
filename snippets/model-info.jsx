@@ -3,20 +3,18 @@ export const ModelInfo = ({
   modelCardUrl,
   contextLength = {},
   maxOutput = {},
-  speed = {},
   inputOutput = {},
   pricing = {},
   tokenCredits = {},
-  rateLimits = [],
   endpoints = [],
   features = [],
   knownLimitations = []
 }) => {
   // --- helpers ---
-  const safe = (v, fallback = "N/A") => (v === undefined || v === null || v === "" ? fallback : v);
+  const safe = (v, fallback = "—") => (v === undefined || v === null || v === "" ? fallback : v);
 
   const formatTokens = (val) => {
-    if (val == null || val === "") return "N/A";
+    if (val == null || val === "") return "—";
     if (typeof val === "string") return val;
     if (typeof val === "number") return `${val.toLocaleString()} tokens`;
     return String(val);
@@ -32,7 +30,7 @@ export const ModelInfo = ({
   };
 
   const renderFormatIcon = (format, key) => (
-    <Icon key={key} icon={formatIconName(format)} size={18} color="#fb923c" />
+    <Icon key={key} icon={formatIconName(format)} size={18} className="text-zinc-400 dark:text-zinc-500" />
   );
 
   const endpointUrls = {
@@ -47,306 +45,176 @@ export const ModelInfo = ({
   const outputPrice = pricing.outputPrice ?? null;
   const inputUnit = pricing.inputUnit ?? "per 1,000,000 tokens";
   const pricingUrl = pricing.pricingUrl ?? "#";
-  const currency = pricing.currency ?? "";
+  const currency = pricing.currency === "USD" ? "$" : "Rp ";
 
   // tokenCredits fields (Neosantara)
-  const freeMonthlyCredits = tokenCredits.freeMonthlyCredits ?? tokenCredits.freeMonthlyCredits ?? "10,000";
-  const pricePerMillion = tokenCredits.pricePerMillion ?? "149,999"; // Rp per 1M
-  const pricePerToken = tokenCredits.pricePerToken ?? "0.15"; // Rp per token
-  const docsUrl = tokenCredits.docsUrl ?? "#";
+  const freeBalance = tokenCredits.freeBalance ?? "Rp 20,000";
+  const docsUrl = "/en/about/token-credits";
+  const rateLimitDocsUrl = "/en/about/rate-limits";
 
   return (
-    <div className="space-y-6 not-prose">
-      {/* Header */}
-      {modelId && (
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Model ID: </span>
-            <code className="text-sm font-mono font-semibold text-zinc-900 dark:text-white">{modelId}</code>
-          </div>
-
-          {modelCardUrl && (
-            <a
-              href={modelCardUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors"
+    <div className="space-y-6 not-prose mt-6">
+      {/* Header Info */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Model ID</span>
+          <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-900 px-3 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-800">
+            <code className="text-zinc-900 dark:text-zinc-100 font-mono text-sm font-semibold">{modelId}</code>
+            <button 
+              onClick={() => {
+                if (typeof navigator !== 'undefined') {
+                  navigator.clipboard.writeText(modelId);
+                }
+              }}
+              className="ml-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+              title="Copy Model ID"
             >
-              Model card
-              <Icon icon="external-link" size={14} color="currentColor" />
-            </a>
-          )}
+              <Icon icon="copy" size={14} />
+            </button>
+          </div>
         </div>
-      )}
+        {modelCardUrl && modelCardUrl !== "#" && (
+          <a
+            href={modelCardUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
+          >
+            Model Card
+            <Icon icon="external-link" size={14} />
+          </a>
+        )}
+      </div>
 
-      {/* Model Stats */}
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-            <Icon icon="chart-bar" size={18} color="#fb923c" />
-          </div>
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Model Stats</h3>
+      {/* Primary Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+          <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Context Window</div>
+          <div className="text-lg font-bold text-zinc-900 dark:text-white">{formatTokens(contextLength.freeTier)}</div>
         </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {/* SPEED */}
-          <div className="text-center">
-            <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">SPEED</div>
-            <div className="text-2xl font-bold text-orange-500 dark:text-orange-400">{safe(speed?.value, "—")}</div>
-            <div className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">{safe(speed?.unit, "")}</div>
-          </div>
-
-          {/* INPUT / OUTPUT */}
-          <div className="text-center">
-            <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">INPUT / OUTPUT</div>
-            <div className="flex items-center justify-center gap-2 h-12">
-              <div className="flex items-center gap-1" aria-label="input formats">
-                {Array.isArray(inputOutput.inputFormats) && inputOutput.inputFormats.length > 0
-                  ? inputOutput.inputFormats.map((fmt, i) => renderFormatIcon(fmt, `in-${i}`))
-                  : <span className="text-zinc-400 text-sm">text</span>}
-              </div>
-              <span className="text-zinc-400 text-lg">/</span>
-              <div className="flex items-center gap-1" aria-label="output formats">
-                {Array.isArray(inputOutput.outputFormats) && inputOutput.outputFormats.length > 0
-                  ? inputOutput.outputFormats.map((fmt, i) => renderFormatIcon(fmt, `out-${i}`))
-                  : <span className="text-zinc-400 text-sm">text</span>}
-              </div>
+        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+          <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Max Output</div>
+          <div className="text-lg font-bold text-zinc-900 dark:text-white">{formatTokens(maxOutput.freeTier)}</div>
+        </div>
+        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+          <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Input / Output</div>
+          <div className="flex items-center gap-2 h-7">
+            <div className="flex items-center gap-1.5">
+              {inputOutput.inputFormats?.map((fmt, i) => renderFormatIcon(fmt, `in-${i}`)) || <span className="text-zinc-400 text-sm">text</span>}
             </div>
-          </div>
-
-          {/* CONTEXT (limit only — no pricing) */}
-          <div className="text-center">
-            <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">CONTEXT</div>
-            <div className="space-y-2">
-              <div>
-                {/*<div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>*/}
-                <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(contextLength.freeTier)}</div>
-              </div>
-             {/* <div>
-                <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
-                <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(contextLength.paidTiers)}</div>
-              </div>*/}
-            </div>
-          </div>
-
-          {/* MAX OUTPUT (limit only — no pricing) */}
-          <div className="text-center">
-            <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 uppercase">MAX OUTPUT</div>
-            <div className="space-y-2">
-              {maxOutput && typeof maxOutput === "object" && (maxOutput.freeTier || maxOutput.paidTiers) ? (
-                <>
-                 <div>
-                   {/* <div className="text-xs text-zinc-600 dark:text-zinc-400">Free Tier</div>*/}
-                    <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.freeTier)}</div>
-                  </div>
-                 {/* <div>
-                    <div className="text-xs text-zinc-600 dark:text-zinc-400">Paid Tiers</div>
-                    <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput.paidTiers)}</div>
-                  </div>*/}
-                </>
-              ) : (
-                <div className="text-sm font-medium text-zinc-900 dark:text-white">{formatTokens(maxOutput)}</div>
-              )}
+            <span className="text-zinc-300 dark:text-zinc-700 mx-1">|</span>
+            <div className="flex items-center gap-1.5">
+              {inputOutput.outputFormats?.map((fmt, i) => renderFormatIcon(fmt, `out-${i}`)) || <span className="text-zinc-400 text-sm">text</span>}
             </div>
           </div>
         </div>
       </div>
 
-      {/* TOKEN CREDITS (Neosantara) */}
-      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-            <Icon icon="key" size={18} color="#fb923c" />
+      {/* Pricing Section */}
+      <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm">
+        <div className="px-6 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Icon icon="credit-card" size={16} className="text-zinc-500 dark:text-zinc-400" />
+            <h3 className="font-semibold text-zinc-900 dark:text-white text-sm">Pricing</h3>
           </div>
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Token Credits & Pricing</h3>
+          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">Pay-As-You-Go</span>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-sm">
-            <div className="text-xs text-zinc-600 dark:text-zinc-400">Free monthly credits</div>
-            <div className="text-lg font-medium text-zinc-900 dark:text-white">{safe(freeMonthlyCredits)}</div>
-          </div>
-
-          <div className="text-sm">
-            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price / 1M</div>
-            <div className="text-lg font-medium text-zinc-900 dark:text-white">Rp {pricePerMillion}</div>
-          </div>
-
-          <div className="text-sm">
-            <div className="text-xs text-zinc-600 dark:text-zinc-400">Price / Token</div>
-            <div className="text-lg font-medium text-zinc-900 dark:text-white">Rp {pricePerToken}</div>
-          </div>
-        </div>
-
-        <div className="pt-4 text-sm text-zinc-600 dark:text-zinc-400">
-          Costs are calculated from total tokens processed per request (input + output). See{" "}
-          <a href={docsUrl} className="underline font-semibold" target="_blank" rel="noopener noreferrer">Token Credits docs</a>.
-        </div>
-      </div>
-
-      {/* MODEL PRICING (if provided) */}
-      {(inputPrice || outputPrice) && (
-        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-              <Icon icon="dollar-sign" size={18} color="#fb923c" />
-            </div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Model Pricing / 1M Tokens</h3>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex">
-              <div className="flex-1 text-center">
-                <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-2 uppercase">Input</div>
-                <div className="text-zinc-900 dark:text-white text-2xl font-bold">{inputPrice ?? "—"}</div>
-                <div className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">{currency} {inputUnit}</div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="space-y-4">
+              <div className="flex items-baseline justify-between border-b border-zinc-100 dark:border-zinc-800/60 pb-2">
+                <span className="text-sm text-zinc-600 dark:text-zinc-400">Input</span>
+                <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">{currency}{inputPrice ?? "0"} <span className="text-[10px] font-normal text-zinc-500">/ 1M</span></span>
               </div>
-
-              <div className="w-px bg-zinc-200 dark:bg-zinc-800 mx-6"></div>
-
-              <div className="flex-1 text-center">
-                <div className="text-xs font-mono font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 mb-2 uppercase">Output</div>
-                <div className="text-zinc-900 dark:text-white text-2xl font-bold">{outputPrice ?? "—"}</div>
-                <div className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">{currency} {inputUnit}</div>
+              <div className="flex items-baseline justify-between border-b border-zinc-100 dark:border-zinc-800/60 pb-2">
+                <span className="text-sm text-zinc-600 dark:text-zinc-400">Output</span>
+                <span className="font-mono text-sm font-semibold text-zinc-900 dark:text-white">{currency}{outputPrice ?? "0"} <span className="text-[10px] font-normal text-zinc-500">/ 1M</span></span>
               </div>
-            </div>
-
-            <div className="pt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              Note: model pricing is per 1M tokens. Actual request cost = (input tokens + output tokens) × token price
-            </div>
-
-            <div className="pt-4">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                For volume discounts and enterprise features, see our{" "}
-                <a href={pricingUrl} className="text-black font-semibold underline decoration-orange-500 underline-offset-4 decoration-1 hover:decoration-2" target="_blank" rel="noopener noreferrer">pricing page</a>.
+              <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
+                Billed based on exact token usage.
               </p>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* KNOWN LIMITATIONS */}
-      {Array.isArray(knownLimitations) && knownLimitations.length > 0 && (
-        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-              <Icon icon="note" size={18} color="#fb923c" />
-            </div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Model Notes</h3>
-          </div>
-          <div className="space-y-2">
-            {knownLimitations.map((lim, idx) => (
-              <div key={idx} className="flex items-start gap-2 py-2">
-                <div className="w-1.5 h-1.5 bg-zinc-400 dark:bg-zinc-500 rounded-full flex-shrink-0 mt-2"></div>
-                <div className="text-zinc-900 dark:text-white text-sm leading-relaxed prose-sm max-w-none">
-                  {lim}
-                </div>
+            
+            <div className="rounded-lg p-4 bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-100 dark:border-zinc-800/50">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                <span className="text-xs font-semibold text-zinc-900 dark:text-white">New Account Benefit</span>
               </div>
-            ))}
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-3 leading-relaxed">
+                Get <span className="font-semibold text-zinc-900 dark:text-white">{freeBalance}</span> free credits upon email verification.
+              </p>
+              <a href={docsUrl} className="text-xs font-semibold text-zinc-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 flex items-center gap-1 transition-colors">
+                View Pricing <Icon icon="arrow-right" size={12} />
+              </a>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
-      {/* RATE LIMITS TABLE (includes monthlyTokens) */}
-      {Array.isArray(rateLimits) && rateLimits.length > 0 && (
-        <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-              <Icon icon="clock" size={18} color="#fb923c" />
-            </div>
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Rate Limits</h3>
+      {/* Info Grid (Rate Limits) */}
+      <div className="grid grid-cols-1 gap-4">
+        {/* Rate Limits */}
+        <div className="p-5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl flex items-center justify-between shadow-sm">
+          <div>
+            <div className="text-sm font-semibold text-zinc-900 dark:text-white mb-1">Rate Limits</div>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">Scale with your usage tier</p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-800">
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">Tier</th>
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">RPM</th>
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">TPM</th>
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">TPD</th>
-                  <th className="text-left py-3 px-2 text-zinc-500 dark:text-zinc-400 font-medium">Monthly Tokens</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rateLimits.map((limit = {}, i) => (
-                  <tr key={i} className="border-b border-zinc-200/50 dark:border-zinc-800/50 last:border-b-0">
-                    <td className="py-3 px-2 text-zinc-900 dark:text-white font-medium">{safe(limit.tier, "—")}</td>
-                    <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.requestsPerMin, "—")}</td>
-                    <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.inputTokensPerMin, "—")}</td>
-                    <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.dailyTokens, "—")}</td>
-                    <td className="py-3 px-2 text-zinc-900 dark:text-white">{safe(limit.monthlyTokens, "—")}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <a href={rateLimitDocsUrl} className="text-xs font-medium px-3 py-1.5 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white rounded-md border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+            View
+          </a>
         </div>
-      )}
+      </div>
 
-      {/* Endpoints & Features */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {Array.isArray(endpoints) && endpoints.length > 0 && (
-          <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-                <Icon icon="link" size={18} color="#fb923c" />
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Endpoints</h3>
+      {/* Details Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+        {features.length > 0 && (
+          <div className="space-y-3">
+            <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Capabilities</h4>
+            <div className="flex flex-wrap gap-2">
+              {features.map((feature, idx) => (
+                <span key={idx} className="px-2.5 py-1 bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 text-[11px] font-medium rounded border border-zinc-200 dark:border-zinc-800">
+                  {feature}
+                </span>
+              ))}
             </div>
-            <div className="space-y-3">
+          </div>
+        )}
+
+        {endpoints.length > 0 && (
+          <div className="space-y-3">
+            <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Endpoints</h4>
+            <div className="space-y-2">
               {endpoints.map((endpoint, idx) => {
-                const endpointName = typeof endpoint === "string" ? endpoint : endpoint?.name ?? "Endpoint";
-                const endpointUrl = (typeof endpoint === "object" && endpoint?.url) || endpointUrls[endpointName] || endpointUrls["Responses"];
+                const name = typeof endpoint === "string" ? endpoint : endpoint?.name;
+                const url = endpointUrls[name] || "/v1/chat/completions";
                 return (
-                  <div key={idx} className="flex items-start gap-2 py-2">
-                    <span className="text-zinc-400 dark:text-zinc-500 text-sm">→</span>
-                    <div>
-                      <div className="text-sm text-zinc-900 dark:text-white">{endpointName}</div>
-                      {endpointUrl && <code className="text-xs text-zinc-600 dark:text-zinc-400 font-mono">{endpointUrl}</code>}
-                    </div>
+                  <div key={idx} className="flex flex-col gap-1">
+                    <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">{name}</span>
+                    <code className="text-[10px] text-zinc-500 dark:text-zinc-500 font-mono bg-zinc-50 dark:bg-zinc-900 px-1.5 py-0.5 rounded w-fit">{url}</code>
                   </div>
                 );
               })}
             </div>
           </div>
         )}
-
-        {Array.isArray(features) && features.length > 0 && (
-          <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-                <Icon icon="sparkles" size={18} color="#fb923c" />
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Capabilities</h3>
-            </div>
-            <div className="space-y-2">
-              {features.map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-2 py-2">
-                  <span className="text-green-500 dark:text-green-400 text-sm">✓</span>
-                  <span className="text-zinc-900 dark:text-white text-sm">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
-      {/* Contact */}
-      <div className="bg-gradient-to-r from-orange-600/10 to-red-500/10 border border-orange-600/20 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 bg-orange-600/20 rounded-lg flex items-center justify-center">
-            <Icon icon="rocket" size={18} color="#fb923c" />
-          </div>
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Need Higher Limits?</h3>
+      {/* Notes */}
+      {knownLimitations.length > 0 && (
+        <div className="mt-4 p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800">
+          <h4 className="text-xs font-semibold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
+            <Icon icon="info" size={12} className="text-zinc-500" />
+            Notes
+          </h4>
+          <ul className="space-y-1.5">
+            {knownLimitations.map((lim, idx) => (
+              <li key={idx} className="text-xs text-zinc-600 dark:text-zinc-400 pl-5 relative before:content-['•'] before:absolute before:left-1 before:text-zinc-400">
+                {lim}
+              </li>
+            ))}
+          </ul>
         </div>
-        <p className="text-zinc-700 dark:text-zinc-300">Reach out for custom pricing with our Enterprise tier for higher rate limits and dedicated support.</p>
-        <div className="mt-4">
-          <a href={pricing.contactUrl ?? "#"} className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors font-medium" target="_blank" rel="noopener noreferrer">
-            Contact Sales
-            <Icon icon="arrow-right" color="white" size={16} />
-          </a>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
