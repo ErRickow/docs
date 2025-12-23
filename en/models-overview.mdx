@@ -3,126 +3,97 @@ title: 'Models Overview'
 description: '> Discover the range of state-of-the-art large language models provided by NeosantaraAI.'
 ---
 
-Neosantara AI offers a family of powerful large language models designed to meet diverse AI application needs. This guide introduces our models and compares their key features and performance.
+Neosantara AI offers a curated selection of state-of-the-art models, ranging from our own Indonesian-optimized fine-tunes to the best open-source models from Meta, Google, Alibaba, and more.
+
+<Note>
+  **Billing & Pricing:** For a detailed explanation of how credits work, pricing mechanics (Pay-As-You-Go), and throughput tiers, please refer to the [Token Credits & Pricing](/en/about/token-credits) documentation.
+</Note>
+
+## Featured Models
 
 <CardGroup cols={2}>
-  <Card title="Nusantara-Base" icon="trophy" href="/en/models-overview#model-comparison-table">
-    Our foundational model for general tasks with balanced performance and speed.
-
-    * <Icon icon="inbox-in" iconType="thin" /> Text and image input
-    * <Icon icon="inbox-out" iconType="thin" /> Text output
-    * <Icon icon="book" iconType="thin" /> 64K context window
+  <Card title="Nusantara-Base" icon="trophy" href="#text-reasoning-coding-models">
+    Our flagship model. Balanced performance for general tasks, optimized for Indonesian context.
+    * **ID**: `nusantara-base`
+    * **Context**: 64k
   </Card>
 
-  <Card title="Neosantara-Gen-2045" icon="image-polaroid" href="/en/models-overview#model-comparison-table">
-    Our main image generation model for creating high-quality visuals.
-
-    * <Icon icon="inbox-in" iconType="thin" /> Text prompt input
-    * <Icon icon="inbox-out" iconType="thin" /> Image output
-    * <Icon icon="palette" iconType="thin" /> Creative content generation
+  <Card title="Garda-Beta-Mini" icon="bolt" href="#text-reasoning-coding-models">
+    Lightning fast and efficient. Best for high-volume tasks and long context handling.
+    * **ID**: `garda-beta-mini`
+    * **Context**: 131k
   </Card>
 </CardGroup>
 
-***
+---
 
-## Model Names and Aliases
+## Text, Reasoning & Coding Models
 
-Neosantara AI provides specific model IDs for direct use and convenient aliases that point to the latest stable versions.
+Below is the list of available text generation, reasoning, and coding models.
 
-### Indonesian-Optimized Models
+| Model ID | Description | Context | Pricing (Input/Output) |
+| :--- | :--- | :--- | :--- |
+| `nusantara-base` | **Flagship**. General purpose, vision-capable, balanced. | 64k | Rp 300 / 1,500 |
+| `garda-beta-mini` | **Fastest**. High efficiency, massive context. | 131k | Rp 2,500 / 10,499 |
+| `archipelago-70b` | **Deep Culture**. Llama-3.3 70B fine-tuned for cultural nuance. | 24k | Rp 4,710 / 36,543 |
+| `sea-lion-v4-27b-it` | **Regional**. Specialized for Southeast Asian languages. | 128k | Rp 350 / 560 |
+| `deepseek-chat-v3.1` | **Hybrid**. 671B MoE model. | 164k | Rp 3,333 / 8,333 |
+| `kimi-k2` | **MoE**. 1T params (MoE) optimized for agentic tasks. | 131k | Rp 16,642 / 49,929 |
+| `kimi-k2:latest` | **MoE**. The latest standard Kimi K2 model. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:search` | **Search**. Kimi K2 with online search capability. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:research` | **Research**. Optimized for deep research tasks. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:math` | **Math**. Optimized for complex mathematical logic. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k2:silent` | **Silent**. Direct answers without search process logs. | 128k | Rp 16,642 / 49,929 |
+| `kimi-k1` | **Legacy**. The first generation Kimi model. | 128k | Rp 16,642 / 49,929 |
+| `llama-3.3-nemotron-super-49b-v1.5` | **Super**. 49B model with exceptional reasoning. | 132k | Rp 4,560 / 31,991 |
+| `glm-4.6` | **Z.ai**. SOTA coding and agent benchmarks. | 128k | Rp 823 / 2,823 |
+| `glm-4.6-plus` | **Z.ai**. More powerful coding context. | 128k | Rp 823 / 2,832 |
+| `grok-4.1-fast-non-reasoning` | **Massive Context**. xAI's best tool-calling model. | 2M | $0.30 / $0.72 (USD) |
+| `llama-3.3-70b-instruct` | **Standard**. Robust general intelligence. | 24k | Rp 4,560 / 31,991 |
+| `llama-3.3-70b-turbo` | **Turbo**. Optimized version of Llama 70B. | 8k | Rp 300 / 1,200 |
+| `gemma-3-27b-it` | **New**. Google's latest open model. | 32k | Rp 200 / 1,500 |
+| `gemma2-9b-it` | **Efficient**. High quality for its size. | 8k | Rp 200 / 1,000 |
+| `llama-3.2-11b` | **Light**. Efficient vision-capable model. | 8k | Rp 100 / 400 |
+| `granite-3-8b-instruct` | **Enterprise**. IBM's enterprise-grade model. | 128k | Rp 2,880 / 11,520 |
+| `gpt-oss-20b` | **Low Latency**. Medium-sized open-weight model. | 131k | Rp 400 / 1,600 |
+| `gemini-3-flash` | **Speed**. Google's most intelligent model built for speed. | 1M | $0.50 / $3.00 (USD) |
+| `qwen3-coder` | **Coding**. 480B MoE specialist. | 262k | Rp 3,333 / 8,333 |
+| `grok-code-fast` | **Coding**. xAI's latest coding model. | 256k | $0.20 / \$1.50 (USD) |
+| `claude-4.5-sonnet`| **Gateway**. Access Anthropic via Vercel. | 200k | $3.00 / \$15.00 (USD) |
 
-| Model Name           | NeosantaraAI API ID                                     | Capabilities                                  |
-| -------------------- | ------------------------------------------------------- | --------------------------------------------- |
-| **Nusantara-Base** | `nusantara-base`                                        | Text, Function Calling, JSON Mode, Vision     |
-| **Archipelago-70B** | `archipelago-70b`                                       | Text, JSON Mode, Function Calling             |
-| **Garda-Beta-Mini** | `garda-beta-mini`                                       | Text, JSON Mode                               |
-| **LuminAI** | `luminai`                                               | Text                                          |
+## Image & Vision Models
 
-### Third-Party Models
+Models specialized for image generation and optical character recognition (OCR).
 
-| Model Name           | NeosantaraAI API ID                                     | Capabilities                                  |
-| -------------------- | ------------------------------------------------------- | --------------------------------------------- |
-| **Llama-3.3-Nemotron-Super-49B** | `llama-3.3-nemotron-super-49b-v1.5`                    | Text, Function Calling, JSON Mode            |
-| **Gemma-3-27B-IT** | `gemma-3-27b-it`                                        | Text, Function Calling, JSON Mode            |
-| **Llama-3.3-70B-Instruct** | `llama-3.3-70b-instruct`                               | Text, Function Calling                       |
-| **Gemma2-9B-IT** | `gemma2-9b-it`                                          | Text, JSON Mode                               |
+| Model ID | Description | Pricing |
+| :--- | :--- | :--- |
+| `neosantara-gen-2045` | **Image**. High-speed, high-quality generation. | 1024px: Rp 1,500<br/>512px: Rp 800<br/>256px: Rp 400 |
+| `deepseek-ocr` | **Vision**. High-accuracy text extraction. | Rp 100 / image |
 
-### Specialized Models
+## Embeddings
 
-| Model Name           | NeosantaraAI API ID                                     | Capabilities                                  |
-| -------------------- | ------------------------------------------------------- | --------------------------------------------- |
-| **Neosantara-Gen-2045** | `neosantara-gen-2045`                                   | Image Generation                              |
-| **Nusa-Embedding-0001** | `nusa-embedding-0001`                                   | Embedding                                     |
+Models for generating text embeddings, useful for search, clustering, and RAG applications.
 
-### Model Comparison Table
+| Model ID | Description | Pricing |
+| :--- | :--- | :--- |
+| `nusa-embedding-0001` | **Embedding**. Text embedding for search and RAG. | Rp 100 / 1M |
+| `gemini-embedding-001` | **Embedding**. Gemini embedding model. | Free |
 
-To help you choose the right model for your needs, we've compiled a table comparing the key features and capabilities of our core NeosantaraAI models.
+---
 
-| Model             | Nusantara-Base                                                       | Archipelago-70B                                               | Garda-Beta-Mini                                                | Neosantara-Gen-2045                |
-| :------------------ | :------------------------------------------------------------------- | :------------------------------------------------------------ | :------------------------------------------------------------- | :--------------------------------- |
-| **Description** | Base model for general tasks with balanced performance, cost and speed | Specialized model for Indonesian language content with cultural context awareness | Fast and efficient model optimized for Indonesian language understanding | Main image generation model hosted on Together AI |
-| **Strengths** | Versatile, good for most common tasks, vision support               | Deep Indonesian cultural understanding, specialized content    | Optimized for speed and Indonesian language                    | High-quality image generation      |
-| **Multilingual** | Yes                                                                  | Yes (Indonesian-focused)                                      | Yes (Indonesian-optimized)                                     | Yes (for prompts)                  |
-| **Vision** | Yes                                                                  | No                                                            | No                                                             | No (Generates images, does not analyze them) |
-| **Function Calling**| Yes                                                                  | Yes                                                           | No                                                             | No                                 |
-| **JSON Mode** | Yes                                                                  | Yes                                                           | Yes                                                            | No                                 |
-| **Context Window** | 64,000 tokens                                                        | 24,000 tokens                                                 | 131,072 tokens                                                 | 0 (Not applicable)                 |
-| **Max Output** | 2,048 tokens                                                         | 2,048 tokens                                                  | 8,192 tokens                                                   | 0 (Image output)                   |
-| **Pricing** | Rp 300/1,500 per 1M tokens                                          | Rp 4,710/36,543 per 1M tokens                                | Rp 2,500/10,499 per 1M tokens                                 | Per image pricing                  |
-| **Training Data Cut-off** | Varies by underlying provider                                        | Varies by underlying provider                                 | Varies by underlying provider                                  | Varies by underlying provider      |
-| **Comparative Latency** | Fast                                                                 | Medium                                                        | Fastest                                                        | Fast                               |
+<Note>
+  **Pricing Note:** "Rp" indicates Indonesian Rupiah. "USD" indicates US Dollars. Prices are per 1 Million tokens unless otherwise stated.
+</Note>
 
-### Model Pricing
+## Ready to Build?
 
-Pricing for NeosantaraAI models is based on a per-token usage model for text models and per-image for generation models. The cost varies by model complexity and capabilities.
+Start integrating these models into your application today.
 
-**Indonesian-Optimized Models:**
-- `nusantara-base`: Rp 300/1,500 per 1M tokens (input/output)
-- `archipelago-70b`: Rp 4,710/36,543 per 1M tokens (input/output)
-- `garda-beta-mini`: Rp 2,500/10,499 per 1M tokens (input/output)
-- `luminai`: Free
-
-**Image Generation:**
-- `neosantara-gen-2045`: Rp 2,000 (1024x1024), Rp 1,200 (512x512), Rp 500 (256x256)
-
-Refer to our [pricing documentation](/en/about/token-credits) for complete pricing details and usage tiers.
-
-When you make an API request, the response will output both input and output token counts as part of the reported `usage` metrics.
-
-## Model Capabilities
-
-Here is a list of the main capabilities supported by Neosantara AI models:
-
-| Capability | Description |
-|------------|-------------|
-| text_generation | The ability of the model to generate human-like text responses |
-| function_calling | The ability of the model to call external functions |
-| json_mode | The ability of the model to generate output in structured JSON format |
-| web_search | The ability of the model to search for information from the web |
-| vision | The ability of the model to analyze and understand content from images |
-| image_generation | The ability of the model to create images from text prompts |
-| embedding | The ability of the model to convert text into numerical vector representations |
-
-***
-
-## Get Started with NeosantaraAI
-
-If you're ready to start exploring what NeosantaraAI can do for you, let's dive in! Whether you're a developer looking to integrate NeosantaraAI into your applications or a user wanting to experience the power of AI firsthand, we've got you covered.
-
-<Note>Looking to chat with NeosantaraAI? Visit our [Chat Interface](https://chat.neosantara.xyz)!</Note>
-
-<CardGroup cols={3}>
-  <Card title="Quickstart" icon="bolt-lightning" href="/en/api-reference/quickstart">
-    Learn how to make your first API call in minutes.
+<CardGroup cols={2}>
+  <Card title="Get API Key" icon="key" href="https://console.neosantara.xyz">
+    Get your free API key and start experimenting with Rp 20,000 free credits.
   </Card>
-
-  <Card title="API Reference" icon="code" href="/en/api-reference/introduction#reference">
-    Explore detailed API endpoints and their specifications.
-  </Card>
-
-  <Card title="Dashboard" icon="chart-line" href="https://app.neosantara.xyz/usage/utm_source=https://docs.neosantara.xyz">
-    Manage your API keys and monitor usage.
+  <Card title="View Quickstart" icon="rocket" href="/en/api-reference/quickstart">
+    Follow our step-by-step guide to make your first API request in minutes.
   </Card>
 </CardGroup>
-
-If you have any questions or need assistance, don't hesitate to reach out to our [support team](mailto:help@neosantara.xyz).
