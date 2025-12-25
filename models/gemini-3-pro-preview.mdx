@@ -1,0 +1,53 @@
+---
+title: "Gemini 3 Pro Preview"
+description: "Google's most capable model with superior reasoning, creative collaboration, and enhanced long-context understanding."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemini3ProData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemini3ProData} />
+
+## Overview
+
+Gemini 3 Pro Preview is designed for complex reasoning tasks, providing deep insights and high-quality outputs across a wide range of applications. It supports native reasoning and extensive multimodal inputs.
+
+## Access
+
+This model is restricted from the **Free** tier to ensure optimal performance for paid subscribers.
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "gemini-3-pro-preview",
+    "messages": [
+      { "role": "user", "content": "Analyze the implications of quantum computing on modern cryptography." }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.chat.completions.create(
+    model="gemini-3-pro-preview",
+    messages=[
+        {"role": "user", "content": "Analyze the implications of quantum computing on modern cryptography."}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+</CodeGroup>
+
+```

@@ -624,26 +624,104 @@ export const gptOss20bData = {
 };
 
 export const gemini3FlashData = {
-  modelId: "gemini-3-flash",
-  modelCardUrl: "#",
+  modelId: "gemini-3-flash-preview",
+  provider: "Google (via Ollama)",
+  modelCardUrl: "https://blog.google/technology/ai/google-gemini-ai/#introducing-gemini",
   contextLength: { freeTier: "1M tokens" },
-  maxOutput: { freeTier: "2400 tokens" },
+  maxOutput: { freeTier: "8,192 tokens" },
   speed: { value: "Fast", unit: "latency" },
   rateLimits: [
-  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
-  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
-  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
-  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
-  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
-],
-  tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
-},
-  pricing: { inputPrice: "0.50", outputPrice: "3.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
-  endpoints: ["Chat Completions"],
-  features: ["text_generation", "function_calling", "json_mode", "vision", "streaming"],
+    { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+    { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" }
+  ],
+  pricing: { inputPrice: "1,600", outputPrice: "6,400", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions", "Responses API"],
+  features: ["text_generation", "vision", "reasoning", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
+};
+
+export const gemini3ProData = {
+  modelId: "gemini-3-pro-preview",
+  provider: "Google (via Ollama)",
+  modelCardUrl: "https://blog.google/technology/ai/google-gemini-ai/#introducing-gemini",
+  contextLength: { freeTier: "Restricted", standardTier: "2M tokens" },
+  maxOutput: { freeTier: "Restricted", standardTier: "8,192 tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+    { tier: "Free", requestsPerMin: "0", inputTokensPerMin: "0", outputTokensPerMin: "0" },
+    { tier: "Basic", requestsPerMin: "20", inputTokensPerMin: "10,000", outputTokensPerMin: "2,500" }
+  ],
+  pricing: { inputPrice: "40,000", outputPrice: "120,000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions", "Responses API"],
+  features: ["text_generation", "vision", "reasoning", "function_calling", "json_mode", "streaming"],
+  inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] },
+  knownLimitations: ["Restricted from Free tier users."]
+};
+
+export const glm46vFlashData = {
+  modelId: "glm-4.6v-flash",
+  provider: "Zhipu AI (via Zai)",
+  modelCardUrl: "https://huggingface.co/zai-org/GLM-4.6",
+  contextLength: { freeTier: "128k tokens" },
+  maxOutput: { freeTier: "4,096 tokens" },
+  speed: { value: "Fast", unit: "latency" },
+  rateLimits: [
+    { tier: "Free", requestsPerMin: "10", inputTokensPerMin: "10,000", outputTokensPerMin: "4,000" }
+  ],
+  pricing: { inputPrice: "250", outputPrice: "750", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions", "Responses API"],
+  features: ["text_generation", "vision", "video", "reasoning", "function_calling", "streaming"],
+  inputOutput: { inputFormats: ["text", "image", "video_url"], outputFormats: ["text"] }
+};
+
+export const glm45FlashData = {
+  modelId: "glm-4.5-flash",
+  provider: "Zhipu AI (via Zai)",
+  modelCardUrl: "https://huggingface.co/zai-org/GLM-4.5",
+  contextLength: { freeTier: "128k tokens" },
+  maxOutput: { freeTier: "4,096 tokens" },
+  speed: { value: "Turbo", unit: "latency" },
+  rateLimits: [
+    { tier: "Free", requestsPerMin: "15", inputTokensPerMin: "20,000", outputTokensPerMin: "8,000" }
+  ],
+  pricing: { inputPrice: "250", outputPrice: "750", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions", "Responses API"],
+  features: ["text_generation", "function_calling", "streaming"],
+  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
+};
+
+export const glm47Data = {
+  modelId: "glm-4.7",
+  provider: "Zhipu AI (via Ollama)",
+  modelCardUrl: "https://huggingface.co/zai-org/GLM-4.7",
+  contextLength: { freeTier: "Restricted", standardTier: "128k tokens" },
+  maxOutput: { freeTier: "Restricted", standardTier: "4,096 tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+    { tier: "Free", requestsPerMin: "0", inputTokensPerMin: "0", outputTokensPerMin: "0" }
+  ],
+  pricing: { inputPrice: "10,000", outputPrice: "30,000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions", "Responses API"],
+  features: ["text_generation", "vision", "reasoning", "function_calling", "streaming"],
+  inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] },
+  knownLimitations: ["Restricted from Free tier users."]
+};
+
+export const kimiK2ThinkingData = {
+  modelId: "kimi-k2-thinking",
+  provider: "Moonshot AI (via Ollama)",
+  modelCardUrl: "https://huggingface.co/moonshotai/Kimi-K2-Instruct",
+  contextLength: { freeTier: "Restricted", standardTier: "132k tokens" },
+  maxOutput: { freeTier: "Restricted", standardTier: "128k tokens" },
+  speed: { value: "Slow", unit: "latency" },
+  rateLimits: [
+    { tier: "Free", requestsPerMin: "0", inputTokensPerMin: "0", outputTokensPerMin: "0" }
+  ],
+  pricing: { inputPrice: "20,000", outputPrice: "60,000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions", "Responses API"],
+  features: ["text_generation", "reasoning", "function_calling", "streaming"],
+  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] },
+  knownLimitations: ["Restricted from Free tier users.", "Optimized for deep thinking."]
 };
 
 export const grokCodeFastData = {
