@@ -34,6 +34,17 @@
     "decoration": "windows"
   },
   "api": {
+    "openapi": [
+      "api-reference/openapi/chat.yaml",
+      "api-reference/openapi/images.yaml",
+      "api-reference/openapi/responses.yaml",
+      "api-reference/openapi/anthropic.yaml",
+      "api-reference/openapi/models.yaml",
+      "api-reference/openapi/user.yaml",
+      "api-reference/openapi/utility.yaml",
+      "api-reference/openapi/embeddings.yaml",
+      "api-reference/openapi/moderations.yaml"
+    ],
     "mdx": {
       "server": "https://api.neosantara.xyz",
       "auth": {
@@ -105,6 +116,7 @@
                 "models/claude-4.5-sonnet",
                 "models/neosantara-gen-2045",
                 "models/deepseek-ocr",
+                "models/llama-guard-3-8b",
                 "models/nusa-embedding-0001",
                 "models/gemini-embedding-001"
               ]
@@ -189,21 +201,31 @@
           "pages": [
           {
             "group": "Responses",
-            "pages": [
-              "api-reference/responses/create"
-            ]
+            "openapi": "api-reference/openapi/responses.yaml"
           },
           {
-            "group": "Messages",
-            "pages": [
-              "api-reference/messages/create"
-            ]
+            "group": "Anthropic",
+            "openapi": "api-reference/openapi/anthropic.yaml"
           },
           {
             "group": "Chat",
-            "pages": [
-              "api-reference/chat/completions/create"
-            ]
+            "openapi": "api-reference/openapi/chat.yaml"
+          },
+          {
+            "group": "Images",
+            "openapi": "api-reference/openapi/images.yaml"
+          },
+          {
+            "group": "Account",
+            "openapi": "api-reference/openapi/user.yaml"
+          },
+          {
+            "group": "Models",
+            "openapi": "api-reference/openapi/models.yaml"
+          },
+          {
+            "group": "Utility",
+            "openapi": "api-reference/openapi/utility.yaml"
           },
           {
             "group": "Batches",
@@ -226,28 +248,11 @@
           },
           {
             "group": "Embeddings",
-            "pages": [
-              "api-reference/embeddings/create-embeddings"
-            ]
+            "openapi": "api-reference/openapi/embeddings.yaml"
           },
           {
-            "group": "Models",
-            "pages": [
-              "api-reference/models/list-available-models",
-              "api-reference/models/get"
-            ]
-          },
-          {
-            "group": "Content Moderation",
-            "pages": [
-              "api-reference/moderations/content-moderation-check"
-            ]
-          },
-          {
-            "group": "Image Generation",
-            "pages": [
-              "api-reference/images/create-image-generation"
-            ]
+            "group": "Moderations",
+            "openapi": "api-reference/openapi/moderations.yaml"
           },
           {
             "group": "Status",
@@ -290,6 +295,42 @@
           "group": "API reference",
           "icon": "square-terminal",
           "pages": [
+            {
+              "group": "Responses",
+              "openapi": "api-reference/openapi/responses.yaml"
+            },
+            {
+              "group": "Anthropic",
+              "openapi": "api-reference/openapi/anthropic.yaml"
+            },
+            {
+              "group": "Chat",
+              "openapi": "api-reference/openapi/chat.yaml"
+            },
+            {
+              "group": "Images",
+              "openapi": "api-reference/openapi/images.yaml"
+            },
+            {
+              "group": "Account",
+              "openapi": "api-reference/openapi/user.yaml"
+            },
+            {
+              "group": "Models",
+              "openapi": "api-reference/openapi/models.yaml"
+            },
+            {
+              "group": "Utility",
+              "openapi": "api-reference/openapi/utility.yaml"
+            },
+            {
+              "group": "Embeddings",
+              "openapi": "api-reference/openapi/embeddings.yaml"
+            },
+            {
+              "group": "Moderations",
+              "openapi": "api-reference/openapi/moderations.yaml"
+            },
             "id/api-reference/chat/create-chat-completion",
             "id/api-reference/embeddings/create-embeddings",
             "id/api-reference/models/list-available-models",

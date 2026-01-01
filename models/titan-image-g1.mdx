@@ -1,0 +1,86 @@
+---
+title: "Amazon Titan Image Generator G1"
+description: "High-performance image generation model by Amazon Bedrock. Optimized for cost, quality, and versatility with support for inpainting and outpainting."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { titanImageG1Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...titanImageG1Data} />
+
+## Overview
+
+Amazon Titan Image Generator G1 v2 is a versatile model that enables high-quality image generation and manipulation. It is particularly known for its cost-efficiency and advanced features like background removal, color conditioning, and image editing.
+
+## Key Features
+
+- **Text-to-Image**: Generate realistic or artistic images from text prompts.
+- **Image-to-Image**: Create variations of an existing image.
+- **Inpainting**: Edit specific parts of an image using a mask.
+- **Outpainting**: Extend images beyond their original borders.
+- **Invisible Watermarking**: Built-in safety features to identify AI-generated content.
+
+## Quick Integration
+
+You can use `titan-image-g1` via the standard OpenAI SDK by pointing the `base_url` to Neosantara.
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "titan-image-g1",
+    "prompt": "A futuristic city in Indonesia, traditional batik architecture, cyberpunk style, photorealistic, 8k",
+    "size": "512x512",
+    "response_format": "url"
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.images.generate(
+    model="titan-image-g1",
+    prompt="A futuristic city in Indonesia, traditional batik architecture",
+    size="1024x1024"
+)
+
+print(response.data[0].url)
+```
+</CodeGroup>
+
+## Advanced Usage
+
+### Inpainting Example
+
+To modify an image, provide the base image and a mask.
+
+```json
+{
+  "model": "titan-image-g1",
+  "prompt": "Add a flying drone in the sky",
+  "image": "base64_encoded_image...",
+  "mask_image": "base64_encoded_mask...",
+  "size": "512x512"
+}
+```
+
+### Outpainting Example
+
+To extend an image, set the `outpainting_mode`.
+
+```json
+{
+  "model": "titan-image-g1",
+  "prompt": "Extend the mountain landscape to the left",
+  "image": "base64_encoded_image...",
+  "outpainting_mode": "DEFAULT",
+  "size": "1024x1024"
+}
+```

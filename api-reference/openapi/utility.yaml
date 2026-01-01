@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: Neosantara AI - Utility API
+  description: Helper utilities for token management and other metadata.
+  version: 1.0.0
+servers:
+  - url: https://api.neosantara.xyz/v1
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+paths:
+  /messages/count_tokens:
+    post:
+      tags: [Utility]
+      summary: Count Tokens
+      description: Counts the total input tokens for a given request body (Anthropic compatible).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [model, messages]
+              properties:
+                model:
+                  type: string
+                messages:
+                  type: array
+                  items:
+                    type: object
+                system:
+                  type: string
+                tools:
+                  type: array
+                  items:
+                    type: object
+            example:
+              model: "claude-3-5-sonnet-20241022"
+              system: "You are a research assistant."
+              messages:
+                - role: "user"
+                  content: "Count these tokens."
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  input_tokens:
+                    type: integer
+              example:
+                input_tokens: 25
+

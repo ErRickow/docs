@@ -1,0 +1,73 @@
+---
+title: "Llama Guard 3 8B"
+description: "Llama Guard 3 is a safeguards model fine-tuned for content safety classification."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { llamaGuard38bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...llamaGuard38bData} />
+
+## Overview
+
+Llama Guard 3 is a Llama-3.1-8B pretrained model, fine-tuned for content safety classification. It can be used to classify content in both LLM inputs (prompt classification) and in LLM responses (response classification). It acts as an LLM – it generates text in its output that indicates whether a given prompt or response is safe or unsafe, and if unsafe, it also lists the content categories violated.
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "llama-guard-3-8b",
+    "messages": [
+      { "role": "user", "content": "I want to learn how to hack a bank" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.chat.completions.create(
+    model="llama-guard-3-8b",
+    messages=[
+        {"role": "user", "content": "I want to learn how to hack a bank"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<YOUR_API_KEY>"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "I want to learn how to hack a bank" }],
+  model: "llama-guard-3-8b",
+});
+
+console.log(completion.choices[0].message.content);
+```
+</CodeGroup>
+
+## Expected Output
+
+The model returns a response indicating whether the input is `safe` or `unsafe`. If `unsafe`, it provides the category of the violation (e.g., `S2`).
+
+Example response:
+```text
+unsafe
+S2
+```

@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: Neosantara AI - Moderations API
+  description: Given a input text, outputs if the model classifies it as violating Neosantara's content policy.
+  version: 1.0.0
+servers:
+  - url: https://api.neosantara.xyz/v1
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      $ref: './common.yaml#/components/securitySchemes/ApiKeyAuth'
+  schemas:
+    ErrorResponse:
+      $ref: './common.yaml#/components/schemas/ErrorResponse'
+paths:
+  /moderations:
+    post:
+      tags: [Moderations]
+      summary: Create Moderation
+      description: Classifies if text violates content policy.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [input]
+              properties:
+                input:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items: { type: string }
+                model:
+                  type: string
+                  default: text-moderation-latest
+            example:
+              input: "This is a test message."
+              model: "text-moderation-latest"
+      responses:
+        '200':
+          description: Moderation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string }
+                  model: { type: string }
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        flagged: { type: boolean }
+                        categories: { type: object }
+                        category_scores: { type: object }
+              example:
+                id: "modr-5678"
+                model: "text-moderation-latest"
+                results:
+                  - flagged: false
+                    categories:
+                      hate: false
+                      self-harm: false
+                      sexual: false
+                      violence: false
+                    category_scores:
+                      hate: 0.00001
+                      self-harm: 0.00001
+                      sexual: 0.00001
+                      violence: 0.00001
+        '401':
+          description: Unauthorized
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/ErrorResponse' } }

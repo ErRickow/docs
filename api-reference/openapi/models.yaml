@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Neosantara AI - Models API
+  description: API for discovering available models and their capabilities.
+  version: 1.0.0
+servers:
+  - url: https://api.neosantara.xyz/v1
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+paths:
+  /models:
+    get:
+      tags: [Models]
+      summary: List Models
+      description: Returns a list of all models currently available to your user account.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                object: "list"
+                data:
+                  - id: "llama-3.3-70b-instruct"
+                    object: "model"
+                    owned_by: "neosantara.xyz"
+                    description: "Advanced Llama 3.3 70B model."
+  /models/{modelId}:
+    get:
+      tags: [Models]
+      summary: Retrieve Model
+      description: Get detailed information about a specific model.
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: llama-3.3-70b-instruct
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                id: "llama-3.3-70b-instruct"
+                object: "model"
+                owned_by: "neosantara.xyz"
+                capabilities: ["text_generation", "function_calling"]
+                context_window: 128000
+        '404':
+          description: Model Not Found
+        '429':
+          description: Rate Limit Exceeded
+

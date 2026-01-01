@@ -36,22 +36,33 @@ To generate images, send a POST request to the [`/v1/images/generations`](/api-r
 
 * **`prompt`** (string, **required**): The text description of the image(s) to generate.
 * **`model`** (string, optional, default: `"neosantara-gen-2045"`): The ID of the image generation model to use.
+* **`image`** (string, optional): The base64-encoded input image for image-to-image (variation), inpainting, or outpainting tasks.
+* **`mask_image`** (string, optional): The base64-encoded mask image for inpainting or outpainting.
+* **`outpainting_mode`** (string, optional): The mode for outpainting tasks (e.g., `"DEFAULT"`, `"PRECISE"`).
 * **`n`** (integer, optional, default: `1`): The number of images to generate. Must be between 1 and 4.
 * **`size`** (string, optional, default: `"1024x1024"`): The size of the generated images. Supported sizes depend on the model but commonly include `"512x512"`, `"1024x1024"`.
-* **`steps`** (integer, optional, default: `1`): The number of diffusion steps for image generation. Higher values generally lead to better quality but take longer.
-* **`response_format`** (string, optional, default: `"url"`): The format in which the generated images are returned.
-    * `"url"`: Returns a temporary URL to the generated image. These URLs are typically valid for a short period (e.g., 5 minutes).
-    * `"b64_json"`: Returns the image data directly as a base64-encoded JSON string.
+* **`steps`** (integer, optional, default: `1`): The number of diffusion steps for image generation.
+* **`response_format`** (string, optional, default: `"url"`): The format in which the generated images are returned (`"url"` or `"b64_json"`).
 
-<Note>
-For b64_json output, may encountered an error. We will fix that later
-</Note>
+## Advanced Capabilities
 
-### Supported Image Generation Models
+Some models, like `titan-image-g1`, support advanced image manipulation tasks:
+
+### Image-to-Image (Variation)
+Generate a new image based on an existing one. Provide the original image in the `image` parameter (as a base64 string) and a `prompt` describing the desired changes or style.
+
+### Inpainting
+Modify specific areas of an existing image. Provide the original image in the `image` parameter and a binary mask in the `mask_image` parameter (where white areas represent the parts to be modified).
+
+### Outpainting
+Extend an image beyond its original borders. Provide the original image in `image` and set `outpainting_mode` to `"DEFAULT"` or `"PRECISE"`.
+
+## Supported Image Generation Models
 
 The NeosantaraAI API supports the following image generation models:
 
-* **`neosantara-gen-2045`**: Our primary image generation model. Recommended for quality and speed.
+* **`titan-image-g1`**: Amazon Titan Image Generator G1 v2. Extremely cost-effective and versatile. Supports text-to-image, variations, inpainting, and outpainting. Includes invisible watermarking for safety.
+* **`neosantara-gen-2045`**: Our high-quality legacy image generation model. Recommended for creative and artistic outputs.
 
 ### Example Response (`"response_format": "url"`)
 

@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: Neosantara AI - Chat API
+  description: OpenAI-compatible Chat Completions API. Supports advanced reasoning, multimodal inputs, and real-time web search.
+  version: 1.0.0
+servers:
+  - url: https://api.neosantara.xyz/v1
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      $ref: './common.yaml#/components/securitySchemes/ApiKeyAuth'
+  schemas:
+    ErrorResponse:
+      $ref: './common.yaml#/components/schemas/ErrorResponse'
+paths:
+  /chat/completions:
+    post:
+      tags: [Chat]
+      summary: Chat Completions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [model, messages]
+              properties:
+                model:
+                  type: string
+                  description: The model ID to use for generating responses.
+                  example: llama-3.3-70b-instruct
+                messages:
+                  type: array
+                  description: A list of messages comprising the conversation so far.
+                  items:
+                    $ref: './common.yaml#/components/schemas/Message'
+                temperature:
+                  type: number
+                  description: Controls randomness. Higher values mean more random output.
+                  default: 0.7
+                top_p:
+                  type: number
+                  description: Nucleus sampling probability mass.
+                  default: 1
+                max_tokens:
+                  type: integer
+                  description: The maximum number of tokens to generate.
+                  default: 2049
+                stream:
+                  type: boolean
+                  description: If true, partial message deltas will be sent as SSE.
+                  default: false
+                n:
+                  type: integer
+                  description: Number of completions to generate for each prompt.
+                  default: 1
+                presence_penalty:
+                  type: number
+                  default: 0
+                frequency_penalty:
+                  type: number
+                  default: 0
+                response_format:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum: [text, json_object]
+                reasoning:
+                  $ref: './common.yaml#/components/schemas/Reasoning'
+                tools:
+                  type: array
+                  items:
+                    $ref: './common.yaml#/components/schemas/Tool'
+                tool_choice:
+                  oneOf:
+                    - type: string
+                      enum: [none, auto, required]
+                    - type: object
+                web_search_options:
+                  type: object
+                  properties:
+                    max_results:
+                      type: integer
+                    search_depth:
+                      type: string
+                      enum: [basic, advanced]
+            example:
+              model: "llama-3.3-70b-instruct"
+              messages:
+                - role: "user"
+                  content: "Hello, what models are available?"
+              temperature: 0.7
+              max_tokens: 1024
+      responses:
+        '200':
+          description: Chat Completion Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string }
+                  object: { type: string, example: "chat.completion" }
+                  created: { type: integer }
+                  model: { type: string }
+                  choices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        index: { type: integer }
+                        message:
+                          type: object
+                          properties:
+                            role: { type: string }
+                            content: { type: string, nullable: true }
+                            tool_calls: { type: array, items: { type: object } }
+                        finish_reason: { type: string }
+                  usage:
+                    $ref: './common.yaml#/components/schemas/Usage'
+              example:
+                id: "chatcmpl-12345"
+                object: "chat.completion"
+                created: 1717950000
+                model: "llama-3.3-70b-instruct"
+                choices:
+                  - index: 0
+                    message:
+                      role: "assistant"
+                      content: "Hello! I am a Neosantara AI assistant. How can I help you today?"
+                    finish_reason: "stop"
+                usage:
+                  prompt_tokens: 10
+                  completion_tokens: 15
+                  total_tokens: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/ErrorResponse' } }
+        '429':
+          description: Rate Limit Exceeded
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/ErrorResponse' } }

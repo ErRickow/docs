@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: Neosantara AI - Anthropic/Claude API
+  description: High-fidelity Claude Messages API compatibility. Supports reasoning (thinking), stop sequences, and specific message constraints.
+  version: 1.0.0
+servers:
+  - url: https://api.neosantara.xyz/anthropic/v1
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      $ref: './common.yaml#/components/securitySchemes/ApiKeyAuth'
+paths:
+  /messages:
+    post:
+      tags: [Anthropic]
+      summary: Create Claude-compatible Message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [model, messages, max_tokens]
+              properties:
+                model:
+                  type: string
+                  example: claude-3-5-sonnet-20241022
+                messages:
+                  type: array
+                  description: alternating user/assistant messages. first role must be user.
+                  items:
+                    type: object
+                    required: [role, content]
+                    properties:
+                      role: { type: string, enum: [user, assistant] }
+                      content:
+                        oneOf:
+                          - type: string
+                          - type: array
+                            items: { type: object }
+                max_tokens:
+                  type: integer
+                system:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items: { type: object, properties: { type: { type: string, enum: [text] }, text: { type: string } } }
+                temperature:
+                  type: number
+                  default: 1.0
+                top_p:
+                  type: number
+                top_k:
+                  type: integer
+                stop_sequences:
+                  type: array
+                  items: { type: string }
+                thinking:
+                  type: object
+                  properties:
+                    type: { type: string, enum: [enabled, disabled] }
+                    budget_tokens: { type: integer, minimum: 1024 }
+                metadata:
+                  type: object
+                service_tier:
+                  type: string
+                stream:
+                  type: boolean
+                  default: false
+      responses:
+        '200':
+          description: Claude Message Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: string }
+                  type: { type: string, example: "message" }
+                  role: { type: string, example: "assistant" }
+                  content: { type: array, items: { type: object } }
+                  model: { type: string }
+                  stop_reason: { type: string }
+                  usage:
+                    type: object
+                    properties:
+                      input_tokens: { type: integer }
+                      output_tokens: { type: integer }

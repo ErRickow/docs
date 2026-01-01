@@ -600,6 +600,23 @@ export const deepseekOcrData = {
   inputOutput: { inputFormats: ["image"], outputFormats: ["text"] }
 };
 
+export const llamaGuard38bData = {
+  modelId: "llama-guard-3-8b",
+  provider: "Meta (via Cloudflare)",
+  modelCardUrl: "https://huggingface.co/meta-llama/Llama-Guard-3-8B",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "256 tokens" },
+  speed: { value: "Fast", unit: "latency" },
+  rateLimits: [
+    { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+    { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" }
+  ],
+  pricing: { inputPrice: "7,680", outputPrice: "480", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "moderation", "streaming"],
+  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
+};
+
 export const gptOss20bData = {
   modelId: "gpt-oss-20b",
   modelCardUrl: "#",
@@ -810,8 +827,71 @@ export const geminiEmbeddingData = {
   docsUrl: "en/about/token-credits",
   freeBalance: "Rp 20,000"
 },
-  pricing: { inputPrice: "0", outputPrice: "0", currency: "IDR", inputUnit: "Free", pricingUrl: "/en/about/token-credits" },
-  endpoints: ["Embeddings"],
-  features: ["embedding"],
-  inputOutput: { inputFormats: ["text"], outputFormats: ["embedding"] }
-};
+    pricing: { inputPrice: "0", outputPrice: "0", currency: "IDR", inputUnit: "Free", pricingUrl: "/en/about/token-credits" },
+    endpoints: ["Embeddings"],
+    features: ["embedding"],
+    inputOutput: { inputFormats: ["text"], outputFormats: ["embedding"] }
+  };
+  
+  export const titanImageG1Data = {
+    modelId: "titan-image-g1",
+    provider: "Amazon (via Bedrock)",
+    modelCardUrl: "https://aws.amazon.com/bedrock/titan/",
+    contextLength: { freeTier: "0 tokens" },
+    maxOutput: { freeTier: "1 Image" },
+    speed: { value: "Fast", unit: "latency" },
+    rateLimits: [
+      { tier: "Free", requestsPerMin: "3" },
+      { tier: "Basic", requestsPerMin: "20" }
+    ],
+    pricing: { 
+      inputPrice: "0.008 - 0.010", 
+      outputPrice: "0", 
+      currency: "USD", 
+      inputUnit: "per Image", 
+      pricingUrl: "/en/about/token-credits" 
+    },
+    endpoints: ["Image Generations"],
+    features: ["image_generation", "image_variation", "inpainting", "outpainting"],
+    inputOutput: { inputFormats: ["text", "image"], outputFormats: ["image"] },
+    knownLimitations: [
+      "512x512: $0.008 per image",
+      "1024x1024: $0.010 per image",
+      "Supports Inpainting and Outpainting via mask_image parameter"
+    ]
+  };
+  
+  export const claude3HaikuData = {
+    modelId: "claude-3-haiku",
+    provider: "Anthropic (via Bedrock)",
+    modelCardUrl: "https://www.anthropic.com/claude",
+    contextLength: { freeTier: "200k tokens" },
+    maxOutput: { freeTier: "4096 tokens" },
+    speed: { value: "Fast", unit: "latency" },
+    rateLimits: [
+      { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+      { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" }
+    ],
+    pricing: { inputPrice: "0.25", outputPrice: "1.25", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+    endpoints: ["Chat Completions"],
+    features: ["text_generation", "vision", "function_calling", "json_mode", "streaming"],
+    inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
+  };
+  
+  export const claude3SonnetData = {
+    modelId: "claude-3-sonnet",
+    provider: "Anthropic (via Bedrock)",
+    modelCardUrl: "https://www.anthropic.com/claude",
+    contextLength: { freeTier: "200k tokens" },
+    maxOutput: { freeTier: "4096 tokens" },
+    speed: { value: "Medium", unit: "latency" },
+    rateLimits: [
+      { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+      { tier: "Basic", requestsPerMin: "20", inputTokensPerMin: "10,000", outputTokensPerMin: "2,500" }
+    ],
+    pricing: { inputPrice: "3.00", outputPrice: "15.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+    endpoints: ["Chat Completions"],
+    features: ["text_generation", "vision", "function_calling", "json_mode", "streaming"],
+    inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
+  };
+  

@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: Neosantara AI - User Account API
+  description: API for monitoring account balance, usage statistics, and activity logs.
+  version: 1.0.0
+servers:
+  - url: https://api.neosantara.xyz/v1
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+paths:
+  /user/usage:
+    get:
+      tags: [Account]
+      summary: Get Account Status
+      description: Returns billing mode, current balance or quota, and recent usage logs (last 24 hours).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  billing:
+                    type: object
+                  stats_24h:
+                    type: object
+                  recent_logs:
+                    type: array
+              example:
+                billing:
+                  mode: "pay_as_you_go"
+                  balance:
+                    amount: 50000
+                    currency: "IDR"
+                stats_24h:
+                  total_requests: 120
+                  total_errors: 1
+                  total_cost_idr: 450
+                  total_tokens: 15000
+                recent_logs:
+                  - timestamp: "2024-01-01T12:00:00Z"
+                    model: "llama-3.3-70b-instruct"
+                    status: 200
+                    cost_idr: 15
+                    tokens: 300
+                    type: "chat_completion"
+
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate Limit Exceeded
