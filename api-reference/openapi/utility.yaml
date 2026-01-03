@@ -39,12 +39,6 @@ paths:
                   type: array
                   items:
                     type: object
-            example:
-              model: "claude-3-5-sonnet-20241022"
-              system: "You are a research assistant."
-              messages:
-                - role: "user"
-                  content: "Count these tokens."
       responses:
         '200':
           description: OK
@@ -52,9 +46,7 @@ paths:
             application/json:
               schema:
                 type: object
+                required: [input_tokens]
                 properties:
                   input_tokens:
                     type: integer
-              example:
-                input_tokens: 25
-

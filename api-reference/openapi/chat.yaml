@@ -29,38 +29,39 @@ paths:
               properties:
                 model:
                   type: string
-                  description: The model ID to use for generating responses.
                   example: llama-3.3-70b-instruct
                 messages:
                   type: array
-                  description: A list of messages comprising the conversation so far.
                   items:
                     $ref: './common.yaml#/components/schemas/Message'
                 temperature:
                   type: number
-                  description: Controls randomness. Higher values mean more random output.
+                  minimum: 0
+                  maximum: 2
                   default: 0.7
                 top_p:
                   type: number
-                  description: Nucleus sampling probability mass.
+                  minimum: 0
+                  maximum: 1
                   default: 1
                 max_tokens:
                   type: integer
-                  description: The maximum number of tokens to generate.
                   default: 2049
                 stream:
                   type: boolean
-                  description: If true, partial message deltas will be sent as SSE.
                   default: false
                 n:
                   type: integer
-                  description: Number of completions to generate for each prompt.
                   default: 1
                 presence_penalty:
                   type: number
+                  minimum: -2
+                  maximum: 2
                   default: 0
                 frequency_penalty:
                   type: number
+                  minimum: -2
+                  maximum: 2
                   default: 0
                 response_format:
                   type: object
@@ -79,6 +80,16 @@ paths:
                     - type: string
                       enum: [none, auto, required]
                     - type: object
+                      properties:
+                        type:
+                          type: string
+                          enum: [function]
+                        function:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                          required: [name]
                 web_search_options:
                   type: object
                   properties:
@@ -87,13 +98,6 @@ paths:
                     search_depth:
                       type: string
                       enum: [basic, advanced]
-            example:
-              model: "llama-3.3-70b-instruct"
-              messages:
-                - role: "user"
-                  content: "Hello, what models are available?"
-              temperature: 0.7
-              max_tokens: 1024
       responses:
         '200':
           description: Chat Completion Response
@@ -121,21 +125,6 @@ paths:
                         finish_reason: { type: string }
                   usage:
                     $ref: './common.yaml#/components/schemas/Usage'
-              example:
-                id: "chatcmpl-12345"
-                object: "chat.completion"
-                created: 1717950000
-                model: "llama-3.3-70b-instruct"
-                choices:
-                  - index: 0
-                    message:
-                      role: "assistant"
-                      content: "Hello! I am a Neosantara AI assistant. How can I help you today?"
-                    finish_reason: "stop"
-                usage:
-                  prompt_tokens: 10
-                  completion_tokens: 15
-                  total_tokens: 25
         '401':
           description: Unauthorized
           content:

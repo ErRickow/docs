@@ -1,0 +1,140 @@
+--- 
+title: 'Tinjauan (Penggunaan Alat)'
+description: '> Perluas kemampuan Neosantara dengan memungkinkannya berinteraksi dengan alat dan fungsi eksternal.'
+---
+
+Model NeosantaraAI mampu berinteraksi dengan alat (juga dikenal sebagai fungsi), memungkinkan Anda memperluas kemampuan AI untuk melakukan berbagai tugas yang lebih luas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
+
+Berikut adalah contoh cara memberikan alat ke NeosantaraAI menggunakan chat completions API:
+
+<CodeGroup>
+  ```bash Shell
+  curl https://api.neosantara.xyz/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $NEOSANTARA_API_KEY" \
+    -d '{
+      "model": "nusantara-base",
+      "max_tokens": 1024,
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "dapatkan_cuaca",
+            "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "lokasi": {
+                  "type": "string",
+                  "description": "Kota dan negara, misal Jakarta, ID"
+                }
+              },
+              "required": ["lokasi"]
+            }
+          }
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": "Bagaimana cuaca di Jakarta?"
+        }
+      ]
+    }'
+  ```
+
+  ```python Python
+  from openai import OpenAI
+
+  client = OpenAI(
+      api_key="KUNCI_API_NEOSANTARA_ANDA",
+      base_url="https://api.neosantara.xyz/v1"
+  )
+
+  response = client.chat.completions.create(
+      model="nusantara-base",
+      max_tokens=1024,
+      tools=[
+          {
+              "type": "function",
+              "function": {
+                  "name": "dapatkan_cuaca",
+                  "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                  "parameters": {
+                      "type": "object",
+                      "properties": {
+                          "lokasi": {
+                              "type": "string",
+                              "description": "Kota dan negara, misal Jakarta, ID",
+                          }
+                      },
+                      "required": ["lokasi"],
+                  },
+              }
+          }
+      ],
+      messages=[{"role": "user", "content": "Bagaimana cuaca di Jakarta?"}],
+  )
+  print(response)
+  ```
+</CodeGroup>
+
+
+## Bagaimana Penggunaan Alat Bekerja
+
+Fungsionalitas penggunaan alat NeosantaraAI mengikuti pola umum, mirip dengan pemanggilan fungsi OpenAI, di mana Anda memberikan deskripsi alat yang tersedia kepada model, dan model memutuskan apakah dan bagaimana menggunakannya.
+
+Integrasikan alat sisi klien dengan NeosantaraAI dalam langkah-langkah ini:
+
+<Steps>
+  <Step title="Berikan NeosantaraAI alat dan prompt pengguna">
+    * Definisikan alat dengan nama, deskripsi, dan skema input (parameter) dalam permintaan API Anda di dalam parameter `tools`.
+    * Sertakan prompt pengguna yang mungkin memerlukan alat ini, misal, "Bagaimana cuaca di Jakarta?"
+  </Step>
+
+  <Step title="NeosantaraAI memutuskan untuk menggunakan alat">
+    * Model menilai apakah ada alat yang dapat membantu pertanyaan pengguna.
+    * Jika ya, model membangun objek `tool_calls` dalam responsnya, berisi nama alat yang akan dipanggil dan argumen (input) untuk alat tersebut.
+    * Respons API akan memiliki `finish_reason` berupa `tool_calls`.
+  </Step>
+
+  <Step title="Eksekusi alat dan kembalikan hasil">
+    * Aplikasi Anda mengekstrak nama alat dan input dari respons `tool_calls` NeosantaraAI.
+    * Aplikasi Anda kemudian mengeksekusi kode alat yang sebenarnya di sistem Anda.
+    * Kembalikan hasilnya ke model dalam pesan `user` baru dengan peran `tool`, berisi `tool_call_id` dan `content` dari output alat.
+  </Step>
+
+  <Step title="NeosantaraAI menggunakan hasil alat untuk merumuskan respons">
+    * NeosantaraAI menganalisis hasil alat yang Anda berikan untuk membuat respons bahasa alami finalnya terhadap prompt pengguna asli.
+  </Step>
+</Steps>
+
+Catatan: Langkah 3 dan 4 bersifat opsional. Untuk beberapa alur kerja, permintaan penggunaan alat NeosantaraAI (langkah 2) mungkin adalah semua yang Anda butuhkan.
+
+***
+
+
+## Harga
+
+Permintaan penggunaan alat diberi harga berdasarkan:
+
+1.  Total jumlah token input yang dikirim ke model (termasuk token dari definisi alat).
+2.  Jumlah token output yang dihasilkan (termasuk panggilan alat yang dihasilkan oleh model).
+
+Lihat [dokumentasi harga](/id/about/token-credits) kami untuk harga per model dan tingkatan penggunaan saat ini.
+
+***
+
+
+## Langkah Selanjutnya
+
+Jelajahi kemampuan lain dan referensi API kami:
+
+<CardGroup cols={3}> <Card title="Pembuatan Gambar" icon="panorama" href="/id/capability/image-generation">
+    Hasilkan gambar berkualitas tinggi dari prompt teks.
+  </Card>
+
+  <Card title="Embeddings" icon="bezier-curve" href="/id/capability/embeddings">
+    Ubah teks menjadi vektor numerik untuk pencarian semantik.
+  </Card>
+</CardGroup>

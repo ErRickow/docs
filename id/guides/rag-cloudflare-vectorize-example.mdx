@@ -1,0 +1,96 @@
+---
+title: 'RAG dengan Cloudflare Vectorize'
+description: 'Bangun aplikasi RAG menggunakan Neosantara AI dan Cloudflare Vectorize'
+---
+
+Panduan ini mendemonstrasikan cara membangun aplikasi RAG yang skalabel menggunakan **Cloudflare Vectorize** sebagai basis data vektor dan Neosantara AI untuk embedding serta LLM.
+
+## Prasyarat
+
+*   Akun Cloudflare dengan API Token (izin Vectorize).
+*   Cloudflare Account ID.
+*   API Key Neosantara AI.
+
+## Setup
+
+Instal library Python:
+
+```bash
+pip install -U openai requests
+```
+
+### Konfigurasi Klien
+
+```python
+import os
+import requests
+from openai import OpenAI
+
+# Neosantara Configuration
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key=os.getenv("NAI_API_KEY")
+)
+
+# Cloudflare Configuration
+CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN")
+CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+INDEX_NAME = "my-rag-index"
+
+CF_URL = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/vectorize/indexes"
+headers = {"Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}", "Content-Type": "application/json"}
+```
+
+## Langkah 1: Indeks Dokumen
+
+### Buat Index di Vectorize
+
+```python
+def create_index(name, dimension=768):
+    data = {"name": name, "config": {"vector_size": dimension, "metric": "cosine"}}
+    return requests.post(CF_URL, headers=headers, json=data)
+
+create_index(INDEX_NAME)
+```
+
+### Upsert Embedding
+
+```python
+def upsert_vectors(documents):
+    url = f"{CF_URL}/{INDEX_NAME}/vectors"
+    vectors = []
+    for doc in documents:
+        emb = client.embeddings.create(model="nusa-embedding-0001", input=doc['text'])
+        vectors.append({
+            "id": doc['id'],
+            "values": emb.data[0].embedding,
+            "metadata": {"text": doc['text']}
+        })
+    return requests.post(url, headers=headers, json=vectors)
+
+docs = [{"id": "1", "text": "Kebijakan pengembalian dana berlaku 30 hari."}]
+upsert_vectors(docs)
+```
+
+## Langkah 2: Query dan Jawaban
+
+```python
+def rag_answer(query_text):
+    # 1. Embed query
+    query_emb = client.embeddings.create(model="nusa-embedding-0001", input=query_text)
+    
+    # 2. Cari di Vectorize
+    res = requests.post(f"{CF_URL}/{INDEX_NAME}/query", headers=headers, json={
+        "vector": query_emb.data[0].embedding, "topK": 1, "returnMetadata": True
+    }).json()
+    
+    context = res['result']['matches'][0]['metadata']['text']
+    
+    # 3. Hasilkan jawaban
+    prompt = f"Jawab berdasarkan konteks: {context}\n\nPertanyaan: {query_text}"
+    response = client.chat.completions.create(model="nusantara-base", messages=[{"role": "user", "content": prompt}])
+    return response.choices[0].message.content
+
+print(rag_answer("Berapa lama kebijakan pengembalian dana?"))
+```
+

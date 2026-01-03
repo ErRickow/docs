@@ -1,0 +1,75 @@
+---
+title: 'Penalaran (Reasoning)'
+description: '> Mulai dengan Neosantara AI menggunakan model Llama 3.3 Nemotron, model penalaran terbuka yang kuat.'
+---
+
+Model penalaran bobot terbuka ini dirancang untuk pengembang dan perusahaan yang membutuhkan transparansi dan kustomisasi sambil mempertahankan kemampuan penalaran tingkat lanjut untuk tugas-tugas kompleks.
+
+Model Llama 3.3 Nemotron dilatih untuk berpikir langkah demi langkah sebelum merespon, unggul dalam tugas-tugas seperti pengodean, matematika, dan alur kerja agen. Secara default, proses penalaran ini aktif, memberikan Anda respon *chain-of-thought* yang rinci.
+
+-----
+
+### Cara Menggunakan API
+
+Untuk model penalaran yang menghasilkan respon yang lebih panjang dan rinci, kami sangat menyarankan streaming token untuk memastikan pengalaman pengguna terbaik.
+
+#### **Perilaku Default**
+
+Secara default, model akan memberikan proses berpikir langkah demi langkah sebelum jawaban akhir.
+
+#### **Menonaktifkan Penalaran**
+
+Untuk mendapatkan jawaban langsung tanpa proses *chain-of-thought*, tambahkan `/no_think` di awal **system prompt** Anda.
+
+<CodeGroup>
+```python Python icon="python"
+from openai import OpenAI
+
+client = OpenAI(
+  base_url="https://api.neosantara.xyz/v1",
+  api_key="<NAI_API_KEY>"
+)
+
+stream = client.chat.completions.create(
+  model="llama-3.3-nemotron-super-49b-v1.5",
+  messages=[{
+    "role": "user",
+    "content": "Selesaikan teka-teki logika ini: Jika semua mawar adalah bunga dan beberapa bunga berwarna merah, bisakah kita menyimpulkan bahwa beberapa mawar berwarna merah?",
+  }],
+  temperature=0.7,
+  stream=True
+)
+
+for chunk in stream:
+  print(chunk.choices[0].delta.content or "", end="", flush=True)
+```
+</CodeGroup>
+
+Ini akan menghasilkan respon yang mencakup proses berpikir model, diikuti oleh jawaban akhir.
+
+-----
+
+### Praktik Terbaik
+
+Untuk mendapatkan hasil terbaik dari Llama 3.3 Nemotron, perlakukan seperti pemecah masalah ahli. Berikan tujuan tingkat tinggi yang jelas dan biarkan model menentukan langkah terbaik untuk mencapai solusi.
+
+  * **Kekuatan**: Unggul dalam penalaran terbuka, logika multi-langkah, dan masalah pengodean atau matematika yang kompleks.
+  * **Hindari Prompt Berlebihan**: Mengatur setiap langkah secara mikro dapat membatasi kemampuan penalaran tingkat lanjut model. Berikan tujuannya, bukan jalan persisnya.
+  * **Berikan Tujuan Jelas**: Pastikan prompt Anda jelas dan tidak ambigu untuk mendapatkan respon yang paling akurat dan relevan.
+  * **Gunakan Streaming**: Untuk kueri yang kompleks, proses penalaran dapat menghasilkan banyak teks. Streaming respon memberikan pengalaman pengguna yang jauh lebih baik.
+
+-----
+
+### Kasus Penggunaan
+
+  * **Pembuatan & Analisis Kode**: Menganalisis basis kode besar, menyarankan perbaikan, dan menghasilkan cuplikan kode kompleks.
+  * **Perencanaan Strategis**: Mengembangkan rencana multi-tahap, menalar tentang pendekatan optimal dan potensi hambatan.
+  * **Analisis Dokumen Kompleks**: Memproses dan meringkas spesifikasi teknis, kontrak hukum, dan makalah penelitian.
+  * **Alur Kerja Agen**: Membangun agen AI canggih yang dapat melakukan tugas multi-langkah yang kompleks.
+  * **Riset Ilmiah**: Membantu dalam pembuatan hipotesis, desain eksperimen, dan analisis data.
+  * **Pemecahan Masalah Tingkat Lanjut**: Menangani persyaratan ambigu dengan menyimpulkan asumsi yang tidak dinyatakan dan memberikan solusi logis.
+
+## Langkah Selanjutnya
+
+  * Lihat [kemampuan embeddings kami](/id/capability/embeddings)
+  * Lihat [kemampuan pembuatan gambar kami](/id/capability/image-generation)

@@ -1,0 +1,167 @@
+---
+title: 'Retrieval-Augmented Generation (RAG)'
+description: 'Bangun AI Sadar Pengetahuan menggunakan Neosantara Embeddings dan Chat'
+---
+
+Panduan ini menunjukkan cara membangun aplikasi RAG "Dunia Nyata": **Asisten Dukungan Pelanggan** yang menjawab pertanyaan berdasarkan dokumentasi perusahaan Anda, bukan hanya data pelatihannya.
+
+## Apa yang kita bangun
+
+Kita akan membangun sistem yang:
+1.  **Membaca** dokumen dukungan Anda.
+2.  **Mengonversi** dokumen tersebut menjadi vektor embedding menggunakan `nusa-embedding-0001`.
+3.  **Mencari** info relevan saat pengguna bertanya.
+4.  **Menghasilkan** jawaban akurat menggunakan `nusantara-base` atau `garda-beta-mini`.
+
+## Prasyarat
+
+*   Kunci API Neosantara.
+*   Penyimpanan vektor sederhana (kita gunakan contoh in-memory lokal untuk kesederhanaan, tapi Anda bisa menggunakan Pinecone, Supabase, atau Qdrant).
+
+---
+
+## Langkah 1: Buat Embeddings (Ingestion)
+
+Pertama, kita perlu mengubah data teks Anda menjadi angka (vektor) agar AI bisa mencarinya.
+
+```javascript
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "KUNCI_API_ANDA"
+});
+
+// "Basis Pengetahuan" Anda
+const documents = [
+  "Untuk mereset kata sandi Anda, buka Pengaturan > Keamanan > Reset Kata Sandi.",
+  "Kebijakan pengembalian dana kami memungkinkan pengembalian dalam 30 hari setelah pembelian. Hubungi support@neosantara.xyz dengan nomor pesanan Anda.",
+  "Jam dukungan adalah Senin sampai Jumat, jam 9 pagi sampai 5 sore WIB.",
+  "Batas rate API Neosantara untuk tier Gratis adalah 1000 RPM."
+];
+
+async function createKnowledgeBase() {
+  console.log("Membuat embeddings...");
+  
+  const vectorStore = [];
+
+  for (const doc of documents) {
+    const response = await client.embeddings.create({
+      model: "nusa-embedding-0001", // Dioptimalkan untuk pengambilan
+      input: doc
+    });
+
+    vectorStore.push({
+      text: doc,
+      vector: response.data[0].embedding
+    });
+  }
+  
+  return vectorStore;
+}
+```
+
+## Langkah 2: Cari (Retrieval)
+
+Saat pengguna bertanya, kita konversi pertanyaan mereka menjadi vektor dan temukan dokumen yang paling cocok menggunakan **Cosine Similarity**.
+
+```javascript
+// Fungsi cosine similarity sederhana
+function cosineSimilarity(vecA, vecB) {
+  let dotProduct = 0.0;
+  let normA = 0.0;
+  let normB = 0.0;
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+async function retrieveContext(query, vectorStore) {
+  // 1. Embed pertanyaan pengguna
+  const queryResponse = await client.embeddings.create({
+    model: "nusa-embedding-0001",
+    input: query
+  });
+  const queryVector = queryResponse.data[0].embedding;
+
+  // 2. Hitung kemiripan dengan semua dokumen
+  const scoredDocs = vectorStore.map(doc => ({
+    text: doc.text,
+    score: cosineSimilarity(queryVector, doc.vector)
+  }));
+
+  // 3. Ambil 2 dokumen paling relevan
+  scoredDocs.sort((a, b) => b.score - a.score);
+  return scoredDocs.slice(0, 2).map(d => d.text).join("\n\n");
+}
+```
+
+## Langkah 3: Hasilkan Jawaban (Generation)
+
+Terakhir, kita berikan konteks yang diambil ke LLM untuk menghasilkan jawaban alami.
+
+```javascript
+async function answerUserQuestion(question, vectorStore) {
+  console.log(`Pengguna bertanya: "${question}"`);
+
+  // Ambil info relevan
+  const context = await retrieveContext(question, vectorStore);
+  console.log(`Konteks ditemukan:\n${context}\n---
+`);
+
+  // Hasilkan jawaban
+  const response = await client.chat.completions.create({
+    model: "nusantara-base", // Model serbaguna
+    messages: [
+      {
+        role: "system",
+        content: "Anda adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan. Jika jawaban tidak ada dalam konteks, katakan Anda tidak tahu."
+      },
+      {
+        role: "user",
+        content: `Konteks:\n${context}\n\nPertanyaan: ${question}`
+      }
+    ]
+  });
+
+  console.log("Jawaban AI:", response.choices[0].message.content);
+}
+```
+
+## Menjalankan Contoh Lengkap
+
+Menggabungkan semuanya:
+
+```javascript
+async function main() {
+  // 1. Setup
+  const kb = await createKnowledgeBase();
+
+  // 2. Tanya pertanyaan yang ADA di dokumen
+  await answerUserQuestion("Bagaimana cara dapat refund?", kb);
+  
+  // 3. Tanya pertanyaan yang TIDAK ADA di dokumen
+  await answerUserQuestion("Bagaimana cara membuat kue?", kb);
+}
+
+main();
+```
+
+### Output yang Diharapkan
+
+```text
+Pengguna bertanya: "Bagaimana cara dapat refund?"
+Konteks ditemukan:
+Kebijakan pengembalian dana kami...
+...
+Jawaban AI: Untuk mendapatkan pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Anda.
+
+Pengguna bertanya: "Bagaimana cara membuat kue?"
+Konteks ditemukan:
+Jam dukungan adalah Senin... (atau konteks tidak relevan lainnya)
+...
+Jawaban AI: Saya tidak tahu. Saya hanya bisa membantu dengan pertanyaan dukungan terkait layanan kami.
+```

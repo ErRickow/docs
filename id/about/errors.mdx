@@ -1,0 +1,82 @@
+---
+title: 'Error Codes'
+description: 'Pahami cara menangani error dan troubleshooting pada API Neosantara AI.'
+---
+
+API Neosantara AI menggunakan kode status HTTP standar:
+- **2xx**: Berhasil.
+- **4xx**: Error pada sisi permintaan (misal: parameter kurang, saldo habis).
+- **5xx**: Error pada sisi server Neosantara.
+
+## Kode Status HTTP
+
+| Kode | Tipe Error | Deskripsi |
+| :--- | :--- | :--- |
+| **400** | `invalid_request_error` | Permintaan tidak dapat diterima, biasanya karena parameter tidak lengkap. |
+| **401** | `authentication_error` | API key tidak valid atau tidak ada. |
+| **403** | `permission_error` | API key tidak memiliki izin untuk permintaan ini. |
+| **404** | `not_found_error` | Resource (model, file, atau percakapan) tidak ditemukan. |
+| **429** | `rate_limit_error` | Terlalu banyak permintaan dalam waktu singkat. |
+| **500** | `api_error` | Terjadi kesalahan internal pada server Neosantara. |
+
+## Struktur Respon Error
+
+Error dikembalikan dalam objek JSON dengan pesan dan kode yang jelas.
+
+```json
+{
+  "error": {
+    "message": "Konten pesan melebihi batas context window model.",
+    "type": "invalid_request_error",
+    "param": "messages",
+    "code": "context_window_exceeded"
+  }
+}
+```
+
+## Kode Error Umum
+
+| Kode | Deskripsi | Tindakan |
+| :--- | :--- | :--- |
+| `context_window_exceeded` | Total token melebihi batas model. | Persingkat prompt atau gunakan model dengan context window lebih besar. |
+| `model_not_found` | ID model tidak ditemukan. | Periksa daftar model yang tersedia. |
+| `missing_required_parameter` | Parameter wajib (misal: `messages`) hilang. | Periksa dokumentasi endpoint yang Anda panggil. |
+| `invalid_api_key` | API key salah atau dicabut. | Verifikasi API key Anda di Dashboard. |
+| `insufficient_quota` | Saldo habis atau mencapai batas limit. | [Tambah kredit](https://app.neosantara.xyz/billing) pada akun Anda. |
+| `rate_limit_exceeded` | Permintaan terlalu cepat. | Gunakan strategi *exponential backoff* pada logika retry Anda. |
+
+## Penanganan Rate Limits
+
+Jika terkena limit (429), API akan menyertakan header indikator kapan Anda bisa mencoba lagi.
+
+**Saran:** Gunakan strategi *exponential backoff*. Jika gagal dengan error 429, tunggu sebentar (misal: 1 detik), coba lagi, dan jika masih gagal, lipat gandakan waktu tunggu (2 detik, 4 detik, dst).
+
+## Contoh Penanganan Programmatic
+
+<CodeGroup>
+```python Python
+try:
+    response = client.chat.completions.create(
+        model="nusantara-base",
+        messages=[{"role": "user", "content": "Halo!"}]
+    )
+except openai.RateLimitError as e:
+    print(f"Permintaan melebihi rate limit: {e}")
+except openai.APIError as e:
+    print(f"Terjadi error pada API: {e}")
+```
+
+```javascript Node.js
+try {
+  const completion = await openai.chat.completions.create({
+    messages: [{ role: 'user', content: 'Halo!' }],
+    model: 'nusantara-base',
+  });
+} catch (error) {
+  if (error instanceof OpenAI.APIError) {
+    console.error(error.status); // Contoh: 429
+    console.error(error.message);
+  }
+}
+```
+</CodeGroup>

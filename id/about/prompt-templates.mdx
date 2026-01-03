@@ -1,0 +1,54 @@
+--- 
+title: 'Template Prompt'
+description: '> Pelajari cara membuat dan menggunakan kembali prompt untuk menyederhanakan panggilan API Anda.'
+---
+
+Template prompt memungkinkan Anda menyimpan dan mengelola prompt yang sering digunakan di platform Neosantara AI. Alih-alih mengirimkan set instruksi panjang dengan setiap panggilan API, Anda cukup mengirimkan ID unik template dan mengisi variabelnya. Ini membuat permintaan Anda lebih bersih, lebih cepat, dan lebih mudah dikelola.
+
+-----
+
+### 1. Membuat Template Prompt
+
+Anda dapat membuat template baru langsung dari dashboard pengguna Anda.
+
+1. Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** Anda.
+2. Pilih bagian **"Prompt Templates"**.
+3. Klik tombol **"Create New Template"**.
+4. Isi formulir:
+      * **ID**: Pengenal unik yang dapat dibaca mesin untuk template Anda (misalnya, `asisten-dokter`, `penulis-email-formal`). Gunakan `kebab-case`.
+      * **Content**: Isi prompt Anda. Gunakan kurung kurawal ganda `{{nama_variabel}}` untuk mendefinisikan placeholder yang dapat Anda isi nanti selama panggilan API.
+
+**Contoh Konten Template:**
+
+```text
+Anda adalah dokter spesialis bernama {{nama_dokter}}. Sapa pasien, {{nama_pasien}}, dan tanyakan bagaimana Anda dapat membantu mereka dengan {{masalah_kesehatan}} mereka.
+```
+
+-----
+
+### 2. Menggunakan Template dalam Panggilan API
+
+Setelah template Anda disimpan, Anda dapat menggunakannya dengan memanggil endpoint `/v1/responses`. Alih-alih array `messages` standar, Anda akan memberikan objek `prompt`.
+
+Objek `prompt` harus berisi `id` template Anda dan objek `variables` untuk mengisi placeholder yang Anda definisikan.
+
+**Contoh Permintaan `curl`:**
+
+Contoh ini memanggil template `asisten-dokter` (asumsi nama ID disesuaikan) dan mengisi variabel secara dinamis.
+
+```bash
+curl -X POST 'https://api.neosantara.xyz/v1/responses' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer <YOUR_API_KEY>' \
+-d '{
+    "model": "nusantara-base",
+    "prompt": {
+        "id": "asisten-dokter",
+        "variables": {
+            "nama_dokter": "Dr. Arifin",
+            "nama_pasien": "Bapak Budi",
+            "masalah_kesehatan": "sakit kepala berkepanjangan"
+        }
+    }
+}'
+```

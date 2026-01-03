@@ -9,7 +9,7 @@ components:
       type: apiKey
       in: header
       name: Authorization
-      description: Format "Bearer YOUR_API_KEY" or "x-api-key" header.
+      description: Format "Bearer YOUR_API_KEY".
 
   schemas:
     ErrorResponse:
@@ -50,6 +50,7 @@ components:
             - type: array
               items:
                 type: object
+                required: [type]
                 properties:
                   type:
                     type: string

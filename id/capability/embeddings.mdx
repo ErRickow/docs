@@ -1,0 +1,77 @@
+---
+title: 'Embeddings'
+description: '> Ubah teks menjadi vektor numerik berdimensi tinggi untuk berbagai tugas AI.'
+---
+
+Embeddings adalah representasi numerik dari teks yang menangkap makna semantik. Mereka mengubah teks yang dapat dibaca manusia menjadi vektor yang dapat dipahami oleh model pembelajaran mesin. Vektor ini memungkinkan tugas-tugas seperti pencarian semantik, sistem rekomendasi, dan pengelompokan (clustering).
+
+## Cara Kerja
+
+Saat Anda mengirim teks ke endpoint embeddings, model AI memproses teks dan mengeluarkan daftar angka floating-point (vektor). Teks dengan makna serupa akan memiliki vektor yang secara numerik "lebih dekat" satu sama lain dalam ruang dimensi tinggi.
+
+API NeosantaraAI menyediakan endpoint `/v1/embeddings`.
+
+## Penggunaan
+
+Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Anda.
+
+### Endpoint
+
+`POST /v1/embeddings`
+
+### Body Permintaan
+
+```json
+{
+  "input": "Rubah coklat cepat melompati anjing malas.",
+  "model": "nusa-embedding-0001",
+  "encoding_format": "float"
+}
+```
+
+#### Parameter
+
+* **`input`** (string atau array string, **wajib**): Teks yang akan di-embed.
+* **`model`** (string, opsional): ID model (default: `"nusa-embedding-0001"`).
+
+### Model Embeddings yang Didukung
+
+* **`nusa-embedding-0001`**: Model embedding utama, menawarkan kinerja yang baik untuk embeddings tujuan umum.
+
+### Contoh Respon
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "embedding": [0.0053, -0.0071, ...],
+      "index": 0
+    }
+  ],
+  "model": "nusa-embedding-0001",
+  "usage": {
+    "prompt_tokens": 9,
+    "total_tokens": 9
+  }
+}
+```
+
+## Contoh Python (OpenAI SDK)
+
+```python Py icon="python"
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="YOUR_API_KEY",
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.embeddings.create(
+    model="nusa-embedding-0001",
+    input=["Kecerdasan buatan mengubah industri."]
+)
+
+print(response.data[0].embedding)
+```

@@ -3,9 +3,9 @@
   "theme": "maple",
   "name": "Neosantara",
   "colors": {
-    "primary": "#CC3300",
+    "primary": "#A32900",
     "light": "#FF8A65",
-    "dark": "#1F1F1F"
+    "dark": "#757575"
   },
   "fonts": {
     "heading": {
@@ -28,23 +28,13 @@
     "timestamp": true
   },
   "banner": {
-    "content": "🎁 Get a Virtual Private Server for just Rp 10,000 - the perfect fit for your server needs. [Get here](https://bihost.my.id)"
+    "content": "\ud83c\udf81 Get a Virtual Private Server for just Rp 10,000 - the perfect fit for your server needs. [Get here](https://bihost.my.id)"
   },
   "background": {
     "decoration": "windows"
   },
   "api": {
-    "openapi": [
-      "api-reference/openapi/chat.yaml",
-      "api-reference/openapi/images.yaml",
-      "api-reference/openapi/responses.yaml",
-      "api-reference/openapi/anthropic.yaml",
-      "api-reference/openapi/models.yaml",
-      "api-reference/openapi/user.yaml",
-      "api-reference/openapi/utility.yaml",
-      "api-reference/openapi/embeddings.yaml",
-      "api-reference/openapi/moderations.yaml"
-    ],
+    "openapi": "api-reference/openapi.json",
     "mdx": {
       "server": "https://api.neosantara.xyz",
       "auth": {
@@ -58,302 +48,471 @@
   },
   "navigation": {
     "languages": [
-    {
-      "language": "en",
-      "default": true,
-      "anchors": [
       {
-        "anchor": "Developer Guide",
-        "groups": [
-        {
-          "group": "First steps",
-          "pages": [
-            "en/intro",
-            "api-reference/quickstart",
-            "api-reference/sdk/openai-compatible",
-            "api-reference/sdk/anthropic-compatible"
-          ]
-        },
-        {
-          "group": "Learn About Neosantara",
-          "pages": [
-            "en/about"
-          ]
-        },
-        {
-          "group": "Models & Pricing",
-          "pages": [
-            "en/models-overview",
-            {
-              "group": "Available Models",
-              "pages": [
-                "models/nusantara-base",
-                "models/archipelago-70b",
-                "models/garda-beta-mini",
-                "models/sea-lion-v4-27b-it",
-                "models/deepseek-chat-v3.1",
-                "models/kimi-k2",
-                "models/kimi-k2-latest",
-                "models/kimi-k2-search",
-                "models/kimi-k2-research",
-                "models/kimi-k2-math",
-                "models/kimi-k2-silent",
-                "models/kimi-k1",
-                "models/llama-3.3-nemotron-super-49b-v1.5",
-                "models/glm-4.6",
-                "models/glm-4.6-plus",
-                "models/grok-4.1-fast-non-reasoning",
-                "models/llama-3.3-70b-instruct",
-                "models/llama-3.3-70b-turbo",
-                "models/gemma-3-27b-it",
-                "models/gemma2-9b-it",
-                "models/llama-3.2-11b",
-                "models/granite-3-8b-instruct",
-                "models/gpt-oss-20b",
-                "models/gemini-3-flash",
-                "models/qwen3-coder",
-                "models/grok-code-fast",
-                "models/claude-4.5-sonnet",
-                "models/neosantara-gen-2045",
-                "models/deepseek-ocr",
-                "models/llama-guard-3-8b",
-                "models/nusa-embedding-0001",
-                "models/gemini-embedding-001"
-              ]
-            }
-          ]
-        },
-        {
-          "group": "Capabilities",
-          "pages": [
-            "en/capability/embeddings",
-            "en/capability/image-generation",
-            "en/capability/stream",
-            "en/capability/structured"
-          ]
-        },
-        {
-          "group": "Examples",
-          "pages": [
-            {
-              "group": "Agent Integrations",
-              "pages": [
-                "en/agent-overview",
-                "en/crewai",
-                "en/dspy",
-                "en/pydantic-ai",
-                "en/agno",
-                "en/autogen"
-              ]
-            },
-            "en/integrations"
-          ]
-        }]
-      },
-      {
-        "anchor": "Guides & Solutions",
-        "groups": [
-        {
-          "group": "Core Concepts",
-          "pages": [
-            "en/capability/reasoning",
-            "en/response",
-            "en/about/prompt-templates"
-          ]
-        },
-        {
-          "group": "Tools & Agents",
-          "pages": [
-            "en/tools-overview",
-            "en/how-tools",
-            "en/e2b"
-          ]
-        },
-        {
-          "group": "Use Cases & Tutorials",
-          "pages": [
-            "en/capability/rag",
-            "en/guides/rag-chromadb-example",
-            "en/guides/rag-cloudflare-vectorize-example",
-            "en/deepseek-ocr",
-            "en/llama-index",
-            "en/using-neosantara-with-vercels-ai-sdk"
-          ]
-        }]
-      },
-      {
-        "anchor": "API Guide",
-        "groups": [
-        {
-          "group": "Using the APIs",
-          "pages": [
-            "api-reference/introduction",
-            "api-reference/responses/conversation-management",
-            "en/about/token-credits",
-            "en/about/rate-limits",
-            "en/about/context-window",
-            "en/about/errors",
-            "en/models-overview"
-          ]
-        },
-        {
-          "group": "API reference",
-          "pages": [
+        "language": "en",
+        "default": true,
+        "anchors": [
           {
-            "group": "Responses",
-            "openapi": "api-reference/openapi/responses.yaml"
-          },
-          {
-            "group": "Anthropic",
-            "openapi": "api-reference/openapi/anthropic.yaml"
-          },
-          {
-            "group": "Chat",
-            "openapi": "api-reference/openapi/chat.yaml"
-          },
-          {
-            "group": "Images",
-            "openapi": "api-reference/openapi/images.yaml"
-          },
-          {
-            "group": "Account",
-            "openapi": "api-reference/openapi/user.yaml"
-          },
-          {
-            "group": "Models",
-            "openapi": "api-reference/openapi/models.yaml"
-          },
-          {
-            "group": "Utility",
-            "openapi": "api-reference/openapi/utility.yaml"
-          },
-          {
-            "group": "Batches",
-            "pages": [
-              "api-reference/batches/create",
-              "api-reference/batches/cancel",
-              "api-reference/batches/get",
-              "api-reference/batches/list"
+            "anchor": "Developer Guide",
+            "groups": [
+              {
+                "group": "First steps",
+                "pages": [
+                  "en/intro",
+                  "api-reference/quickstart",
+                  "api-reference/sdk/openai-compatible",
+                  "api-reference/sdk/anthropic-compatible"
+                ]
+              },
+              {
+                "group": "Learn About Neosantara",
+                "pages": [
+                  "en/about"
+                ]
+              },
+              {
+                "group": "Models & Pricing",
+                "pages": [
+                  "en/models-overview",
+                  {
+                    "group": "Available Models",
+                    "pages": [
+                      "models/nusantara-base",
+                      "models/archipelago-70b",
+                      "models/garda-beta-mini",
+                      "models/sea-lion-v4-27b-it",
+                      "models/deepseek-chat-v3.1",
+                      "models/kimi-k2",
+                      "models/kimi-k2-latest",
+                      "models/kimi-k2-search",
+                      "models/kimi-k2-research",
+                      "models/kimi-k2-math",
+                      "models/kimi-k2-silent",
+                      "models/kimi-k1",
+                      "models/llama-3.3-nemotron-super-49b-v1.5",
+                      "models/glm-4.6",
+                      "models/glm-4.6-plus",
+                      "models/grok-4.1-fast-non-reasoning",
+                      "models/llama-3.3-70b-instruct",
+                      "models/llama-3.3-70b-turbo",
+                      "models/gemma-3-27b-it",
+                      "models/gemma2-9b-it",
+                      "models/llama-3.2-11b",
+                      "models/granite-3-8b-instruct",
+                      "models/gpt-oss-20b",
+                      "models/gemini-3-flash",
+                      "models/qwen3-coder",
+                      "models/grok-code-fast",
+                      "models/claude-4.5-sonnet",
+                      "models/neosantara-gen-2045",
+                      "models/deepseek-ocr",
+                      "models/llama-guard-3-8b",
+                      "models/nusa-embedding-0001",
+                      "models/gemini-embedding-001"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Capabilities",
+                "pages": [
+                  "en/capability/embeddings",
+                  "en/capability/image-generation",
+                  "en/capability/stream",
+                  "en/capability/structured"
+                ]
+              },
+              {
+                "group": "Examples",
+                "pages": [
+                  {
+                    "group": "Agent Integrations",
+                    "pages": [
+                      "en/agent-overview",
+                      "en/crewai",
+                      "en/dspy",
+                      "en/pydantic-ai",
+                      "en/agno",
+                      "en/autogen"
+                    ]
+                  },
+                  "en/integrations"
+                ]
+              }
             ]
           },
           {
-            "group": "Files",
-            "pages": [
-              "api-reference/files/delete",
-              "api-reference/files/download",
-              "api-reference/files/get",
-              "api-reference/files/upload",
-              "api-reference/files/list"
+            "anchor": "Guides & Solutions",
+            "groups": [
+              {
+                "group": "Core Concepts",
+                "pages": [
+                  "en/capability/reasoning",
+                  "en/response",
+                  "en/about/prompt-templates"
+                ]
+              },
+              {
+                "group": "Tools & Agents",
+                "pages": [
+                  "en/tools-overview",
+                  "en/how-tools",
+                  "en/e2b"
+                ]
+              },
+              {
+                "group": "Use Cases & Tutorials",
+                "pages": [
+                  "en/capability/rag",
+                  "en/guides/rag-chromadb-example",
+                  "en/guides/rag-cloudflare-vectorize-example",
+                  "en/deepseek-ocr",
+                  "en/llama-index",
+                  "en/using-neosantara-with-vercels-ai-sdk"
+                ]
+              }
             ]
           },
           {
-            "group": "Embeddings",
-            "openapi": "api-reference/openapi/embeddings.yaml"
-          },
-          {
-            "group": "Moderations",
-            "openapi": "api-reference/openapi/moderations.yaml"
-          },
-          {
-            "group": "Status",
-            "pages": [
-              "api-reference/authentication/check-api-key-status"
+            "anchor": "API Guide",
+            "groups": [
+              {
+                "group": "Using the APIs",
+                "pages": [
+                  "api-reference/introduction",
+                  "api-reference/responses/conversation-management",
+                  "en/about/token-credits",
+                  "en/about/rate-limits",
+                  "en/about/context-window",
+                  "en/about/errors",
+                  "en/models-overview"
+                ]
+              },
+              {
+                "group": "API reference",
+                "pages": [
+                  {
+                    "group": "Responses",
+                    "pages": [
+                      "api-reference/openapi.json POST /responses"
+                    ]
+                  },
+                  {
+                    "group": "Anthropic",
+                    "pages": [
+                      "api-reference/openapi.json POST /messages"
+                    ]
+                  },
+                  {
+                    "group": "Chat",
+                    "pages": [
+                      "api-reference/openapi.json POST /chat/completions"
+                    ]
+                  },
+                  {
+                    "group": "Images",
+                    "pages": [
+                      "api-reference/openapi.json POST /images/generations"
+                    ]
+                  },
+                  {
+                    "group": "Account",
+                    "pages": [
+                      "api-reference/openapi.json GET /user/usage"
+                    ]
+                  },
+                  {
+                    "group": "Models",
+                    "pages": [
+                      "api-reference/openapi.json GET /models",
+                      "api-reference/openapi.json GET /models/{modelId}"
+                    ]
+                  },
+                  {
+                    "group": "Utility",
+                    "pages": [
+                      "api-reference/openapi.json POST /messages/count_tokens"
+                    ]
+                  },
+                  {
+                    "group": "Batches",
+                    "pages": [
+                      "api-reference/batches/create",
+                      "api-reference/batches/cancel",
+                      "api-reference/batches/get",
+                      "api-reference/batches/list"
+                    ]
+                  },
+                  {
+                    "group": "Files",
+                    "pages": [
+                      "api-reference/files/delete",
+                      "api-reference/files/download",
+                      "api-reference/files/get",
+                      "api-reference/files/upload",
+                      "api-reference/files/list"
+                    ]
+                  },
+                  {
+                    "group": "Embeddings",
+                    "pages": [
+                      "api-reference/openapi.json POST /embeddings"
+                    ]
+                  },
+                  {
+                    "group": "Moderations",
+                    "pages": [
+                      "api-reference/openapi.json POST /moderations"
+                    ]
+                  },
+                  {
+                    "group": "Status",
+                    "pages": [
+                      "api-reference/authentication/check-api-key-status"
+                    ]
+                  }
+                ]
+              }
             ]
-          }]
-        }]
-      }]
-    },
-    {
-      "language": "id",
-      "anchors": [
-      {
-        "anchor": "Permulaan",
-        "groups": [
-        {
-          "group": "Selamat Datang",
-          "icon": "feather",
-          "pages": [
-            "id/about",
-            "id/api-reference/quickstart"
-          ]
-        }]
+          }
+        ]
       },
       {
-        "anchor": "Cara Penggunaan API",
-        "groups": [
-        {
-          "group": "Menggunakan APIs",
-          "icon": "hashtag",
-          "pages": [
-            "id/api-reference/introduction",
-            "id/about/token-credits",
-            "id/about/rate-limits",
-            "id/about/model"
-          ]
-        },
-        {
-          "group": "API reference",
-          "icon": "square-terminal",
-          "pages": [
-            {
-              "group": "Responses",
-              "openapi": "api-reference/openapi/responses.yaml"
-            },
-            {
-              "group": "Anthropic",
-              "openapi": "api-reference/openapi/anthropic.yaml"
-            },
-            {
-              "group": "Chat",
-              "openapi": "api-reference/openapi/chat.yaml"
-            },
-            {
-              "group": "Images",
-              "openapi": "api-reference/openapi/images.yaml"
-            },
-            {
-              "group": "Account",
-              "openapi": "api-reference/openapi/user.yaml"
-            },
-            {
-              "group": "Models",
-              "openapi": "api-reference/openapi/models.yaml"
-            },
-            {
-              "group": "Utility",
-              "openapi": "api-reference/openapi/utility.yaml"
-            },
-            {
-              "group": "Embeddings",
-              "openapi": "api-reference/openapi/embeddings.yaml"
-            },
-            {
-              "group": "Moderations",
-              "openapi": "api-reference/openapi/moderations.yaml"
-            },
-            "id/api-reference/chat/create-chat-completion",
-            "id/api-reference/embeddings/create-embeddings",
-            "id/api-reference/models/list-available-models",
-            "id/api-reference/moderations/content-moderation-check",
-            "id/api-reference/reasoning/enhanced-reasoning-completion",
-            "id/api-reference/authentication/check-api-key-status"
-          ]
-        },
-        {
-          "group": "SDKs",
-          "pages": [
-            "id/api-reference/sdk/openai-compatible"
-          ]
-        }]
-      }]
-    }],
+        "language": "id",
+        "anchors": [
+          {
+            "anchor": "Panduan Pengembang",
+            "groups": [
+              {
+                "group": "Langkah Pertama",
+                "pages": [
+                  "id/intro",
+                  "id/api-reference/quickstart",
+                  "id/api-reference/sdk/openai-compatible"
+                ]
+              },
+              {
+                "group": "Tentang Neosantara",
+                "pages": [
+                  "id/about"
+                ]
+              },
+              {
+                "group": "Model & Harga",
+                "pages": [
+                  "id/models-overview",
+                  "id/about/model",
+                  {
+                    "group": "Model Tersedia",
+                    "pages": [
+                      "models/nusantara-base",
+                      "models/archipelago-70b",
+                      "models/garda-beta-mini",
+                      "models/sea-lion-v4-27b-it",
+                      "models/deepseek-chat-v3.1",
+                      "models/kimi-k2",
+                      "models/kimi-k2-latest",
+                      "models/kimi-k2-search",
+                      "models/kimi-k2-research",
+                      "models/kimi-k2-math",
+                      "models/kimi-k2-silent",
+                      "models/kimi-k1",
+                      "models/llama-3.3-nemotron-super-49b-v1.5",
+                      "models/glm-4.6",
+                      "models/glm-4.6-plus",
+                      "models/grok-4.1-fast-non-reasoning",
+                      "models/llama-3.3-70b-instruct",
+                      "models/llama-3.3-70b-turbo",
+                      "models/gemma-3-27b-it",
+                      "models/gemma2-9b-it",
+                      "models/llama-3.2-11b",
+                      "models/granite-3-8b-instruct",
+                      "models/gpt-oss-20b",
+                      "models/gemini-3-flash",
+                      "models/qwen3-coder",
+                      "models/grok-code-fast",
+                      "models/claude-4.5-sonnet",
+                      "models/neosantara-gen-2045",
+                      "models/deepseek-ocr",
+                      "models/llama-guard-3-8b",
+                      "models/nusa-embedding-0001",
+                      "models/gemini-embedding-001"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Kemampuan",
+                "pages": [
+                  "id/capability/embeddings",
+                  "id/capability/image-generation",
+                  "id/capability/stream",
+                  "id/capability/structured"
+                ]
+              },
+              {
+                "group": "Contoh",
+                "pages": [
+                  {
+                    "group": "Integrasi Agen",
+                    "pages": [
+                      "id/agent-overview",
+                      "id/crewai",
+                      "id/dspy",
+                      "id/pydantic-ai",
+                      "id/agno",
+                      "id/autogen"
+                    ]
+                  },
+                  "id/integrations"
+                ]
+              }
+            ]
+          },
+          {
+            "anchor": "Panduan & Solusi",
+            "groups": [
+              {
+                "group": "Konsep Inti",
+                "pages": [
+                  "id/capability/reasoning",
+                  "id/response",
+                  "id/about/prompt-templates"
+                ]
+              },
+              {
+                "group": "Alat & Agen",
+                "pages": [
+                  "id/tools-overview",
+                  "id/how-tools",
+                  "id/e2b"
+                ]
+              },
+              {
+                "group": "Kasus Penggunaan & Tutorial",
+                "pages": [
+                  "id/capability/rag",
+                  "id/guides/rag-chromadb-example",
+                  "id/guides/rag-cloudflare-vectorize-example",
+                  "id/deepseek-ocr",
+                  "id/llama-index",
+                  "id/using-neosantara-with-vercels-ai-sdk"
+                ]
+              }
+            ]
+          },
+          {
+            "anchor": "Panduan API",
+            "groups": [
+              {
+                "group": "Menggunakan API",
+                "pages": [
+                  "id/api-reference/introduction",
+                  "id/about/token-credits",
+                  "id/about/rate-limits",
+                  "id/about/context-window",
+                  "id/about/errors",
+                  "id/models-overview"
+                ]
+              },
+              {
+                "group": "Referensi API",
+                "pages": [
+                  {
+                    "group": "Responses",
+                    "pages": [
+                      "api-reference/openapi.json POST /responses"
+                    ]
+                  },
+                  {
+                    "group": "Anthropic",
+                    "pages": [
+                      "api-reference/openapi.json POST /messages"
+                    ]
+                  },
+                  {
+                    "group": "Chat",
+                    "pages": [
+                      "api-reference/openapi.json POST /chat/completions"
+                    ]
+                  },
+                  {
+                    "group": "Images",
+                    "pages": [
+                      "api-reference/openapi.json POST /images/generations"
+                    ]
+                  },
+                  {
+                    "group": "Account",
+                    "pages": [
+                      "api-reference/openapi.json GET /user/usage"
+                    ]
+                  },
+                  {
+                    "group": "Models",
+                    "pages": [
+                      "api-reference/openapi.json GET /models",
+                      "api-reference/openapi.json GET /models/{modelId}"
+                    ]
+                  },
+                  {
+                    "group": "Utility",
+                    "pages": [
+                      "api-reference/openapi.json POST /messages/count_tokens"
+                    ]
+                  },
+                  {
+                    "group": "Batches",
+                    "pages": [
+                      "api-reference/batches/create",
+                      "api-reference/batches/cancel",
+                      "api-reference/batches/get",
+                      "api-reference/batches/list"
+                    ]
+                  },
+                  {
+                    "group": "Files",
+                    "pages": [
+                      "api-reference/files/delete",
+                      "api-reference/files/download",
+                      "api-reference/files/get",
+                      "api-reference/files/upload",
+                      "api-reference/files/list"
+                    ]
+                  },
+                  {
+                    "group": "Embeddings",
+                    "pages": [
+                      "api-reference/openapi.json POST /embeddings"
+                    ]
+                  },
+                  {
+                    "group": "Moderations",
+                    "pages": [
+                      "api-reference/openapi.json POST /moderations"
+                    ]
+                  },
+                  {
+                    "group": "Status",
+                    "pages": [
+                      "api-reference/authentication/check-api-key-status"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "global": {
       "anchors": [
-      {
-        "anchor": "Contact Us",
-        "href": "mailto:halo@neosantara.xyz",
-        "icon": "envelope"
-      }]
+        {
+          "anchor": "Contact Us",
+          "href": "mailto:halo@neosantara.xyz",
+          "icon": "envelope"
+        }
+      ]
     }
   },
   "logo": {
@@ -362,10 +521,11 @@
   },
   "navbar": {
     "links": [
-    {
-      "label": "Support",
-      "href": "mailto:halo@neosantara.xyz"
-    }],
+      {
+        "label": "Support",
+        "href": "mailto:halo@neosantara.xyz"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
@@ -380,14 +540,14 @@
       {
         "header": "Resources",
         "items": [
-            {
-              "label": "TOS",
-              "href": "https://www.neosantara.xyz/terms"
-            },
-            {
-              "label": "Privacy",
-              "href": "https://www.neosantara.xyz/privacy"
-            }
+          {
+            "label": "TOS",
+            "href": "https://www.neosantara.xyz/terms"
+          },
+          {
+            "label": "Privacy",
+            "href": "https://www.neosantara.xyz/privacy"
+          }
         ]
       }
     ]
@@ -400,7 +560,7 @@
       "perplexity",
       {
         "title": "Share on X",
-        "description": "Share this page on X", 
+        "description": "Share this page on X",
         "icon": "x-twitter",
         "href": {
           "base": "https://x.com/intent/tweet",
@@ -410,7 +570,7 @@
               "value": "Found this helpful AI API documentation - worth checking out! https: //docs.neosantara.xyz$path"
             },
             {
-              "key": "url", 
+              "key": "url",
               "value": "$path"
             }
           ]
@@ -432,22 +592,23 @@
     }
   },
   "redirects": [
-  {
-    "source": "/id",
-    "destination": "/en"
-  },
-  {
-    "source": "/api-reference/chat/create-chat-completion",
-    "destination": "/api-reference/chat/completions/create"
-  },
-  {
-    "source": "/api-reference/response/create-a-response",
-    "destination": "/api-reference/responses/create"
-  },
-  {
-    "source": "/id/:slug*",
-    "destination": "/en/:slug*"
-  }],
+    {
+      "source": "/id",
+      "destination": "/en"
+    },
+    {
+      "source": "/api-reference/chat/create-chat-completion",
+      "destination": "/api-reference/chat/completions/create"
+    },
+    {
+      "source": "/api-reference/response/create-a-response",
+      "destination": "/api-reference/responses/create"
+    },
+    {
+      "source": "/id/:slug*",
+      "destination": "/en/:slug*"
+    }
+  ],
   "seo": {
     "indexing": "all",
     "metatags": {

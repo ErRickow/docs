@@ -1,0 +1,69 @@
+---
+title: 'AutoGen (AG2)'
+description: '> Menggunakan AutoGen (AG2) dengan Neosantara AI.'
+---
+
+AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan mengorkestrasi agen AI yang saling berkolaborasi untuk menyelesaikan tugas kompleks.
+
+## Instalasi
+
+<CodeGroup>
+  ```shell Shell
+  pip install autogen
+  ```
+</CodeGroup>
+
+Atur API Key Neosantara AI Anda:
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+## Contoh Penggunaan
+
+Konfigurasikan AutoGen untuk menggunakan model dari Neosantara AI.
+
+<CodeGroup>
+  ```python Python icon="python"
+  import os
+  from pathlib import Path
+  from autogen import AssistantAgent, UserProxyAgent
+  from autogen.coding import LocalCommandLineCodeExecutor
+
+  config_list = [
+      {
+          "model": "nusantara-base",
+          "base_url": "https://api.neosantara.xyz/v1",
+          "api_key": os.environ.get("NAI_API_KEY"),
+          "api_type": "openai",
+          "stream": False,
+      }
+  ]
+
+  # Setup eksekutor kode
+  workdir = Path("coding")
+  workdir.mkdir(exist_ok=True)
+  code_executor = LocalCommandLineCodeExecutor(work_dir=workdir)
+
+  # Setup agen
+  user_proxy_agent = UserProxyAgent(
+      name="User",
+      code_execution_config={"executor": code_executor},
+      is_termination_msg=lambda msg: "FINISH" in msg.get("content"),
+  )
+
+  assistant_agent = AssistantAgent(
+      name="Neosantara-Assistant",
+      system_message="Anda adalah asisten AI yang menulis kode Python untuk menyelesaikan tugas.",
+      llm_config={"config_list": config_list},
+  )
+
+  # Mulai percakapan
+  user_proxy_agent.initiate_chat(
+      assistant_agent,
+      message="Berikan kode untuk menghitung jumlah bilangan prima dari 1 hingga 10000.",
+  )
+  ```
+</CodeGroup>

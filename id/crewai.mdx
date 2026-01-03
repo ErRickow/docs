@@ -1,0 +1,59 @@
+---
+title: 'CrewAI'
+description: '> Menggunakan CrewAI dengan Neosantara.'
+---
+
+CrewAI adalah framework untuk mengorkestrasi sistem agen AI yang memungkinkan kolaborasi antar agen berdasarkan peran untuk mencapai tujuan bersama.
+
+## Instalasi
+
+<CodeGroup>
+  ```shell Shell
+  pip install crewai
+  ```
+</CodeGroup>
+
+Atur API Key Neosantara AI Anda:
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+## Contoh Penggunaan
+
+<CodeGroup>
+  ```python Python icon="python"
+  import os
+  from crewai import LLM, Task, Agent, Crew
+
+  llm = LLM(model="openai/nusantara-base",
+            api_key=os.environ.get("NAI_API_KEY"),
+            base_url="https://api.neosantara.xyz/v1"
+          )
+
+  research_agent = Agent(
+      llm = llm,
+      role="Analis Riset",
+      goal="Temukan dan ringkas informasi tentang topik tertentu",
+      backstory="Anda adalah peneliti berpengalaman dengan perhatian terhadap detail",
+      verbose=True
+  )
+
+  research_task = Task(
+      description="Lakukan riset mendalam tentang AI Agents.",
+      expected_output="Daftar 10 poin informasi paling relevan tentang AI Agents",
+      agent=research_agent
+  )
+
+  crew = Crew(
+      agents=[research_agent],
+      tasks=[research_task],
+      verbose=True
+  )
+
+  result = crew.kickoff()
+  print(research_task.output)
+  ```
+</CodeGroup>

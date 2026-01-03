@@ -1,0 +1,150 @@
+---
+title: 'Output Terstruktur'
+description: '> Dapatkan respons terstruktur yang andal dari model AI kami dalam format JSON yang bersih, memudahkan integrasi langsung ke dalam aplikasi Anda.'
+---
+
+### Pengantar
+
+Secara default, model bahasa menghasilkan teks biasa. Ini bagus untuk aplikasi seperti chatbot, tetapi menjadi sulit dikerjakan ketika Anda perlu mengekstrak detail spesifik dari respons secara terprogram.
+
+Beberapa model di platform Nusantara AI memiliki kemampuan untuk merespons dalam format JSON terstruktur. Fitur ini memungkinkan Anda bekerja langsung dengan data output model dalam kode aplikasi Anda tanpa parsing teks yang rumit.
+
+Untuk mengaktifkan fitur ini, Anda hanya perlu menambahkan parameter `response_format` ke permintaan API Anda.
+
+-----
+
+### Model yang Didukung
+
+Hampir semua model pembuatan teks utama di platform Nusantara AI mendukung Mode JSON, termasuk:
+
+  * **`nusantara-base`**
+  * **`archipelago-70b`**
+  * **`garda-beta-mini`**
+
+Model visi seperti **`vision-emas-2045`** juga mendukung ekstraksi JSON dari gambar.
+
+-----
+
+### Menangani dan Mem-parsing Respons
+
+Model yang berbeda mungkin mengembalikan JSON dalam format yang sedikit berbeda. Untuk memastikan aplikasi Anda tangguh, yang terbaik adalah mem-parsing respons dengan fungsi pembantu yang dapat menangani variasi ini. Beberapa model membungkus JSON dalam blok markdown (misalnya, ` ```json ... ``` `), sementara yang lain mungkin menumpuk string JSON di dalam objek JSON lain.
+
+Contoh berikut menyertakan fungsi parsing yang tangguh.
+
+<Info>
+Anda **harus** menginstruksikan model untuk merespons hanya dalam format JSON dalam system prompt atau pesan pengguna Anda, selain menyertakan parameter `response_format`.
+</Info>
+
+<CodeGroup dropdown>
+
+```bash shell icon="terminal"
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Saya butuh resep nasi goreng. Saya punya nasi, telur, bawang merah, bawang putih, dan kecap. Masaknya sekitar 15 menit."
+      }
+    ],
+    "response_format": {
+      "type": "json_object"
+    }
+  }'
+```
+
+````python python icon="python"
+# Anda perlu menginstal: pip install openai
+import json
+import re
+from openai import OpenAI
+from json.decoder import JSONDecodeError
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+def robust_json_parser(raw_string: str):
+    """
+    Mem-parsing string yang mungkin berupa JSON biasa, dibungkus markdown,
+    atau string JSON bersarang dalam kunci 'result'.
+    """
+    # 1. Bersihkan pagar markdown (menangani ```json dan ```)
+    cleaned_str = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", raw_string)
+    if cleaned_str:
+        cleaned_str = cleaned_str.group(1).strip()
+    else:
+        cleaned_str = raw_string.strip()
+
+    # 2. Coba parsing string yang dibersihkan
+    try:
+        data = json.loads(cleaned_str)
+        # 3. Periksa JSON bersarang gaya Gemini
+        if isinstance(data, dict) and 'result' in data and isinstance(data['result'], str):
+            return json.loads(data['result'])
+        return data
+    except JSONDecodeError as e:
+        print(f"Gagal mem-parsing JSON: {e}")
+        return None
+
+def main():
+    try:
+        response = client.chat.completions.create(
+            model="nusantara-base", # Coba dengan 'nusantara-base' atau 'archipelago-70b'
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Anda adalah asisten yang membantu menyediakan resep dalam format JSON terstruktur. Pastikan respons HANYA objek JSON."
+                },
+                {
+                    "role": "user",
+                    "content": "Saya butuh resep nasi goreng. Saya punya nasi, telur, bawang merah, bawang putih, dan kecap. Masaknya sekitar 15 menit."
+                }
+            ],
+            response_format={"type": "json_object"}
+        )
+
+        raw_content = response.choices[0].message.content
+        print("Konten respons mentah diterima:\n", raw_content)
+        print("-" * 20)
+
+        # Gunakan parser yang tangguh
+        output = robust_json_parser(raw_content)
+
+        if output:
+            print("Berhasil mem-parsing JSON akhir:")
+            print(json.dumps(output, indent=2))
+        else:
+            print("Tidak dapat mem-parsing respons menjadi objek JSON yang valid.")
+
+    except Exception as e:
+        print(f"Terjadi kesalahan tak terduga: {e}")
+
+main()
+````
+</CodeGroup>
+
+-----
+
+### Hasil yang Diharapkan
+
+Setelah menjalankan salah satu contoh di atas, variabel `output` Anda akan berisi objek JSON yang bersih dan terurai:
+
+```json
+{
+  "nama_resep": "Nasi Goreng Sederhana",
+  "waktu_memasak": "15 menit",
+  "bahan": [
+    "Nasi",
+    "Telur",
+    "Bawang Merah",
+    "Bawang Putih",
+    "Kecap"
+  ]
+}
+```
+
+Dengan menggunakan fungsi parsing yang tangguh di sisi klien, Anda dapat menangani data terstruktur dari model apa pun di platform Nusantara AI dengan andal.

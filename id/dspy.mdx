@@ -1,0 +1,41 @@
+---
+title: 'DSPy'
+description: '> Menggunakan DSPy dengan Neosantara AI.'
+---
+
+DSPy adalah framework untuk pemrograman model bahasa secara modular tanpa bergantung pada prompt statis.
+
+## Instalasi
+
+<CodeGroup>
+  ```shell Shell
+  pip install -U dspy -q
+  ```
+</CodeGroup>
+
+Atur API Key Neosantara AI Anda:
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+## Contoh Penggunaan
+
+Hubungkan DSPy ke LLM di Neosantara AI.
+
+<CodeGroup>
+  ```python Python icon="python"
+  import dspy
+  import os
+
+  # Konfigurasi dspy dengan model dari Neosantara AI
+  lm = dspy.LM('openai/nusantara-base',
+               api_key=os.environ.get("NAI_API_KEY"),
+               api_base="https://api.neosantara.xyz/v1")
+
+  # Gunakan model
+  print(lm("Sebutkan ini adalah sebuah tes!", temperature=0.7))
+  ```
+</CodeGroup>

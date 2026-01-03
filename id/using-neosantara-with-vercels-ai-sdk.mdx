@@ -1,0 +1,67 @@
+---
+title: 'Mulai Cepat: Vercel AI SDK dengan Neosantara AI'
+description: '> Panduan menggunakan model Neosantara dengan Vercel AI SDK.'
+---
+
+Vercel AI SDK adalah library Typescript untuk membangun aplikasi bertenaga AI. Anda dapat dengan mudah mengintegrasikan model Neosantara ke dalam proyek TypeScript, React, atau Next.js.
+
+## Mulai Cepat: 15 Baris Kode
+
+1. Instal Vercel AI SDK dan paket OpenAI Compatible.
+
+<CodeGroup>
+  ```bash npm icon="terminal"
+  npm i ai @ai-sdk/openai-compatible
+  ```
+
+  ```bash yarn icon="terminal"
+  yarn add ai @ai-sdk/openai-compatible
+  ```
+</CodeGroup>
+
+2. Inisialisasi klien Neosantara dan gunakan fungsi `generateText`.
+
+```js TypeScript
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { generateText } from 'ai';
+
+const neosantara = createOpenAICompatible({
+  name: 'neosantara_xyz',
+  apiKey: process.env.NAI_API_KEY ?? "",
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const { text } = await generateText({
+  model: neosantara('nusantara-base'),
+  prompt: 'Tulis cerita pendek tentang kucing yang lapar',
+});
+
+console.log(text)
+```
+
+## Streaming dengan Vercel AI SDK
+
+Untuk melakukan streaming, gunakan fungsi `streamText`.
+
+```js TypeScript
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { streamText } from "ai";
+
+const neosantara = createOpenAICompatible({
+  apiKey: process.env.NAI_API_KEY ?? "",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function main() {
+  const result = await streamText({
+    model: neosantara("nusantara-base"),
+    prompt: "Jelaskan tradisi liburan baru yang unik.",
+  });
+
+  for await (const textPart of result.textStream) {
+    process.stdout.write(textPart);
+  }
+}
+
+main();
+```

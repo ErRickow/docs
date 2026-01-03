@@ -1,0 +1,65 @@
+---
+title: 'Pembuatan Gambar (Image Gen)'
+description: '> Hasilkan gambar berkualitas tinggi dari prompt teks menggunakan berbagai model AI.'
+---
+
+Pembuatan gambar memungkinkan Anda membuat konten visual unik langsung dari deskripsi tekstual (prompt).
+
+## Cara Kerja
+
+Anda memberikan prompt teks yang menjelaskan gambar yang ingin Anda buat, dan API NeosantaraAI menggunakan model generatif canggih untuk menghasilkan gambar yang sesuai. Anda dapat menentukan parameter seperti jumlah gambar, ukurannya, dan format outputnya.
+
+API NeosantaraAI menyediakan endpoint [`/v1/images/generations`](/api-reference/images/create-image-generation) untuk tujuan ini.
+
+## Penggunaan
+
+Kirim permintaan POST ke endpoint [`/v1/images/generations`](/api-reference/images/create-image-generation).
+
+### Endpoint
+
+`POST /v1/images/generations`
+
+### Body Permintaan
+
+```json
+{
+  "prompt": "Pemandangan kota futuristik saat matahari terbenam dengan mobil terbang, sangat detail, gaya cyberpunk.",
+  "model": "neosantara-gen-2045",
+  "n": 1,
+  "size": "1024x1024",
+  "response_format": "url"
+}
+```
+
+#### Parameter Utama
+
+* **`prompt`** (string, **wajib**): Deskripsi teks gambar.
+* **`model`** (string, opsional): ID model (default: `"neosantara-gen-2045"`).
+* **`n`** (integer): Jumlah gambar (default: `1`).
+* **`size`** (string): Ukuran gambar (default: `"1024x1024"`).
+* **`response_format`** (string): Format output (`"url"` atau `"b64_json"`).
+
+## Model yang Didukung
+
+* **`titan-image-g1`**: Amazon Titan Image Generator G1 v2. Sangat hemat biaya dan serbaguna. Mendukung variasi, inpainting, dan outpainting.
+* **`neosantara-gen-2045`**: Model pembuatan gambar berkualitas tinggi kami. Direkomendasikan untuk hasil kreatif dan artistik.
+
+## Contoh Python (OpenAI SDK)
+
+```python Py icon="python"
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="NAI_API_KEY",
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.images.generate(
+    model="neosantara-gen-2045",
+    prompt="Sawah terasering di Bali saat pagi hari, fotorealistik",
+    n=1,
+    size="1024x1024"
+)
+
+print(response.data[0].url)
+```

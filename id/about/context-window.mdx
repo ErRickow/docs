@@ -1,0 +1,64 @@
+---
+title: 'Jendela Konteks (Context Window)'
+description: 'Memahami batas token dan jendela konteks untuk model Neosantara AI'
+---
+
+**Jendela Konteks (Context Window)** adalah jumlah informasi maksimal yang dapat diproses oleh model dalam satu interaksi. Ini mencakup **Input** (prompt Anda, instruksi, riwayat percakapan) dan **Output** (respon model).
+
+<Card title="Dapatkan API Key" icon="key" href="https://app.neosantara.xyz/signup" horizontal>
+  Daftar sekarang untuk mendapatkan **20.000 kredit gratis** dan mulai membangun dengan jendela konteks masif kami.
+</Card>
+
+## Batas Token per Model
+
+Setiap model memiliki kapasitas berbeda untuk "mengingat" konteks. Memilih model yang tepat bergantung pada apakah Anda perlu memproses dokumen panjang (konteks tinggi) atau hanya interaksi cepat (konteks standar).
+
+| Model | Jendela Konteks (Input) | Maks Token Output | Terbaik Untuk |
+| :--- | :--- | :--- | :--- |
+| **Garda-Beta-Mini** | **131.072** | 8.192 | Analisis dokumen panjang, konteks sangat besar |
+| **Nusantara-Base** | **64.000** | 2.048 | Tujuan umum, konteks standar |
+| **Llama-3.3-Nemotron** | **131.072** | 4.096 | Penalaran kompleks dengan konteks panjang |
+| **Archipelago-70B** | 24.000 | 2.048 | Tugas budaya, konteks menengah |
+| **LuminAI** | 8.000 | 2.048 | Tugas ringan, konteks pendek |
+
+### Memahami Angka
+
+*   **Jendela Konteks (Input)**: Batas untuk prompt + riwayat percakapan Anda. Jika Anda mengirim 10.000 token teks ke `LuminAI` (batas 8k), permintaan akan gagal atau terpotong.
+*   **Maks Output**: Batas apa yang dapat dihasilkan model dalam satu kali jalan. Meskipun `Garda-Beta-Mini` dapat membaca 131k token, ia "hanya" dapat menulis 8k token dalam satu waktu.
+
+## Mengelola Konteks
+
+Ketika percakapan Anda tumbuh terlalu panjang, Anda mungkin mencapai batas. Neosantara menyediakan alat untuk menangani hal ini.
+
+### Pemotongan Otomatis (Automatic Truncation)
+
+Dalam **[Responses API](/api-reference/responses/create)**, Anda dapat menggunakan parameter `truncation`:
+
+```json
+{
+  "model": "nusantara-base",
+  "input": "...",
+  "truncation": "auto"
+}
+```
+
+*   **`auto`**: Sistem akan secara otomatis membuang pesan terlama dari riwayat percakapan agar muat dalam batas model.
+*   **`disabled`** (default): API akan mengembalikan error jika batas konteks terlampaui.
+
+### Menghitung Penggunaan
+
+Anda selalu dapat memeriksa kolom `usage` dalam respon API untuk melihat seberapa dekat Anda dengan batas:
+
+```json
+"usage": {
+  "input_tokens": 1024,
+  "output_tokens": 50,
+  "total_tokens": 1074
+}
+```
+
+## Butuh Lebih Banyak Konteks?
+
+Jika kasus penggunaan Anda memerlukan pemrosesan jutaan token (misalnya, menganalisis seluruh buku atau basis kode), pertimbangkan untuk menggunakan solusi **RAG (Retrieval-Augmented Generation)** kami atau memecah konten Anda menjadi potongan-potongan (chunks).
+
+[Hubungi Penjualan](mailto:sales@neosantara.xyz) untuk opsi perusahaan dengan batas yang lebih tinggi.

@@ -1,0 +1,70 @@
+--- 
+title: 'DeepSeek OCR'
+description: 'Mulai gunakan DeepSeek OCR di API Neosantara'
+---
+
+## Pengenalan Karakter Optik (OCR)
+
+API DeepSeek OCR memungkinkan Anda mengekstrak teks dari gambar dengan akurasi tinggi. Model ini dapat memproses gambar dari URL atau data base64, ideal untuk pemrosesan dokumen, pemindaian tanda terima, dan ekstraksi data kartu identitas.
+
+## Fitur Utama
+
+- **Akurasi Tinggi**: Ekstraksi teks presisi untuk berbagai jenis dokumen.
+- **Input Fleksibel**: Mendukung URL publik maupun data base64.
+- **Cepat**: Dioptimalkan untuk ekstraksi teks yang efisien.
+- **Annotated Image**: Dapat mengembalikan gambar dengan tanda area teks yang terdeteksi.
+
+## API Endpoint
+
+```http
+POST https://api.neosantara.xyz/v1/ocr
+```
+
+<Warning>
+  **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin mengalami penundaan 10-15 detik karena proses *cold start*. Permintaan berikutnya akan jauh lebih cepat (2-5 detik).
+</Warning>
+
+## Parameter Permintaan
+
+- **model** (string): Gunakan `deepseek-ocr`.
+- **image** (string, **wajib**): URL gambar atau data base64.
+- **image_type** (string): `"url"` atau `"base64"`.
+- **return_image** (boolean): Jika `true`, mengembalikan gambar hasil anotasi dalam field `result_image_base64`.
+
+## Contoh Respon
+
+```json
+{
+  "id": "ocr-abc123def456",
+  "object": "ocr.completion",
+  "choices": [
+    {
+      "index": 0,
+      "text": "Teks yang dikenali dari gambar Anda...",
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "total_tokens": 50
+  }
+}
+```
+
+## Contoh Cepat (Curl)
+
+```bash
+curl -X POST https://api.neosantara.xyz/v1/ocr \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "deepseek-ocr",
+    "image": "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    "image_type": "url",
+    "return_image": false
+  }'
+```
+
+## Harga
+
+- **Biaya per Gambar**: Setara dengan 100 token (sekitar 50 token input).
+- **Annotated Image**: Fitur `return_image` tidak dikenakan biaya tambahan.

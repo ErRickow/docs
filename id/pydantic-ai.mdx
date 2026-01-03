@@ -1,0 +1,51 @@
+---
+title: 'PydanticAI'
+description: '> Menggunakan PydanticAI dengan Neosantara.'
+---
+
+PydanticAI adalah framework agen yang menyederhanakan pembangunan aplikasi AI generatif tingkat produksi dengan pendekatan yang aman secara tipe (*type-safe*).
+
+## Instalasi
+
+<CodeGroup>
+  ```shell Shell
+  pip install pydantic-ai -q
+  ```
+</CodeGroup>
+
+Atur API Key Neosantara AI Anda:
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+## Contoh Penggunaan
+
+<CodeGroup>
+  ```python Python
+  from pydantic_ai import Agent
+  from pydantic_ai.models.openai import OpenAIChatModel
+  from pydantic_ai.providers.openai import OpenAIProvider
+  import os
+  
+  ## Hubungkan PydanticAI ke LLM di Neosantara
+  model = OpenAIChatModel(
+      'nusantara-base',
+      provider=OpenAIProvider(
+          base_url="https://api.neosantara.xyz/v1",
+          api_key=os.environ.get("NAI_API_KEY"),
+      ),
+  )
+  
+  ## Setup agen
+  agent = Agent(
+      model,
+      system_prompt='Singkat, jawab dalam satu kalimat.',
+  )
+  
+  result = agent.run_sync('Dari mana asal kata "hello world"?')  
+  print(result.output)
+  ```
+</CodeGroup>
