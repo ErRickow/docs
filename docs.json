@@ -118,6 +118,7 @@
                 "pages": [
                   "en/capability/embeddings",
                   "en/capability/image-generation",
+                  "en/capability/video-generation",
                   "en/capability/stream",
                   "en/capability/structured"
                 ]
@@ -346,6 +347,7 @@
                 "pages": [
                   "id/capability/embeddings",
                   "id/capability/image-generation",
+                  "id/capability/video-generation",
                   "id/capability/stream",
                   "id/capability/structured"
                 ]

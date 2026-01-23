@@ -85,6 +85,38 @@ This will produce a response that includes the model's thought process, followed
 
 -----
 
+### Thinking Models (Claude & Gemini)
+
+For models that support native reasoning, such as **Claude 3.5 Sonnet** and **Gemini 2.0 Flash**, Neosantara AI supports the `thinking` parameter. This allows you to allocate a specific token budget for the model's internal thought process.
+
+#### **Using the `thinking` Parameter**
+
+When using the Anthropic-compatible API, you can provide a `thinking` object.
+
+```json
+{
+  "model": "claude-3-haiku",
+  "messages": [...],
+  "thinking": {
+    "type": "enabled",
+    "budget_tokens": 2048
+  }
+}
+```
+
+#### **Reasoning Effort Mapping**
+
+If you are using the OpenAI-compatible API, the `thinking` budget is automatically mapped to the `reasoning_effort` parameter based on industry standards:
+
+| `budget_tokens` | `reasoning_effort` |
+| :--- | :--- |
+| >= 10,000 | `high` |
+| >= 5,000 | `medium` |
+| >= 2,000 | `low` |
+| < 2,000 | `minimal` |
+
+-----
+
 ### Best Practices
 
 To get the best results from Llama 3.3 Nemotron, treat it like an expert problem-solver. Provide a clear, high-level objective and let the model determine the best steps to reach the solution.

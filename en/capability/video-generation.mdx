@@ -1,0 +1,86 @@
+---
+title: 'Video Generation'
+description: 'Generate high-quality videos from text prompts using GLM-4 Video.'
+---
+
+Neosantara AI provides a unified interface for video generation, powered by the **GLM-4 Video** model (CogVideoX). This capability allows you to create cinematic, high-resolution videos directly from text descriptions or by providing an image as a reference.
+
+-----
+
+### How to Use the API
+
+Video generation is an asynchronous process. You first submit a job, and then poll for its status.
+
+#### **1. Submit a Video Job**
+
+Send a `POST` request to `/v1/videos`.
+
+<CodeGroup>
+```json cURL icon="terminal"
+curl -X POST "https://api.neosantara.xyz/v1/videos" \
+-H "Authorization: Bearer <NAI_API_KEY>" \
+-H "Content-Type: application/json" \
+-d '{
+  "model": "cogvideox",
+  "prompt": "A beautiful sunset over the Indonesian archipelago, cinematic lighting, 4k",
+  "video_style": "cinematic"
+}'
+```
+</CodeGroup>
+
+**Parameters:**
+- `model`: Required. Use `cogvideox` or `cogvideox-pro`.
+- `prompt`: Required. A detailed description of the video you want to generate (max 2000 characters).
+- `input_reference`: Optional. A URL to an image to use as a starting point (Image-to-Video).
+- `video_style`: Optional. e.g., `cinematic`, `anime`, `realistic`.
+
+#### **2. Check Job Status**
+
+Use the `id` returned from the submission to check progress.
+
+<CodeGroup>
+```json cURL icon="terminal"
+curl "https://api.neosantara.xyz/v1/videos/<JOB_ID>" \
+-H "Authorization: Bearer <NAI_API_KEY>"
+```
+</CodeGroup>
+
+#### **3. Download Content**
+
+Once the status is `completed`, retrieve the video file.
+
+<CodeGroup>
+```json cURL icon="terminal"
+curl "https://api.neosantara.xyz/v1/videos/<JOB_ID>/content" \
+-H "Authorization: Bearer <NAI_API_KEY>"
+```
+</CodeGroup>
+
+-----
+
+### Pricing & Quota
+
+Video generation is a high-compute task and is billed per video generated.
+
+| Model | Price (IDR) | Token Equivalent |
+| :--- | :--- | :--- |
+| **cogvideox** | Rp 15,000 | 7,500 Tokens |
+| **cogvideox-pro** | Rp 25,000 | 12,500 Tokens |
+
+<Note>
+  If you are in **Pay-As-You-Go** mode, the cost will be deducted from your balance. For subscription users, it will count against your daily/monthly token quota using the token equivalent value.
+</Note>
+
+-----
+
+### Best Practices
+
+*   **Be Descriptive**: Describe the subject, action, lighting, and camera movement.
+*   **Resolution**: The model currently supports up to 1024x1024 or 720p output depending on the variant.
+*   **Prompt Length**: Keep prompts under 2000 characters for optimal results.
+
+## Next Steps
+
+  * See [Image Generation](/en/capability/image-generation)
+  * Explore [Reasoning Models](/en/capability/reasoning)
+

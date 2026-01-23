@@ -49,6 +49,38 @@ Ini akan menghasilkan respon yang mencakup proses berpikir model, diikuti oleh j
 
 -----
 
+### Model Berpikir (Claude & Gemini)
+
+Untuk model yang mendukung penalaran asli (*native reasoning*), seperti **Claude 3.5 Sonnet** dan **Gemini 2.0 Flash**, Neosantara AI mendukung parameter `thinking`. Ini memungkinkan Anda mengalokasikan anggaran token tertentu untuk proses berpikir internal model.
+
+#### **Menggunakan Parameter `thinking`**
+
+Saat menggunakan API yang kompatibel dengan Anthropic, Anda dapat menyediakan objek `thinking`.
+
+```json
+{
+  "model": "claude-3-haiku",
+  "messages": [...],
+  "thinking": {
+    "type": "enabled",
+    "budget_tokens": 2048
+  }
+}
+```
+
+#### **Pemetaan Upaya Penalaran (Reasoning Effort)**
+
+Jika Anda menggunakan API yang kompatibel dengan OpenAI, anggaran `thinking` secara otomatis dipetakan ke parameter `reasoning_effort` berdasarkan standar industri:
+
+| `budget_tokens` | `reasoning_effort` |
+| :--- | :--- |
+| >= 10,000 | `high` |
+| >= 5,000 | `medium` |
+| >= 2,000 | `low` |
+| < 2,000 | `minimal` |
+
+-----
+
 ### Praktik Terbaik
 
 Untuk mendapatkan hasil terbaik dari Llama 3.3 Nemotron, perlakukan seperti pemecah masalah ahli. Berikan tujuan tingkat tinggi yang jelas dan biarkan model menentukan langkah terbaik untuk mencapai solusi.

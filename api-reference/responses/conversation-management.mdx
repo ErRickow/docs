@@ -35,8 +35,19 @@ The API will return a response containing an `id`.
 {
   "id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
   "model": "nusantara-base",
-  "output_text": "Hello Alice! Nice to meet you. How can I help you with your software engineering tasks today?"
-  // ... other fields
+  "status": "completed",
+  "output": [
+    {
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Hello Alice! Nice to meet you. How can I help you with your software engineering tasks today?"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -60,7 +71,19 @@ The model will respond with context awareness:
 {
   "id": "resp_78dd...new_id...",
   "model": "nusantara-base",
-  "output_text": "In React, you can manage state using hooks like `useState` and `useReducer` for local state, or libraries like Redux or Zustand for global state, Alice."
+  "status": "completed",
+  "output": [
+    {
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "In React, you can manage state using hooks like `useState` and `useReducer` for local state, Alice."
+        }
+      ]
+    }
+  ]
 }
 ```
 
