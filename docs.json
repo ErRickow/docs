@@ -61,7 +61,12 @@
                   "en/intro",
                   "api-reference/quickstart",
                   "api-reference/sdk/openai-compatible",
-                  "api-reference/sdk/anthropic-compatible"
+                  "api-reference/sdk/anthropic-compatible",
+                  "api-reference/endpoint-comparison",
+                  "api-reference/advanced-examples",
+                  "api-reference/error-handling",
+                  "api-reference/rate-limits",
+                  "api-reference/authentication"
                 ]
               },
               {
@@ -186,7 +191,12 @@
                   "en/about/rate-limits",
                   "en/about/context-window",
                   "en/about/errors",
-                  "en/models-overview"
+                  "en/models-overview",
+                  "id/api-reference/endpoint-comparison",
+                  "id/api-reference/advanced-examples",
+                  "id/api-reference/error-handling",
+                  "id/api-reference/rate-limits",
+                  "id/api-reference/authentication"
                 ]
               },
               {

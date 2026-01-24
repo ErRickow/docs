@@ -1,0 +1,123 @@
+---
+title: 'Contoh Lanjutan & Praktik Terbaik'
+description: 'Pola produksi untuk berbagai endpoint Neosantara.'
+---
+
+Dokumen ini berisi contoh lanjutan untuk penggunaan API Neosantara pada berbagai endpoint, dengan fokus pada produksi, performa, dan maintainabilitas.
+
+## Pemrosesan Batch & Permintaan Paralel
+
+- Python (async) dengan httpx
+```
+import asyncio
+import httpx
+
+BASE = "https://api.neosantara.xyz/v1"
+API_KEY = "<KEY>"
+ENDPOINT = f"{BASE}/v1/chat/completions"
+
+async def fetch(session, payload):
+  headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+  async with session.post(ENDPOINT, json=payload, headers=headers) as resp:
+    return await resp.json()
+
+async def main():
+  async with httpx.AsyncClient() as session:
+    tasks = []
+    prompts = [
+      {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]},
+      {"model": "nusantara-base", "messages": [{"role": "user", "content": "Ceritakan sebuah cerita"}]}
+    ]
+    for p in prompts:
+      tasks.append(asyncio.create_task(fetch(session, p)))
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+if __name__ == '__main__':
+  asyncio.run(main())
+```
+
+- Node.js (Promise.all)
+```
+const fetch = async (payload) => {
+  const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KEY>' },
+    body: JSON.stringify(payload),
+  })
+  return res.json()
+}
+
+async function main() {
+  const prompts = [
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Halo' }] },
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Ceritakan sebuah cerita' }] }
+  ]
+  const results = await Promise.all(prompts.map(p => fetch(p)))
+  console.log(results)
+}
+
+main()
+```
+
+## Retry & Ketahanan
+```
+python
+from tenacity import retry, wait_exponential, stop_after_attempt
+import requests
+
+client = requests.Session()
+headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
+payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]}
+
+@retry(wait=wait_exponential(min=1, max=10), stop=stop_after_attempt(3))
+def call():
+  r = client.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
+  r.raise_for_status()
+  return r.json()
+call()
+```
+
+- JavaScript
+```
+async function callWithRetry(payload, retries = 3) {
+  const url = 'https://api.neosantara.xyz/v1/chat/completions'
+  const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KEY>' }
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) })
+      if (!res.ok) throw new Error('Request failed')
+      return await res.json()
+    } catch (e) {
+      if (i === retries - 1) throw e
+      await new Promise(r => setTimeout(r, Math.min(1000 * Math.pow(2, i), 8000)))
+    }
+  }
+}
+```
+
+## Caching & Idempotency
+```
+const cache = new Map()
+async function cachedCall(payload) {
+  const key = JSON.stringify(payload)
+  if (cache.has(key)) return cache.get(key)
+  const res = await fetch('https://api.neosantara.xyz/v1/chat/completions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer <KEY>', 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  const data = await res.json()
+  cache.set(key, data)
+  return data
+}
+```
+
+## Streaming & Real-Time UX
+```
+// Contoh streaming bisa menggunakan pendekatan serupa untuk Python/Node
+```
+
+## Praktik Produksi
+- Deploy dalam lingkungan terkontrol, monitoring, logging, dan observability
+- Gunakan retry, backoff, dan circuit breaker
+- Secara berkala meninjau token usage & rate limits

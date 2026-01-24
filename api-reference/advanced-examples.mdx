@@ -1,0 +1,158 @@
+---
+title: 'Advanced Examples & Best Practices'
+description: 'Production-ready patterns for using Neosantara API with multiple endpoints.'
+---
+
+This guide covers production-grade patterns for using Neosantara AI APIs across OpenAI-compatible, Anthropic-compatible, and the Responses API. It focuses on reliability, performance, and maintainability.
+
+## Batch & Parallel Requests
+
+- Python (async) using httpx to issue parallel requests
+```
+import asyncio
+import httpx
+
+BASE = "https://api.neosantara.xyz/v1"
+API_KEY = "<YOUR_API_KEY>"
+ENDPOINT = f"{BASE}/v1/chat/completions"  # example; adjust per endpoint
+
+async def fetch(session, payload):
+    headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+    async with session.post(ENDPOINT, json=payload, headers=headers) as resp:
+        return await resp.json()
+
+async def main():
+    async with httpx.AsyncClient() as session:
+        tasks = []
+        prompts = [
+            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]},
+            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Tell me a story"}]}
+        ]
+        for p in prompts:
+            payload = p
+            tasks.append(asyncio.create_task(fetch(session, payload)))
+        results = await asyncio.gather(*tasks)
+        print(results)
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+- Node.js (Promise.all)
+```
+const fetch = async (payload) => {
+  const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <YOUR_API_KEY>' },
+    body: JSON.stringify(payload),
+  })
+  return res.json()
+}
+
+async function main() {
+  const prompts = [
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Hello' }] },
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Tell me a story' }] }
+  ]
+  const results = await Promise.all(prompts.map(p => fetch(p)))
+  console.log(results)
+}
+
+main()
+```
+
+## Retry & Fault Tolerance
+
+- Python (tenacity)
+```
+from tenacity import retry, wait_exponential, stop_after_attempt
+import requests
+
+@retry(wait=wait_exponential(min=1, max=10), stop=stop_after_attempt(3))
+def call(payload):
+    resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers={"Authorization": "Bearer <API_KEY>"})
+    resp.raise_for_status()
+    return resp.json()
+
+```
+
+- JavaScript (retry wrapper)
+```
+async function callWithRetry(payload, retries = 3) {
+  const url = 'https://api.neosantara.xyz/v1/chat/completions'
+  const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer <API_KEY>' }
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) })
+      if (!res.ok) throw new Error('Request failed')
+      return await res.json()
+    } catch (e) {
+      if (i === retries - 1) throw e
+      await new Promise(r => setTimeout(r, Math.min(1000 * Math.pow(2, i), 8000)))
+    }
+  }
+}
+```
+
+## Caching & Idempotency
+
+- Simple in-memory cache (attribute: {key: response})
+```
+const cache = new Map()
+async function cachedCall(payload) {
+  const key = JSON.stringify(payload)
+  if (cache.has(key)) return cache.get(key)
+  const res = await fetch('https://api.neosantara.xyz/v1/chat/completions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer <API_KEY>' , 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  const data = await res.json()
+  cache.set(key, data)
+  return data
+}
+```
+
+## Streaming & Real-Time UX
+
+- Example (Python) streaming via SSE-like pattern
+```
+import requests
+def stream_call(payload):
+  with requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, stream=True) as res:
+    for line in res.iter_lines():
+      if line:
+        print(line.decode())
+```
+
+- Example (Node.js)
+```
+const { createInterface } = require('readline');
+const req = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) });
+const reader = require('readline').createInterface({ input: req.body, crlfDelay: Infinity });
+reader.on('line', (line) => console.log(line));
+```
+
+## Production Patterns & Best Practices
+
+- Use a dedicated API client per environment (dev/stage/prod)
+- Enable server-side token rotation and secure storage for API keys
+- Centralize error handling and retry policies
+- Log structured events for observability (request_id, model, tokens used)
+- Rate limit awareness per endpoint and tier
+
+## Next Steps
+
+- Integrate these patterns into your codebase with your preferred language
+- Extend with additional example scenarios (image input, embeddings, etc)
+- Link to advanced topics such as deployment & monitoring
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Dive into endpoint specifics and parameter details.
+  </Card>
+  <Card title="Rate Limits" icon="gauge-high" href="/en/about/rate-limits">
+    Review quotas and throttling guidance.
+  </Card>
+</CardGroup>
+
+(End of file)

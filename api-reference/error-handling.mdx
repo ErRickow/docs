@@ -1,0 +1,51 @@
+---
+title: 'Error Handling'
+description: 'Reference for common HTTP errors and strategies to recover from them.'
+---
+
+Neosantara AI API uses standard HTTP status codes. This page documents common errors, their meanings, and recommended remediation steps.
+
+## Common Errors
+
+- 400 invalid_request_error — The request is malformed or missing required parameters.
+- 401 authentication_error — Missing or invalid API key / token.
+- 403 permission_error — Access to the resource is forbidden.
+- 429 rate_limit_error — You have exceeded your rate limit.
+- 500 api_error — Internal server error.
+- 503 overloaded_error — Service temporarily unavailable.
+
+## Error Response Example
+```
+{
+  "error": {
+    "code": "invalid_request_error",
+    "message": "Parameter 'messages' is required.",
+    "type": "invalid_request_error"
+  }
+}
+```
+
+## Retry & Recovery
+
+- Use exponential backoff for retry attempts.
+- Implement circuit breaker patterns to avoid retry storms.
+- Validate inputs before retrying.
+
+## Language Bindings (Code Snippets)
+
+- Python
+```python
+import requests
+headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
+payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]}
+resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
+```
+
+- JavaScript
+```js
+const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <YOUR_API_KEY>' },
+  body: JSON.stringify(payload)
+})
+```

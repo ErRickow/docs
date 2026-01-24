@@ -1,0 +1,23 @@
+---
+title: 'Batas Kecepatan'
+description: 'Kuota dan panduan throttling per endpoint dan tier.'
+---
+
+Dokumen ini menjelaskan batas kecepatan untuk endpoint API Neosantara. Batas bervariasi tergantung endpoint dan tier layanan.
+
+## Batas Global & Per-Tier
+- Free / Starter: kuota rendah, cooldown lebih lama
+- Pro / Enterprise: kuota lebih tinggi, burst lebih besar
+
+## Per-Endpoin (Contoh)
+- OpenAI Compatible: per-model, per-key
+- Anthropic Compatible: per-model per-key
+- Responses API: per-model per-key, dengan store (stateful)
+
+## Retry & Saran Pemulihan
+- Gunakan backoff eksponensial dengan jitter
+- Hormati header `Retry-After` jika disediakan server
+
+## Observability
+- Logging jumlah permintaan, latency, dan error per endpoint
+- Instrumentasi metrik client untuk menjaga kuota tetap sehat

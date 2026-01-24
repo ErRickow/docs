@@ -1,0 +1,51 @@
+---
+title: 'Penanganan Kesalahan'
+description: 'Referensi untuk kesalahan HTTP umum dan strategi pemulihan.'
+---
+
+API Neosantara menggunakan kode status HTTP standar. Halaman ini mendokumentasikan kesalahan umum, makna, dan langkah pemulihan yang direkomendasikan.
+
+## Kesalahan Umum
+
+- 400 invalid_request_error — Permintaan tidak valid atau parameter yang diperlukan hilang.
+- 401 authentication_error — API key/token hilang atau tidak valid.
+- 403 permission_error — Akses ke sumber daya dilarang.
+- 429 rate_limit_error — Batas permintaan terlampaui.
+- 500 api_error — Kesalahan internal server.
+- 503 overloaded_error — Layanan tidak tersedia sementara.
+
+## Contoh Respons Kesalahan
+```
+{
+  "error": {
+    "code": "invalid_request_error",
+    "message": "Parameter 'messages' diperlukan.",
+    "type": "invalid_request_error"
+  }
+}
+```
+
+## Retry & Pemulihan
+
+- Gunakan backoff eksponensial untuk retry.
+- Implementasikan circuit breaker untuk menghindari lonjakan retry.
+- Validasi input sebelum retry.
+
+## Bahasa Bindings (Potongan Kode)
+
+- Python
+```python
+import requests
+headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
+payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]}
+resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
+```
+
+- JavaScript
+```js
+const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <YOUR_API_KEY>' },
+  body: JSON.stringify(payload)
+})
+```
