@@ -18,8 +18,7 @@ This model is restricted from the **Free** tier to ensure optimal performance fo
 
 ## Quick Integration
 
-<CodeGroup>
-```bash cURL
+```bash
 curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <YOUR_API_KEY>" \
@@ -31,7 +30,7 @@ curl https://api.neosantara.xyz/v1/chat/completions \
   }'
 ```
 
-```python Python
+```python
 from openai import OpenAI
 
 client = OpenAI(
@@ -47,7 +46,4 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
-```
-</CodeGroup>
-
 ```

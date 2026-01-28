@@ -1,0 +1,27 @@
+---
+title: 'Rate Limits'
+description: 'Quotas and throttling guidance per endpoint and tier.'
+---
+
+This page documents rate limits for Neosantara API endpoints. Limits vary by endpoint and service tier.
+
+## Global & Per-Tier Limits
+
+- Free / Starter: lower quotas, longer cooldowns
+- Pro / Enterprise: higher quotas and burst capacity
+
+## Per-Endpoint Limits (Examples)
+
+- OpenAI Compatible: per-model, per-key quotas
+- Anthropic Compatible: per-model quotas with tooling considerations
+- Responses API: enhanced quotas with stateful context
+
+## Backoff & Retry Guidance
+
+- Use exponential backoff with jitter.
+- Respect `Retry-After` headers when provided by the server.
+
+## Monitoring & Observability
+
+- Log request counts, latency, and error rates by endpoint.
+- Instrument client-side metrics to maintain healthy quotas.

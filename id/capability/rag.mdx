@@ -3,39 +3,40 @@ title: 'Retrieval-Augmented Generation (RAG)'
 description: 'Bangun AI Sadar Pengetahuan menggunakan Neosantara Embeddings dan Chat'
 ---
 
-Panduan ini menunjukkan cara membangun aplikasi RAG "Dunia Nyata": **Asisten Dukungan Pelanggan** yang menjawab pertanyaan berdasarkan dokumentasi perusahaan Anda, bukan hanya data pelatihannya.
+Panduan ini menunjukkan cara membangun aplikasi RAG "Dunia Nyata": **Asisten Dukungan Pelanggan** yang menjawab pertanyaan berdasarkan dokumentasi perusahaan Kamu, bukan hanya data pelatihannya.
 
 ## Apa yang kita bangun
 
 Kita akan membangun sistem yang:
-1.  **Membaca** dokumen dukungan Anda.
-2.  **Mengonversi** dokumen tersebut menjadi vektor embedding menggunakan `nusa-embedding-0001`.
-3.  **Mencari** info relevan saat pengguna bertanya.
-4.  **Menghasilkan** jawaban akurat menggunakan `nusantara-base` atau `garda-beta-mini`.
+
+1. **Membaca** dokumen dukungan Kamu.
+2. **Mengonversi** dokumen tersebut menjadi vektor embedding menggunakan `nusa-embedding-0001`.
+3. **Mencari** info relevan saat pengguna bertanya.
+4. **Menghasilkan** jawaban akurat menggunakan `nusantara-base` atau `garda-beta-mini`.
 
 ## Prasyarat
 
-*   Kunci API Neosantara.
-*   Penyimpanan vektor sederhana (kita gunakan contoh in-memory lokal untuk kesederhanaan, tapi Anda bisa menggunakan Pinecone, Supabase, atau Qdrant).
+* Kunci API Neosantara.
+* Penyimpanan vektor sederhana (kita gunakan contoh in-memory lokal untuk kesederhanaan, tapi Kamu bisa menggunakan Pinecone, Supabase, atau Qdrant).
 
 ---
 
 ## Langkah 1: Buat Embeddings (Ingestion)
 
-Pertama, kita perlu mengubah data teks Anda menjadi angka (vektor) agar AI bisa mencarinya.
+Pertama, kita perlu mengubah data teks Kamu menjadi angka (vektor) agar AI bisa mencarinya.
 
 ```javascript
 import OpenAI from "openai";
 
 const client = new OpenAI({
   baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "KUNCI_API_ANDA"
+  apiKey: "KUNCI_API_KAMU"
 });
 
-// "Basis Pengetahuan" Anda
+// "Basis Pengetahuan" Kamu
 const documents = [
-  "Untuk mereset kata sandi Anda, buka Pengaturan > Keamanan > Reset Kata Sandi.",
-  "Kebijakan pengembalian dana kami memungkinkan pengembalian dalam 30 hari setelah pembelian. Hubungi support@neosantara.xyz dengan nomor pesanan Anda.",
+  "Untuk mereset kata sandi Kamu, buka Pengaturan > Keamanan > Reset Kata Sandi.",
+  "Kebijakan pengembalian dana kami memungkinkan pengembalian dalam 30 hari setelah pembelian. Hubungi support@neosantara.xyz dengan nomor pesanan Kamu.",
   "Jam dukungan adalah Senin sampai Jumat, jam 9 pagi sampai 5 sore WIB.",
   "Batas rate API Neosantara untuk tier Gratis adalah 1000 RPM."
 ];
@@ -118,7 +119,7 @@ async function answerUserQuestion(question, vectorStore) {
     messages: [
       {
         role: "system",
-        content: "Anda adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan. Jika jawaban tidak ada dalam konteks, katakan Anda tidak tahu."
+        content: "Kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan. Jika jawaban tidak ada dalam konteks, katakan Kamu tidak tahu."
       },
       {
         role: "user",
@@ -157,7 +158,7 @@ Pengguna bertanya: "Bagaimana cara dapat refund?"
 Konteks ditemukan:
 Kebijakan pengembalian dana kami...
 ...
-Jawaban AI: Untuk mendapatkan pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Anda.
+Jawaban AI: Untuk mendapatkan pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.
 
 Pengguna bertanya: "Bagaimana cara membuat kue?"
 Konteks ditemukan:

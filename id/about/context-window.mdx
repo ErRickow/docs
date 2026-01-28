@@ -3,7 +3,7 @@ title: 'Jendela Konteks (Context Window)'
 description: 'Memahami batas token dan jendela konteks untuk model Neosantara AI'
 ---
 
-**Jendela Konteks (Context Window)** adalah jumlah informasi maksimal yang dapat diproses oleh model dalam satu interaksi. Ini mencakup **Input** (prompt Anda, instruksi, riwayat percakapan) dan **Output** (respon model).
+**Jendela Konteks (Context Window)** adalah jumlah informasi maksimal yang dapat diproses oleh model dalam satu interaksi. Ini mencakup **Input** (promptmu, instruksi, riwayat percakapan) dan **Output** (respon model).
 
 <Card title="Dapatkan API Key" icon="key" href="https://app.neosantara.xyz/signup" horizontal>
   Daftar sekarang untuk mendapatkan **20.000 kredit gratis** dan mulai membangun dengan jendela konteks masif kami.
@@ -11,7 +11,7 @@ description: 'Memahami batas token dan jendela konteks untuk model Neosantara AI
 
 ## Batas Token per Model
 
-Setiap model memiliki kapasitas berbeda untuk "mengingat" konteks. Memilih model yang tepat bergantung pada apakah Anda perlu memproses dokumen panjang (konteks tinggi) atau hanya interaksi cepat (konteks standar).
+Setiap model memiliki kapasitas berbeda untuk "mengingat" konteks. Memilih model yang tepat bergantung pada apakah Kamu perlu memproses dokumen panjang (konteks tinggi) atau hanya interaksi cepat (konteks standar).
 
 | Model | Jendela Konteks (Input) | Maks Token Output | Terbaik Untuk |
 | :--- | :--- | :--- | :--- |
@@ -23,16 +23,16 @@ Setiap model memiliki kapasitas berbeda untuk "mengingat" konteks. Memilih model
 
 ### Memahami Angka
 
-*   **Jendela Konteks (Input)**: Batas untuk prompt + riwayat percakapan Anda. Jika Anda mengirim 10.000 token teks ke `LuminAI` (batas 8k), permintaan akan gagal atau terpotong.
-*   **Maks Output**: Batas apa yang dapat dihasilkan model dalam satu kali jalan. Meskipun `Garda-Beta-Mini` dapat membaca 131k token, ia "hanya" dapat menulis 8k token dalam satu waktu.
+* **Jendela Konteks (Input)**: Batas untuk prompt + riwayat percakapan Kamu. Jika Kamu mengirim 10.000 token teks ke `LuminAI` (batas 8k), permintaan akan gagal atau terpotong.
+* **Maks Output**: Batas apa yang dapat dihasilkan model dalam satu kali jalan. Meskipun `Garda-Beta-Mini` dapat membaca 131k token, ia "hanya" dapat menulis 8k token dalam satu waktu.
 
 ## Mengelola Konteks
 
-Ketika percakapan Anda tumbuh terlalu panjang, Anda mungkin mencapai batas. Neosantara menyediakan alat untuk menangani hal ini.
+Ketika percakapan Kamu tumbuh terlalu panjang, Kamu mungkin mencapai batas. Neosantara menyediakan tools untuk menangani hal ini.
 
 ### Pemotongan Otomatis (Automatic Truncation)
 
-Dalam **[Responses API](/api-reference/responses/create)**, Anda dapat menggunakan parameter `truncation`:
+Dalam **[Responses API](/api-reference/responses/create)**, Kamu dapat menggunakan parameter `truncation`:
 
 ```json
 {
@@ -42,12 +42,12 @@ Dalam **[Responses API](/api-reference/responses/create)**, Anda dapat menggunak
 }
 ```
 
-*   **`auto`**: Sistem akan secara otomatis membuang pesan terlama dari riwayat percakapan agar muat dalam batas model.
-*   **`disabled`** (default): API akan mengembalikan error jika batas konteks terlampaui.
+* **`auto`**: Sistem akan secara otomatis membuang pesan terlama dari riwayat percakapan agar muat dalam batas model.
+* **`disabled`** (default): API akan mengembalikan error jika batas konteks terlampaui.
 
 ### Menghitung Penggunaan
 
-Anda selalu dapat memeriksa kolom `usage` dalam respon API untuk melihat seberapa dekat Anda dengan batas:
+Kamu selalu dapat memeriksa kolom `usage` dalam respon API untuk melihat seberapa dekat Kamu dengan batas:
 
 ```json
 "usage": {
@@ -59,6 +59,6 @@ Anda selalu dapat memeriksa kolom `usage` dalam respon API untuk melihat seberap
 
 ## Butuh Lebih Banyak Konteks?
 
-Jika kasus penggunaan Anda memerlukan pemrosesan jutaan token (misalnya, menganalisis seluruh buku atau basis kode), pertimbangkan untuk menggunakan solusi **RAG (Retrieval-Augmented Generation)** kami atau memecah konten Anda menjadi potongan-potongan (chunks).
+Jika kasus penggunaan Kamu memerlukan pemrosesan jutaan token (misalnya, menganalisis seluruh buku atau basis kode), pertimbangkan untuk menggunakan solusi **RAG (Retrieval-Augmented Generation)** kami atau memecah konten Kamu menjadi potongan-potongan (chunks).
 
 [Hubungi Penjualan](mailto:sales@neosantara.xyz) untuk opsi perusahaan dengan batas yang lebih tinggi.

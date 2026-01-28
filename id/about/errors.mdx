@@ -4,6 +4,7 @@ description: 'Pahami cara menangani error dan troubleshooting pada API Neosantar
 ---
 
 API Neosantara AI menggunakan kode status HTTP standar:
+
 - **2xx**: Berhasil.
 - **4xx**: Error pada sisi permintaan (misal: parameter kurang, saldo habis).
 - **5xx**: Error pada sisi server Neosantara.
@@ -40,16 +41,16 @@ Error dikembalikan dalam objek JSON dengan pesan dan kode yang jelas.
 | :--- | :--- | :--- |
 | `context_window_exceeded` | Total token melebihi batas model. | Persingkat prompt atau gunakan model dengan context window lebih besar. |
 | `model_not_found` | ID model tidak ditemukan. | Periksa daftar model yang tersedia. |
-| `missing_required_parameter` | Parameter wajib (misal: `messages`) hilang. | Periksa dokumentasi endpoint yang Anda panggil. |
-| `invalid_api_key` | API key salah atau dicabut. | Verifikasi API key Anda di Dashboard. |
-| `insufficient_quota` | Saldo habis atau mencapai batas limit. | [Tambah kredit](https://app.neosantara.xyz/billing) pada akun Anda. |
-| `rate_limit_exceeded` | Permintaan terlalu cepat. | Gunakan strategi *exponential backoff* pada logika retry Anda. |
+| `missing_required_parameter` | Parameter wajib (misal: `messages`) hilang. | Periksa dokumentasi endpoint yang Kamu panggil. |
+| `invalid_api_key` | API key salah atau dicabut. | Verifikasi API key Kamu di Dashboard. |
+| `insufficient_quota` | Saldo habis atau mencapai batas limit. | [Tambah kredit](https://app.neosantara.xyz/billing) pada akunmu. |
+| `rate_limit_exceeded` | Permintaan terlalu cepat. | Gunakan strategi *exponential backoff* pada logika retry Kamu. |
 
 ## Penanganan Rate Limits
 
-Jika terkena limit (429), API akan menyertakan header indikator kapan Anda bisa mencoba lagi.
+Jika terkena limit (429), API akan menyertakan header indikator kapan Kamu bisa mencoba lagi.
 
-**Saran:** Gunakan strategi *exponential backoff*. Jika gagal dengan error 429, tunggu sebentar (misal: 1 detik), coba lagi, dan jika masih gagal, lipat gandakan waktu tunggu (2 detik, 4 detik, dst).
+**Saran:** Gunakan strategi *exponential backoff*. Jika gagal dengan error 429, tunggu sebentar (misal: 1 detik), coba lagi, dan jika masih gagal, lipat gkamukan waktu tunggu (2 detik, 4 detik, dst).
 
 ## Contoh Penanganan Programmatic
 
@@ -79,4 +80,5 @@ try {
   }
 }
 ```
+
 </CodeGroup>

@@ -13,7 +13,7 @@ Building a RAG system can be cost and data efficient without requiring technical
 
 ## Quickstart
 
-To build RAG, you first need to create a vector store by indexing your source documents using an embedding model of your choice. LlamaIndex provides libraries to [load and transform](https://docs.llamaindex.ai/en/stable/understanding/loading/loading.html#loading-data-ingestion) documents. After this step, you will create a VectorStoreIndex for your document objects with vector embeddings, and [store](https://docs.llamaindex.ai/en/stable/understanding/storing/storing.html) them in a vector store. LlamaIndex supports numerous vector stores. See the complete list of supported vector stores [here](https://docs.llamaindex.ai/en/stable/module_guides/storing/vector_stores.html). 
+To build RAG, you first need to create a vector store by indexing your source documents using an embedding model of your choice. LlamaIndex provides libraries to [load and transform](https://docs.llamaindex.ai/en/stable/understanding/loading/loading.html#loading-data-ingestion) documents. After this step, you will create a VectorStoreIndex for your document objects with vector embeddings, and [store](https://docs.llamaindex.ai/en/stable/understanding/storing/storing.html) them in a vector store. LlamaIndex supports numerous vector stores. See the complete list of supported vector stores [here](https://docs.llamaindex.ai/en/stable/module_guides/storing/vector_stores.html).
 
 Now when you have a query, you will retrieve relevant information from the vector store, augment it with your original query, and use an LLM to get your final output.
 
@@ -115,7 +115,7 @@ except Exception as e:
 
 ### Expected Output
 
-```
+```python
 Response: Neosantara is an AI platform that provides access to various language models and embedding services through its API, designed to support Indonesian and Southeast Asian language applications.
 ```
 
@@ -124,6 +124,7 @@ Response: Neosantara is an AI platform that provides access to various language 
 You can customize the RAG system further by:
 
 1. **Adjusting retrieval parameters:**
+
 ```python
 query_engine = index.as_query_engine(
     similarity_top_k=10,  # Retrieve more documents
@@ -131,7 +132,8 @@ query_engine = index.as_query_engine(
 )
 ```
 
-2. **Configuring LLM parameters:**
+1. **Configuring LLM parameters:**
+
 ```python
 llm = OpenAILike(
     model="llama-3.3-nemotron-super-49b-v1.5",

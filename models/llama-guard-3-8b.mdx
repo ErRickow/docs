@@ -60,6 +60,7 @@ const completion = await openai.chat.completions.create({
 
 console.log(completion.choices[0].message.content);
 ```
+
 </CodeGroup>
 
 ## Expected Output
@@ -67,6 +68,7 @@ console.log(completion.choices[0].message.content);
 The model returns a response indicating whether the input is `safe` or `unsafe`. If `unsafe`, it provides the category of the violation (e.g., `S2`).
 
 Example response:
+
 ```text
 unsafe
 S2

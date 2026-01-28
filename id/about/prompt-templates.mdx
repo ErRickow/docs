@@ -1,36 +1,36 @@
 --- 
 title: 'Template Prompt'
-description: '> Pelajari cara membuat dan menggunakan kembali prompt untuk menyederhanakan panggilan API Anda.'
+description: '> Pelajari cara membuat dan menggunakan kembali prompt untuk menyederhanakan panggilan API Kamu.'
 ---
 
-Template prompt memungkinkan Anda menyimpan dan mengelola prompt yang sering digunakan di platform Neosantara AI. Alih-alih mengirimkan set instruksi panjang dengan setiap panggilan API, Anda cukup mengirimkan ID unik template dan mengisi variabelnya. Ini membuat permintaan Anda lebih bersih, lebih cepat, dan lebih mudah dikelola.
+Template prompt memungkinkan Kamu menyimpan dan mengelola prompt yang sering digunakan di platform Neosantara AI. Alih-alih mengirimkan set instruksi panjang dengan setiap panggilan API, Kamu cukup mengirimkan ID unik template dan mengisi variabelnya. Ini membuat permintaan Kamu lebih bersih, lebih cepat, dan lebih mudah dikelola.
 
 -----
 
 ### 1. Membuat Template Prompt
 
-Anda dapat membuat template baru langsung dari dashboard pengguna Anda.
+Kamu dapat membuat template baru langsung dari dashboard pengguna Kamu.
 
-1. Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** Anda.
+1. Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** Kamu.
 2. Pilih bagian **"Prompt Templates"**.
 3. Klik tombol **"Create New Template"**.
 4. Isi formulir:
-      * **ID**: Pengenal unik yang dapat dibaca mesin untuk template Anda (misalnya, `asisten-dokter`, `penulis-email-formal`). Gunakan `kebab-case`.
-      * **Content**: Isi prompt Anda. Gunakan kurung kurawal ganda `{{nama_variabel}}` untuk mendefinisikan placeholder yang dapat Anda isi nanti selama panggilan API.
+      * **ID**: Pengenal unik yang dapat dibaca mesin untuk template Kamu (misalnya, `asisten-dokter`, `penulis-email-formal`). Gunakan `kebab-case`.
+      * **Content**: Isi promptmu. Gunakan kurung kurawal gkamu `{{nama_variabel}}` untuk mendefinisikan placeholder yang dapat Kamu isi nanti selama panggilan API.
 
 **Contoh Konten Template:**
 
 ```text
-Anda adalah dokter spesialis bernama {{nama_dokter}}. Sapa pasien, {{nama_pasien}}, dan tanyakan bagaimana Anda dapat membantu mereka dengan {{masalah_kesehatan}} mereka.
+Kamu adalah dokter spesialis bernama {{nama_dokter}}. Sapa pasien, {{nama_pasien}}, dan tanyakan bagaimana Kamu dapat membantu mereka dengan {{masalah_kesehatan}} mereka.
 ```
 
 -----
 
 ### 2. Menggunakan Template dalam Panggilan API
 
-Setelah template Anda disimpan, Anda dapat menggunakannya dengan memanggil endpoint `/v1/responses`. Alih-alih array `messages` standar, Anda akan memberikan objek `prompt`.
+Setelah template Kamu disimpan, Kamu dapat menggunakannya dengan memanggil endpoint `/v1/responses`. Alih-alih array `messages` standar, Kamu akan memberikan objek `prompt`.
 
-Objek `prompt` harus berisi `id` template Anda dan objek `variables` untuk mengisi placeholder yang Anda definisikan.
+Objek `prompt` harus berisi `id` template Kamu dan objek `variables` untuk mengisi placeholder yang Kamu definisikan.
 
 **Contoh Permintaan `curl`:**
 

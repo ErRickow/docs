@@ -8,15 +8,16 @@ This guide shows you how to build a "Real World" RAG application: a **Customer S
 ## What we're building
 
 We will build a system that:
-1.  **Reads** your support documents.
-2.  **Converts** them into vector embeddings using `nusa-embedding-0001`.
-3.  **Searches** for relevant info when a user asks a question.
-4.  **Generates** an accurate answer using `nusantara-base` or `garda-beta-mini`.
+
+1. **Reads** your support documents.
+2. **Converts** them into vector embeddings using `nusa-embedding-0001`.
+3. **Searches** for relevant info when a user asks a question.
+4. **Generates** an accurate answer using `nusantara-base` or `garda-beta-mini`.
 
 ## Prerequisites
 
-*   A Neosantara API Key.
-*   A simple vector store (we'll use a local in-memory example for simplicity, but you can use Pinecone, Supabase, or Qdrant).
+* A Neosantara API Key.
+* A simple vector store (we'll use a local in-memory example for simplicity, but you can use Pinecone, Supabase, or Qdrant).
 
 ---
 
@@ -59,7 +60,7 @@ async function createKnowledgeBase() {
   
   return vectorStore;
 }
-```
+```python
 
 ## Step 2: Search (Retrieval)
 
@@ -97,7 +98,7 @@ async function retrieveContext(query, vectorStore) {
   scoredDocs.sort((a, b) => b.score - a.score);
   return scoredDocs.slice(0, 2).map(d => d.text).join("\n\n");
 }
-```
+```python
 
 ## Step 3: Generate Answer (Generation)
 
@@ -128,7 +129,7 @@ async function answerUserQuestion(question, vectorStore) {
 
   console.log("AI Answer:", response.choices[0].message.content);
 }
-```
+```python
 
 ## Running the Full Example
 
@@ -147,7 +148,7 @@ async function main() {
 }
 
 main();
-```
+```python
 
 ### Expected Output
 
@@ -163,7 +164,7 @@ Found context:
 Support hours are Monday to Friday... (or other irrelevant context)
 ...
 AI Answer: I don't know. I can only help with support questions related to our services.
-```
+```python
 
 ## Why this matters?
 
@@ -177,12 +178,12 @@ For production-ready RAG applications, you'll need a scalable way to store and r
 
 The core RAG flow remains the same, but Step 1 (Create Embeddings) and Step 2 (Search) will involve interacting with your chosen vector database instead of a local in-memory array.
 
-### High-Level Steps for Pinecone Integration:
+### High-Level Steps for Pinecone Integration
 
-1.  **Setup Pinecone Index**: Initialize a Pinecone client and create an index with the appropriate `dimension` (e.g., 768 for `nusa-embedding-0001`).
-2.  **Upsert Embeddings**: When creating your knowledge base, instead of pushing to `vectorStore`, you'll `upsert` your document chunks and their corresponding embeddings to your Pinecone index.
-3.  **Query Pinecone**: For retrieval, embed the user's query and then use the Pinecone client to query your index for the top-k (e.g., top 2) most similar vectors. Pinecone handles the similarity calculation for you.
-4.  **Retrieve Full Context**: From the Pinecone query results, extract the original text content of the relevant documents to pass to the LLM.
+1. **Setup Pinecone Index**: Initialize a Pinecone client and create an index with the appropriate `dimension` (e.g., 768 for `nusa-embedding-0001`).
+2. **Upsert Embeddings**: When creating your knowledge base, instead of pushing to `vectorStore`, you'll `upsert` your document chunks and their corresponding embeddings to your Pinecone index.
+3. **Query Pinecone**: For retrieval, embed the user's query and then use the Pinecone client to query your index for the top-k (e.g., top 2) most similar vectors. Pinecone handles the similarity calculation for you.
+4. **Retrieve Full Context**: From the Pinecone query results, extract the original text content of the relevant documents to pass to the LLM.
 
 ```javascript
 // Example (conceptual):
@@ -201,12 +202,11 @@ async function retrievePineconeContext(query) {
   // const queryResult = await index.query({ vector: queryVector, topK: 2 });
   // return queryResult.matches.map(m => m.metadata.text).join("\n\n");
 }
-```
+```python
 
 By leveraging a robust vector database, your RAG application can scale to millions of documents while maintaining fast and accurate retrieval.
 
 For a complete, runnable example using ChromaDB, see our detailed guide: [Build a RAG Application with ChromaDB](/en/guides/rag-chromadb-example).
 For integrating with Cloudflare Vectorize, see: [Build a RAG Application with Cloudflare Vectorize](/en/guides/rag-cloudflare-vectorize-example).
 
-
-```
+```python

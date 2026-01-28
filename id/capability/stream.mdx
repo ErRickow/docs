@@ -3,27 +3,28 @@ title: 'Streaming Response'
 description: '> Terima sebagian hasil secara real-time saat sedang dibuat.'
 ---
 
-Streaming memungkinkan Anda menerima sebagian respon dari API saat sedang dibuat, daripada menunggu seluruh respon selesai. Ini dapat meningkatkan persepsi latensi dan pengalaman pengguna secara signifikan, terutama untuk hasil yang panjang.
+Streaming memungkinkan Kamu menerima sebagian respon dari API saat sedang dibuat, daripada menunggu seluruh respon selesai. Ini dapat meningkatkan persepsi latensi dan pengalaman pengguna secara signifikan, terutama untuk hasil yang panjang.
 
 ## Cara Kerja Streaming
 
-Neosantara AI API mengimplementasikan streaming menggunakan **Server-Sent Events (SSE)** ketika Anda mengatur parameter `stream: true` dalam permintaan Anda. Saat permintaan streaming dibuat:
+Neosantara AI API mengimplementasikan streaming menggunakan **Server-Sent Events (SSE)** ketika Kamu mengatur parameter `stream: true` dalam permintaan Kamu. Saat permintaan streaming dibuat:
 
-1.  **Header `Content-Type`**: API menetapkan header `Content-Type` ke `text/event-stream`.
-2.  **Potongan Data Parsial**: Server mengirim data dalam potongan-potongan kecil. Setiap potongan adalah sebuah event dengan tipe dan payload data tertentu.
-3.  **Sinyal Akhir Stream**: Stream diakhiri oleh event final, seperti `response.completed` atau pesan `data: [DONE]`, yang menunjukkan bahwa tidak ada lagi data yang akan dikirim.
+1. **Header `Content-Type`**: API menetapkan header `Content-Type` ke `text/event-stream`.
+2. **Potongan Data Parsial**: Server mengirim data dalam potongan-potongan kecil. Setiap potongan adalah sebuah event dengan tipe dan payload data tertentu.
+3. **Sinyal Akhir Stream**: Stream diakhiri oleh event final, seperti `response.completed` atau pesan `data: [DONE]`, yang menunjukkan bahwa tidak ada lagi data yang akan dikirim.
 
-Ini memungkinkan aplikasi klien Anda untuk menampilkan atau memproses konten yang dihasilkan secara bertahap.
+Ini memungkinkan aplikasi klien Kamu untuk menampilkan atau memproses konten yang dihasilkan secara bertahap.
 
 ## Penggunaan dengan SDK
 
-Anda dapat mengaktifkan streaming dengan mudah dengan mengatur `stream: true` di body permintaan Anda.
+Kamu dapat mengaktifkan streaming dengan mudah dengan mengatur `stream: true` di body permintaan Kamu.
 
 <Tabs>
 <Tab title="Responses API">
 Endpoint [`/v1/responses`](/api-reference/responses/create) menggunakan **stream berbasis event** yang modern.
 
-### Contoh Body Permintaan
+### Contoh Request Body Responses API
+
 ```json
 {
   "model": "nusantara-base",
@@ -49,12 +50,13 @@ data: {"type":"response.output_text.delta","delta":"streaming "}
 event: response.completed
 data: {"type":"response.completed","response":{...}}
 ```
+
 </Tab>
 
 <Tab title="Chat Completions API">
 Endpoint [`/v1/chat/completions`](/api-reference/chat) menyediakan streaming untuk kompatibilitas dengan integrasi OpenAI yang sudah ada. Mengirimkan stream objek `chat.completion.chunk`.
 
-### Contoh Body Permintaan
+### Contoh Request Body Chat Completions API
 
 ```json
 {

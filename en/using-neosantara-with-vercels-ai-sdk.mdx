@@ -9,19 +9,17 @@ The Vercel AI SDK is a powerful Typescript library designed to help developers b
 
 1. Install both the Vercel AI SDK and OpenAI's Vercel package.
 
-<CodeGroup>
-  ```bash npm icon="terminal"
-  npm i ai @ai-sdk/openai-compatible
-  ```
+```bash
+npm i ai @ai-sdk/openai-compatible
+```
 
-  ```bash yarn icon="terminal"
-  yarn add ai @ai-sdk/openai-compatible
-  ```
-</CodeGroup>
+```bash
+yarn add ai @ai-sdk/openai-compatible
+```
 
-2. Instantiate the Neosantara client and call the `generateText` function with nusantara-base to generate some text.
+1. Instantiate the Neosantara client and call the `generateText` function with nusantara-base to generate some text.
 
-```js TypeScript
+```javascript
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText } from 'ai';
 
@@ -40,8 +38,7 @@ console.log(text)
 ```
 
 ### Output
-
-```
+```text
 Luna, seekor kucing dengan bulu hitam pekat, sedang tidur siang di ambang jendela. Cahaya matahari menyentuh punggungnya yang lembut.
 
 Perlahan, sebuah dorongan halus muncul. Bukan dari cahaya, melainkan dari dalam perutnya. Ada kekosongan kecil, sebuah isyarat.
@@ -63,7 +60,7 @@ Saat mangkuk diletakkan di lantai, Luna tidak tergesa-gesa. Ia mendekat, mengend
 
 To stream from Neosantara AI models using the Vercel AI SDK, simply use `streamText` as seen below.
 
-```js TypeScript
+```javascript
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { streamText } from "ai";
 
@@ -88,7 +85,7 @@ main();
 
 ### Output
 
-```
+```text
 Introducing "Luminaria Day" - a joyous holiday celebrated on the spring equinox, marking the return of warmth and light to the world. This festive occasion is a time for family, friends, and community to come together, share stories, and bask in the radiance of the season.
 
 **Date:** Luminaria Day is observed on the spring equinox, typically around March 20th or 21st.

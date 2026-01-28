@@ -3,19 +3,47 @@ title: 'Integrasi'
 description: '> Gunakan model Neosantara AI melalui integrasi mitra.'
 ---
 
+## LangChain
+
+*LangChain adalah framework untuk mengembangkan aplikasi yang ditenagai oleh large language models (LLMs).*
+
+Instal paket `langchain-openai`.
+
+```bash
+pip install langchain-openai
+```
+
+Buat instance klien Neosantara dan panggil model tersebut.
+
+```python
+from langchain_openai import ChatOpenAI
+import os
+
+llm = ChatOpenAI(
+    model="nusantara-base",
+    openai_api_key=os.environ.get("NAI_API_KEY"),
+    openai_api_base="https://api.neosantara.xyz/v1",
+)
+
+response = llm.invoke("Apa keuntungan menggunakan API AI regional?")
+print(response.content)
+```
+
+Pelajari lebih lanjut di [Panduan LangChain](/id/langchain).
+
 ## Vercel AI SDK
 
 *Vercel AI SDK adalah library Typescript yang kuat yang dirancang untuk membantu pengembang membangun aplikasi bertenaga AI.*
 
 Instal Vercel AI SDK dan paket OpenAI Vercel.
 
-```shell Shell
+```bash
 npm i ai @ai-sdk/openai
 ```
 
 Buat instance klien Neosantara dan panggil fungsi generateText untuk menghasilkan teks.
 
-```typescript TypeScript icon="square-js"
+```typescript
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText } from 'ai';
 
@@ -33,7 +61,7 @@ const { text } = await generateText({
 console.log(text)
 ```
 
-Pelajari lebih lanjut di [Panduan Neosantara AI - Vercel AI SDK](/en/using-neosantara-with-vercels-ai-sdk).
+Pelajari lebih lanjut di [Panduan Neosantara AI - Vercel AI SDK](/id/using-neosantara-with-vercels-ai-sdk).
 
 ## LlamaIndex
 
@@ -41,14 +69,15 @@ Pelajari lebih lanjut di [Panduan Neosantara AI - Vercel AI SDK](/en/using-neosa
 
 Instal `llama-index`
 
-```shell Shell
+```bash
 pip install llama-index
 ```
 
 Berikut adalah contoh kode untuk memulai dengan Llama Index + Neosantara AI:
 
-```python Python icon="python"
+```python
 from llama_index.llms.openai_like import OpenAILike
+import os
 
 llm = OpenAILike(
     model="nusantara-base",
@@ -64,7 +93,7 @@ response = llm.complete("Tulis esai hingga 500 kata yang menjelaskan Large Langu
 print(response)
 ```
 
-Lihat [blog tutorial ini](/en/llama-index) untuk detail implementasi RAG menggunakan Neosantara dan LlamaIndex.
+Lihat [blog tutorial ini](/id/llama-index) untuk detail implementasi RAG menggunakan Neosantara dan LlamaIndex.
 
 ## CrewAI
 
@@ -72,14 +101,14 @@ Lihat [blog tutorial ini](/en/llama-index) untuk detail implementasi RAG menggun
 
 Instal `crewai`
 
-```shell Shell
+```bash
 pip install crewai
 export NAI_API_KEY=***
 ```
 
 Bangun alur kerja multi-agen:
 
-```python Python icon="python"
+```python
 import os
 from crewai import LLM, Task, Agent, Crew
 
@@ -92,7 +121,7 @@ research_agent = Agent(
     llm = llm,
     role="Analis Riset",
     goal="Temukan dan ringkas informasi tentang topik tertentu",
-    backstory="Anda adalah peneliti berpengalaman dengan perhatian terhadap detail",
+    backstory="Kamu adalah peneliti berpengalaman dengan perhatian terhadap detail",
     verbose=True  # Aktifkan logging untuk debugging
 )
 
@@ -102,7 +131,7 @@ research_task = Task(
     agent=research_agent
 )
 
-## Eksekusi crew
+# Eksekusi crew
 crew = Crew(
     agents=[research_agent],
     tasks=[research_task],
@@ -111,13 +140,13 @@ crew = Crew(
 
 result = crew.kickoff()
 
-## Mengakses output tugas
+# Mengakses output tugas
 task_output = research_task.output
 
 print(task_output)
 ```
 
-Pelajari lebih lanjut di [Panduan CrewAI](/en/crewai) kami.
+Pelajari lebih lanjut di [Panduan CrewAI](/id/crewai) kami.
 
 ## PydanticAI
 
@@ -125,19 +154,20 @@ Pelajari lebih lanjut di [Panduan CrewAI](/en/crewai) kami.
 
 Instal `pydantic-ai`
 
-```shell Shell
+```bash
 pip install pydantic-ai
 export NAI_API_KEY=***
 ```
 
 Bangun agen PydanticAI menggunakan model Neosantara AI
 
-```python Python icon="python"
+```python
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
+import os
 
-## Hubungkan PydanticAI ke LLM di Neosantara
+# Hubungkan PydanticAI ke LLM di Neosantara
 model = OpenAIChatModel(
     'nusantara-base',
     provider=OpenAIProvider(
@@ -146,7 +176,7 @@ model = OpenAIChatModel(
     ),
 )
 
-## Siapkan agen
+# Siapkan agen
 agent = Agent(
     model,
     system_prompt='Singkat, jawab dengan satu kalimat.',
@@ -156,11 +186,11 @@ result = agent.run_sync('Dari mana asal kata "hello world"?')
 print(result.output)
 ```
 
-Pelajari lebih lanjut di [Panduan PydanticAI](/en/pydantic-ai) kami.
+Pelajari lebih lanjut di [Panduan PydanticAI](/id/pydantic-ai) kami.
 
 ## Arcade.dev
 
-*Arcade adalah platform yang memungkinkan AI menggunakan alat seperti email, file, dan API dengan aman untuk mengambil tindakan nyata—bukan hanya mengobrol.*
+*Arcade adalah platform yang memungkinkan AI menggunakan Tools seperti email, file, dan API dengan aman untuk mengambil tindakan nyata—bukan hanya mengobrol.*
 
 Prasyarat:
 
@@ -168,77 +198,78 @@ Prasyarat:
 * Kunci API Arcade - lihat di sini [https://arcade.dev/](https://arcade.dev/)
 * Akun Gmail untuk terhubung via OAuth
 
-```shell Shell
-## instal paket yang diperlukan
-!pip install -qU openai arcadepy
+```bash
+# instal paket yang diperlukan
+pip install -qU openai arcadepy
 ```
 
 Konfigurasi Gmail:
 
 <CodeGroup>
-  ```python Python icon="python"
-  import os
-  from arcadepy import Arcade
-  from openai import OpenAI
 
-  ## Set environment variables
-  os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Ganti dengan kunci API Neosantara Anda
-  os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Ganti dengan kunci API Arcade Anda
+```python Python
+import os
+from arcadepy import Arcade
+from openai import OpenAI
 
-  ## Inisialisasi klien
-  nai_client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
-  arcade_client = Arcade()  # Secara otomatis menemukan variabel env ARCADE_API_KEY
+# Set environment variables
+os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Ganti dengan kunci API Neosantara kamu
+os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Ganti dengan kunci API Arcade kamu
 
-  ## Siapkan ID pengguna (email Anda)
-  USER_ID = "emailanda@gmail.com"  # Ubah ini ke email Anda
+# Inisialisasi klien
+nai_client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
+arcade_client = Arcade()  # Secara otomatis menemukan variabel env ARCADE_API_KEY
 
-  ## Otorisasi akses Gmail
-  auth_response = arcade_client.tools.authorize(
-      tool_name="Google.SendEmail",
-      user_id=USER_ID,
-  )
+# Siapkan ID pengguna (emailmu)
+USER_ID = "<emailkamu@gmail.com>"  # Ubah ini ke emailmu
 
-  if auth_response.status != "completed":
-      print(f"Klik tautan ini untuk mengotorisasi: {auth_response.url}")
-      # Tunggu otorisasi selesai
-      arcade_client.auth.wait_for_completion(auth_response)
+# Otorisasi akses Gmail
+auth_response = arcade_client.tools.authorize(
+    tool_name="Google.SendEmail",
+    user_id=USER_ID,
+)
 
-  print("Otorisasi selesai!")
-  ```
+if auth_response.status != "completed":
+    print(f"Klik tautan ini untuk mengotorisasi: {auth_response.url}")
+    # Tunggu otorisasi selesai
+    arcade_client.auth.wait_for_completion(auth_response)
+
+print("Otorisasi selesai!")
+```
 </CodeGroup>
 
 ## DSPy
 
-*DSPy adalah framework yang memungkinkan Anda membangun sistem AI modular dengan kode, bukan prompting manual.*
+*DSPy adalah framework yang memungkinkan kamu membangun sistem AI modular dengan kode, bukan prompting manual.*
 
 Instal `dspy`
 
-```shell Shell
+```bash
 pip install -U dspy
 export NAI_API_KEY=***
 ```
 
 Bangun agen penjawab pertanyaan
 
-```python Python icon="python"
+```python
 import dspy
 import os
 
-#Konfigurasi dspy dengan LLM dari Neosantara AI
-lm = dspy.LM('neosantara_ai/archipelago-70b', 
+# Konfigurasi dspy dengan LLM dari Neosantara AI
+lm = dspy.LM('openai/nusantara-base', 
              api_key=os.environ.get("NAI_API_KEY"), 
              api_base="https://api.neosantara.xyz/v1")
 
-#Konfigurasi dspy untuk menggunakan LLM
+# Konfigurasi dspy untuk menggunakan LLM
 dspy.configure(lm=lm)
 
-## Memberikan agen akses ke alat pencarian wikipedia
+# Memberikan agen akses ke Tools pencarian wikipedia
 def search_wikipedia(query: str):
     results = dspy.ColBERTv2(url='https://id.m.wikipedia.org/wiki/Prabowo_Subianto')(query, k=1) # Ambil hasil teratas 1
     return results[0]['text'] if results else "Tidak ada informasi relevan ditemukan."
 
 
-## siapkan modul ReAct dengan tanda tangan pertanyaan dan jawaban string
+# siapkan modul ReAct dengan signature pertanyaan dan jawaban string
 react = dspy.ReAct("question -> answer: str", tools=[search_wikipedia])
 
 pred = react(question="kapan prabowo lahir?")
@@ -246,7 +277,7 @@ pred = react(question="kapan prabowo lahir?")
 print(pred.answer)
 ```
 
-Pelajari lebih lanjut di [Panduan DSPy](/en/dspy) kami.
+Pelajari lebih lanjut di [Panduan DSPy](/id/dspy) kami.
 
 ## AutoGen(AG2)
 
@@ -254,66 +285,66 @@ Pelajari lebih lanjut di [Panduan DSPy](/en/dspy) kami.
 
 Instal `autogen`
 
-```shell Shell
+```bash
 pip install autogen
 export NAI_API_KEY=***
 ```
 
 Bangun agen pengodean
 
-```python Python icon="python"
+```python
 import os
 from pathlib import Path
 from autogen import AssistantAgent, UserProxyAgent
 from autogen.coding import LocalCommandLineCodeExecutor
 
-  config_list = [
-      {
-          # Mari pilih model Nusantara-Base
-          "model": "nusantara-base",
-          "base_url": "https://api.neosantara.xyz/v1",
-          # Berikan kunci API Neosantara.xyz Anda di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
+config_list = [
+    {
+        # Mari pilih model Nusantara-Base
+        "model": "nusantara-base",
+        "base_url": "https://api.neosantara.xyz/v1",
+        # Berikan kunci API Neosantara.xyz kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
         "api_key": os.environ.get("NAI_API_KEY"),
-          # Kami tentukan Tipe API sebagai 'openai' sehingga menggunakan kelas klien OpenAI
+        # Kami tentukan Tipe API sebagai 'openai' sehingga menggunakan kelas klien OpenAI
         "api_type": "openai",
         "stream": False,
         "price": [300/1000000*1000, 1500/1000000*1000] # Input: $300/Jt token, Output: $1500/Jt token
     }
 ]
 
-## Menyiapkan eksekutor kode
+# Menyiapkan eksekutor kode
 workdir = Path("coding")
 workdir.mkdir(exist_ok=True)
 code_executor = LocalCommandLineCodeExecutor(work_dir=workdir)
 
-## Menyiapkan agen
+# Menyiapkan agen
 
-## UserProxyAgent akan mengeksekusi kode yang diberikan AssistantAgent
+# UserProxyAgent akan mengeksekusi kode yang diberikan AssistantAgent
 user_proxy_agent = UserProxyAgent(
     name="User",
     code_execution_config={"executor": code_executor},
     is_termination_msg=lambda msg: "FINISH" in msg.get("content"),
 )
 
-system_message = """Anda adalah asisten AI yang membantu menulis kode dan pengguna mengeksekusinya.
-Selesaikan tugas menggunakan keterampilan pengodean dan bahasa Anda.
+system_message = """Kamu adalah asisten AI yang membantu menulis kode dan pengguna mengeksekusinya.
+Selesaikan tugas menggunakan keterampilan pengodean dan bahasa kamu.
 """
 
-## AssistantAgent, menggunakan model nusantara-base Neosantara, akan mengambil permintaan pengodean dan mengembalikan kode
+# AssistantAgent, menggunakan model nusantara-base Neosantara, akan mengambil permintaan pengodean dan mengembalikan kode
 assistant_agent = AssistantAgent(
     name="NAI Coding Assistant",
     system_message=system_message,
     llm_config={"config_list": config_list},
 )
 
-## Mulai obrolan, dengan UserProxyAgent meminta pesan ke AssistantAgent
+# Mulai obrolan, dengan UserProxyAgent meminta pesan ke AssistantAgent
 chat_result = user_proxy_agent.initiate_chat(
     assistant_agent,
     message="Berikan kode untuk menghitung jumlah bilangan prima dari 1 hingga 10000.",
 )
 ```
 
-Pelajari lebih lanjut di [Panduan Autogen](/en/autogen) kami.
+Pelajari lebih lanjut di [Panduan Autogen](/id/autogen) kami.
 
 ## Agno
 
@@ -321,13 +352,13 @@ Pelajari lebih lanjut di [Panduan Autogen](/en/autogen) kami.
 
 Instal `agno`
 
-```shell Shell
+```bash
 pip install -U agno ddgs
 ```
 
 Bangun agen pencarian dan jawaban
 
-```python Python icon="python"
+```python
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
 from agno.tools.duckduckgo import DuckDuckGoTools
@@ -345,7 +376,7 @@ agent = Agent(
 agent.print_response("Apa yang sedang terjadi di Indonesia?", stream=True)
 ```
 
-Pelajari lebih lanjut di [Panduan Agno](/en/agno) kami.
+Pelajari lebih lanjut di [Panduan Agno](/id/agno) kami.
 
 ## Pinecone
 
@@ -353,9 +384,10 @@ Pelajari lebih lanjut di [Panduan Agno](/en/agno) kami.
 
 Berikut adalah contoh kode untuk memulai dengan Pinecone + Neosantara AI:
 
-```python Python icon="python"
+```python
 from pinecone import Pinecone, ServerlessSpec
 from openai import OpenAI
+import os
 
 pc = Pinecone(
   api_key="PINECONE_API_KEY", 
@@ -366,7 +398,7 @@ nai = OpenAI(
     base_url="https://api.neosantara.xyz/v1"
 )
 
-## Buat indeks di pinecone
+# Buat indeks di pinecone
 index = pc.create_index(
     name="serverless-index",
     dimension=1536,
@@ -374,12 +406,12 @@ index = pc.create_index(
     spec=ServerlessSpec(cloud="aws", region="us-west-2"),
 )
 
-## Buat embedding di Neosantara AI
+# Buat embedding di Neosantara AI
 textToEmbed = "Tata surya kita mengorbit galaksi Bima Sakti dengan kecepatan sekitar 515.000 mph"
 embeddings = nai.embeddings.create(
     model="nusa-embedding-0001", 
-  	input=textToEmbed
+   input=textToEmbed
 )
 
-## Gunakan index.upsert() untuk memasukkan embeddings dan index.query() untuk mencari vektor serupa
+# Gunakan index.upsert() untuk memasukkan embeddings dan index.query() untuk mencari vektor serupa
 ```

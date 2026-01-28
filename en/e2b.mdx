@@ -49,7 +49,7 @@ For additional details on available methods, refer to the [E2B documentation](ht
 <Steps>
   <Step title="Create a Python Script">
     Create a new file, e.g., `index.py`, to hold your code. Ensure the file has a `.py` extension.
-    
+
     <Note>
     The script name can be customized (e.g., `index.py` or `my_script.py`), but it must be a valid `.py` file.
     </Note>
@@ -57,7 +57,7 @@ For additional details on available methods, refer to the [E2B documentation](ht
 
   <Step title="Configure Environment Variables">
     Create a `.env` file in your project directory to store your API keys:
-    
+
     ```env
     NAI_API_KEY=your_neosantara_api_key
     E2B_API_KEY=your_e2b_api_key
@@ -71,25 +71,25 @@ For additional details on available methods, refer to the [E2B documentation](ht
     - `nusantara-base` (default)
     - `archipelago-70b`
     - `Llama-3.3-Nemotron-Super-49B`
-    
+
     See the full list of models at [Neosantara Models](https://www.neosantara.xyz/models).
   </Step>
 
   <Step title="Dataset Information">
     The code interpreter uses a dataset located at `/home/user/data.csv` in the sandbox. The CSV file uses a comma (`,`) as the delimiter and contains the following columns:
-    
-    | Column Name | Example Value | Description |
-    |-------------|---------------|-------------|
-    | `country` | Argentina, Australia | Country name |
-    | `Region` | SouthAmerica, Oceania | Geographic region |
-    | `Surface area (km2)` | 2780400 | Land area in square kilometers |
-    | `Population in thousands (2017)` | 44271 | Population in thousands |
-    | `Population density (per km2, 2017)` | 16.2 | People per square kilometer |
-    | `Sex ratio (m per 100 f, 2017)` | 95.9 | Male-to-female ratio |
-    | `GDP: Gross domestic product (million current US$)` | 632343 | GDP in million USD |
-    | `GDP per capita (current US$)` | 14564.5 | GDP per person |
-    | `Life expectancy at birth, total (years)` | 76.4 | Average life expectancy |
-    | ... (and more) | | See the full list in the [example code](#example-code). |
+
+  | Column Name | Example Value | Description |
+  | ------------- | --------------- | ------------- |
+  | `country` | Argentina, Australia | Country name |
+  | `Region` | SouthAmerica, Oceania | Geographic region |
+  | `Surface area (km2)` | 2780400 | Land area in square kilometers |
+  | `Population in thousands (2017)` | 44271 | Population in thousands |
+  | `Population density (per km2, 2017)` | 16.2 | People per square kilometer |
+  | `Sex ratio (m per 100 f, 2017)` | 95.9 | Male-to-female ratio |
+  | `GDP: Gross domestic product (million current US$)` | 632343 | GDP in million USD |
+  | `GDP per capita (current US$)` | 14564.5 | GDP per person |
+  | `Life expectancy at birth, total (years)` | 76.4 | Average life expectancy |
+  | ... (and more) |  | See the full list in the [example code](#example-code). |
   </Step>
 </Steps>
 
@@ -269,12 +269,15 @@ first_result
 
 1. **Ensure the dataset** (`data.csv`) is in the same directory as your script.
 2. **Run the script** using:
+
    ```bash
    python index.py
    ```
+
 3. **View the output**: The script uploads the dataset, sends a task to the LLM, executes the generated Python code in the sandbox, and displays the result (e.g., a chart).
 
 ### Example Output
+
 The example task generates a scatter plot with a linear regression line showing the relationship between GDP per capita and life expectancy, filtered for valid data.
 
 ![Result Image](/images/result.png)

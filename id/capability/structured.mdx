@@ -1,15 +1,15 @@
 ---
 title: 'Output Terstruktur'
-description: '> Dapatkan respons terstruktur yang andal dari model AI kami dalam format JSON yang bersih, memudahkan integrasi langsung ke dalam aplikasi Anda.'
+description: '> Dapatkan respons terstruktur yang kamul dari model AI kami dalam format JSON yang bersih, memudahkan integrasi langsung ke dalam aplikasimu.'
 ---
 
 ### Pengantar
 
-Secara default, model bahasa menghasilkan teks biasa. Ini bagus untuk aplikasi seperti chatbot, tetapi menjadi sulit dikerjakan ketika Anda perlu mengekstrak detail spesifik dari respons secara terprogram.
+Secara default, model bahasa menghasilkan teks biasa. Ini bagus untuk aplikasi seperti chatbot, tetapi menjadi sulit dikerjakan ketika Kamu perlu mengekstrak detail spesifik dari respons secara terprogram.
 
-Beberapa model di platform Nusantara AI memiliki kemampuan untuk merespons dalam format JSON terstruktur. Fitur ini memungkinkan Anda bekerja langsung dengan data output model dalam kode aplikasi Anda tanpa parsing teks yang rumit.
+Beberapa model di platform Nusantara AI memiliki kemampuan untuk merespons dalam format JSON terstruktur. Fitur ini memungkinkan Kamu bekerja langsung dengan data output model dalam kode aplikasimu tanpa parsing teks yang rumit.
 
-Untuk mengaktifkan fitur ini, Anda hanya perlu menambahkan parameter `response_format` ke permintaan API Anda.
+Untuk mengaktifkan fitur ini, Kamu hanya perlu menambahkan parameter `response_format` ke permintaan API Kamu.
 
 -----
 
@@ -17,9 +17,9 @@ Untuk mengaktifkan fitur ini, Anda hanya perlu menambahkan parameter `response_f
 
 Hampir semua model pembuatan teks utama di platform Nusantara AI mendukung Mode JSON, termasuk:
 
-  * **`nusantara-base`**
-  * **`archipelago-70b`**
-  * **`garda-beta-mini`**
+* **`nusantara-base`**
+* **`archipelago-70b`**
+* **`garda-beta-mini`**
 
 Model visi seperti **`vision-emas-2045`** juga mendukung ekstraksi JSON dari gambar.
 
@@ -27,12 +27,12 @@ Model visi seperti **`vision-emas-2045`** juga mendukung ekstraksi JSON dari gam
 
 ### Menangani dan Mem-parsing Respons
 
-Model yang berbeda mungkin mengembalikan JSON dalam format yang sedikit berbeda. Untuk memastikan aplikasi Anda tangguh, yang terbaik adalah mem-parsing respons dengan fungsi pembantu yang dapat menangani variasi ini. Beberapa model membungkus JSON dalam blok markdown (misalnya, ` ```json ... ``` `), sementara yang lain mungkin menumpuk string JSON di dalam objek JSON lain.
+Model yang berbeda mungkin mengembalikan JSON dalam format yang sedikit berbeda. Untuk memastikan aplikasimu tangguh, yang terbaik adalah mem-parsing respons dengan fungsi pembantu yang dapat menangani variasi ini. Beberapa model membungkus JSON dalam blok markdown (misalnya, ` ```json ... ``` `), sementara yang lain mungkin menumpuk string JSON di dalam objek JSON lain.
 
 Contoh berikut menyertakan fungsi parsing yang tangguh.
 
 <Info>
-Anda **harus** menginstruksikan model untuk merespons hanya dalam format JSON dalam system prompt atau pesan pengguna Anda, selain menyertakan parameter `response_format`.
+Kamu **harus** menginstruksikan model untuk merespons hanya dalam format JSON dalam system prompt atau pesan pengguna Kamu, selain menyertakan parameter `response_format`.
 </Info>
 
 <CodeGroup dropdown>
@@ -56,7 +56,7 @@ curl https://api.neosantara.xyz/v1/chat/completions \
 ```
 
 ````python python icon="python"
-# Anda perlu menginstal: pip install openai
+# Kamu perlu menginstal: pip install openai
 import json
 import re
 from openai import OpenAI
@@ -97,7 +97,7 @@ def main():
             messages=[
                 {
                     "role": "system",
-                    "content": "Anda adalah asisten yang membantu menyediakan resep dalam format JSON terstruktur. Pastikan respons HANYA objek JSON."
+                    "content": "Kamu adalah asisten yang membantu menyediakan resep dalam format JSON terstruktur. Pastikan respons HANYA objek JSON."
                 },
                 {
                     "role": "user",
@@ -125,13 +125,14 @@ def main():
 
 main()
 ````
+
 </CodeGroup>
 
 -----
 
 ### Hasil yang Diharapkan
 
-Setelah menjalankan salah satu contoh di atas, variabel `output` Anda akan berisi objek JSON yang bersih dan terurai:
+Setelah menjalankan salah satu contoh di atas, variabel `output` Kamu akan berisi objek JSON yang bersih dan terurai:
 
 ```json
 {
@@ -147,4 +148,4 @@ Setelah menjalankan salah satu contoh di atas, variabel `output` Anda akan beris
 }
 ```
 
-Dengan menggunakan fungsi parsing yang tangguh di sisi klien, Anda dapat menangani data terstruktur dari model apa pun di platform Nusantara AI dengan andal.
+Dengan menggunakan fungsi parsing yang tangguh di sisi klien, Kamu dapat menangani data terstruktur dari model apa pun di platform Nusantara AI dengan kamul.

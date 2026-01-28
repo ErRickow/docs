@@ -1,0 +1,199 @@
+---
+title: 'Contoh Lanjutan & Praktik Terbaik'
+description: 'Pola siap produksi untuk menggunakan API Neosantara dengan berbagai endpoint.'
+---
+
+Panduan ini mencakup pola tingkat produksi untuk menggunakan API Neosantara AI di seluruh endpoint Kompatibel OpenAI, Kompatibel Anthropic, dan API Responses. Fokusnya adalah pada kekamulan, performa, dan pemeliharaan.
+
+## Keamanan & Manajemen Kunci
+
+<Warning>
+**Jangan pernah menulis kunci API secara langsung (*hard-code*)** atau mengeksposnya dalam kode sisi klien (browser, aplikasi seluler). Siapa pun yang memiliki akses ke kunci Kamu dapat menggunakan kredit Kamu.
+</Warning>
+
+### Praktik Terbaik
+
+- **Sisi Server Saja**: Selalu panggil API Neosantara dari backend Kamu. Jika Kamu harus menggunakannya di frontend, buat endpoint proxy di server Kamu.
+- **Variabel Lingkungan**: Gunakan file `.env` dan `process.env` (Node) atau `os.getenv` (Python) untuk menyimpan kunci.
+- **Rotasi Kunci**: Putar kunci API Kamu secara berkala melalui [Dashboard Neosantara](https://app.neosantara.xyz).
+
+## Observabilitas & Debugging
+
+Setiap permintaan ke Neosantara mengembalikan `request_id` dalam header atau bodi respons. Selalu catat ID ini bersama dengan log aplikasi Kamu.
+
+```javascript
+const response = await fetch("https://api.neosantara.xyz/v1/chat/completions", { ... });
+const requestId = response.headers.get("x-request-id");
+console.log(`Neosantara Request ID: ${requestId}`);
+// Catat ini ke sistem pemantauan Kamu (Sentry, Datadog, dll.)
+```
+
+## Permintaan Batch & Paralel
+
+- Python (async) menggunakan `httpx` untuk mengeluarkan permintaan paralel
+
+```python
+import asyncio
+import httpx
+
+BASE = "https://api.neosantara.xyz/v1"
+API_KEY = "<KUNCI_API_ANDA>"
+ENDPOINT = f"{BASE}/v1/chat/completions"  # contoh; sesuaikan per endpoint
+
+async def fetch(session, payload):
+    headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+    async with session.post(ENDPOINT, json=payload, headers=headers) as resp:
+        return await resp.json()
+
+async def main():
+    async with httpx.AsyncClient() as session:
+        tasks = []
+        prompts = [
+            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]},
+            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Ceritakan sebuah cerita"}]}
+        ]
+        for p in prompts:
+            payload = p
+            tasks.append(asyncio.create_task(fetch(session, payload)))
+        results = await asyncio.gather(*tasks)
+        print(results)
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+- Node.js (`Promise.all`)
+
+```javascript
+const fetchResponse = async (payload) => {
+  const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KUNCI_API_ANDA>' },
+    body: JSON.stringify(payload),
+  })
+  return res.json()
+}
+
+async function main() {
+  const prompts = [
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Halo' }] },
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Ceritakan sebuah cerita' }] }
+  ]
+  const results = await Promise.all(prompts.map(p => fetchResponse(p)))
+  console.log(results)
+}
+
+main()
+```
+
+## Upaya Ulang & Toleransi Kesalahan
+
+- Python (`tenacity`)
+
+```python
+from tenacity import retry, wait_exponential, stop_after_attempt
+import requests
+
+@retry(wait=wait_exponential(min=1, max=10), stop=stop_after_attempt(3))
+def call_api(payload):
+    resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", 
+                         json=payload, 
+                         headers={"Authorization": "Bearer <API_KEY>"})
+    resp.raise_for_status()
+    return resp.json()
+```
+
+- JavaScript (wrapper upaya ulang)
+
+```javascript
+async function callWithRetry(payload, retries = 3) {
+  const url = 'https://api.neosantara.xyz/v1/chat/completions'
+  const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer <API_KEY>' }
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) })
+      if (!res.ok) throw new Error('Permintaan gagal')
+      return await res.json()
+    } catch (e) {
+      if (i === retries - 1) throw e
+      await new Promise(r => setTimeout(r, Math.min(1000 * Math.pow(2, i), 8000)))
+    }
+  }
+}
+```
+
+## Caching & Idempotensi
+
+- Cache sederhana dalam memori
+
+```javascript
+const cache = new Map()
+async function cachedCall(payload) {
+  const key = JSON.stringify(payload)
+  if (cache.has(key)) return cache.get(key)
+  const res = await fetch('https://api.neosantara.xyz/v1/chat/completions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer <API_KEY>' , 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  const data = await res.json()
+  cache.set(key, data)
+  return data
+}
+```
+
+## Streaming & Pengalaman Real-Time
+
+- Contoh (Python)
+
+```python
+import requests
+import json
+
+def stream_call(payload):
+    payload['stream'] = True
+    headers = {"Authorization": "Bearer <API_KEY>"}
+    response = requests.post("https://api.neosantara.xyz/v1/chat/completions", 
+                             json=payload, stream=True, headers=headers)
+    
+    for line in response.iter_lines():
+        if line:
+            line = line.decode('utf-8').replace('data: ', '')
+            if line == '[DONE]': break
+            try:
+                data = json.loads(line)
+                content = data['choices'][0]['delta'].get('content', '')
+                print(content, end='', flush=True)
+            except: continue
+```
+
+- Contoh (Node.js)
+
+```javascript
+const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) });
+const reader = response.body.getReader();
+const decoder = new TextDecoder();
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  const chunk = decoder.decode(value);
+  console.log(chunk);
+}
+```
+
+## Pola Produksi & Praktik Terbaik
+
+- Gunakan klien API khusus per lingkungan (dev/stage/prod)
+- Aktifkan rotasi token sisi server dan penyimpanan aman untuk kunci API
+- Pusatkan penanganan kesalahan dan kebijakan upaya ulang
+- Catat kejadian terstruktur untuk observabilitas (`request_id`, model, token yang digunakan)
+- Kesadaran batas penggunaan per endpoint dan tingkat layanan
+
+<CardGroup cols={2}>
+  <Card title="Pengenalan API" icon="code" href="/id/api-introduction">
+    Pelajari spesifikasi endpoint dan detail parameter.
+  </Card>
+  <Card title="Batas Penggunaan" icon="gauge-high" href="/id/api-rate-limits">
+    Tinjau kuota dan panduan pembatasan.
+  </Card>
+</CardGroup>

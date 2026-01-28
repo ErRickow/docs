@@ -1,0 +1,114 @@
+---
+title: "Tools Bantu Pengodean AI"
+description: "Konfigurasi Neosantara AI dengan asisten pengodean populer seperti Claude Code, Cursor, Cline, dan lainnya."
+---
+
+Neosantara AI menyediakan kompatibilitas penuh dengan format API OpenAI dan Anthropic, memudahkanmu menggunakan model canggih seperti `nusantara-base` atau `garda-beta-mini` langsung di dalam tools pengembangan favoritmu.
+
+<Note>
+  Neosantara AI menggunakan sistem penagihan **Hybrid Quota + Pay-As-You-Go**. Pastikan Kamu memiliki saldo aktif atau kuota yang cukup di [Dashboard](https://app.neosantara.xyz/billing) sebelum memulai.
+</Note>
+
+## Gunakan Neosantara di Claude Code (CLI)
+
+Claude Code adalah agen CLI berperforma tinggi yang dapat mencari, mengedit kode, dan mengeksekusi perintah terminal.
+
+### Konfigurasi API Neosantara
+
+<Warning>
+  **Penting: Hapus Variabel Lingkungan Anthropic**
+  Sebelum mengonfigurasi, pastikan Kamu menghapus variabel Anthropic yang ada untuk menghindari konflik:
+  `unset ANTHROPIC_AUTH_TOKEN`
+  `unset ANTHROPIC_BASE_URL`
+</Warning>
+
+1. Edit atau buat file konfigurasi Claude Code di `~/.claude/settings.json`.
+2. Tambahkan konfigurasi `env` berikut:
+
+* **ANTHROPIC_BASE_URL**: `https://api.neosantara.xyz/anthropic`
+* **ANTHROPIC_AUTH_TOKEN**: Kunci API Neosantara milikmu.
+* **ANTHROPIC_MODEL**: `nusantara-base` (Direkomendasikan untuk pengodean).
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "<KUNCI_API_NEOSANTARA_KAMU>",
+    "API_TIMEOUT_MS": "3600000",
+    "ANTHROPIC_MODEL": "nusantara-base",
+    "ANTHROPIC_SMALL_FAST_MODEL": "garda-beta-mini",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "nusantara-base",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "garda-beta-mini"
+  }
+}
+```
+
+1. Jalankan `claude` di terminalmu dan pilih **Trust This Folder** untuk memulai.
+
+---
+
+## Gunakan Neosantara di Cursor
+
+Cursor adalah IDE bertenaga AI yang dibangun di atas VS Code yang mendukung penyedia model kustom.
+
+### Langkah Konfigurasi Cursor
+
+1. Buka Pengaturan Cursor (**Cmd+Shift+J** atau **Ctrl+Shift+J**).
+2. Buka **Models** > **OpenAI API Key**.
+3. Klik **"Override OpenAI Base URL"** dan masukkan:
+   `https://api.neosantara.xyz/v1`
+4. Masukkan Kunci API Neosantara milikmu di kolom API Key.
+5. Klik **"Add Custom Model"** dan masukkan `nusantara-base`.
+6. Aktifkan model `nusantara-base` dan nonaktifkan yang lain jika Kamu ingin memaksa penggunaan Neosantara.
+
+---
+
+## Gunakan Neosantara di Cline / Roo Code
+
+Cline dan Roo Code adalah ekstensi VS Code yang kuat untuk pengodean otonom.
+
+### Langkah Konfigurasi Cline / Roo Code
+
+1. Klik ikon Cline/Roo Code di bilah samping.
+2. Buka **Settings**.
+3. Di bawah **API Provider**, pilih **OpenAI Compatible**.
+4. Atur **Base URL** ke: `https://api.neosantara.xyz/v1`
+5. Atur **API Key** ke Kunci API Neosantara milikmu.
+6. Atur **Model ID** ke `nusantara-base`.
+7. Pastikan **Context Window** diatur minimal `64000`.
+
+---
+
+## Gunakan Neosantara di TRAE
+
+TRAE adalah IDE AI adaptif yang mendukung konfigurasi model kustom.
+
+### Langkah Konfigurasi TRAE
+
+1. Buka **Settings** > **Models**.
+2. Klik **+ Add Model**.
+3. Masukkan Konfigurasi:
+   * **Provider**: OpenAI Compatible
+   * **Base URL**: `https://api.neosantara.xyz/v1`
+   * **Model Name**: `nusantara-base`
+   * **API Key**: Kunci API Neosantara milikmu.
+4. Klik **Save** dan pilih `nusantara-base` di panel chat.
+
+---
+
+## Pemecahan Masalah
+
+### API Error: Model Not Found
+
+Pastikan Kamu menggunakan base URL yang benar:
+
+* Gunakan `/anthropic` untuk tools yang mengharapkan format Anthropic (Claude Code, Droid).
+* Gunakan `/v1` untuk tools yang mengharapkan format OpenAI (Cursor, Cline, Trae).
+
+### Error: Missing Capability
+
+Beberapa tools (seperti Claude CLI) memerlukan **Function Calling**. Pastikan Kamu menggunakan model yang mendukungnya, seperti `nusantara-base` atau `claude-3-haiku`.
+
+### Masalah Saldo
+
+Jika Kamu menerima error `402 Payment Required` atau `insufficient_quota`, silakan periksa saldomu di [app.neosantara.xyz/billing](https://app.neosantara.xyz/billing).

@@ -1,0 +1,39 @@
+---
+title: 'Otentikasi'
+description: 'Cara melakukan otentikasi terhadap endpoint API Neosantara.'
+---
+
+API Neosantara mendukung metode otentikasi standar di seluruh endpoint.
+
+## Metode
+
+- Bearer Token (Kunci API di header Authorization)
+- Header Kunci API (misalnya, `x-api-key`)
+- Variabel lingkungan (direkomendasikan untuk pengembangan lokal)
+
+## Cara Penggunaan
+
+- Atur header Authorization: `Authorization: Bearer <KUNCI_API_ANDA>`
+- Atau berikan kunci API melalui header seperti `x-api-key: <KUNCI>` tergantung pada perpustakaan klien yang digunakan.
+- Untuk aplikasi berbasis browser, gunakan backend yang aman untuk memproksi permintaan dan menjaga kerahasiaan kunci.
+
+## Contoh
+
+Python
+
+```python
+import requests
+headers = {"Authorization": "Bearer <KUNCI_API_ANDA>"}
+payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]}
+resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
+```
+
+JavaScript
+
+```js
+const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KUNCI_API_ANDA>' },
+  body: JSON.stringify(payload)
+})
+```

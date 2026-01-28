@@ -1,0 +1,27 @@
+---
+title: 'Batas Penggunaan API'
+description: 'Panduan kuota dan pembatasan per endpoint dan tingkat layanan.'
+---
+
+Halaman ini mendokumentasikan batas penggunaan (*rate limits*) untuk endpoint API Neosantara. Batas ini bervariasi berdasarkan endpoint dan tingkat layanan (*service tier*).
+
+## Batas Global & Per-Tingkat
+
+- **Free / Starter**: Kuota lebih rendah, waktu tunggu (*cooldown*) lebih lama.
+- **Pro / Enterprise**: Kuota lebih tinggi dan kapasitas *burst* yang lebih besar.
+
+## Batas Per-Endpoint (Contoh)
+
+- **Kompatibel OpenAI**: Kuota per-model dan per-kunci.
+- **Kompatibel Anthropic**: Kuota per-model dengan pertimbangan penggunaan tools (*tooling*).
+- **API Responses**: Kuota yang ditingkatkan dengan konteks stateful.
+
+## Panduan Upaya Ulang (*Retry*)
+
+- Gunakan *exponential backoff* dengan *jitter*.
+- Hormati header `Retry-After` jika disediakan oleh server.
+
+## Pemantauan & Observabilitas
+
+- Catat jumlah permintaan, latensi, dan tingkat kesalahan berdasarkan endpoint.
+- Pantau metrik di sisi klien untuk menjaga kuota tetap sehat.

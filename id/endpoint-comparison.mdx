@@ -1,0 +1,392 @@
+---
+title: 'Perbandingan Endpoint API'
+description: 'Bandingkan endpoint API Neosantara AI untuk memilih yang terbaik bagi kasus penggunaan Kamu.'
+---
+
+Neosantara AI menyediakan beberapa endpoint API, masing-masing dioptimalkan untuk kasus penggunaan yang berbeda. Panduan ini membantu Kamu memilih endpoint yang tepat dan memahami perbedaan utama di antara mereka.
+
+## Perbandingan Cepat
+
+| Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
+| --------- | ------------------- | --------------------- | ---------------- |
+| **Endpoint** | `/v1/chat/completions` | `/anthropic/v1/messages` | `/v1/responses` |
+| **Manajemen Status** | ❌ Stateless | ❌ Stateless | ✅ Stateful |
+| **Format Input** | Array `messages` | Array `messages` | `string` atau array |
+| **Pemanggilan Tools** | ✅ Format standar | ✅ Skema tools | ✅ Ditingkatkan |
+| **Streaming** | ✅ SSE | ✅ SSE | ✅ SSE |
+| **Otentikasi** | Token Bearer | Token Bearer | Token Bearer |
+| **Upaya Migrasi** | 🟢 Minimal | 🟡 Sedang | 🟢 Rendah |
+| **Terbaik Untuk** | Aplikasi OpenAI yang ada | Ekosistem Anthropic | Aplikasi Baru |
+
+<Tip>
+  **Rekomendasi**: Gunakan API Responses untuk aplikasi baru, Kompatibel OpenAI untuk aplikasi berbasis OpenAI yang sudah ada, dan Kompatibel Anthropic untuk integrasi ekosistem Anthropic.
+</Tip>
+
+## Matriks Fitur Detail
+
+### Fungsionalitas Inti
+
+| Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
+| --------- | ------------------- | --------------------- | ---------------- |
+| Chat completion | ✅ | ✅ | ✅ |
+| Pemanggilan tools/fungsi | ✅ | ✅ | ✅ |
+| Respons streaming | ✅ | ✅ | ✅ |
+| Input gambar (visi) | ✅ | ✅ | ✅ |
+| System prompt | ✅ | ✅ | ✅ |
+| Kontrol suhu (temperature) | ✅ | ✅ | ✅ |
+| Batas token | ✅ | ✅ | ✅ |
+
+### Fitur Lanjutan
+
+| Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
+| --------- | ------------------- | --------------------- | ---------------- |
+| Manajemen status percakapan | ❌ | ❌ | ✅ `store: true` |
+| Penanganan konteks otomatis | ❌ | ❌ | ✅ |
+| Format output terpadu | ❌ | ❌ | ✅ |
+| Mode berpikir (thinking) diperluas | ❌ | ❌ | ✅ |
+| Logika upaya ulang bawaan | ❌ | ❌ | ✅ |
+
+### Pengalaman Pengembangan
+
+| Aspek | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
+| --------- | ------------------- | --------------------- | ---------------- |
+| Dukungan SDK | 🟢 Sangat Baik | 🟢 Sangat Baik | 🟡 Terbatas |
+| Kompatibilitas library | 🟢 Universal | 🟡 Khusus Anthropic | 🟡 Terbatas |
+| Kurva pembelajaran | 🟢 Rendah | 🟡 Sedang | 🟡 Rendah |
+| Kemudahan debugging | 🟢 Standar | 🟢 Standar | 🟢 Ditingkatkan |
+| Penanganan kesalahan | 🟢 Standar | 🟢 Standar | 🟢 Ditingkatkan |
+
+## Rekomendasi Kasus Penggunaan
+
+### Pilih Kompatibel OpenAI Jika
+
+- ✅ **Memigrasikan aplikasi OpenAI yang ada**
+- ✅ **Menggunakan library seperti LangChain, LlamaIndex**
+- ✅ **Membutuhkan kompatibilitas SDK maksimum**
+- ✅ **Tim sudah memahami format OpenAI**
+- ✅ **Prioritas integrasi cepat**
+
+**Contoh Kasus Penggunaan:**
+
+```python
+# Sempurna untuk aplikasi OpenAI yang sudah ada
+from openai import OpenAI
+
+client = OpenAI(base_url="https://api.neosantara.xyz/v1")
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Halo!"}]
+)
+```
+
+### Pilih Kompatibel Anthropic Jika
+
+- ✅ **Menggunakan Claude Code atau SDK Anthropic**
+- ✅ **Membutuhkan kemampuan pemanggilan tools tingkat lanjut**
+- ✅ **Lebih menyukai format pesan Anthropic**
+- ✅ **Membangun dengan tools ekosistem Claude**
+- ✅ **Memerlukan mode penalaran yang canggih**
+
+**Contoh Kasus Penggunaan:**
+
+```python
+# Terbaik untuk ekosistem Anthropic
+import anthropic
+
+client = anthropic.Anthropic(base_url="https://api.neosantara.xyz/anthropic")
+message = client.messages.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Halo!"}]
+)
+```
+
+### Pilih API Responses Jika
+
+- ✅ **Memulai aplikasi baru**
+- ✅ **Menginginkan percakapan yang stateful**
+- ✅ **Membutuhkan input/output yang disederhanakan**
+- ✅ **Membangun aplikasi berbasis agen**
+- ✅ **Lebih menyukai desain API modern**
+
+**Contoh Kasus Penggunaan:**
+
+```python
+# Ideal untuk aplikasi baru
+from openai import OpenAI
+
+client = OpenAI(base_url="https://api.neosantara.xyz/v1")
+response = client.responses.create(
+    model="nusantara-base",
+    input="Halo! Ceritakan tentang dirimu.",
+    store=True  # Manajemen percakapan otomatis
+)
+```
+
+## Panduan Migrasi
+
+### Dari Kompatibel OpenAI ke API Responses
+
+```python
+# Sebelum (Kompatibel OpenAI)
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "system", "content": "Kamu membantu."},
+        {"role": "user", "content": "Halo!"}
+    ],
+    tools=[...],
+    stream=True
+)
+
+# Sesudah (API Responses)
+response = client.responses.create(
+    model="nusantara-base",
+    input="Halo! Ceritakan tentang dirimu.",
+    system="Kamu membantu.",
+    tools=[...],
+    store=True,  # Manajemen status otomatis
+    stream=True
+)
+
+# Akses output yang disederhanakan
+print(response.output_text)
+```
+
+### Dari Kompatibel Anthropic ke API Responses
+
+```python
+# Sebelum (Kompatibel Anthropic)
+message = client.messages.create(
+    model="nusantara-base",
+    system="Kamu membantu.",
+    messages=[
+        {"role": "user", "content": [{"type": "text", "text": "Halo!"}]}
+    ],
+    tools=[...]
+)
+
+# Sesudah (API Responses)
+response = client.responses.create(
+    model="nusantara-base",
+    input="Halo! Ceritakan tentang dirimu.",
+    system="Kamu membantu.",
+    tools=[...],
+    store=True
+)
+
+# Akses konten secara langsung
+print(response.output_text)
+```
+
+## Pertimbangan Performa
+
+### Perbandingan Latensi
+
+| Endpoint | Latensi Rata-rata | Latensi P95 | Catatan |
+| --------- | ------------------ | -------------- | ------- |
+| Kompatibel OpenAI | ~200ms | ~400ms | Performa konsisten |
+| Kompatibel Anthropic | ~220ms | ~450ms | Sedikit lebih tinggi untuk parsing tools |
+| API Responses | ~180ms | ~350ms | Dioptimalkan untuk aplikasi baru |
+
+### Karakteristik Throughput
+
+| Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
+| --------- | ------------------- | --------------------- | ---------------- |
+| Permintaan bersamaan | ✅ Tinggi | ✅ Tinggi | ✅ Tinggi |
+| Efisiensi streaming | 🟢 Standar | 🟢 Standar | 🟢 Dioptimalkan |
+| Penggunaan memori | 🟡 Sedang | 🟡 Sedang | 🟢 Lebih rendah dengan status |
+| Penggunaan kembali koneksi | 🟢 Standar | 🟢 Standar | 🟢 Ditingkatkan |
+
+### Batas Penggunaan (Rate Limits)
+
+| Endpoint | Pembatasan | Kapasitas Burst |
+| --------- | ---------------- | ----------------- |
+| Kompatibel OpenAI | Per-model, per-kunci | Standar |
+| Kompatibel Anthropic | Per-model, per-kunci | Standar |
+| API Responses | Per-model, per-kunci | Ditingkatkan dengan store |
+
+## Contoh Kode Berdasarkan Kasus Penggunaan
+
+### Aplikasi Chat
+
+<CodeGroup>
+
+```python
+from openai import OpenAI
+
+client = OpenAI(base_url="https://api.neosantara.xyz/v1")
+
+def chat_with_history(message_history, new_message):
+    response = client.chat.completions.create(
+        model="nusantara-base",
+        messages=message_history + [new_message]
+    )
+    return response.choices[0].message.content
+```
+
+```python
+import anthropic
+
+client = anthropic.Anthropic(base_url="https://api.neosantara.xyz/anthropic")
+
+def chat_with_history(message_history, new_message):
+    response = client.messages.create(
+        model="nusantara-base",
+        messages=message_history + [new_message]
+    )
+    return response.content[0].text
+```
+
+```python
+from openai import OpenAI
+
+client = OpenAI(base_url="https://api.neosantara.xyz/v1")
+
+def chat_stateful(user_input, previous_id=None):
+    response = client.responses.create(
+        model="nusantara-base",
+        input=user_input,
+        previous_response_id=previous_id,
+        store=True
+    )
+    return response.output_text, response.id
+```
+</CodeGroup>
+
+### Pemanggilan Tools (Tool Calling)
+
+<CodeGroup>
+
+```python
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Ambil cuaca",
+        "parameters": {
+            "type": "object",
+            "properties": {"location": {"type": "string"}},
+            "required": ["location"]
+        }
+    }
+}]
+
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Bagaimana cuacanya?"}],
+    tools=tools
+)
+
+tool_calls = response.choices[0].message.tool_calls
+```
+
+```python
+tools = [{
+    "name": "get_weather",
+    "description": "Ambil cuaca",
+    "input_schema": {
+        "type": "object",
+        "properties": {"location": {"type": "string"}},
+        "required": ["location"]
+    }
+}]
+
+response = client.messages.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Bagaimana cuacanya?"}],
+    tools=tools
+)
+
+tool_use = next(c for c in response.content if c.type == "tool_use")
+```
+
+```python
+tools = [{
+    "type": "function",
+    "name": "get_weather",
+    "description": "Ambil cuaca",
+    "parameters": {
+        "type": "object",
+        "properties": {"location": {"type": "string"}},
+        "required": ["location"]
+    }
+}]
+
+response = client.responses.create(
+    model="nusantara-base",
+    input="Bagaimana cuacanya?",
+    tools=tools,
+    store=True
+)
+
+tool_calls = [item for item in response.output if item.type == "function_call"]
+```
+</CodeGroup>
+
+## Kerangka Keputusan
+
+Gunakan bagan keputusan ini untuk memilih endpoint yang tepat:
+
+```text
+Mulai: Apakah Kamu membangun aplikasi baru?
+├── Ya → Apakah Kamu ingin percakapan stateful?
+│   ├── Ya → Gunakan API Responses
+│   └── No → Apakah Kamu lebih suka SDK Anthropic?
+│       ├── Ya → Gunakan Kompatibel Anthropic
+│       └── No → Gunakan Kompatibel OpenAI
+└── Tidak → Apakah Kamu memigrasikan dari OpenAI?
+    ├── Ya → Gunakan Kompatibel OpenAI
+    └── No → Apakah Kamu menggunakan SDK Anthropic?
+        ├── Ya → Gunakan Kompatibel Anthropic
+        └── No → Pertimbangkan API Responses untuk kemudahan
+```
+
+## Praktik Terbaik
+
+### Rekomendasi Umum
+
+1. **Gunakan variabel lingkungan** untuk kunci API
+2. **Terapkan penanganan kesalahan yang tepat** untuk semua endpoint
+3. **Gunakan streaming** untuk aplikasi real-time
+4. **Atur timeout yang sesuai** untuk kasus penggunaan Kamu
+5. **Pantau penggunaan token** di semua endpoint
+
+### Tip Spesifik Endpoint
+
+**Kompatibel OpenAI:**
+
+- Kelola riwayat pesan di sisi klien
+- Gunakan format pemanggilan fungsi standar
+- Manfaatkan library OpenAI yang ada
+
+**Kompatibel Anthropic:**
+
+- Gunakan format skema tools
+- Manfaatkan mode berpikir untuk tugas yang kompleks
+- Gunakan blok konten untuk input multimodal
+
+**API Responses:**
+
+- Aktifkan `store` untuk manajemen status
+- Gunakan `previous_response_id` untuk kelanjutan percakapan
+- Manfaatkan format output terpadu
+
+## Sumber Daya Dukungan
+
+<CardGroup cols={2}>
+  <Card title="Dokumentasi SDK" icon="book" href="/id/sdk/">
+    Panduan implementasi SDK terperinci.
+  </Card>
+  
+  <Card title="Penanganan Kesalahan" icon="exclamation-triangle" href="/id/error-handling">
+    Kesalahan umum dan solusinya.
+  </Card>
+  
+  <Card title="Batas Penggunaan" icon="gauge-high" href="/id/api-rate-limits">
+    Memahami pembatasan berdasarkan tingkat layanan.
+  </Card>
+  
+  <Card title="Repositori Contoh" icon="code-branch" href="https://github.com/neosantara/examples">
+    Contoh kode lengkap untuk semua endpoint.
+  </Card>
+</CardGroup>

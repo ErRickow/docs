@@ -1,0 +1,71 @@
+---
+title: 'LangChain'
+description: '> Using LangChain with Neosantara AI.'
+---
+
+LangChain is a framework for developing applications powered by large language models (LLMs). It provides a standard interface for chains, many integrations with other tools, and end-to-end chains for common applications.
+
+## Python
+
+To use Neosantara with LangChain in Python, you can use the `langchain-openai` package since our API is OpenAI-compatible.
+
+### Installation
+
+```bash Shell
+pip install -U langchain-openai
+```
+
+### Authentication
+
+Set your `NAI_API_KEY` environment variable.
+
+<CodeGroup>
+  ```shell Shell
+  export NAI_API_KEY=***
+  ```
+</CodeGroup>
+
+### Example
+
+```python Python icon="python"
+from langchain_openai import ChatOpenAI
+import os
+
+llm = ChatOpenAI(
+    model="nusantara-base",
+    openai_api_key=os.environ.get("NAI_API_KEY"),
+    openai_api_base="https://api.neosantara.xyz/v1",
+)
+
+response = llm.invoke("What are the benefits of using a regional AI API?")
+print(response.content)
+```
+
+---
+
+## JavaScript / TypeScript
+
+You can also use Neosantara with LangChain in JavaScript or TypeScript using the `@langchain/openai` package.
+
+### Installation
+
+```bash Shell
+npm install @langchain/openai
+```
+
+### Example
+
+```typescript TypeScript icon="square-js"
+import { ChatOpenAI } from "@langchain/openai";
+
+const model = new ChatOpenAI({
+  modelName: "nusantara-base",
+  openAIApiKey: process.env.NAI_API_KEY,
+  configuration: {
+    baseURL: "https://api.neosantara.xyz/v1",
+  },
+});
+
+const res = await model.invoke("Hello, how are you?");
+console.log(res.content);
+```

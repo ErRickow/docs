@@ -1,0 +1,361 @@
+---
+title: 'Kompatibilitas Anthropic'
+description: 'Gunakan SDK Anthropic dan format API dengan model Neosantara AI.'
+---
+
+Neosantara AI menyediakan kompatibilitas penuh dengan API Messages Anthropic, yang memungkinkan Kamu menggunakan SDK dan tools resmi Anthropic dengan model kami. Ini memudahkan integrasi kemampuan Neosantara ke dalam alur kerja berbasis Anthropic yang sudah Kamu miliki.
+
+<Note>
+  **URL Dasar Endpoint**: `https://api.neosantara.xyz/anthropic`<br/>
+  **Otentikasi**: Gunakan variabel lingkungan `ANTHROPIC_API_KEY` atau header `Authorization: Bearer <token>`
+</Note>
+
+<Warning>
+  Pastikan Kamu menggunakan URL dasar `/anthropic` untuk SDK ini. Menggunakan URL dasar `/v1` akan menyebabkan kesalahan otentikasi atau skema.
+</Warning>
+
+## Mulai Cepat
+
+Mulai gunakan Neosantara AI dengan format API Messages Anthropic.
+
+<Steps>
+  <Step title="Instal SDK Anthropic">
+```bash
+pip install anthropic
+```
+
+```bash
+npm install @anthropic-ai/sdk
+```
+  </Step>
+
+  <Step title="Konfigurasi Klien">
+
+```python
+import anthropic
+
+client = anthropic.Anthropic(
+    base_url="https://api.neosantara.xyz/anthropic",
+    api_key="<KUNCI_API_ANDA>"
+)
+```
+
+```javascript
+import { Anthropic } from '@anthropic-ai/sdk';
+
+const client = new Anthropic({
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+  apiKey: '<KUNCI_API_ANDA>',
+});
+```
+  </Step>
+
+  <Step title="Lakukan Permintaan Pertama">
+```python
+message = client.messages.create(
+    model="nusantara-base",
+    max_tokens=1000,
+    messages=[
+        {
+            "role": "user",
+            "content": "Halo! Ceritakan tentang Neosantara AI."
+        }
+    ]
+)
+print(message.content[0].text)
+```
+
+```javascript
+const message = await client.messages.create({
+  model: 'nusantara-base',
+  max_tokens: 1000,
+  messages: [
+    {
+      role: 'user',
+      content: 'Halo! Ceritakan tentang Neosantara AI.',
+    },
+  ],
+});
+
+console.log(message.content[0].text);
+```
+  </Step>
+</Steps>
+
+## Referensi API
+
+### Parameter Wajib
+
+| Parameter | Tipe | Deskripsi |
+| ----------- | ------- | ------------- |
+| `model` | string | ID model Neosantara (misalnya, `nusantara-base`, `garda-beta-mini`) |
+| `messages` | array | Array objek pesan dalam percakapan |
+| `max_tokens` | integer | Jumlah maksimum token untuk dihasilkan (min: 1) |
+
+### Parameter Opsional
+
+| Parameter | Tipe | Default | Rentang | Deskripsi |
+| ----------- | ------- | --------- | ------------- | ----------- |
+| `temperature` | number | 1.0 | 0.0-1.0 | Mengontrol keacakan output |
+| `top_p` | number | 1.0 | 0.0-1.0 | Parameter nucleus sampling |
+| `top_k` | number | - | > 0 | Membatasi pilihan token ke top-k opsi |
+| `stop_sequences` | array | [] | - | Hingga 5 urutan di mana generasi berhenti |
+| `stream` | boolean | false | - | Mengaktifkan respons streaming |
+| `system` | string/array | - | - | Prompt sistem untuk percakapan |
+| `tools` | array | [] | - | Definisi tools untuk pemanggilan fungsi |
+| `tool_choice` | string/object | "auto" | - | Strategi pemilihan tools |
+| `metadata` | object | {} | - | Metadata khusus untuk pelacakan |
+| `service_tier` | string | "auto" | - | Pemilihan tingkat layanan |
+| `thinking` | object | - | - | Pengaturan mode penalaran diperluas |
+
+<Warning>
+  Parameter `thinking` mengaktifkan mode penalaran diperluas. Ini mungkin meningkatkan waktu respons tetapi meningkatkan kemampuan pemecahan masalah yang kompleks.
+</Warning>
+
+## Streaming
+
+Aktifkan streaming real-time untuk aplikasi percakapan.
+
+```python
+import anthropic
+
+client = anthropic.Anthropic(
+    base_url="https://api.neosantara.xyz/anthropic",
+    api_key="<KUNCI_API_ANDA>"
+)
+
+stream = client.messages.create(
+    model="nusantara-base",
+    max_tokens=1000,
+    messages=[{"role": "user", "content": "Tulis sebuah cerita pendek"}],
+    stream=True
+)
+
+for chunk in stream:
+    if chunk.type == 'content_block_delta':
+        print(chunk.delta.text, end='', flush=True)
+```
+
+```javascript
+import { Anthropic } from '@anthropic-ai/sdk';
+
+const client = new Anthropic({
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+  apiKey: '<KUNCI_API_ANDA>',
+});
+
+const stream = await client.messages.create({
+  model: 'nusantara-base',
+  max_tokens: 1000,
+  messages: [{ role: 'user', content: 'Tulis sebuah cerita pendek' }],
+  stream: true,
+});
+
+for await (const chunk of stream) {
+  if (chunk.type === 'content_block_delta') {
+    process.stdout.write(chunk.delta.text);
+  }
+}
+```
+
+```bash
+curl https://api.neosantara.xyz/anthropic/v1/messages \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <KUNCI_API_ANDA>" \
+  -d '{
+    "model": "nusantara-base",
+    "max_tokens": 1000,
+    "messages": [{"role": "user", "content": "Tulis sebuah cerita pendek"}],
+    "stream": true
+  }'
+```
+
+## Pemanggilan Tools (Tool Calling)
+
+Gunakan pemanggilan fungsi dengan format API Messages Anthropic.
+
+### Mendefinisikan Tools
+
+```python
+tools = [{
+    "name": "get_weather",
+    "description": "Ambil cuaca saat ini untuk sebuah lokasi",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "location": {
+                "type": "string",
+                "description": "Nama kota"
+            },
+            "units": {
+                "type": "string",
+                "enum": ["celsius", "fahrenheit"],
+                "description": "Satuan suhu"
+            }
+        },
+        "required": ["location"]
+    }
+}]
+
+message = client.messages.create(
+    model="nusantara-base",
+    max_tokens=1000,
+    messages=[{"role": "user", "content": "Bagaimana cuaca di Jakarta?"}],
+    tools=tools
+)
+
+# Menangani penggunaan tools
+for content in message.content:
+    if content.type == "tool_use":
+        print(f"Tool: {content.name}")
+        print(f"Input: {content.input}")
+```
+
+### Kontrol Pemilihan Tools
+
+Kontrol bagaimana dan kapan tools digunakan.
+
+```python
+# Mode otomatis (default)
+client.messages.create(
+    model="nusantara-base",
+    messages=[...],
+    tools=tools,
+    tool_choice="auto"  # Model memutuskan kapan menggunakan tools
+)
+
+# Paksa tool tertentu
+client.messages.create(
+    model="nusantara-base",
+    messages=[...],
+    tools=tools,
+    tool_choice={"type": "tool", "name": "get_weather"}
+)
+
+# Mode tool apa pun
+client.messages.create(
+    model="nusantara-base",
+    messages=[...],
+    tools=tools,
+    tool_choice="any"  # Harus menggunakan setidaknya satu tool
+)
+```
+
+## Format Respons
+
+### Struktur Respons Standar
+
+```json
+{
+  "id": "msg_01A345678901BCDEF23456789",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "text",
+      "text": "Neosantara AI adalah platform AI mutakhir..."
+    }
+  ],
+  "model": "nusantara-base",
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 15,
+    "output_tokens": 32
+  }
+}
+```
+
+## Visi & Multimodal
+
+Proses gambar bersama teks menggunakan API Messages.
+
+```python
+import anthropic
+import base64
+
+client = anthropic.Anthropic(
+    base_url="https://api.neosantara.xyz/anthropic",
+    api_key="<KUNCI_API_ANDA>"
+)
+
+# Baca file gambar
+with open("image.jpg", "rb") as f:
+    image_data = base64.b64encode(f.read()).decode("utf-8")
+
+message = client.messages.create(
+    model="nusantara-base",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": "image/jpeg",
+                        "data": image_data
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "Jelaskan apa yang Kamu lihat dalam gambar ini."
+                }
+            ]
+        }
+    ]
+)
+
+print(message.content[0].text)
+```
+
+<Info>
+  Format gambar yang didukung: JPEG, PNG, GIF, WebP<br/>
+  Ukuran gambar maksimum: 5MB<br/>
+  Model visi yang didukung: `nusantara-base`, `archipelago-70b`, `kimi-k2`
+</Info>
+
+## Penanganan Kesalahan
+
+### Kode Kesalahan Umum
+
+| Status HTTP | Kode Kesalahan | Deskripsi |
+| ------------- | ------------- | ------------- |
+| 400 | `invalid_request_error` | Parameter tidak valid atau permintaan salah |
+| 401 | `authentication_error` | Kunci API tidak valid atau hilang |
+| 429 | `rate_limit_error` | Batas penggunaan terlampaui |
+| 500 | `api_error` | Kesalahan server internal |
+| 503 | `overloaded_error` | Layanan sementara tidak tersedia |
+
+## Migrasi dari OpenAI
+
+Mengonversi dari format OpenAI ke API Messages Anthropic.
+
+### Perbedaan Utama
+
+| Fitur | Format OpenAI | Format Anthropic |
+| --------- | ---------------- | ------------------- |
+| Pesan | `{"role": "...", "content": "..."}` | `{"role": "...", "content": [...]}` |
+| Prompt Sistem | `{"role": "system", "content": "..."}` | Parameter `system` terpisah |
+| Streaming | `stream: true` | `stream: true` |
+| Pemanggilan Tools | Format objek fungsi | Format skema tools |
+
+## Langkah Selanjutnya
+
+<CardGroup cols={2}>
+  <Card title="Ikhtisar Model" icon="layer-group" href="/id/models-overview">
+    Jelajahi semua model AI Neosantara yang tersedia.
+  </Card>
+  
+  <Card title="Kompatibilitas OpenAI" icon="code" href="/id/sdk/openai-compatible">
+    Pelajari tentang opsi API kompatibel OpenAI kami.
+  </Card>
+  
+  <Card title="Batas Penggunaan" icon="gauge-high" href="/id/api-rate-limits">
+    Pahami pembatasan untuk tingkat layanan Kamu.
+  </Card>
+  
+  <Card title="Penanganan Kesalahan" icon="exclamation-triangle" href="/id/error-handling">
+    Referensi lengkap kode kesalahan dan solusinya.
+  </Card>
+</CardGroup>

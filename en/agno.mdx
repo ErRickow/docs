@@ -15,46 +15,42 @@ pip install -U agno ddgs -q
 
 Set your `NAI_API_KEY` environment variable.
 
-<CodeGroup>
-  ```shell Shell
-  export NAI_API_KEY=***
-  ```
-</CodeGroup>
+```shell
+export NAI_API_KEY=***
+```
 
 ## Example
 
 Below is a simple agent with access to web search.
 
-<CodeGroup>
-  ```python Python icon="python"
-  from agno.agent import Agent
-  from agno.models.openai.like import OpenAILike
-  from agno.tools.duckduckgo import DuckDuckGoTools
-  
-  agent = Agent(
-      model=OpenAILike(
-          id="nusantara-base"
-          api_key=os.environ.get("NAI_API_KEY")
-          base_url="https://api.neosantara.xyz/v1"
-      ),
-      tools=[DuckDuckGoTools()],
-      markdown=True
-  )
-  agent.print_response("What's happening in Indonesia?", stream=True)
-  ```
-</CodeGroup>
+```python
+from agno.agent import Agent
+from agno.models.openai.like import OpenAILike
+from agno.tools.duckduckgo import DuckDuckGoTools
+
+agent = Agent(
+    model=OpenAILike(
+        id="nusantara-base",
+        api_key=os.environ.get("NAI_API_KEY"),
+        base_url="https://api.neosantara.xyz/v1"
+    ),
+    tools=[DuckDuckGoTools()],
+    markdown=True
+)
+agent.print_response("What's happening in Indonesia?", stream=True)
+```
 
 <Accordion title="See output.">
   The output will return an string for answer below:
 
-   ```bash output
-▰▰▰▰▰▰▰ Thinking...
-┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+```bash
+▰▰▰▰▰▰▰▰ Thinking...
+┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                                                                                                 ┃
 ┃ What's happening in Indonesia?                                                                                  ┃
 ┃                                                                                                                 ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-┏━ Tool Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┏━ Tool Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                                                                                                 ┃
 ┃ • duckduckgo_news(query=Indonesia)                                                                              ┃
 ┃                                                                                                                 ┃
@@ -71,5 +67,6 @@ Below is a simple agent with access to web search.
 ┃                                                                                                                 ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 WARNING:ddgs.engines.yahoo_news:Error post-processing results: IndexError('list index out of range')
-  ```
+```
+
 </Accordion>

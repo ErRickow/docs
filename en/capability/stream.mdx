@@ -9,9 +9,9 @@ Streaming allows you to receive partial responses from the API as they are gener
 
 The Nusantara AI API implements streaming using **Server-Sent Events (SSE)** when you set the `stream: true` parameter in your request. When a streaming request is made:
 
-1.  **`Content-Type` Header**: The API sets the `Content-Type` header to `text/event-stream`.
-2.  **Partial Data Chunks**: The server sends data in small chunks. Each chunk is an event with a specific type and data payload.
-3.  **End of Stream Signal**: The stream is terminated by a final event, like `response.completed` or a `data: [DONE]` message, indicating that no further data will be sent.
+1. **`Content-Type` Header**: The API sets the `Content-Type` header to `text/event-stream`.
+2. **Partial Data Chunks**: The server sends data in small chunks. Each chunk is an event with a specific type and data payload.
+3. **End of Stream Signal**: The stream is terminated by a final event, like `response.completed` or a `data: [DONE]` message, indicating that no further data will be sent.
 
 This allows your client application to display or process the generated content incrementally.
 
@@ -23,7 +23,8 @@ You can enable streaming easily by setting `stream: true` in your request body. 
 <Tab title="Responses API">
 The [`/v1/responses`](/api-reference/responses/create) endpoint uses a modern, **event-driven stream**. Each chunk is a typed event, allowing you to easily handle different parts of the response, such as text deltas or function call arguments.
 
-### Request Body Example
+### Responses API Request Example
+
 ```json
 {
   "model": "nusantara-base",
@@ -53,7 +54,7 @@ event: response.completed
 data: {"type":"response.completed","response":{...}}
 ```
 
-### Python & Javascript Examples
+### Responses API Implementation Examples
 
 <CodeGroup>
 
@@ -159,7 +160,7 @@ async function streamResponse(prompt, model = "nusantara-base") {
 <Tab title="Chat Completions API">
 The [`/v1/chat/completions`](/api-reference/chat) endpoint provides streaming for compatibility with existing OpenAI integrations. It sends a stream of `chat.completion.chunk` objects.
 
-### Request Body Example
+### Chat Completions Request Example
 
 ```json
 {
@@ -184,7 +185,7 @@ data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"inde
 data: [DONE]
 ```
 
-### Python & Javascript Examples
+### Chat Completions Implementation Examples
 
 <CodeGroup>
 
@@ -259,7 +260,7 @@ async function streamChatCompletion(prompt, model = "nusantara-base") {
     let fullResponseContent = "";
     process.stdout.write("AI Response: ");
     for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content || "";
+| const content = chunk.choices[0]?.delta?.content || ""; |
       fullResponseContent += content;
       process.stdout.write(content);
     }

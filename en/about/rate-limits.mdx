@@ -14,9 +14,10 @@ For information on billing, credit balances, and quota migration, please refer t
 Throughput limits restrict the rate of operations over a specific time window. These are technical constraints designed to prevent system overload and are distinct from billing limits.
 
 The system enforces three types of throughput limits:
-*   **RPM (Requests Per Minute):** The maximum number of HTTP requests allowed per minute.
-*   **ITPM (Input Tokens Per Minute):** The maximum number of input tokens processed per minute.
-*   **OTPM (Output Tokens Per Minute):** The maximum number of output tokens generated per minute.
+
+* **RPM (Requests Per Minute):** The maximum number of HTTP requests allowed per minute.
+* **ITPM (Input Tokens Per Minute):** The maximum number of input tokens processed per minute.
+* **OTPM (Output Tokens Per Minute):** The maximum number of output tokens generated per minute.
 
 ### Standard API Limits
 
@@ -66,6 +67,7 @@ API responses include standard HTTP headers that provide real-time status of the
 ## Error Handling
 
 ### 429 Too Many Requests
+
 This error indicates that one of the technical **Throughput Limits** (RPM, ITPM, or OTPM) has been exceeded. The response includes a `Retry-After` header specifying the wait time in seconds before a new request can be made.
 
 ```json

@@ -29,10 +29,13 @@ curl -X POST "https://api.neosantara.xyz/v1/videos" \
 </CodeGroup>
 
 **Parameters:**
+
 - `model`: Required. Use `cogvideox` or `cogvideox-pro`.
 - `prompt`: Required. A detailed description of the video you want to generate (max 2000 characters).
-- `input_reference`: Optional. A URL to an image to use as a starting point (Image-to-Video).
+- `image_url`: Optional. A URL to an image to use as a starting point (Image-to-Video).
 - `video_style`: Optional. e.g., `cinematic`, `anime`, `realistic`.
+- `emotional_atmosphere`: Optional. Sets the mood of the video (e.g., `uplifting`, `gloomy`, `epic`).
+- `mirror_mode`: Optional. `true` or `false` to enable horizontal mirroring of the output.
 
 #### **2. Check Job Status**
 
@@ -75,12 +78,11 @@ Video generation is a high-compute task and is billed per video generated.
 
 ### Best Practices
 
-*   **Be Descriptive**: Describe the subject, action, lighting, and camera movement.
-*   **Resolution**: The model currently supports up to 1024x1024 or 720p output depending on the variant.
-*   **Prompt Length**: Keep prompts under 2000 characters for optimal results.
+- **Be Descriptive**: Describe the subject, action, lighting, and camera movement.
+- **Resolution**: The model currently supports up to 1024x1024 or 720p output depending on the variant.
+- **Prompt Length**: Keep prompts under 2000 characters for optimal results.
 
 ## Next Steps
 
-  * See [Image Generation](/en/capability/image-generation)
-  * Explore [Reasoning Models](/en/capability/reasoning)
-
+- See [Image Generation](/en/capability/image-generation)
+- Explore [Reasoning Models](/en/capability/reasoning)

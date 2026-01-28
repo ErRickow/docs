@@ -7,26 +7,21 @@ AG2 (formerly AutoGen) is an open-source framework for building and orchestratin
 
 ## Installing Libraries
 
-<CodeGroup>
-  ```shell Shell
+```shell Shell
   pip install autogen
-  ```
-</CodeGroup>
+```
 
 Set your Neosantara AI API key:
 
-<CodeGroup>
-  ```shell Shell
+```shell Shell
   export NAI_API_KEY=***
-  ```
-</CodeGroup>
+```
 
 ## Example
 
 Setup and configure AutoGen to use LLMs from Neosantara AI
 
-<CodeGroup>
-  ```python Python icon="python"
+```python
   import os
 
   config_list = [
@@ -42,13 +37,12 @@ Setup and configure AutoGen to use LLMs from Neosantara AI
           "price": [300/1000000*1000, 1500/1000000*1000] # Input: $300/M tokens = $0.3/k tokens, Output: $1500/M tokens = $1.5/k tokens
       }
   ]
-  ```
-</CodeGroup>
+
+```
 
 Importantly, we have tweaked the system message so that the model doesn't return the termination keyword, which we've changed to FINISH, with the code block.
 
-<CodeGroup>
-  ```python Python icon="python"
+```python
   from pathlib import Path
   from autogen import AssistantAgent, UserProxyAgent
   from autogen.coding import LocalCommandLineCodeExecutor
@@ -89,12 +83,11 @@ Importantly, we have tweaked the system message so that the model doesn't return
       assistant_agent,
       message="Provide code to count the number of prime numbers from 1 to 10000.",
   )
-  ```
-</CodeGroup>
+```
 
 <Accordion title="See output">
 
-````
+````text
 User (to Neosantara-Assistant):
 
 Provide code to count the number of prime numbers from 1 to 10000.
@@ -109,7 +102,7 @@ Berikut adalah rencana untuk menghitung jumlah bilangan prima dari 1 hingga 1000
 4.  Jika angka tersebut prima, tambahkan ke penghitung.
 5.  Cetak total penghitung setelah iterasi selesai.
 
-```python
+```
 # script.py
 def is_prime(n):
     """
@@ -171,4 +164,5 @@ Kode yang diberikan bertujuan untuk menghitung jumlah bilangan prima dalam renta
 
 --------------------------------------------------------------------------------
 ````
-</Accordion>
+
+  </Accordion>

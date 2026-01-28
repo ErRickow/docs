@@ -1,26 +1,59 @@
 ---
-title: 'Overview'
+title: 'Agent Frameworks'
+sidebarTitle: 'Overview'
 description: '> Using OSS agent frameworks with Neosantara AI.'
 ---
 
-You can use Neosantara AI with many of the most popular AI agent frameworks. Choose your preferred framework to learn how to enhance your agents with the best open source models.
+Neosantara AI is the easiest way to start building agents and applications powered by LLMs in Southeast Asia. We provide full compatibility with the most popular open-source frameworks, allowing you to build agents that adapt as fast as the ecosystem evolves.
 
-## [CrewAI](/en/crewai)
+## <Icon icon="star" /> Core Benefits
 
-CrewAI is an open source framework for orchestrating AI agent systems. It enables multiple AI agents to collaborate effectively by assuming roles and working toward shared goals.
+<CardGroup cols={2}>
+    <Card title="Standard Model Interface" icon="arrows-rotate" href="/en/sdk/openai-compatible">
+        Neosantara provides an OpenAI-compatible API, making it seamless to swap providers and avoid vendor lock-in.
+    </Card>
+    <Card title="Regional Optimization" icon="earth-asia" href="/en/models-overview">
+        Our models like `nusantara-base` and `archipelago-70b` are specifically fine-tuned for Indonesian culture and nuance.
+    </Card>
+</CardGroup>
 
-## [PydanticAI](/en/pydantic-ai)
+## <Icon icon="robot" /> Supported Frameworks
 
-PydanticAI provides structured data extraction and validation for LLMs using Pydantic schemas. It ensures your AI outputs adhere to specified formats, making integration with downstream systems reliable.
+Choose your preferred framework to learn how to enhance your agents with Neosantara AI.
 
-## [Agno](/en/agno)
+<CardGroup cols={3}>
+    <Card title="LangChain" icon="link" href="/en/langchain" cta="Learn more">
+        The most popular framework for building LLM applications. Use our `langchain-openai` integration.
+    </Card>
+    <Card title="CrewAI" icon="users" href="/en/crewai" cta="Learn more">
+        Orchestrate multiple AI agents to collaborate effectively by assuming roles and working toward shared goals.
+    </Card>
+    <Card title="PydanticAI" icon="shield-check" href="/en/pydantic-ai" cta="Learn more">
+        Structured data extraction and validation using Pydantic schemas for reliable AI outputs.
+    </Card>
+    <Card title="Agno" icon="sparkles" href="/en/agno" cta="Learn more">
+        Create multimodal agents that support interactions with text, images, audio, and video.
+    </Card>
+    <Card title="AutoGen" icon="diagram-project" href="/en/autogen" cta="Learn more">
+        Framework for multi-agent conversations and workflow automation by Microsoft (AG2).
+    </Card>
+    <Card title="DSPy" icon="microchip" href="/en/dspy" cta="Learn more">
+        A programming framework for algorithmic AI systems with a compiler-like approach to prompting.
+    </Card>
+</CardGroup>
 
-Agno is an open-source library for creating multimodal agents. It supports interactions with text, images, audio, and video while remaining model-agnostic, allowing you to use any model in the Neosantara AI library with our integration.
+## <Icon icon="bolt" /> Quick Example
 
-## [AutoGen(AG2)](/en/autogen)
+```python Python
+from langchain_openai import ChatOpenAI
+import os
 
-AutoGen(AG2) is an OSS agent framework for multi-agent conversations and workflow automation. It enables the creation of customizable agents that can interact with each other and with human users to solve complex tasks.
+llm = ChatOpenAI(
+    model="nusantara-base",
+    openai_api_key=os.environ.get("NAI_API_KEY"),
+    openai_api_base="https://api.neosantara.xyz/v1",
+)
 
-## [DSPy](/en/dspy)
-
-DSPy is a programming framework for algorithmic AI systems. It offers a compiler-like approach to prompt engineering, allowing you to create modular, reusable, and optimizable language model programs.
+response = llm.invoke("Build a simple agent plan for a research task.")
+print(response.content)
+```

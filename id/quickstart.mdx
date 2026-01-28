@@ -1,0 +1,120 @@
+---
+title: 'Mulai Cepat (Quickstart)'
+description: 'Mulai menggunakan API Neosantara AI dalam hitungan menit'
+---
+
+Panduan ini akan membantu Kamu melakukan panggilan API pertama ke Neosantara AI. API kami dirancang agar sepenuhnya kompatibel dengan SDK OpenAI, sehingga mudah diintegrasikan ke dalam alur kerja Kamu yang sudah ada.
+
+<Steps>
+  <Step title="Buat Akun">
+    Daftar untuk akun gratis untuk mendapatkan kunci API Kamu.
+    <Card icon="user-plus" href="https://app.neosantara.xyz/signup" title="Daftar Gratis" horizontal>
+      Dapatkan **10.000 kredit gratis** setiap bulan. Tidak perlu kartu kredit.
+    </Card>
+  </Step>
+
+  <Step title="Buat Kunci API">
+    Buka [Dashboard](https://app.neosantara.xyz/dashboard) Kamu dan navigasikan ke bagian **API Keys**. Klik "Create New Key" dan simpan dengan aman.
+    <Warning>Jangan bagikan kunci API Kamu kepada siapa pun atau memasukkannya ke dalam repositori publik.</Warning>
+  </Step>
+
+  <Step title="Instal Dependensi">
+    Karena Neosantara kompatibel dengan OpenAI, Kamu dapat menggunakan SDK OpenAI resmi.
+
+    <CodeGroup>
+    ```bash npm
+    npm install openai
+    ```
+
+    ```bash pip
+    pip install openai
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Lakukan Permintaan Pertama Kamu">
+    Salin kode di bawah ini untuk menguji koneksi Kamu. Ganti `<KUNCI_API_ANDA>` dengan kunci yang Kamu buat.
+
+    <CodeGroup>
+    ```javascript Node.js
+    import OpenAI from "openai";
+
+    const client = new OpenAI({
+      baseURL: "https://api.neosantara.xyz/v1",
+      apiKey: "<KUNCI_API_ANDA>", // process.env.NAI_API_KEY
+    });
+
+    async function main() {
+      const completion = await client.chat.completions.create({
+        model: "nusantara-base",
+        messages: [
+          { role: "system", content: "Kamu adalah asisten yang membantu." },
+          { role: "user", content: "Halo! Siapa Kamu?" },
+        ],
+      });
+
+      console.log(completion.choices[0].message.content);
+    }
+
+    main();
+    ```
+
+    ```python Python
+    from openai import OpenAI
+
+    client = OpenAI(
+        base_url="https://api.neosantara.xyz/v1",
+        api_key="<KUNCI_API_ANDA>" # os.environ.get("NAI_API_KEY")
+    )
+
+    response = client.chat.completions.create(
+        model="nusantara-base",
+        messages=[
+            {"role": "system", "content": "Kamu adalah asisten yang membantu."},
+            {"role": "user", "content": "Halo! Siapa Kamu?"}
+        ]
+    )
+
+    print(response.choices[0].message.content)
+    ```
+
+    ```bash cURL
+    curl https://api.neosantara.xyz/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <KUNCI_API_ANDA>" \
+      -d '{ \
+        "model": "nusantara-base", \
+        "messages": [ \
+          {"role": "system", "content": "Kamu adalah asisten yang membantu."}, \
+          {"role": "user", "content": "Halo! Siapa Kamu?"} \
+        ] \
+      }'
+    ```
+    </CodeGroup>
+  </Step>
+</Steps>
+
+## Apa yang baru saja terjadi?
+
+1. **URL Dasar**: Kamu mengarahkan SDK ke `https://api.neosantara.xyz/v1` alih-alih URL default OpenAI.
+2. **Model**: Kamu memilih `nusantara-base`, model unggulan kami yang dioptimalkan untuk tugas-tugas umum.
+3. **Otentikasi**: Kunci API Kamu mengotentikasi permintaan terhadap server kami.
+
+## Langkah Selanjutnya
+
+Sekarang setelah Kamu melakukan permintaan pertama, jelajahi apa lagi yang bisa Kamu bangun:
+
+<CardGroup cols={2}>
+  <Card title="Ikhtisar Model" icon="layer-group" href="/id/models-overview">
+    Temukan jajaran model kami termasuk model Visi dan Embedding.
+  </Card>
+  <Card title="Referensi API" icon="code" href="/id/api-introduction">
+    Jelajahi dokumentasi mendalam untuk semua endpoint.
+  </Card>
+  <Card title="Batas Penggunaan" icon="gauge-high" href="/id/api-rate-limits">
+    Pahami batasan untuk tingkat layanan yang berbeda.
+  </Card>
+  <Card title="Integrasi" icon="puzzle-piece" href="/id/integrations">
+    Hubungkan Neosantara dengan LangChain, LlamaIndex, dan banyak lagi.
+  </Card>
+</CardGroup>

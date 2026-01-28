@@ -1,0 +1,264 @@
+--- 
+title: 'Kompatibilitas OpenAI'
+description: 'Gunakan SDK OpenAI resmi untuk berinteraksi dengan Neosantara AI.'
+---
+
+Neosantara AI mendukung SDK OpenAI resmi. Kami menawarkan dua gaya API yang berbeda untuk berinteraksi dengan model kami. Pilih yang paling sesuai dengan arsitektur aplikasi Kamu.
+
+<View title="Responses API (Recommended)" icon="bolt">
+
+**API Responses** (`/v1/responses`) adalah antarmuka modern dan terpadu kami untuk membangun aplikasi berbasis agen yang kuat. API ini menyederhanakan input, mengelola status percakapan secara otomatis, dan menyediakan dukungan multimodal bawaan.
+
+**Manfaat:**
+
+* **Input Sederhana**: Kirim string `input` tunggal daripada array objek pesan yang kompleks.
+* **Konteks Stateful**: Gunakan `store: true` untuk secara otomatis mempertahankan riwayat percakapan di server.
+* **Output Terpadu**: Format output yang konsisten untuk teks, tools, dan penalaran.
+
+### Mulai Cepat API Responses
+
+Gunakan pembantu `client.responses.create` (jika menggunakan SDK yang kompatibel) atau metode `client.post` umum untuk mengakses endpoint ini.
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<KUNCI_API_ANDA>"
+)
+
+# Menghasilkan respons
+response = client.responses.create(
+    model="nusantara-base",
+    input="Tulis satu kalimat cerita sebelum tidur tentang unicorn.",
+    store=True
+)
+
+# Akses teks output secara langsung
+print(response.output_text)
+
+# Lanjutkan percakapan menggunakan ID respons
+print(f"ID Respons: {response.id}")
+```
+
+```javascript
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<KUNCI_API_ANDA>",
+});
+
+async function main() {
+  const response = await openai.responses.create({
+    model: "nusantara-base",
+    input: "Tulis satu kalimat cerita sebelum tidur tentang unicorn.",
+    store: true
+  });
+
+  // Akses teks output secara langsung
+  console.log(response.output_text);
+  
+  // Lanjutkan percakapan menggunakan ID
+  console.log(`ID Respons: {response.id}`);
+}
+
+main();
+```
+
+```bash
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": "Tulis satu kalimat cerita sebelum tidur tentang unicorn.",
+    "store": true
+  }'
+```
+
+### Pemanggilan Tools API Responses
+
+API Responses menyederhanakan penggunaan tools. Kamu dapat mendefinisikan tools dan membiarkan model memanggilnya. Struktur output memisahkan pemanggilan tools dengan bersih. Untuk panduan lengkap, lihat [dokumentasi Pemanggilan Tools](/id/how-tools).
+
+```python Python
+tools = [{
+    "type": "function",
+    "name": "get_weather",
+    "description": "Ambil cuaca saat ini",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "location": {"type": "string"}
+        },
+        "required": ["location"]
+    }
+}]
+
+response = client.responses.create(
+    model="nusantara-base",
+    input="Bagaimana cuaca di Jakarta?",
+    tools=tools
+)
+
+# Iterasi melalui item output untuk menemukan pemanggilan tools
+for item in response.output:
+    if item.type == "function_call":
+        print(f"Panggilan Tools: {item.name} dengan argumen {item.arguments}")
+```
+
+### Format API Responses
+
+API Responses mengembalikan objek `response` yang berisi array `output`. Untuk detail lengkap tentang format respons, silakan merujuk ke [Referensi API Responses](/api-reference/responses).
+
+```json
+{
+  "id": "resp_68af4030592c...",
+  "object": "response",
+  "created_at": 1756315696,
+  "model": "nusantara-base",
+  "output_text": "Di bawah sinar rembulan...",
+  "output": [
+    {
+      "id": "msg_68af...",
+      "type": "message",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Di bawah sinar rembulan..."
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Penanganan Kesalahan
+
+API Responses menggunakan kode status HTTP standar dan pesan kesalahan yang mendetail. Untuk daftar lengkap kode kesalahan dan artinya, lihat [Kode Kesalahan API](/id/about/errors).
+
+```json
+{
+  "error": {
+    "code": "invalid_request_error",
+    "message": "Parameter 'input' diperlukan.",
+    "type": "invalid_request_error"
+  }
+}
+```
+
+### Matriks Dukungan API Responses
+
+| Fitur | Status | Catatan |
+| :--- | :---: | :--- |
+| **Endpoint** | `/v1/responses` | Endpoint khusus untuk interaksi stateful |
+| **Manajemen Status** | ✅ Didukung | Dikelola melalui `store: true` and `previous_response_id`. Lihat [Manajemen Percakapan](/id/conversation-management). |
+| **Format Input** | Fleksibel | Mendukung `string` atau array `messages`. |
+| **Penggunaan Tools** | ✅ Ditingkatkan | Mendukung definisi dan eksekusi tools bawaan. |
+| **Streaming** | ✅ Didukung | Gunakan `stream: true` untuk SSE. |
+| **Dukungan Lama** | ❌ Tidak | Tidak kompatibel dengan aplikasi Chat Completion lama tanpa perubahan |
+
+</View>
+
+<View title="Chat Completions API (Legacy)" icon="message-circle-dots">
+
+**API Chat Completions** (`/v1/chat/completions`) sepenuhnya kompatibel dengan API Chat OpenAI standar. Gunakan ini jika Kamu memigrasikan aplikasi yang sudah ada (misalnya, menggunakan LangChain, AutoGen) dan ingin mengubah sesedikit mungkin kode.
+
+**Karakteristik:**
+
+* **Stateless**: Kamu harus mengirimkan seluruh riwayat percakapan (array `messages`) di setiap permintaan.
+* **Format Standar**: Menggunakan struktur array `choices` yang sudah dikenal.
+* **Kompatibilitas Luas**: Langsung berfungsi dengan hampir semua tools dan library LLM.
+
+### Mulai Cepat Chat Completions
+
+Kamu dapat menggunakan metode standar `client.chat.completions.create`.
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<KUNCI_API_ANDA>"
+)
+
+completion = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "system", "content": "Kamu adalah asisten yang membantu."},
+        {"role": "user", "content": "Halo!"}
+    ]
+)
+
+print(completion.choices[0].message.content)
+```
+
+### Pemanggilan Tools Chat Completions
+
+Ini menggunakan format OpenAI standar untuk mendefinisikan tools dan menangani respons panggilan fungsi. Untuk panduan mendalam, lihat [dokumentasi Pemanggilan Tools](/id/how-tools).
+
+```python Python
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Ambil cuaca saat ini",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {"type": "string"}
+            },
+            "required": ["location"]
+        }
+    }
+}]
+
+completion = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Bagaimana cuaca di Jakarta?"}],
+    tools=tools
+)
+
+tool_calls = completion.choices[0].message.tool_calls
+if tool_calls:
+    for tc in tool_calls:
+        print(f"Fungsi: {tc.function.name}, Argumen: {tc.function.arguments}")
+```
+
+### Format Chat Completions
+
+Mengembalikan objek Chat Completion standar. Untuk detail lengkap tentang format respons, silakan merujuk ke [Referensi API Chat Completions](/api-reference/chat/completions/create).
+
+```json
+{
+  "id": "chatcmpl-C9EDpk...",
+  "object": "chat.completion",
+  "created": 1756315657,
+  "model": "nusantara-base",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Di bawah hamparan cahaya bintang..."
+      },
+      "finish_reason": "stop"
+    }
+  ]
+}
+```
+
+### Matriks Dukungan Chat Completions
+
+| Fitur | Status | Catatan |
+| :--- | :---: | :--- |
+| **Endpoint** | `/v1/chat/completions` | Endpoint standar yang kompatibel dengan OpenAI |
+| **Manajemen Status** | ❌ Stateless | Klien harus mengelola dan mengirim seluruh riwayat |
+| **Format Input** | Ketat | Memerlukan array `messages` |
+| **Penggunaan Tools** | ✅ Didukung | Format panggilan fungsi standar. |
+| **Streaming** | ✅ Didukung | Format SSE standar. |
+| **Dukungan Lama** | ✅ Ya | Pengganti langsung untuk aplikasi OpenAI yang sudah ada |
+
+</View>

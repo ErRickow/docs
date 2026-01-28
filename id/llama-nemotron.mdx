@@ -17,10 +17,9 @@ Model akan memberikan proses berpikir sebelum memberikan jawaban akhir.
 
 #### **Menonaktifkan Penalaran**
 
-Gunakan perintah `/no_think` di awal **system prompt** Anda untuk mendapatkan jawaban langsung tanpa proses *chain-of-thought*.
+Gunakan perintah `/no_think` di awal **system prompt** Kamu untuk mendapatkan jawaban langsung tanpa proses *chain-of-thought*.
 
-<CodeGroup>
-```python Python icon="python"
+```python
 from openai import OpenAI
 
 client = OpenAI(
@@ -44,7 +43,6 @@ for chunk in stream:
     if chunk.choices[0].delta.content is not None:
         print(chunk.choices[0].delta.content, end="", flush=True)
 ```
-</CodeGroup>
 
 ### Praktik Terbaik
 

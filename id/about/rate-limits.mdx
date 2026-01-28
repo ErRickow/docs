@@ -12,9 +12,10 @@ Untuk informasi mengenai penagihan dan kredit, silakan lihat [Kredit Token & Har
 ## Batas Throughput (Kecepatan)
 
 Sistem menerapkan tiga jenis batasan:
-*   **RPM (Requests Per Minute):** Maksimal jumlah permintaan HTTP per menit.
-*   **ITPM (Input Tokens Per Minute):** Maksimal jumlah token input per menit.
-*   **OTPM (Output Tokens Per Minute):** Maksimal jumlah token output per menit.
+
+* **RPM (Requests Per Minute):** Maksimal jumlah permintaan HTTP per menit.
+* **ITPM (Input Tokens Per Minute):** Maksimal jumlah token input per menit.
+* **OTPM (Output Tokens Per Minute):** Maksimal jumlah token output per menit.
 
 ### Batas API Standar
 
@@ -27,14 +28,14 @@ Sistem menerapkan tiga jenis batasan:
 | Enterprise | 4.000 | 500.000 | 125.000 |
 
 <Note>
-**Upgrade Tier:** Tier akun disesuaikan otomatis berdasarkan riwayat total deposit Anda.
+**Upgrade Tier:** Tier akun disesuaikan otomatis berdasarkan riwayat total deposit Kamu.
 </Note>
 
 ---
 
 ## Response Headers
 
-Setiap respon API menyertakan header HTTP untuk memantau sisa kuota penggunaan Anda secara waktu nyata.
+Setiap respon API menyertakan header HTTP untuk memantau sisa kuota penggunaan Kamu secara waktu nyata.
 
 | Header | Deskripsi |
 | :--- | :--- |
@@ -48,6 +49,7 @@ Setiap respon API menyertakan header HTTP untuk memantau sisa kuota penggunaan A
 ## Penanganan Error
 
 ### 429 Too Many Requests
+
 Error ini menunjukkan bahwa salah satu batas teknis (RPM, ITPM, atau OTPM) telah terlampaui. Respon akan menyertakan header `Retry-After` yang menentukan waktu tunggu dalam detik sebelum permintaan baru dapat dilakukan.
 
 ```json

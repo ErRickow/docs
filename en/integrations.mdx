@@ -3,19 +3,47 @@ title: 'Integrations'
 description: '> Use Neosantara AI models through partner integrations.'
 ---
 
+## LangChain
+
+*LangChain is a framework for developing applications powered by large language models (LLMs).*
+
+Install the `langchain-openai` package.
+
+```bash
+pip install langchain-openai
+```
+
+Instantiate the Neosantara client and invoke the model.
+
+```python
+from langchain_openai import ChatOpenAI
+import os
+
+llm = ChatOpenAI(
+    model="nusantara-base",
+    openai_api_key=os.environ.get("NAI_API_KEY"),
+    openai_api_base="https://api.neosantara.xyz/v1",
+)
+
+response = llm.invoke("What are the benefits of using a regional AI API?")
+print(response.content)
+```
+
+Learn more in our [LangChain Guide](/id/langchain).
+
 ## Vercel AI SDK
 
 *The Vercel AI SDK is a powerful Typescript library designed to help developers build AI-powered applications.*
 
 Install both the Vercel AI SDK and OpenAI's Vercel package.
 
-```shell Shell
+```bash
 npm i ai @ai-sdk/openai
 ```
 
-Instantiate the Neosantara client and call the generateText function with GPT-5 Mini to generate some text.
+Instantiate the Neosantara client and call the generateText function to generate some text.
 
-```typescript TypeScript icon="square-js"
+```typescript
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText } from 'ai';
 
@@ -33,7 +61,7 @@ const { text } = await generateText({
 console.log(text)
 ```
 
-Learn more in our [Neosantara AI - Vercel AI SDK Guide](/en/using-neosantara-with-vercels-ai-sdk).
+Learn more in our [Neosantara AI - Vercel AI SDK Guide](/id/using-neosantara-with-vercels-ai-sdk).
 
 ## LlamaIndex
 
@@ -41,19 +69,20 @@ Learn more in our [Neosantara AI - Vercel AI SDK Guide](/en/using-neosantara-wit
 
 Install `llama-index`
 
-```shell Shell
+```bash
 pip install llama-index
 ```
 
 Here's sample code to get you started with Llama Index + Neosantara AI:
 
-```python Python icon="python"
+```python
 from llama_index.llms.openai_like import OpenAILike
+import os
 
 llm = OpenAILike(
     model="nusantara-base",
     api_base="https://api.neosantara.xyz/v1",
-    api_key="NAI_API_KEY",
+    api_key=os.environ.get("NAI_API_KEY"),
     is_chat_model=True,
     is_function_calling_model=True,
     temperature=0.1,
@@ -64,7 +93,7 @@ response = llm.complete("Write up to 500 words essay explaining Large Language M
 print(response)
 ```
 
-See [this tutorial blog](/en/llama-index) for the RAG implementation details using Neosantara and LlamaIndex.
+See [this tutorial blog](/id/llama-index) for the RAG implementation details using Neosantara and LlamaIndex.
 
 ## CrewAI
 
@@ -72,14 +101,14 @@ See [this tutorial blog](/en/llama-index) for the RAG implementation details usi
 
 Install `crewai`
 
-```shell Shell
+```bash
 pip install crewai
 export NAI_API_KEY=***
 ```
 
 Build an multi-agent workflow:
 
-```python Python icon="python"
+```python
 import os
 from crewai import LLM, Task, Agent, Crew
 
@@ -102,7 +131,7 @@ research_task = Task(
     agent=research_agent
 )
 
-## Execute the crew
+# Execute the crew
 crew = Crew(
     agents=[research_agent],
     tasks=[research_task],
@@ -111,13 +140,13 @@ crew = Crew(
 
 result = crew.kickoff()
 
-## Accessing the task output
+# Accessing the task output
 task_output = research_task.output
 
 print(task_output)
 ```
 
-Learn more in our [CrewAI guide](/en/crewai).
+Learn more in our [CrewAI guide](/id/crewai).
 
 ## PydanticAI
 
@@ -125,19 +154,20 @@ Learn more in our [CrewAI guide](/en/crewai).
 
 Install `pydantic-ai`
 
-```shell Shell
+```bash
 pip install pydantic-ai
 export NAI_API_KEY=***
 ```
 
 Build PydanticAI agents using Neosantara AI models
 
-```python Python icon="python"
+```python
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
+import os
 
-## Connect PydanticAI to LLMs on Neosantara
+# Connect PydanticAI to LLMs on Neosantara
 model = OpenAIChatModel(
     'nusantara-base',
     provider=OpenAIProvider(
@@ -146,7 +176,7 @@ model = OpenAIChatModel(
     ),
 )
 
-## Setup the agent
+# Setup the agent
 agent = Agent(
     model,
     system_prompt='Be concise, reply with one sentence.',
@@ -156,7 +186,7 @@ result = agent.run_sync('Where does "hello world" come from?')
 print(result.output)
 ```
 
-Learn more in our [PydanticAI Guide](/en/pydantic-ai)
+Learn more in our [PydanticAI Guide](/id/pydantic-ai)
 
 ## Arcade.dev
 
@@ -170,43 +200,44 @@ Prerequisites:
 * Arcade API key - see here [https://arcade.dev/](https://arcade.dev/)
 * Gmail account to connect via OAuth
 
-```shell Shell
-## install the required packages
-!pip install -qU openai arcadepy
+```bash
+# install the required packages
+pip install -qU openai arcadepy
 ```
 
 Gmail Configuration:
 
 <CodeGroup>
-  ```python Python icon="python"
-  import os
-  from arcadepy import Arcade
-  from openai import OpenAI
 
-  ## Set environment variables
-  os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Replace with your actual Neosantara API key
-  os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Replace with your actual Arcade API key
+```python Python
+import os
+from arcadepy import Arcade
+from openai import OpenAI
 
-  ## Initialize clients
-  nai_client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
-  arcade_client = Arcade()  # Automatically finds the ARCADE_API_KEY env variable
+# Set environment variables
+os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Replace with your actual Neosantara API key
+os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Replace with your actual Arcade API key
 
-  ## Set up user ID (your email)
-  USER_ID = "your@gmail.com"  # Change this to your email
+# Initialize clients
+nai_client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
+arcade_client = Arcade()  # Automatically finds the ARCADE_API_KEY env variable
 
-  ## Authorize Gmail access
-  auth_response = arcade_client.tools.authorize(
-      tool_name="Google.SendEmail",
-      user_id=USER_ID,
-  )
+# Set up user ID (your email)
+USER_ID = "<your@gmail.com>"  # Change this to your email
 
-  if auth_response.status != "completed":
-      print(f"Click this link to authorize: {auth_response.url}")
-      # Wait for the authorization to complete
-      arcade_client.auth.wait_for_completion(auth_response)
+# Authorize Gmail access
+auth_response = arcade_client.tools.authorize(
+    tool_name="Google.SendEmail",
+    user_id=USER_ID,
+)
 
-  print("Authorization completed!")
-  ```
+if auth_response.status != "completed":
+    print(f"Click this link to authorize: {auth_response.url}")
+    # Wait for the authorization to complete
+    arcade_client.auth.wait_for_completion(auth_response)
+
+print("Authorization completed!")
+```
 </CodeGroup>
 
 ## DSPy
@@ -215,43 +246,42 @@ Gmail Configuration:
 
 Install `dspy`
 
-```shell Shell
+```bash
 pip install -U dspy
 export NAI_API_KEY=***
 ```
 
 Build a question answering agent
 
-```python Python icon="python"
+```python
 import dspy
+import os
 
-#Configure dspy with a LLM from Neosantara AI
-lm = dspy.LM('neosantara_ai/archipelago-70b', 
+# Configure dspy with a LLM from Neosantara AI
+lm = dspy.LM('openai/nusantara-base', 
              api_key=os.environ.get("NAI_API_KEY"), 
              api_base="https://api.neosantara.xyz/v1")
 
-#Configure dspy to use the LLM
+# Configure dspy to use the LLM
 dspy.configure(lm=lm)
 
-## Gives the agent access to a wikipedia search tool
+# Gives the agent access to a wikipedia search tool
 def search_wikipedia(query: str):
     # Use a more general search or the specific page if known to be reliable
-    # For a general search, you might use a different tool or API
-    # For this specific case, we stick to the provided URL but simplify the output
     results = dspy.ColBERTv2(url='https://id.m.wikipedia.org/wiki/Prabowo_Subianto')(query, k=1) # Get top 1 result
     # Return the raw text content for the LLM to process
     return results[0]['text'] if results else "No relevant information found."
 
 
-## setup ReAct module with question and string answer signature
+# setup ReAct module with question and string answer signature
 react = dspy.ReAct("question -> answer: str", tools=[search_wikipedia])
 
-pred = react(question="when is prabowo was born?")
+pred = react(question="when was prabowo born?")
 
 print(pred.answer)
 ```
 
-Learn more in our [DSPy Guide](/en/dspy).
+Learn more in our [DSPy Guide](/id/dspy).
 
 ## AutoGen(AG2)
 
@@ -259,41 +289,41 @@ Learn more in our [DSPy Guide](/en/dspy).
 
 Install `autogen`
 
-```shell Shell
+```bash
 pip install autogen
 export NAI_API_KEY=***
 ```
 
 Build a coding agent
 
-```python Python icon="python"
+```python
 import os
 from pathlib import Path
 from autogen import AssistantAgent, UserProxyAgent
 from autogen.coding import LocalCommandLineCodeExecutor
 
-  config_list = [
-      {
-          # Let's choose the Nusantara-Base model
-          "model": "nusantara-base",
-          "base_url": "https://api.neosantara.xyz/v1",
-          # Provide your Neosantara.xyz API key here or put it into the NAI_API_KEY environment variable.
+config_list = [
+    {
+        # Let's choose the Nusantara-Base model
+        "model": "nusantara-base",
+        "base_url": "https://api.neosantara.xyz/v1",
+        # Provide your Neosantara.xyz API key here or put it into the NAI_API_KEY environment variable.
         "api_key": os.environ.get("NAI_API_KEY"),
-          # We specify the API Type as 'openai' so it uses the OpenAI client class
+        # We specify the API Type as 'openai' so it uses the OpenAI client class
         "api_type": "openai",
         "stream": False,
         "price": [300/1000000*1000, 1500/1000000*1000] # Input: $300/M tokens = $0.3/k tokens, Output: $1500/M tokens = $1.5/k tokens
     }
 ]
 
-## Setting up the code executor
+# Setting up the code executor
 workdir = Path("coding")
 workdir.mkdir(exist_ok=True)
 code_executor = LocalCommandLineCodeExecutor(work_dir=workdir)
 
-## Setting up the agents
+# Setting up the agents
 
-## The UserProxyAgent will execute the code that the AssistantAgent provides
+# The UserProxyAgent will execute the code that the AssistantAgent provides
 user_proxy_agent = UserProxyAgent(
     name="User",
     code_execution_config={"executor": code_executor},
@@ -304,21 +334,21 @@ system_message = """You are a helpful AI assistant who writes code and the user 
 Solve tasks using your coding and language skills.
 """
 
-## The AssistantAgent, using Neosantara's nusantara-base model, will take the coding request and return code
+# The AssistantAgent, using Neosantara's nusantara-base model, will take the coding request and return code
 assistant_agent = AssistantAgent(
     name="NAI Coding Assistant",
     system_message=system_message,
     llm_config={"config_list": config_list},
 )
 
-## Start the chat, with the UserProxyAgent asking the AssistantAgent the message
+# Start the chat, with the UserProxyAgent asking the AssistantAgent the message
 chat_result = user_proxy_agent.initiate_chat(
     assistant_agent,
     message="Provide code to count the number of prime numbers from 1 to 10000.",
 )
 ```
 
-Learn more in our [Autogen Guide](/en/autogen).
+Learn more in our [Autogen Guide](/id/autogen).
 
 ## Agno
 
@@ -326,21 +356,22 @@ Learn more in our [Autogen Guide](/en/autogen).
 
 Install `agno`
 
-```shell Shell
+```bash
 pip install -U agno ddgs
 ```
 
 Build a search and answer agent
 
-```python Python icon="python"
+```python
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
 from agno.tools.duckduckgo import DuckDuckGoTools
+import os
 
 agent = Agent(
     model=OpenAILike(
-        id="nusantara-base"
-        api_key=os.environ.get("NAI_API_KEY")
+        id="nusantara-base",
+        api_key=os.environ.get("NAI_API_KEY"),
         base_url="https://api.neosantara.xyz/v1"
     ),
     tools=[DuckDuckGoTools()],
@@ -349,7 +380,7 @@ agent = Agent(
 agent.print_response("What's happening in Indonesia?", stream=True)
 ```
 
-Learn more in our [Agno Guide](/en/agno).
+Learn more in our [Agno Guide](/id/agno).
 
 ## Pinecone
 
@@ -357,9 +388,10 @@ Learn more in our [Agno Guide](/en/agno).
 
 Here's some sample code to get you started with Pinecone + Neosantara AI:
 
-```python Python icon="python"
+```python
 from pinecone import Pinecone, ServerlessSpec
 from openai import OpenAI
+import os
 
 pc = Pinecone(
   api_key="PINECONE_API_KEY", 
@@ -370,7 +402,7 @@ nai = OpenAI(
     base_url="https://api.neosantara.xyz/v1"
 )
 
-## Create an index in pinecone
+# Create an index in pinecone
 index = pc.create_index(
     name="serverless-index",
     dimension=1536,
@@ -378,12 +410,12 @@ index = pc.create_index(
     spec=ServerlessSpec(cloud="aws", region="us-west-2"),
 )
 
-## Create an embedding on Neosantara AI
+# Create an embedding on Neosantara AI
 textToEmbed = "Our solar system orbits the Milky Way galaxy at about 515,000 mph"
 embeddings = nai.embeddings.create(
     model="nusa-embedding-0001", 
-  	input=textToEmbed
+   input=textToEmbed
 )
 
-## Use index.upsert() to insert embeddings and index.query() to query for similar vectors
+# Use index.upsert() to insert embeddings and index.query() to query for similar vectors
 ```

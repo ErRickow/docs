@@ -7,65 +7,57 @@ CrewAI is an open source production-grade framework for orchestrating AI agent s
 
 ## Installing Libraries
 
-<CodeGroup>
-  ```shell Shell
-  uv pip install crewai
-  ```
-</CodeGroup>
+```bash
+uv pip install crewai
+```
 
 Set your Together AI API key:
 
-<CodeGroup>
-  ```shell Shell
-  export NAI_API_KEY=***
-  ```
-</CodeGroup>
+```bash
+export NAI_API_KEY=***
+```
 
 ## Example
 
-<CodeGroup>
-  ```python Python icon="python"
-  import os
-  from crewai import LLM, Task, Agent, Crew
+```python
+import os
+from crewai import LLM, Task, Agent, Crew
 
-  llm = LLM(model="openai/nusantara-base",
-            api_key=os.environ.get("NAI_API_KEY"),
-            base_url="https://api.neosantara.xyz/v1"
-          )
+llm = LLM(model="openai/nusantara-base",
+          api_key=os.environ.get("NAI_API_KEY"),
+          base_url="https://api.neosantara.xyz/v1"
+        )
 
-  research_agent = Agent(
-      llm = llm,
-      role="Research Analyst",
-      goal="Find and summarize information about specific topics",
-      backstory="You are an experienced researcher with attention to detail",
-      verbose=True  # Enable logging for debugging
-  )
+research_agent = Agent(
+    llm = llm,
+    role="Research Analyst",
+    goal="Find and summarize information about specific topics",
+    backstory="You are an experienced researcher with attention to detail",
+    verbose=True  # Enable logging for debugging
+)
 
-  research_task = Task(
-      description="Conduct a thorough research about AI Agents.",
-      expected_output="A list with 10 bullet points of the most relevant information about AI Agents",
-      agent=research_agent
-  )
+research_task = Task(
+    description="Conduct a thorough research about AI Agents.",
+    expected_output="A list with 10 bullet points of the most relevant information about AI Agents",
+    agent=research_agent
+)
 
-  # Execute the crew
-  crew = Crew(
-      agents=[research_agent],
-      tasks=[research_task],
-      verbose=True
-  )
+# Execute the crew
+crew = Crew(
+    agents=[research_agent],
+    tasks=[research_task],
+    verbose=True
+)
 
-  result = crew.kickoff()
+result = crew.kickoff()
 
-  # Accessing the task output
-  task_output = research_task.output
-
-  print(task_output)
-  ```
-</CodeGroup>
+# Accessing the task output
+task_output = research_task.output
+print(task_output)
+```
 
 <Accordion title="See output">
 
-```
 ╭──────────────────────────────────────────── Crew Execution Started ─────────────────────────────────────────────╮
 │                                                                                                                 │
 │  Crew Execution Started                                                                                         │
@@ -90,32 +82,32 @@ Set your Together AI API key:
 │  Agent: Research Analyst                                                                                        │
 │                                                                                                                 │
 │  Final Answer:                                                                                                  │
-│  * AI Agents are computer programs that use artificial intelligence (AI) to perform tasks that would typically  │
+│  *AI Agents are computer programs that use artificial intelligence (AI) to perform tasks that would typically  │
 │  require human intelligence, such as reasoning, problem-solving, and decision-making. They can be used in a     │
 │  variety of applications, including virtual assistants, customer service chatbots, and autonomous vehicles.     │
-│  * There are several types of AI Agents, including simple reflex agents, model-based reflex agents, goal-based  │
+│* There are several types of AI Agents, including simple reflex agents, model-based reflex agents, goal-based  │
 │  agents, utility-based agents, and learning agents. Each type of agent has its own strengths and weaknesses,    │
 │  and is suited to specific tasks and environments.                                                              │
-│  * Simple reflex agents are the most basic type of AI Agent, and react to the current state of the environment  │
+│  *Simple reflex agents are the most basic type of AI Agent, and react to the current state of the environment  │
 │  without considering future consequences. They are often used in applications where the environment is fully    │
 │  observable, such as in game playing.                                                                           │
-│  * Model-based reflex agents, on the other hand, maintain an internal model of the environment and use this     │
+│* Model-based reflex agents, on the other hand, maintain an internal model of the environment and use this     │
 │  model to make decisions. They are more sophisticated than simple reflex agents and can handle partially        │
 │  observable environments.                                                                                       │
-│  * Goal-based agents are designed to achieve specific goals, and use a variety of techniques such as planning   │
+│  *Goal-based agents are designed to achieve specific goals, and use a variety of techniques such as planning   │
 │  and decision-making to achieve these goals. They are often used in applications such as robotics and           │
 │  autonomous vehicles.                                                                                           │
-│  * Utility-based agents make decisions based on a utility function that estimates the desirability of each      │
+│* Utility-based agents make decisions based on a utility function that estimates the desirability of each      │
 │  possible action. They are often used in applications such as recommender systems and decision support          │
 │  systems.                                                                                                       │
-│  * Learning agents use machine learning algorithms to improve their performance over time. They can learn from  │
+│  *Learning agents use machine learning algorithms to improve their performance over time. They can learn from  │
 │  experience, and adapt to changing environments and tasks.                                                      │
-│  * AI Agents can be classified into two categories: autonomous agents and semi-autonomous agents. Autonomous    │
+│* AI Agents can be classified into two categories: autonomous agents and semi-autonomous agents. Autonomous    │
 │  agents operate independently, while semi-autonomous agents require human intervention to function.             │
-│  * The advantages of AI Agents include increased efficiency, improved accuracy, and enhanced decision-making    │
+│  *The advantages of AI Agents include increased efficiency, improved accuracy, and enhanced decision-making    │
 │  capabilities. They can also operate 24/7 without fatigue, and can handle large amounts of data and complex     │
 │  tasks.                                                                                                         │
-│  * The development of AI Agents involves several challenges, including ensuring their safety, security, and     │
+│* The development of AI Agents involves several challenges, including ensuring their safety, security, and     │
 │  transparency. There are also ethical concerns surrounding the use of AI Agents, such as bias, privacy, and     │
 │  accountability. As AI Agents become more pervasive, it is essential to address these challenges and ensure     │
 │  that they are developed and used responsibly.                                                                  │
@@ -136,39 +128,40 @@ Set your Together AI API key:
 │  Name: crew                                                                                                     │
 │  ID: 9a2644b9-5ddb-4e23-bfd1-83dbb3c3e44e                                                                       │
 │  Tool Args:                                                                                                     │
-│  Final Output: * AI Agents are computer programs that use artificial intelligence (AI) to perform tasks that    │
+│  Final Output: *AI Agents are computer programs that use artificial intelligence (AI) to perform tasks that    │
 │  would typically require human intelligence, such as reasoning, problem-solving, and decision-making. They can  │
 │  be used in a variety of applications, including virtual assistants, customer service chatbots, and autonomous  │
 │  vehicles.                                                                                                      │
-│  * There are several types of AI Agents, including simple reflex agents, model-based reflex agents, goal-based  │
+│* There are several types of AI Agents, including simple reflex agents, model-based reflex agents, goal-based  │
 │  agents, utility-based agents, and learning agents. Each type of agent has its own strengths and weaknesses,    │
 │  and is suited to specific tasks and environments.                                                              │
-│  * Simple reflex agents are the most basic type of AI Agent, and react to the current state of the environment  │
+│  *Simple reflex agents are the most basic type of AI Agent, and react to the current state of the environment  │
 │  without considering future consequences. They are often used in applications where the environment is fully    │
 │  observable, such as in game playing.                                                                           │
-│  * Model-based reflex agents, on the other hand, maintain an internal model of the environment and use this     │
+│* Model-based reflex agents, on the other hand, maintain an internal model of the environment and use this     │
 │  model to make decisions. They are more sophisticated than simple reflex agents and can handle partially        │
 │  observable environments.                                                                                       │
-│  * Goal-based agents are designed to achieve specific goals, and use a variety of techniques such as planning   │
+│  *Goal-based agents are designed to achieve specific goals, and use a variety of techniques such as planning   │
 │  and decision-making to achieve these goals. They are often used in applications such as robotics and           │
 │  autonomous vehicles.                                                                                           │
-│  * Utility-based agents make decisions based on a utility function that estimates the desirability of each      │
+│* Utility-based agents make decisions based on a utility function that estimates the desirability of each      │
 │  possible action. They are often used in applications such as recommender systems and decision support          │
 │  systems.                                                                                                       │
-│  * Learning agents use machine learning algorithms to improve their performance over time. They can learn from  │
+│  *Learning agents use machine learning algorithms to improve their performance over time. They can learn from  │
 │  experience, and adapt to changing environments and tasks.                                                      │
-│  * AI Agents can be classified into two categories: autonomous agents and semi-autonomous agents. Autonomous    │
+│* AI Agents can be classified into two categories: autonomous agents and semi-autonomous agents. Autonomous    │
 │  agents operate independently, while semi-autonomous agents require human intervention to function.             │
-│  * The advantages of AI Agents include increased efficiency, improved accuracy, and enhanced decision-making    │
+│  *The advantages of AI Agents include increased efficiency, improved accuracy, and enhanced decision-making    │
 │  capabilities. They can also operate 24/7 without fatigue, and can handle large amounts of data and complex     │
 │  tasks.                                                                                                         │
-│  * The development of AI Agents involves several challenges, including ensuring their safety, security, and     │
+│* The development of AI Agents involves several challenges, including ensuring their safety, security, and     │
 │  transparency. There are also ethical concerns surrounding the use of AI Agents, such as bias, privacy, and     │
 │  accountability. As AI Agents become more pervasive, it is essential to address these challenges and ensure     │
 │  that they are developed and used responsibly.                                                                  │
 │                                                                                                                 │
 │                                                                                                                 │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
 * AI Agents are computer programs that use artificial intelligence (AI) to perform tasks that would typically require human intelligence, such as reasoning, problem-solving, and decision-making. They can be used in a variety of applications, including virtual assistants, customer service chatbots, and autonomous vehicles.
 * There are several types of AI Agents, including simple reflex agents, model-based reflex agents, goal-based agents, utility-based agents, and learning agents. Each type of agent has its own strengths and weaknesses, and is suited to specific tasks and environments.
 * Simple reflex agents are the most basic type of AI Agent, and react to the current state of the environment without considering future consequences. They are often used in applications where the environment is fully observable, such as in game playing.
@@ -179,5 +172,5 @@ Set your Together AI API key:
 * AI Agents can be classified into two categories: autonomous agents and semi-autonomous agents. Autonomous agents operate independently, while semi-autonomous agents require human intervention to function.
 * The advantages of AI Agents include increased efficiency, improved accuracy, and enhanced decision-making capabilities. They can also operate 24/7 without fatigue, and can handle large amounts of data and complex tasks.
 * The development of AI Agents involves several challenges, including ensuring their safety, security, and transparency. There are also ethical concerns surrounding the use of AI Agents, such as bias, privacy, and accountability. As AI Agents become more pervasive, it is essential to address these challenges and ensure that they are developed and used responsibly.
-```
+
 </Accordion>

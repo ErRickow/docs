@@ -1,0 +1,66 @@
+/* Neosantara Custom Styles - Inspired by LangChain */
+
+/* Make sidebar title heavier weight */
+#sidebar-title {
+    font-weight: 600 !important;
+  }
+
+/* Inline code links have same color and underline as regular links */
+a code,
+a[href] code {
+  color: inherit !important;
+  text-decoration: none !important; /* Remove underline from code itself */
+  padding: 0 !important; /* Remove padding to prevent gaps in parent link underline */
+}
+
+/* Ensure callout links and lists match callout text formatting */
+.callout a,
+[class*="callout"] a {
+  font-size: inherit !important;
+}
+
+.callout ul,
+.callout ol,
+.callout li,
+[class*="callout"] ul,
+[class*="callout"] ol,
+[class*="callout"] li {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* Ensure mermaid diagrams are centered */
+.mermaid {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+/* Fix vertical alignment in table cells */
+.prose table td, article table td, .markdown table td, .content table td, [class*="prose"] table td,
+.prose table th, article table th, .markdown table th, .content table th, [class*="prose"] table th {
+  vertical-align: middle !important;
+  line-height: 1.5 !important;
+}
+
+/* Hide pagination */
+#pagination {
+    display: none;
+  }
+
+/* Hide auto-generated callouts on home page */
+.home-page ~ :is(.callout, [data-callout-type]) {
+  display: none !important;
+}
+
+/* Custom Search Button styling */
+.home-page button:focus {
+    box-shadow: 0 0 0 2px var(--tw-ring-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .home-page h1 {
+        font-size: 2rem;
+    }
+}

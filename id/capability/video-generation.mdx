@@ -3,13 +3,13 @@ title: 'Pembuatan Video'
 description: 'Hasilkan video berkualitas tinggi dari prompt teks menggunakan GLM-4 Video.'
 ---
 
-Neosantara AI menyediakan antarmuka terpadu untuk pembuatan video, yang ditenagai oleh model **GLM-4 Video** (CogVideoX). Kemampuan ini memungkinkan Anda membuat video sinematik beresolusi tinggi langsung dari deskripsi teks atau dengan menyediakan gambar sebagai referensi.
+Neosantara AI menyediakan antarmuka terpadu untuk pembuatan video, yang ditenagai oleh model **GLM-4 Video** (CogVideoX). Kemampuan ini memungkinkan Kamu membuat video sinematik beresolusi tinggi langsung dari deskripsi teks atau dengan menyediakan gambar sebagai referensi.
 
 -----
 
 ### Cara Menggunakan API
 
-Pembuatan video adalah proses asinkron. Anda pertama-tama mengirimkan pekerjaan (*job*), lalu melakukan pengecekan statusnya secara berkala.
+Pembuatan video adalah proses asinkron. Kamu pertama-tama mengirimkan pekerjaan (*job*), lalu melakukan pengecekan statusnya secara berkala.
 
 #### **1. Kirim Pekerjaan Video**
 
@@ -20,7 +20,7 @@ Kirim permintaan `POST` ke `/v1/videos`.
 curl -X POST "https://api.neosantara.xyz/v1/videos" \
 -H "Authorization: Bearer <NAI_API_KEY>" \
 -H "Content-Type: application/json" \
--d 
+-d
 {
   "model": "cogvideox",
   "prompt": "Matahari terbenam yang indah di atas kepulauan Indonesia, pencahayaan sinematik, 4k",
@@ -30,10 +30,13 @@ curl -X POST "https://api.neosantara.xyz/v1/videos" \
 </CodeGroup>
 
 **Parameter:**
+
 - `model`: Wajib. Gunakan `cogvideox` atau `cogvideox-pro`.
-- `prompt`: Wajib. Deskripsi rinci tentang video yang ingin Anda buat (maks 2000 karakter).
-- `input_reference`: Opsional. URL gambar untuk digunakan sebagai titik awal (Image-to-Video).
-- `video_style`: Opsional. misal, `cinematic`, `anime`, `realistic`.
+- `prompt`: Wajib. Deskripsi rinci tentang video yang ingin Kamu buat (maks 2000 karakter).
+- `image_url`: Opsional. URL gambar untuk digunakan sebagai titik awal (Image-to-Video).
+- `video_style`: Opsional. Contoh: `cinematic`, `anime`, `realistic`.
+- `emotional_atmosphere`: Opsional. Mengatur suasana video (contoh: `uplifting`, `gloomy`, `epic`).
+- `mirror_mode`: Opsional. `true` atau `false` untuk mengaktifkan pencerminan horizontal pada output.
 
 #### **2. Cek Status Pekerjaan**
 
@@ -69,18 +72,18 @@ Pembuatan video adalah tugas komputasi tinggi dan ditagih per video yang dihasil
 | **cogvideox-pro** | Rp 25,000 | 12,500 Token |
 
 <Note>
-  Jika Anda dalam mode **Pay-As-You-Go**, biaya akan dipotong dari saldo Anda. Untuk pengguna langganan, ini akan dihitung terhadap kuota token harian/bulanan Anda menggunakan nilai ekuivalen token.
+  Jika Kamu dalam mode **Pay-As-You-Go**, biaya akan dipotong dari saldo Kamu. Untuk pengguna langganan, ini akan dihitung terhadap kuota token harian/bulanan Kamu menggunakan nilai ekuivalen token.
 </Note>
 
 -----
 
 ### Praktik Terbaik
 
-*   **Jadilah Deskriptif**: Deskripsikan subjek, aksi, pencahayaan, dan pergerakan kamera.
-*   **Resolusi**: Model saat ini mendukung output hingga 1024x1024 atau 720p tergantung pada variannya.
-*   **Panjang Prompt**: Jaga prompt di bawah 2000 karakter untuk hasil yang optimal.
+- **Jadilah Deskriptif**: Deskripsikan subjek, aksi, pencahayaan, dan pergerakan kamera.
+- **Resolusi**: Model saat ini mendukung output hingga 1024x1024 atau 720p tergantung pada variannya.
+- **Panjang Prompt**: Jaga prompt di bawah 2000 karakter untuk hasil yang optimal.
 
 ## Langkah Selanjutnya
 
-  * Lihat [Pembuatan Gambar](/id/capability/image-generation)
-  * Jelajahi [Model Penalaran](/id/capability/reasoning)
+- Lihat [Pembuatan Gambar](/id/capability/image-generation)
+- Jelajahi [Model Penalaran](/id/capability/reasoning)

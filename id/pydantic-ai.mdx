@@ -3,49 +3,49 @@ title: 'PydanticAI'
 description: '> Menggunakan PydanticAI dengan Neosantara.'
 ---
 
-PydanticAI adalah framework agen yang menyederhanakan pembangunan aplikasi AI generatif tingkat produksi dengan pendekatan yang aman secara tipe (*type-safe*).
+PydanticAI adalah framework agen yang dibuat oleh tim Pydantic untuk menyederhanakan pembangunan aplikasi AI generatif tingkat produksi. Framework ini membawa filosofi desain ergonomis dari FastAPI ke pengembangan agen AI, menawarkan pendekatan yang familiar dan type-safe untuk bekerja dengan model bahasa.
 
-## Instalasi
+## Instalasi Library
 
-<CodeGroup>
-  ```shell Shell
-  pip install pydantic-ai -q
-  ```
-</CodeGroup>
+```shell
+pip install pydantic-ai -q
+```
 
-Atur API Key Neosantara AI Anda:
+Atur API Key Neosantara AI Kamu:
 
-<CodeGroup>
-  ```shell Shell
-  export NAI_API_KEY=***
-  ```
-</CodeGroup>
+```shell
+export NAI_API_KEY=***
+```
 
 ## Contoh Penggunaan
 
-<CodeGroup>
-  ```python Python
-  from pydantic_ai import Agent
-  from pydantic_ai.models.openai import OpenAIChatModel
-  from pydantic_ai.providers.openai import OpenAIProvider
-  import os
-  
-  ## Hubungkan PydanticAI ke LLM di Neosantara
-  model = OpenAIChatModel(
-      'nusantara-base',
-      provider=OpenAIProvider(
-          base_url="https://api.neosantara.xyz/v1",
-          api_key=os.environ.get("NAI_API_KEY"),
-      ),
-  )
-  
-  ## Setup agen
-  agent = Agent(
-      model,
-      system_prompt='Singkat, jawab dalam satu kalimat.',
-  )
-  
-  result = agent.run_sync('Dari mana asal kata "hello world"?')  
-  print(result.output)
-  ```
-</CodeGroup>
+```python
+from pydantic_ai import Agent
+from pydantic_ai.models.openai import OpenAIChatModel
+from pydantic_ai.providers.openai import OpenAIProvider
+import os
+
+# Hubungkan PydanticAI ke LLM di Neosantara
+model = OpenAIChatModel(
+    'nusantara-base',
+    provider=OpenAIProvider(
+        base_url="https://api.neosantara.xyz/v1",
+        api_key=os.environ.get("NAI_API_KEY"),
+    ),
+)
+
+# Setup agen
+agent = Agent(
+    model,
+    system_prompt='Singkat, jawab dalam satu kalimat.',
+)
+
+result = agent.run_sync('Dari mana asal kata "hello world"?')  
+print(result.output)
+```
+
+### Output
+
+```python
+It originated with Brian Kernighan's examples for the B programming language, later popularized in "The C Programming Language" book.
+```

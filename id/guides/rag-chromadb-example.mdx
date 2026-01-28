@@ -7,19 +7,20 @@ Panduan ini menunjukkan cara membangun aplikasi Retrieval-Augmented Generation (
 
 ## Tinjauan
 
-Anda akan mempelajari cara:
-1.  Setup klien API Neosantara AI.
-2.  Instalasi dan inisialisasi ChromaDB.
-3.  Menggunakan model embedding (`nusa-embedding-0001`) untuk vektorisasi dokumen.
-4.  Menyimpan embedding di ChromaDB.
-5.  Mengambil dokumen relevan dan menghasilkan jawaban dengan `nusantara-base`.
+Kamu akan mempelajari cara:
+
+1. Setup klien API Neosantara AI.
+2. Instalasi dan inisialisasi ChromaDB.
+3. Menggunakan model embedding (`nusa-embedding-0001`) untuk vektorisasi dokumen.
+4. Menyimpan embedding di ChromaDB.
+5. Mengambil dokumen relevan dan menghasilkan jawaban dengan `nusantara-base`.
 
 ## Setup
 
 Instal library yang diperlukan:
 
 ```bash
-pip install -U openai chromadb numpy pandas
+pip install -U openai chromadb numpy pkamus
 ```
 
 ### Konfigurasi API Key
@@ -59,7 +60,7 @@ class NeosantaraEmbeddingFunction(EmbeddingFunction):
 
 ```python
 documents = [
-    "Sistem kontrol iklim Googlecar memungkinkan Anda mengatur suhu dan aliran udara menggunakan kenop di konsol tengah.",
+    "Sistem kontrol iklim Googlecar memungkinkan Kamu mengatur suhu dan aliran udara menggunakan kenop di konsol tengah.",
     "Googlecar memiliki layar sentuh besar untuk navigasi, hiburan, dan kontrol iklim.",
     "Shifting Gears: Googlecar memiliki transmisi otomatis dengan posisi Park, Reverse, Neutral, Drive, dan Low."
 ]

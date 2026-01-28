@@ -1,0 +1,48 @@
+---
+title: "Holo2 30B"
+description: "Scaleway Holo2 30B: Efficient and fast model for general tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { holo230bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...holo230bData} />
+
+## Overview
+
+Holo2 30B is an efficient and fast language model hosted on Scaleway, designed for general-purpose tasks. It offers a good balance between performance and speed, with support for function calling and JSON mode.
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -d '{
+    "model": "holo2-30b",
+    "messages": [
+      { "role": "user", "content": "Apa itu Scaleway?" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+response = client.chat.completions.create(
+    model="holo2-30b",
+    messages=[
+        {"role": "user", "content": "Apa itu Scaleway?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+</CodeGroup>

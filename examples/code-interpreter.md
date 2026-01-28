@@ -20,6 +20,7 @@ Before you begin please make a new file named `index.ts` or other name with foll
 </Note>
 
 ### First Import Necessary Library
+
 ```ts
 import { CodeInterpreter, Result, ProcessMessage } from '@e2b/code-interpreter'
 import { Openai } from 'openai'
@@ -28,10 +29,11 @@ import dotenv from 'dotenv'
 
 dotenv.config() // read the .env file
 
-```
+```python
 
 ### Fill In The ApiKey
-```
+
+```python
 // Define API keys
 
 // TODO: Fill your Neosantara apikey to .env file
@@ -39,19 +41,20 @@ const NAI_API_KEY = process.env.NAI_API_KEY
 
 // TODO: Get your E2B API key from https://e2b.dev/docs and fill it to .env file
 const E2B_API_KEY = process.env.E2B_API_KEY
-```
+```python
 
 > - **TODO:** make a file named `.env` then fill the following examples
+>
 ```plaintext
 NAI_API_KEY=your_neosantara_api_key
 E2B_API_KEY=your_e2b_api_key
-```
+```python
 
 ### Define The Models
 
 You can choose any [model\'s Neosantara](/en/models-overview)
 
-```
+```python
 // Choose the model
 
 const MODEL_NAME = 'nusantara-base'
@@ -60,10 +63,13 @@ const MODEL_NAME = 'nusantara-base'
 // const MODEL_NAME = 'gemini-2.0-flash' // external models
 // const MODEL_NAME = 'luminai' // indonesian external models
 // const MODEL_NAME = 'command-r' // external models
-```
+```python
+
 ### Define The System Prompt
+
 - **TODO:** copy the example below
-```
+
+```python
 // Provide system prompt
 const SYSTEM_PROMPT = `
 You're a python data scientist. You are given tasks to complete and you run Python code to solve them.
@@ -133,10 +139,11 @@ Generally, you follow these rules:
 - you also have access to the filesystem and can read/write files.
 - you can install any pip package (if it exists) if you need to be running \`!pip install {package}\`. The usual packages for data analysis are already preinstalled though.
 - you can run any Python code you want, everything is running in a secure sandbox environment
-```
+```python
 
 ### The Main Functions
-```
+
+```python
 // Initialize Neosantara client using Openai SDK
 const client = new Openai({
   baseUrl: 'https://api.neosantara.xyz/v1',
@@ -254,8 +261,8 @@ async function run() {
 
 run()
 
-```
+```python
 
-### Here You Go!
+### Here You Go
 
 Congratulations 🎉  You are Done Integrate Code Interpreter With [E2B](https://e2b.dev) and [Neosantara AI](https://neosantara.xyz)

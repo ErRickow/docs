@@ -1,0 +1,128 @@
+---
+title: 'Pengenalan API'
+description: 'Selamat datang di dokumentasi API Neosantara AI.'
+---
+
+Neosantara AI menyediakan platform Kecerdasan Buatan berkinerja tinggi dan sadar budaya yang dirancang untuk memberdayakan pengembang dengan kemampuan bahasa, penalaran, dan visi tingkat lanjut. API kami dibangun agar **kompatibel dengan OpenAI**, memastikan pengalaman integrasi yang mulus untuk aplikasi yang sudah ada sambil menawarkan model khusus yang dioptimalkan untuk konteks Indonesia.
+
+## Tujuan
+
+Tujuan utama dari API Neosantara AI adalah untuk menyediakan tools yang mudah diakses, skalabel, dan cerdas bagi para pengembang untuk membangun aplikasi generasi berikutnya. Baik Kamu sedang membangun agen dukungan pelanggan, asisten penulisan kreatif, atau tools analisis data yang kompleks, API kami memberikan kecerdasan yang Kamu butuhkan dengan nuansa budaya yang penting.
+
+## Cakupan dan Kemampuan
+
+API Neosantara AI mencakup berbagai kemampuan AI, yang memungkinkan Kamu untuk:
+
+<CardGroup cols={2}>
+  <Card title="Generasi Teks" icon="message-bot">
+    Hasilkan teks, kode, dan konten kreatif yang menyerupai manusia menggunakan LLM canggih kami seperti `nusantara-base`.
+  </Card>
+  <Card title="Visi & Multimodal" icon="eye">
+    Analisis dan pahami gambar, dokumen, dan data visual dengan model seperti `neosantara-base` atau `kimi-k2`.
+  </Card>
+  <Card title="Generasi Gambar" icon="image">
+    Buat visual yang menakjubkan dari prompt teks menggunakan model generasi mutakhir kami.
+  </Card>
+  <Card title="Embeddings" icon="vector-square">
+    Ubah teks menjadi representasi vektor untuk pencarian semantik, pengelompokan, dan aplikasi RAG.
+  </Card>
+</CardGroup>
+
+## Langkah Pertama
+
+Ikuti langkah-langkah ini untuk mulai mengintegrasikan Neosantara AI ke dalam aplikasi Kamu.
+
+<Steps>
+  <Step title="Dapatkan Kunci API Kamu">
+    Daftar di [Dashboard Neosantara](https://app.neosantara.xyz/dashboard) dan buat kunci API unik Kamu. Kamu akan menerima **kredit gratis Rp 20.000** untuk memulai.
+  </Step>
+  <Step title="Konfigurasi URL Dasar">
+    Semua permintaan API harus diarahkan ke URL dasar produksi kami:
+    ```bash
+    https://api.neosantara.xyz/v1
+    ```
+  </Step>
+  <Step title="Lakukan permintaan pertama Kamu">
+    Gunakan klien HTTP atau SDK favorit Kamu untuk berinteraksi dengan API.
+  </Step>
+</Steps>
+
+## Otentikasi
+
+Otentikasi ditangani melalui token Bearer. Kamu harus menyertakan kunci API Kamu dalam header `Authorization` pada setiap permintaan.
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <KUNCI_API_ANDA>" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {"role": "user", "content": "Halo, apa kabar?"}
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<KUNCI_API_ANDA>"
+)
+
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "user", "content": "Halo, apa kabar?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "<KUNCI_API_ANDA>"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Halo, apa kabar?" }],
+  model: "nusantara-base",
+});
+
+console.log(completion.choices[0].message.content);
+```
+
+</CodeGroup>
+
+## Endpoint Inti
+
+Jelajahi endpoint utama kami untuk mulai membangun:
+
+<CardGroup cols={2}>
+  <Card title="Chat Completions" icon="comments" href="/api-reference/chat/completions/create">
+    **`/chat/completions`**
+    <br/>
+    Endpoint standar untuk percakapan dan pembuatan teks.
+  </Card>
+  <Card title="Embeddings" icon="diagram-project" href="/api-reference/embeddings/create-embeddings">
+    **`/embeddings`**
+    <br/>
+    Hasilkan penyematan vektor untuk data Kamu.
+  </Card>
+  <Card title="Generasi Gambar" icon="paintbrush" href="/api-reference/images/create-image-generation">
+    **`/images/generations`**
+    <br/>
+    Buat gambar dari deskripsi teks.
+  </Card>
+  <Card title="Model" icon="layer-group" href="/api-reference/models/list-available-models">
+    **`/models`**
+    <br/>
+    Daftar dan ambil model yang tersedia.
+  </Card>
+</CardGroup>

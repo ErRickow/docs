@@ -30,7 +30,7 @@ To generate images, send a POST request to the [`/v1/images/generations`](/api-r
   "steps": 50,
   "response_format": "url"
 }
-```
+```python
 
 #### Parameters
 
@@ -49,12 +49,15 @@ To generate images, send a POST request to the [`/v1/images/generations`](/api-r
 Some models, like `titan-image-g1`, support advanced image manipulation tasks:
 
 ### Image-to-Image (Variation)
+
 Generate a new image based on an existing one. Provide the original image in the `image` parameter (as a base64 string) and a `prompt` describing the desired changes or style.
 
 ### Inpainting
+
 Modify specific areas of an existing image. Provide the original image in the `image` parameter and a binary mask in the `mask_image` parameter (where white areas represent the parts to be modified).
 
 ### Outpainting
+
 Extend an image beyond its original borders. Provide the original image in `image` and set `outpainting_mode` to `"DEFAULT"` or `"PRECISE"`.
 
 ## Supported Image Generation Models
@@ -98,7 +101,7 @@ The NeosantaraAI API supports the following image generation models:
     "timestamp": "2025-07-28 04:10:00"
   }
 }
-```
+```python
 
 ### Example Response (`"response_format": "b64_json"`)
 
@@ -134,20 +137,20 @@ The NeosantaraAI API supports the following image generation models:
     "timestamp": "2025-07-28 04:10:00"
   }
 }
-```
+```python
 
 ## Python and JavaScript Examples (with OpenAI SDK)
 
 You can generate images using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
 
 <CodeGroup>
-```python Py icon="python"
+```python
 from openai import OpenAI
 import base64 # Needed if you want to decode and save/display base64
 
 client = OpenAI(
     api_key="NAI_API_KEY",
-    base_url="https://api.neosantara.xyz/v1"
+    base_url="<https://api.neosantara.xyz/v1>"
 )
 
 def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: int = 1, size: str = "1024x1024", response_format: str = "url"):
@@ -186,7 +189,7 @@ def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: 
         print(f"\nAn error occurred during image generation: {e}")
         return None
 
-if __name__ == "__main__":
+if **name** == "**main**":
     # Example 1: Generate image and get URL
     image_prompt_url = "A serene Indonesian rice paddy field at sunrise, with a traditional farmer working, cinematic lighting."
     generated_urls = generate_image(image_prompt_url, num_images=1, size="1024x1024", response_format="url")
@@ -197,8 +200,9 @@ if __name__ == "__main__":
     # if generated_b64_data:
     #     print("\nFirst base64 image data (truncated):")
     #     print(generated_b64_data[0][:50], "...")
-```
-```javascript Js icon="square-js"
+
+```python
+```javascript
 // Install the OpenAI Node.js library: npm install openai
 import OpenAI from 'openai';
 
@@ -210,7 +214,7 @@ const client = new OpenAI({
 });
 
 async function generateImage(prompt, model = "neosantara-gen-2045", numImages = 1, size = "1024x1024", responseFormat = "url") {
-  console.log(`Generating image(s) for prompt: '${prompt}' with model: ${model}`);
+  console.log(`Generating image(s) for prompt: '${prompt}' with model: {model}`);
 
   try {
     const response = await client.images.generate({
@@ -258,5 +262,6 @@ async function generateImage(prompt, model = "neosantara-gen-2045", numImages = 
   //   console.log(generatedB64Data[0].substring(0, 50), "...");
   // }
 })();
-```
+```python
+
 </CodeGroup>

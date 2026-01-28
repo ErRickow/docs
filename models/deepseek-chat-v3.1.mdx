@@ -7,6 +7,7 @@ import { ModelInfo } from '/snippets/model-info.jsx';
 import { deepseekChatV31Data } from '/snippets/model-data.jsx';
 
 <ModelInfo {...deepseekChatV31Data} />
+
 ## Quick Integration
 
 <CodeGroup>
@@ -55,4 +56,5 @@ const completion = await openai.chat.completions.create({
 
 console.log(completion.choices[0].message.content);
 ```
+
 </CodeGroup>

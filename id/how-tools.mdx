@@ -1,31 +1,31 @@
 --- 
-title: 'Cara Mengimplementasikan Penggunaan Alat'
-description: '> Panduan untuk mengintegrasikan dan memanfaatkan alat dengan model NeosantaraAI untuk kemampuan yang ditingkatkan.'
+title: 'Cara Mengimplementasikan Penggunaan Tools'
+description: '> Panduan untuk mengintegrasikan dan memanfaatkan tools dengan model NeosantaraAI untuk kemampuan yang ditingkatkan.'
 ---
 
 ## Memilih Model
 
-Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan alat. Untuk alat yang kompleks dan kueri yang ambigu, model seperti `nusantara-base`, `gpt-4o-mini`, atau `command-r-plus` direkomendasikan karena mereka menangani pemilihan alat dan inferensi parameter dengan lebih kuat.
+Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan tools. Untuk tools yang kompleks dan kueri yang ambigu, model seperti `nusantara-base`, `gpt-4o-mini`, atau `command-r-plus` direkomendasikan karena mereka menangani pemilihan tools dan inferensi parameter dengan lebih kuat.
 
-## Menentukan Alat (Specifying Tools)
+## Menentukan Tools (Specifying Tools)
 
-Alat (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan API Anda. Setiap definisi alat mencakup:
+Tools (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan API Kamu. Setiap definisi tools mencakup:
 
-| Parameter     | Deskripsi                                                                                                                                                                                                                                                                   |
+| Parameter | Deskripsi |
 | :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`        | Harus `"function"`.
-| `function`    | Objek yang mendefinisikan metadata fungsi, termasuk nama, deskripsi, dan parameternya.
-| `name`        | (di dalam `function`): Nama alat. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`.
-| `description` | (di dalam `function`): Deskripsi teks biasa yang terperinci tentang apa yang dilakukan alat, kapan harus digunakan, dan bagaimana perilakunya. Ini sangat penting agar model memahami tujuan alat.
-| `parameters`  | (di dalam `function`): Objek [JSON Schema](https://json-schema.org/) yang mendefinisikan parameter yang diharapkan untuk alat tersebut. Skema ini menjelaskan `input` yang diharapkan alat.
+| `type` | Harus `"function"`. 
+| `function` | Objek yang mendefinisikan metadata fungsi, termasuk nama, deskripsi, dan parameternya. 
+| `name` | (di dalam `function`): Nama tools. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`. 
+| `description` | (di dalam `function`): Deskripsi teks biasa yang terperinci tentang apa yang dilakukan tools, kapan harus digunakan, dan bagaimana perilakunya. Ini sangat penting agar model memahami tujuan tools. 
+| `parameters` | (di dalam `function`): Objek [JSON Schema](https://json-schema.org/) yang mendefinisikan parameter yang diharapkan untuk tools tersebut. Skema ini menjelaskan `input` yang diharapkan tools. 
 
-<Accordion title="Contoh Definisi Alat Sederhana">
+<Accordion title="Contoh Definisi Tools Sederhana">
   ```json
   {
     "type": "function",
     "function": {
       "name": "dapatkan_cuaca",
-      "description": "Dapatkan cuaca saat ini di lokasi tertentu. Gunakan alat ini ketika pengguna bertanya tentang kondisi cuaca untuk kota tertentu. Pastikan untuk menanyakan kota jika tidak disediakan.",
+      "description": "Dapatkan cuaca saat ini di lokasi tertentu. Gunakan tools ini ketika pengguna bertanya tentang kondisi cuaca untuk kota tertentu. Pastikan untuk menanyakan kota jika tidak disediakan.",
       "parameters": {
         "type": "object",
         "properties": {
@@ -46,38 +46,39 @@ Alat (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan AP
   ```
 </Accordion>
 
-### Praktik Terbaik untuk Definisi Alat
+### Praktik Terbaik untuk Definisi Tools
 
-* **Berikan deskripsi yang sangat terperinci.** Ini adalah faktor paling penting. Jelaskan apa yang dilakukan alat, kapan harus digunakan, dan arti setiap parameter.
+* **Berikan deskripsi yang sangat terperinci.** Ini adalah faktor paling penting. Jelaskan apa yang dilakukan tools, kapan harus digunakan, dan arti setiap parameter.
 * **Prioritaskan deskripsi daripada contoh.** Penjelasan yang jelas dan komprehensif lebih berharga bagi model daripada sekadar contoh penggunaan.
 
 ## Mengontrol Output Model
 
-### Memaksa Penggunaan Alat (Forcing Tool Use)
+### Memaksa Penggunaan Tools (Forcing Tool Use)
 
-Anda dapat memaksa NeosantaraAI untuk menggunakan alat tertentu dengan parameter `tool_choice`.
+Kamu dapat memaksa NeosantaraAI untuk menggunakan tools tertentu dengan parameter `tool_choice`.
 
 Opsi `tool_choice`:
+
 * `auto`: (Default) Model memutuskan sendiri.
-* `any`: Model harus menggunakan salah satu alat.
-* `{"type": "function", "function": {"name": "nama_alat_anda"}}`: Memaksa model menggunakan alat spesifik ini.
-* `none`: Mencegah model menggunakan alat apa pun.
+* `any`: Model harus menggunakan salah satu tools.
+* `{"type": "function", "function": {"name": "nama_tools_kamu"}}`: Memaksa model menggunakan tools spesifik ini.
+* `none`: Mencegah model menggunakan tools apa pun.
 
 ### Output JSON
 
-Anda dapat menggunakan alat untuk menginstruksikan NeosantaraAI menghasilkan output JSON yang mengikuti skema tertentu, bahkan jika Anda tidak berniat mengeksekusi output tersebut.
+Kamu dapat menggunakan tools untuk menginstruksikan NeosantaraAI menghasilkan output JSON yang mengikuti skema tertentu, bahkan jika Kamu tidak berniat mengeksekusi output tersebut.
 
-* Biasanya berikan **satu** definisi alat.
-* Atur `tool_choice` ke nama alat tersebut.
+* Biasanya berikan **satu** definisi tools.
+* Atur `tool_choice` ke nama tools tersebut.
 * Parameter fungsi mendefinisikan skema JSON yang diinginkan.
 
 ## Troubleshooting
 
-### Panggilan Alat Paralel Tidak Bekerja
+### Panggilan Tools Paralel Tidak Bekerja
 
-1.  **Format Hasil Alat Salah**: Pastikan semua hasil alat dari satu pesan `tool_calls` dikirim dalam pesan `tool` yang sesuai secara berurutan atau dalam satu array jika didukung.
-2.  **Prompt Lemah**: Gunakan bahasa yang lebih kuat dalam prompt Anda, misal: "Harap gunakan panggilan alat paralel untuk mendapatkan cuaca Jakarta dan Bandung secara bersamaan."
+1. **Format Hasil Tools Salah**: Pastikan semua hasil tools dari satu pesan `tool_calls` dikirim dalam pesan `tool` yang sesuai secara berurutan atau dalam satu array jika didukung.
+2. **Prompt Lemah**: Gunakan bahasa yang lebih kuat dalam promptmu, misal: "Harap gunakan panggilan tools paralel untuk mendapatkan cuaca Jakarta dan Bandung secara bersamaan."
 
-### Nama Alat atau Parameter Tidak Valid
+### Nama Tools atau Parameter Tidak Valid
 
-Jika model gagal menggunakan alat (misal: parameter hilang), biasanya karena deskripsi alat kurang jelas atau informasi dari pengguna kurang lengkap. Perbaiki deskripsi `description` pada definisi alat Anda.
+Jika model gagal menggunakan tools (misal: parameter hilang), biasanya karena deskripsi tools kurang jelas atau informasi dari pengguna kurang lengkap. Perbaiki deskripsi `description` pada definisi tools Kamu.

@@ -1,26 +1,59 @@
 ---
-title: 'Tinjauan'
+title: 'Framework Agen'
+sidebarTitle: 'Ikhtisar'
 description: '> Menggunakan framework agen OSS dengan Neosantara AI.'
 ---
 
-Anda dapat menggunakan Neosantara AI dengan banyak framework agen AI paling populer. Pilih framework pilihan Anda untuk mempelajari cara meningkatkan agen Anda dengan model sumber terbuka terbaik.
+Neosantara AI adalah cara termudah untuk mulai membangun agen dan aplikasi yang ditenagai oleh LLM di Asia Tenggara. Kami menyediakan kompatibilitas penuh dengan framework open-source terpopuler, memungkinkan Kamu membangun agen yang beradaptasi secepat ekosistem berkembang.
 
-## [CrewAI](/en/crewai)
+## <Icon icon="star" /> Manfaat Utama
 
-CrewAI adalah framework sumber terbuka untuk mengorkestrasi sistem agen AI. Ini memungkinkan beberapa agen AI untuk berkolaborasi secara efektif dengan mengambil peran dan bekerja menuju tujuan bersama.
+<CardGroup cols={2}>
+    <Card title="Antarmuka Model Standar" icon="arrows-rotate" href="/id/sdk/openai-compatible">
+        Neosantara menyediakan API yang kompatibel dengan OpenAI, memudahkan perpindahan antar penyedia dan menghindari ketergantungan pada satu vendor (vendor lock-in).
+    </Card>
+    <Card title="Optimalisasi Regional" icon="earth-asia" href="/id/models-overview">
+        Model kami seperti `nusantara-base` dan `archipelago-70b` secara khusus disesuaikan untuk budaya dan nuansa Indonesia.
+    </Card>
+</CardGroup>
 
-## [PydanticAI](/en/pydantic-ai)
+## <Icon icon="robot" /> Framework yang Didukung
 
-PydanticAI menyediakan ekstraksi data terstruktur dan validasi untuk LLM menggunakan skema Pydantic. Ini memastikan output AI Anda mematuhi format yang ditentukan, membuat integrasi dengan sistem hilir menjadi andal.
+Pilih framework pilihan Kamu untuk mempelajari cara menyempurnakan agen Kamu dengan Neosantara AI.
 
-## [Agno](/en/agno)
+<CardGroup cols={3}>
+    <Card title="LangChain" icon="link" href="/id/langchain" cta="Pelajari lebih lanjut">
+        Framework terpopuler untuk membangun aplikasi LLM. Gunakan integrasi `langchain-openai` kami.
+    </Card>
+    <Card title="CrewAI" icon="users" href="/id/crewai" cta="Pelajari lebih lanjut">
+        Orkestrasi beberapa agen AI untuk berkolaborasi secara efektif dengan asumsi peran dan tujuan bersama.
+    </Card>
+    <Card title="PydanticAI" icon="shield-check" href="/id/pydantic-ai" cta="Pelajari lebih lanjut">
+        Ekstraksi dan validasi data terstruktur menggunakan skema Pydantic untuk output AI yang kamul.
+    </Card>
+    <Card title="Agno" icon="sparkles" href="/id/agno" cta="Pelajari lebih lanjut">
+        Buat agen multimodal yang mendukung interaksi dengan teks, gambar, audio, dan video.
+    </Card>
+    <Card title="AutoGen" icon="diagram-project" href="/id/autogen" cta="Pelajari lebih lanjut">
+        Framework untuk percakapan multi-agen dan otomatisasi alur kerja oleh Microsoft (AG2).
+    </Card>
+    <Card title="DSPy" icon="microchip" href="/id/dspy" cta="Pelajari lebih lanjut">
+        Framework pemrograman untuk sistem AI algoritmik dengan pendekatan seperti compiler untuk prompting.
+    </Card>
+</CardGroup>
 
-Agno adalah perpustakaan sumber terbuka untuk membuat agen multimodal. Ini mendukung interaksi dengan teks, gambar, audio, dan video sambil tetap agnostik model, memungkinkan Anda menggunakan model apa pun di perpustakaan Neosantara AI dengan integrasi kami.
+## <Icon icon="bolt" /> Contoh Cepat
 
-## [AutoGen(AG2)](/en/autogen)
+```python Python
+from langchain_openai import ChatOpenAI
+import os
 
-AutoGen(AG2) adalah framework agen OSS untuk percakapan multi-agen dan otomatisasi alur kerja. Ini memungkinkan pembuatan agen yang dapat disesuaikan yang dapat berinteraksi satu sama lain dan dengan pengguna manusia untuk menyelesaikan tugas yang kompleks.
+llm = ChatOpenAI(
+    model="nusantara-base",
+    openai_api_key=os.environ.get("NAI_API_KEY"),
+    openai_api_base="https://api.neosantara.xyz/v1",
+)
 
-## [DSPy](/en/dspy)
-
-DSPy adalah framework pemrograman untuk sistem AI algoritmik. Ini menawarkan pendekatan seperti kompiler untuk rekayasa prompt, memungkinkan Anda membuat program model bahasa yang modular, dapat digunakan kembali, dan dapat dioptimalkan.
+response = llm.invoke("Buat rencana agen sederhana untuk tugas riset.")
+print(response.content)
+```

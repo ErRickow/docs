@@ -1,0 +1,113 @@
+---
+title: 'Cek Status Kunci API' 
+api: 'GET /v1/auth/key' 
+playground: 'simple' 
+authMethod: 'bearer'
+---
+
+<Card icon="shield-check" title="Verifikasi akses Kamu" horizontal>
+Gunakan endpoint ini untuk memvalidasi Kunci API Kamu, memeriksa **Tingkat Layanan** langganan Kamu saat ini, serta memantau batas penggunaan token **Harian** dan **Bulanan** Kamu.
+</Card>
+
+## Mengembalikan
+
+<ResponseField name="object" type="string">
+Selalu "authorization".
+</ResponseField>
+
+<ResponseField name="id" type="string">
+Pengenal unik untuk pemeriksaan otorisasi ini (format: `auth-` + 16 karakter hex).
+</ResponseField>
+
+<ResponseField name="authorized" type="boolean">
+Menunjukkan apakah Kunci API yang diberikan valid dan aktif.
+</ResponseField>
+
+<ResponseField name="tier" type="string">
+Tingkat layanan saat ini dari Kunci API (misalnya, "Free", "Developer", "Production").
+</ResponseField>
+
+<ResponseField name="permissions" type="array">
+Daftar kemampuan yang diberikan kepada kunci ini (misalnya, `chat.completions`, `embeddings`).
+</ResponseField>
+
+<ResponseField name="usage_info" type="object">
+Rincian mendalam tentang penggunaan token dan batasan.
+
+<Expkamuble title="properti usage_info" defaultOpen>
+<ResponseField name="daily" type="object">
+<Expkamuble title="properti daily">
+<ResponseField name="used" type="integer">Token yang digunakan hari ini.</ResponseField>
+<ResponseField name="limit" type="integer">Batas token harian.</ResponseField>
+<ResponseField name="remaining" type="integer">Sisa token untuk hari ini.</ResponseField>
+<ResponseField name="reset_at" type="string">Waktu pengaturan ulang harian berikutnya.</ResponseField>
+</Expkamuble>
+</ResponseField>
+
+<ResponseField name="monthly" type="object">
+  <Expkamuble title="properti monthly">
+    <ResponseField name="used" type="integer">Token yang digunakan bulan ini.</ResponseField>
+    <ResponseField name="limit" type="integer">Batas token bulanan.</ResponseField>
+    <ResponseField name="remaining" type="integer">Sisa token untuk bulan ini.</ResponseField>
+    <ResponseField name="reset_at" type="string">Waktu pengaturan ulang bulanan berikutnya.</ResponseField>
+  </Expkamuble>
+</ResponseField>
+
+</Expkamuble>
+</ResponseField>
+
+<ResponseField name="organization" type="string">
+Pengenal organisasi (default: `org-neosantara-ai`).
+</ResponseField>
+
+<ResponseField name="created" type="integer">
+Timestamp Unix saat pemeriksaan dilakukan.
+</ResponseField>
+
+<ResponseField name="_metadata" type="object">
+Informasi status dan debugging internal.
+<Expkamuble title="properti _metadata">
+<ResponseField name="status" type="boolean">Pemeriksaan status sistem.</ResponseField>
+<ResponseField name="processing_time" type="integer">Waktu yang dibutuhkan untuk memproses permintaan (ms).</ResponseField>
+<ResponseField name="timestamp" type="string">Timestamp ISO dari permintaan.</ResponseField>
+</Expkamuble>
+</ResponseField>
+
+## Contoh Respons
+
+```json Response 200
+{
+  "object": "authorization",
+  "organization": "org-neosantara-ai",
+  "permissions": [
+    "chat.completions",
+    "embeddings",
+    "moderations"
+  ],
+  "authorized": true,
+  "created": 1741477200,
+  "expires": null,
+  "id": "auth-a1b2c3d4e5f6g7h8",
+  "tier": "Developer",
+  "usage_info": {
+    "daily": {
+      "used": 1500,
+      "limit": 50000,
+      "remaining": 48500,
+      "reset_at": "2025-11-16T00:00:00.000Z"
+    },
+    "monthly": {
+      "used": 45000,
+      "limit": 2000000,
+      "remaining": 1955000,
+      "reset_at": "2025-12-01T00:00:00.000Z"
+    }
+  },
+  "_metadata": {
+    "creator": "neosantara.xyz",
+    "status": true,
+    "processing_time": 45,
+    "timestamp": "2025-11-15T10:20:00.123Z"
+  }
+}
+```

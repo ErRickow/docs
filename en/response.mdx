@@ -24,15 +24,15 @@ The most direct difference is the method you invoke on the client object.
 - **Responses** uses the top-level `responses.create()` method, reflecting its status as a primary, modern API.
 
 <CodeGroup>
-```python completions.py icon="python"
+```python
 # Chat Completions SDK Usage
 completion = client.chat.completions.create(
     model="nusantara-base",
     messages=[{"role": "user", "content": "Hello!"}]
 )
-````
+```
 
-```python response.py icon="python"
+```python
 # Responses SDK Usage
 response = client.responses.create(
     model="nusantara-base",
@@ -43,6 +43,7 @@ response = client.responses.create(
 </CodeGroup>
 
 **Diff Comparison:**
+
 ```python icon="code" lines
 # SDK Method Usage
 completion = client.chat.completions.create( # [!code --]
@@ -51,69 +52,64 @@ response = client.responses.create( # [!code ++]
     messages=[{"role": "user", "content": "Hello!"}] # [!code --]
     input="Hello!" # [!code ++]
 )
-```
+```python
 
 ### 2. Accessing the AI's Reply
 
 This is a critical difference. The structure of the returned object in the SDK reflects the underlying API response.
 
-  - **Chat Completions**: The response is always nested inside a `choices` array. To get the text, you must access `response.choices[0].message.content`.
-  - **Responses**: The SDK provides a convenient helper property called `output_text` that directly gives you the concatenated text. However, the most reliable way is to access the `output` array and get the `.text` from the first element, as `output` can also contain other types of content like function calls.
+- **Chat Completions**: The response is always nested inside a `choices` array. To get the text, you must access `response.choices[0].message.content`.
+- **Responses**: The SDK provides a convenient helper property called `output_text` that directly gives you the concatenated text. However, the most reliable way is to access the `output` array and get the `.text` from the first element, as `output` can also contain other types of content like function calls.
 
 <CodeGroup>
 
-```python example completions icon="python"
+```python
 # Chat Completions: Accessing the content
 # response = client.chat.completions.create(...)
 print(response.choices[0].message.content)
 ```
 
-```python example response icon="python"
+```python
 # Responses: Accessing the content
 # response = client.responses.create(...)
 
 # The reliable way (accessing the raw output structure)
-
 print(response.output[0].text)
 
 # The convenience helper (provided by the SDK)
-
 print(response.output_text)
-
 ```
 
-</CodeGroup>
-
 **Diff Comparison:**
+
 ```python icon="code" lines
 # Accessing AI Response Content
 print(response.choices[0].message.content) # [!code --]
 print(response.output[0].text) # [!code ++]
 # Or use the convenience helper
 print(response.output_text) # [!code ++]
-```
+```python
 
 ### 3. Managing Conversation History
 
 The Responses API was built to make multi-turn conversations easier, and this is reflected in the SDK usage.
 
-  - **Chat Completions**: You are fully responsible for managing the conversation. You must manually create a list, append the assistant's response, append the next user message, and send the entire list back every time.
-  - **Responses**: You can let the API manage the state. After the first turn, you simply pass the `previous_response_id` to continue the conversation. The SDK and your backend handle the rest.
+- **Chat Completions**: You are fully responsible for managing the conversation. You must manually create a list, append the assistant's response, append the next user message, and send the entire list back every time.
+- **Responses**: You can let the API manage the state. After the first turn, you simply pass the `previous_response_id` to continue the conversation. The SDK and your backend handle the rest.
 
 <CodeGroup>
-```python completion icon="python"
+```python
 # Chat Completions: Manual state management
 messages = [{"role": "user", "content": "What is the capital of Indonesia?"}]
 completion = client.chat.completions.create(model="nusantara-base", messages=messages)
 
 # Manually append history for the next turn
-
 messages.append(completion.choices[0].message)
 messages.append({"role": "user", "content": "What is its population?"})
 next_completion = client.chat.completions.create(model="nusantara-base", messages=messages)
-````
+```
 
-```python response icon="python"
+```python
 # Responses: Automatic state management
 # First turn
 response1 = client.responses.create(
@@ -129,8 +125,6 @@ response2 = client.responses.create(
     input="What is its population?"
 )
 ```
-
-</CodeGroup>
 
 **Diff Comparison - Conversation Management:**
 ```python icon="code" lines
@@ -156,7 +150,7 @@ response2 = client.responses.create( # [!code ++]
     previous_response_id=response1.id, # [!code ++]
     input="What is its population?" # [!code ++]
 ) # [!code ++]
-```
+```python
 
 ## Complete Migration Example
 
@@ -184,7 +178,7 @@ response = client.responses.create( # [!code ++]
     store=True # [!code ++]
 ) # [!code ++]
 ai_response = response.output_text # [!code ++]
-```
+```python
 
 ## Recommendation
 

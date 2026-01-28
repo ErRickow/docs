@@ -17,9 +17,9 @@ To enable this feature, you simply need to add the `response_format` parameter t
 
 Nearly all major text-generation models on the Nusantara AI platform support JSON Mode, including:
 
-  * **`nusantara-base`**
-  * **`archipelago-70b`**
-  * **`garda-beta-mini`**
+* **`nusantara-base`**
+* **`archipelago-70b`**
+* **`garda-beta-mini`**
 
 Vision models like **`vision-emas-2045`** also support JSON extraction from images.
 
@@ -139,7 +139,7 @@ const neosantara = new OpenAI({
  * Parses a string that might be a plain JSON, wrapped in markdown,
  * or a nested JSON string within a 'result' key.
  * @param {string} rawString - The raw string response from the API.
- * @returns {object | null} - The parsed JSON object or null if parsing fails.
+| * @returns {object | null} - The parsed JSON object or null if parsing fails. |
  */
 function robustJsonParser(rawString) {
     try {
@@ -201,6 +201,7 @@ async function main() {
 
 main();
 ````
+
 </CodeGroup>
 
 -----

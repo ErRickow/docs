@@ -27,7 +27,7 @@ To generate embeddings, send a POST request to the `/v1/embeddings` endpoint wit
   "model": "nusa-embedding-0001",
   "encoding_format": "float"
 }
-```
+```python
 
 #### Parameters
 
@@ -66,21 +66,23 @@ The NusantaraAI API supports various embedding models, often utilizing intellige
     "total_tokens": 9
   }
 }
-```
+```python
 
 ## Python and JavaScript Examples (with OpenAI SDK)
 
 You can generate embeddings using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
 
 <CodeGroup>
-```python Py icon="python"
+```python
 from openai import OpenAI
 
 # Initialize the OpenAI client with your API key
+
 # Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
+
 client = OpenAI(
     api_key="YOUR_API_KEY",
-    base_url="https://api.neosantara.xyz/v1"
+    base_url="<https://api.neosantara.xyz/v1>"
 )
 
 def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
@@ -109,21 +111,22 @@ def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
         print(f"An error occurred during embedding generation: {e}")
         return None
 
-if __name__ == "__main__":
+if **name** == "**main**":
     example_texts = [
         "Artificial intelligence is transforming industries.",
         "Machine learning is a subset of AI.",
         "Deep learning enables neural networks."
     ]
-    
+
     generated_vectors = get_embeddings(example_texts)
 
     if generated_vectors:
         print("\nFirst embedding vector (truncated):")
         print(generated_vectors[0][:10], "...") # Print first 10 elements
-```
 
-```javascript Js icon="square-js"
+```python
+
+```javascript
 // Install the OpenAI Node.js library: npm install openai
 import OpenAI from 'openai';
 
@@ -138,7 +141,7 @@ async function getEmbeddings(texts, model = "nusa-embedding-0001") {
   console.log(`Generating embeddings for model: ${model}`);
 
   try {
-    const response = client.embeddings.create({
+    const response = await client.embeddings.create({
       model: model,
       input: texts,
       encoding_format: "float",
@@ -174,5 +177,6 @@ async function getEmbeddings(texts, model = "nusa-embedding-0001") {
     console.log(generatedVectors[0].slice(0, 10), "..."); // Print first 10 elements
   }
 })();
-```
+```python
+
 </CodeGroup>

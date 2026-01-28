@@ -7,6 +7,7 @@ import { ModelInfo } from '/snippets/model-info.jsx';
 import { gemini3FlashData } from '/snippets/model-data.jsx';
 
 <ModelInfo {...gemini3FlashData} />
+
 ## Quick Integration
 
 <CodeGroup>
@@ -31,7 +32,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gemini-3-flash",
+    model="gemini-3-flash-preview",
     messages=[
         {"role": "user", "content": "Hello!"}
     ]
@@ -50,9 +51,10 @@ const openai = new OpenAI({
 
 const completion = await openai.chat.completions.create({
   messages: [{ role: "user", content: "Hello!" }],
-  model: "gemini-3-flash",
+  model: "gemini-3-flash-preview",
 });
 
 console.log(completion.choices[0].message.content);
 ```
+
 </CodeGroup>

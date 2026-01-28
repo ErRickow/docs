@@ -1,0 +1,199 @@
+---
+title: 'Advanced Examples & Best Practices'
+description: 'Production-ready patterns for using Neosantara API with multiple endpoints.'
+---
+
+This guide covers production-grade patterns for using Neosantara AI APIs across OpenAI-compatible, Anthropic-compatible, and the Responses API. It focuses on reliability, performance, and maintainability.
+
+## Security & Key Management
+
+<Warning>
+**Never hard-code API keys** or expose them in client-side code (browsers, mobile apps). Anyone with access to your key can use your credits.
+</Warning>
+
+### Best Practices
+
+- **Server-Side Only**: Always call Neosantara APIs from your backend. If you must use it in a frontend, create a proxy endpoint on your server.
+- **Environment Variables**: Use `.env` files and `process.env` (Node) or `os.getenv` (Python) to store keys.
+- **Key Rotation**: Periodically rotate your API keys via the [Neosantara Dashboard](https://app.neosantara.xyz).
+
+## Observability & Debugging
+
+Every request to Neosantara returns a `request_id` in the response headers or body. Always log this ID alongside your application logs.
+
+```javascript
+const response = await fetch("https://api.neosantara.xyz/v1/chat/completions", { ... });
+const requestId = response.headers.get("x-request-id");
+console.log(`Neosantara Request ID: ${requestId}`);
+// Log this to your monitoring system (Sentry, Datadog, etc.)
+```
+
+## Batch & Parallel Requests
+
+- Python (async) using `httpx` to issue parallel requests
+
+```python
+import asyncio
+import httpx
+
+BASE = "https://api.neosantara.xyz/v1"
+API_KEY = "<YOUR_API_KEY>"
+ENDPOINT = f"{BASE}/v1/chat/completions"  # example; adjust per endpoint
+
+async def fetch(session, payload):
+    headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+    async with session.post(ENDPOINT, json=payload, headers=headers) as resp:
+        return await resp.json()
+
+async def main():
+    async with httpx.AsyncClient() as session:
+        tasks = []
+        prompts = [
+            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]},
+            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Tell me a story"}]}
+        ]
+        for p in prompts:
+            payload = p
+            tasks.append(asyncio.create_task(fetch(session, payload)))
+        results = await asyncio.gather(*tasks)
+        print(results)
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+- Node.js (`Promise.all`)
+
+```javascript
+const fetch = async (payload) => {
+  const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <YOUR_API_KEY>' },
+    body: JSON.stringify(payload),
+  })
+  return res.json()
+}
+
+async function main() {
+  const prompts = [
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Hello' }] },
+    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Tell me a story' }] }
+  ]
+  const results = await Promise.all(prompts.map(p => fetch(p)))
+  console.log(results)
+}
+
+main()
+```
+
+## Retry & Fault Tolerance
+
+- Python (`tenacity`)
+
+```python
+from tenacity import retry, wait_exponential, stop_after_attempt
+import requests
+
+@retry(wait=wait_exponential(min=1, max=10), stop=stop_after_attempt(3))
+def call(payload):
+    resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", 
+                         json=payload, 
+                         headers={"Authorization": "Bearer <API_KEY>"})
+    resp.raise_for_status()
+    return resp.json()
+```
+
+- JavaScript (retry wrapper)
+
+```javascript
+async function callWithRetry(payload, retries = 3) {
+  const url = 'https://api.neosantara.xyz/v1/chat/completions'
+  const headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer <API_KEY>' }
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) })
+      if (!res.ok) throw new Error('Request failed')
+      return await res.json()
+    } catch (e) {
+      if (i === retries - 1) throw e
+      await new Promise(r => setTimeout(r, Math.min(1000 * Math.pow(2, i), 8000)))
+    }
+  }
+}
+```
+
+## Caching & Idempotency
+
+- Simple in-memory cache
+
+```javascript
+const cache = new Map()
+async function cachedCall(payload) {
+  const key = JSON.stringify(payload)
+  if (cache.has(key)) return cache.get(key)
+  const res = await fetch('https://api.neosantara.xyz/v1/chat/completions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer <API_KEY>' , 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  const data = await res.json()
+  cache.set(key, data)
+  return data
+}
+```
+
+## Streaming & Real-Time UX
+
+- Example (Python)
+
+```python
+import requests
+import json
+
+def stream_call(payload):
+    payload['stream'] = True
+    headers = {"Authorization": "Bearer <API_KEY>"}
+    response = requests.post("https://api.neosantara.xyz/v1/chat/completions", 
+                             json=payload, stream=True, headers=headers)
+    
+    for line in response.iter_lines():
+        if line:
+            line = line.decode('utf-8').replace('data: ', '')
+            if line == '[DONE]': break
+            try:
+                data = json.loads(line)
+                content = data['choices'][0]['delta'].get('content', '')
+                print(content, end='', flush=True)
+            except: continue
+```
+
+- Example (Node.js)
+
+```javascript
+const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) });
+const reader = response.body.getReader();
+const decoder = new TextDecoder();
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  const chunk = decoder.decode(value);
+  console.log(chunk);
+}
+```
+
+## Production Patterns & Best Practices
+
+- Use a dedicated API client per environment (dev/stage/prod)
+- Enable server-side token rotation and secure storage for API keys
+- Centralize error handling and retry policies
+- Log structured events for observability (`request_id`, model, tokens used)
+- Rate limit awareness per endpoint and tier
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="code" href="/en/api-introduction">
+    Dive into endpoint specifics and parameter details.
+  </Card>
+  <Card title="Rate Limits" icon="gauge-high" href="/en/about/rate-limits">
+    Review quotas and throttling guidance.
+  </Card>
+</CardGroup>

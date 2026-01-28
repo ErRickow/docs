@@ -33,10 +33,12 @@ pip install e2b_code_interpreter==1.0.0 python-dotenv openai -q
 
 1. **Buat File Python**: Misal `index.py`.
 2. **Konfigurasi .env**:
+
     ```env
-    NAI_API_KEY=api_key_neosantara_anda
-    E2B_API_KEY=api_key_e2b_anda
+    NAI_API_KEY=api_key_neosantara_kamu
+    E2B_API_KEY=api_key_e2b_kamu
     ```
+
 3. **Pilih Model**: `nusantara-base`, `archipelago-70b`, atau `llama-3.3-nemotron-super-49b-v1.5`.
 
 ---
@@ -71,7 +73,9 @@ with Sandbox(api_key=os.getenv("E2B_API_KEY")) as code_interpreter:
     results = chat_with_llm(code_interpreter, "Generate a plot of a sine wave.")
     print("Visualisasi berhasil dibuat!")
 ```
+
 ---
+
 ## Fitur Utama
 
 - **Secure Sandbox**: Kode berjalan di lingkungan terisolasi.

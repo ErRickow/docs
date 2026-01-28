@@ -1,6 +1,6 @@
 ---
-judul: 'Model yang Tersedia'
-deskripsi: '> Daftar model AI Neosantara yang bisa kamu akses.'
+title: 'Model yang Tersedia'
+description: '> Daftar model AI Neosantara yang bisa kamu akses.'
 ---
 
 ## Model
@@ -11,30 +11,24 @@ Neosantara AI menyediakan berbagai model AI dengan kemampuan berbeda, dioptimalk
 
 <AccordionGroup>
   <Accordion title='nusantara-base'>
-  
-  - **Deskripsi**: Model spesialis untuk konten Indonesia dengan pemahaman mendalam tentang konteks budaya.
-  - **Jendela Konteks**: 64.000 Token
-  - **Kemampuan**: function_calling, json_mode
-  - **Cocok untuk**: Memahami nuansa budaya, konteks lokal, dan teks Indonesia yang kompleks.
-
+    **Deskripsi**: Model spesialis untuk konten Indonesia dengan pemahaman mendalam tentang konteks budaya.
+    **Jendela Konteks**: 64.000 Token
+    **Kemampuan**: `function_calling`, `json_mode`
+    **Cocok untuk**: Memahami nuansa budaya, konteks lokal, dan teks Indonesia yang kompleks.
   </Accordion>
 
   <Accordion title="archipelago-7b">
-  
-	- **Deskripsi**: Model khusus untuk konten Bahasa Indonesia dengan pemahaman konteks budaya.
-	- **Jendela Konteks**: 4.096 Token
-	- **Kemampuan**: json_mode
-	- **Cocok untuk**: Pemahaman budaya dan konteks lokal.
-
+    **Deskripsi**: Model khusus untuk konten Bahasa Indonesia dengan pemahaman konteks budaya.
+    **Jendela Konteks**: 4.096 Token
+    **Kemampuan**: `json_mode`
+    **Cocok untuk**: Pemahaman budaya dan konteks lokal.
   </Accordion>
   
   <Accordion title="bahasa-llm">
-  
-	- **Deskripsi**: Model cepat dan efisien, dioptimalkan untuk pemahaman bahasa Indonesia dan respons kilat.
-	- **Jendela Konteks**: 8.192 Token
-	- **Kemampuan**: function_calling, json_mode
-	- **Cocok untuk**: Pemrosesan cepat, pemahaman singkat, dan panggilan fungsi dalam konteks Indonesia.
-
+    **Deskripsi**: Model cepat dan efisien, dioptimalkan untuk pemahaman bahasa Indonesia dan respons kilat.
+    **Jendela Konteks**: 8.192 Token
+    **Kemampuan**: `function_calling`, `json_mode`
+    **Cocok untuk**: Pemrosesan cepat, pemahaman singkat, dan panggilan fungsi dalam konteks Indonesia.
   </Accordion>
 </AccordionGroup>
 
@@ -42,238 +36,68 @@ Neosantara AI menyediakan berbagai model AI dengan kemampuan berbeda, dioptimalk
 
 <AccordionGroup>
   <Accordion title='gemini-1.5-flash'>
-  
-  - **Deskripsi**: Model Google Gemini Flash terbaru, dioptimalkan untuk jawaban cepat dan efisien.
-  - **Jendela Konteks**: 1.000.000 Token
-  - **Kemampuan**: text_generation, function_calling, json_mode
-  - **Cocok untuk**: Pertanyaan faktual, ringkasan cepat, dan tugas umum.
-
+    **Deskripsi**: Model Google Gemini Flash terbaru, dioptimalkan untuk jawaban cepat dan efisien.
+    **Jendela Konteks**: 1.000.000 Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Pertanyaan faktual, ringkasan cepat, dan tugas umum.
   </Accordion>
 
-  <Accordion title='gemini-2.0-flash'>
-  
-  - **Deskripsi**: Model Google Gemini serba guna untuk jawaban cepat.
-  - **Jendela Konteks**: 32.768 Token
-  - **Kemampuan**: text_generation, function_calling, json_mode
-  - **Cocok untuk**: Percakapan umum, pembuatan teks, dan tugas otomatisasi.
-
-  </Accordion>
-  
-  <Accordion title='gemini-1.5-pro'>
-  
-  - **Deskripsi**: Model Google Gemini Pro yang kuat untuk tugas kompleks dan pemrosesan multimodal (teks dan gambar).
-  - **Jendela Konteks**: 1.000.000 Token
-  - **Kemampuan**: function_calling, json_mode
-  - **Cocok untuk**: Analisis mendalam, penalaran kompleks, dan tugas kreatif.
-
-  </Accordion>
-  
-  <Accordion title='gpt-3.5-turbo'>
-  
-  - **Deskripsi**: Model serba guna dari OpenAI, cepat dan responsif untuk berbagai kebutuhan.
-  - **Jendela Konteks**: 16.385 Token
-  - **Kemampuan**: text_generation, function_calling, json_mode
-  - **Cocok untuk**: Percakapan umum, pembuatan teks, dan tugas otomatisasi.
-
-  </Accordion>
-  
-  <Accordion title='gpt-4o-mini'>
-  
-  - **Deskripsi**: Model ringkas dari OpenAI, efisien dan mampu menangani tugas kompleks dengan harga terjangkau.
-  - **Jendela Konteks**: 128.000 Token
-  - **Kemampuan**: text_generation, function_calling, json_mode
-  - **Cocok untuk**: Tugas dengan akurasi tinggi dan efisiensi biaya.
-
+  <Accordion title="gemini-1.5-pro">
+    **Deskripsi**: Model Google Gemini Pro untuk tugas yang sangat kompleks dan jendela konteks yang masif.
+    **Jendela Konteks**: 1.000.000 Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Analisis mendalam, penalaran kompleks, dan pemrosesan dokumen panjang.
   </Accordion>
 
-  <Accordion title="command-r">
-  
-	- **Deskripsi**: Model Command-R dari Cohere, menawarkan kemampuan penalaran dan pemahaman bahasa yang solid.
-	- **Jendela Konteks**: 128.000 Token
-	- **Kemampuan**: text_generation, json_mode
-	- **Cocok untuk**: Pemahaman bahasa alami dan tugas ringkasan.
-
+  <Accordion title="gpt-4o-mini">
+    **Deskripsi**: Model OpenAI yang cepat dan hemat biaya untuk tugas rutin.
+    **Jendela Konteks**: 128.000 Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Chatbot ringan, ekstraksi data sederhana, dan klasifikasi teks.
   </Accordion>
 
-  <Accordion title="command-r-plus">
-  
-	- **Deskripsi**: Model Command-R Plus dari Cohere, dengan kemampuan penalaran canggih dan pencarian web.
-	- **Jendela Konteks**: 128.000 Token
-	- **Kemampuan**: text_generation, web_search, json_mode
-	- **Cocok untuk**: Pertanyaan yang membutuhkan informasi real-time atau referensi eksternal.
-
+  <Accordion title="gpt-4o">
+    **Deskripsi**: Model flagship OpenAI dengan kemampuan penalaran dan multimodal yang luar biasa.
+    **Jendela Konteks**: 128.000 Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`, `vision`
+    **Cocok untuk**: Tugas kreatif tingkat lanjut, penglihatan komputer, dan pemecahan masalah rumit.
   </Accordion>
 
-  <Accordion title="firefunction-v1">
-  
-	- **Deskripsi**: Model Fireworks dengan kemampuan panggilan fungsi.
-	- **Jendela Konteks**: 32.768 Token
-	- **Kemampuan**: text_generation, function_calling, json_mode
-	- **Cocok untuk**: Pembuatan teks yang membutuhkan integrasi fungsi khusus.
-
-  </Accordion>
-  
-  <Accordion title="replicate-prediction">
-  
-	- **Deskripsi**: Model Llama2 serba guna yang di-host di Replicate.
-	- **Jendela Konteks**: 4.096 Token
-	- **Kemampuan**: text_generation, json_mode
-	- **Cocok untuk**: Tugas pembuatan teks umum dengan penyebaran fleksibel.
-
+  <Accordion title="claude-3-5-sonnet">
+    **Deskripsi**: Model paling cerdas dari Anthropic dengan kemampuan coding dan penulisan yang sangat baik.
+    **Jendela Konteks**: 200.000 Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`, `vision`
+    **Cocok untuk**: Coding, pembuatan konten berkualitas tinggi, dan instruksi presisi.
   </Accordion>
 
-  <Accordion title="gemma2-9b-it">
-  
-	- **Deskripsi**: Model Gemma2 dari Groq, dioptimalkan untuk kecepatan dan efisiensi dalam pemrosesan bahasa.
-	- **Jendela Konteks**: 8.192 Token
-	- **Kemampuan**: text_generation, json_mode
-	- **Cocok untuk**: Respons cepat dan pembuatan teks ringan.
-
-  </Accordion>
-
-  <Accordion title="llama-3.3-70b-instruct">
-  
-	- **Deskripsi**: Llama 3.3 70B dioptimalkan untuk kecepatan.
-	- **Jendela Konteks**: 24.000 Token
-	- **Kemampuan**: text_generation, function_calling
-	- **Cocok untuk**: Pembuatan teks berkinerja tinggi dan instruksi kompleks.
-
-  </Accordion>
-
-  <Accordion title="luminai">
-  
-	- **Deskripsi**: Gerbang LuminAI ke berbagai model. Model target bisa diubah melalui opsi.
-	- **Jendela Konteks**: 8.192 Token
-	- **Kemampuan**: text_generation
-	- **Cocok untuk**: Akses model fleksibel melalui gerbang terintegrasi LuminAI.
-
-  </Accordion>
-
-  <Accordion title="vision-emas-2045">
-  
-	- **Deskripsi**: Model visi canggih untuk menganalisis KTP, kuitansi, dan tugas visual lain, dioptimalkan untuk konteks Indonesia.
-	- **Jendela Konteks**: 1.000.000 Token
-	- **Kemampuan**: vision, json_mode, text_generation
-	- **Cocok untuk**: Analisis gambar dan ekstraksi data visual.
-
-  </Accordion>
-
-  <Accordion title="gemini-3-flash-preview">
-  
-	- **Deskripsi**: Model Gemini tercepat dari Google dengan kemampuan multimodal dan penalaran native.
-	- **Jendela Konteks**: 1.000.000 Token
-	- **Kemampuan**: text_generation, vision, reasoning, function_calling, json_mode
-	- **Cocok untuk**: Aplikasi berkecepatan tinggi yang membutuhkan analisis gambar dan penalaran mendalam.
-
-  </Accordion>
-
-  <Accordion title="gemini-3-pro-preview">
-  
-	- **Deskripsi**: Model paling cerdas dari Google untuk tugas penalaran kompleks dan jendela konteks yang sangat besar.
-	- **Jendela Konteks**: 2.000.000 Token
-	- **Kemampuan**: text_generation, vision, reasoning, function_calling, json_mode
-	- **Cocok untuk**: Analisis data skala besar, riset, dan pemecahan masalah kompleks.
-
-  </Accordion>
-
-  <Accordion title="glm-4.6v-flash">
-  
-	- **Deskripsi**: Model multimodal cepat dari Zhipu AI yang mendukung input video dan gambar.
-	- **Jendela Konteks**: 128.000 Token
-	- **Kemampuan**: text_generation, vision, video, reasoning, function_calling
-	- **Cocok untuk**: Analisis video dan interaksi multimodal yang responsif.
-
-  </Accordion>
-
-  <Accordion title="kimi-k2-thinking">
-  
-	- **Deskripsi**: Model spesialis penalaran dari Moonshot AI yang memberikan langkah pemikiran mendalam (Step-by-step thinking).
-	- **Jendela Konteks**: 132.000 Token
-	- **Kemampuan**: text_generation, reasoning, function_calling
-	- **Cocok untuk**: Pemecahan masalah matematika, pemrograman, dan tugas yang membutuhkan logika kuat.
-
+  <Accordion title="llama-3.1-70b">
+    **Deskripsi**: Model open-source Meta yang sangat kuat, setara dengan model berpemilik terkemuka.
+    **Jendela Konteks**: 128.000 Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Penggunaan umum yang kuat dan alternatif model berbayar.
   </Accordion>
 </AccordionGroup>
 
-## Model Pembuatan Gambar
+## Model Lanjutan (Reasoning)
 
 <AccordionGroup>
-  <Accordion title='neosantara-gen-2045'>
-  
-  - **Deskripsi**: Model utama pembuatan gambar Neosantara AI, di-host di Together AI.
-  - **Jendela Konteks**: 0 Token
-  - **Kemampuan**: image_generation
-  - **Cocok untuk**: Membuat gambar berkualitas tinggi dari perintah teks.
-
+  <Accordion title="o1-preview">
+    **Deskripsi**: Model penalaran baru dari OpenAI yang dirancang untuk memecahkan masalah sulit di bidang sains, coding, dan matematika.
+    **Kemampuan**: `reasoning`
+    **Cocok untuk**: Algoritma kompleks dan penalaran tingkat tinggi.
   </Accordion>
 
-  <Accordion title="replicate-stable-diffusion-xl">
-  
-	- **Deskripsi**: Stable Diffusion XL di Replicate sebagai cadangan untuk pembuatan gambar.
-	- **Jendela Konteks**: 0 Token
-	- **Kemampuan**: image_generation
-	- **Cocok untuk**: Menghasilkan gambar beragam sebagai alternatif yang andal.
-
+  <Accordion title="o1-mini">
+    **Deskripsi**: Versi o1 yang lebih cepat dan efisien, fokus pada penalaran teknis.
+    **Kemampuan**: `reasoning`
+    **Cocok untuk**: Debugging kode cepat dan bantuan matematika.
   </Accordion>
 </AccordionGroup>
 
-## Model Embedding
+## Embeddings & Utility
 
-<AccordionGroup>
-  <Accordion title='nusa-embedding-0001'>
-  
-  - **Deskripsi**: Model embedding teks untuk sistem pencarian dan rekomendasi.
-  - **Jendela Konteks**: 0 Token
-  - **Kemampuan**: embedding
-  - **Cocok untuk**: Mengubah teks menjadi vektor numerik untuk tugas kesamaan.
-
-  </Accordion>
-
-  <Accordion title="together-embed-v2-L">
-  
-	- **Deskripsi**: Embedding v2 Large dari Together AI untuk embedding teks berkualitas tinggi.
-	- **Jendela Konteks**: 0 Token
-	- **Kemampuan**: embedding
-	- **Cocok untuk**: Pencarian semantik canggih dan kesamaan teks skala besar.
-
-  </Accordion>
-</AccordionGroup>
-
-## Panduan Pemilihan Model
-
-Gunakan panduan ini untuk memilih model yang tepat untuk kebutuhan Anda:
-
-1. **Konten Indonesia & Konteks Lokal**:
-    - Prioritas: nusantara-base, archipelago-7b, bahasa-llm
-
-2. **Pemrosesan Cepat & Efisien**:
-    - Prioritas: bahasa-llm, gemini-1.5-flash, gemini-2.0-flash, gemma2-9b-it
-
-3. **Pencarian Informasi & Analisis Mendalam**:
-    - Prioritas: command-r-plus (untuk pencarian web), gemini-1.5-pro (untuk analisis)
-
-4. **Panggilan Fungsi**:
-    - Prioritas: nusantara-base, bahasa-llm, gemini-1.5-flash, gemini-1.5-pro, gpt-3.5-turbo, gpt-4o-mini, firefunction-v1, llama-3.3-70b-instruct
-
-5. **Pembuatan Gambar**:
-    - Gunakan: neosantara-gen-2045, replicate-stable-diffusion-xl
-
-6. **Analisis Gambar (Visi)**:
-    - Gunakan: vision-emas-2045
-
-7. **Embedding (Pemetaan Teks)**:
-    - Gunakan: nusa-embedding-0001, together-embed-v2-L
-
-## Kemampuan Model
-
-Berikut daftar kemampuan utama yang didukung oleh model Neosantara AI:
-
-| Kemampuan | Deskripsi |
-|------------|-------------|
-| function_calling | Kemampuan model untuk memanggil fungsi eksternal |
-| json_mode | Kemampuan model untuk menghasilkan output dalam format JSON terstruktur |
-| web_search | Kemampuan model untuk mencari informasi dari web |
-| streaming | Mendukung respons streaming (output bertahap) |
-| image_generation | Kemampuan model untuk membuat gambar dari perintah teks |
-| vision | Kemampuan model untuk menganalisis dan memahami konten dari gambar |
-| embedding | Kemampuan model untuk mengubah teks menjadi representasi vektor numerik |
+| Model ID | Tipe | Deskripsi |
+| :--- | :--- | :--- |
+| `nusa-embedding-0001` | Embedding | Optimasi Bahasa Indonesia untuk RAG & Search. |
+| `text-embedding-3-small` | Embedding | Model embedding OpenAI yang efisien. |
+| `text-moderation-latest` | Utility | Memeriksa konten untuk kepatuhan keamanan. |
