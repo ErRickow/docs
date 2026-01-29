@@ -15,16 +15,20 @@ Different models have different capacities for "remembering" context. Choosing t
 
 | Model | Context Window (Input) | Max Output Tokens | Best For |
 | :--- | :--- | :--- | :--- |
+| **Grok 4.1 Fast** | **2,000,000** | 4,096 | Extreme context tasks, finance, agentic workflows |
+| **Gemini 3 Flash** | **1,000,000** | 2,400 | High-speed processing with massive context |
+| **Claude 4.5 Sonnet** | **200,000** | 4,096 | Complex logic, high-end data processing, coding |
 | **Qwen3-32B** | **131,072** | **40,960** | High-speed coding and long documents |
 | **Garda-Beta-Mini** | **131,072** | 8,192 | Long document analysis, huge context |
-| **Nusantara-Base** | **64,000** | 2,048 | General purpose, standard context |
-| **Llama-3.3-Nemotron** | **131,072** | 4,096 | Complex reasoning with long context |
+| **Llama-3.3-Nemotron** | **131,072** | 128,000 | Deep reasoning with very long outputs |
+| **Sea-Lion v4** | **128,000** | 4,096 | Southeast Asian context, native-level fluency |
+| **Nusantara-Base** | **64,000** | 2,048 | General purpose, balanced performance |
 | **Archipelago-70B** | 24,000 | 2,048 | Cultural tasks, medium context |
 
 ### Understanding the Numbers
 
-* **Context Window (Input)**: The limit for your prompt + conversation history. If you send 10,000 tokens of text to `LuminAI` (limit 8k), the request will fail or be truncated.
-* **Max Output**: The limit for what the model can generate in one go. Even if `Garda-Beta-Mini` can read 131k tokens, it can "only" write 8k tokens at a time.
+* **Context Window (Input)**: The limit for your prompt + conversation history. If you send a prompt that exceeds this limit, the request will fail or be truncated depending on the endpoint configuration.
+* **Max Output**: The limit for what the model can generate in one go. Even if a model can read 1M tokens, it has a separate limit for how much it can write in a single response.
 
 ## Managing Context
 

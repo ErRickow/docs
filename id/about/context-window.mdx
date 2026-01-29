@@ -15,16 +15,20 @@ Setiap model memiliki kapasitas berbeda untuk "mengingat" konteks. Memilih model
 
 | Model | Jendela Konteks (Input) | Maks Token Output | Terbaik Untuk |
 | :--- | :--- | :--- | :--- |
+| **Grok 4.1 Fast** | **2.000.000** | 4.096 | Tugas konteks ekstrem, keuangan, alur kerja agen |
+| **Gemini 3 Flash** | **1.000.000** | 2.400 | Pemrosesan cepat dengan konteks masif |
+| **Claude 4.5 Sonnet** | **200.000** | 4.096 | Logika kompleks, pengolahan data tingkat tinggi, coding |
 | **Qwen3-32B** | **131.072** | **40.960** | Pengodean cepat dan dokumen sangat panjang |
 | **Garda-Beta-Mini** | **131.072** | 8.192 | Analisis dokumen panjang, konteks sangat besar |
-| **Nusantara-Base** | **64.000** | 2.048 | Tujuan umum, konteks standar |
-| **Llama-3.3-Nemotron** | **131.072** | 4.096 | Penalaran kompleks dengan konteks panjang |
+| **Llama-3.3-Nemotron** | **131.072** | 128.000 | Penalaran mendalam dengan output sangat panjang |
+| **Sea-Lion v4** | **128.000** | 4.096 | Konteks Asia Tenggara, kefasihan tingkat native |
+| **Nusantara-Base** | **64.000** | 2.048 | Tujuan umum, performa seimbang |
 | **Archipelago-70B** | 24.000 | 2.048 | Tugas budaya, konteks menengah |
 
 ### Memahami Angka
 
-* **Jendela Konteks (Input)**: Batas untuk prompt + riwayat percakapan Kamu. Jika Kamu mengirim 10.000 token teks ke `LuminAI` (batas 8k), permintaan akan gagal atau terpotong.
-* **Maks Output**: Batas apa yang dapat dihasilkan model dalam satu kali jalan. Meskipun `Garda-Beta-Mini` dapat membaca 131k token, ia "hanya" dapat menulis 8k token dalam satu waktu.
+* **Jendela Konteks (Input)**: Batas untuk prompt + riwayat percakapan Kamu. Jika Kamu mengirim prompt yang melebihi batas ini, permintaan akan gagal atau terpotong tergantung pada konfigurasi endpoint.
+* **Maks Output**: Batas apa yang dapat dihasilkan model dalam satu kali jalan. Meskipun sebuah model dapat membaca 1 juta token, ia memiliki batas terpisah untuk berapa banyak yang dapat ditulis dalam satu respon.
 
 ## Mengelola Konteks
 
