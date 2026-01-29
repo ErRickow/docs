@@ -1,133 +1,86 @@
 ---
-title: "Pembuatan Gambar (Image Gen)"
-description: "> Hasilkan gambar berkualitas tinggi dari prompt teks menggunakan berbagai model AI."
+title: "Pembuatan Gambar"
+description: "Hasilkan gambar berkualitas tinggi dari prompt teks menggunakan berbagai model AI seperti FLUX dan Titan."
 ---
 
-Pembuatan gambar memungkinkan Kamu membuat konten visual unik langsung dari deskripsi tekstual (prompt).
-
-## Cara Kerja
-
-Kamu memberikan prompt teks yang menjelaskan gambar yang ingin Kamu buat, dan API NeosantaraAI menggunakan model generatif canggih untuk menghasilkan gambar yang sesuai. Kamu dapat menentukan parameter seperti jumlah gambar, ukurannya, dan format outputnya.
-
-API NeosantaraAI menyediakan endpoint [`/v1/images/generations`](/api-reference/images/create-image-generation) untuk tujuan ini.
+Pembuatan gambar memungkinkan Kamu membuat konten visual unik langsung dari deskripsi tekstual (prompt). Kapabilitas ini dapat digunakan untuk aplikasi kreatif, pembuatan konten, desain, dan banyak lagi.
 
 ## Penggunaan
 
-Kirim permintaan POST ke endpoint [`/v1/images/generations`](/api-reference/images/create-image-generation).
+Untuk menghasilkan gambar, kirim permintaan POST ke endpoint `/v1/images/generations`. Endpoint ini sepenuhnya kompatibel dengan standar OpenAI Image Generation.
 
 ### Endpoint
 
 `POST /v1/images/generations`
 
-### Body Permintaan
+<Note>
+  Untuk deskripsi parameter yang mendetail dan untuk mencoba API secara langsung, kunjungi [Referensi API](/api-reference/images/create-image-generation).
+</Note>
 
-```json icon="code"
-{
-  "prompt": "Pemkamungan kota futuristik saat matahari terbenam dengan mobil terbang, sangat detail, gaya cyberpunk.",
-  "model": "neosantara-gen-2045",
-  "n": 1,
-  "size": "1024x1024",
-  "response_format": "url"
-}
-```
+## Kapabilitas Lanjutan
 
-#### Parameter Utama
+Beberapa model, seperti **Titan Image G1**, mendukung tugas manipulasi gambar tingkat lanjut:
 
-* **`prompt`** (string, **wajib**): Deskripsi teks gambar.
-* **`model`** (string, opsional): ID model (default: `"neosantara-gen-2045"`).
-* **`n`** (integer): Jumlah gambar (default: `1`).
-* **`size`** (string): Ukuran gambar (default: `"1024x1024"`).
-* **`response_format`** (string): Format output (`"url"` atau `"b64_json"`).
+### Image-to-Image (Variasi)
 
-## Model yang Didukung
+Hasilkan gambar baru berdasarkan gambar yang sudah ada. Berikan gambar asli dalam parameter `image` (sebagai string base64) dan `prompt` yang menjelaskan perubahan atau gaya yang diinginkan.
 
-* **`titan-image-g1`**: Amazon Titan Image Generator G1 v2. Sangat hemat biaya dan serbaguna. Mendukung variasi, inpainting, dan outpainting.
-* **`neosantara-gen-2045`**: Model pembuatan gambar berkualitas tinggi kami. Direkomendasikan untuk hasil kreatif dan artistik.
+### Inpainting & Outpainting
+
+*   **Inpainting**: Ubah area spesifik dari sebuah gambar menggunakan `mask_image`.
+*   **Outpainting**: Perluas gambar melampaui batas aslinya dengan mengatur `outpainting_mode` ke `"DEFAULT"` atau `"PRECISE"`.
+
+---
+
+## Model Gambar yang Didukung
+
+| ID Model | Penyedia | Terbaik Untuk |
+| :--- | :--- | :--- |
+| `titan-image-g1` | Amazon | Hemat biaya, serbaguna, Inpainting/Outpainting |
+| `neosantara-gen-2045` | Together (Flux) | Hasil berkualitas tinggi, artistik, dan sinematik |
+
+---
 
 ## Contoh Python dan JavaScript (OpenAI SDK)
-
-Kamu dapat menghasilkan gambar menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API NeosantaraAI.
 
 <CodeGroup>
 
 ```python Python
-import os
 from openai import OpenAI
+import os
 
-# Inisialisasi klien OpenAI dengan kunci API Kamu
 client = OpenAI(
-    api_key=os.environ.get("NAI_API_KEY"),
-    base_url="https://api.neosantara.xyz/v1",
+    api_key=os.environ.get("YOUR_NEOSANTARA_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1"
 )
 
-def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: int = 1, size: str = "1024x1024"):
-    """
-    Menghasilkan gambar dari prompt teks menggunakan API Neosantara AI.
-    """
-    print(f"Menghasilkan gambar untuk prompt: '{prompt}'")
+response = client.images.generate(
+    model="neosantara-gen-2045",
+    prompt="Sawah terasering di Bali saat pagi hari, pencahayaan sinematik.",
+    n=1,
+    size="1024x1024",
+    response_format="url"
+)
 
-    try:
-        response = client.images.generate(
-            model=model,
-            prompt=prompt,
-            n=num_images,
-            size=size,
-            response_format="url",
-        )
-
-        image_urls = [item.url for item in response.data]
-        print("\nURL Gambar yang Dihasilkan:")
-        for url in image_urls:
-            print(url)
-        return image_urls
-
-    except Exception as e:
-        print(f"\nTerjadi kesalahan saat pembuatan gambar: {e}")
-        return None
-
-if __name__ == "__main__":
-    prompt = "Sawah terasering di Bali saat pagi hari, fotorealistik, sangat detail."
-    generate_image(prompt)
+print(response.data[0].url)
 ```
 
 ```javascript Node.js
-// Instal library OpenAI Node.js: npm install openai
 import OpenAI from 'openai';
 
-// Inisialisasi klien OpenAI dengan kunci API Kamu
 const client = new OpenAI({
-  apiKey: process.env.NAI_API_KEY,
+  apiKey: "YOUR_NEOSANTARA_API_KEY",
   baseURL: "https://api.neosantara.xyz/v1",
 });
 
-async function generateImage(prompt, model = "neosantara-gen-2045", numImages = 1, size = "1024x1024") {
-  console.log(`Menghasilkan gambar untuk prompt: '${prompt}'`);
+const response = await client.images.generate({
+  model: "titan-image-g1",
+  prompt: "Komodo naga yang megah sedang berjemur di pantai berbatu, realistis.",
+  n: 1,
+  size: "1024x1024",
+});
 
-  try {
-    const response = await client.images.generate({
-      model: model,
-      prompt: prompt,
-      n: numImages,
-      size: size,
-      response_format: "url",
-    });
-
-    const imageUrls = response.data.map(item => item.url);
-    console.log("\nURL Gambar yang Dihasilkan:");
-    imageUrls.forEach(url => console.log(url));
-    return imageUrls;
-
-  } catch (error) {
-    console.error(`\nTerjadi kesalahan: ${error.message}`);
-    return null;
-  }
-}
-
-// Contoh penggunaan
-(async () => {
-  const prompt = "Sawah terasering di Bali saat pagi hari, fotorealistik, sangat detail.";
-  await generateImage(prompt);
-})();
+console.log(response.data[0].url);
 ```
 
 </CodeGroup>
