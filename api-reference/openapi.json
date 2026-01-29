@@ -207,15 +207,6 @@
             "description": "Bad Request"
           }
         },
-        "extension": {
-          "x-codeSamples": [
-            {
-              "lang": "javascript",
-              "label": "OpenAI Node.js SDK",
-              "source": "const OpenAI = require('openai');\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.images.generate({\n  model: 'flux-schnell',\n  prompt: 'Pemandangan alam Indonesia yang indah di pagi hari',\n  n: 1,\n  size: '1024x1024',\n});"
-            }
-          ]
-        },
         "requestBody": {
           "content": {
             "application/json": {
@@ -292,7 +283,16 @@
             "label": "Python SDK",
             "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.images.generate(\n    model='neosantara-gen-2045',\n    prompt='Pemandangan alam Indonesia yang indah',\n    n=1,\n    size='1024x1024'\n)\nprint(response.data[0].url)"
           }
-        ]
+        ],
+        "x-mint-extension": {
+          "x-codeSamples": [
+            {
+              "lang": "javascript",
+              "label": "OpenAI Node.js SDK",
+              "source": "const OpenAI = require('openai');\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.images.generate({\n  model: 'flux-schnell',\n  prompt: 'Pemandangan alam Indonesia yang indah di pagi hari',\n  n: 1,\n  size: '1024x1024',\n});"
+            }
+          ]
+        }
       }
     },
     "/v1/conversations": {
@@ -365,20 +365,6 @@
           "404": {
             "description": "Model Not Found"
           }
-        },
-        "extension": {
-          "x-codeSamples": [
-            {
-              "lang": "javascript",
-              "label": "OpenAI Node.js SDK",
-              "source": "const OpenAI = require('openai');\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'nusantara-pro',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});"
-            },
-            {
-              "lang": "python",
-              "label": "OpenAI Python SDK",
-              "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='nusantara-pro',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)"
-            }
-          ]
         },
         "requestBody": {
           "content": {
@@ -884,7 +870,21 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'nusantara-base',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(response.choices[0].message.content);"
           }
-        ]
+        ],
+        "x-mint-extension": {
+          "x-codeSamples": [
+            {
+              "lang": "javascript",
+              "label": "OpenAI Node.js SDK",
+              "source": "const OpenAI = require('openai');\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'nusantara-pro',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});"
+            },
+            {
+              "lang": "python",
+              "label": "OpenAI Python SDK",
+              "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='nusantara-pro',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)"
+            }
+          ]
+        }
       }
     },
     "/v1/completions": {
@@ -1036,20 +1036,6 @@
           "429": {
             "description": "Rate Limit Exceeded"
           }
-        },
-        "extension": {
-          "x-codeSamples": [
-            {
-              "lang": "bash",
-              "label": "cURL",
-              "source": "curl https://api.neosantara.xyz/v1/responses \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer $NUSA_KEY\" \\\n  -d '{\n    \"model\": \"nusantara-pro\",\n    \"input\": \"Jelaskan apa itu Nusantara AI\",\n    \"instructions\": \"Gunakan bahasa yang santai.\"\n  }'"
-            },
-            {
-              "lang": "javascript",
-              "label": "Axios",
-              "source": "const axios = require('axios');\n\nconst response = await axios.post('https://api.neosantara.xyz/v1/responses', {\n  model: 'nusantara-pro',\n  input: 'Jelaskan apa itu Nusantara AI',\n  instructions: 'Gunakan bahasa yang santai.'\n}, {\n  headers: { 'Authorization': `Bearer ${process.env.NUSA_KEY}` }\n});"
-            }
-          ]
         },
         "requestBody": {
           "content": {
@@ -2020,7 +2006,21 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.responses.create({\n  model: 'nusantara-base',\n  input: 'Halo, apa kabar?',\n  instructions: 'Jawab dengan gaya santai.',\n  store: true\n});\nconsole.log(response.output_text);"
           }
-        ]
+        ],
+        "x-mint-extension": {
+          "x-codeSamples": [
+            {
+              "lang": "bash",
+              "label": "cURL",
+              "source": "curl https://api.neosantara.xyz/v1/responses \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer $NUSA_KEY\" \\\n  -d '{\n    \"model\": \"nusantara-pro\",\n    \"input\": \"Jelaskan apa itu Nusantara AI\",\n    \"instructions\": \"Gunakan bahasa yang santai.\"\n  }'"
+            },
+            {
+              "lang": "javascript",
+              "label": "Axios",
+              "source": "const axios = require('axios');\n\nconst response = await axios.post('https://api.neosantara.xyz/v1/responses', {\n  model: 'nusantara-pro',\n  input: 'Jelaskan apa itu Nusantara AI',\n  instructions: 'Gunakan bahasa yang santai.'\n}, {\n  headers: { 'Authorization': `Bearer ${process.env.NUSA_KEY}` }\n});"
+            }
+          ]
+        }
       }
     },
     "/anthropic/v1/models": {
@@ -2927,7 +2927,9 @@
           }
         },
         "responses": {
-          "200": {}
+          "200": {
+            "description": "Successful response"
+          }
         },
         "x-codeSamples": [
           {
