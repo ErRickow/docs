@@ -1,59 +1,110 @@
 ---
 title: "Prompt Templates"
-description: "> Learn how to create and reuse prompts to streamline your API calls."
+description: "Create and reuse dynamic prompts with variables, dedicated exclusively to the Responses API."
 ---
 
-Prompt templates allow you to save and manage frequently used prompts on the Neosantara AI platform. Instead of sending long instruction sets with every API call, you can simply send the template's unique ID and fill in the variables. This makes your requests cleaner, faster, and easier to manage.
+Prompt templates allow you to save and manage complex instructions on the Neosantara AI platform. Instead of sending long prompts with every API call, you can reference a template ID and inject variables dynamically.
 
----
+<Warning>
+  **Exclusive to Responses API**: Prompt templates are a dedicated feature of the `/v1/responses` endpoint. They are **not** supported by the legacy `/v1/chat/completions` endpoint.
+</Warning>
 
---
+## Creating a Template
 
-### 1. Creating a Prompt Template
+You can manage your templates directly from the dashboard:
 
-You can create new templates directly from your user dashboard.
+1.  Navigate to your **[Dashboard](https://app.neosantara.xyz/dashboard)**.
+2.  Select the **"Prompt Templates"** section.
+3.  Define your **ID** (e.g., `legal-analyzer`) and **Content**.
+4.  Use `{{variable_name}}` syntax for dynamic placeholders.
 
-1. Navigate to your **[Dashboard](https://app.neosantara.xyz/dashboard)**.
-2. Select the **"Prompt Templates"** section.
-3. Click the **"Create New Template"** button.
-4. Fill in the form:
-      * **ID**: A unique, machine-readable identifier for your template (e.g., `doctor-assistant`, `formal-email-writer`). Use `kebab-case`.
-      * **Content**: The body of your prompt. Use double curly braces `{{variable_name}}` to define placeholders that you can fill in later during your API call.
-
-**Example Template Content:**
+**Example Content:**
 
 ```text
-You are a specialist doctor named {{doctor_name}}. Greet the patient, {{patient_name}}, and ask how you can help them with their {{health_issue}}.
+You are a legal expert. Analyze the following document: {{document_text}}. 
+Focus specifically on {{focus_area}}.
 ```
 
 ---
 
+## Using Templates with OpenAI SDK
 
-### 2. Using a Template in an API Call
+Neosantara AI's Responses API is compatible with the latest OpenAI SDK structure. You can use the dedicated `responses` namespace to call your templates.
 
-Once your template is saved, you can use it by calling the `/v1/responses` endpoint. Instead of the standard `messages` array, you will provide a `prompt` object.
+<CodeGroup>
 
-The `prompt` object must contain the `id` of your template and a `variables` object to fill in the placeholders you defined.
+```python Python
+from openai import OpenAI
+import os
 
-**Example `curl` Request:**
+client = OpenAI(
+    api_key="YOUR_NEOSANTARA_API_KEY",
+    base_url="https://api.neosantara.xyz/v1"
+)
 
-This example calls the `doctor-assistant` template we created and dynamically fills in the variables.
-
-```bash icon="terminal"
-curl -X POST 'https://api.neosantara.xyz/v1/responses' \
--H 'Content-Type: application/json' \
--H 'Authorization: Bearer YOUR_NEOSANTARA_API_KEY' \
--d '{ 
-    "model": "nusantara-base",
-    "prompt": {
-        "id": "doctor-assistant",
+# Use the dedicated responses namespace
+response = client.responses.create(
+    model="claude-4.5-sonnet",
+    prompt={
+        "id": "legal-analyzer",
         "variables": {
-            "doctor_name": "Dr. Arifin",
-            "patient_name": "Bapak Budi",
-            "health_issue": "persistent headache"
+            "document_text": "This is a sample contract...",
+            "focus_area": "liability clauses"
         }
     }
-}'
+)
+
+print(response.output_text)
 ```
 
+```javascript Node.js
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: 'YOUR_NEOSANTARA_API_KEY',
+  baseURL: 'https://api.neosantara.xyz/v1'
+});
+
+// Access the responses API directly
+const response = await client.responses.create({
+  model: 'claude-4.5-sonnet',
+  prompt: {
+    id: 'legal-analyzer',
+    variables: {
+      document_text: 'This is a sample contract...', 
+      focus_area: 'liability clauses'
+    }
+  }
+});
+
+console.log(response.output_text);
 ```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "claude-4.5-sonnet",
+    "prompt": {
+      "id": "legal-analyzer",
+      "variables": {
+        "document_text": "...",
+        "focus_area": "..."
+      }
+    }
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Why use Prompt Templates?
+
+| Feature | Standard Chat | Prompt Templates |
+| :--- | :--- | :--- |
+| **Reusability** | Must resend full prompt | Reference by ID |
+| **Security** | Prompts visible in code | Logic hidden in Dashboard |
+| **Payload Size** | Larger (full text) | Smaller (ID + variables) |
+| **Endpoint** | `/v1/chat/completions` | `/v1/responses` |

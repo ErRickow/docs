@@ -1,56 +1,110 @@
 ---
 title: "Template Prompt"
-description: "> Pelajari cara membuat dan menggunakan kembali prompt untuk menyederhanakan panggilan API Kamu."
+description: "Buat dan gunakan kembali prompt dinamis dengan variabel, khusus didedikasikan untuk API Responses."
 ---
 
-Template prompt memungkinkan Kamu menyimpan dan mengelola prompt yang sering digunakan di platform Neosantara AI. Alih-alih mengirimkan set instruksi panjang dengan setiap panggilan API, Kamu cukup mengirimkan ID unik template dan mengisi variabelnya. Ini membuat permintaan Kamu lebih bersih, lebih cepat, dan lebih mudah dikelola.
+Template prompt memungkinkan Kamu menyimpan dan mengelola instruksi kompleks di platform Neosantara AI. Alih-alih mengirimkan prompt yang panjang di setiap panggilan API, Kamu cukup mereferensikan ID template dan memasukkan variabel secara dinamis.
 
----
+<Warning>
+  **Khusus API Responses**: Template prompt adalah fitur khusus dari endpoint `/v1/responses`. Fitur ini **tidak** didukung oleh endpoint legacy `/v1/chat/completions`.
+</Warning>
 
---
+## Membuat Template
 
-### 1. Membuat Template Prompt
+Kamu dapat mengelola template Kamu langsung dari dashboard:
 
-Kamu dapat membuat template baru langsung dari dashboard pengguna Kamu.
+1.  Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** Kamu.
+2.  Pilih bagian **"Prompt Templates"**.
+3.  Tentukan **ID** Kamu (misalnya, `analisis-hukum`) dan **Konten**.
+4.  Gunakan sintaks `{{nama_variabel}}` untuk placeholder dinamis.
 
-1. Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** Kamu.
-2. Pilih bagian **"Prompt Templates"**.
-3. Klik tombol **"Create New Template"**.
-4. Isi formulir:
-      * **ID**: Pengenal unik yang dapat dibaca mesin untuk template Kamu (misalnya, `asisten-dokter`, `penulis-email-formal`). Gunakan `kebab-case`.
-      * **Content**: Isi promptmu. Gunakan kurung kurawal gkamu `{{nama_variabel}}` untuk mendefinisikan placeholder yang dapat Kamu isi nanti selama panggilan API.
-
-**Contoh Konten Template:**
+**Contoh Konten:**
 
 ```text
-Kamu adalah dokter spesialis bernama {{nama_dokter}}. Sapa pasien, {{nama_pasien}}, dan tanyakan bagaimana Kamu dapat membantu mereka dengan {{masalah_kesehatan}} mereka.
+Kamu adalah seorang ahli hukum. Analisis dokumen berikut: {{teks_dokumen}}. 
+Fokuslah secara khusus pada {{area_fokus}}.
 ```
 
 ---
 
-### 2. Menggunakan Template dalam Panggilan API
+## Menggunakan Template dengan OpenAI SDK
 
-Setelah template Kamu disimpan, Kamu dapat menggunakannya dengan memanggil endpoint `/v1/responses`. Alih-alih array `messages` standar, Kamu akan memberikan objek `prompt`.
+API Responses Neosantara AI kompatibel dengan struktur SDK OpenAI terbaru. Kamu dapat menggunakan namespace `responses` untuk memanggil template Kamu.
 
-Objek `prompt` harus berisi `id` template Kamu dan objek `variables` untuk mengisi placeholder yang Kamu definisikan.
+<CodeGroup>
 
-**Contoh Permintaan `curl`:**
+```python Python
+from openai import OpenAI
+import os
 
-Contoh ini memanggil template `asisten-dokter` (asumsi nama ID disesuaikan) dan mengisi variabel secara dinamis.
+client = OpenAI(
+    api_key="YOUR_NEOSANTARA_API_KEY",
+    base_url="https://api.neosantara.xyz/v1"
+)
 
-```bash icon="terminal"
-curl -X POST 'https://api.neosantara.xyz/v1/responses' \
--H 'Content-Type: application/json' \
--H 'Authorization: Bearer YOUR_NEOSANTARA_API_KEY' \
--d '{ 
-    "model": "nusantara-base",
-    "prompt": {
-        "id": "asisten-dokter",
+# Gunakan namespace 'responses' yang tersedia di SDK
+response = client.responses.create(
+    model="claude-4.5-sonnet",
+    prompt={
+        "id": "analisis-hukum",
         "variables": {
-            "nama_dokter": "Dr. Arifin",
-            "nama_pasien": "Bapak Budi",
-            "masalah_kesehatan": "sakit kepala berkepanjangan"
+            "teks_dokumen": "Ini adalah contoh kontrak...",
+            "area_fokus": "klausul kewajiban"
         }
     }
-}'
+)
+
+print(response.output_text)
 ```
+
+```javascript Node.js
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: 'YOUR_NEOSANTARA_API_KEY',
+  baseURL: 'https://api.neosantara.xyz/v1'
+});
+
+// Akses API responses secara langsung melalui SDK
+const response = await client.responses.create({
+  model: 'claude-4.5-sonnet',
+  prompt: {
+    id: 'analisis-hukum',
+    variables: {
+      document_text: 'Ini adalah contoh kontrak...', 
+      area_fokus: 'klausul kewajiban'
+    }
+  }
+});
+
+console.log(response.output_text);
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "claude-4.5-sonnet",
+    "prompt": {
+      "id": "analisis-hukum",
+      "variables": {
+        "document_text": "...",
+        "area_fokus": "..."
+      }
+    }
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Mengapa menggunakan Template Prompt?
+
+| Fitur | Chat Standar | Template Prompt |
+| :--- | :--- | :--- |
+| **Penggunaan Kembali** | Harus kirim ulang seluruh prompt | Referensi via ID |
+| **Keamanan** | Prompt terlihat di kode | Logika tersembunyi di Dashboard |
+| **Ukuran Payload** | Lebih besar (teks lengkap) | Lebih kecil (ID + variabel) |
+| **Endpoint** | `/v1/chat/completions` | `/v1/responses` |
