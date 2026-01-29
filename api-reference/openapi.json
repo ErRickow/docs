@@ -82,6 +82,11 @@
               ]
             }
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -121,7 +126,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/audio/transcriptions": {
@@ -213,7 +223,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/images/generations": {
@@ -346,6 +361,11 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.images.generate({\n  model: 'neosantara-gen-2045',\n  prompt: 'Pemandangan alam Indonesia yang indah',\n  n: 1,\n  size: '1024x1024',\n});\nconsole.log(response.data[0].url);"
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -361,7 +381,12 @@
           "200": {
             "description": "List of conversations"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/chat/completions": {
@@ -924,6 +949,11 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'gemini-3-flash',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(response.choices[0].message.content);"
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -973,7 +1003,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/ocr": {
@@ -991,7 +1026,12 @@
           "400": {
             "description": "Invalid image or model"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/responses": {
@@ -2031,6 +2071,11 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.responses.create({\n  model: 'claude-4.5-sonnet',\n  input: 'Halo, apa kabar?',\n  instructions: 'Jawab dengan gaya santai.',\n  store: true\n});\nconsole.log(response.output_text);"
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -2111,7 +2156,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/anthropic/v1/models/{modelId}": {
@@ -2174,6 +2224,11 @@
             "in": "path",
             "name": "modelId",
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ]
       }
@@ -2552,6 +2607,11 @@
             "label": "Node.js SDK",
             "source": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/anthropic'\n});\n\nconst message = await client.messages.create({\n  model: 'archipelago-70b',\n  max_tokens: 1024,\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(message.content[0].text);"
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -2829,7 +2889,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/models/{modelId}": {
@@ -2884,6 +2949,11 @@
             "in": "path",
             "name": "modelId",
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ]
       }
@@ -2958,6 +3028,11 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.embeddings.create({\n  model: 'nusa-embedding-0001',\n  input: 'Kecerdasan Buatan adalah masa depan.',\n});\nconsole.log(response.data[0].embedding);"
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -2973,7 +3048,12 @@
           "200": {
             "description": "Successful moderation"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/system/status": {
@@ -2988,7 +3068,12 @@
           "200": {
             "description": "System status"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/files": {
@@ -3043,7 +3128,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "get": {
         "operationId": "getV1Files",
@@ -3116,7 +3206,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/files/{file_id}": {
@@ -3184,6 +3279,11 @@
             "name": "file_id",
             "required": true
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       },
       "delete": {
@@ -3234,6 +3334,11 @@
             "name": "file_id",
             "required": true
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -3261,6 +3366,11 @@
             "in": "path",
             "name": "file_id",
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ]
       }
@@ -3332,7 +3442,12 @@
           "403": {
             "description": "Permission denied"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "get": {
         "operationId": "getV1Batches",
@@ -3370,7 +3485,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/v1/batches/{batch_id}": {
@@ -3450,6 +3570,11 @@
             "name": "batch_id",
             "required": true
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -3503,6 +3628,11 @@
             "name": "batch_id",
             "required": true
           }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ]
       }
     },
@@ -3514,7 +3644,12 @@
         ],
         "summary": "Root Redirect",
         "description": "Redirects to main website.",
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   }
