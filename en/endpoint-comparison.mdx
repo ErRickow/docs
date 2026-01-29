@@ -68,7 +68,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 
 **Example Use Cases:**
 
-```python
+```python icon="python"
 # Perfect for existing OpenAI apps
 from openai import OpenAI
 
@@ -89,7 +89,7 @@ response = client.chat.completions.create(
 
 **Example Use Cases:**
 
-```python
+```python icon="python"
 # Best for Anthropic ecosystem
 import anthropic
 
@@ -110,7 +110,7 @@ message = client.messages.create(
 
 **Example Use Cases:**
 
-```python
+```python icon="python"
 # Ideal for new applications
 from openai import OpenAI
 
@@ -126,7 +126,7 @@ response = client.responses.create(
 
 ### From OpenAI Compatible to Responses API
 
-```python
+```python icon="python"
 # Before (OpenAI Compatible)
 response = client.chat.completions.create(
     model="nusantara-base",
@@ -154,7 +154,7 @@ print(response.output_text)
 
 ### From Anthropic Compatible to Responses API
 
-```python
+```python icon="python"
 # Before (Anthropic Compatible)
 message = client.messages.create(
     model="nusantara-base",
@@ -215,7 +215,7 @@ print(response.output_text)
 
 <CodeGroup>
 
-```python
+```python icon="python"
 from openai import OpenAI
 
 client = OpenAI(base_url="https://api.neosantara.xyz/v1")
@@ -228,7 +228,7 @@ def chat_with_history(message_history, new_message):
     return response.choices[0].message.content
 ```
 
-```python
+```python icon="python"
 import anthropic
 
 client = anthropic.Anthropic(base_url="https://api.neosantara.xyz/anthropic")
@@ -241,7 +241,7 @@ def chat_with_history(message_history, new_message):
     return response.content[0].text
 ```
 
-```python
+```python icon="python"
 from openai import OpenAI
 
 client = OpenAI(base_url="https://api.neosantara.xyz/v1")
@@ -261,7 +261,7 @@ def chat_stateful(user_input, previous_id=None):
 
 <CodeGroup>
 
-```python
+```python icon="python"
 tools = [{
     "type": "function",
     "function": {
@@ -284,7 +284,7 @@ response = client.chat.completions.create(
 tool_calls = response.choices[0].message.tool_calls
 ```
 
-```python
+```python icon="python"
 tools = [{
     "name": "get_weather",
     "description": "Get weather",
@@ -304,7 +304,7 @@ response = client.messages.create(
 tool_use = next(c for c in response.content if c.type == "tool_use")
 ```
 
-```python
+```python icon="python"
 tools = [{
     "type": "function",
     "name": "get_weather",

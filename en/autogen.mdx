@@ -21,7 +21,7 @@ Set your Neosantara AI API key:
 
 Setup and configure AutoGen to use LLMs from Neosantara AI
 
-```python
+```python icon="python"
   import os
 
   config_list = [
@@ -42,7 +42,7 @@ Setup and configure AutoGen to use LLMs from Neosantara AI
 
 Importantly, we have tweaked the system message so that the model doesn't return the termination keyword, which we've changed to FINISH, with the code block.
 
-```python
+```python icon="python"
   from pathlib import Path
   from autogen import AssistantAgent, UserProxyAgent
   from autogen.coding import LocalCommandLineCodeExecutor
@@ -102,7 +102,7 @@ Berikut adalah rencana untuk menghitung jumlah bilangan prima dari 1 hingga 1000
 4.  Jika angka tersebut prima, tambahkan ke penghitung.
 5.  Cetak total penghitung setelah iterasi selesai.
 
-```python
+```python icon="python"
 # script.py
 def is_prime(n):
     """

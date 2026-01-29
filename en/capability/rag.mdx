@@ -25,7 +25,7 @@ We will build a system that:
 
 First, we need to turn your text data into numbers (vectors) so the AI can search it.
 
-```javascript
+```javascript icon="js"
 import OpenAI from "openai";
 
 const client = new OpenAI({
@@ -66,7 +66,7 @@ async function createKnowledgeBase() {
 
 When a user asks a question, we convert their question into a vector and find the closest matching documents using **Cosine Similarity**.
 
-```javascript
+```javascript icon="js"
 // Simple cosine similarity function
 function cosineSimilarity(vecA, vecB) {
   let dotProduct = 0.0;
@@ -104,7 +104,7 @@ async function retrieveContext(query, vectorStore) {
 
 Finally, we pass the retrieved context to the LLM to generate a natural answer.
 
-```javascript
+```javascript icon="js"
 async function answerUserQuestion(question, vectorStore) {
   console.log(`User asks: "${question}"`);
 
@@ -135,7 +135,7 @@ async function answerUserQuestion(question, vectorStore) {
 
 Combining it all together:
 
-```javascript
+```javascript icon="js"
 async function main() {
   // 1. Setup
   const kb = await createKnowledgeBase();
@@ -185,7 +185,7 @@ The core RAG flow remains the same, but Step 1 (Create Embeddings) and Step 2 (S
 3. **Query Pinecone**: For retrieval, embed the user's query and then use the Pinecone client to query your index for the top-k (e.g., top 2) most similar vectors. Pinecone handles the similarity calculation for you.
 4. **Retrieve Full Context**: From the Pinecone query results, extract the original text content of the relevant documents to pass to the LLM.
 
-```javascript
+```javascript icon="js"
 // Example (conceptual):
 // import { Pinecone } from '@pinecone-database/pinecone';
 // const pc = new Pinecone({ apiKey: 'YOUR_NEOSANTARA_API_KEY' });

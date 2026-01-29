@@ -20,7 +20,7 @@ The most direct difference is the method you invoke on the client object.
 
 <CodeGroup>
 
-```python
+```python icon="python"
 # Chat Completions SDK Usage
 completion = client.chat.completions.create(
     model="gemini-3-flash",
@@ -28,7 +28,7 @@ completion = client.chat.completions.create(
 )
 ```
 
-```python
+```python icon="python"
 # Responses SDK Usage
 response = client.responses.create(
     model="claude-4.5-sonnet",
@@ -59,13 +59,13 @@ This is a critical difference. The structure of the returned object in the SDK r
 
 <CodeGroup>
 
-```python
+```python icon="python"
 # Chat Completions: Accessing the content
 # response = client.chat.completions.create(...)
 print(response.choices[0].message.content)
 ```
 
-```python
+```python icon="python"
 # Responses: Accessing the content
 # response = client.responses.create(...)
 
@@ -97,7 +97,7 @@ The Responses API was built to make multi-turn conversations easier, and this is
 
 <CodeGroup>
 
-```python
+```python icon="python"
 # Chat Completions: Manual state management
 messages = [{"role": "user", "content": "What is the capital of Indonesia?"}]
 completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
@@ -108,7 +108,7 @@ messages.append({"role": "user", "content": "What is its population?"})
 next_completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
 ```
 
-```python
+```python icon="python"
 # Responses: Automatic state management
 # First turn
 response1 = client.responses.create(

@@ -20,14 +20,14 @@ Perbedaan paling langsung adalah metode yang Kamu panggil pada objek klien.
 
 <CodeGroup>
 
-```python
+```python icon="python"
 completion = client.chat.completions.create(
     model="gemini-3-flash",
     messages=[{"role": "user", "content": "Halo!"}]
 )
 ```
 
-```python
+```python icon="python"
 # Penggunaan SDK Responses
 response = client.responses.create(
     model="claude-4.5-sonnet",
@@ -46,13 +46,13 @@ Ini adalah perbedaan kritis. Struktur objek yang dikembalikan dalam SDK mencermi
 
 <CodeGroup>
 
-```python
+```python icon="python"
 # Chat Completions: Mengakses konten
 # response = client.chat.completions.create(...)
 print(response.choices[0].message.content)
 ```
 
-```python
+```python icon="python"
 # Responses: Mengakses konten
 # response = client.responses.create(...)
 
@@ -74,7 +74,7 @@ API Responses dibangun untuk membuat percakapan multi-putaran lebih mudah, dan i
 
 <CodeGroup>
 
-```python
+```python icon="python"
 # Chat Completions: Manajemen status manual
 messages = [{"role": "user", "content": "Apa ibu kota Indonesia?"}]
 completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
@@ -86,7 +86,7 @@ next_completion = client.chat.completions.create(model="llama-3.3-nemotron-super
 ```
 
 {/*Automatic status management*/}
-```python
+```python icon="python"
 # Responses: Manajemen status otomatis
 # Putaran pertama
 response1 = client.responses.create(

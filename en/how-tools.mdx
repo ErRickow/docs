@@ -22,7 +22,7 @@ Tools (functions) are specified in the `tools` top-level parameter of your API r
 | `parameters` | (within `function`): A [JSON Schema](https://json-schema.org/) object defining the expected parameters for the tool. This schema describes the `input` the tool expects. |
 
 <Accordion title="Example Simple Tool Definition">
-  ```json
+  ```json icon="code"
   {
     "type": "function",
     "function": {
@@ -63,7 +63,7 @@ To get the best performance out of NeosantaraAI when using tools, follow these g
 
 <AccordionGroup>
   <Accordion title="Example of a Good Tool Description">
-    ```json
+    ```json icon="code"
     {
       "name": "get_stock_price",
       "description": "Retrieves the current stock price for a given ticker symbol. The ticker symbol must be a valid symbol for a publicly traded company on a major stock exchange (e.g., NYSE, NASDAQ, IDX). The tool will return the latest trade price in USD (or IDR if on IDX). It should be used when the user asks about the current or most recent price of a specific stock. It will not provide any other information about the stock or company.",
@@ -82,7 +82,7 @@ To get the best performance out of NeosantaraAI when using tools, follow these g
   </Accordion>
 
   <Accordion title="Example Poor Tool Description">
-    ```json
+    ```json icon="code"
     {
       "name": "get_stock_price",
       "description": "Gets the stock price for a ticker.",
@@ -157,7 +157,7 @@ NeosantaraAI's response for tool use will have a `finish_reason` of `tool_calls`
 * `function`: An object containing the name of the tool (`name`) and the arguments (`arguments`) to be passed to it as a JSON string.
 
 <Accordion title="Example API Response with `tool_calls` Content Block">
-  ```json
+  ```json icon="code"
   {
     "id": "chatcmpl-...",
     "object": "chat.completion",
@@ -208,7 +208,7 @@ When you receive a tool use response, you should:
 
 <AccordionGroup>
   <Accordion title="Example of Successful Tool Result">
-    ```json
+    ```json icon="code"
     {
       "role": "tool",
       "tool_call_id": "call_toolu_01A09q90qw90lq917835lq9",
@@ -220,7 +220,7 @@ When you receive a tool use response, you should:
   <Accordion title="Example of Tool Result with Error">
     If the tool itself throws an error during execution (e.g., a network error when fetching weather data), you should return the error message in the `content` of the `tool` message. While the `is_error: true` flag is accepted by the API layer for compatibility, the model's understanding of the error relies on the descriptive text within the `content` field.
 
-    ```json
+    ```json icon="code"
     {
       "role": "tool",
       "tool_call_id": "call_toolu_01A09q90qw90lq917835lq9",

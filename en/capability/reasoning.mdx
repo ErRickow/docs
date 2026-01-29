@@ -21,7 +21,7 @@ By default, the model will provide a direct answer without the thought process t
 
 To enable step-by-step reasoning, you can use the **`thinking` parameter** (Recommended for Anthropic/OpenAI SDKs) or add `/think` to your system prompt.
 
-```python
+```python icon="python"
 from openai import OpenAI
 
 client = OpenAI(
@@ -76,7 +76,7 @@ For models that support native reasoning, such as **Claude 3.5 Sonnet** and **Ge
 
 When using the Anthropic-compatible API, you can provide a `thinking` object.
 
-```json
+```json icon="code"
 {
   "model": "claude-3-haiku",
   "messages": [...],

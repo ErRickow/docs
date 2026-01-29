@@ -7,7 +7,7 @@ Agno adalah library open-source untuk membuat agen multimodal. Agno mendukung in
 
 ## Instalasi Library
 
-```bash
+```bash icon="terminal"
 pip install -U agno ddgs -q
 ```
 
@@ -23,7 +23,7 @@ export NAI_API_KEY=***
 
 Di bawah ini adalah contoh agen sederhana dengan akses ke pencarian web.
 
-```python
+```python icon="python"
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
 from agno.tools.duckduckgo import DuckDuckGoTools
@@ -44,7 +44,7 @@ agent.print_response("Apa yang sedang terjadi di Indonesia?", stream=True)
 <Accordion title="Lihat output.">
   Output akan mengembalikan string jawaban di bawah ini:
 
-```bash
+```bash icon="terminal"
 ▰▰▰▰▰▰▰▰ Thinking...
 ┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                                                                                                 ┃

@@ -15,13 +15,13 @@ Untuk membangun RAG, Kamu perlu membuat toko vektor dengan mengindeks dokumen su
 
 ### Instalasi
 
-```bash
+```bash icon="terminal"
 pip install -U llama-index
 ```
 
 ### Setup API Key
 
-```python
+```python icon="python"
 import os
 os.environ["NAI_API_KEY"] = "API_KEY_NEOSANTARA_KAMU"
 ```
@@ -30,7 +30,7 @@ os.environ["NAI_API_KEY"] = "API_KEY_NEOSANTARA_KAMU"
 
 Berikut adalah cara menggunakan Neosantara API dengan LlamaIndex untuk menjawab pertanyaan berdasarkan dokumen.
 
-```python
+```python icon="python"
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, Settings
 from llama_index.llms.openai_like import OpenAILike
 from llama_index.embeddings.openai_like import OpenAILikeEmbedding

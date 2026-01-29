@@ -9,13 +9,13 @@ description: '> Use Neosantara AI models through partner integrations.'
 
 Install the `langchain-openai` package.
 
-```bash
+```bash icon="terminal"
 pip install langchain-openai
 ```
 
 Instantiate the Neosantara client and invoke the model.
 
-```python
+```python icon="python"
 from langchain_openai import ChatOpenAI
 import os
 
@@ -37,7 +37,7 @@ Learn more in our [LangChain Guide](/en/langchain).
 
 Install both the Vercel AI SDK and OpenAI's Vercel package.
 
-```bash
+```bash icon="terminal"
 npm i ai @ai-sdk/openai
 ```
 
@@ -69,13 +69,13 @@ Learn more in our [Neosantara AI - Vercel AI SDK Guide](/en/using-neosantara-wit
 
 Install `llama-index`
 
-```bash
+```bash icon="terminal"
 pip install llama-index
 ```
 
 Here's sample code to get you started with Llama Index + Neosantara AI:
 
-```python
+```python icon="python"
 from llama_index.llms.openai_like import OpenAILike
 import os
 
@@ -101,14 +101,14 @@ See [this tutorial blog](/en/llama-index) for the RAG implementation details usi
 
 Install `crewai`
 
-```bash
+```bash icon="terminal"
 pip install crewai
 export NAI_API_KEY=***
 ```
 
 Build an multi-agent workflow:
 
-```python
+```python icon="python"
 import os
 from crewai import LLM, Task, Agent, Crew
 
@@ -154,14 +154,14 @@ Learn more in our [CrewAI guide](/en/crewai).
 
 Install `pydantic-ai`
 
-```bash
+```bash icon="terminal"
 pip install pydantic-ai
 export NAI_API_KEY=***
 ```
 
 Build PydanticAI agents using Neosantara AI models
 
-```python
+```python icon="python"
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -200,7 +200,7 @@ Prerequisites:
 * Arcade API key - see here [https://arcade.dev/](https://arcade.dev/)
 * Gmail account to connect via OAuth
 
-```bash
+```bash icon="terminal"
 # install the required packages
 pip install -qU openai arcadepy
 ```
@@ -246,14 +246,14 @@ print("Authorization completed!")
 
 Install `dspy`
 
-```bash
+```bash icon="terminal"
 pip install -U dspy
 export NAI_API_KEY=***
 ```
 
 Build a question answering agent
 
-```python
+```python icon="python"
 import dspy
 import os
 
@@ -289,14 +289,14 @@ Learn more in our [DSPy Guide](/en/dspy).
 
 Install `autogen`
 
-```bash
+```bash icon="terminal"
 pip install autogen
 export NAI_API_KEY=***
 ```
 
 Build a coding agent
 
-```python
+```python icon="python"
 import os
 from pathlib import Path
 from autogen import AssistantAgent, UserProxyAgent
@@ -356,13 +356,13 @@ Learn more in our [Autogen Guide](/en/autogen).
 
 Install `agno`
 
-```bash
+```bash icon="terminal"
 pip install -U agno ddgs
 ```
 
 Build a search and answer agent
 
-```python
+```python icon="python"
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
 from agno.tools.duckduckgo import DuckDuckGoTools
@@ -388,7 +388,7 @@ Learn more in our [Agno Guide](/en/agno).
 
 Here's some sample code to get you started with Pinecone + Neosantara AI:
 
-```python
+```python icon="python"
 from pinecone import Pinecone, ServerlessSpec
 from openai import OpenAI
 import os

@@ -28,13 +28,13 @@ Kamu akan mempelajari cara:
 
 Pertama, instal pustaka Python yang diperlukan:
 
-```bash
+```bash icon="terminal"
 pip install -U openai requests
 ```
 
 ### Konfigurasi Kunci API dan Klien Kamu
 
-```python
+```python icon="python"
 import os
 import json
 import requests
@@ -74,7 +74,7 @@ Pertama, mari tentukan dokumen kita dan buat indeks Vectorize.
 
 Kamu perlu membuat indeks di Cloudflare Vectorize. `dimensions` harus sesuai dengan dimensi output model embedding Kamu (misalnya, 768 untuk `nusa-embedding-0001`).
 
-```python
+```python icon="python"
 def create_vectorize_index(index_name, dimension=768):
     url = CLOUDFLARE_API_BASE
     # v2 menggunakan 'dimensions' bukan 'vector_size'
@@ -100,7 +100,7 @@ create_vectorize_index(VECTORIZE_INDEX_NAME)
 
 ### Data Kamu
 
-```python
+```python icon="python"
 documents = [
   {"id": "doc1", "text": "Mengoperasikan Sistem Kontrol Iklim. Mobil Kamu memiliki sistem kontrol iklim yang memungkinkan Kamu menyesuaikan suhu dan aliran udara di dalam mobil."},
   {"id": "doc2", "text": "Kebijakan pengembalian dana kami memungkinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu."},
@@ -113,7 +113,7 @@ documents = [
 
 Sekarang, kita akan menyematkan setiap dokumen dan mengirimkannya ke indeks Cloudflare Vectorize Kamu menggunakan format **NDJSON**.
 
-```python
+```python icon="python"
 def upsert_to_vectorize(documents_with_ids):
     url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/upsert"
     
@@ -157,7 +157,7 @@ upsert_to_vectorize(documents_for_upsert)
 
 Saat pengguna mengajukan pertanyaan, kita menyematkan kueri mereka dan menggunakan Vectorize untuk menemukan embedding dokumen yang paling relevan.
 
-```python
+```python icon="python"
 def query_vectorize(query_text, top_k=2):
     url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/query"
     
@@ -192,7 +192,7 @@ def query_vectorize(query_text, top_k=2):
 
 Terakhir, buat prompt dengan konteks yang diambil dan kirimkan ke model chat Neosantara AI.
 
-```python
+```python icon="python"
 def make_prompt(query, retrieved_context):
     processed_context = retrieved_context.replace("\n", " ")
     return f"""
@@ -237,7 +237,7 @@ def generate_answer_with_rag(query_text):
 
 ## Eksekusi Contoh Lengkap
 
-```python
+```python icon="python"
 if __name__ == "__main__":
     # Pastikan semua kunci API dan ID Akun sudah disetel
     if "KUNCI_API_NEOSANTARA_KAMU" in NEOSANTARA_API_KEY or \

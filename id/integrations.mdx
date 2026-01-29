@@ -9,13 +9,13 @@ description: '> Gunakan model Neosantara AI melalui integrasi mitra.'
 
 Instal paket `langchain-openai`.
 
-```bash
+```bash icon="terminal"
 pip install langchain-openai
 ```
 
 Buat instance klien Neosantara dan panggil model tersebut.
 
-```python
+```python icon="python"
 from langchain_openai import ChatOpenAI
 import os
 
@@ -37,7 +37,7 @@ Pelajari lebih lanjut di [Panduan LangChain](/id/langchain).
 
 Instal Vercel AI SDK dan paket OpenAI Vercel.
 
-```bash
+```bash icon="terminal"
 npm i ai @ai-sdk/openai
 ```
 
@@ -69,13 +69,13 @@ Pelajari lebih lanjut di [Panduan Neosantara AI - Vercel AI SDK](/id/using-neosa
 
 Instal `llama-index`
 
-```bash
+```bash icon="terminal"
 pip install llama-index
 ```
 
 Berikut adalah contoh kode untuk memulai dengan Llama Index + Neosantara AI:
 
-```python
+```python icon="python"
 from llama_index.llms.openai_like import OpenAILike
 import os
 
@@ -101,14 +101,14 @@ Lihat [blog tutorial ini](/id/llama-index) untuk detail implementasi RAG menggun
 
 Instal `crewai`
 
-```bash
+```bash icon="terminal"
 pip install crewai
 export NAI_API_KEY=***
 ```
 
 Bangun alur kerja multi-agen:
 
-```python
+```python icon="python"
 import os
 from crewai import LLM, Task, Agent, Crew
 
@@ -154,14 +154,14 @@ Pelajari lebih lanjut di [Panduan CrewAI](/id/crewai) kami.
 
 Instal `pydantic-ai`
 
-```bash
+```bash icon="terminal"
 pip install pydantic-ai
 export NAI_API_KEY=***
 ```
 
 Bangun agen PydanticAI menggunakan model Neosantara AI
 
-```python
+```python icon="python"
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -198,7 +198,7 @@ Prasyarat:
 * Kunci API Arcade - lihat di sini [https://arcade.dev/](https://arcade.dev/)
 * Akun Gmail untuk terhubung via OAuth
 
-```bash
+```bash icon="terminal"
 # instal paket yang diperlukan
 pip install -qU openai arcadepy
 ```
@@ -244,14 +244,14 @@ print("Otorisasi selesai!")
 
 Instal `dspy`
 
-```bash
+```bash icon="terminal"
 pip install -U dspy
 export NAI_API_KEY=***
 ```
 
 Bangun agen penjawab pertanyaan
 
-```python
+```python icon="python"
 import dspy
 import os
 
@@ -285,14 +285,14 @@ Pelajari lebih lanjut di [Panduan DSPy](/id/dspy) kami.
 
 Instal `autogen`
 
-```bash
+```bash icon="terminal"
 pip install autogen
 export NAI_API_KEY=***
 ```
 
 Bangun agen pengodean
 
-```python
+```python icon="python"
 import os
 from pathlib import Path
 from autogen import AssistantAgent, UserProxyAgent
@@ -352,13 +352,13 @@ Pelajari lebih lanjut di [Panduan Autogen](/id/autogen) kami.
 
 Instal `agno`
 
-```bash
+```bash icon="terminal"
 pip install -U agno ddgs
 ```
 
 Bangun agen pencarian dan jawaban
 
-```python
+```python icon="python"
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
 from agno.tools.duckduckgo import DuckDuckGoTools
@@ -384,7 +384,7 @@ Pelajari lebih lanjut di [Panduan Agno](/id/agno) kami.
 
 Berikut adalah contoh kode untuk memulai dengan Pinecone + Neosantara AI:
 
-```python
+```python icon="python"
 from pinecone import Pinecone, ServerlessSpec
 from openai import OpenAI
 import os

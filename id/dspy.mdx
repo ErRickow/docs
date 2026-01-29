@@ -28,7 +28,7 @@ export NAI_API_KEY=***
 
 Setup dan hubungkan DSPy ke LLM di Neosantara AI
 
-```python
+```python icon="python"
 import dspy
 import os
 
@@ -44,7 +44,7 @@ lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['Ini ad
 
 Sekarang kita dapat mengatur modul DSPy, seperti `dspy.ReAct` dengan signature khusus tugas. Misalnya, `question -> answer: str` memberi tahu modul untuk menerima pertanyaan dan menghasilkan jawaban string di bawah ini.
 
-```python
+```python icon="python"
 # Konfigurasi dspy untuk menggunakan LLM
 import dspy
 import os
@@ -80,7 +80,7 @@ print(pred.answer)
 <Accordion title="Lihat output">
   Output akan mengembalikan string jawaban di bawah ini:
 
-   ```bash
+   ```bash icon="terminal"
 Prabowo Subianto lahir pada tanggal 17 Oktober 1951.
 ```
 

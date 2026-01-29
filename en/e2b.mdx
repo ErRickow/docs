@@ -202,7 +202,7 @@ def code_interpret(e2b_code_interpreter, code):
 
 # Function to extract Python code from LLM response
 def match_code_blocks(llm_response):
-    pattern = re.compile(r"```python
+    pattern = re.compile(r"```python icon="python"
     match = pattern.search(llm_response)
     return match.group(1) if match else ""
 
@@ -270,7 +270,7 @@ first_result
 1. **Ensure the dataset** (`data.csv`) is in the same directory as your script.
 2. **Run the script** using:
 
-   ```bash
+   ```bash icon="terminal"
    python index.py
    ```
 

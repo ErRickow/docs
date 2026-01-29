@@ -59,7 +59,7 @@ Authorization: Bearer YOUR_NEOSANTARA_API_KEY
 
 The API returns a JSON response in OpenAI-compatible format with the following structure:
 
-```json
+```json icon="code"
 {
   "id": "ocr-abc123def456",
   "object": "ocr.completion",
@@ -106,7 +106,7 @@ Want to try the OCR API immediately? Use this test image URL to extract text fro
 
 ### Quick Test with Curl
 
-```bash
+```bash icon="terminal"
 curl -X POST https://api.neosantara.xyz/v1/ocr \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -H "Content-Type: application/json" \
@@ -400,7 +400,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
 
 Extract text from scanned documents, PDFs converted to images, or photographed papers for digital archival and processing.
 
-```python
+```python icon="python"
 # Process a scanned document
 result = ocr_from_url(
     "https://example.com/scanned-document.jpg",
@@ -413,7 +413,7 @@ print("Document Text:", result["choices"][0]["text"])
 
 Automatically extract transaction details, amounts, and merchant information from receipt images for expense tracking.
 
-```python
+```python icon="python"
 # Extract receipt information (using test receipt)
 result = ocr_from_url(
     "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
@@ -429,7 +429,7 @@ print("Amount:", "Rp 100.000")
 
 Extract information from ID cards, passports, and other identity documents for verification processes.
 
-```python
+```python icon="python"
 # Extract ID card information
 result = ocr_from_base64("./id-card.jpg", api_key)
 # Parse extracted text for name, ID number, etc.
@@ -439,7 +439,7 @@ result = ocr_from_base64("./id-card.jpg", api_key)
 
 Use the `return_image` parameter to get back an annotated image showing detected text regions, useful for debugging and visualization.
 
-```python
+```python icon="python"
 # Get annotated image with text regions (using test receipt)
 import requests
 
@@ -464,7 +464,7 @@ print("Has annotated image:", "result_image_base64" in result)
 
 The API returns structured error responses for invalid requests:
 
-```json
+```json icon="code"
 {
   "error": {
     "message": "Detailed error message",

@@ -28,13 +28,13 @@ You will learn to:
 
 First, install the necessary Python library:
 
-```bash
+```bash icon="terminal"
 pip install -U openai requests
 ```
 
 ### Configure your API Keys and Client
 
-```python
+```python icon="python"
 import os
 import json
 import requests
@@ -74,7 +74,7 @@ First, let\'s define our documents and create a Vectorize index.
 
 You need to create an index in Cloudflare Vectorize. The `dimensions` should match the output dimension of your embedding model (e.g., 768 for `nusa-embedding-0001`).
 
-```python
+```python icon="python"
 def create_vectorize_index(index_name, dimension=768):
     url = CLOUDFLARE_API_BASE
     # v2 uses 'dimensions' instead of 'vector_size'
@@ -100,7 +100,7 @@ create_vectorize_index(VECTORIZE_INDEX_NAME)
 
 ### Your Data
 
-```python
+```python icon="python"
 documents = [
   {"id": "doc1", "text": "Operating the Climate Control System. Your Googlecar has a climate control system that allows you to adjust the temperature and airflow in the car."},
   {"id": "doc2", "text": "Our refund policy allows returns within 30 days of purchase. To initiate a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return."},
@@ -113,7 +113,7 @@ documents = [
 
 Now, we\'ll embed each document and send it to your Cloudflare Vectorize index using **NDJSON** format.
 
-```python
+```python icon="python"
 def upsert_to_vectorize(documents_with_ids):
     url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/upsert"
     
@@ -157,7 +157,7 @@ upsert_to_vectorize(documents_for_upsert)
 
 When a user asks a question, we embed their query and use Vectorize to find the most relevant document embeddings.
 
-```python
+```python icon="python"
 def query_vectorize(query_text, top_k=2):
     url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/query"
     
@@ -191,7 +191,7 @@ def query_vectorize(query_text, top_k=2):
 
 Finally, construct the prompt with the retrieved context and send it to a Neosantara AI chat model.
 
-```python
+```python icon="python"
 def make_prompt(query, retrieved_context):
     processed_context = retrieved_context.replace("\n", " ")
     return f"""
@@ -236,7 +236,7 @@ def generate_answer_with_rag(query_text):
 
 ## Full Example Execution
 
-```python
+```python icon="python"
 if __name__ == "__main__":
     # Ensure all API keys and Account ID are set
     if "YOUR_NEOSANTARA_API_KEY" in NEOSANTARA_API_KEY or \

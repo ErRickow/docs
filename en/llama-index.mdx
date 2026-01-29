@@ -21,13 +21,13 @@ Below you will find an example of how you can incorporate a new article into you
 
 First, install the llama-index package from Pip. See the [installation documentation](https://docs.llamaindex.ai/en/stable/getting_started/installation.html#installation-and-setup) for different ways to install.
 
-```bash
+```bash icon="terminal"
 pip install -U llama-index
 ```
 
 Set the environment variables for the API keys. You can find the Neosantara API key on the [api-keys page](https://app.neosantara.xyz/api-keys).
 
-```python
+```python icon="python"
 import getpass
 import os
 
@@ -36,7 +36,7 @@ os.environ["NAI_API_KEY"] = getpass.getpass("Enter your Neosantara API key: ")
 
 Now we will provide some Neosantara introduction and ask "What is Neosantara?" with the retrieved information to llama-3.3-nemotron-super-49b-v1.5, which doesn't know what Neosantara AI is. We will use "nusa-embedding-0001" for embeddings.
 
-```python
+```python icon="python"
 from llama_index.core import SimpleDirectoryReader, ServiceContext, VectorStoreIndex
 from llama_index.llms.openai_like import OpenAILike
 from llama_index.embeddings.openai_like import OpenAILikeEmbedding
@@ -115,7 +115,7 @@ except Exception as e:
 
 ### Expected Output
 
-```python
+```python icon="python"
 Response: Neosantara is an AI platform that provides access to various language models and embedding services through its API, designed to support Indonesian and Southeast Asian language applications.
 ```
 
@@ -125,7 +125,7 @@ You can customize the RAG system further by:
 
 1. **Adjusting retrieval parameters:**
 
-```python
+```python icon="python"
 query_engine = index.as_query_engine(
     similarity_top_k=10,  # Retrieve more documents
     response_mode="compact"  # Different response modes
@@ -134,7 +134,7 @@ query_engine = index.as_query_engine(
 
 1. **Configuring LLM parameters:**
 
-```python
+```python icon="python"
 llm = OpenAILike(
     model="llama-3.3-nemotron-super-49b-v1.5",
     temperature=0.3,  # Lower for more deterministic responses

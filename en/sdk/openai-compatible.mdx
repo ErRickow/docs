@@ -86,7 +86,7 @@ curl https://api.neosantara.xyz/v1/responses \
 
 The Responses API simplifies tool use. You can define tools and let the model call them. The output structure cleanly separates tool calls. For a comprehensive guide, see our [Tool Calling documentation](/en/how-tools).
 
-```python
+```python icon="python"
 tools = [{
     "type": "function",
     "name": "get_weather",
@@ -116,7 +116,7 @@ for item in response.output:
 
 The Responses API returns a `response` object containing an `output` array of items. For full details on the response format, refer to the [Responses API Reference](/api-reference/responses).
 
-```json
+```json icon="code"
 {
   "id": "resp_68af4030592c...",
   "object": "response",
@@ -144,7 +144,7 @@ The Responses API returns a `response` object containing an `output` array of it
 
 The Responses API uses standard HTTP status codes and detailed error messages. For a complete list of error codes and their meanings, see [API Error Codes](/en/about/errors).
 
-```json
+```json icon="code"
 {
   "error": {
     "code": "invalid_request_error",
@@ -181,7 +181,7 @@ The **Chat Completions API** (`/v1/chat/completions`) is fully compatible with t
 
 You can use the standard `client.chat.completions.create` method.
 
-```python
+```python icon="python"
 from openai import OpenAI
 
 client = OpenAI(
@@ -204,7 +204,7 @@ print(completion.choices[0].message.content)
 
 This uses the standard OpenAI format for defining tools and handling function call responses. For a detailed guide on tool use, refer to our [Tool Calling documentation](/en/how-tools).
 
-```python
+```python icon="python"
 tools = [{
     "type": "function",
     "function": {
@@ -236,7 +236,7 @@ if tool_calls:
 
 Returns the standard Chat Completion object. For full details on the response format, refer to the [Chat Completions API Reference](/api-reference/chat/completions/create).
 
-```json
+```json icon="code"
 {
   "id": "chatcmpl-C9EDpk...",
   "object": "chat.completion",

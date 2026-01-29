@@ -21,7 +21,7 @@ Secara default, model akan memberikan jawaban langsung tanpa proses berpikir unt
 
 Untuk mengaktifkan penalaran langkah demi langkah, Kamu dapat menggunakan **parameter `thinking`** (Direkomendasikan untuk SDK Anthropic/OpenAI) atau menambahkan `/think` ke system prompt Kamu.
 
-```python
+```python icon="python"
 from openai import OpenAI
 
 client = OpenAI(
@@ -75,7 +75,7 @@ Untuk model yang mendukung penalaran asli (*native reasoning*), seperti **Claude
 
 Saat menggunakan API yang kompatibel dengan Anthropic, Kamu dapat menyediakan objek `thinking`.
 
-```json
+```json icon="code"
 {
   "model": "claude-3-haiku",
   "messages": [...],

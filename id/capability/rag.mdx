@@ -25,7 +25,7 @@ Kita akan membangun sistem yang:
 
 Pertama, kita perlu mengubah data teks Kamu menjadi angka (vektor) agar AI bisa mencarinya.
 
-```javascript
+```javascript icon="js"
 import OpenAI from "openai";
 
 const client = new OpenAI({
@@ -66,7 +66,7 @@ async function createKnowledgeBase() {
 
 Saat pengguna bertanya, kita konversi pertanyaan mereka menjadi vektor dan temukan dokumen yang paling cocok menggunakan **Cosine Similarity**.
 
-```javascript
+```javascript icon="js"
 // Fungsi cosine similarity sederhana
 function cosineSimilarity(vecA, vecB) {
   let dotProduct = 0.0;
@@ -104,7 +104,7 @@ async function retrieveContext(query, vectorStore) {
 
 Terakhir, kita berikan konteks yang diambil ke LLM untuk menghasilkan jawaban alami.
 
-```javascript
+```javascript icon="js"
 async function answerUserQuestion(question, vectorStore) {
   console.log(`Pengguna bertanya: "${question}"`);
 
@@ -136,7 +136,7 @@ async function answerUserQuestion(question, vectorStore) {
 
 Menggabungkan semuanya:
 
-```javascript
+```javascript icon="js"
 async function main() {
   // 1. Setup
   const kb = await createKnowledgeBase();

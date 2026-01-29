@@ -28,7 +28,7 @@ export NAI_API_KEY=***
 
 Setup and connect DSPy to LLMs on Neosantara AI
 
-```python
+```python icon="python"
 import os
 import dspy
 
@@ -44,7 +44,7 @@ lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['Ini ad
 
 Now we can set up a DSPy module, like `dspy.ReAct` with a task-specific signature. For example, `question -> answer: str` tells the module to take a question and to produce a string answer below.
 
-```python
+```python icon="python"
 # Configure dspy to use the LLM
 import os
 import dspy
@@ -80,7 +80,7 @@ print(pred.answer)
 <Accordion title="See output">
   The output will return an string for answer below:
 
-   ```bash
+   ```bash icon="terminal"
 Prabowo Subianto lahir pada tanggal 17 Oktober 1951.
 ```
 

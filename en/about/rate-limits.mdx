@@ -60,7 +60,7 @@ API responses include standard HTTP headers that provide real-time status of the
 
 This error indicates that one of the technical **Throughput Limits** (RPM, ITPM, or OTPM) has been exceeded. The response includes a `Retry-After` header specifying the wait time in seconds before a new request can be made.
 
-```json
+```json icon="code"
 {
   "error": {
     "message": "Too many requests. Please try again later.",

@@ -92,7 +92,7 @@ Batch processing is available for the following endpoints:
 
 Create a JSONL file with your requests:
 
-```json
+```json icon="code"
 {"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Translate to Indonesian: Hello"}], "max_tokens": 100}}
 {"custom_id": "request-2", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Translate to Indonesian: Goodbye"}], "max_tokens": 100}}
 {"custom_id": "request-3", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Translate to Indonesian: Thank you"}], "max_tokens": 100}}
@@ -100,7 +100,7 @@ Create a JSONL file with your requests:
 
 ### Step 2: Upload the File
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/files \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -F purpose="batch" \
@@ -109,7 +109,7 @@ curl https://api.neosantara.xyz/v1/files \
 
 Response:
 
-```json
+```json icon="code"
 {
   "id": "file-abc123",
   "purpose": "batch",
@@ -121,7 +121,7 @@ Response:
 
 ### Step 3: Create the Batch
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/batches \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -H "Content-Type: application/json" \
@@ -134,7 +134,7 @@ curl https://api.neosantara.xyz/v1/batches \
 
 Response:
 
-```json
+```json icon="code"
 {
   "id": "batch-xyz789",
   "status": "validating",
@@ -148,7 +148,7 @@ Response:
 
 ### Step 4: Monitor Progress
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/batches/batch-xyz789 \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY"
 ```
@@ -157,7 +157,7 @@ curl https://api.neosantara.xyz/v1/batches/batch-xyz789 \
 
 Once the batch status is `completed`:
 
-```bash
+```bash icon="terminal"
 # Download successful results
 curl https://api.neosantara.xyz/v1/files/file-output-123/content \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \

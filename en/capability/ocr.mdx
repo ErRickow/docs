@@ -17,14 +17,14 @@ Neosantara AI provides a dedicated OCR endpoint that leverages state-of-the-art 
 
 You can provide a direct URL to an image for processing.
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/ocr \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -d '{"image": "https://example.com/receipt.jpg", "image_type": "url"}'
 ```
 
-```python
+```python icon="python"
 import requests
 
 url = "https://api.neosantara.xyz/v1/ocr"
@@ -45,7 +45,7 @@ print(response.json()["extracted_text"])
 
 For local images, you can encode them as Base64 strings.
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/ocr \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
@@ -64,7 +64,7 @@ curl https://api.neosantara.xyz/v1/ocr \
 
 The API returns a JSON object containing the extracted text and metadata.
 
-```json
+```json icon="code"
 {
   "extracted_text": "TEXT CONTENT HERE",
   "status": "success",

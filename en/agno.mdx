@@ -7,7 +7,7 @@ Agno is an open-source library for creating multimodal agents. It supports inter
 
 ## Install Libraries
 
-```bash
+```bash icon="terminal"
 pip install -U agno ddgs -q
 ```
 
@@ -23,7 +23,7 @@ export NAI_API_KEY=***
 
 Below is a simple agent with access to web search.
 
-```python
+```python icon="python"
 import os
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
@@ -44,7 +44,7 @@ agent.print_response("What's happening in Indonesia?", stream=True)
 <Accordion title="See output.">
   The output will return an string for answer below:
 
-```bash
+```bash icon="terminal"
 ▰▰▰▰▰▰▰▰ Thinking...
 ┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                                                                                                 ┃

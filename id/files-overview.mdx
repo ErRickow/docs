@@ -82,7 +82,7 @@ API File memungkinkan Kamu mengunggah dan mengelola file yang dapat digunakan de
 
 ### 1. Unggah File
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/files \
   -H "Authorization: Bearer KUNCI_API_ANDA" \
   -F purpose="batch" \
@@ -91,14 +91,14 @@ curl https://api.neosantara.xyz/v1/files \
 
 ### 2. Daftar File Kamu
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/files \
   -H "Authorization: Bearer KUNCI_API_ANDA"
 ```
 
 ### 3. Unduh Konten File
 
-```bash
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/files/file-abc123/content \
   -H "Authorization: Bearer KUNCI_API_ANDA" \
   --output downloaded_file.jsonl

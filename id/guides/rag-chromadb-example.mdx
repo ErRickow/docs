@@ -19,13 +19,13 @@ Kamu akan mempelajari cara:
 
 Instal library yang diperlukan:
 
-```bash
+```bash icon="terminal"
 pip install -U openai chromadb numpy pkamus
 ```
 
 ### Konfigurasi API Key
 
-```python
+```python icon="python"
 import os
 from openai import OpenAI
 
@@ -43,7 +43,7 @@ CHAT_MODEL = "nusantara-base"
 
 ### Custom Embedding Function
 
-```python
+```python icon="python"
 import chromadb
 from chromadb import Documents, EmbeddingFunction, Embeddings
 
@@ -58,7 +58,7 @@ class NeosantaraEmbeddingFunction(EmbeddingFunction):
 
 ### Inisialisasi Database
 
-```python
+```python icon="python"
 documents = [
     "Sistem kontrol iklim Googlecar memungkinkan Kamu mengatur suhu dan aliran udara menggunakan kenop di konsol tengah.",
     "Googlecar memiliki layar sentuh besar untuk navigasi, hiburan, dan kontrol iklim.",
@@ -80,7 +80,7 @@ vector_db = create_chroma_db(documents, "car-manual-db")
 
 ## Pengambilan dan Pembuatan Jawaban
 
-```python
+```python icon="python"
 def generate_answer(query, db):
   # 1. Ambil dokumen relevan
   results = db.query(query_texts=[query], n_results=1)
