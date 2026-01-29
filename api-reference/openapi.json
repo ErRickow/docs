@@ -85,40 +85,6 @@
         ]
       }
     },
-    "/v1/token-count": {
-      "post": {
-        "operationId": "postV1TokenCount",
-        "tags": [
-          "Utilities"
-        ],
-        "summary": "Count tokens",
-        "description": "Estimate the number of tokens for a given set of messages and model.",
-        "responses": {
-          "200": {
-            "description": "Token count result",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "model": {
-                      "type": "string"
-                    },
-                    "input_tokens": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "model",
-                    "input_tokens"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/cost-estimate": {
       "post": {
         "operationId": "postV1CostEstimate",
@@ -156,6 +122,29 @@
             }
           }
         }
+      }
+    },
+    "/v1/audio/transcriptions": {
+      "post": {
+        "operationId": "postV1AudioTranscriptions",
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Transcription",
+        "description": "Transcribes audio into the input language.",
+        "responses": {},
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\naudio_file = open('speech.mp3', 'rb')\ntranscription = client.audio.transcriptions.create(\n    model='whisper-large-v3-turbo',\n    file=audio_file\n)\nprint(transcription.text)"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "curl https://api.neosantara.xyz/v1/audio/transcriptions \\\n  -H 'Authorization: Bearer YOUR_NUSA_KEY' \\\n  -F 'file=@speech.mp3' \\\n  -F 'model=whisper-large-v3-turbo'"
+          }
+        ]
       }
     },
     "/v1/images/generations": {
@@ -283,16 +272,7 @@
             "label": "Python SDK",
             "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.images.generate(\n    model='neosantara-gen-2045',\n    prompt='Pemandangan alam Indonesia yang indah',\n    n=1,\n    size='1024x1024'\n)\nprint(response.data[0].url)"
           }
-        ],
-        "x-mint-extension": {
-          "x-codeSamples": [
-            {
-              "lang": "javascript",
-              "label": "OpenAI Node.js SDK",
-              "source": "const OpenAI = require('openai');\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.images.generate({\n  model: 'flux-schnell',\n  prompt: 'Pemandangan alam Indonesia yang indah di pagi hari',\n  n: 1,\n  size: '1024x1024',\n});"
-            }
-          ]
-        }
+        ]
       }
     },
     "/v1/conversations": {
@@ -870,21 +850,7 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'nusantara-base',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(response.choices[0].message.content);"
           }
-        ],
-        "x-mint-extension": {
-          "x-codeSamples": [
-            {
-              "lang": "javascript",
-              "label": "OpenAI Node.js SDK",
-              "source": "const OpenAI = require('openai');\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'nusantara-pro',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});"
-            },
-            {
-              "lang": "python",
-              "label": "OpenAI Python SDK",
-              "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='nusantara-pro',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)"
-            }
-          ]
-        }
+        ]
       }
     },
     "/v1/completions": {
@@ -932,21 +898,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/v1/videos": {
-      "post": {
-        "operationId": "postV1Videos",
-        "tags": [
-          "Video"
-        ],
-        "summary": "Create video generation job",
-        "description": "Start a video generation job from text or image prompts.",
-        "responses": {
-          "200": {
-            "description": "Job created"
           }
         }
       }
@@ -2006,21 +1957,7 @@
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.responses.create({\n  model: 'nusantara-base',\n  input: 'Halo, apa kabar?',\n  instructions: 'Jawab dengan gaya santai.',\n  store: true\n});\nconsole.log(response.output_text);"
           }
-        ],
-        "x-mint-extension": {
-          "x-codeSamples": [
-            {
-              "lang": "bash",
-              "label": "cURL",
-              "source": "curl https://api.neosantara.xyz/v1/responses \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer $NUSA_KEY\" \\\n  -d '{\n    \"model\": \"nusantara-pro\",\n    \"input\": \"Jelaskan apa itu Nusantara AI\",\n    \"instructions\": \"Gunakan bahasa yang santai.\"\n  }'"
-            },
-            {
-              "lang": "javascript",
-              "label": "Axios",
-              "source": "const axios = require('axios');\n\nconst response = await axios.post('https://api.neosantara.xyz/v1/responses', {\n  model: 'nusantara-pro',\n  input: 'Jelaskan apa itu Nusantara AI',\n  instructions: 'Gunakan bahasa yang santai.'\n}, {\n  headers: { 'Authorization': `Bearer ${process.env.NUSA_KEY}` }\n});"
-            }
-          ]
-        }
+        ]
       }
     },
     "/anthropic/v1/models": {
@@ -2875,6 +2812,16 @@
     "/v1/embeddings": {
       "post": {
         "operationId": "postV1Embeddings",
+        "tags": [
+          "Embeddings"
+        ],
+        "summary": "Create embeddings",
+        "description": "Creates an embedding vector representing the input text.",
+        "responses": {
+          "200": {
+            "description": "Successful embedding response"
+          }
+        },
         "requestBody": {
           "content": {
             "application/json": {
@@ -2919,11 +2866,6 @@
                 ]
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful response"
           }
         },
         "x-codeSamples": [
