@@ -59,8 +59,8 @@ npm install @langchain/openai
 import { ChatOpenAI } from "@langchain/openai";
 
 const model = new ChatOpenAI({
-  modelName: "nusantara-base",
-  openAIApiKey: process.env.NAI_API_KEY,
+  model: "nusantara-base",
+  apiKey: process.env.NAI_API_KEY,
   configuration: {
     baseURL: "https://api.neosantara.xyz/v1",
   },

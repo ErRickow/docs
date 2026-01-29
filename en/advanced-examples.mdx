@@ -169,6 +169,7 @@ def stream_call(payload):
 - Example (Node.js)
 
 ```javascript
+payload.stream = true;
 const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(payload) });
 const reader = response.body.getReader();
 const decoder = new TextDecoder();

@@ -82,7 +82,7 @@ curl https://api.neosantara.xyz/v1/responses \
 
 The Responses API simplifies tool use. You can define tools and let the model call them. The output structure cleanly separates tool calls. For a comprehensive guide, see our [Tool Calling documentation](/en/how-tools).
 
-```python Python
+```python
 tools = [{
     "type": "function",
     "name": "get_weather",
@@ -200,7 +200,7 @@ print(completion.choices[0].message.content)
 
 This uses the standard OpenAI format for defining tools and handling function call responses. For a detailed guide on tool use, refer to our [Tool Calling documentation](/en/how-tools).
 
-```python Python
+```python
 tools = [{
     "type": "function",
     "function": {
