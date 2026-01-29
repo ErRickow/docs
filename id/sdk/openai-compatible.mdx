@@ -19,17 +19,19 @@ Neosantara AI mendukung SDK OpenAI resmi. Kami menawarkan dua gaya API yang berb
 
 Gunakan pembantu `client.responses.create` (jika menggunakan SDK yang kompatibel) atau metode `client.post` umum untuk mengakses endpoint ini.
 
-```python
+<CodeGroup>
+
+```python Python
 from openai import OpenAI
 
 client = OpenAI(
     base_url="https://api.neosantara.xyz/v1",
-    api_key="<KUNCI_API_KAMU>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
 # Menghasilkan respons
 response = client.responses.create(
-    model="nusantara-base",
+    model="claude-4.5-sonnet",
     input="Tulis satu kalimat cerita sebelum tidur tentang unicorn.",
     store=True
 )
@@ -41,19 +43,19 @@ print(response.output_text)
 print(f"ID Respons: {response.id}")
 ```
 
-```javascript
+```javascript Node.js
 import OpenAI from "openai";
 
 const openai = new OpenAI({
   baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "<KUNCI_API_KAMU>",
+  apiKey: "YOUR_NEOSANTARA_API_KEY",
 });
 
 async function main() {
   const response = await openai.responses.create({
-    model: "nusantara-base",
+    model: "claude-4.5-sonnet",
     input: "Tulis satu kalimat cerita sebelum tidur tentang unicorn.",
-    store: true
+    store=True
   });
 
   // Akses teks output secara langsung
@@ -66,16 +68,18 @@ async function main() {
 main();
 ```
 
-```bash
+```bash cURL
 curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -d '{
-    "model": "nusantara-base",
+    "model": "claude-4.5-sonnet",
     "input": "Tulis satu kalimat cerita sebelum tidur tentang unicorn.",
     "store": true
   }'
 ```
+
+</CodeGroup>
 
 ### Pemanggilan Tools API Responses
 
