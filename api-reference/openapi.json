@@ -132,7 +132,23 @@
         ],
         "summary": "Transcription",
         "description": "Transcribes audio into the input language.",
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "Successful transcription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "x-codeSamples": [
           {
             "lang": "python",
@@ -144,7 +160,55 @@
             "label": "cURL",
             "source": "curl https://api.neosantara.xyz/v1/audio/transcriptions \\\n  -H 'Authorization: Bearer YOUR_NUSA_KEY' \\\n  -F 'file=@speech.mp3' \\\n  -F 'model=whisper-large-v3-turbo'"
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The audio file object to transcribe."
+                  },
+                  "model": {
+                    "type": "string",
+                    "description": "ID of the model to use.",
+                    "default": "whisper-large-v3-turbo"
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "ISO-639-1 language code."
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Optional guide text."
+                  },
+                  "response_format": {
+                    "type": "string",
+                    "enum": [
+                      "json",
+                      "text",
+                      "verbose_json"
+                    ],
+                    "default": "json"
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0
+                  }
+                },
+                "required": [
+                  "file",
+                  "model"
+                ]
+              }
+            }
+          }
+        }
       }
     },
     "/v1/images/generations": {
