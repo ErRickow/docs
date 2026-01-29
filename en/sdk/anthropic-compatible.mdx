@@ -95,9 +95,7 @@ console.log(message.content[0].text);
 ### Required Parameters
 
 | Parameter | Type | Description |
-| ---
-
--------- | ------- | ------------- |
+| :--- | :--- | :--- |
 | `model` | string | Neosantara model ID (e.g., `nusantara-base`, `garda-beta-mini`) |
 | `messages` | array | Array of message objects in conversation |
 | `max_tokens` | integer | Maximum number of tokens to generate (min: 1) |
@@ -105,10 +103,10 @@ console.log(message.content[0].text);
 ### Optional Parameters
 
 | Parameter | Type | Default | Range | Description |
-| ----------- | ------- | --------- | ------------- | ------------- |
+| :--- | :--- | :--- | :--- | :--- |
 | `temperature` | number | 1.0 | 0.0-1.0 | Controls randomness in output |
 | `top_p` | number | 1.0 | 0.0-1.0 | Nucleus sampling parameter |
-| `top_k` | number | - | > 0 | Limits token choices to top-k options |
+| `top_k` | number | - | ≥ 0 | Limits token choices to top-k options |
 | `stop_sequences` | array | [] | - | Up to 5 sequences where generation stops |
 | `stream` | boolean | false | - | Enable streaming responses |
 | `system` | string/array | - | - | System prompt for the conversation |
@@ -407,7 +405,7 @@ print(message.content[0].text)
 ### Common Error Codes
 
 | HTTP Status | Error Code | Description |
-| ------------- | ------------- | ------------- |
+| :--- | :--- | :--- |
 | 400 | `invalid_request_error` | Invalid parameters or malformed request |
 | 401 | `authentication_error` | Invalid or missing API key |
 | 429 | `rate_limit_error` | Rate limit exceeded |
@@ -467,7 +465,7 @@ Converting from OpenAI format to Anthropic Messages API.
 ### Key Differences
 
 | Feature | OpenAI Format | Anthropic Format |
-| --------- | ---------------- | ------------------- |
+| :--- | :--- | :--- |
 | Messages | `{"role": "...", "content": "..."}` | `{"role": "...", "content": [...]}` |
 | System Prompt | `{"role": "system", "content": "..."}` | Separate `system` parameter |
 | Streaming | `stream: true` | `stream: true` |

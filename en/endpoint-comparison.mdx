@@ -8,9 +8,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 ## Quick Comparison
 
 | Feature | OpenAI Compatible | Anthropic Compatible | Responses API |
-| ---
-
------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | **Endpoint** | `/v1/chat/completions` | `/anthropic/v1/messages` | `/v1/responses` |
 | **State Management** | ❌ Stateless | ❌ Stateless | ✅ via `previous_response_id` |
 | **Input Format** | `messages` array | `messages` array | `string` or array |
@@ -29,7 +27,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 ### Core Functionality
 
 | Feature | OpenAI Compatible | Anthropic Compatible | Responses API |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | Chat completion | ✅ | ✅ | ✅ |
 | Tool/function calling | ✅ | ✅ | ✅ |
 | Streaming responses | ✅ | ✅ | ✅ |
@@ -41,7 +39,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 ### Advanced Features
 
 | Feature | OpenAI Compatible | Anthropic Compatible | Responses API |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | Conversation state management | ❌ | ❌ | ✅ `previous_response_id` |
 | Automatic context handling | ❌ | ❌ | ✅ |
 | Unified output format | ❌ | ❌ | ✅ |
@@ -51,7 +49,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 ### Development Experience
 
 | Aspect | OpenAI Compatible | Anthropic Compatible | Responses API |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | SDK support | 🟢 Excellent | 🟢 Excellent | 🟡 Limited |
 | Library compatibility | 🟢 Universal | 🟡 Anthropic-specific | 🟡 Limited |
 | Learning curve | 🟢 Low | 🟡 Medium | 🟡 Low |
@@ -189,7 +187,7 @@ print(response.output_text)
 </Note>
 
 | Endpoint | Average Latency | P95 Latency | Notes |
-| --------- | ------------------ | -------------- | ------- |
+| :--- | :--- | :--- | :--- |
 | OpenAI Compatible | ~200ms | ~400ms | Consistent performance |
 | Anthropic Compatible | ~220ms | ~450ms | Slightly higher for tool parsing |
 | Responses API | ~180ms | ~350ms | Optimized for new apps |
@@ -197,7 +195,7 @@ print(response.output_text)
 ### Throughput Characteristics
 
 | Feature | OpenAI Compatible | Anthropic Compatible | Responses API |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | Concurrent requests | ✅ High | ✅ High | ✅ High |
 | Streaming efficiency | 🟢 Standard | 🟢 Standard | 🟢 Optimized |
 | Memory usage | 🟡 Medium | 🟡 Medium | 🟢 Lower with state |
@@ -206,7 +204,7 @@ print(response.output_text)
 ### Rate Limits
 
 | Endpoint | Rate Limiting | Burst Capacity |
-| --------- | ---------------- | ----------------- |
+| :--- | :--- | :--- |
 | OpenAI Compatible | Per-model, per-key | Standard |
 | Anthropic Compatible | Per-model, per-key | Standard |
 | Responses API | Per-model, per-key | Enhanced via store |

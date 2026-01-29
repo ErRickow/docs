@@ -8,9 +8,7 @@ Neosantara AI menyediakan beberapa endpoint API, masing-masing dioptimalkan untu
 ## Perbandingan Cepat
 
 | Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
-| ---
-
------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | **Endpoint** | `/v1/chat/completions` | `/anthropic/v1/messages` | `/v1/responses` |
 | **Manajemen Status** | ❌ Stateless | ❌ Stateless | ✅ Stateful |
 | **Format Input** | Array `messages` | Array `messages` | `string` atau array |
@@ -29,7 +27,7 @@ Neosantara AI menyediakan beberapa endpoint API, masing-masing dioptimalkan untu
 ### Fungsionalitas Inti
 
 | Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | Chat completion | ✅ | ✅ | ✅ |
 | Pemanggilan tools/fungsi | ✅ | ✅ | ✅ |
 | Respons streaming | ✅ | ✅ | ✅ |
@@ -41,7 +39,7 @@ Neosantara AI menyediakan beberapa endpoint API, masing-masing dioptimalkan untu
 ### Fitur Lanjutan
 
 | Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | Manajemen status percakapan | ❌ | ❌ | ✅ `store: true` |
 | Penanganan konteks otomatis | ❌ | ❌ | ✅ |
 | Format output terpadu | ❌ | ❌ | ✅ |
@@ -51,7 +49,7 @@ Neosantara AI menyediakan beberapa endpoint API, masing-masing dioptimalkan untu
 ### Pengalaman Pengembangan
 
 | Aspek | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | Dukungan SDK | 🟢 Sangat Baik | 🟢 Sangat Baik | 🟡 Terbatas |
 | Kompatibilitas library | 🟢 Universal | 🟡 Khusus Anthropic | 🟡 Terbatas |
 | Kurva pembelajaran | 🟢 Rendah | 🟡 Sedang | 🟡 Rendah |
@@ -185,7 +183,7 @@ print(response.output_text)
 ### Perbandingan Latensi
 
 | Endpoint | Latensi Rata-rata | Latensi P95 | Catatan |
-| --------- | ------------------ | -------------- | ------- |
+| :--- | :--- | :--- | :--- |
 | Kompatibel OpenAI | ~200ms | ~400ms | Performa konsisten |
 | Kompatibel Anthropic | ~220ms | ~450ms | Sedikit lebih tinggi untuk parsing tools |
 | API Responses | ~180ms | ~350ms | Dioptimalkan untuk aplikasi baru |
@@ -193,7 +191,7 @@ print(response.output_text)
 ### Karakteristik Throughput
 
 | Fitur | Kompatibel OpenAI | Kompatibel Anthropic | API Responses |
-| --------- | ------------------- | --------------------- | ---------------- |
+| :--- | :--- | :--- | :--- |
 | Permintaan bersamaan | ✅ Tinggi | ✅ Tinggi | ✅ Tinggi |
 | Efisiensi streaming | 🟢 Standar | 🟢 Standar | 🟢 Dioptimalkan |
 | Penggunaan memori | 🟡 Sedang | 🟡 Sedang | 🟢 Lebih rendah dengan status |
@@ -202,7 +200,7 @@ print(response.output_text)
 ### Batas Penggunaan (Rate Limits)
 
 | Endpoint | Pembatasan | Kapasitas Burst |
-| --------- | ---------------- | ----------------- |
+| :--- | :--- | :--- |
 | Kompatibel OpenAI | Per-model, per-kunci | Standar |
 | Kompatibel Anthropic | Per-model, per-kunci | Standar |
 | API Responses | Per-model, per-kunci | Ditingkatkan dengan store |

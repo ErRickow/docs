@@ -40,7 +40,7 @@ import anthropic
 
 client = anthropic.Anthropic(
     base_url="https://api.neosantara.xyz/anthropic",
-    api_key="<KUNCI_API_ANDA>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 ```
 
@@ -49,7 +49,7 @@ import { Anthropic } from '@anthropic-ai/sdk';
 
 const client = new Anthropic({
   baseURL: 'https://api.neosantara.xyz/anthropic',
-  apiKey: '<KUNCI_API_ANDA>',
+  apiKey: 'YOUR_NEOSANTARA_API_KEY',
 });
 ```
 </CodeGroup>
@@ -95,9 +95,7 @@ console.log(message.content[0].text);
 ### Parameter Wajib
 
 | Parameter | Tipe | Deskripsi |
-| ---
-
--------- | ------- | ------------- |
+| :--- | :--- | :--- |
 | `model` | string | ID model Neosantara (misalnya, `nusantara-base`, `garda-beta-mini`) |
 | `messages` | array | Array objek pesan dalam percakapan |
 | `max_tokens` | integer | Jumlah maksimum token untuk dihasilkan (min: 1) |
@@ -105,10 +103,10 @@ console.log(message.content[0].text);
 ### Parameter Opsional
 
 | Parameter | Tipe | Default | Rentang | Deskripsi |
-| ----------- | ------- | --------- | ------------- | ----------- |
+| :--- | :--- | :--- | :--- | :--- |
 | `temperature` | number | 1.0 | 0.0-1.0 | Mengontrol keacakan output |
 | `top_p` | number | 1.0 | 0.0-1.0 | Parameter nucleus sampling |
-| `top_k` | number | - | > 0 | Membatasi pilihan token ke top-k opsi |
+| `top_k` | number | - | ≥ 0 | Membatasi pilihan token ke top-k opsi |
 | `stop_sequences` | array | [] | - | Hingga 5 urutan di mana generasi berhenti |
 | `stream` | boolean | false | - | Mengaktifkan respons streaming |
 | `system` | string/array | - | - | Prompt sistem untuk percakapan |
@@ -333,7 +331,7 @@ import base64
 
 client = anthropic.Anthropic(
     base_url="https://api.neosantara.xyz/anthropic",
-    api_key="<KUNCI_API_ANDA>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
 # Baca file gambar
@@ -379,7 +377,7 @@ print(message.content[0].text)
 ### Kode Kesalahan Umum
 
 | Status HTTP | Kode Kesalahan | Deskripsi |
-| ------------- | ------------- | ------------- |
+| :--- | :--- | :--- |
 | 400 | `invalid_request_error` | Parameter tidak valid atau permintaan salah |
 | 401 | `authentication_error` | Kunci API tidak valid atau hilang |
 | 429 | `rate_limit_error` | Batas penggunaan terlampaui |
@@ -393,7 +391,7 @@ Mengonversi dari format OpenAI ke API Messages Anthropic.
 ### Perbedaan Utama
 
 | Fitur | Format OpenAI | Format Anthropic |
-| --------- | ---------------- | ------------------- |
+| :--- | :--- | :--- |
 | Pesan | `{"role": "...", "content": "..."}` | `{"role": "...", "content": [...]}` |
 | Prompt Sistem | `{"role": "system", "content": "..."}` | Parameter `system` terpisah |
 | Streaming | `stream: true` | `stream: true` |
