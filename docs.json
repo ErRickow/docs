@@ -583,20 +583,12 @@
   },
   "redirects": [
     {
-      "source": "/id",
-      "destination": "/en"
-    },
-    {
       "source": "/api-reference/chat/create-chat-completion",
       "destination": "/api-reference/chat/completions/create"
     },
     {
       "source": "/api-reference/response/create-a-response",
       "destination": "/api-reference/responses/create"
-    },
-    {
-      "source": "/id/:slug*",
-      "destination": "/en/:slug*"
     }
   ],
   "seo": {

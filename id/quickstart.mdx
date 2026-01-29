@@ -82,12 +82,12 @@ Panduan ini akan membantu Kamu melakukan panggilan API pertama ke Neosantara AI.
     curl https://api.neosantara.xyz/v1/chat/completions \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer <KUNCI_API_ANDA>" \
-      -d '{ \
-        "model": "nusantara-base", \
-        "messages": [ \
-          {"role": "system", "content": "Kamu adalah asisten yang membantu."}, \
-          {"role": "user", "content": "Halo! Siapa Kamu?"} \
-        ] \
+      -d '{
+        "model": "nusantara-base",
+        "messages": [
+          {"role": "system", "content": "Kamu adalah asisten yang membantu."},
+          {"role": "user", "content": "Halo! Siapa Kamu?"}
+        ]
       }'
     ```
     </CodeGroup>

@@ -64,7 +64,8 @@ curl https://api.neosantara.xyz/v1/responses \
   -d '{
     "model": "nusantara-base",
     "input": "What allows me to manage state in React?",
-    "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b"
+    "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
+    "max_output_tokens": 1024
   }'
 ```
 
@@ -125,7 +126,8 @@ If you have strict Zero Data Retention (ZDR) requirements or simply don't want t
 {
   "model": "nusantara-base",
   "input": "Process this sensitive data...",
-  "store": false
+  "store": false,
+  "max_output_tokens": 1024
 }
 ```
 
