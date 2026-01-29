@@ -237,6 +237,7 @@
                     "group": "Multimodal",
                     "pages": [
                       "POST /v1/images/generations",
+                      "POST /v1/audio/transcriptions",
                       "POST /v1/embeddings"
                     ]
                   },
@@ -442,6 +443,7 @@
                     "group": "Multimodal",
                     "pages": [
                       "POST /v1/images/generations",
+                      "POST /v1/audio/transcriptions",
                       "POST /v1/embeddings"
                     ]
                   },
