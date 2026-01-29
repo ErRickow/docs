@@ -22,7 +22,7 @@ Perbedaan paling langsung adalah metode yang Kamu panggil pada objek klien.
 
 ```python
 completion = client.chat.completions.create(
-    model="nusantara-base",
+    model="gemini-3-flash",
     messages=[{"role": "user", "content": "Halo!"}]
 )
 ```
@@ -30,7 +30,7 @@ completion = client.chat.completions.create(
 ```python
 # Penggunaan SDK Responses
 response = client.responses.create(
-    model="nusantara-base",
+    model="claude-4.5-sonnet",
     input="Halo!"
 )
 ```
@@ -42,7 +42,7 @@ response = client.responses.create(
 Ini adalah perbedaan kritis. Struktur objek yang dikembalikan dalam SDK mencerminkan respons API yang mendasarinya.
 
 - **Chat Completions**: Respons selalu bersarang di dalam array `choices`. Untuk mendapatkan teks, Kamu harus mengakses `response.choices[0].message.content`.
-- **Responses**: SDK menyediakan properti pembantu yang nyaman bernama `output_text` yang secara langsung memberi Kamu teks gabungan. Namun, cara yang paling kamul adalah mengakses array `output` dan mendapatkan `.text` dari elemen pertama.
+- **Responses**: SDK menyediakan properti pembantu yang nyaman bernama `output_text` yang secara langsung memberi Kamu teks gabungan. Namun, cara yang paling andal adalah mengakses array `output` dan mendapatkan `.text` dari elemen pertama.
 
 <CodeGroup>
 
@@ -56,7 +56,7 @@ print(response.choices[0].message.content)
 # Responses: Mengakses konten
 # response = client.responses.create(...)
 
-# Cara yang kamul (mengakses struktur output mentah)
+# Cara yang andal (mengakses struktur output mentah)
 print(response.output[0].text)
 
 # Pembantu kenyamanan (disediakan oleh SDK)
@@ -77,12 +77,12 @@ API Responses dibangun untuk membuat percakapan multi-putaran lebih mudah, dan i
 ```python
 # Chat Completions: Manajemen status manual
 messages = [{"role": "user", "content": "Apa ibu kota Indonesia?"}]
-completion = client.chat.completions.create(model="nusantara-base", messages=messages)
+completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
 
 # Secara manual tambahkan riwayat untuk putaran berikutnya
 messages.append(completion.choices[0].message)
 messages.append({"role": "user", "content": "Berapa populasinya?"})
-next_completion = client.chat.completions.create(model="nusantara-base", messages=messages)
+next_completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
 ```
 
 {/*Automatic status management*/}
@@ -90,14 +90,14 @@ next_completion = client.chat.completions.create(model="nusantara-base", message
 # Responses: Manajemen status otomatis
 # Putaran pertama
 response1 = client.responses.create(
-    model="nusantara-base",
+    model="gemini-3-flash",
     input="Apa ibu kota Indonesia?",
     store=True # Harus true untuk menyimpan status
 )
 
 # Putaran kedua - cukup gunakan ID
 response2 = client.responses.create(
-    model="nusantara-base",
+    model="gemini-3-flash",
     previous_response_id=response1.id,
     input="Berapa populasinya?"
 )

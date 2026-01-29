@@ -907,7 +907,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='nusantara-base',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(response.choices[0].message.content)"
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='gemini-3-flash',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(response.choices[0].message.content)"
           }
         ]
       }
@@ -2009,7 +2009,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.responses.create(\n    model='nusantara-base',\n    input='Halo, apa kabar?',\n    instructions='Jawab dengan gaya santai.',\n    store=True\n)\nprint(response.output_text)"
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.responses.create(\n    model='claude-4.5-sonnet',\n    input='Halo, apa kabar?',\n    instructions='Jawab dengan gaya santai.',\n    store=True\n)\nprint(response.output_text)"
           }
         ]
       }
@@ -2525,7 +2525,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='nusantara-base',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
+            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='archipelago-70b',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
           }
         ]
       }

@@ -23,7 +23,7 @@ The most direct difference is the method you invoke on the client object.
 ```python
 # Chat Completions SDK Usage
 completion = client.chat.completions.create(
-    model="nusantara-base",
+    model="gemini-3-flash",
     messages=[{"role": "user", "content": "Hello!"}]
 )
 ```
@@ -31,7 +31,7 @@ completion = client.chat.completions.create(
 ```python
 # Responses SDK Usage
 response = client.responses.create(
-    model="nusantara-base",
+    model="claude-4.5-sonnet",
     input="Hello!"
 )
 ```
@@ -44,7 +44,7 @@ response = client.responses.create(
 # SDK Method Usage
 completion = client.chat.completions.create( # [!code --]
 response = client.responses.create( # [!code ++]
-    model="nusantara-base",
+    model="claude-4.5-sonnet",
     messages=[{"role": "user", "content": "Hello!"}] # [!code --]
     input="Hello!" # [!code ++]
 )
@@ -100,26 +100,26 @@ The Responses API was built to make multi-turn conversations easier, and this is
 ```python
 # Chat Completions: Manual state management
 messages = [{"role": "user", "content": "What is the capital of Indonesia?"}]
-completion = client.chat.completions.create(model="nusantara-base", messages=messages)
+completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
 
 # Manually append history for the next turn
 messages.append(completion.choices[0].message)
 messages.append({"role": "user", "content": "What is its population?"})
-next_completion = client.chat.completions.create(model="nusantara-base", messages=messages)
+next_completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
 ```
 
 ```python
 # Responses: Automatic state management
 # First turn
 response1 = client.responses.create(
-    model="nusantara-base",
+    model="gemini-3-flash",
     input="What is the capital of Indonesia?",
     store=True # Must be true to save the state
 )
 
 # Second turn - just use the ID
 response2 = client.responses.create(
-    model="nusantara-base",
+    model="gemini-3-flash",
     previous_response_id=response1.id,
     input="What is its population?"
 )
@@ -140,14 +140,14 @@ next_completion = client.chat.completions.create(model="nusantara-base", message
 
 # Automatic state management (Responses) # [!code ++]
 response1 = client.responses.create( # [!code ++]
-    model="nusantara-base", # [!code ++]
+    model="gemini-3-flash", # [!code ++]
     input="What is the capital of Indonesia?", # [!code ++]
     store=True # [!code ++]
 ) # [!code ++]
 
 # Second turn - just use the ID # [!code ++]
 response2 = client.responses.create( # [!code ++]
-    model="nusantara-base", # [!code ++]
+    model="gemini-3-flash", # [!code ++]
     previous_response_id=response1.id, # [!code ++]
     input="What is its population?" # [!code ++]
 ) # [!code ++]
@@ -164,7 +164,7 @@ client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code --]
 
 messages = [{"role": "user", "content": "Hello, how are you?"}] # [!code --]
 completion = client.chat.completions.create( # [!code --]
-    model="nusantara-base", # [!code --]
+    model="gemini-3-flash", # [!code --]
     messages=messages # [!code --]
 ) # [!code --]
 ai_response = completion.choices[0].message.content # [!code --]
@@ -174,7 +174,7 @@ import openai # [!code ++]
 client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code ++]
 
 response = client.responses.create( # [!code ++]
-    model="nusantara-base", # [!code ++]
+    model="claude-4.5-sonnet", # [!code ++]
     input="Hello, how are you?", # [!code ++]
     store=True # [!code ++]
 ) # [!code ++]
