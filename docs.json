@@ -43,7 +43,8 @@
       }
     },
     "playground": {
-      "display": "interactive"
+      "display": "interactive",
+      "prefill": true
     }
   },
   "navigation": {

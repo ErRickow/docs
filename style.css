@@ -64,3 +64,36 @@ a[href] code {
         font-size: 2rem;
     }
 }
+
+/* --- API Playground Custom Styling --- */
+
+/* Input field focus color */
+.api-playground input:focus, 
+.api-playground textarea:focus {
+    border-color: #A04000 !important;
+    box-shadow: 0 0 0 2px rgba(160, 64, 0, 0.2) !important;
+}
+
+/* Playground "Send" button customization */
+.api-playground button[type="submit"] {
+    background-color: #A04000 !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease;
+}
+
+.api-playground button[type="submit"]:hover {
+    background-color: #BA4A00 !important;
+    transform: translateY(-1px);
+}
+
+/* Response area code block styling */
+.api-playground-response pre {
+    border: 1px solid rgba(160, 64, 0, 0.3) !important;
+    border-radius: 10px !important;
+}
+
+/* Auth input styling */
+.api-playground-auth input {
+    background-color: rgba(160, 64, 0, 0.05) !important;
+}
+
