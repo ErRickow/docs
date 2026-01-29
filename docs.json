@@ -84,7 +84,6 @@
               {
                 "group": "Core Concepts",
                 "pages": [
-                  "en/endpoint-comparison",
                   "en/advanced-examples",
                   "en/error-handling",
                   "en/authentication"
@@ -316,7 +315,6 @@
               {
                 "group": "Konsep Inti",
                 "pages": [
-                  "id/endpoint-comparison",
                   "id/advanced-examples",
                   "id/error-handling",
                   "id/authentication"
