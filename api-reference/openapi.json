@@ -2535,11 +2535,6 @@
             "lang": "python",
             "label": "Python SDK",
             "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='nusantara-base',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
-          },
-          {
-            "lang": "javascript",
-            "label": "Node.js SDK",
-            "source": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/anthropic'\n});\n\nconst message = await client.messages.create({\n  model: 'nusantara-base',\n  max_tokens: 1024,\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(message.content[0].text);"
           }
         ]
       }
