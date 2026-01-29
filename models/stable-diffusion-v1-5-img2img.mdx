@@ -18,7 +18,7 @@ Stable Diffusion v1.5 Image-to-Image allows users to transform an existing image
 ```bash cURL
 curl https://api.neosantara.xyz/v1/images/generations \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -d '{
     "model": "stable-diffusion-v1-5-img2img",
     "prompt": "Ubah gambar ini menjadi gaya lukisan cat minyak.",
@@ -31,7 +31,7 @@ import requests
 
 url = "https://api.neosantara.xyz/v1/images/generations"
 headers = {
-    "Authorization": "Bearer <YOUR_API_KEY>",
+    "Authorization": "Bearer YOUR_NEOSANTARA_API_KEY",
     "Content-Type": "application/json"
 }
 payload = {

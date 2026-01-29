@@ -35,7 +35,7 @@ import os
 from openai import OpenAI
 
 # Configure your Neosantara AI API key and base URL
-NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "YOUR_API_KEY_HERE")
+NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "YOUR_NEOSANTARA_API_KEY_HERE")
 NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
 
 # Initialize the OpenAI client pointing to Neosantara AI
@@ -229,9 +229,9 @@ Let's put it all together and test with some queries:
 
 ```python
 if __name__ == "__main__":
-  # Ensure API Key and Base URL are set in environment or replace "YOUR_API_KEY_HERE"
-  if "YOUR_API_KEY_HERE" in NEOSANTARA_API_KEY:
-      print("⚠️ Please set your NEOSANTARA_API_KEY environment variable or replace 'YOUR_API_KEY_HERE' in the script.")
+  # Ensure API Key and Base URL are set in environment or replace "YOUR_NEOSANTARA_API_KEY_HERE"
+  if "YOUR_NEOSANTARA_API_KEY_HERE" in NEOSANTARA_API_KEY:
+      print("⚠️ Please set your NEOSANTARA_API_KEY environment variable or replace 'YOUR_NEOSANTARA_API_KEY_HERE' in the script.")
   
   print("Initializing ChromaDB and populating with document embeddings...")
   vector_db = create_chroma_db(documents, "neosantara-car-manual-db")

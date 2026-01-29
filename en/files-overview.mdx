@@ -84,7 +84,7 @@ The Files API allows you to upload and manage files that can be used with variou
 
 ```bash
 curl https://api.neosantara.xyz/v1/files \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -F purpose="batch" \
   -F file="@batch_requests.jsonl"
 ```
@@ -93,14 +93,14 @@ curl https://api.neosantara.xyz/v1/files \
 
 ```bash
 curl https://api.neosantara.xyz/v1/files \
-  -H "Authorization: Bearer YOUR_API_KEY"
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY"
 ```
 
 ### 3. Download File Content
 
 ```bash
 curl https://api.neosantara.xyz/v1/files/file-abc123/content \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   --output downloaded_file.jsonl
 ```
 

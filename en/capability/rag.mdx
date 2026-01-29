@@ -30,7 +30,7 @@ import OpenAI from "openai";
 
 const client = new OpenAI({
   baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "YOUR_API_KEY"
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
 });
 
 // Your "Knowledge Base"
@@ -188,7 +188,7 @@ The core RAG flow remains the same, but Step 1 (Create Embeddings) and Step 2 (S
 ```javascript
 // Example (conceptual):
 // import { Pinecone } from '@pinecone-database/pinecone';
-// const pc = new Pinecone({ apiKey: 'YOUR_API_KEY' });
+// const pc = new Pinecone({ apiKey: 'YOUR_NEOSANTARA_API_KEY' });
 // const index = pc.index('my-rag-index');
 
 async function createPineconeKnowledgeBase(documents) {

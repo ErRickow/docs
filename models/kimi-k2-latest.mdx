@@ -14,7 +14,7 @@ import { kimiK2LatestData } from '/snippets/model-data.jsx';
 ```bash cURL
 curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -d '{
     "model": "kimi-k2:latest",
     "messages": [
@@ -28,7 +28,7 @@ from openai import OpenAI
 
 client = OpenAI(
     base_url="https://api.neosantara.xyz/v1",
-    api_key="<YOUR_API_KEY>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
 response = client.chat.completions.create(
@@ -46,7 +46,7 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
   baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "<YOUR_API_KEY>"
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
 });
 
 const completion = await openai.chat.completions.create({

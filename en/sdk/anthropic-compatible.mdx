@@ -40,7 +40,7 @@ import anthropic
 
 client = anthropic.Anthropic(
     base_url="https://api.neosantara.xyz/anthropic",
-    api_key="<YOUR_API_KEY>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 ```
 
@@ -49,7 +49,7 @@ import { Anthropic } from '@anthropic-ai/sdk';
 
 const client = new Anthropic({
   baseURL: 'https://api.neosantara.xyz/anthropic',
-  apiKey: '<YOUR_API_KEY>',
+  apiKey: 'YOUR_NEOSANTARA_API_KEY',
 });
 ```
 </CodeGroup>
@@ -131,7 +131,7 @@ import anthropic
 
 client = anthropic.Anthropic(
     base_url="https://api.neosantara.xyz/anthropic",
-    api_key="<YOUR_API_KEY>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
 stream = client.messages.create(
@@ -151,7 +151,7 @@ import { Anthropic } from '@anthropic-ai/sdk';
 
 const client = new Anthropic({
   baseURL: 'https://api.neosantara.xyz/anthropic',
-  apiKey: '<YOUR_API_KEY>',
+  apiKey: 'YOUR_NEOSANTARA_API_KEY',
 });
 
 const stream = await client.messages.create({
@@ -171,7 +171,7 @@ for await (const chunk of stream) {
 ```bash cURL
 curl https://api.neosantara.xyz/anthropic/v1/messages \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -d '{
     "model": "nusantara-base",
     "max_tokens": 1000,
@@ -359,7 +359,7 @@ import base64
 
 client = anthropic.Anthropic(
     base_url="https://api.neosantara.xyz/anthropic",
-    api_key="<YOUR_API_KEY>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
 # Read image file
@@ -436,7 +436,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 
 client = anthropic.Anthropic(
     base_url="https://api.neosantara.xyz/anthropic",
-    api_key="<YOUR_API_KEY>"
+    api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
 @retry(

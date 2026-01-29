@@ -38,7 +38,7 @@ Neosantara AI API uses standard HTTP status codes. This page documents common er
 
 ```python
 import requests
-headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
+headers = {"Authorization": "Bearer YOUR_NEOSANTARA_API_KEY"}
 payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]}
 resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
 ```
@@ -53,7 +53,7 @@ const payload = {
 
 const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <YOUR_API_KEY>' },
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer YOUR_NEOSANTARA_API_KEY' },
   body: JSON.stringify(payload)
 })
 ```

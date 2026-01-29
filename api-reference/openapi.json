@@ -153,12 +153,12 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\naudio_file = open('speech.mp3', 'rb')\ntranscription = client.audio.transcriptions.create(\n    model='whisper-large-v3-turbo',\n    file=audio_file\n)\nprint(transcription.text)"
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\naudio_file = open('speech.mp3', 'rb')\ntranscription = client.audio.transcriptions.create(\n    model='whisper-large-v3-turbo',\n    file=audio_file\n)\nprint(transcription.text)"
           },
           {
             "lang": "bash",
             "label": "cURL",
-            "source": "curl https://api.neosantara.xyz/v1/audio/transcriptions \\\n  -H 'Authorization: Bearer YOUR_NUSA_KEY' \\\n  -F 'file=@speech.mp3' \\\n  -F 'model=whisper-large-v3-turbo'"
+            "source": "curl https://api.neosantara.xyz/v1/audio/transcriptions \\\n  -H 'Authorization: Bearer YOUR_NEOSANTARA_API_KEY' \\\n  -F 'file=@speech.mp3' \\\n  -F 'model=whisper-large-v3-turbo'"
           }
         ],
         "requestBody": {
@@ -334,7 +334,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.images.generate(\n    model='neosantara-gen-2045',\n    prompt='Pemandangan alam Indonesia yang indah',\n    n=1,\n    size='1024x1024'\n)\nprint(response.data[0].url)"
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.images.generate(\n    model='neosantara-gen-2045',\n    prompt='Pemandangan alam Indonesia yang indah',\n    n=1,\n    size='1024x1024'\n)\nprint(response.data[0].url)"
           }
         ]
       }
@@ -907,7 +907,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='gemini-3-flash',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(response.choices[0].message.content)"
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='gemini-3-flash',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(response.choices[0].message.content)"
           }
         ]
       }
@@ -2009,7 +2009,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.responses.create(\n    model='claude-4.5-sonnet',\n    input='Halo, apa kabar?',\n    instructions='Jawab dengan gaya santai.',\n    store=True\n)\nprint(response.output_text)"
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.responses.create(\n    model='claude-4.5-sonnet',\n    input='Halo, apa kabar?',\n    instructions='Jawab dengan gaya santai.',\n    store=True\n)\nprint(response.output_text)"
           }
         ]
       }
@@ -2525,7 +2525,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='archipelago-70b',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
+            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='archipelago-70b',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
           }
         ]
       }
@@ -2926,7 +2926,7 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.embeddings.create(\n    model='nusa-embedding-0001',\n    input='Kecerdasan Buatan adalah masa depan.'\n)\nprint(response.data[0].embedding)"
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.embeddings.create(\n    model='nusa-embedding-0001',\n    input='Kecerdasan Buatan adalah masa depan.'\n)\nprint(response.data[0].embedding)"
           }
         ]
       }

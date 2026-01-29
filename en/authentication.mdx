@@ -13,7 +13,7 @@ Neosantara API supports standard authentication methods across endpoints.
 
 ## How to Use
 
-- Set Authorization header: `Authorization: Bearer <YOUR_API_KEY>`
+- Set Authorization header: `Authorization: Bearer YOUR_NEOSANTARA_API_KEY`
 - Or provide API key via header like `x-api-key: <KEY>` depending on client library.
 - For browser-based apps, use a secure backend to proxy requests and keep keys secret.
 
@@ -23,7 +23,7 @@ Python
 
 ```python
 import requests
-headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
+headers = {"Authorization": "Bearer YOUR_NEOSANTARA_API_KEY"}
 payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]}
 resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
 ```
@@ -38,7 +38,7 @@ const payload = {
 
 const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <YOUR_API_KEY>' },
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer YOUR_NEOSANTARA_API_KEY' },
   body: JSON.stringify(payload)
 })
 ```
