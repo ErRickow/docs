@@ -5,7 +5,7 @@ description: '> Mulai dengan Neosantara AI menggunakan model Llama 3.3 Nemotron,
 
 Model penalaran bobot terbuka ini dirancang untuk pengembang dan perusahaan yang membutuhkan transparansi dan kustomisasi sambil mempertahankan kemampuan penalaran tingkat lanjut untuk tugas-tugas kompleks.
 
-Model Llama 3.3 Nemotron dilatih untuk berpikir langkah demi langkah sebelum merespon, unggul dalam tugas-tugas seperti pengodean, matematika, dan alur kerja agen. Secara default, proses penalaran ini aktif, memberikan Kamu respon *chain-of-thought* yang rinci.
+Llama 3.3 Nemotron sangat unggul dalam pengodean, matematika, dan alur kerja agen. Secara default, Neosantara AI mengoptimalkan kecepatan dan biaya dengan menonaktifkan penalaran. Kamu dapat mengaktifkannya secara eksplisit jika dibutuhkan.
 
 -----
 
@@ -13,13 +13,13 @@ Model Llama 3.3 Nemotron dilatih untuk berpikir langkah demi langkah sebelum mer
 
 Untuk model penalaran yang menghasilkan respon yang lebih panjang dan rinci, kami sangat menyarankan streaming token untuk memastikan pengalaman pengguna terbaik.
 
-#### **Perilaku Default**
+#### **Perilaku Default (Penalaran Mati)**
 
-Secara default, model akan memberikan proses berpikir langkah demi langkah sebelum jawaban akhir.
+Secara default, model akan memberikan jawaban langsung tanpa proses berpikir untuk menghemat token dan mengurangi latensi.
 
-#### **Menonaktifkan Penalaran**
+#### **Mengaktifkan Penalaran**
 
-Untuk mendapatkan jawaban langsung tanpa proses *chain-of-thought*, tambahkan `/no_think` di awal **system prompt** Kamu.
+Untuk mengaktifkan penalaran langkah demi langkah, Kamu dapat menggunakan **parameter `thinking`** (Direkomendasikan untuk SDK Anthropic/OpenAI) atau menambahkan `/think` ke system prompt Kamu.
 
 ```python
 from openai import OpenAI
@@ -29,21 +29,32 @@ client = OpenAI(
   api_key="<NAI_API_KEY>"
 )
 
+# Mengaktifkan penalaran melalui parameter thinking
 stream = client.chat.completions.create(
   model="llama-3.3-nemotron-super-49b-v1.5",
   messages=[{
     "role": "user",
     "content": "Selesaikan teka-teki logika ini: Jika semua mawar adalah bunga dan beberapa bunga berwarna merah, bisakah kita menyimpulkan bahwa beberapa mawar berwarna merah?",
   }],
+  extra_body={
+    "thinking": {"type": "enabled", "budget_tokens": 2048}
+  },
   temperature=0.7,
   stream=True
 )
 
 for chunk in stream:
-  print(chunk.choices[0].delta.content or "", end="", flush=True)
+  if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
+      print(f"[Berpikir] {chunk.choices[0].delta.reasoning_content}", end="", flush=True)
+  if chunk.choices[0].delta.content:
+      print(chunk.choices[0].delta.content, end="", flush=True)
 ```
 
-Ini akan menghasilkan respon yang mencakup proses berpikir model, diikuti oleh jawaban akhir.
+#### **Kontrol Manual**
+
+Kamu juga dapat mengontrol penalaran melalui instruksi prompt:
+- **Aktifkan**: Mulai system prompt dengan `/think`.
+- **Matikan (Default)**: Mulai system prompt dengan `/no_think`.
 
 -----
 
@@ -52,7 +63,7 @@ Ini akan menghasilkan respon yang mencakup proses berpikir model, diikuti oleh j
 Neosantara AI menyediakan versi optimal dari model inti seperti `nusantara-base` dan `archipelago-70b` yang dikhususkan untuk penalaran. Model-model ini menggunakan mekanisme **Instruction Injection** untuk memberikan pemikiran langkah demi langkah bahkan pada model chat standar.
 
 #### **Cara Kerjanya**
-Saat Kamu menggunakan model yang diidentifikasi sebagai model berkemampuan penalaran, Neosantara AI secara otomatis menambahkan instruksi tingkat sistem (contoh: *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaanmu. Ini memastikan model membedah masalah sebelum memberikan jawaban akhir.
+Saat Kamu mengaktifkan penalaran untuk model-model ini (via parameter `thinking` atau `/think`), Neosantara AI secara otomatis menambahkan instruksi tingkat sistem (contoh: *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaanmu. Ini memastikan model membedah masalah sebelum memberikan jawaban akhir.
 
 -----
 

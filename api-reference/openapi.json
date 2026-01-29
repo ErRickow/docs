@@ -17,18 +17,10 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
-      },
-      "apiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-api-key"
       }
     }
   },
   "security": [
-    {
-      "apiKeyAuth": []
-    },
     {
       "bearerAuth": []
     }
@@ -215,7 +207,7 @@
             "description": "Bad Request"
           }
         },
-        "x-mint-extension": {
+        "extension": {
           "x-codeSamples": [
             {
               "lang": "javascript",
@@ -293,7 +285,14 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.images.generate(\n    model='neosantara-gen-2045',\n    prompt='Pemandangan alam Indonesia yang indah',\n    n=1,\n    size='1024x1024'\n)\nprint(response.data[0].url)"
+          }
+        ]
       }
     },
     "/v1/conversations": {
@@ -367,7 +366,7 @@
             "description": "Model Not Found"
           }
         },
-        "x-mint-extension": {
+        "extension": {
           "x-codeSamples": [
             {
               "lang": "javascript",
@@ -873,7 +872,19 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='nusantara-base',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(response.choices[0].message.content)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'nusantara-base',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(response.choices[0].message.content);"
+          }
+        ]
       }
     },
     "/v1/completions": {
@@ -1026,7 +1037,7 @@
             "description": "Rate Limit Exceeded"
           }
         },
-        "x-mint-extension": {
+        "extension": {
           "x-codeSamples": [
             {
               "lang": "bash",
@@ -1997,7 +2008,19 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.responses.create(\n    model='nusantara-base',\n    input='Halo, apa kabar?',\n    instructions='Jawab dengan gaya santai.',\n    store=True\n)\nprint(response.output_text)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.responses.create({\n  model: 'nusantara-base',\n  input: 'Halo, apa kabar?',\n  instructions: 'Jawab dengan gaya santai.',\n  store: true\n});\nconsole.log(response.output_text);"
+          }
+        ]
       }
     },
     "/anthropic/v1/models": {
@@ -2506,7 +2529,19 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='nusantara-base',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/anthropic'\n});\n\nconst message = await client.messages.create({\n  model: 'nusantara-base',\n  max_tokens: 1024,\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(message.content[0].text);"
+          }
+        ]
       }
     },
     "/anthropic/v1/messages/count_tokens": {
@@ -2892,8 +2927,15 @@
           }
         },
         "responses": {
-          "200": {"description": "Successful Response"}
-        }
+          "200": {}
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.embeddings.create(\n    model='nusa-embedding-0001',\n    input='Kecerdasan Buatan adalah masa depan.'\n)\nprint(response.data[0].embedding)"
+          }
+        ]
       }
     },
     "/v1/moderations": {

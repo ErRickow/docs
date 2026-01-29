@@ -12,10 +12,10 @@ Neosantara AI menyediakan beberapa endpoint API, masing-masing dioptimalkan untu
 | **Endpoint** | `/v1/chat/completions` | `/anthropic/v1/messages` | `/v1/responses` |
 | **Manajemen Status** | ❌ Stateless | ❌ Stateless | ✅ Stateful |
 | **Format Input** | Array `messages` | Array `messages` | `string` atau array |
-| **Pemanggilan Tools** | ✅ Format standar | ✅ Skema tools | ✅ Ditingkatkan |
+| **Pemanggilan Tools** | ✅ Format standar | ✅ Skema tools | ✅ Native & Ditingkatkan |
 | **Streaming** | ✅ SSE | ✅ SSE | ✅ SSE |
 | **Otentikasi** | Token Bearer | Token Bearer | Token Bearer |
-| **Upaya Migrasi** | 🟢 Minimal | 🟡 Sedang | 🟢 Rendah |
+| **Upaya Migrasi** | 🟢 Rendah | 🟢 Rendah | 🟢 Rendah |
 | **Terbaik Untuk** | Aplikasi OpenAI yang ada | Ekosistem Anthropic | Aplikasi Baru |
 
 <Tip>
@@ -374,7 +374,7 @@ Mulai: Apakah Kamu membangun aplikasi baru?
 ## Sumber Daya Dukungan
 
 <CardGroup cols={2}>
-  <Card title="Dokumentasi SDK" icon="book" href="/id/sdk/">
+  <Card title="Dokumentasi SDK" icon="book" href="/id/sdk">
     Panduan implementasi SDK terperinci.
   </Card>
   

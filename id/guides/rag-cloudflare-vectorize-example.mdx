@@ -3,25 +3,25 @@ title: 'RAG dengan Cloudflare Vectorize'
 description: 'Bangun aplikasi RAG menggunakan Neosantara AI dan Cloudflare Vectorize'
 ---
 
-Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang skalabel dengan memanfaatkan **Cloudflare Vectorize** sebagai database vektor terkelola Anda, yang terintegrasi dengan Neosantara AI untuk embedding dan pemanggilan model bahasa besar (LLM).
+Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang skalabel dengan memanfaatkan **Cloudflare Vectorize** sebagai database vektor terkelola Kamu, yang terintegrasi dengan Neosantara AI untuk embedding dan pemanggilan model bahasa besar (LLM).
 
 Cloudflare Vectorize menawarkan solusi serverless dan sangat skalabel untuk menyimpan dan menanyakan embedding vektor, menjadikannya pilihan tepat bagi aplikasi RAG yang perlu menangani dataset besar.
 
 ## Ringkasan
 
-Anda akan mempelajari cara:
+Kamu akan mempelajari cara:
 
 1. Menyiapkan klien API Neosantara AI dan kredensial API Cloudflare.
-2. Membuat dan mengelola indeks Vectorize.
-3. Menggunakan model embedding Neosantara AI (`nusa-embedding-0001`) untuk menvektorisasi dokumen Anda.
-4. Menyimpan embedding ini di Cloudflare Vectorize.
+2. Membuat dan mengelola indeks Vectorize (v2).
+3. Menggunakan model embedding Neosantara AI (`nusa-embedding-0001`) untuk menvektorisasi dokumen Kamu.
+4. Menyimpan embedding ini di Cloudflare Vectorize menggunakan format NDJSON.
 5. Mengambil dokumen yang relevan dari Vectorize berdasarkan kueri pengguna.
 6. Menggunakan model chat Neosantara AI (`nusantara-base`) untuk menghasilkan jawaban berdasarkan konteks yang diambil.
 
 ## Prasyarat
 
 * Akun Cloudflare dengan akses Token API (dengan izin untuk Vectorize).
-* ID Akun Cloudflare Anda.
+* ID Akun Cloudflare Kamu.
 * Kunci API Neosantara AI.
 
 ## Penyiapan
@@ -32,15 +32,16 @@ Pertama, instal pustaka Python yang diperlukan:
 pip install -U openai requests
 ```
 
-### Konfigurasi Kunci API dan Klien Anda
+### Konfigurasi Kunci API dan Klien Kamu
 
 ```python
 import os
+import json
 import requests
 from openai import OpenAI
 
 # --- Konfigurasi Neosantara AI ---
-NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "KUNCI_API_NEOSANTARA_ANDA")
+NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "KUNCI_API_NEOSANTARA_KAMU")
 NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
 
 neosantara_client = OpenAI(
@@ -52,12 +53,12 @@ EMBEDDING_MODEL = "nusa-embedding-0001"
 CHAT_MODEL = "nusantara-base" # Atau "garda-beta-mini" untuk konteks yang lebih besar
 
 # --- Konfigurasi Cloudflare Vectorize ---
-CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN", "TOKEN_API_CLOUDFLARE_ANDA")
-CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "ID_AKUN_CLOUDFLARE_ANDA")
-VECTORIZE_INDEX_NAME = "my-rag-index" # Pilih nama untuk indeks Vectorize Anda
+CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN", "TOKEN_API_CLOUDFLARE_KAMU")
+CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "ID_AKUN_CLOUDFLARE_KAMU")
+VECTORIZE_INDEX_NAME = "my-rag-index" # Pilih nama untuk indeks Vectorize Kamu
 
-# URL Dasar API Cloudflare untuk Vectorize
-CLOUDFLARE_API_BASE = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/vectorize/indexes"
+# URL Dasar API Cloudflare untuk Vectorize v2
+CLOUDFLARE_API_BASE = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/vectorize/v2/indexes"
 
 headers = {
     "Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}",
@@ -71,12 +72,13 @@ Pertama, mari tentukan dokumen kita dan buat indeks Vectorize.
 
 ### Membuat Indeks Vectorize
 
-Anda perlu membuat indeks di Cloudflare Vectorize. `dimension` harus sesuai dengan dimensi output model embedding Anda (misalnya, 768 untuk `nusa-embedding-0001`).
+Kamu perlu membuat indeks di Cloudflare Vectorize. `dimensions` harus sesuai dengan dimensi output model embedding Kamu (misalnya, 768 untuk `nusa-embedding-0001`).
 
 ```python
 def create_vectorize_index(index_name, dimension=768):
     url = CLOUDFLARE_API_BASE
-    data = {"name": index_name, "config": {"vector_size": dimension, "metric": "cosine"}}
+    # v2 menggunakan 'dimensions' bukan 'vector_size'
+    data = {"name": index_name, "config": {"dimensions": dimension, "metric": "cosine"}}
     
     print(f"Mencoba membuat indeks Vectorize '{index_name}'...")
     response = requests.post(url, headers=headers, json=data)
@@ -89,19 +91,19 @@ def create_vectorize_index(index_name, dimension=768):
         return True
     else:
         print(f"Gagal membuat indeks: {response.status_code} - {response.text}")
-        response.raise_for_status() # Menimbulkan eksepsi untuk kesalahan HTTP
+        response.raise_for_status() 
     return False
 
 # Buat indeks (jika belum ada)
 create_vectorize_index(VECTORIZE_INDEX_NAME)
 ```
 
-### Data Anda
+### Data Kamu
 
 ```python
 documents = [
-  {"id": "doc1", "text": "Mengoperasikan Sistem Kontrol Iklim. Googlecar Anda memiliki sistem kontrol iklim yang memungkinkan Anda menyesuaikan suhu dan aliran udara di dalam mobil."},
-  {"id": "doc2", "text": "Kebijakan pengembalian dana kami memungkinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Anda."},
+  {"id": "doc1", "text": "Mengoperasikan Sistem Kontrol Iklim. Mobil Kamu memiliki sistem kontrol iklim yang memungkinkan Kamu menyesuaikan suhu dan aliran udara di dalam mobil."},
+  {"id": "doc2", "text": "Kebijakan pengembalian dana kami memungkinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu."},
   {"id": "doc3", "text": "Jam operasional dukungan adalah Senin sampai Jumat, jam 9 pagi sampai jam 5 sore WIB."},
   {"id": "doc4", "text": "Batas tarif API Neosantara untuk tingkat Gratis adalah 1000 RPM."}
 ]
@@ -109,13 +111,13 @@ documents = [
 
 ### Menghasilkan Embedding dan Upsert ke Vectorize
 
-Sekarang, kita akan menyematkan setiap dokumen dan mengirimkannya ke indeks Cloudflare Vectorize Anda.
+Sekarang, kita akan menyematkan setiap dokumen dan mengirimkannya ke indeks Cloudflare Vectorize Kamu menggunakan format **NDJSON**.
 
 ```python
 def upsert_to_vectorize(documents_with_ids):
-    url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/vectors"
+    url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/upsert"
     
-    vectors_to_upsert = []
+    ndjson_data = ""
     for doc in documents_with_ids:
         print(f"Menyematkan ID dokumen: {doc['id']}...")
         embedding_response = neosantara_client.embeddings.create(
@@ -124,14 +126,21 @@ def upsert_to_vectorize(documents_with_ids):
         )
         vector_data = embedding_response.data[0].embedding
         
-        vectors_to_upsert.append({
+        # Format NDJSON: satu objek per baris
+        vector_obj = {
             "id": doc['id'],
             "values": vector_data,
-            "metadata": {"text": doc['text']} # Simpan teks asli sebagai metadata
-        })
+            "metadata": {"text": doc['text']}
+        }
+        ndjson_data += json.dumps(vector_obj) + "\n"
 
-    print(f"Melakukan upsert {len(vectors_to_upsert)} vektor ke indeks Vectorize '{VECTORIZE_INDEX_NAME}'...")
-    response = requests.post(url, headers=headers, json=vectors_to_upsert)
+    print(f"Melakukan upsert {len(documents_with_ids)} vektor ke indeks Vectorize '{VECTORIZE_INDEX_NAME}'...")
+    
+    # Gunakan Content-Type application/x-ndjson untuk v2 upsert
+    upsert_headers = headers.copy()
+    upsert_headers["Content-Type"] = "application/x-ndjson"
+    
+    response = requests.post(url, headers=upsert_headers, data=ndjson_data)
     
     if response.status_code == 200:
         print("Vektor berhasil di-upsert.")
@@ -162,7 +171,8 @@ def query_vectorize(query_text, top_k=2):
 
     # 2. Tanya Vectorize
     print(f"Menanyakan indeks Vectorize '{VECTORIZE_INDEX_NAME}' untuk {top_k} hasil teratas...")
-    data = {"vector": query_vector, "topK": top_k, "returnMetadata": True}
+    # v2 menggunakan returnMetadata sebagai string ("all", "indexed", "none")
+    data = {"vector": query_vector, "topK": top_k, "returnMetadata": "all"}
     response = requests.post(url, headers=headers, json=data)
 
     if response.status_code == 200:
@@ -184,11 +194,10 @@ Terakhir, buat prompt dengan konteks yang diambil dan kirimkan ke model chat Neo
 
 ```python
 def make_prompt(query, retrieved_context):
-    # Ganti baris baru dengan spasi untuk string konteks yang lebih bersih di prompt.
     processed_context = retrieved_context.replace("\n", " ")
     return f"""
-Anda adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan.
-Jika jawabannya tidak ada dalam konteks, katakan Anda tidak tahu.
+Kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan.
+Jika jawabannya tidak ada dalam konteks, katakan Kamu tidak tahu.
 
 PERTANYAAN: '{query}'
 KONTEKS:
@@ -203,11 +212,10 @@ def generate_answer_with_rag(query_text):
     
     if "Kesalahan saat mengambil konteks." in context or not context.strip():
         print("Tidak ada konteks relevan yang ditemukan, atau terjadi kesalahan saat pengambilan.")
-        # Fallback atau tunjukkan ketidakmampuan untuk menjawab
         return neosantara_client.chat.completions.create(
             model=CHAT_MODEL,
             messages=[
-                {"role": "system", "content": "Anda adalah agen dukungan yang membantu. Anda mengakui jika Anda tidak dapat menemukan informasi yang relevan."},
+                {"role": "system", "content": "Kamu adalah agen dukungan yang membantu. Kamu mengakui jika Kamu tidak dapat menemukan informasi yang relevan."},
                 {"role": "user", "content": f"PERTANYAAN: '{query_text}'\nKONTEKS: [Informasi relevan tidak ditemukan.]\nJAWABAN:"}
             ]
         ).choices[0].message.content
@@ -232,14 +240,12 @@ def generate_answer_with_rag(query_text):
 ```python
 if __name__ == "__main__":
     # Pastikan semua kunci API dan ID Akun sudah disetel
-    if "KUNCI_API_NEOSANTARA_ANDA" in NEOSANTARA_API_KEY or \
-       "TOKEN_API_CLOUDFLARE_ANDA" in CLOUDFLARE_API_TOKEN or \
-       "ID_AKUN_CLOUDFLARE_ANDA" in CLOUDFLARE_ACCOUNT_ID:
-        print("⚠️ Silakan setel variabel lingkungan kunci API dan ID Akun Cloudflare Anda.")
+    if "KUNCI_API_NEOSANTARA_KAMU" in NEOSANTARA_API_KEY or \
+       "TOKEN_API_CLOUDFLARE_KAMU" in CLOUDFLARE_API_TOKEN or \
+       "ID_AKUN_CLOUDFLARE_KAMU" in CLOUDFLARE_ACCOUNT_ID:
+        print("⚠️ Silakan setel variabel lingkungan kunci API dan ID Akun Cloudflare Kamu.")
         exit()
     
-    # Lakukan upsert awal dokumen (biasanya Anda melakukan ini sekali atau saat dokumen berubah)
-
     # Kueri Pengujian
     query1 = "Bagaimana cara mendapatkan pengembalian dana?"
     print(f"\nKueri Pengguna: {query1}")
@@ -250,9 +256,4 @@ if __name__ == "__main__":
     print(f"\nKueri Pengguna: {query2}")
     answer2 = generate_answer_with_rag(query2)
     print(f"Respons AI: {answer2}\n")
-
-    query3 = "Bagaimana cara membuat kue?"
-    print(f"\nKueri Pengguna: {query3}")
-    answer3 = generate_answer_with_rag(query3)
-    print(f"Respons AI: {answer3}\n")
 ```

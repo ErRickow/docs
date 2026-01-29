@@ -21,7 +21,7 @@ Kamu dapat memberikan URL langsung ke gambar untuk diproses.
 ```bash cURL
 curl https://api.neosantara.xyz/v1/ocr \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Authorization: Bearer <KUNCI_API_KAMU>" \
   -d '{
     "image": "https://example.com/receipt.jpg",
     "image_type": "url"
@@ -29,11 +29,11 @@ curl https://api.neosantara.xyz/v1/ocr \
 ```
 
 ```python Python
-import axios
+import requests
 
 url = "https://api.neosantara.xyz/v1/ocr"
 headers = {
-    "Authorization": "Bearer <YOUR_API_KEY>",
+    "Authorization": "Bearer <KUNCI_API_KAMU>",
     "Content-Type": "application/json"
 }
 payload = {
@@ -41,7 +41,7 @@ payload = {
     "image_type": "url"
 }
 
-response = axios.post(url, json=payload, headers=headers)
+response = requests.post(url, json=payload, headers=headers)
 print(response.json()["extracted_text"])
 ```
 
@@ -55,7 +55,7 @@ Untuk gambar lokal, Kamu dapat menyandikannya sebagai string Base64.
 ```bash cURL
 curl https://api.neosantara.xyz/v1/ocr \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Authorization: Bearer <KUNCI_API_KAMU>" \
   -d '{
     "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...",
     "image_type": "base64"

@@ -75,6 +75,7 @@
                   "en/quickstart",
                   "en/about",
                   "en/use-these-docs",
+                  "en/sdk/index",
                   "en/sdk/openai-compatible",
                   "en/sdk/anthropic-compatible"
                 ]
@@ -220,20 +221,21 @@
               },
               {
                 "group": "Endpoints",
+                "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
                     "group": "Core AI",
                     "pages": [
-                      "api-reference/openapi.json POST /v1/responses",
-                      "api-reference/openapi.json POST /v1/chat/completions",
-                      "api-reference/openapi.json POST /anthropic/v1/messages"
+                      "POST /v1/responses",
+                      "POST /v1/chat/completions",
+                      "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Multimodal",
                     "pages": [
-                      "api-reference/openapi.json POST /v1/images/generations",
-                      "api-reference/openapi.json POST /v1/embeddings"
+                      "POST /v1/images/generations",
+                      "POST /v1/embeddings"
                     ]
                   },
                   {
@@ -243,21 +245,21 @@
                         "group": "Batches",
                         "pages": [
                           "en/batches-overview",
-                          "api-reference/openapi.json POST /v1/batches",
-                          "api-reference/openapi.json GET /v1/batches/{batch_id}",
-                          "api-reference/openapi.json GET /v1/batches",
-                          "api-reference/openapi.json POST /v1/batches/{batch_id}/cancel"
+                          "POST /v1/batches",
+                          "GET /v1/batches/{batch_id}",
+                          "GET /v1/batches",
+                          "POST /v1/batches/{batch_id}/cancel"
                         ]
                       },
                       {
                         "group": "Files",
                         "pages": [
                           "en/files-overview",
-                          "api-reference/openapi.json POST /v1/files",
-                          "api-reference/openapi.json GET /v1/files",
-                          "api-reference/openapi.json GET /v1/files/{file_id}",
-                          "api-reference/openapi.json GET /v1/files/{file_id}/content",
-                          "api-reference/openapi.json DELETE /v1/files/{file_id}"
+                          "POST /v1/files",
+                          "GET /v1/files",
+                          "GET /v1/files/{file_id}",
+                          "GET /v1/files/{file_id}/content",
+                          "DELETE /v1/files/{file_id}"
                         ]
                       }
                     ]
@@ -265,9 +267,9 @@
                   {
                     "group": "Management",
                     "pages": [
-                      "api-reference/openapi.json GET /v1/models",
-                      "api-reference/openapi.json GET /v1/models/{modelId}",
-                      "api-reference/openapi.json POST /v1/moderations",
+                      "GET /v1/models",
+                      "GET /v1/models/{modelId}",
+                      "POST /v1/moderations",
                       "en/check-api-key-status"
                     ]
                   }
@@ -291,6 +293,7 @@
                   "id/quickstart",
                   "id/about",
                   "id/use-these-docs",
+                  "id/sdk/index",
                   "id/sdk/openai-compatible",
                   "id/sdk/anthropic-compatible"
                 ]
@@ -421,20 +424,21 @@
               },
               {
                 "group": "Referensi API",
+                "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
                     "group": "Core AI",
                     "pages": [
-                      "api-reference/openapi.json POST /v1/responses",
-                      "api-reference/openapi.json POST /v1/chat/completions",
-                      "api-reference/openapi.json POST /anthropic/v1/messages"
+                      "POST /v1/responses",
+                      "POST /v1/chat/completions",
+                      "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Multimodal",
                     "pages": [
-                      "api-reference/openapi.json POST /v1/images/generations",
-                      "api-reference/openapi.json POST /v1/embeddings"
+                      "POST /v1/images/generations",
+                      "POST /v1/embeddings"
                     ]
                   },
                   {
@@ -444,21 +448,21 @@
                         "group": "Batch",
                         "pages": [
                           "id/batches-overview",
-                          "api-reference/openapi.json POST /v1/batches",
-                          "api-reference/openapi.json GET /v1/batches/{batch_id}",
-                          "api-reference/openapi.json GET /v1/batches",
-                          "api-reference/openapi.json POST /v1/batches/{batch_id}/cancel"
+                          "POST /v1/batches",
+                          "GET /v1/batches/{batch_id}",
+                          "GET /v1/batches",
+                          "POST /v1/batches/{batch_id}/cancel"
                         ]
                       },
                       {
                         "group": "File",
                         "pages": [
                           "id/files-overview",
-                          "api-reference/openapi.json POST /v1/files",
-                          "api-reference/openapi.json GET /v1/files",
-                          "api-reference/openapi.json GET /v1/files/{file_id}",
-                          "api-reference/openapi.json GET /v1/files/{file_id}/content",
-                          "api-reference/openapi.json DELETE /v1/files/{file_id}"
+                          "POST /v1/files",
+                          "GET /v1/files",
+                          "GET /v1/files/{file_id}",
+                          "GET /v1/files/{file_id}/content",
+                          "DELETE /v1/files/{file_id}"
                         ]
                       }
                     ]
@@ -466,9 +470,9 @@
                   {
                     "group": "Manajemen",
                     "pages": [
-                      "api-reference/openapi.json GET /v1/models",
-                      "api-reference/openapi.json GET /v1/models/{modelId}",
-                      "api-reference/openapi.json POST /v1/moderations",
+                      "GET /v1/models",
+                      "GET /v1/models/{modelId}",
+                      "POST /v1/moderations",
                       "id/check-api-key-status"
                     ]
                   }

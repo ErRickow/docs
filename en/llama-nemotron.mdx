@@ -5,19 +5,21 @@ description: '> Get started with Neosantara AIs integration of Llama 3.3 Nemotro
 
 This flexible open-weight reasoning model is designed for developers and enterprises who need transparency and customization while maintaining advanced reasoning capabilities for complex tasks.
 
-The Llama 3.3 Nemotron model is trained to think step-by-step before responding, excelling at tasks like coding, mathematics, and agentic workflows. By default, this reasoning process is active, providing you with detailed, chain-of-thought responses.
+The Llama 3.3 Nemotron model is highly capable in coding, mathematics, and agentic workflows. By default, Neosantara AI optimizes for speed and cost-efficiency by disabling reasoning. You can explicitly enable it when needed.
 
 ### How to Use the API
 
 For reasoning models that produce longer, more detailed responses, we highly recommend streaming tokens to ensure the best user experience.
 
-#### **Default Behavior (Reasoning On)**
+#### **Default Behavior (Reasoning Off)**
 
-By default, the model will provide a step-by-step thought process before the final answer.
+By default, the model will provide a direct answer without the thought process to save tokens and reduce latency.
 
-#### **Disabling Reasoning**
+#### **Enabling Reasoning**
 
-To get a direct answer without the chain-of-thought process, add `/no_think` to the beginning of your **system prompt**.
+To enable step-by-step reasoning, you can either:
+1. Use the **`thinking` parameter** (Recommended for Anthropic/OpenAI SDKs).
+2. Add `/think` to the beginning of your **system prompt**.
 
 ```python
 from openai import OpenAI
@@ -27,6 +29,7 @@ client = OpenAI(
     api_key="<YOUR_NEOSANTARA_API_KEY>"
 )
 
+# Enabling reasoning via the thinking parameter (mapped to reasoning_effort internally)
 stream = client.chat.completions.create(
     model="llama-3.3-nemotron-super-49b-v1.5",
     messages=[
@@ -35,12 +38,18 @@ stream = client.chat.completions.create(
             "content": "Solve this logic puzzle: If all roses are flowers and some flowers are red, can we conclude that some roses are red?"
         }
     ],
+    extra_body={
+        "thinking": {"type": "enabled", "budget_tokens": 2048}
+    },
     temperature=0.7,
     stream=True
 )
 
 for chunk in stream:
-    if chunk.choices[0].delta.content is not None:
+    # Checking for thinking deltas
+    if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
+        print(f"[Thinking] {chunk.choices[0].delta.reasoning_content}", end="", flush=True)
+    if chunk.choices[0].delta.content:
         print(chunk.choices[0].delta.content, end="", flush=True)
 ```
 
@@ -58,33 +67,26 @@ const stream = await neosantara.chat.completions.create({
     role: "user",
     content: "Solve this logic puzzle: If all roses are flowers and some flowers are red, can we conclude that some roses are red?"
   }],
+  // @ts-ignore
+  thinking: { type: "enabled", budget_tokens: 2048 },
   temperature: 0.7,
   stream: true,
 });
 
 for await (const chunk of stream) {
+  // @ts-ignore
+  if (chunk.choices[0]?.delta?.reasoning_content) {
+     process.stdout.write(`[Thinking] ${chunk.choices[0].delta.reasoning_content}`);
+  }
   process.stdout.write(chunk.choices[0]?.delta?.content || "");
 }
 ```
 
-```bash
-curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
-  -H "Authorization: Bearer <NAI_API_KEY>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "llama-3.3-nemotron-super-49b-v1.5",
-    "messages": [
-      {
-        "role": "user", 
-        "content": "Solve this logic puzzle: If all roses are flowers and some flowers are red, can we conclude that some roses are red?"
-      }
-    ],
-    "temperature": 0.7,
-    "stream": true
-  }'
-```
+#### **Manual Override**
 
-This will produce a response that includes the model's thought process, followed by the final answer.
+If you want to manually control reasoning via prompt instructions:
+- **Enable**: Start system prompt with `/think`.
+- **Disable (Default)**: Start system prompt with `/no_think`.
 
 -----
 

@@ -34,26 +34,26 @@ Daftar kemampuan yang diberikan kepada kunci ini (misalnya, `chat.completions`, 
 <ResponseField name="usage_info" type="object">
 Rincian mendalam tentang penggunaan token dan batasan.
 
-<Expkamuble title="properti usage_info" defaultOpen>
+<Expandable title="properti usage_info" defaultOpen>
 <ResponseField name="daily" type="object">
-<Expkamuble title="properti daily">
+<Expandable title="properti daily">
 <ResponseField name="used" type="integer">Token yang digunakan hari ini.</ResponseField>
 <ResponseField name="limit" type="integer">Batas token harian.</ResponseField>
 <ResponseField name="remaining" type="integer">Sisa token untuk hari ini.</ResponseField>
 <ResponseField name="reset_at" type="string">Waktu pengaturan ulang harian berikutnya.</ResponseField>
-</Expkamuble>
+</Expandable>
 </ResponseField>
 
 <ResponseField name="monthly" type="object">
-  <Expkamuble title="properti monthly">
+  <Expandable title="properti monthly">
     <ResponseField name="used" type="integer">Token yang digunakan bulan ini.</ResponseField>
     <ResponseField name="limit" type="integer">Batas token bulanan.</ResponseField>
     <ResponseField name="remaining" type="integer">Sisa token untuk bulan ini.</ResponseField>
     <ResponseField name="reset_at" type="string">Waktu pengaturan ulang bulanan berikutnya.</ResponseField>
-  </Expkamuble>
+  </Expandable>
 </ResponseField>
 
-</Expkamuble>
+</Expandable>
 </ResponseField>
 
 <ResponseField name="organization" type="string">
@@ -66,11 +66,11 @@ Timestamp Unix saat pemeriksaan dilakukan.
 
 <ResponseField name="_metadata" type="object">
 Informasi status dan debugging internal.
-<Expkamuble title="properti _metadata">
+<Expandable title="properti _metadata">
 <ResponseField name="status" type="boolean">Pemeriksaan status sistem.</ResponseField>
 <ResponseField name="processing_time" type="integer">Waktu yang dibutuhkan untuk memproses permintaan (ms).</ResponseField>
 <ResponseField name="timestamp" type="string">Timestamp ISO dari permintaan.</ResponseField>
-</Expkamuble>
+</Expandable>
 </ResponseField>
 
 ## Contoh Respons

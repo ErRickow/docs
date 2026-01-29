@@ -5,28 +5,31 @@ description: '> Mulai gunakan integrasi Llama 3.3 Nemotron di Neosantara AI, mod
 
 Model penalaran bobot terbuka ini dirancang untuk tugas-tugas kompleks yang membutuhkan transparansi dan kemampuan penalaran tingkat lanjut.
 
-Llama 3.3 Nemotron dilatih untuk berpikir langkah demi langkah (*step-by-step*) sebelum merespon, sangat unggul dalam pengodean, matematika, dan alur kerja agen. Secara default, proses penalaran ini aktif.
+Llama 3.3 Nemotron sangat unggul dalam pengodean, matematika, dan alur kerja agen. Secara default, Neosantara AI mengoptimalkan kecepatan dan biaya dengan menonaktifkan penalaran. Kamu dapat mengaktifkannya secara eksplisit jika dibutuhkan.
 
 ### Cara Menggunakan API
 
 Sangat disarankan untuk menggunakan mode streaming karena model penalaran cenderung menghasilkan respon yang lebih panjang dan detail.
 
-#### **Perilaku Default (Penalaran Aktif)**
+#### **Perilaku Default (Penalaran Mati)**
 
-Model akan memberikan proses berpikir sebelum memberikan jawaban akhir.
+Secara default, model akan memberikan jawaban langsung tanpa proses berpikir untuk menghemat token dan mengurangi latensi.
 
-#### **Menonaktifkan Penalaran**
+#### **Mengaktifkan Penalaran**
 
-Gunakan perintah `/no_think` di awal **system prompt** Kamu untuk mendapatkan jawaban langsung tanpa proses *chain-of-thought*.
+Untuk mengaktifkan penalaran langkah demi langkah, Kamu dapat melakukan salah satu dari hal berikut:
+1. Gunakan **parameter `thinking`** (Direkomendasikan untuk SDK Anthropic/OpenAI).
+2. Tambahkan `/think` di awal **system prompt** Kamu.
 
 ```python
 from openai import OpenAI
 
 client = OpenAI(
     base_url="https://api.neosantara.xyz/v1",
-    api_key="<NAI_API_KEY>"
+    api_key="<KUNCI_API_NEOSANTARA_KAMU>"
 )
 
+# Mengaktifkan penalaran melalui parameter thinking
 stream = client.chat.completions.create(
     model="llama-3.3-nemotron-super-49b-v1.5",
     messages=[
@@ -35,14 +38,26 @@ stream = client.chat.completions.create(
             "content": "Selesaikan teka-teki logika ini: Jika semua mawar adalah bunga dan beberapa bunga berwarna merah, apakah bisa disimpulkan bahwa beberapa mawar berwarna merah?"
         }
     ],
+    extra_body={
+        "thinking": {"type": "enabled", "budget_tokens": 2048}
+    },
     temperature=0.7,
     stream=True
 )
 
 for chunk in stream:
-    if chunk.choices[0].delta.content is not None:
+    # Memeriksa delta pemikiran (thinking)
+    if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
+        print(f"[Berpikir] {chunk.choices[0].delta.reasoning_content}", end="", flush=True)
+    if chunk.choices[0].delta.content:
         print(chunk.choices[0].delta.content, end="", flush=True)
 ```
+
+#### **Kontrol Manual**
+
+Jika Kamu ingin mengontrol penalaran secara manual melalui instruksi prompt:
+- **Aktifkan**: Mulai system prompt dengan `/think`.
+- **Matikan (Default)**: Mulai system prompt dengan `/no_think`.
 
 ### Praktik Terbaik
 
