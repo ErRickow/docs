@@ -228,17 +228,17 @@
                   {
                     "group": "Core AI",
                     "pages": [
-                      "POST /v1/responses",
-                      "POST /v1/chat/completions",
+                      "POST /responses",
+                      "POST /chat/completions",
                       "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Multimodal",
                     "pages": [
-                      "api-reference/images/create-image-generation",
-                      "api-reference/audio/transcription",
-                      "api-reference/embeddings/create-embeddings"
+                      "POST /images/generations",
+                      "POST /audio/transcriptions",
+                      "POST /embeddings"
                     ]
                   },
                   {
@@ -248,21 +248,21 @@
                         "group": "Batches",
                         "pages": [
                           "en/batches-overview",
-                          "POST /v1/batches",
-                          "GET /v1/batches/{batch_id}",
-                          "GET /v1/batches",
-                          "POST /v1/batches/{batch_id}/cancel"
+                          "POST /batches",
+                          "GET /batches/{batch_id}",
+                          "GET /batches",
+                          "POST /batches/{batch_id}/cancel"
                         ]
                       },
                       {
                         "group": "Files",
                         "pages": [
                           "en/files-overview",
-                          "POST /v1/files",
-                          "GET /v1/files",
-                          "GET /v1/files/{file_id}",
-                          "GET /v1/files/{file_id}/content",
-                          "DELETE /v1/files/{file_id}"
+                          "POST /files",
+                          "GET /files",
+                          "GET /files/{file_id}",
+                          "GET /files/{file_id}/content",
+                          "DELETE /files/{file_id}"
                         ]
                       }
                     ]
@@ -270,9 +270,9 @@
                   {
                     "group": "Management",
                     "pages": [
-                      "GET /v1/models",
-                      "GET /v1/models/{modelId}",
-                      "POST /v1/moderations",
+                      "GET /models",
+                      "GET /models/{modelId}",
+                      "POST /moderations",
                       "en/check-api-key-status"
                     ]
                   }
@@ -434,17 +434,17 @@
                   {
                     "group": "Core AI",
                     "pages": [
-                      "POST /v1/responses",
-                      "POST /v1/chat/completions",
+                      "POST /responses",
+                      "POST /chat/completions",
                       "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Multimodal",
                     "pages": [
-                      "api-reference/images/create-image-generation",
-                      "api-reference/audio/transcription",
-                      "api-reference/embeddings/create-embeddings"
+                      "POST /images/generations",
+                      "POST /audio/transcriptions",
+                      "POST /embeddings"
                     ]
                   },
                   {
@@ -454,21 +454,21 @@
                         "group": "Batch",
                         "pages": [
                           "id/batches-overview",
-                          "POST /v1/batches",
-                          "GET /v1/batches/{batch_id}",
-                          "GET /v1/batches",
-                          "POST /v1/batches/{batch_id}/cancel"
+                          "POST /batches",
+                          "GET /batches/{batch_id}",
+                          "GET /batches",
+                          "POST /batches/{batch_id}/cancel"
                         ]
                       },
                       {
                         "group": "File",
                         "pages": [
                           "id/files-overview",
-                          "POST /v1/files",
-                          "GET /v1/files",
-                          "GET /v1/files/{file_id}",
-                          "GET /v1/files/{file_id}/content",
-                          "DELETE /v1/files/{file_id}"
+                          "POST /files",
+                          "GET /files",
+                          "GET /files/{file_id}",
+                          "GET /files/{file_id}/content",
+                          "DELETE /files/{file_id}"
                         ]
                       }
                     ]
@@ -476,9 +476,9 @@
                   {
                     "group": "Manajemen",
                     "pages": [
-                      "GET /v1/models",
-                      "GET /v1/models/{modelId}",
-                      "POST /v1/moderations",
+                      "GET /models",
+                      "GET /models/{modelId}",
+                      "POST /moderations",
                       "id/check-api-key-status"
                     ]
                   }

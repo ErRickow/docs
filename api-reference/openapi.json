@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api.neosantara.xyz",
+      "url": "https://api.neosantara.xyz/v1",
       "description": "Production API Server"
     }
   ],
@@ -26,7 +26,7 @@
     }
   ],
   "paths": {
-    "/v1/models": {
+    "/models": {
       "get": {
         "operationId": "getV1Models",
         "tags": [
@@ -85,7 +85,7 @@
         ]
       }
     },
-    "/v1/cost-estimate": {
+    "/cost-estimate": {
       "post": {
         "operationId": "postV1CostEstimate",
         "tags": [
@@ -124,7 +124,7 @@
         }
       }
     },
-    "/v1/audio/transcriptions": {
+    "/audio/transcriptions": {
       "post": {
         "operationId": "postV1AudioTranscriptions",
         "tags": [
@@ -211,7 +211,7 @@
         }
       }
     },
-    "/v1/images/generations": {
+    "/images/generations": {
       "post": {
         "operationId": "postV1ImagesGenerations",
         "tags": [
@@ -339,7 +339,7 @@
         ]
       }
     },
-    "/v1/conversations": {
+    "/conversations": {
       "get": {
         "operationId": "getV1Conversations",
         "tags": [
@@ -354,7 +354,7 @@
         }
       }
     },
-    "/v1/chat/completions": {
+    "/chat/completions": {
       "post": {
         "operationId": "postV1ChatCompletions",
         "tags": [
@@ -908,16 +908,11 @@
             "lang": "python",
             "label": "Python SDK",
             "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='nusantara-base',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(response.choices[0].message.content)"
-          },
-          {
-            "lang": "javascript",
-            "label": "Node.js SDK",
-            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'nusantara-base',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(response.choices[0].message.content);"
           }
         ]
       }
     },
-    "/v1/completions": {
+    "/completions": {
       "post": {
         "operationId": "postV1Completions",
         "tags": [
@@ -966,7 +961,7 @@
         }
       }
     },
-    "/v1/ocr": {
+    "/ocr": {
       "post": {
         "operationId": "postV1Ocr",
         "tags": [
@@ -984,7 +979,7 @@
         }
       }
     },
-    "/v1/responses": {
+    "/responses": {
       "post": {
         "operationId": "postV1Responses",
         "tags": [
@@ -2015,11 +2010,6 @@
             "lang": "python",
             "label": "Python SDK",
             "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NUSA_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.responses.create(\n    model='nusantara-base',\n    input='Halo, apa kabar?',\n    instructions='Jawab dengan gaya santai.',\n    store=True\n)\nprint(response.output_text)"
-          },
-          {
-            "lang": "javascript",
-            "label": "Node.js SDK",
-            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NUSA_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.responses.create({\n  model: 'nusantara-base',\n  input: 'Halo, apa kabar?',\n  instructions: 'Jawab dengan gaya santai.',\n  store: true\n});\nconsole.log(response.output_text);"
           }
         ]
       }
@@ -2817,7 +2807,7 @@
         }
       }
     },
-    "/v1/models/{modelId}": {
+    "/models/{modelId}": {
       "get": {
         "operationId": "getV1ModelsByModelId",
         "tags": [
@@ -2873,7 +2863,7 @@
         ]
       }
     },
-    "/v1/embeddings": {
+    "/embeddings": {
       "post": {
         "operationId": "postV1Embeddings",
         "tags": [
@@ -2941,7 +2931,7 @@
         ]
       }
     },
-    "/v1/moderations": {
+    "/moderations": {
       "post": {
         "operationId": "postV1Moderations",
         "tags": [
@@ -2956,7 +2946,7 @@
         }
       }
     },
-    "/v1/system/status": {
+    "/system/status": {
       "get": {
         "operationId": "getV1SystemStatus",
         "tags": [
@@ -2971,7 +2961,7 @@
         }
       }
     },
-    "/v1/files": {
+    "/files": {
       "post": {
         "operationId": "postV1Files",
         "tags": [
@@ -3099,7 +3089,7 @@
         }
       }
     },
-    "/v1/files/{file_id}": {
+    "/files/{file_id}": {
       "get": {
         "operationId": "getV1FilesByFileId",
         "tags": [
@@ -3217,7 +3207,7 @@
         ]
       }
     },
-    "/v1/files/{file_id}/content": {
+    "/files/{file_id}/content": {
       "get": {
         "operationId": "getV1FilesByFileIdContent",
         "tags": [
@@ -3245,7 +3235,7 @@
         ]
       }
     },
-    "/v1/batches": {
+    "/batches": {
       "post": {
         "operationId": "postV1Batches",
         "tags": [
@@ -3353,7 +3343,7 @@
         }
       }
     },
-    "/v1/batches/{batch_id}": {
+    "/batches/{batch_id}": {
       "get": {
         "operationId": "getV1BatchesByBatchId",
         "tags": [
@@ -3433,7 +3423,7 @@
         ]
       }
     },
-    "/v1/batches/{batch_id}/cancel": {
+    "/batches/{batch_id}/cancel": {
       "post": {
         "operationId": "postV1BatchesByBatchIdCancel",
         "tags": [
