@@ -19,6 +19,7 @@ The most direct difference is the method you invoke on the client object.
 - **Responses** uses the top-level `responses.create()` method, reflecting its status as a primary, modern API.
 
 <CodeGroup>
+
 ```python
 # Chat Completions SDK Usage
 completion = client.chat.completions.create(
@@ -95,6 +96,7 @@ The Responses API was built to make multi-turn conversations easier, and this is
 - **Responses**: You can let the API manage the state. After the first turn, you simply pass the `previous_response_id` to continue the conversation. The SDK and your backend handle the rest.
 
 <CodeGroup>
+
 ```python
 # Chat Completions: Manual state management
 messages = [{"role": "user", "content": "What is the capital of Indonesia?"}]

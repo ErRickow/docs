@@ -1,12 +1,12 @@
 ---
-title: "Qwen3 Coder"
-description: "Qwen3-Coder-480B-A35B-Instruct is a Mixture-of-Experts (MoE) code generation model developed by the Qwen team."
+title: "Qwen 3 32B"
+description: "Qwen 3 32B model provided by Groq for high-speed inference."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
-import { qwen3CoderData } from '/snippets/model-data.jsx';
+import { qwen332bData } from '/snippets/model-data.jsx';
 
-<ModelInfo {...qwen3CoderData} />
+<ModelInfo {...qwen332bData} />
 
 ## Quick Integration
 
@@ -15,12 +15,13 @@ import { qwen3CoderData } from '/snippets/model-data.jsx';
 curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <YOUR_API_KEY>" \
-  -d '{
-    "model": "qwen3-coder",
+  -d 
+    "{
+    "model": "qwen3-32b",
     "messages": [
       { "role": "user", "content": "Hello!" }
     ]
-  }'
+  }"
 ```
 
 ```python Python
@@ -32,7 +33,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="qwen3-coder",
+    model="qwen3-32b",
     messages=[
         {"role": "user", "content": "Hello!"}
     ]
@@ -51,10 +52,11 @@ const openai = new OpenAI({
 
 const completion = await openai.chat.completions.create({
   messages: [{ role: "user", content: "Hello!" }],
-  model: "qwen3-coder",
+  model: "qwen3-32b",
 });
 
 console.log(completion.choices[0].message.content);
 ```
 
 </CodeGroup>
+

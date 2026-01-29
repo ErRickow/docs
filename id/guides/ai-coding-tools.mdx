@@ -3,7 +3,7 @@ title: "Tools Bantu Pengodean AI"
 description: "Konfigurasi Neosantara AI dengan asisten pengodean populer seperti Claude Code, Cursor, Cline, dan lainnya."
 ---
 
-Neosantara AI menyediakan kompatibilitas penuh dengan format API OpenAI dan Anthropic, memudahkanmu menggunakan model canggih seperti `nusantara-base` atau `garda-beta-mini` langsung di dalam tools pengembangan favoritmu.
+Neosantara AI menyediakan kompatibilitas penuh dengan format API OpenAI dan Anthropic, memungkinkan Kamu menggunakan model pengodean tercanggih seperti **qwen3-32b**, **Claude 4.5 Sonnet**, atau **Llama 3.3 Nemotron** langsung di dalam tools pengembangan favorit Kamu.
 
 <Note>
   Neosantara AI menggunakan sistem penagihan **Hybrid Quota + Pay-As-You-Go**. Pastikan Kamu memiliki saldo aktif atau kuota yang cukup di [Dashboard](https://app.neosantara.xyz/billing) sebelum memulai.
@@ -27,7 +27,7 @@ Claude Code adalah agen CLI berperforma tinggi yang dapat mencari, mengedit kode
 
 * **ANTHROPIC_BASE_URL**: `https://api.neosantara.xyz/anthropic`
 * **ANTHROPIC_AUTH_TOKEN**: Kunci API Neosantara milikmu.
-* **ANTHROPIC_MODEL**: `nusantara-base` (Direkomendasikan untuk pengodean).
+* **ANTHROPIC_MODEL**: `qwen3-32b` (Direkomendasikan untuk pengodean cepat).
 
 ```json
 {
@@ -35,15 +35,15 @@ Claude Code adalah agen CLI berperforma tinggi yang dapat mencari, mengedit kode
     "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "<KUNCI_API_NEOSANTARA_KAMU>",
     "API_TIMEOUT_MS": "3600000",
-    "ANTHROPIC_MODEL": "nusantara-base",
-    "ANTHROPIC_SMALL_FAST_MODEL": "garda-beta-mini",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "nusantara-base",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "garda-beta-mini"
+    "ANTHROPIC_MODEL": "qwen3-32b",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-3-flash"
   }
 }
 ```
 
-1. Jalankan `claude` di terminalmu dan pilih **Trust This Folder** untuk memulai.
+1. Jalankan `claude` di terminal Kamu dan pilih **Trust This Folder** untuk memulai.
 
 ---
 
@@ -58,8 +58,8 @@ Cursor adalah IDE bertenaga AI yang dibangun di atas VS Code yang mendukung peny
 3. Klik **"Override OpenAI Base URL"** dan masukkan:
    `https://api.neosantara.xyz/v1`
 4. Masukkan Kunci API Neosantara milikmu di kolom API Key.
-5. Klik **"Add Custom Model"** dan masukkan `nusantara-base`.
-6. Aktifkan model `nusantara-base` dan nonaktifkan yang lain jika Kamu ingin memaksa penggunaan Neosantara.
+5. Klik **"Add Custom Model"** dan masukkan ID model pilihan Kamu, seperti `qwen3-32b` atau `claude-4.5-sonnet`.
+6. Aktifkan model tersebut dan nonaktifkan yang lain jika Kamu ingin memaksa penggunaan Neosantara.
 
 ---
 
@@ -74,8 +74,8 @@ Cline dan Roo Code adalah ekstensi VS Code yang kuat untuk pengodean otonom.
 3. Di bawah **API Provider**, pilih **OpenAI Compatible**.
 4. Atur **Base URL** ke: `https://api.neosantara.xyz/v1`
 5. Atur **API Key** ke Kunci API Neosantara milikmu.
-6. Atur **Model ID** ke `nusantara-base`.
-7. Pastikan **Context Window** diatur minimal `64000`.
+6. Atur **Model ID** ke `qwen3-32b` (Sangat dioptimalkan untuk tugas pengodean).
+7. Pastikan **Context Window** diatur minimal `131072`.
 
 ---
 
@@ -90,9 +90,9 @@ TRAE adalah IDE AI adaptif yang mendukung konfigurasi model kustom.
 3. Masukkan Konfigurasi:
    * **Provider**: OpenAI Compatible
    * **Base URL**: `https://api.neosantara.xyz/v1`
-   * **Model Name**: `nusantara-base`
+   * **Model Name**: `qwen3-32b`
    * **API Key**: Kunci API Neosantara milikmu.
-4. Klik **Save** dan pilih `nusantara-base` di panel chat.
+4. Klik **Save** dan pilih model tersebut di panel chat.
 
 ---
 
@@ -107,7 +107,7 @@ Pastikan Kamu menggunakan base URL yang benar:
 
 ### Error: Missing Capability
 
-Beberapa tools (seperti Claude CLI) memerlukan **Function Calling**. Pastikan Kamu menggunakan model yang mendukungnya, seperti `nusantara-base` atau `claude-3-haiku`.
+Beberapa tools (seperti Claude CLI) memerlukan **Function Calling**. Pastikan Kamu menggunakan model yang mendukungnya, seperti `qwen3-32b`, `claude-4.5-sonnet`, atau `gemini-3-flash`.
 
 ### Masalah Saldo
 

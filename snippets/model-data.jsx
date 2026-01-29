@@ -949,6 +949,30 @@ export const kimiK2ThinkingData = {
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
 };
 
+export const qwen332bData = {
+  modelId: "qwen3-32b",
+  provider: "Alibaba (via Groq)",
+  modelCardUrl: "https://huggingface.co/Qwen/Qwen2.5-32B-Instruct",
+  contextLength: { freeTier: "131k tokens" },
+  maxOutput: { freeTier: "8192 tokens" },
+  speed: { value: "Fast", unit: "latency" },
+  rateLimits: [
+    { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+    { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+    { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+    { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+    { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+  ],
+  tokenCredits: {
+    docsUrl: "en/about/token-credits",
+    freeBalance: "Rp 20,000"
+  },
+  pricing: { inputPrice: "300", outputPrice: "1200", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "function_calling", "json_mode", "streaming"],
+  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
+};
+
 export const llamaGuard38bData = {
   modelId: "llama-guard-3-8b",
   provider: "Meta",

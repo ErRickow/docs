@@ -21,6 +21,7 @@ Mulai gunakan Neosantara AI dengan format API Messages Anthropic.
 <Steps>
   <Step title="Instal SDK Anthropic">
 <CodeGroup>
+
 ```bash pip
 pip install anthropic
 ```
@@ -33,6 +34,7 @@ npm install @anthropic-ai/sdk
 
   <Step title="Konfigurasi Klien">
 <CodeGroup>
+
 ```python Python
 import anthropic
 
@@ -55,6 +57,7 @@ const client = new Anthropic({
 
   <Step title="Lakukan Permintaan Pertama">
 <CodeGroup>
+
 ```python Python
 message = client.messages.create(
     model="nusantara-base",
@@ -122,6 +125,7 @@ console.log(message.content[0].text);
 Aktifkan streaming real-time untuk aplikasi percakapan.
 
 <CodeGroup>
+
 ```python Python
 import anthropic
 
@@ -184,6 +188,7 @@ Gunakan pemanggilan fungsi dengan format API Messages Anthropic.
 ### Mendefinisikan Tools
 
 <CodeGroup>
+
 ```python Python
 tools = [{
     "name": "get_weather",
@@ -262,6 +267,7 @@ message.content.forEach(content => {
 Kontrol bagaimana dan kapan tools digunakan.
 
 <CodeGroup>
+
 ```python Python
 # Auto mode (default)
 client.messages.create(
@@ -318,6 +324,7 @@ client.messages.create(
 Proses gambar bersama teks menggunakan API Messages.
 
 <CodeGroup>
+
 ```python Python
 import anthropic
 import base64
@@ -393,6 +400,7 @@ Mengonversi dari format OpenAI ke API Messages Anthropic.
 ### Contoh Migrasi
 
 <CodeGroup>
+
 ```python Gaya OpenAI (lama)
 completion = client.chat.completions.create(
     model="nusantara-base",

@@ -94,6 +94,7 @@
                 "pages": [
                   "en/capability/image-generation",
                   "en/capability/video-generation",
+                  "en/capability/audio-transcription",
                   "en/capability/embeddings",
                   "en/capability/ocr",
                   "en/capability/reasoning",
@@ -157,7 +158,7 @@
                   {
                     "group": "Coding & Specialized",
                     "pages": [
-                      "models/qwen3-coder",
+                      "models/qwen3-32b",
                       "models/grok-code-fast",
                       "models/deepseek-ocr",
                       "models/llama-guard-3-8b",
@@ -195,6 +196,7 @@
               {
                 "group": "Tutorials",
                 "pages": [
+                  "en/guides/ai-coding-tools",
                   "en/capability/rag",
                   "en/guides/rag-chromadb-example",
                   "en/guides/rag-cloudflare-vectorize-example",
@@ -313,6 +315,7 @@
                   "id/capability/embeddings",
                   "id/capability/image-generation",
                   "id/capability/video-generation",
+                  "id/capability/audio-transcription",
                   "id/capability/ocr",
                   "id/capability/stream",
                   "id/capability/structured",
@@ -358,7 +361,7 @@
                       "models/granite-3-8b-instruct",
                       "models/gpt-oss-20b",
                       "models/gemini-3-flash",
-                      "models/qwen3-coder",
+                      "models/qwen3-32b",
                       "models/grok-code-fast",
                       "models/claude-4.5-sonnet",
                       "models/neosantara-gen-2045",
@@ -398,6 +401,7 @@
               {
                 "group": "Tutorial",
                 "pages": [
+                  "id/guides/ai-coding-tools",
                   "id/capability/rag",
                   "id/guides/rag-chromadb-example",
                   "id/guides/rag-cloudflare-vectorize-example",

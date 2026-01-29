@@ -58,20 +58,110 @@ Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
 }
 ```
 
-## Contoh Python (OpenAI SDK)
+## Contoh Python dan JavaScript (OpenAI SDK)
 
-```python Py icon="python"
+Kamu dapat menghasilkan embeddings menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API NeosantaraAI.
+
+<CodeGroup>
+
+```python Python
+import os
 from openai import OpenAI
 
+# Inisialisasi klien OpenAI dengan kunci API Kamu
 client = OpenAI(
-    api_key="YOUR_API_KEY",
-    base_url="https://api.neosantara.xyz/v1"
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
 )
 
-response = client.embeddings.create(
-    model="nusa-embedding-0001",
-    input=["Kecerdasan buatan mengubah industri."]
-)
+def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
+    """
+    Menghasilkan embeddings untuk daftar teks menggunakan API NeosantaraAI.
+    """
+    print(f"Menghasilkan embeddings untuk model: {model}")
 
-print(response.data[0].embedding)
+    try:
+        response = client.embeddings.create(
+            model=model,
+            input=texts,
+            encoding_format="float"
+        )
+
+        # response.data berisi daftar objek embedding
+        embeddings = [item.embedding for item in response.data]
+
+        print(f"Berhasil menghasilkan {len(embeddings)} embeddings.")
+        print(f"Total token yang digunakan: {response.usage.total_tokens}")
+
+        return embeddings
+
+    except Exception as e:
+        print(f"Terjadi kesalahan saat pembuatan embedding: {e}")
+        return None
+
+if __name__ == "__main__":
+    example_texts = [
+        "Kecerdasan buatan mengubah industri.",
+        "Machine learning adalah bagian dari AI.",
+        "Deep learning memungkinkan jaringan saraf."
+    ]
+
+    generated_vectors = get_embeddings(example_texts)
+
+    if generated_vectors:
+        print("\nVektor embedding pertama (dipotong):")
+        print(generated_vectors[0][:10], "...") # Cetak 10 elemen pertama
 ```
+
+```javascript Node.js
+// Instal library OpenAI Node.js: npm install openai
+import OpenAI from 'openai';
+
+// Inisialisasi klien OpenAI dengan kunci API Kamu
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function getEmbeddings(texts, model = "nusa-embedding-0001") {
+  console.log(`Menghasilkan embeddings untuk model: ${model}`);
+
+  try {
+    const response = await client.embeddings.create({
+      model: model,
+      input: texts,
+      encoding_format: "float",
+    });
+
+    // response.data berisi daftar objek embedding
+    const embeddings = response.data.map(item => item.embedding);
+
+    console.log(`Berhasil menghasilkan ${embeddings.length} embeddings.`);
+    console.log(`Total token yang digunakan: ${response.usage.total_tokens}`);
+
+    return embeddings;
+
+  } catch (error) {
+    console.error(`Terjadi kesalahan: ${error.message}`);
+    return null;
+  }
+}
+
+// Contoh penggunaan
+(async () => {
+  const exampleTexts = [
+    "Kecerdasan buatan mengubah industri.",
+    "Machine learning adalah bagian dari AI.",
+    "Deep learning memungkinkan jaringan saraf."
+  ];
+  
+  const generatedVectors = await getEmbeddings(exampleTexts);
+
+  if (generatedVectors) {
+    console.log("\nVektor embedding pertama (dipotong):");
+    console.log(generatedVectors[0].slice(0, 10), "..."); // Cetak 10 elemen pertama
+  }
+})();
+```
+
+</CodeGroup>

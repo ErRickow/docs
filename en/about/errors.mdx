@@ -69,7 +69,7 @@ Below are specific error codes you might encounter in the `code` field of the er
 
 When you hit a rate limit (429), the API will include headers indicating when you can retry.
 
-```http
+```bash
 HTTP/1.1 429 Too Many Requests
 X-Ratelimit-Limit-Requests: 60
 X-Ratelimit-Remaining-Requests: 0
@@ -81,7 +81,8 @@ X-Ratelimit-Reset-Requests: 1s
 ## Handling Errors Programmatically
 
 <CodeGroup>
-```python
+
+```python Python
 import openai
 from openai import OpenAI
 
@@ -109,7 +110,7 @@ except openai.RateLimitError as e:
     pass
 ```
 
-```javascript
+```javascript Node.js
 import OpenAI from 'openai';
 
 const openai = new OpenAI({

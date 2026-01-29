@@ -11,7 +11,7 @@ Neosantara AI menggunakan sistem penagihan **Pay-As-You-Go**. Biaya dihitung ber
 
 1. **Registrasi:** Buat akun baru di platform.
 2. **Verifikasi Email:** Verifikasi emailmu untuk mendapatkan **Kredit Saldo Awal Rp 20.000**.
-3. **Refill Bulanan:** Akun Kamu akan mendapatkan **refill saldo Rp 10.000 setiap bulan** secara otomatis.
+3. **Akses API:** Akses diberikan segera setelah verifikasi, dengan penggunaan yang didebit dari saldo kredit Kamu.
 
 ---
 
@@ -32,20 +32,46 @@ Gunakan Batch API untuk pemrosesan asinkron dengan volume tinggi dengan tarif le
 
 ## Daftar Harga Model (Teks)
 
-| Model | Input (per 1jt token) | Output (per 1jt token) |
-| :--- | :--- | :--- |
-| `nusantara-base` | **Rp 300** | **Rp 1.500** |
-| `gemma2-9b-it` | Rp 200 | Rp 1.000 |
-| `llama-3.3-70b-instruct` | Rp 4.560 | Rp 31.991 |
-| `archipelago-70b` | Rp 4.710 | Rp 36.543 |
-| `garda-beta-mini` | Rp 2.500 | Rp 10.499 |
-| `sea-lion-v4-27b-it` | Rp 350 | Rp 560 |
-| `llama-3.3-70b-turbo` | Rp 300 | Rp 1.200 |
-| `gpt-oss-20b` | Rp 400 | Rp 1.600 |
-| `kimi-k2` | Rp 16.642 | Rp 49.929 |
-| `deepseek-chat-v3.1` | Rp 3.333 | Rp 8.333 |
-| `gemini-1.5-flash` | Rp 1.850 | Rp 7.700 |
-| `claude-4.5-sonnet` | $3.00 (USD) | $15.00 (USD) |
+| Model | Input /1M | Output /1M | Cache Read /1M |
+| :--- | :--- | :--- | :--- |
+| `nusantara-base` | **Rp 300** | **Rp 1.500** | N/A |
+| `archipelago-70b` | Rp 4.710 | Rp 36.543 | N/A |
+| `garda-beta-mini` | Rp 2.500 | Rp 10.499 | N/A |
+| `sea-lion-v4-27b-it` | Rp 350 | Rp 560 | N/A |
+| `claude-3-haiku` | $0.25 | $1.25 | N/A |
+| `claude-3-sonnet` | $3.00 | $15.00 | N/A |
+| `gemma-3-27b-it` | Rp 200 | Rp 1.500 | N/A |
+| `granite-3-8b-instruct` | Rp 2,880 | Rp 11,520 | N/A |
+| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 | N/A |
+| `llama-3.3-70b-instruct` | Rp 4,500 | Rp 32,000 | N/A |
+| `holo2-30b` | Rp 1,500 | Rp 4,500 | N/A |
+| `hermes-2-pro-mistral-7b` | Rp 450 | Rp 1,200 | N/A |
+| `gemma2-9b-it` | Rp 200 | Rp 1,000 | N/A |
+| `qwen3-32b` | Rp 300 | Rp 1,200 | N/A |
+| `llama-3.3-70b-turbo` | Rp 300 | Rp 1,200 | N/A |
+| `gpt-oss-20b` | Rp 400 | Rp 1,600 | N/A |
+| `llama-3.2-11b` | Rp 100 | Rp 400 | N/A |
+| `kimi-k2` | Rp 16.642 | Rp 49.929 | N/A |
+| `deepseek-chat-v3.1` | Rp 3.333 | Rp 8.333 | N/A |
+| `kimi-k2:latest` | Rp 16.642 | Rp 49,929 | N/A |
+| `kimi-k2:search` | Rp 16.642 | Rp 49,929 | N/A |
+| `kimi-k2:research` | Rp 16.642 | Rp 49,929 | N/A |
+| `kimi-k1` | Rp 16.642 | Rp 49,929 | N/A |
+| `kimi-k2:math` | Rp 16.642 | Rp 49,929 | N/A |
+| `kimi-k2:silent` | Rp 16.642 | Rp 49,929 | N/A |
+| `glm-4.6` | Rp 10.000 | Rp 30.000 | N/A |
+| `glm-4.6-plus` | Rp 10.000 | Rp 30.000 | N/A |
+| `glm-4.6v-flash` | Rp 250 | Rp 750 | N/A |
+| `glm-4.5-flash` | Rp 250 | Rp 750 | N/A |
+| `gemini-3-pro-preview` | Rp 40.000 | Rp 120.000 | N/A |
+| `gemini-3-flash-preview` | Rp 1,600 | Rp 6,400 | N/A |
+| `glm-4.7` | Rp 10.000 | Rp 30.000 | N/A |
+| `kimi-k2-thinking` | Rp 20.000 | Rp 60.000 | N/A |
+| `claude-4.5-sonnet` | $3.00 | $15.00 | $0.30 |
+| `gemini-3-flash` | $0.50 | $3.00 | $0.10 |
+| `grok-code-fast` | $0.20 | $1.50 | $0.05 |
+| `grok-4.1-fast-non-reasoning` | $0.30 | $0.72 | $0.10 |
+| `llama-guard-3-8b` | Rp 7,680 | Rp 480 | N/A |
 
 ---
 
@@ -56,7 +82,19 @@ Gunakan Batch API untuk pemrosesan asinkron dengan volume tinggi dengan tarif le
 | `neosantara-gen-2045` | 1024x1024 | **Rp 1.500** |
 | `neosantara-gen-2045` | 512x512 | Rp 800 |
 | `neosantara-gen-2045` | 256x256 | Rp 400 |
+| `stable-diffusion-v1-5-img2img` | 1024x1024 | Rp 200 |
+| `titan-image-g1` | 1024x1024 | $0.01 |
+| `titan-image-g1` | ≤ 512px | $0.008 |
 | `deepseek-ocr` | N/A | Rp 100 |
+
+---
+
+## Model Audio (Transkripsi)
+
+| Model | Satuan | Harga |
+| :--- | :--- | :--- |
+| `whisper-large-v3-turbo` | per Jam | **$0.04** |
+| `whisper-large-v3-turbo` | per Detik | $0.000012 |
 
 ---
 
@@ -66,11 +104,11 @@ Tingkatan (Tier) akun ditentukan secara otomatis berdasarkan **Total Deposit Kum
 
 | Tier | Min. Deposit | RPM | ITPM | OTPM |
 | :--- | :--- | :--- | :--- | :--- |
-| **Free** | Rp 0 | 3 | 5.000 | 2.000 |
-| **Basic** | **Rp 85.000** | 50 | 20.000 | 5.000 |
-| **Standard** | **Rp 670.000** | 1.000 | 100.000 | 25.000 |
-| **Pro** | **Rp 3.350.000** | 2.000 | 200.000 | 50,000 |
-| **Enterprise** | **Rp 6.700.000** | 4.000 | 500.000 | 125.000 |
+| **Free** | Rp 0 | 3 | 5.000 | 2,000 |
+| **Basic** | **Rp 85.000** | 50 | 20,000 | 5,000 |
+| **Standard** | **Rp 670.000** | 1,000 | 100,000 | 25,000 |
+| **Pro** | **Rp 3,350,000** | 2,000 | 200,000 | 50,000 |
+| **Enterprise** | **Rp 6,700,000** | 4,000 | 500,000 | 125,000 |
 
 ---
 

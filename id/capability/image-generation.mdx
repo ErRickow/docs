@@ -44,22 +44,90 @@ Kirim permintaan POST ke endpoint [`/v1/images/generations`](/api-reference/imag
 * **`titan-image-g1`**: Amazon Titan Image Generator G1 v2. Sangat hemat biaya dan serbaguna. Mendukung variasi, inpainting, dan outpainting.
 * **`neosantara-gen-2045`**: Model pembuatan gambar berkualitas tinggi kami. Direkomendasikan untuk hasil kreatif dan artistik.
 
-## Contoh Python (OpenAI SDK)
+## Contoh Python dan JavaScript (OpenAI SDK)
 
-```python Py icon="python"
+Kamu dapat menghasilkan gambar menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API NeosantaraAI.
+
+<CodeGroup>
+
+```python Python
+import os
 from openai import OpenAI
 
+# Inisialisasi klien OpenAI dengan kunci API Kamu
 client = OpenAI(
-    api_key="NAI_API_KEY",
-    base_url="https://api.neosantara.xyz/v1"
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
 )
 
-response = client.images.generate(
-    model="neosantara-gen-2045",
-    prompt="Sawah terasering di Bali saat pagi hari, fotorealistik",
-    n=1,
-    size="1024x1024"
-)
+def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: int = 1, size: str = "1024x1024"):
+    """
+    Menghasilkan gambar dari prompt teks menggunakan API Neosantara AI.
+    """
+    print(f"Menghasilkan gambar untuk prompt: '{prompt}'")
 
-print(response.data[0].url)
+    try:
+        response = client.images.generate(
+            model=model,
+            prompt=prompt,
+            n=num_images,
+            size=size,
+            response_format="url",
+        )
+
+        image_urls = [item.url for item in response.data]
+        print("\nURL Gambar yang Dihasilkan:")
+        for url in image_urls:
+            print(url)
+        return image_urls
+
+    except Exception as e:
+        print(f"\nTerjadi kesalahan saat pembuatan gambar: {e}")
+        return None
+
+if __name__ == "__main__":
+    prompt = "Sawah terasering di Bali saat pagi hari, fotorealistik, sangat detail."
+    generate_image(prompt)
 ```
+
+```javascript Node.js
+// Instal library OpenAI Node.js: npm install openai
+import OpenAI from 'openai';
+
+// Inisialisasi klien OpenAI dengan kunci API Kamu
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function generateImage(prompt, model = "neosantara-gen-2045", numImages = 1, size = "1024x1024") {
+  console.log(`Menghasilkan gambar untuk prompt: '${prompt}'`);
+
+  try {
+    const response = await client.images.generate({
+      model: model,
+      prompt: prompt,
+      n: numImages,
+      size: size,
+      response_format: "url",
+    });
+
+    const imageUrls = response.data.map(item => item.url);
+    console.log("\nURL Gambar yang Dihasilkan:");
+    imageUrls.forEach(url => console.log(url));
+    return imageUrls;
+
+  } catch (error) {
+    console.error(`\nTerjadi kesalahan: ${error.message}`);
+    return null;
+  }
+}
+
+// Contoh penggunaan
+(async () => {
+  const prompt = "Sawah terasering di Bali saat pagi hari, fotorealistik, sangat detail.";
+  await generateImage(prompt);
+})();
+```
+
+</CodeGroup>

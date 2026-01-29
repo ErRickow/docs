@@ -1,91 +1,54 @@
-# Neosantara AI API Documentation Overview
+# Neosantara AI API Documentation Agent Instructions
 
-This repository contains the source files for the Neosantara AI API documentation, hosted on the Mintlify platform. The documentation is provided in both English and Indonesian.
+This repository contains the source files for the Neosantara AI API documentation, hosted on the Mintlify platform. These instructions are designed to help AI agents maintain consistency, accuracy, and professional quality across all pages.
 
 ## Scope
 
-**These instructions apply to manually authored documentation only. They do NOT apply to:**
+These instructions apply to all manually authored MDX files in the `en/` and `id/` directories.
 
-- Auto-generated parts of the API reference (though the MDX wrappers are in scope)
-- Build artifacts and temporary files
+## Localization & Tone
+
+Neosantara uses a directory-based localization approach:
+- English content: `en/` directory.
+- Indonesian content: `id/` directory.
+
+### Language Specifics
+- **English**: Use second-person voice ("you"). Maintain a professional yet accessible tone.
+- **Indonesian**: **CRITICAL:** Use **"Kamu"** (always capitalized 'K') as the second-person pronoun. Never use "Anda", "Loe", or other informal/formal variants. Maintain consistency with this "Kamu" terminology across all Indonesian guides and descriptions.
+
+## SDK & API Standards
+
+When writing code examples or integration guides, follow these strict rules:
+
+### 1. Modern OpenAI SDK Syntax
+Always use the modern parameter names for the OpenAI SDK (Python and Node.js):
+- **DO USE**: `api_key` and `base_url`.
+- **DO NOT USE**: `openai_api_key` or `openai_api_base` (these are deprecated).
+
+### 2. Responses API First
+- For new applications or general chat examples, prioritize the **Responses API** (`/v1/responses`) over the legacy Chat Completions API.
+- Highlight the benefits of state management (`previous_response_id`) and automatic context handling.
+
+### 3. Model Identifiers
+- Always use correct model identifiers: e.g., `"nusantara-base"`, `"archipelago-70b"`, `"garda-beta-mini"`, `"neosantara-gen-2045"`.
+- Verify the existence of a model in `Nusantara/models/index.js` and ensure it is marked as `listed: true` before featuring it in public pricing or guides.
+
+## Technical Writing & MDX Safety
+
+- **MDX Parsing**: Symbols like `<` or `<=` in tables or text can break the Mintlify parser. Always escape them using backticks (e.g., `` `< 2,000` ``) or use unicode equivalents (e.g., `≤`).
+- **Code Fences**: Every code block MUST have a language specified (e.g., ` ```python Python `). Inside `<CodeGroup>`, ensure there is a blank line between the tag and the code block for proper rendering.
+- **Internal Links**: Use root-relative paths (e.g., `/en/capability/ocr`). Do not use absolute URLs for internal documentation pages.
+- **Frontmatter**: Every MDX file must have a `title` and a `description`.
+
+## Project Structure Awareness
+
+- **`docs.json`**: This is the source of truth for navigation. When adding pages, ensure they are registered here for both languages.
+- **`openapi.json`**: This file is generated from the backend. Do not edit it manually in the `docs` repo; instead, trigger the build in the `nusantaraai` repo.
 
 ## Working relationship
 
-- You can push back on ideas—this can lead to better documentation. Cite sources and explain your reasoning when you do so.
-- ALWAYS ask for clarification rather than making assumptions.
-- NEVER lie, guess, or make up information.
+- **Clarification**: Always ask for clarification if a model's capability or pricing is unclear.
+- **Accuracy**: Never guess pricing or model parameters. Check the source code in the main application repository if unsure.
+- **Conciseness**: Follow the "just enough for success" principle. Don't over-explain obvious implementation details.
 
-## Project context
-
-- **Format:** MDX files with YAML frontmatter. Mintlify syntax.
-- **Config:** `docs.json` for navigation, theme, and settings.
-- **Languages:** English (`en/`) and Indonesian (`id/`).
-- **Components:** Mintlify components and custom React components in `snippets/`.
-
-## Content strategy
-
-- Document just enough for user success—not too much, not too little.
-- Prioritize accuracy and usability of information.
-- Make content evergreen when possible.
-- Search for existing information before adding new content. Avoid duplication unless it is done for a strategic reason. Reference existing content when possible.
-- Check existing patterns for consistency.
-- Start by making the smallest reasonable changes.
-
-## docs.json
-
-- Refer to the [docs.json schema](https://mintlify.com/docs.json) when building the `docs.json` file and site navigation.
-- When adding new pages, ensure they are correctly mapped in the `navigation` object for both `en` and `id` languages.
-- Group models and capabilities logically to maintain a clean sidebar.
-
-## Frontmatter requirements for pages
-
-- `title`: Clear, descriptive, concise page title.
-- `description`: Concise summary for SEO/navigation.
-
-## Localization
-
-Neosantara uses a directory-based localization approach:
-
-- English content resides in the `en/` directory.
-- Indonesian content resides in the `id/` directory.
-- Model-specific pages are shared in the `models/` directory.
-- Ensure that updates to English documentation are reflected in the Indonesian version to maintain consistency.
-
-## Snippets
-
-Reusable React components and MDX content are stored in the `snippets/` directory (e.g., `model-info.jsx`, `model-data.jsx`). These can be imported into multiple MDX pages.
-
-```javascript
-import { ModelInfo } from '/snippets/model-info.jsx';
-```
-
-## Style guide
-
-In general, follow the [Google Developer Documentation Style Guide](https://developers.google.com/style).
-
-- Second-person voice ("you").
-- Prerequisites at the start of procedural content.
-- Test all code examples before publishing.
-- Match style and formatting of existing pages.
-- Include both basic and advanced use cases.
-- Use language tags on all code blocks (e.g., ` ```python `, ` ```javascript `).
-- Add alt text to all images.
-- Use root-relative paths for internal links.
-- Correct spelling and grammar in both languages.
-- Sentence-case for headings.
-
-## Do not
-
-- Do not skip frontmatter on any MDX file.
-- Do not use absolute URLs for internal links.
-- Do not include untested code examples.
-- Do not make assumptions—always ask for clarification.
-- Do not use model aliases in code examples; always use full model names / identifiers (e.g., `"nusantara-base"`, `"garda-beta-mini"`).
-
-For questions, refer to the [Mintlify documentation](https://docs.mintlify.com).
-
-## Pull request guidelines
-
-- Describe the "why" of the changes, why the proposed solution is the right one.
-- Highlight areas of the proposed changes that require careful review.
-- Always add a disclaimer to the PR description mentioning how AI agents were involved in the contribution.
+For platform-specific questions, refer to the [Mintlify documentation](https://docs.mintlify.com).

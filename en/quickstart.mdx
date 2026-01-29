@@ -3,119 +3,165 @@ title: 'Quickstart'
 description: 'Get started with Neosantara AI API in minutes'
 ---
 
-This guide will help you make your first API call to Neosantara AI. Our API is designed to be fully compatible with the OpenAI SDK, making it easy to integrate into your existing workflows.
+## Getting Started
+
+Follow these steps to make your first API call to Neosantara AI. Our platform acts as a **unified gateway**, allowing you to access various SOTA models from different providers using a single API key and SDK.
 
 <Steps>
-  <Step title="Create an Account">
-    Sign up for a free account to get your API key.
-    <Card icon="user-plus" href="https://app.neosantara.xyz/signup" title="Sign Up for Free" horizontal>
-      Get **10,000 free credits** monthly. No credit card required.
-    </Card>
+  <Step title="Get API Key">
+    * Access [Neosantara App](https://app.neosantara.xyz/signup) to Register or Login.
+    * Access the [Billing Page](https://app.neosantara.xyz/billing) to top up your balance if needed.
+    * Create an API Key in the [API Keys](https://app.neosantara.xyz/api-keys) management page.
+    * Copy your API Key securely.
+
+    <CardGroup cols={2}>
+      <Card title="Neosantara Dashboard" icon="link" href="https://app.neosantara.xyz/dashboard">
+        Manage your account, billing, and usage statistics.
+      </Card>
+
+      <Card title="API Keys Management" icon="key" href="https://app.neosantara.xyz/api-keys">
+        Create and manage your unique API access keys.
+      </Card>
+    </CardGroup>
   </Step>
 
-  <Step title="Generate an API Key">
-    Go to your [Dashboard](https://app.neosantara.xyz/dashboard) and navigate to the **API Keys** section. Click "Create New Key" and save it securely.
-    <Warning>Do not share your API key with anyone or commit it to public repositories.</Warning>
+  <Step title="Choose Your Model">
+    Access the world's best models through a single interface. Switch between providers by simply changing the `model` parameter. See [Models & Pricing](/en/about/token-credits) for the full list.
+
+    <CardGroup cols={2}>
+      <Card title="Global Flagships" icon="sparkles" href="/en/models-overview">
+        Access **Claude 4.5 Sonnet**, **Gemini 3 Flash**, and **Grok 4.1** via a single integration.
+      </Card>
+
+      <Card title="Coding & Logic" icon="code" href="/models/qwen3-coder">
+        High-performance reasoning with **Qwen 3 Coder** and **Llama 3.3 Nemotron**.
+      </Card>
+
+      <Card title="Multimodal & Visi" icon="eye" href="/en/capability/ocr">
+        Generate images with **Gen-2045** or extract text with **DeepSeek OCR**.
+      </Card>
+
+      <Card title="Regional Experts" icon="earth-asia" href="/models/archipelago-70b">
+        Optimized for Indonesian context with **Archipelago-70b** and **Sea-Lion**.
+      </Card>
+    </CardGroup>
   </Step>
 
-  <Step title="Install Dependencies">
-    Since Neosantara is OpenAI-compatible, you can use the official OpenAI SDKs.
+  <Step title="Choose Calling Method">
+    Neosantara is designed to be a multi-compatible gateway. Use the official SDK that fits your existing ecosystem.
 
-    <CodeGroup>
-    ```bash npm
-    npm install openai
-    ```
+    <CardGroup cols={3}>
+      <Card title="OpenAI SDK" icon="openai" href="/en/sdk/openai-compatible">
+        Drop-in replacement for any OpenAI-based application.
+      </Card>
 
-    ```bash pip
-    pip install openai
-    ```
-    </CodeGroup>
+      <Card title="Anthropic SDK" icon="bolt" href="/en/sdk/anthropic-compatible">
+        Native support for the Anthropic Messages API format.
+      </Card>
+
+      <Card title="API Reference" icon="book" href="/api-reference">
+        Complete documentation for direct REST API calls.
+      </Card>
+    </CardGroup>
   </Step>
 
-  <Step title="Make Your First Request">
-    Copy the code below to test your connection. Replace `<YOUR_API_KEY>` with the key you generated.
+  <Step title="Make Your First Call">
+    Once you have your `API Key` and selected a model, you can start making requests. Here are examples using popular methods:
 
-    <CodeGroup>
-    ```javascript Node.js
-    import OpenAI from "openai";
+    <Tabs>
+      <Tab title="Python SDK">
+        **Install SDK**
 
-    const client = new OpenAI({
-      baseURL: "https://api.neosantara.xyz/v1",
-      apiKey: "<YOUR_API_KEY>", // process.env.NAI_API_KEY
-    });
+        ```bash
+        pip install --upgrade openai
+        ```
 
-    async function main() {
-      const completion = await client.chat.completions.create({
-        model: "nusantara-base",
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: "Hello! Who are you?" },
-        ],
-      });
+        **Usage Example**
 
-      console.log(completion.choices[0].message.content);
-    }
+        ```python
+        from openai import OpenAI
+        import os
 
-    main();
-    ```
+        client = OpenAI(
+            api_key="YOUR_NEOSANTARA_API_KEY",
+            base_url="https://api.neosantara.xyz/v1"
+        )
 
-```python
-import os
-from openai import OpenAI
+        # You can use ANY model available on the platform here
+        completion = client.chat.completions.create(
+            model="gemini-3-flash",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "What are the benefits of an LLM Gateway?"}
+            ]
+        )
 
-client = OpenAI(
-    api_key=os.environ.get("NAI_API_KEY"),
-    base_url="https://api.neosantara.xyz/v1",
-)
+        print(completion.choices[0].message.content)
+        ```
+      </Tab>
 
-response = client.chat.completions.create(
-    model="nusantara-base",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Hello! Who are you?"}
-    ]
-)
+      <Tab title="Node.js SDK">
+        **Install SDK**
 
-print(response.choices[0].message.content)
-```
+        ```bash
+        npm install openai
+        ```
 
-    ```bash cURL
-    curl https://api.neosantara.xyz/v1/chat/completions \
-      -H "Content-Type: application/json" \
-      -H "Authorization: Bearer <YOUR_API_KEY>" \
-      -d '{
-        "model": "nusantara-base",
-        "messages": [
-          {"role": "system", "content": "You are a helpful assistant."},
-          {"role": "user", "content": "Hello! Who are you?"}
-        ]
-      }'
-    ```
-    </CodeGroup>
+        **Usage Example**
+
+        ```javascript
+        import OpenAI from "openai";
+
+        const client = new OpenAI({
+            apiKey: "YOUR_NEOSANTARA_API_KEY",
+            baseURL: "https://api.neosantara.xyz/v1"
+        });
+
+        async function main() {
+            const response = await client.responses.create({
+                model: "claude-4.5-sonnet",
+                input: "Explain quantum computing in one sentence.",
+                store: true
+            });
+
+            console.log(response.output_text);
+        }
+
+        main();
+        ```
+      </Tab>
+
+      <Tab title="cURL">
+        **Usage Example**
+
+        ```bash
+        curl https://api.neosantara.xyz/v1/chat/completions \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+          -d '{
+            "model": "grok-4.1-fast-non-reasoning",
+            "messages": [
+              {"role": "user", "content": "Tell me a joke about developers."}
+            ]
+          }'
+        ```
+      </Tab>
+    </Tabs>
   </Step>
 </Steps>
 
-## What just happened?
+### Explore More
 
-1. **Base URL**: You pointed the SDK to `https://api.neosantara.xyz/v1` instead of OpenAI's default URL.
-2. **Model**: You selected `nusantara-base`, our flagship model optimized for general tasks.
-3. **Authentication**: Your API key authenticated the request against our servers.
-
-## Next Steps
-
-Now that you've made your first request, explore what else you can build:
-
-<CardGroup cols={2}>
-  <Card title="Models Overview" icon="layer-group" href="/en/models-overview">
-    Discover our range of models including Vision and Embedding models.
+<CardGroup cols={3}>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Detailed endpoint specs.
   </Card>
-  <Card title="API Reference" icon="code" href="/en/api-introduction">
-    Explore detailed documentation for all endpoints.
+
+  <Card title="Guides" icon="map" href="/en/guides/ai-coding-tools">
+    Tutorials and best practices.
   </Card>
-  <Card title="Rate Limits" icon="gauge-high" href="/en/about/rate-limits">
-    Understand the limits for different tiers.
-  </Card>
+
   <Card title="Integrations" icon="puzzle-piece" href="/en/integrations">
-    Connect Neosantara with LangChain, LlamaIndex, and more.
+    Frameworks and libraries.
   </Card>
 </CardGroup>

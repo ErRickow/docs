@@ -3,7 +3,7 @@ title: "AI Coding Tools"
 description: "Configure Neosantara AI with popular coding assistants like Claude Code, Cursor, Cline, and more."
 ---
 
-Neosantara AI provides full compatibility with both OpenAI and Anthropic API formats, making it easy to use advanced models like `nusantara-base` or `garda-beta-mini` directly inside your favorite development tools.
+Neosantara AI provides full compatibility with both OpenAI and Anthropic API formats, allowing you to use state-of-the-art coding models like **qwen3-32b**, **Claude 4.5 Sonnet**, or **Llama 3.3 Nemotron** directly inside your favorite development tools.
 
 <Note>
   Neosantara AI uses a **Hybrid Quota + Pay-As-You-Go** billing system. Ensure you have an active balance or sufficient quota in your [Dashboard](https://app.neosantara.xyz/billing) before starting.
@@ -27,7 +27,7 @@ Claude Code is a high-performance CLI agent that can search, edit code, and exec
 
 * **ANTHROPIC_BASE_URL**: `https://api.neosantara.xyz/anthropic`
 * **ANTHROPIC_AUTH_TOKEN**: Your Neosantara API Key.
-* **ANTHROPIC_MODEL**: `nusantara-base` (Recommended for coding).
+* **ANTHROPIC_MODEL**: `qwen3-32b` (Recommended for high-speed coding).
 
 ```json
 {
@@ -35,10 +35,10 @@ Claude Code is a high-performance CLI agent that can search, edit code, and exec
     "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "<YOUR_NEOSANTARA_API_KEY>",
     "API_TIMEOUT_MS": "3600000",
-    "ANTHROPIC_MODEL": "nusantara-base",
-    "ANTHROPIC_SMALL_FAST_MODEL": "garda-beta-mini",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "nusantara-base",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "garda-beta-mini"
+    "ANTHROPIC_MODEL": "qwen3-32b",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-3-flash"
   }
 }
 ```
@@ -58,8 +58,8 @@ Cursor is an AI-powered IDE built on VS Code that supports custom model provider
 3. Click **"Override OpenAI Base URL"** and enter:
    `https://api.neosantara.xyz/v1`
 4. Enter your Neosantara API Key in the API Key field.
-5. Click **"Add Custom Model"** and enter `nusantara-base`.
-6. Enable the `nusantara-base` model and disable others if you want to force Neosantara usage.
+5. Click **"Add Custom Model"** and enter your preferred model ID, such as `qwen3-32b` or `claude-4.5-sonnet`.
+6. Enable the added model and disable others if you want to force Neosantara usage.
 
 ---
 
@@ -74,8 +74,8 @@ Cline and Roo Code are powerful VS Code extensions for autonomous coding.
 3. Under **API Provider**, select **OpenAI Compatible**.
 4. Set **Base URL** to: `https://api.neosantara.xyz/v1`
 5. Set **API Key** to your Neosantara API Key.
-6. Set **Model ID** to `nusantara-base`.
-7. Ensure **Context Window** is set to at least `64000`.
+6. Set **Model ID** to `qwen3-32b` (Highly optimized for coding tasks).
+7. Ensure **Context Window** is set to at least `131072`.
 
 ---
 
@@ -90,9 +90,9 @@ TRAE is an adaptive AI IDE that supports custom model configurations.
 3. Enter Configuration:
    * **Provider**: OpenAI Compatible
    * **Base URL**: `https://api.neosantara.xyz/v1`
-   * **Model Name**: `nusantara-base`
+   * **Model Name**: `qwen3-32b`
    * **API Key**: Your Neosantara API Key.
-4. Click **Save** and select `nusantara-base` in the chat panel.
+4. Click **Save** and select the model in the chat panel.
 
 ---
 
@@ -107,7 +107,7 @@ Ensure you are using the correct base URL:
 
 ### Error: Missing Capability
 
-Some tools (like Claude CLI) require **Function Calling**. Ensure you use models that support it, such as `nusantara-base` or `claude-3-haiku`.
+Some tools (like Claude CLI) require **Function Calling**. Ensure you use models that support it, such as `qwen3-32b`, `claude-4.5-sonnet`, or `gemini-3-flash`.
 
 ### Balance Issues
 
