@@ -36,14 +36,14 @@ console.log(`Neosantara Request ID: ${requestId}`);
 import asyncio
 import httpx
 
-BASE = "https://api.neosantara.xyz/v1"
+BASE = "https://api.neosantara.xyz"  # avoid duplicating /v1 in ENDPOINT
 API_KEY = "<YOUR_API_KEY>"
 ENDPOINT = f"{BASE}/v1/chat/completions"  # example; adjust per endpoint
 
-async def fetch(session, payload):
+async def postChatCompletion(session, payload):
     headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
-    async with session.post(ENDPOINT, json=payload, headers=headers) as resp:
-        return await resp.json()
+    resp = await session.post(ENDPOINT, json=payload, headers=headers)
+    return resp.json()
 
 async def main():
     async with httpx.AsyncClient() as session:
@@ -54,7 +54,7 @@ async def main():
         ]
         for p in prompts:
             payload = p
-            tasks.append(asyncio.create_task(fetch(session, payload)))
+            tasks.append(asyncio.create_task(postChatCompletion(session, payload)))
         results = await asyncio.gather(*tasks)
         print(results)
 

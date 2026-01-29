@@ -59,24 +59,25 @@ This guide will help you make your first API call to Neosantara AI. Our API is d
     main();
     ```
 
-    ```python Python
-    from openai import OpenAI
+```python
+import os
+from openai import OpenAI
 
-    client = OpenAI(
-        base_url="https://api.neosantara.xyz/v1",
-        api_key="<YOUR_API_KEY>" // os.environ.get("NAI_API_KEY")
-    )
+client = OpenAI(
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
+)
 
-    response = client.chat.completions.create(
-        model="nusantara-base",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Hello! Who are you?"}
-        ]
-    )
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Hello! Who are you?"}
+    ]
+)
 
-    print(response.choices[0].message.content)
-    ```
+print(response.choices[0].message.content)
+```
 
     ```bash cURL
     curl https://api.neosantara.xyz/v1/chat/completions \

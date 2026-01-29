@@ -747,7 +747,7 @@ Here are a few code examples demonstrating various tool use patterns and techniq
       #!/bin/bash
       IMAGE_URL="[https://upload.wikimedia.org/wikipedia/commons/a/a7/Camponotus_flavomarginatus_ant.jpg](https://upload.wikimedia.org/wikipedia/commons/a/a7/Camponotus_flavomarginatus_ant.jpg)"
       IMAGE_MEDIA_TYPE="image/jpeg"
-| IMAGE_BASE64=$(curl "$IMAGE_URL" | base64) |
+IMAGE_BASE64=$(curl "$IMAGE_URL" | base64)
 
       curl https://api.neosantara.xyz/v1/chat/completions \
         --header "Content-Type: application/json" \

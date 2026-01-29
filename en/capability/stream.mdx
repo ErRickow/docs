@@ -260,7 +260,7 @@ async function streamChatCompletion(prompt, model = "nusantara-base") {
     let fullResponseContent = "";
     process.stdout.write("AI Response: ");
     for await (const chunk of stream) {
-| const content = chunk.choices[0]?.delta?.content || ""; |
+ const content = chunk.choices[0]?.delta?.content || "";
       fullResponseContent += content;
       process.stdout.write(content);
     }

@@ -27,7 +27,7 @@ To generate embeddings, send a POST request to the `/v1/embeddings` endpoint wit
   "model": "nusa-embedding-0001",
   "encoding_format": "float"
 }
-```python
+```
 
 #### Parameters
 
@@ -66,23 +66,22 @@ The NusantaraAI API supports various embedding models, often utilizing intellige
     "total_tokens": 9
   }
 }
-```python
+```
 
 ## Python and JavaScript Examples (with OpenAI SDK)
 
 You can generate embeddings using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
 
 <CodeGroup>
-```python
+```
+import os
 from openai import OpenAI
 
 # Initialize the OpenAI client with your API key
-
-# Replace "YOUR_API_KEY" with your actual NusantaraAI API Key
-
+# Replace the environment variable with your actual API key if needed
 client = OpenAI(
-    api_key="YOUR_API_KEY",
-    base_url="<https://api.neosantara.xyz/v1>"
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
 )
 
 def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
@@ -111,7 +110,7 @@ def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
         print(f"An error occurred during embedding generation: {e}")
         return None
 
-if **name** == "**main**":
+if __name__ == "__main__":
     example_texts = [
         "Artificial intelligence is transforming industries.",
         "Machine learning is a subset of AI.",
@@ -124,7 +123,7 @@ if **name** == "**main**":
         print("\nFirst embedding vector (truncated):")
         print(generated_vectors[0][:10], "...") # Print first 10 elements
 
-```python
+```
 
 ```javascript
 // Install the OpenAI Node.js library: npm install openai
@@ -177,6 +176,6 @@ async function getEmbeddings(texts, model = "nusa-embedding-0001") {
     console.log(generatedVectors[0].slice(0, 10), "..."); // Print first 10 elements
   }
 })();
-```python
+```
 
 </CodeGroup>

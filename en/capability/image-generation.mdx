@@ -30,7 +30,7 @@ To generate images, send a POST request to the [`/v1/images/generations`](/api-r
   "steps": 50,
   "response_format": "url"
 }
-```python
+```
 
 #### Parameters
 
@@ -101,7 +101,7 @@ The NeosantaraAI API supports the following image generation models:
     "timestamp": "2025-07-28 04:10:00"
   }
 }
-```python
+```
 
 ### Example Response (`"response_format": "b64_json"`)
 
@@ -137,20 +137,21 @@ The NeosantaraAI API supports the following image generation models:
     "timestamp": "2025-07-28 04:10:00"
   }
 }
-```python
+```
 
 ## Python and JavaScript Examples (with OpenAI SDK)
 
 You can generate images using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
 
 <CodeGroup>
-```python
+```
+import os
 from openai import OpenAI
-import base64 # Needed if you want to decode and save/display base64
+import base64  # Needed if you want to decode and save/display base64
 
 client = OpenAI(
-    api_key="NAI_API_KEY",
-    base_url="<https://api.neosantara.xyz/v1>"
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1"
 )
 
 def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: int = 1, size: str = "1024x1024", response_format: str = "url"):
@@ -189,7 +190,7 @@ def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: 
         print(f"\nAn error occurred during image generation: {e}")
         return None
 
-if **name** == "**main**":
+if __name__ == "__main__":
     # Example 1: Generate image and get URL
     image_prompt_url = "A serene Indonesian rice paddy field at sunrise, with a traditional farmer working, cinematic lighting."
     generated_urls = generate_image(image_prompt_url, num_images=1, size="1024x1024", response_format="url")
@@ -201,7 +202,7 @@ if **name** == "**main**":
     #     print("\nFirst base64 image data (truncated):")
     #     print(generated_b64_data[0][:50], "...")
 
-```python
+```
 ```javascript
 // Install the OpenAI Node.js library: npm install openai
 import OpenAI from 'openai';
@@ -262,6 +263,6 @@ async function generateImage(prompt, model = "neosantara-gen-2045", numImages = 
   //   console.log(generatedB64Data[0].substring(0, 50), "...");
   // }
 })();
-```python
+```
 
 </CodeGroup>
