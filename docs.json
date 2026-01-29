@@ -212,7 +212,7 @@
                 "pages": [
                   "en/api-introduction",
                   "en/about/token-credits",
-                  "en/api-rate-limits",
+                  "en/about/rate-limits",
                   "en/about/context-window",
                   "en/about/errors",
                   "en/conversation-management"
@@ -413,7 +413,7 @@
                 "pages": [
                   "id/api-introduction",
                   "id/about/token-credits",
-                  "id/api-rate-limits",
+                  "id/about/rate-limits",
                   "id/about/context-window",
                   "id/about/errors",
                   "id/conversation-management"

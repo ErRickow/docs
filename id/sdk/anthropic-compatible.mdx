@@ -20,18 +20,20 @@ Mulai gunakan Neosantara AI dengan format API Messages Anthropic.
 
 <Steps>
   <Step title="Instal SDK Anthropic">
-```bash
+<CodeGroup>
+```bash pip
 pip install anthropic
 ```
 
-```bash
+```bash npm
 npm install @anthropic-ai/sdk
 ```
+</CodeGroup>
   </Step>
 
   <Step title="Konfigurasi Klien">
-
-```python
+<CodeGroup>
+```python Python
 import anthropic
 
 client = anthropic.Anthropic(
@@ -40,7 +42,7 @@ client = anthropic.Anthropic(
 )
 ```
 
-```javascript
+```javascript Node.js
 import { Anthropic } from '@anthropic-ai/sdk';
 
 const client = new Anthropic({
@@ -48,10 +50,12 @@ const client = new Anthropic({
   apiKey: '<KUNCI_API_ANDA>',
 });
 ```
+</CodeGroup>
   </Step>
 
   <Step title="Lakukan Permintaan Pertama">
-```python
+<CodeGroup>
+```python Python
 message = client.messages.create(
     model="nusantara-base",
     max_tokens=1000,
@@ -65,7 +69,7 @@ message = client.messages.create(
 print(message.content[0].text)
 ```
 
-```javascript
+```javascript Node.js
 const message = await client.messages.create({
   model: 'nusantara-base',
   max_tokens: 1000,
@@ -79,6 +83,7 @@ const message = await client.messages.create({
 
 console.log(message.content[0].text);
 ```
+</CodeGroup>
   </Step>
 </Steps>
 
@@ -116,7 +121,8 @@ console.log(message.content[0].text);
 
 Aktifkan streaming real-time untuk aplikasi percakapan.
 
-```python
+<CodeGroup>
+```python Python
 import anthropic
 
 client = anthropic.Anthropic(
@@ -136,7 +142,7 @@ for chunk in stream:
         print(chunk.delta.text, end='', flush=True)
 ```
 
-```javascript
+```javascript Node.js
 import { Anthropic } from '@anthropic-ai/sdk';
 
 const client = new Anthropic({
@@ -158,7 +164,7 @@ for await (const chunk of stream) {
 }
 ```
 
-```bash
+```bash cURL
 curl https://api.neosantara.xyz/anthropic/v1/messages \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <KUNCI_API_ANDA>" \
@@ -169,6 +175,7 @@ curl https://api.neosantara.xyz/anthropic/v1/messages \
     "stream": true
   }'
 ```
+</CodeGroup>
 
 ## Pemanggilan Tools (Tool Calling)
 
@@ -176,7 +183,8 @@ Gunakan pemanggilan fungsi dengan format API Messages Anthropic.
 
 ### Mendefinisikan Tools
 
-```python
+<CodeGroup>
+```python Python
 tools = [{
     "name": "get_weather",
     "description": "Ambil cuaca saat ini untuk sebuah lokasi",
@@ -211,12 +219,51 @@ for content in message.content:
         print(f"Input: {content.input}")
 ```
 
+```javascript Node.js
+const tools = [{
+  name: 'get_weather',
+  description: 'Ambil cuaca saat ini untuk sebuah lokasi',
+  input_schema: {
+    type: 'object',
+    properties: {
+      location: {
+        type: 'string',
+        description: 'Nama kota'
+      },
+      units: {
+        type: 'string',
+        enum: ['celsius', 'fahrenheit'],
+        description: 'Satuan suhu'
+      }
+    },
+    required: ['location']
+  }
+}];
+
+const message = await client.messages.create({
+  model: 'nusantara-base',
+  max_tokens: 1000,
+  messages: [{ role: 'user', content: "Bagaimana cuaca di Jakarta?" }],
+  tools: tools,
+});
+
+// Menangani penggunaan tools
+message.content.forEach(content => {
+  if (content.type === 'tool_use') {
+    console.log(`Tool: ${content.name}`);
+    console.log(`Input: ${JSON.stringify(content.input)}`);
+  }
+});
+```
+</CodeGroup>
+
 ### Kontrol Pemilihan Tools
 
 Kontrol bagaimana dan kapan tools digunakan.
 
-```python
-# Mode otomatis (default)
+<CodeGroup>
+```python Python
+# Auto mode (default)
 client.messages.create(
     model="nusantara-base",
     messages=[...],
@@ -240,6 +287,7 @@ client.messages.create(
     tool_choice="any"  # Harus menggunakan setidaknya satu tool
 )
 ```
+</CodeGroup>
 
 ## Format Respons
 
@@ -269,7 +317,8 @@ client.messages.create(
 
 Proses gambar bersama teks menggunakan API Messages.
 
-```python
+<CodeGroup>
+```python Python
 import anthropic
 import base64
 
@@ -308,6 +357,7 @@ message = client.messages.create(
 
 print(message.content[0].text)
 ```
+</CodeGroup>
 
 <Info>
   Format gambar yang didukung: JPEG, PNG, GIF, WebP<br/>
@@ -340,6 +390,30 @@ Mengonversi dari format OpenAI ke API Messages Anthropic.
 | Streaming | `stream: true` | `stream: true` |
 | Pemanggilan Tools | Format objek fungsi | Format skema tools |
 
+### Contoh Migrasi
+
+<CodeGroup>
+```python Gaya OpenAI (lama)
+completion = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "system", "content": "Kamu adalah asisten yang membantu."},
+        {"role": "user", "content": "Halo!"}
+    ]
+)
+```
+
+```python Gaya Anthropic (baru)
+message = client.messages.create(
+    model="nusantara-base",
+    system="Kamu adalah asisten yang membantu.",
+    messages=[
+        {"role": "user", "content": "Halo!"}
+    ]
+)
+```
+</CodeGroup>
+
 ## Langkah Selanjutnya
 
 <CardGroup cols={2}>
@@ -351,7 +425,7 @@ Mengonversi dari format OpenAI ke API Messages Anthropic.
     Pelajari tentang opsi API kompatibel OpenAI kami.
   </Card>
   
-  <Card title="Batas Penggunaan" icon="gauge-high" href="/id/api-rate-limits">
+  <Card title="Batas Penggunaan" icon="gauge-high" href="/id/about/rate-limits">
     Pahami pembatasan untuk tingkat layanan Kamu.
   </Card>
   

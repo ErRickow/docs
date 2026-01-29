@@ -20,18 +20,20 @@ Get started with Neosantara AI using the Anthropic Messages API format.
 
 <Steps>
   <Step title="Install Anthropic SDK">
-```bash
+<CodeGroup>
+```bash pip
 pip install anthropic
 ```
 
-```bash
+```bash npm
 npm install @anthropic-ai/sdk
 ```
+</CodeGroup>
   </Step>
 
   <Step title="Configure Client">
-
-```python
+<CodeGroup>
+```python Python
 import anthropic
 
 client = anthropic.Anthropic(
@@ -40,7 +42,7 @@ client = anthropic.Anthropic(
 )
 ```
 
-```javascript
+```javascript Node.js
 import { Anthropic } from '@anthropic-ai/sdk';
 
 const client = new Anthropic({
@@ -48,10 +50,12 @@ const client = new Anthropic({
   apiKey: '<YOUR_API_KEY>',
 });
 ```
+</CodeGroup>
   </Step>
 
   <Step title="Make Your First Request">
-```python
+<CodeGroup>
+```python Python
 message = client.messages.create(
     model="nusantara-base",
     max_tokens=1000,
@@ -65,7 +69,7 @@ message = client.messages.create(
 print(message.content[0].text)
 ```
 
-```javascript
+```javascript Node.js
 const message = await client.messages.create({
   model: 'nusantara-base',
   max_tokens: 1000,
@@ -79,6 +83,7 @@ const message = await client.messages.create({
 
 console.log(message.content[0].text);
 ```
+</CodeGroup>
   </Step>
 </Steps>
 
@@ -116,7 +121,8 @@ console.log(message.content[0].text);
 
 Enable real-time streaming for conversational applications.
 
-```python
+<CodeGroup>
+```python Python
 import anthropic
 
 client = anthropic.Anthropic(
@@ -136,7 +142,7 @@ for chunk in stream:
         print(chunk.delta.text, end='', flush=True)
 ```
 
-```javascript
+```javascript Node.js
 import { Anthropic } from '@anthropic-ai/sdk';
 
 const client = new Anthropic({
@@ -158,7 +164,7 @@ for await (const chunk of stream) {
 }
 ```
 
-```bash
+```bash cURL
 curl https://api.neosantara.xyz/anthropic/v1/messages \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <YOUR_API_KEY>" \
@@ -169,6 +175,7 @@ curl https://api.neosantara.xyz/anthropic/v1/messages \
     "stream": true
   }'
 ```
+</CodeGroup>
 
 ## Tool Calling
 
@@ -176,7 +183,8 @@ Use function calling with the Anthropic Messages API format.
 
 ### Define Tools
 
-```python
+<CodeGroup>
+```python Python
 tools = [{
     "name": "get_weather",
     "description": "Get current weather for a location",
@@ -211,7 +219,7 @@ for content in message.content:
         print(f"Input: {content.input}")
 ```
 
-```javascript
+```javascript Node.js
 const tools = [{
   name: 'get_weather',
   description: 'Get current weather for a location',
@@ -247,12 +255,14 @@ message.content.forEach(content => {
   }
 });
 ```
+</CodeGroup>
 
 ### Tool Choice Control
 
 Control how and when tools are used.
 
-```python
+<CodeGroup>
+```python Python
 # Auto mode (default)
 client.messages.create(
     model="nusantara-base",
@@ -277,6 +287,7 @@ client.messages.create(
     tool_choice="any"  # Must use at least one tool
 )
 ```
+</CodeGroup>
 
 ## Response Format
 
@@ -334,7 +345,8 @@ client.messages.create(
 
 Process images alongside text using the Messages API.
 
-```python
+<CodeGroup>
+```python Python
 import anthropic
 import base64
 
@@ -373,6 +385,7 @@ message = client.messages.create(
 
 print(message.content[0].text)
 ```
+</CodeGroup>
 
 <Info>
   Supported image formats: JPEG, PNG, GIF, WebP<br/>
@@ -407,7 +420,8 @@ print(message.content[0].text)
 
 ### Retry Logic
 
-```python
+<CodeGroup>
+```python Python
 import anthropic
 import time
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -434,6 +448,7 @@ try:
 except Exception as e:
     print(f"Failed after retries: {e}")
 ```
+</CodeGroup>
 
 ## Migration from OpenAI
 
@@ -450,8 +465,8 @@ Converting from OpenAI format to Anthropic Messages API.
 
 ### Migration Example
 
-```python
-# OpenAI style (old)
+<CodeGroup>
+```python OpenAI style (old)
 completion = client.chat.completions.create(
     model="nusantara-base",
     messages=[
@@ -459,8 +474,9 @@ completion = client.chat.completions.create(
         {"role": "user", "content": "Hello!"}
     ]
 )
+```
 
-# Anthropic style (new)
+```python Anthropic style (new)
 message = client.messages.create(
     model="nusantara-base",
     system="You are helpful.",
@@ -469,6 +485,7 @@ message = client.messages.create(
     ]
 )
 ```
+</CodeGroup>
 
 ## Advanced Features
 
@@ -476,7 +493,8 @@ message = client.messages.create(
 
 Enable deeper reasoning for complex problems.
 
-```python
+<CodeGroup>
+```python Python
 response = client.messages.create(
     model="nusantara-base",
     max_tokens=4000,
@@ -487,12 +505,14 @@ response = client.messages.create(
     }
 )
 ```
+</CodeGroup>
 
 ### Service Tiers
 
 Control performance and cost characteristics.
 
-```python
+<CodeGroup>
+```python Python
 # Standard tier - balanced performance
 response = client.messages.create(
     model="nusantara-base",
@@ -507,6 +527,7 @@ response = client.messages.create(
     # ... other parameters
 )
 ```
+</CodeGroup>
 
 ## Next Steps
 
