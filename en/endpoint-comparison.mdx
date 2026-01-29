@@ -10,7 +10,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 | Feature | OpenAI Compatible | Anthropic Compatible | Responses API |
 | --------- | ------------------- | --------------------- | ---------------- |
 | **Endpoint** | `/v1/chat/completions` | `/anthropic/v1/messages` | `/v1/responses` |
-| **State Management** | ❌ Stateless | ❌ Stateless | ✅ Stateful |
+| **State Management** | ❌ Stateless | ❌ Stateless | ✅ via `previous_response_id` |
 | **Input Format** | `messages` array | `messages` array | `string` or array |
 | **Tool Calling** | ✅ Standard format | ✅ Tool schema | ✅ Enhanced |
 | **Streaming** | ✅ SSE | ✅ SSE | ✅ SSE |
@@ -19,7 +19,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 | **Best For** | Existing OpenAI apps | Anthropic ecosystem | New applications |
 
 <Tip>
-  **Recommendation**: Use Responses API for new applications, OpenAI Compatible for existing OpenAI-based apps, and Anthropic Compatible for Anthropic ecosystem integration.
+  **Recommendation**: Use Responses API for new applications (utilizing `previous_response_id` for state), OpenAI Compatible for existing OpenAI-based apps, and Anthropic Compatible for Anthropic ecosystem integration.
 </Tip>
 
 ## Detailed Feature Matrix
@@ -40,7 +40,7 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 
 | Feature | OpenAI Compatible | Anthropic Compatible | Responses API |
 | --------- | ------------------- | --------------------- | ---------------- |
-| Conversation state management | ❌ | ❌ | ✅ `store: true` |
+| Conversation state management | ❌ | ❌ | ✅ `previous_response_id` |
 | Automatic context handling | ❌ | ❌ | ✅ |
 | Unified output format | ❌ | ❌ | ✅ |
 | Extended thinking mode | ❌ | ❌ | ✅ |
@@ -53,8 +53,8 @@ Neosantara AI provides multiple API endpoints, each optimized for different use 
 | SDK support | 🟢 Excellent | 🟢 Excellent | 🟡 Limited |
 | Library compatibility | 🟢 Universal | 🟡 Anthropic-specific | 🟡 Limited |
 | Learning curve | 🟢 Low | 🟡 Medium | 🟡 Low |
-| Debugging ease | 🟢 Standard | 🟢 Standard | 🟢 Enhanced |
-| Error handling | 🟢 Standard | 🟢 Standard | 🟢 Enhanced |
+| Debugging ease | 🟢 Standard | 🟢 Standard | 🟢 Improved |
+| Error handling | 🟢 Standard | 🟢 Standard | 🟢 Improved |
 
 ## Use Case Recommendations
 
@@ -118,7 +118,7 @@ client = OpenAI(base_url="https://api.neosantara.xyz/v1")
 response = client.responses.create(
     model="nusantara-base",
     input="Hello! Tell me about yourself.",
-    store=True  # Automatic conversation management
+    store=True  # Store response for future continuation
 )
 ```
 
@@ -144,7 +144,7 @@ response = client.responses.create(
     input="Hello! Tell me about yourself.",
     system="You are helpful.",
     tools=[...],
-    store=True,  # Automatic state management
+    store=True,  # Enable persistence for stateful turns
     stream=True
 )
 
@@ -182,6 +182,10 @@ print(response.output_text)
 
 ### Latency Comparison
 
+<Note>
+  Latency values are typical estimates for standard payloads in the Southeast Asia region. Actual performance varies significantly based on model size, prompt complexity, and network conditions.
+</Note>
+
 | Endpoint | Average Latency | P95 Latency | Notes |
 | --------- | ------------------ | -------------- | ------- |
 | OpenAI Compatible | ~200ms | ~400ms | Consistent performance |
@@ -195,7 +199,7 @@ print(response.output_text)
 | Concurrent requests | ✅ High | ✅ High | ✅ High |
 | Streaming efficiency | 🟢 Standard | 🟢 Standard | 🟢 Optimized |
 | Memory usage | 🟡 Medium | 🟡 Medium | 🟢 Lower with state |
-| Connection reuse | 🟢 Standard | 🟢 Standard | 🟢 Ditingkatkan |
+| Connection reuse | 🟢 Standard | 🟢 Standard | 🟢 Improved |
 
 ### Rate Limits
 
@@ -203,7 +207,7 @@ print(response.output_text)
 | --------- | ---------------- | ----------------- |
 | OpenAI Compatible | Per-model, per-key | Standard |
 | Anthropic Compatible | Per-model, per-key | Standard |
-| Responses API | Per-model, per-key | Enhanced with store |
+| Responses API | Per-model, per-key | Enhanced via store |
 
 ## Code Examples by Use Case
 

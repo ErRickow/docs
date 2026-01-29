@@ -1,4 +1,7 @@
 ---
+title: "RAG with ChromaDB Example"
+description: "Build a Retrieval-Augmented Generation (RAG) application using Neosantara AI and ChromaDB."
+---
 
 This guide demonstrates how to build a complete Retrieval-Augmented Generation (RAG) application using Neosantara AI for embeddings and large language model (LLM) calls, integrated with [ChromaDB](https://www.trychroma.com/) as your vector database.
 
@@ -32,8 +35,8 @@ import os
 from openai import OpenAI
 
 # Configure your Neosantara AI API key and base URL
-NEOSANTARA_API_KEY = os.getenv("NAI_API_KEY", "YOUR_API_KEY_HERE")
-NEOSANTARA_BASE_URL = os.getenv("NAI_BASE_URL", "https://api.neosantara.xyz/v1")
+NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "YOUR_API_KEY_HERE")
+NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
 
 # Initialize the OpenAI client pointing to Neosantara AI
 client = OpenAI(
@@ -139,7 +142,7 @@ def create_chroma_db(documents, name):
 
   for i, d in enumerate(documents):
     db.add(
-      documents=d,
+      documents=[d],
       ids=[str(i)] # IDs must be a list of strings
     )
   return db

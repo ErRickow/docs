@@ -16,7 +16,7 @@ Video generation is an asynchronous process. You first submit a job, and then po
 Send a `POST` request to `/v1/videos`.
 
 <CodeGroup>
-```json cURL icon="terminal"
+```bash cURL icon="terminal"
 curl -X POST "https://api.neosantara.xyz/v1/videos" \
 -H "Authorization: Bearer <NAI_API_KEY>" \
 -H "Content-Type: application/json" \
@@ -42,7 +42,7 @@ curl -X POST "https://api.neosantara.xyz/v1/videos" \
 Use the `id` returned from the submission to check progress.
 
 <CodeGroup>
-```json cURL icon="terminal"
+```bash cURL icon="terminal"
 curl "https://api.neosantara.xyz/v1/videos/<JOB_ID>" \
 -H "Authorization: Bearer <NAI_API_KEY>"
 ```
@@ -53,7 +53,7 @@ curl "https://api.neosantara.xyz/v1/videos/<JOB_ID>" \
 Once the status is `completed`, retrieve the video file.
 
 <CodeGroup>
-```json cURL icon="terminal"
+```bash cURL icon="terminal"
 curl "https://api.neosantara.xyz/v1/videos/<JOB_ID>/content" \
 -H "Authorization: Bearer <NAI_API_KEY>"
 ```

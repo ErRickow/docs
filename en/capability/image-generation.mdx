@@ -144,7 +144,7 @@ The NeosantaraAI API supports the following image generation models:
 You can generate images using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
 
 <CodeGroup>
-```
+```python
 import os
 from openai import OpenAI
 import base64  # Needed if you want to decode and save/display base64
@@ -215,7 +215,7 @@ const client = new OpenAI({
 });
 
 async function generateImage(prompt, model = "neosantara-gen-2045", numImages = 1, size = "1024x1024", responseFormat = "url") {
-  console.log(`Generating image(s) for prompt: '${prompt}' with model: {model}`);
+  console.log(`Generating image(s) for prompt: '${prompt}' with model: ${model}`);
 
   try {
     const response = await client.images.generate({

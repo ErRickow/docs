@@ -60,7 +60,7 @@ async function createKnowledgeBase() {
   
   return vectorStore;
 }
-```python
+```
 
 ## Step 2: Search (Retrieval)
 
@@ -98,7 +98,7 @@ async function retrieveContext(query, vectorStore) {
   scoredDocs.sort((a, b) => b.score - a.score);
   return scoredDocs.slice(0, 2).map(d => d.text).join("\n\n");
 }
-```python
+```
 
 ## Step 3: Generate Answer (Generation)
 
@@ -129,7 +129,7 @@ async function answerUserQuestion(question, vectorStore) {
 
   console.log("AI Answer:", response.choices[0].message.content);
 }
-```python
+```
 
 ## Running the Full Example
 
@@ -148,7 +148,7 @@ async function main() {
 }
 
 main();
-```python
+```
 
 ### Expected Output
 
@@ -164,7 +164,7 @@ Found context:
 Support hours are Monday to Friday... (or other irrelevant context)
 ...
 AI Answer: I don't know. I can only help with support questions related to our services.
-```python
+```
 
 ## Why this matters?
 
@@ -202,11 +202,9 @@ async function retrievePineconeContext(query) {
   // const queryResult = await index.query({ vector: queryVector, topK: 2 });
   // return queryResult.matches.map(m => m.metadata.text).join("\n\n");
 }
-```python
+```
 
 By leveraging a robust vector database, your RAG application can scale to millions of documents while maintaining fast and accurate retrieval.
 
 For a complete, runnable example using ChromaDB, see our detailed guide: [Build a RAG Application with ChromaDB](/en/guides/rag-chromadb-example).
 For integrating with Cloudflare Vectorize, see: [Build a RAG Application with Cloudflare Vectorize](/en/guides/rag-cloudflare-vectorize-example).
-
-```python

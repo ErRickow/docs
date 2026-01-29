@@ -22,6 +22,7 @@ To start a new conversation, simply make a request. Ensure `store` is set to `tr
 ```bash Request
 curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
   -d '{
     "model": "nusantara-base",
     "input": "My name is Alice. I am a software engineer.",
@@ -58,6 +59,7 @@ To reply, provide your new input and the `previous_response_id` from the last tu
 ```bash Request
 curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
   -d '{
     "model": "nusantara-base",
     "input": "What allows me to manage state in React?",

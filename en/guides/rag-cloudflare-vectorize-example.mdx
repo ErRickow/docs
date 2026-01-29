@@ -57,7 +57,7 @@ CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "YOUR_CLOUDFLARE_ACCO
 VECTORIZE_INDEX_NAME = "my-rag-index" # Choose a name for your Vectorize index
 
 # Cloudflare API Base URL for Vectorize
-CLOUDFLARE_API_BASE = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/vectorize/indexes"
+CLOUDFLARE_API_BASE = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/vectorize/v2/indexes"
 
 headers = {
     "Authorization": f"Bearer {CLOUDFLARE_API_TOKEN}",
@@ -71,12 +71,12 @@ First, let\'s define our documents and create a Vectorize index.
 
 ### Create Vectorize Index
 
-You need to create an index in Cloudflare Vectorize. The `dimension` should match the output dimension of your embedding model (e.g., 768 for `nusa-embedding-0001`).
+You need to create an index in Cloudflare Vectorize. The `dimensions` should match the output dimension of your embedding model (e.g., 768 for `nusa-embedding-0001`).
 
 ```python
 def create_vectorize_index(index_name, dimension=768):
     url = CLOUDFLARE_API_BASE
-    data = {"name": index_name, "config": {"vector_size": dimension, "metric": "cosine"}}
+    data = {"name": index_name, "config": {"dimensions": dimension, "metric": "cosine"}}
     
     print(f"Attempting to create Vectorize index '{index_name}'...")
     response = requests.post(url, headers=headers, json=data)
@@ -84,7 +84,7 @@ def create_vectorize_index(index_name, dimension=768):
     if response.status_code == 409: # Conflict - index already exists
         print(f"Index '{index_name}' already exists. Skipping creation.")
         return True
-    elif response.status_code == 200:
+    elif response.status_code in [200, 201]:
         print(f"Index '{index_name}' created successfully.")
         return True
     else:
@@ -113,7 +113,7 @@ Now, we\'ll embed each document and send it to your Cloudflare Vectorize index.
 
 ```python
 def upsert_to_vectorize(documents_with_ids):
-    url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/vectors"
+    url = f"{CLOUDFLARE_API_BASE}/{VECTORIZE_INDEX_NAME}/upsert"
     
     vectors_to_upsert = []
     for doc in documents_with_ids:
@@ -162,7 +162,7 @@ def query_vectorize(query_text, top_k=2):
 
     # 2. Query Vectorize
     print(f"Querying Vectorize index '{VECTORIZE_INDEX_NAME}' for top {top_k} results...")
-    data = {"vector": query_vector, "topK": top_k, "returnMetadata": True}
+    data = {"vector": query_vector, "topK": top_k, "returnMetadata": "all"}
     response = requests.post(url, headers=headers, json=data)
 
     if response.status_code == 200:
@@ -177,7 +177,6 @@ def query_vectorize(query_text, top_k=2):
         response.raise_for_status()
         return "Error retrieving context."
 ```
-
 ## Step 3: Generate Answer (Generation)
 
 Finally, construct the prompt with the retrieved context and send it to a Neosantara AI chat model.

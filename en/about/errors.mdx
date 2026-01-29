@@ -35,7 +35,7 @@ Errors are returned as a JSON object with a detailed error message and code.
     "code": "context_window_exceeded"
   }
 }
-```python
+```
 
 ## Common Error Codes
 
@@ -74,7 +74,7 @@ HTTP/1.1 429 Too Many Requests
 X-Ratelimit-Limit-Requests: 60
 X-Ratelimit-Remaining-Requests: 0
 X-Ratelimit-Reset-Requests: 1s
-```python
+```
 
 **Best Practice:** Use an exponential backoff strategy. If your request fails with a 429, wait for a short time (e.g., 1s), retry, and if it fails again, double the wait time (2s, 4s, etc.) up to a maximum limit.
 
@@ -86,7 +86,7 @@ import openai
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="<https://api.neosantara.xyz/v1>",
+    base_url="https://api.neosantara.xyz/v1",
     api_key="YOUR_API_KEY"
 )
 
@@ -107,8 +107,7 @@ except openai.RateLimitError as e:
     # Handle rate limit error (we recommend using exponential backoff)
     print(f"OpenAI API request exceeded rate limit: {e}")
     pass
-
-```python
+```
 
 ```javascript
 import OpenAI from 'openai';
@@ -138,6 +137,6 @@ async function main() {
 }
 
 main();
-```python
+```
 
 </CodeGroup>

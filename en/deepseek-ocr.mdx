@@ -19,7 +19,7 @@ The DeepSeek OCR API enables you to extract text from images with high accuracy.
 
 ```http
 POST https://api.neosantara.xyz/v1/ocr
-```python
+```
 
 ## Authentication
 
@@ -27,7 +27,7 @@ Include your API key in the request header:
 
 ```http
 Authorization: Bearer YOUR_API_KEY
-```python
+```
 
 <Warning>
   **First Request Latency**: The initial OCR request may experience a 10-15 second delay due to cold start initialization. Subsequent requests will process much faster (2-5 seconds). If you receive a timeout error on your first request, please retry after a few seconds.
@@ -79,7 +79,7 @@ The API returns a JSON response in OpenAI-compatible format with the following s
     "total_tokens": 50
   }
 }
-```python
+```
 
 ### Response Fields
 
@@ -116,7 +116,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
     "image_type": "url",
     "return_image": false
   }'
-```python
+```
 
 <Note>
   Remember: The first request may take 10-15 seconds due to cold start. If you get a timeout, wait a few seconds and try again.
@@ -132,7 +132,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
 # Example 1: OCR from URL
 
   def ocr_from_url(image_url, api_key):
-      url = "<https://api.neosantara.xyz/v1/ocr>"
+      url = "https://api.neosantara.xyz/v1/ocr"
 
       headers = {
           "Authorization": f"Bearer {api_key}",
@@ -155,7 +155,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
 # Example 2: OCR from base64 image
 
   def ocr_from_base64(image_path, api_key):
-      url = "<https://api.neosantara.xyz/v1/ocr>"
+      url = "https://api.neosantara.xyz/v1/ocr"
 
       # Read and encode image
       with open(image_path, "rb") as image_file:
@@ -193,7 +193,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
 # OCR from URL Example
 
   result = ocr_from_url(
-      "<https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg>",
+      "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
       api_key
   )
 
@@ -201,7 +201,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
 
   result = ocr_from_base64("./document.png", api_key)
 
-```python
+```
 
   ```javascript JavaScript icon="js"
   // Example 1: OCR from URL
@@ -275,7 +275,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
 
   // OCR from local file
   ocrFromBase64("./document.png", apiKey);
-```python
+```
 
   ```bash Curl icon="square-terminal"
   # Example 1: OCR from URL (using test image)
@@ -302,7 +302,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
       \"image_type\": \"base64\",
       \"return_image\": true
     }"
-```python
+```
 
   ```php PHP icon="php"
   <?php
@@ -389,7 +389,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
   // OCR from local file
   $result = ocrFromBase64("./document.png", $apiKey);
   ?>
-```python
+```
 
 </CodeGroup>
 
@@ -406,7 +406,7 @@ result = ocr_from_url(
     api_key
 )
 print("Document Text:", result["choices"][0]["text"])
-```python
+```
 
 ### Receipt Scanning
 
@@ -422,7 +422,7 @@ result = ocr_from_url(
 # (amount, merchant, date, etc.)
 print("Merchant:", "DUNNY MANDIRI - BNI OBP")
 print("Amount:", "Rp 100.000")
-```python
+```
 
 ### ID Card & Document Verification
 
@@ -432,7 +432,7 @@ Extract information from ID cards, passports, and other identity documents for v
 # Extract ID card information
 result = ocr_from_base64("./id-card.jpg", api_key)
 # Parse extracted text for name, ID number, etc.
-```python
+```
 
 ### Image Annotation
 
@@ -457,7 +457,7 @@ payload = {
 result = requests.post(url, json=payload, headers=headers).json()
 # result["result_image_base64"] contains the annotated image
 print("Has annotated image:", "result_image_base64" in result)
-```python
+```
 
 ## Error Handling
 
@@ -472,7 +472,7 @@ The API returns structured error responses for invalid requests:
     "code": "parameter_missing"
   }
 }
-```python
+```
 
 ### Common Error Codes
 
@@ -492,7 +492,7 @@ The API returns structured error responses for invalid requests:
   import requests
 
   def ocr_with_error_handling(image, api_key, image_type="url"):
-      url = "<https://api.neosantara.xyz/v1/ocr>"
+      url = "https://api.neosantara.xyz/v1/ocr"
 
       headers = {
           "Authorization": f"Bearer {api_key}",
@@ -528,14 +528,14 @@ The API returns structured error responses for invalid requests:
 # Example Usage with Error Handling
 
   text = ocr_with_error_handling(
-      "<https://example.com/document.jpg>",
+      "https://example.com/document.jpg",
       "your_api_key_here"
   )
 
   if text:
       print("Extracted:", text)
 
-```python
+```
 
   ```javascript JavaScript icon="js"
   async function ocrWithErrorHandling(image, apiKey, imageType = "url") {
@@ -560,7 +560,7 @@ The API returns structured error responses for invalid requests:
 
       // Check for errors
       if (!response.ok) {
-| const error = result.error || {}; |
+        const error = result.error || {};
         console.error(`Error: ${error.message}`);
         console.error(`Type: ${error.type}`);
         console.error(`Code: ${error.code}`);
@@ -584,7 +584,7 @@ The API returns structured error responses for invalid requests:
   if (text) {
     console.log("Extracted:", text);
   }
-```python
+```
 
 </CodeGroup>
 

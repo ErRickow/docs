@@ -68,7 +68,7 @@ In general, follow the [Google Developer Documentation Style Guide](https://deve
 - Test all code examples before publishing.
 - Match style and formatting of existing pages.
 - Include both basic and advanced use cases.
-- Use language tags on all code blocks (e.g., ````python`,````javascript`).
+- Use language tags on all code blocks (e.g., ` ```python `, ` ```javascript `).
 - Add alt text to all images.
 - Use root-relative paths for internal links.
 - Correct spelling and grammar in both languages.

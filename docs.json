@@ -291,7 +291,8 @@
                   "id/quickstart",
                   "id/about",
                   "id/use-these-docs",
-                  "id/sdk/openai-compatible"
+                  "id/sdk/openai-compatible",
+                  "id/sdk/anthropic-compatible"
                 ]
               },
               {
@@ -309,6 +310,7 @@
                   "id/capability/embeddings",
                   "id/capability/image-generation",
                   "id/capability/video-generation",
+                  "id/capability/ocr",
                   "id/capability/stream",
                   "id/capability/structured",
                   "id/capability/reasoning",

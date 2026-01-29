@@ -52,7 +52,7 @@ response = client.responses.create( # [!code ++]
     messages=[{"role": "user", "content": "Hello!"}] # [!code --]
     input="Hello!" # [!code ++]
 )
-```python
+```
 
 ### 2. Accessing the AI's Reply
 
@@ -88,7 +88,7 @@ print(response.choices[0].message.content) # [!code --]
 print(response.output[0].text) # [!code ++]
 # Or use the convenience helper
 print(response.output_text) # [!code ++]
-```python
+```
 
 ### 3. Managing Conversation History
 
@@ -126,6 +126,8 @@ response2 = client.responses.create(
 )
 ```
 
+</CodeGroup>
+
 **Diff Comparison - Conversation Management:**
 ```python icon="code" lines
 # Manual history management (Chat Completions)
@@ -150,7 +152,7 @@ response2 = client.responses.create( # [!code ++]
     previous_response_id=response1.id, # [!code ++]
     input="What is its population?" # [!code ++]
 ) # [!code ++]
-```python
+```
 
 ## Complete Migration Example
 
@@ -178,7 +180,7 @@ response = client.responses.create( # [!code ++]
     store=True # [!code ++]
 ) # [!code ++]
 ai_response = response.output_text # [!code ++]
-```python
+```
 
 ## Recommendation
 

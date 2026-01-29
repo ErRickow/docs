@@ -65,7 +65,7 @@ if __name__ == '__main__':
 - Node.js (`Promise.all`)
 
 ```javascript
-const fetch = async (payload) => {
+const postChatCompletion = async (payload) => {
   const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <YOUR_API_KEY>' },
@@ -79,7 +79,7 @@ async function main() {
     { model: 'nusantara-base', messages: [{ role: 'user', content: 'Hello' }] },
     { model: 'nusantara-base', messages: [{ role: 'user', content: 'Tell me a story' }] }
   ]
-  const results = await Promise.all(prompts.map(p => fetch(p)))
+  const results = await Promise.all(prompts.map(p => postChatCompletion(p)))
   console.log(results)
 }
 
