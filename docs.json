@@ -160,6 +160,7 @@
                     "pages": [
                       "models/qwen3-32b",
                       "models/grok-code-fast",
+                      "models/whisper-large-v3-turbo",
                       "models/deepseek-ocr",
                       "models/llama-guard-3-8b",
                       "models/nusa-embedding-0001",
@@ -363,6 +364,7 @@
                       "models/gemini-3-flash",
                       "models/qwen3-32b",
                       "models/grok-code-fast",
+                      "models/whisper-large-v3-turbo",
                       "models/claude-4.5-sonnet",
                       "models/neosantara-gen-2045",
                       "models/deepseek-ocr",

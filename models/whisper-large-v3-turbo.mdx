@@ -1,0 +1,47 @@
+---
+title: "Whisper Large v3 Turbo"
+description: "OpenAI's fastest speech recognition model optimized for speed while maintaining high accuracy."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+
+Whisper Large v3 Turbo is OpenAI's fastest speech recognition model optimized for speed while maintaining high accuracy. This model delivers exceptional performance with optimized speed, high accuracy across diverse audio conditions, and multilingual support. 
+
+Built on OpenAI's optimized transformer architecture, it features streamlined processing for enhanced speed while preserving the core capabilities of the Whisper family. The model incorporates efficiency improvements and optimizations that reduce computational overhead without sacrificing transcription quality, making it perfect for time-sensitive applications.
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/audio/transcriptions \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -F "model=whisper-large-v3-turbo" \
+  -F "file=@audio.mp3"
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="<YOUR_API_KEY>"
+)
+
+audio_file = open("audio.mp3", "rb")
+transcription = client.audio.transcriptions.create(
+    model="whisper-large-v3-turbo",
+    file=audio_file
+)
+
+print(transcription.text)
+```
+</CodeGroup>
+
+## Pricing
+
+| Unit | Price |
+| :--- | :--- |
+| per Hour | **$0.04** |
+| per Second | $0.000012 |
+| Quota Equivalent | ~100 tokens / sec |
+
