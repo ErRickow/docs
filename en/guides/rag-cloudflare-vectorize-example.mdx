@@ -1,6 +1,6 @@
 ---
-title: 'RAG with Cloudflare Vectorize'
-description: 'Build a RAG application using Neosantara AI and Cloudflare Vectorize'
+title: "RAG with Cloudflare Vectorize"
+description: "Build a RAG application using Neosantara AI and Cloudflare Vectorize"
 ---
 
 This guide demonstrates how to build a scalable Retrieval-Augmented Generation (RAG) application leveraging **Cloudflare Vectorize** as your managed vector database, integrated with Neosantara AI for embeddings and large language model (LLM) calls.
@@ -219,7 +219,9 @@ def generate_answer_with_rag(query_text):
             ]
         ).choices[0].message.content
 
-    print(f"Retrieved context:\n---\n{context}\n---\n")
+    print(f"Retrieved context:\n---
+
+\n{context}\n---\n")
     
     # 2. Construct prompt for LLM
     full_prompt = make_prompt(query_text, context)

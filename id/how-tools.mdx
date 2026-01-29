@@ -1,6 +1,6 @@
 --- 
-title: 'Cara Mengimplementasikan Penggunaan Tools'
-description: '> Panduan untuk mengintegrasikan dan memanfaatkan tools dengan model NeosantaraAI untuk kemampuan yang ditingkatkan.'
+title: "Cara Mengimplementasikan Penggunaan Tools"
+description: "> Panduan untuk mengintegrasikan dan memanfaatkan tools dengan model NeosantaraAI untuk kemampuan yang ditingkatkan."
 ---
 
 ## Memilih Model
@@ -12,7 +12,9 @@ Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan tools.
 Tools (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan API Kamu. Setiap definisi tools mencakup:
 
 | Parameter | Deskripsi |
-| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :---
+
+--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | Harus `"function"`. 
 | `function` | Objek yang mendefinisikan metadata fungsi, termasuk nama, deskripsi, dan parameternya. 
 | `name` | (di dalam `function`): Nama tools. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`. 

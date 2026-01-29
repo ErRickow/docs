@@ -1,6 +1,6 @@
 ---
-title: 'Streaming Responses'
-description: '> Receive partial results in real-time as they are generated.'
+title: "Streaming Responses"
+description: "> Receive partial results in real-time as they are generated."
 ---
 
 Streaming allows you to receive partial responses from the API as they are generated, rather than waiting for the entire response to be completed. This can significantly improve the perceived latency and user experience, especially for longer generations.
@@ -89,7 +89,9 @@ def stream_response(prompt: str, model: str = "nusantara-base"):
                 full_response_content += content
                 print(content, end="", flush=True)
 
-        print("\n\n--- Stream finished ---")
+        print("\n\n--- Stream finished ---
+
+")
         return full_response_content
 
     except Exception as e:

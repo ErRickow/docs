@@ -1,6 +1,6 @@
 ---
-title: 'Retrieval-Augmented Generation (RAG)'
-description: 'Build a Knowledge-Aware AI using Neosantara Embeddings and Chat'
+title: "Retrieval-Augmented Generation (RAG)"
+description: "Build a Knowledge-Aware AI using Neosantara Embeddings and Chat"
 ---
 
 This guide shows you how to build a "Real World" RAG application: a **Customer Support Assistant** that answers questions based on your company's documentation, rather than just its training data.
@@ -110,7 +110,9 @@ async function answerUserQuestion(question, vectorStore) {
 
   // Retrieve relevant info
   const context = await retrieveContext(question, vectorStore);
-  console.log(`Found context:\n${context}\n---`);
+  console.log(`Found context:\n${context}\n---
+
+`);
 
   // Generate answer
   const response = await client.chat.completions.create({

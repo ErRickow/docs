@@ -1,6 +1,6 @@
 ---
-title: 'Files API Overview'
-description: 'Upload, manage, and organize files for batch processing, assistants, and fine-tuning'
+title: "Files API Overview"
+description: "Upload, manage, and organize files for batch processing, assistants, and fine-tuning"
 ---
 
 ## Introduction
@@ -157,7 +157,9 @@ Files uploaded for batch processing must be in valid JSONL format. Each line sho
 Common errors you might encounter:
 
 | Error Code | Description | Solution |
-| ------------ | ------------- | ---------- |
+| ---
+
+--------- | ------------- | ---------- |
 | `missing_file` | File parameter not provided | Ensure you're sending the file in the request |
 | `invalid_purpose` | Invalid purpose value | Use one of: `batch`, `assistants`, or `fine-tune` |
 | `file_too_large` | File exceeds 100MB limit | Split large files or compress content |

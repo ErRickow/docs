@@ -1,6 +1,6 @@
 ---
-title: 'Ikhtisar API File'
-description: 'Unggah, kelola, dan atur file untuk pemrosesan batch, asisten, dan fine-tuning'
+title: "Ikhtisar API File"
+description: "Unggah, kelola, dan atur file untuk pemrosesan batch, asisten, dan fine-tuning"
 ---
 
 ## Pendahuluan
@@ -157,7 +157,9 @@ File yang diunggah untuk pemrosesan batch harus dalam format JSONL yang valid. S
 Kesalahan umum yang mungkin Kamu temui:
 
 | Kode Kesalahan | Deskripsi | Solusi |
-| ------------ | ------------- | ---------- |
+| ---
+
+--------- | ------------- | ---------- |
 | `missing_file` | Parameter file tidak diberikan | Pastikan Kamu mengirimkan file dalam permintaan |
 | `invalid_purpose` | Nilai tujuan tidak valid | Gunakan salah satu dari: `batch`, `assistants`, atau `fine-tune` |
 | `file_too_large` | File melebihi batas 100MB | Bagi file besar atau kompres kontennya |

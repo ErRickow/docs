@@ -1,6 +1,6 @@
 ---
-title: 'How to Implement Tool Use'
-description: '> A guide to integrating and utilizing tools with NeosantaraAI models for enhanced capabilities.'
+title: "How to Implement Tool Use"
+description: "> A guide to integrating and utilizing tools with NeosantaraAI models for enhanced capabilities."
 ---
 
 ## Choosing a Model
@@ -14,7 +14,9 @@ For more straightforward tools, models like `bahasa-llm` or `gemini-1.5-flash` c
 Tools (functions) are specified in the `tools` top-level parameter of your API request. Each tool definition includes:
 
 | Parameter | Description |
-| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :---
+
+--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | Must be `"function"`. |
 | `function` | An object defining the function's metadata, including its name, description, and parameters. |
 | `name` | (within `function`): The name of the tool. Must match the regex `^[a-zA-Z0-9_-]{1,64}$`. |
