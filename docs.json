@@ -93,7 +93,6 @@
                 "group": "Capabilities",
                 "pages": [
                   "en/capability/image-generation",
-                  "en/capability/video-generation",
                   "en/capability/audio-transcription",
                   "en/capability/embeddings",
                   "en/capability/ocr",
@@ -315,7 +314,6 @@
                 "pages": [
                   "id/capability/embeddings",
                   "id/capability/image-generation",
-                  "id/capability/video-generation",
                   "id/capability/audio-transcription",
                   "id/capability/ocr",
                   "id/capability/stream",
