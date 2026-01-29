@@ -3,8 +3,8 @@
   "theme": "aspen",
   "name": "Neosantara",
   "colors": {
-    "primary": "#BA4A00",
-    "light": "#E67E22",
+    "primary": "#A04000",
+    "light": "#F39C12",
     "dark": "#D35400"
   },
   "fonts": {
@@ -216,7 +216,6 @@
                   "en/api-introduction",
                   "en/about/token-credits",
                   "en/about/rate-limits",
-                  "en/about/context-window",
                   "en/about/errors",
                   "en/conversation-management"
                 ]
@@ -226,20 +225,32 @@
                 "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
-                    "group": "Core AI",
-                    "pages": [
-                      "POST /v1/responses",
-                      "POST /v1/chat/completions",
-                      "POST /anthropic/v1/messages"
-                    ]
+                    "group": "Responses",
+                    "pages": ["POST /v1/responses"]
                   },
                   {
-                    "group": "Multimodal",
-                    "pages": [
-                      "POST /v1/images/generations",
-                      "POST /v1/audio/transcriptions",
-                      "POST /v1/embeddings"
-                    ]
+                    "group": "Chat",
+                    "pages": ["POST /v1/chat/completions"]
+                  },
+                  {
+                    "group": "Anthropic",
+                    "pages": ["POST /anthropic/v1/messages"]
+                  },
+                  {
+                    "group": "Images",
+                    "pages": ["POST /v1/images/generations"]
+                  },
+                  {
+                    "group": "Audio",
+                    "pages": ["POST /v1/audio/transcriptions"]
+                  },
+                  {
+                    "group": "Embeddings",
+                    "pages": ["POST /v1/embeddings"]
+                  },
+                  {
+                    "group": "Vision",
+                    "pages": ["POST /v1/ocr"]
                   },
                   {
                     "group": "Asynchronous",
@@ -422,7 +433,6 @@
                   "id/api-introduction",
                   "id/about/token-credits",
                   "id/about/rate-limits",
-                  "id/about/context-window",
                   "id/about/errors",
                   "id/conversation-management"
                 ]
@@ -432,20 +442,32 @@
                 "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
-                    "group": "Core AI",
-                    "pages": [
-                      "POST /v1/responses",
-                      "POST /v1/chat/completions",
-                      "POST /anthropic/v1/messages"
-                    ]
+                    "group": "Responses",
+                    "pages": ["POST /v1/responses"]
                   },
                   {
-                    "group": "Multimodal",
-                    "pages": [
-                      "POST /v1/images/generations",
-                      "POST /v1/audio/transcriptions",
-                      "POST /v1/embeddings"
-                    ]
+                    "group": "Chat",
+                    "pages": ["POST /v1/chat/completions"]
+                  },
+                  {
+                    "group": "Anthropic",
+                    "pages": ["POST /anthropic/v1/messages"]
+                  },
+                  {
+                    "group": "Images",
+                    "pages": ["POST /v1/images/generations"]
+                  },
+                  {
+                    "group": "Audio",
+                    "pages": ["POST /v1/audio/transcriptions"]
+                  },
+                  {
+                    "group": "Embeddings",
+                    "pages": ["POST /v1/embeddings"]
+                  },
+                  {
+                    "group": "Vision",
+                    "pages": ["POST /v1/ocr"]
                   },
                   {
                     "group": "Asynchronous",
