@@ -1,3 +1,58 @@
 ---
-openapi: post /audio/transcriptions
+title: 'Transcription'
+api: 'POST /v1/audio/transcriptions'
+playground: 'simple'
+authMethod: 'bearer'
 ---
+
+<Card icon="gift" href="https://app.neosantara.xyz/api-keys" title="Get your free API key" horizontal>
+Start with **Rp 20,000 Free Credits** on our Pay-As-You-Go Plan. **No credit card required.** Verification is done via email/phone.
+</Card>
+
+<ParamField body="file" type="file" required>
+The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+</ParamField>
+
+<ParamField body="model" type="string" required>
+ID of the model to use. Only `whisper-large-v3-turbo` is currently supported.
+</ParamField>
+
+<ParamField body="language" type="string">
+The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency.
+</ParamField>
+
+<ParamField body="prompt" type="string">
+An optional text to guide the model's style or continue a previous audio segment.
+</ParamField>
+
+<ParamField body="response_format" type="string" default="json">
+The format of the transcript output. One of `json`, `text`, or `verbose_json`.
+</ParamField>
+
+<ParamField body="temperature" type="number" default="0">
+The sampling temperature, between 0 and 1.
+</ParamField>
+
+<ParamField body="timestamp_granularities" type="array">
+The timestamp granularities to populate for this transcription. Array of `word` or `segment`.
+</ParamField>
+
+## Returns
+
+Returns the transcribed text and performance metadata.
+
+<ResponseField name="text" type="string">
+The transcribed text.
+</ResponseField>
+
+<ResponseField name="task" type="string">
+The task performed (e.g., `transcribe`).
+</ResponseField>
+
+<ResponseField name="language" type="string">
+The detected language of the audio.
+</ResponseField>
+
+<ResponseField name="duration" type="number">
+The duration of the audio in seconds.
+</ResponseField>
