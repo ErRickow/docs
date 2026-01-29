@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api.neosantara.xyz/v1",
+      "url": "https://api.neosantara.xyz",
       "description": "Production API Server"
     }
   ],
@@ -26,7 +26,7 @@
     }
   ],
   "paths": {
-    "/models": {
+    "/v1/models": {
       "get": {
         "operationId": "getV1Models",
         "tags": [
@@ -85,7 +85,7 @@
         ]
       }
     },
-    "/cost-estimate": {
+    "/v1/cost-estimate": {
       "post": {
         "operationId": "postV1CostEstimate",
         "tags": [
@@ -124,7 +124,7 @@
         }
       }
     },
-    "/audio/transcriptions": {
+    "/v1/audio/transcriptions": {
       "post": {
         "operationId": "postV1AudioTranscriptions",
         "tags": [
@@ -211,7 +211,7 @@
         }
       }
     },
-    "/images/generations": {
+    "/v1/images/generations": {
       "post": {
         "operationId": "postV1ImagesGenerations",
         "tags": [
@@ -339,7 +339,7 @@
         ]
       }
     },
-    "/conversations": {
+    "/v1/conversations": {
       "get": {
         "operationId": "getV1Conversations",
         "tags": [
@@ -354,7 +354,7 @@
         }
       }
     },
-    "/chat/completions": {
+    "/v1/chat/completions": {
       "post": {
         "operationId": "postV1ChatCompletions",
         "tags": [
@@ -912,7 +912,7 @@
         ]
       }
     },
-    "/completions": {
+    "/v1/completions": {
       "post": {
         "operationId": "postV1Completions",
         "tags": [
@@ -961,7 +961,7 @@
         }
       }
     },
-    "/ocr": {
+    "/v1/ocr": {
       "post": {
         "operationId": "postV1Ocr",
         "tags": [
@@ -979,7 +979,7 @@
         }
       }
     },
-    "/responses": {
+    "/v1/responses": {
       "post": {
         "operationId": "postV1Responses",
         "tags": [
@@ -2807,7 +2807,7 @@
         }
       }
     },
-    "/models/{modelId}": {
+    "/v1/models/{modelId}": {
       "get": {
         "operationId": "getV1ModelsByModelId",
         "tags": [
@@ -2863,7 +2863,7 @@
         ]
       }
     },
-    "/embeddings": {
+    "/v1/embeddings": {
       "post": {
         "operationId": "postV1Embeddings",
         "tags": [
@@ -2931,7 +2931,7 @@
         ]
       }
     },
-    "/moderations": {
+    "/v1/moderations": {
       "post": {
         "operationId": "postV1Moderations",
         "tags": [
@@ -2946,7 +2946,7 @@
         }
       }
     },
-    "/system/status": {
+    "/v1/system/status": {
       "get": {
         "operationId": "getV1SystemStatus",
         "tags": [
@@ -2961,7 +2961,7 @@
         }
       }
     },
-    "/files": {
+    "/v1/files": {
       "post": {
         "operationId": "postV1Files",
         "tags": [
@@ -3089,7 +3089,7 @@
         }
       }
     },
-    "/files/{file_id}": {
+    "/v1/files/{file_id}": {
       "get": {
         "operationId": "getV1FilesByFileId",
         "tags": [
@@ -3207,7 +3207,7 @@
         ]
       }
     },
-    "/files/{file_id}/content": {
+    "/v1/files/{file_id}/content": {
       "get": {
         "operationId": "getV1FilesByFileIdContent",
         "tags": [
@@ -3235,7 +3235,7 @@
         ]
       }
     },
-    "/batches": {
+    "/v1/batches": {
       "post": {
         "operationId": "postV1Batches",
         "tags": [
@@ -3343,7 +3343,7 @@
         }
       }
     },
-    "/batches/{batch_id}": {
+    "/v1/batches/{batch_id}": {
       "get": {
         "operationId": "getV1BatchesByBatchId",
         "tags": [
@@ -3423,7 +3423,7 @@
         ]
       }
     },
-    "/batches/{batch_id}/cancel": {
+    "/v1/batches/{batch_id}/cancel": {
       "post": {
         "operationId": "postV1BatchesByBatchIdCancel",
         "tags": [
@@ -3476,7 +3476,7 @@
         ]
       }
     },
-    "/": {
+    "/v1/": {
       "get": {
         "operationId": "getIndex",
         "tags": [
