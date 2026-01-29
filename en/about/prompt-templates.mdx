@@ -28,6 +28,7 @@ You are a specialist doctor named {{doctor_name}}. Greet the patient, {{patient_
 
 ---
 
+
 ### 2. Using a Template in an API Call
 
 Once your template is saved, you can use it by calling the `/v1/responses` endpoint. Instead of the standard `messages` array, you will provide a `prompt` object.
@@ -42,7 +43,7 @@ This example calls the `doctor-assistant` template we created and dynamically fi
 curl -X POST 'https://api.neosantara.xyz/v1/responses' \
 -H 'Content-Type: application/json' \
 -H 'Authorization: Bearer YOUR_NEOSANTARA_API_KEY' \
--d '{
+-d '{ 
     "model": "nusantara-base",
     "prompt": {
         "id": "doctor-assistant",
@@ -53,4 +54,6 @@ curl -X POST 'https://api.neosantara.xyz/v1/responses' \
         }
     }
 }'
+```
+
 ```
