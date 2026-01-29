@@ -26,11 +26,13 @@ JSON Mode is a standard feature supported by most models on the platform. To ena
 
 #### Supported Models
 
-Most modern text models support JSON Mode, including:
-*   **`grok-4.1-fast-non-reasoning`** (Highly reliable, clean minified JSON)
-*   **`nusantara-base`** (Fast & Efficient)
-*   **`claude-4.5-sonnet`** (State-of-the-art)
-*   **`gemini-3-flash`** (High speed)
+The following publicly listed models explicitly support JSON Mode:
+
+| Category | Model IDs |
+| :--- | :--- |
+| **Global LLMs** | `claude-4.5-sonnet`, `gemini-3-flash`, `gemini-3-flash-preview`, `claude-3-sonnet`, `claude-3-haiku`, `gemma-3-27b-it`, `gemma2-9b-it` |
+| **Neosantara Flagship** | `archipelago-70b`, `nusantara-base`, `garda-beta-mini`, `sea-lion-v4-27b-it` |
+| **Llama & Specialized** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
 
 #### Handling and Parsing the Response
 
@@ -42,7 +44,7 @@ Models might wrap JSON in markdown blocks or return a minified string. It's best
 
 <CodeGroup>
 
-```python Python (No System Prompt)
+```python Python (Grok)
 import json
 from openai import OpenAI
 
@@ -51,7 +53,7 @@ client = OpenAI(
     api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
-# Example using Grok without a system prompt
+# Grok is highly reliable for JSON extraction without system prompts
 response = client.chat.completions.create(
     model="grok-4.1-fast-non-reasoning",
     messages=[
@@ -62,10 +64,9 @@ response = client.chat.completions.create(
 
 data = json.loads(response.choices[0].message.content)
 print(data)
-# Output: {'ingredients': ['rice', 'egg', 'soy sauce']}
 ```
 
-```javascript Node.js (Standard Mode)
+```javascript Node.js (Gemini)
 import OpenAI from 'openai';
 
 const client = new OpenAI({
@@ -74,7 +75,7 @@ const client = new OpenAI({
 });
 
 const response = await client.chat.completions.create({
-  model: "nusantara-base",
+  model: "gemini-3-flash",
   messages: [
     { role: "system", content: "Respond ONLY in JSON format." },
     { role: "user", content: "List 3 colors of the Indonesian flag." }
@@ -91,5 +92,5 @@ console.log(data);
 ### Best Practices
 
 *   **Be Specific**: Explicitly mention the keys you want in your JSON object.
-*   **Model Selection**: Use `grok-4.1-fast-non-reasoning` for tasks requiring high reliability and zero-shot formatting without system prompts.
-*   **Fallback**: Always wrap your JSON parsing in a try-catch block to handle potential model hallucinations.
+*   **Model Selection**: Use `claude-4.5-sonnet` or `qwen3-32b` for complex nested schemas.
+*   **Error Handling**: Always wrap your JSON parsing in a try-catch block to handle potential model hallucinations.
