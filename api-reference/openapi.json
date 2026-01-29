@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
-      "description": "API Server"
+      "url": "https://api.neosantara.xyz",
+      "description": "Production API Server"
     }
   ],
   "components": {

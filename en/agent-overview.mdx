@@ -50,8 +50,8 @@ import os
 
 llm = ChatOpenAI(
     model="nusantara-base",
-    openai_api_key=os.environ.get("NAI_API_KEY"),
-    openai_api_base="https://api.neosantara.xyz/v1",
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
 )
 
 response = llm.invoke("Build a simple agent plan for a research task.")
