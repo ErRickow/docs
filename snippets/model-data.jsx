@@ -967,10 +967,11 @@ export const qwen332bData = {
     docsUrl: "en/about/token-credits",
     freeBalance: "Rp 20,000"
   },
-  pricing: { inputPrice: "300", outputPrice: "1200", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "4828", outputPrice: "9823", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
-  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
+  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] },
+  knownLimitations: ["Qwen 3 32B uniquely supports seamless switching between thinking mode and non-thinking mode within a single model."]
 };
 
 export const llamaGuard38bData = {
