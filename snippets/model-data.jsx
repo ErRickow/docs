@@ -954,7 +954,7 @@ export const qwen332bData = {
   provider: "Alibaba (via Groq)",
   modelCardUrl: "https://huggingface.co/Qwen/Qwen2.5-32B-Instruct",
   contextLength: { freeTier: "131k tokens" },
-  maxOutput: { freeTier: "8192 tokens" },
+  maxOutput: { freeTier: "40,960 tokens" },
   speed: { value: "Fast", unit: "latency" },
   rateLimits: [
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
