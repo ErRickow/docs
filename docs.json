@@ -236,9 +236,9 @@
                   {
                     "group": "Multimodal",
                     "pages": [
-                      "POST /v1/images/generations",
-                      "POST /v1/audio/transcriptions",
-                      "POST /v1/embeddings"
+                      "api-reference/images/create-image-generation",
+                      "api-reference/audio/transcription",
+                      "api-reference/embeddings/create-embeddings"
                     ]
                   },
                   {
@@ -442,9 +442,9 @@
                   {
                     "group": "Multimodal",
                     "pages": [
-                      "POST /v1/images/generations",
-                      "POST /v1/audio/transcriptions",
-                      "POST /v1/embeddings"
+                      "api-reference/images/create-image-generation",
+                      "api-reference/audio/transcription",
+                      "api-reference/embeddings/create-embeddings"
                     ]
                   },
                   {
