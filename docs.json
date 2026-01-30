@@ -29,7 +29,6 @@
     "timestamp": true,
     "canonical": "https://docs.neosantara.xyz"
   },
-  "repository": "https://github.com/ErRickow/docs",
   "banner": {
     "content": "🎁 Get a Virtual Private Server for just Rp 10,000 - the perfect fit for your server needs. [Get here](https://bihost.my.id)"
   },
@@ -521,8 +520,8 @@
     }
   },
   "logo": {
-    "light": "/logo/logo-blk.svg",
-    "dark": "/logo/logo.svg"
+    "light": "/logo/logo_docs.svg",
+    "dark": "/logo/logo_docs.svg"
   },
   "navbar": {
     "links": [
