@@ -33,8 +33,8 @@ Follow these steps to make your first API call to Neosantara AI. Our platform ac
         Access **Claude 4.5 Sonnet**, **Gemini 3 Flash**, and **Grok 4.1** via a single integration.
       </Card>
 
-      <Card title="Coding & Logic" icon="code" href="/models/qwen3-32b">
-        High-performance reasoning with **Qwen 3 32B** and **Llama 3.3 Nemotron**.
+      <Card title="Coding & Logic" icon="code" href="/en/models-overview">
+        High-performance reasoning with models optimized for coding tasks.
       </Card>
 
       <Card title="Multimodal & Vision" icon="eye" href="/en/capability/ocr">
@@ -90,10 +90,10 @@ Follow these steps to make your first API call to Neosantara AI. Our platform ac
         )
 
         # You can use ANY model available on the platform here
-        # For AI coding, we recommend qwen3-32b for high performance
+        # Choose any model available on the platform
         response = client.responses.create(
-            model="qwen3-32b",
-            input="Help me implement a React component for a todo list with TypeScript",
+            model="nusantara-base",
+            input="Help me debug this React function that's not working correctly",
             store=True
         )
 
@@ -142,7 +142,7 @@ Follow these steps to make your first API call to Neosantara AI. Our platform ac
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
           -d '{
-            "model": "qwen3-32b",
+            "model": "nusantara-base",
             "input": "Generate a Python function to validate email addresses",
             "store": true
           }'

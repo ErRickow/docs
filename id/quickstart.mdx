@@ -33,8 +33,8 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
         Akses **Claude 4.5 Sonnet**, **Gemini 3 Flash**, and **Grok 4.1** melalui satu integrasi.
       </Card>
 
-      <Card title="Pengodean & Logika" icon="code" href="/models/qwen3-32b">
-        Penalaran performa tinggi dengan **Qwen 3 32B** dan **Llama 3.3 Nemotron**.
+      <Card title="Pengodean & Logika" icon="code" href="/id/models-overview">
+        Model dengan performa tinggi yang dioptimasi untuk tugas pengodean.
       </Card>
 
       <Card title="Multimodal & Visi" icon="eye" href="/id/capability/ocr">
@@ -91,8 +91,8 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
 
         # Kamu bisa menggunakan model APAPUN yang tersedia di sini
         completion = client.chat.completions.create(
-            model="qwen3-32b",
-            input="Bantu saya debug fungsi React yang tidak berfungsi dengan benar",
+            model="nusantara-base",
+            input="Bantu saya implementasi komponen React untuk todo list dengan TypeScript",
             store=True
         )
 
@@ -141,7 +141,7 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
           -d '{
-            "model": "qwen3-32b",
+            "model": "nusantara-base",
             "input": "Hasilkan fungsi Python untuk validasi alamat email",
             "store": true
           }'
