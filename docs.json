@@ -602,6 +602,9 @@
     "ga4": {
       "measurementId": "G-LTC6L7QF4V"
     },
+    "gtm": {
+      "tagId": "GTM-MFMNKF36"
+    },
     "intercom": {
       "appId": "via3388f"
     }
