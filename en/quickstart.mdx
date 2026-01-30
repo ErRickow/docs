@@ -37,12 +37,12 @@ Follow these steps to make your first API call to Neosantara AI. Our platform ac
         High-performance reasoning with **Qwen 3 32B** and **Llama 3.3 Nemotron**.
       </Card>
 
-      <Card title="Multimodal & Visi" icon="eye" href="/en/capability/ocr">
+      <Card title="Multimodal & Vision" icon="eye" href="/en/capability/ocr">
         Generate images with **Gen-2045** or extract text with **DeepSeek OCR**.
       </Card>
 
-      <Card title="Regional Experts" icon="earth-asia" href="/models/archipelago-70b">
-        Optimized for Indonesian context with **Archipelago-70b** and **Sea-Lion**.
+      <Card title="AI Coding Tools" icon="terminal" href="/en/guides/ai-coding-tools">
+        Configure with **Claude Code**, **Cursor**, **Windsurf**, and more.
       </Card>
     </CardGroup>
   </Step>
@@ -90,15 +90,14 @@ Follow these steps to make your first API call to Neosantara AI. Our platform ac
         )
 
         # You can use ANY model available on the platform here
-        completion = client.chat.completions.create(
-            model="gemini-3-flash",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "What are the benefits of an LLM Gateway?"}
-            ]
+        # For AI coding, we recommend qwen3-32b for high performance
+        response = client.responses.create(
+            model="qwen3-32b",
+            input="Help me implement a React component for a todo list with TypeScript",
+            store=True
         )
 
-        print(completion.choices[0].message.content)
+        print(response.output_text)
         ```
       </Tab>
 
@@ -123,8 +122,8 @@ Follow these steps to make your first API call to Neosantara AI. Our platform ac
 
         async function main() {
             const response = await client.responses.create({
-                model: "claude-4.5-sonnet",
-                input: "Explain quantum computing in one sentence.",
+                model: "qwen3-32b",
+                input: "Help me debug this React function that's not working correctly",
                 store: true
             });
 
@@ -139,14 +138,13 @@ Follow these steps to make your first API call to Neosantara AI. Our platform ac
         **Usage Example**
 
         ```bash icon="terminal"
-        curl https://api.neosantara.xyz/v1/chat/completions \
+        curl https://api.neosantara.xyz/v1/responses \
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
           -d '{
-            "model": "grok-4.1-fast-non-reasoning",
-            "messages": [
-              {"role": "user", "content": "Tell me a joke about developers."}
-            ]
+            "model": "qwen3-32b",
+            "input": "Generate a Python function to validate email addresses",
+            "store": true
           }'
         ```
       </Tab>

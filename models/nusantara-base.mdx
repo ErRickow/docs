@@ -8,21 +8,11 @@ import { nusantaraBaseData } from '/snippets/model-data.jsx';
 
 <ModelInfo {...nusantaraBaseData} />
 
-## Quick Integration
+## Getting Started with Nusantara Base
+
+We recommend the **OpenAI Responses API** for all new projects. It provides automatic conversation management and a simplified interface designed for modern AI applications.
 
 <CodeGroup>
-```bash cURL
-curl https://api.neosantara.xyz/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "messages": [
-      { "role": "user", "content": "Hello!" }
-    ]
-  }'
-```
-
 ```python Python
 from openai import OpenAI
 
@@ -31,14 +21,90 @@ client = OpenAI(
     api_key="YOUR_NEOSANTARA_API_KEY"
 )
 
+# Modern approach with auto state management
+response = client.responses.create(
+    model="nusantara-base",
+    input="Hello world",
+    store=True  # Automatically saves conversation history
+)
+
+print(response.output_text)
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": "Hello world",
+    "store": true
+  }'
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+async function main() {
+  const response = await openai.responses.create({
+    model: "nusantara-base",
+    input: "Hello world",
+    store: true
+  });
+  
+  console.log(response.output_text);
+}
+
+main();
+```
+
+</CodeGroup>
+
+---
+
+## Alternative Approaches
+
+### OpenAI Chat Completions (Legacy)
+
+<Warning>
+  Only use this approach if you are migrating an existing application that already uses standard OpenAI Chat Completions format.
+</Warning>
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+# Legacy approach - requires manual conversation management
 response = client.chat.completions.create(
     model="nusantara-base",
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello world"}
     ]
 )
 
 print(response.choices[0].message.content)
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      { "role": "user", "content": "Hello world" }
+    ]
+  }'
 ```
 
 ```javascript Node.js
@@ -50,11 +116,62 @@ const openai = new OpenAI({
 });
 
 const completion = await openai.chat.completions.create({
-  messages: [{ role: "user", content: "Hello!" }],
   model: "nusantara-base",
+  messages: [{ role: "user", content: "Hello world" }],
 });
 
 console.log(completion.choices[0].message.content);
+```
+
+</CodeGroup>
+
+### Anthropic Compatible
+
+<CodeGroup>
+```python Python
+import anthropic
+
+client = anthropic.Anthropic(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.messages.create(
+    model="nusantara-base",
+    messages=[
+        {"role": "user", "content": "Hello world"}
+    ]
+)
+
+print(response.content[0].text)
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/messages \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      { "role": "user", "content": "Hello world" }
+    ]
+  }'
+```
+
+```javascript Node.js
+import anthropic from "@anthropic-ai/sdk";
+
+const client = new anthropic.Anthropic({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+const response = await client.messages.create({
+  model: "nusantara-base",
+  messages: [{ role: "user", content: "Hello world" }],
+});
+
+console.log(response.content[0].text);
 ```
 
 </CodeGroup>

@@ -41,8 +41,8 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
         Hasilkan gambar dengan **Gen-2045** atau ekstrak teks dengan **DeepSeek OCR**.
       </Card>
 
-      <Card title="Spesialis Regional" icon="earth-asia" href="/models/archipelago-70b">
-        Optimasi konteks Indonesia dengan **Archipelago-70b** dan **Sea-Lion**.
+      <Card title="AI Coding Tools" icon="terminal" href="/id/guides/ai-coding-tools">
+        Konfigurasi dengan **Claude Code**, **Cursor**, **Windsurf**, dan lainnya.
       </Card>
     </CardGroup>
   </Step>
@@ -91,11 +91,9 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
 
         # Kamu bisa menggunakan model APAPUN yang tersedia di sini
         completion = client.chat.completions.create(
-            model="gemini-3-flash",
-            messages=[
-                {"role": "system", "content": "Kamu adalah asisten yang membantu."},
-                {"role": "user", "content": "Apa keuntungan menggunakan LLM Gateway?"}
-            ]
+            model="qwen3-32b",
+            input="Bantu saya debug fungsi React yang tidak berfungsi dengan benar",
+            store=True
         )
 
         print(completion.choices[0].message.content)
@@ -123,8 +121,8 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
 
         async function main() {
             const response = await client.responses.create({
-                model: "claude-4.5-sonnet",
-                input: "Jelaskan komputasi kuantum dalam satu kalimat.",
+                model: "qwen3-32b",
+                input: "Bantu saya debug fungsi React yang tidak berfungsi dengan benar",
                 store: true
             });
 
@@ -139,14 +137,13 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
         **Contoh Penggunaan**
 
         ```bash icon="terminal"
-        curl https://api.neosantara.xyz/v1/chat/completions \
+        curl https://api.neosantara.xyz/v1/responses \
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
           -d '{
-            "model": "grok-4.1-fast-non-reasoning",
-            "messages": [
-              {"role": "user", "content": "Berikan satu lelucon tentang developer."}
-            ]
+            "model": "qwen3-32b",
+            "input": "Hasilkan fungsi Python untuk validasi alamat email",
+            "store": true
           }'
         ```
       </Tab>
