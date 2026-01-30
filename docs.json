@@ -520,8 +520,8 @@
     }
   },
   "logo": {
-    "light": "/logo/logo_docs.svg",
-    "dark": "/logo/logo_docs.svg"
+    "light": "/logo/logo_hitam.svg",
+    "dark": "/logo/logo_putih.svg"
   },
   "navbar": {
     "links": [
