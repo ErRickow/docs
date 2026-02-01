@@ -1,0 +1,166 @@
+---
+title: "Ikhtisar API File"
+description: "Unggah, kelola, dan atur file untuk pemrosesan batch, asisten, dan fine-tuning"
+---
+
+## Pendahuluan
+
+API File memungkinkan Kamu mengunggah dan mengelola file yang dapat digunakan dengan berbagai fitur seperti pemrosesan batch, asisten, dan fine-tuning model. File disimpan dengan aman dan dapat diakses melalui API REST yang sederhana.
+
+### Fitur Utama
+
+- **Beberapa Tujuan**: Dukungan untuk alur kerja pemrosesan batch, asisten, dan fine-tuning.
+- **Validasi JSONL**: Validasi otomatis untuk file pemrosesan batch.
+- **Penyimpanan Aman**: File disimpan dengan enkripsi dan kontrol akses.
+- **Siklus Hidup File**: Masa berlaku otomatis dan pembersihan file lama.
+- **Batas Ukuran**: Mendukung file hingga 100MB.
+
+### Tujuan File yang Didukung
+
+<CardGroup cols={3}>
+  <Card title="Pemrosesan Batch" icon="layer-group">
+    Unggah file JSONL berisi beberapa permintaan API untuk pemrosesan batch yang hemat biaya.
+  </Card>
+  <Card title="Asisten" icon="robot">
+    Sediakan file basis pengetahuan dan dokumen untuk asisten AI.
+  </Card>
+  <Card title="Fine-tuning" icon="wand-magic-sparkles">
+    Unggah data pelatihan untuk melakukan fine-tuning model pada kasus penggunaan tertentu.
+  </Card>
+</CardGroup>
+
+## Endpoint API
+
+<CardGroup cols={2}>
+  <Card
+    title="Unggah File"
+    icon="upload"
+    href="/api-reference/files/upload"
+    color="#10b981"
+  >
+    Unggah file baru dengan tujuan yang ditentukan dan validasi otomatis
+  </Card>
+  
+  <Card
+    title="Ambil File"
+    icon="file"
+    href="/api-reference/files/get"
+    color="#3b82f6"
+  >
+    Ambil informasi metadata tentang file tertentu
+  </Card>
+  
+  <Card
+    title="Unduh Konten File"
+    icon="download"
+    href="/api-reference/files/download"
+    color="#8b5cf6"
+  >
+    Unduh konten aktual dari file yang telah diunggah
+  </Card>
+  
+  <Card
+    title="Hapus File"
+    icon="trash"
+    href="/api-reference/files/delete"
+    color="#ef4444"
+  >
+    Hapus file secara permanen dari penyimpanan
+  </Card>
+  
+  <Card
+    title="Daftar File"
+    icon="list"
+    href="/api-reference/files/list"
+    color="#f59e0b"
+  >
+    Dapatkan daftar semua file yang telah Kamu unggah dengan opsi pemfilteran
+  </Card>
+</CardGroup>
+
+## Mulai Cepat
+
+### 1. Unggah File
+
+```bash icon="terminal"
+curl https://api.neosantara.xyz/v1/files \
+  -H "Authorization: Bearer KUNCI_API_ANDA" \
+  -F purpose="batch" \
+  -F file="@batch_requests.jsonl"
+```
+
+### 2. Daftar File Kamu
+
+```bash icon="terminal"
+curl https://api.neosantara.xyz/v1/files \
+  -H "Authorization: Bearer KUNCI_API_ANDA"
+```
+
+### 3. Unduh Konten File
+
+```bash icon="terminal"
+curl https://api.neosantara.xyz/v1/files/file-abc123/content \
+  -H "Authorization: Bearer KUNCI_API_ANDA" \
+  --output downloaded_file.jsonl
+```
+
+## Persyaratan File
+
+### Persyaratan Umum
+
+- Ukuran file maksimum: **100MB**
+- File disimpan selama **24 jam** secara default.
+- Setiap file harus memiliki tujuan (*purpose*) yang ditentukan.
+
+### Format JSONL untuk Pemrosesan Batch
+
+Saat mengunggah file dengan `purpose="batch"`, pastikan file JSONL Kamu mengikuti format berikut:
+
+```json example.jsonl
+{"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Halo!"}]}}
+{"custom_id": "request-2", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Apa kabar?"}]}}
+```
+
+Setiap baris harus berupa objek JSON yang valid dengan:
+
+- `custom_id`: Pengenal unik untuk permintaan.
+- `method`: Metode HTTP (biasanya "POST").
+- `url`: Jalur endpoint API.
+- `body`: Payload permintaan.
+
+<Note>
+File yang diunggah untuk pemrosesan batch harus dalam format JSONL yang valid. Setiap baris harus berupa objek JSON yang lengkap.
+</Note>
+
+## Praktik Terbaik
+
+<AccordionGroup>
+  <Accordion title="Atur File dengan Metadata" icon="folder-tree">
+    Meskipun API File tidak secara langsung mendukung metadata kustom, gunakan nama file yang deskriptif untuk mengatur file Kamu secara efektif. Pertimbangkan untuk memberi awalan pada file dengan nama proyek atau tanggal.
+  </Accordion>
+  
+  <Accordion title="Pantau Masa Berlaku File" icon="clock">
+    File kedaluwarsa setelah 24 jam. Unduh hasil penting sebelum kedaluwarsa atau terapkan proses pencadangan otomatis.
+  </Accordion>
+  
+  <Accordion title="Validasi Sebelum Unggah" icon="check-circle">
+    Untuk file pemrosesan batch, validasi format JSONL Kamu secara lokal sebelum mengunggah untuk menghindari kesalahan validasi.
+  </Accordion>
+  
+  <Accordion title="Bersihkan File Lama" icon="broom">
+    Hapus file yang tidak lagi Kamu butuhkan secara berkala agar akun Kamu tetap teratur dan menghindari batas penyimpanan.
+  </Accordion>
+</AccordionGroup>
+
+## Penanganan Kesalahan
+
+Kesalahan umum yang mungkin Kamu temui:
+
+| Kode Kesalahan | Deskripsi | Solusi |
+| :--- | :--- | :--- |
+| `missing_file` | Parameter file tidak diberikan | Pastikan Kamu mengirimkan file dalam permintaan |
+| `invalid_purpose` | Nilai tujuan tidak valid | Gunakan salah satu dari: `batch`, `assistants`, atau `fine-tune` |
+| `file_too_large` | File melebihi batas 100MB | Bagi file besar atau kompres kontennya |
+| `invalid_file_format` | Validasi JSONL gagal | Periksa format JSONL Kamu untuk kesalahan sintaksis |
+| `file_not_found` | File tidak ditemukan | Verifikasi bahwa file_id sudah benar |
+| `file_expired` | File telah kedaluwarsa | Unggah ulang file jika diperlukan |

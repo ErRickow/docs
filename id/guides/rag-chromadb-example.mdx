@@ -1,0 +1,100 @@
+--- 
+title: "RAG dengan ChromaDB"
+description: "Bangun aplikasi RAG menggunakan Neosantara dan ChromaDB."
+---
+
+Panduan ini menunjukkan cara membangun aplikasi Retrieval-Augmented Generation (RAG) menggunakan Neosantara untuk embedding dan LLM, serta [ChromaDB](https://www.trychroma.com/) sebagai basis data vektor.
+
+## Tinjauan
+
+Kamu akan mempelajari cara:
+
+1. Setup klien Neosantara API.
+2. Instalasi dan inisialisasi ChromaDB.
+3. Menggunakan model embedding (`nusa-embedding-0001`) untuk vektorisasi dokumen.
+4. Menyimpan embedding di ChromaDB.
+5. Mengambil dokumen relevan dan menghasilkan jawaban dengan `nusantara-base`.
+
+## Setup
+
+Instal library yang diperlukan:
+
+```bash icon="terminal"
+pip install -U openai chromadb numpy pkamus
+```
+
+### Konfigurasi API Key
+
+```python icon="python"
+import os
+from openai import OpenAI
+
+# Konfigurasi klien
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key=os.getenv("NAI_API_KEY", "YOUR_NEOSANTARA_API_KEY_HERE")
+)
+
+EMBEDDING_MODEL = "nusa-embedding-0001"
+CHAT_MODEL = "nusantara-base"
+```
+
+## Membuat Database Embedding dengan ChromaDB
+
+### Custom Embedding Function
+
+```python icon="python"
+import chromadb
+from chromadb import Documents, EmbeddingFunction, Embeddings
+
+class NeosantaraEmbeddingFunction(EmbeddingFunction):
+  def __call__(self, input: Documents) -> Embeddings:
+    response = client.embeddings.create(
+        model=EMBEDDING_MODEL,
+        input=input
+    )
+    return [d.embedding for d in response.data]
+```
+
+### Inisialisasi Database
+
+```python icon="python"
+documents = [
+    "Sistem kontrol iklim Googlecar memungkinkan Kamu mengatur suhu dan aliran udara menggunakan kenop di konsol tengah.",
+    "Googlecar memiliki layar sentuh besar untuk navigasi, hiburan, dan kontrol iklim.",
+    "Shifting Gears: Googlecar memiliki transmisi otomatis dengan posisi Park, Reverse, Neutral, Drive, dan Low."
+]
+
+def create_chroma_db(documents, name):
+  chroma_client = chromadb.Client()
+  db = chroma_client.create_collection(
+      name=name,
+      embedding_function=NeosantaraEmbeddingFunction()
+  )
+  for i, d in enumerate(documents):
+    db.add(documents=d, ids=[str(i)])
+  return db
+
+vector_db = create_chroma_db(documents, "car-manual-db")
+```
+
+## Pengambilan dan Pembuatan Jawaban
+
+```python icon="python"
+def generate_answer(query, db):
+  # 1. Ambil dokumen relevan
+  results = db.query(query_texts=[query], n_results=1)
+  passage = results['documents'][0][0]
+
+  # 2. Buat prompt dan panggil LLM
+  prompt = f"Jawab pertanyaan berikut hanya berdasarkan konteks: {passage}\n\nPertanyaan: {query}"
+  response = client.chat.completions.create(
+      model=CHAT_MODEL,
+      messages=[{"role": "user", "content": prompt}]
+  )
+  return response.choices[0].message.content
+
+# Contoh eksekusi
+query = "Bagaimana cara mengatur suhu di mobil?"
+print(generate_answer(query, vector_db))
+```

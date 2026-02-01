@@ -1,0 +1,55 @@
+---
+title: "Claude 3 Haiku"
+description: "Anthropic's fastest and most compact model, optimized for near-instant responsiveness and cost-efficiency."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claude3HaikuData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claude3HaikuData} />
+
+## Overview
+
+Claude 3 Haiku is engineered for speed and efficiency. It is the perfect choice for tasks that require quick outputs and low costs without compromising on intelligence. It features a large 200,000 token context window, making it capable of processing long documents or complex histories.
+
+## Use Cases
+
+- **Customer Support**: Instant responses for high-volume inquiries.
+- **Content Moderation**: Rapidly identify and flag unsafe content.
+- **Data Extraction**: Extract structured information from large volumes of unstructured data.
+- **Summarization**: Quickly summarize long articles or documents.
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "claude-3-haiku",
+    "messages": [
+      { "role": "user", "content": "How can I optimize my supply chain?" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="claude-3-haiku",
+    messages=[
+        {"role": "user", "content": "How can I optimize my supply chain?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+</CodeGroup>

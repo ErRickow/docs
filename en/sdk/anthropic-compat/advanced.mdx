@@ -1,0 +1,117 @@
+---
+title: "Advanced Features"
+description: "Configure extended thinking using the Anthropic Messages API format."
+---
+
+Neosantara supports advanced Anthropic features like extended thinking, allowing for more complex reasoning and chain-of-thought processing.
+
+## Extended thinking
+
+Configure extended thinking for models that support chain-of-thought reasoning (e.g., **Llama Nemotron**, **GLM 4**). The `thinking` parameter allows you to control how reasoning tokens are generated and returned.
+
+<Note>
+  Extended thinking is only available on specific reasoning models. Ensure your chosen model supports this capability before enabling it.
+</Note>
+
+### Example request
+
+<CodeGroup>
+
+```typescript thinking.ts icon="typescript"
+import Anthropic from '@anthropic-ai/sdk';
+ 
+const anthropic = new Anthropic({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+});
+ 
+const message = await anthropic.messages.create({
+  model: 'glm-4.6v-flash',
+  max_tokens: 8192,
+  thinking: {
+    type: 'enabled',
+    budget_tokens: 5000,
+  },
+  messages: [
+    {
+      role: 'user',
+      content: 'Explain quantum entanglement in simple terms.',
+    },
+  ],
+});
+ 
+for (const block of message.content) {
+  if (block.type === 'thinking') {
+    console.log('🧠 Thinking:', block.thinking);
+  } else if (block.type === 'text') {
+    console.log('💬 Response:', block.text);
+  }
+}
+```
+
+```python thinking.py icon="py"
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+message = client.messages.create(
+    model='glm-4.6v-flash',
+    max_tokens=2048,
+    thinking={
+        'type': 'enabled',
+        'budget_tokens': 5000,
+    },
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Explain quantum entanglement in simple terms.'
+        }
+    ],
+)
+ 
+for block in message.content:
+    if block.type == 'thinking':
+        print('🧠 Thinking:', block.thinking)
+    elif block.type == 'text':
+        print('💬 Response:', block.text)
+```
+
+</CodeGroup>
+
+### Thinking parameters
+
+*   `type`: Set to `'enabled'` to enable extended thinking.
+*   `budget_tokens`: Maximum number of tokens to allocate for thinking (chain-of-thought).
+
+### Response with thinking
+
+When thinking is enabled, the response includes thinking blocks separate from the final answer:
+
+```json
+{
+  "id": "msg_123",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "thinking",
+      "thinking": "Let me think about how to explain quantum entanglement...",
+      "signature": "signature-xyz"
+    },
+    {
+      "type": "text",
+      "text": "Quantum entanglement is like having two magic coins..."
+    }
+  ],
+  "model": "glm-4.6v-flash",
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 15,
+    "output_tokens": 150
+  }
+}
+```

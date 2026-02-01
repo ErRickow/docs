@@ -1,0 +1,273 @@
+---
+title: "Python"
+description: "Use official OpenAI and Anthropic Python SDKs with Neosantara."
+---
+
+To get started with Python and Neosantara, you can either call the [OpenAI-Compatible](/en/sdk/openai-compat) or [Anthropic-Compatible](/en/sdk/anthropic-compat) API directly, or use the official [OpenAI](https://github.com/openai/openai-python) and [Anthropic](https://github.com/anthropics/anthropic-sdk-python) Python SDKs.
+
+## Installation
+
+Install your preferred SDK:
+
+<CodeGroup>
+
+```bash OpenAI SDK
+pip install openai
+```
+
+```bash Anthropic SDK
+pip install anthropic
+```
+
+</CodeGroup>
+
+## Quick start
+
+Point your SDK to the Neosantara AI gateway using the `base_url` parameter.
+
+<CodeGroup>
+
+```python OpenAI SDK
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+response = client.chat.completions.create(
+    model='claude-4.5-sonnet',
+    messages=[
+        {'role': 'user', 'content': 'Explain quantum computing in one paragraph.'}
+    ]
+)
+ 
+print(response.choices[0].message.content)
+```
+
+```python Anthropic SDK
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[
+        {'role': 'user', 'content': 'Explain quantum computing in one paragraph.'}
+    ]
+)
+ 
+print(message.content[0].text)
+```
+
+</CodeGroup>
+
+## Authentication
+
+Both SDKs use standard API key authentication. We recommend storing your key in an environment variable.
+
+```python
+import os
+ 
+# Load from environment variable
+api_key = os.getenv('NAI_API_KEY')
+```
+
+## Streaming
+
+Stream responses for real-time output in chat applications.
+
+<CodeGroup>
+
+```python OpenAI SDK
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+stream = client.chat.completions.create(
+    model='claude-4.5-sonnet',
+    messages=[
+        {'role': 'user', 'content': 'Write a short story about a robot.'}
+    ],
+    stream=True
+)
+ 
+for chunk in stream:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end='', flush=True)
+```
+
+```python Anthropic SDK
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+with client.messages.stream(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[
+        {'role': 'user', 'content': 'Write a short story about a robot.'}
+    ]
+) as stream:
+    for text in stream.text_stream:
+        print(text, end='', flush=True)
+```
+
+</CodeGroup>
+
+## Async support
+
+Both SDKs provide async clients for use with `asyncio`.
+
+<CodeGroup>
+
+```python OpenAI SDK
+import os
+import asyncio
+from openai import AsyncOpenAI
+ 
+client = AsyncOpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+async def main():
+    response = await client.chat.completions.create(
+        model='claude-4.5-sonnet',
+        messages=[{'role': 'user', 'content': 'Hello!'}]
+    )
+    print(response.choices[0].message.content)
+ 
+asyncio.run(main())
+```
+
+```python Anthropic SDK
+import os
+import asyncio
+import anthropic
+ 
+client = anthropic.AsyncAnthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+async def main():
+    message = await client.messages.create(
+        model='claude-4.5-sonnet',
+        max_tokens=1024,
+        messages=[{'role': 'user', 'content': 'Hello!'}]
+    )
+    print(message.content[0].text)
+ 
+asyncio.run(main())
+```
+
+</CodeGroup>
+
+## Tool calling
+
+Enable models to call external functions.
+
+<CodeGroup>
+
+```python OpenAI SDK
+tools = [{
+    'type': 'function',
+    'function': {
+        'name': 'get_weather',
+        'description': 'Get current weather',
+        'parameters': {
+            'type': 'object',
+            'properties': {
+                'location': {'type': 'string'}
+            },
+            'required': ['location']
+        }
+    }
+}]
+ 
+response = client.chat.completions.create(
+    model='claude-4.5-sonnet',
+    messages=[{'role': 'user', 'content': "What's the weather in Tokyo?"}],
+    tools=tools
+)
+```
+
+```python Anthropic SDK
+tools = [{
+    'name': 'get_weather',
+    'description': 'Get current weather',
+    'input_schema': {
+        'type': 'object',
+        'properties': {
+            'location': {'type': 'string'}
+        },
+        'required': ['location']
+    }
+}]
+ 
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[{'role': 'user', 'content': "What's the weather in Tokyo?"}],
+    tools=tools
+)
+```
+
+</CodeGroup>
+
+## Structured outputs
+
+Generate responses that conform to a JSON schema.
+
+```python
+response = client.chat.completions.create(
+    model='claude-4.5-sonnet',
+    messages=[
+        {'role': 'user', 'content': 'Extract: John is 30 years old and lives in NYC'}
+    ],
+    response_format={
+        'type': 'json_schema',
+        'json_schema': {
+            'name': 'person',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'name': {'type': 'string'},
+                    'age': {'type': 'integer'},
+                    'city': {'type': 'string'}
+                },
+                'required': ['name', 'age', 'city']
+            }
+        }
+    }
+)
+```
+
+## Framework integrations
+
+| Framework | Integration Guide |
+| --- | --- |
+| **Pydantic AI** | [Pydantic AI Guide](/en/pydantic-ai) |
+| **LlamaIndex** | [LlamaIndex Guide](/en/llama-index) |
+| **LangChain** | [LangChain Guide](/en/langchain) |
+| **CrewAI** | [CrewAI Guide](/en/crewai) |
+
+## API reference
+
+*   [OpenAI-compatible API](/en/sdk/openai-compat) — Chat completions, embeddings, streaming, tool calls, and more.
+*   [Anthropic-compatible API](/en/sdk/anthropic-compat) — Messages API, streaming, and extended thinking.

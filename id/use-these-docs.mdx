@@ -1,0 +1,91 @@
+---
+title: "Gunakan dokumentasi secara terprogram"
+description: "Hubungkan dokumentasi Neosantara ke tools AI dan alur kerja Kamu"
+---
+
+Kami ingin membuat dokumentasi kami semudah mungkin diakses. Kami telah menyertakan beberapa cara bagi Kamu untuk menggunakan dokumen ini secara terprogram melalui asisten AI, editor kode, dan integrasi langsung, seperti Model Context Protocol (MCP).
+
+## Opsi akses cepat
+
+Di halaman mana pun dalam dokumentasi kami, Kamu akan menemukan menu dropdown kontekstual di pojok kanan atas. Ini mencakup `llms.txt` kami, koneksi server MCP, dan opsi akses cepat lainnya seperti ChatGPT dan Claude.
+
+## Gunakan server MCP kami
+
+Dokumentasi kami menyertakan **server Model Context Protocol (MCP)** bawaan yang memungkinkan aplikasi AI menanyakan dokumen terbaru secara real-time.
+
+Server MCP dokumentasi Neosantara tersedia di:
+
+```txt
+https://docs.neosantara.xyz/mcp
+```
+
+Setelah terhubung, Kamu dapat mengajukan pertanyaan kepada asisten AI Kamu tentang Neosantara, model, dan API kami, dan asisten tersebut akan mencari dokumentasi kami untuk memberikan jawaban yang akurat dan terkini.
+
+### Hubungkan dengan Claude Code
+
+Jika Kamu menggunakan Claude Code, jalankan perintah ini di terminal Kamu untuk menambahkan server ke proyek Kamu saat ini:
+
+```bash icon="terminal"
+claude mcp add --transport http docs-neosantara https://docs.neosantara.xyz/mcp
+```
+
+### Hubungkan dengan Claude Desktop
+
+1. Buka Claude Desktop
+2. Buka Settings > Connectors
+3. Tambahkan URL server MCP kami: `https://docs.neosantara.xyz/mcp`
+
+### Hubungkan dengan Cursor
+
+Tambahkan berikut ini ke file konfigurasi pengaturan MCP Kamu:
+
+```json icon="code"
+{
+  "mcpServers": {
+    "docs-neosantara": {
+      "url": "https://docs.neosantara.xyz/mcp"
+    }
+  }
+}
+```
+
+### Hubungkan dengan VS Code
+
+Tambahkan berikut ini ke file konfigurasi pengaturan MCP Kamu:
+
+```json icon="code"
+{
+  "servers": {
+    "docs-neosantara": {
+      "url": "https://docs.neosantara.xyz/mcp"
+    }
+  }
+}
+```
+
+### Hubungkan dengan Windsurf
+
+Tambahkan berikut ini ke konfigurasi MCP Windsurf Kamu:
+
+```json icon="code"
+{
+  "mcpServers": {
+    "docs-neosantara": {
+      "url": "https://docs.neosantara.xyz/mcp"
+    }
+  }
+}
+```
+
+## Praktik Terbaik
+
+*   **Relevansi**: Hubungkan hanya server MCP yang relevan dengan pekerjaan Kamu saat ini untuk mengoptimalkan penggunaan konteks.
+*   **Spesifisitas**: Berikan prompt yang spesifik. Agen AI memutuskan kapan harus mencari berdasarkan relevansi kueri.
+*   **Efisiensi**: Putuskan koneksi server yang tidak Kamu gunakan secara aktif untuk mengurangi potensi beban konteks.
+
+## LLMs.txt dan Skill.md
+
+Selain server MCP, Mintlify secara otomatis menghosting file standar industri untuk membantu LLM memahami dokumentasi Kamu:
+
+*   **llms.txt**: File markdown yang berisi konten paling penting untuk LLM. Tersedia di `https://docs.neosantara.xyz/llms.txt`.
+*   **skill.md**: Memberikan instruksi tentang cara menggunakan dokumentasi secara efektif. Tersedia di `https://docs.neosantara.xyz/skill.md`.

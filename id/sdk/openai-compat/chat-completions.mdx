@@ -1,0 +1,104 @@
+---
+title: "Chat Completions"
+description: "Buat respons obrolan menggunakan berbagai model AI melalui API yang kompatibel dengan OpenAI."
+---
+
+Endpoint: `POST /v1/chat/completions`
+
+### [Permintaan Dasar](#basic)
+
+<CodeGroup>
+
+```typescript chat.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    { role: 'user', content: 'Ceritakan dongeng singkat tentang robot.' },
+  ],
+});
+ 
+console.log(completion.choices[0].message.content);
+```
+
+</CodeGroup>
+
+---
+
+### [Streaming](#streaming)
+
+Gunakan streaming untuk mendapatkan token secara real-time.
+
+<CodeGroup>
+
+```typescript streaming.ts
+const stream = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [{ role: 'user', content: 'Jelaskan kuantum komputer.' }],
+  stream: true,
+});
+ 
+for await (const chunk of stream) {
+  process.stdout.write(chunk.choices[0]?.delta?.content || '');
+}
+```
+
+</CodeGroup>
+
+---
+
+### [Lampiran Gambar & PDF](#multimodal)
+
+Gunakan model multimodal untuk menganalisis dokumen atau gambar.
+
+<CodeGroup>
+
+```typescript vision.ts
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        { type: 'text', text: 'Apa isi gambar ini?' },
+        {
+          type: 'image_url',
+          image_url: { url: `data:image/png;base64,${base64Image}` },
+        },
+      ],
+    },
+  ],
+});
+```
+
+```typescript pdf.ts
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        { type: 'text', text: 'Ringkas dokumen ini:' },
+        {
+          type: 'file',
+          file_url: { url: `data:application/pdf;base64,${pdfBase64}` },
+        },
+      ],
+    },
+  ],
+});
+```
+
+</CodeGroup>
+
+<Note>
+  **Ekstensi Neosantara**: Meskipun API Chat Completions OpenAI standar terutama mendukung `image_url`, Neosantara memperluas ini untuk mendukung tipe `file` melalui `file_url` untuk dokumen seperti PDF. Perhatikan bahwa lampiran base64 sebaris (inline) yang ditunjukkan di sini adalah ekstensi khusus Neosantara.
+</Note>
+
+---

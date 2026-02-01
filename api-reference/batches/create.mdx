@@ -1,0 +1,230 @@
+---
+title: "Create Batch"
+api: 'POST /v1/batches'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+<Card icon="sparkles" title="Save 50% on Batch Processing" color="#16a34a">
+Batch API offers **50% cost savings** compared to standard API calls. Perfect for processing large volumes of requests asynchronously.
+</Card>
+
+<Warning>
+**Free Tier Limitation**: Batch API is only available for Basic tier and above. [Upgrade your plan](https://app.neosantara.xyz/billing) to unlock batch processing.
+</Warning>
+
+Create a new batch job for asynchronous processing of multiple API requests.
+
+<ParamField body="input_file_id" type="string" required>
+The ID of an uploaded file that contains the requests for this batch. The file must be uploaded with `purpose="batch"` and be in valid JSONL format.
+</ParamField>
+
+<ParamField body="endpoint" type="string" required>
+The endpoint to be used for all requests in the batch. Currently supported endpoints:
+- `/v1/chat/completions` - For chat completion requests
+- `/v1/embeddings` - For embedding generation
+- `/v1/responses` - For response generation
+</ParamField>
+
+<ParamField body="completion_window" type="string" default="24h">
+The time frame within which the batch should be processed. Currently only `24h` is supported.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+Optional custom metadata for the batch. Can contain any key-value pairs for tracking purposes.
+</ParamField>
+
+### Returns
+
+<ResponseField name="id" type="string">
+A unique identifier for the batch job (e.g., `batch-abc123`).
+</ResponseField>
+
+<ResponseField name="object" type="string">
+The object type, which is always `batch`.
+</ResponseField>
+
+<ResponseField name="endpoint" type="string">
+The API endpoint that will be used for all requests in the batch.
+</ResponseField>
+
+<ResponseField name="errors" type="object or null">
+Any errors encountered during batch processing. Will be `null` if no errors.
+</ResponseField>
+
+<ResponseField name="input_file_id" type="string">
+The ID of the input file containing batch requests.
+</ResponseField>
+
+<ResponseField name="completion_window" type="string">
+The time window for batch completion.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+The current status of the batch. Possible values:
+- `validating` - The input file is being validated
+- `in_progress` - The batch is being processed
+- `finalizing` - The batch is being finalized
+- `completed` - The batch has completed successfully
+- `failed` - The batch has failed
+- `expired` - The batch has expired
+- `canceled` - The batch was canceled
+</ResponseField>
+
+<ResponseField name="output_file_id" type="string or null">
+The ID of the file containing successful batch results. Available when status is `completed`.
+</ResponseField>
+
+<ResponseField name="error_file_id" type="string or null">
+The ID of the file containing failed requests. Available when there are errors.
+</ResponseField>
+
+<ResponseField name="created_at" type="integer">
+The Unix timestamp (in seconds) of when the batch was created.
+</ResponseField>
+
+<ResponseField name="in_progress_at" type="integer or null">
+The Unix timestamp when the batch started processing.
+</ResponseField>
+
+<ResponseField name="expires_at" type="integer">
+The Unix timestamp when the batch will expire.
+</ResponseField>
+
+<ResponseField name="finalizing_at" type="integer or null">
+The Unix timestamp when the batch started finalizing.
+</ResponseField>
+
+<ResponseField name="completed_at" type="integer or null">
+The Unix timestamp when the batch completed.
+</ResponseField>
+
+<ResponseField name="failed_at" type="integer or null">
+The Unix timestamp when the batch failed.
+</ResponseField>
+
+<ResponseField name="expired_at" type="integer or null">
+The Unix timestamp when the batch expired.
+</ResponseField>
+
+<ResponseField name="cancelling_at" type="integer or null">
+The Unix timestamp when cancellation was initiated.
+</ResponseField>
+
+<ResponseField name="cancelled_at" type="integer or null">
+The Unix timestamp when the batch was cancelled.
+</ResponseField>
+
+<ResponseField name="request_counts" type="object">
+Statistics about the requests in the batch.
+
+<Expandable title="request_counts properties">
+<ResponseField name="total" type="integer">
+Total number of requests in the batch.
+</ResponseField>
+
+<ResponseField name="completed" type="integer">
+Number of requests that completed successfully.
+</ResponseField>
+
+<ResponseField name="failed" type="integer">
+Number of requests that failed.
+</ResponseField>
+</Expandable>
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+Custom metadata associated with the batch.
+</ResponseField>
+
+<CodeGroup>
+
+```json Response 200
+{
+  "id": "batch-abc123",
+  "object": "batch",
+  "endpoint": "/v1/chat/completions",
+  "errors": null,
+  "input_file_id": "file-xyz789",
+  "completion_window": "24h",
+  "status": "validating",
+  "output_file_id": null,
+  "error_file_id": null,
+  "created_at": 1699564800,
+  "in_progress_at": null,
+  "expires_at": 1699651200,
+  "finalizing_at": null,
+  "completed_at": null,
+  "failed_at": null,
+  "expired_at": null,
+  "cancelling_at": null,
+  "cancelled_at": null,
+  "request_counts": {
+    "total": 100,
+    "completed": 0,
+    "failed": 0
+  },
+  "metadata": {
+    "project": "data-analysis",
+    "batch_type": "daily_processing"
+  }
+}
+```
+
+```json Error 403 - Free Tier
+{
+  "error": {
+    "message": "Batch API is not available for Free tier. Please upgrade to Basic or higher to unlock batch processing with 50% cost savings.",
+    "type": "permission_denied_error",
+    "code": "batch_api_not_allowed",
+    "upgrade_url": "https://app.neosantara.xyz/billing"
+  }
+}
+```
+
+```json Error 400 - Missing Field
+{
+  "error": {
+    "message": "Missing required field: input_file_id",
+    "type": "invalid_request_error",
+    "param": "input_file_id",
+    "code": "missing_required_field"
+  }
+}
+```
+
+```json Error 400 - Invalid Endpoint
+{
+  "error": {
+    "message": "Invalid endpoint. Supported endpoints: /v1/chat/completions, /v1/embeddings, /v1/responses",
+    "type": "invalid_request_error",
+    "param": "endpoint",
+    "code": "invalid_endpoint"
+  }
+}
+```
+
+```json Error 400 - Invalid Input File
+{
+  "error": {
+    "message": "Input file not found or invalid purpose. File must be uploaded with purpose=\"batch\"",
+    "type": "invalid_request_error",
+    "param": "input_file_id",
+    "code": "invalid_input_file"
+  }
+}
+```
+
+```json Error 429 - Concurrent Limit
+{
+  "error": {
+    "message": "Concurrent batch limit reached (5). Please wait for existing batches to complete.",
+    "type": "rate_limit_error",
+    "code": "concurrent_batches_limit",
+    "current_batches": 5,
+    "limit": 5
+  }
+}
+```
+
+</CodeGroup>

@@ -1,0 +1,46 @@
+---
+title: "API Kompatibel OpenAI"
+description: "Gunakan SDK OpenAI resmi untuk berinteraksi dengan Neosantara AI."
+---
+
+Neosantara [AI Gateway](/id/intro) menyediakan endpoint yang kompatibel dengan OpenAI, sehingga Kamu dapat menggunakan SDK dan alat resmi OpenAI dengan perubahan minimal. Cukup ganti base URL dan API key Kamu.
+
+## [Base URL](#base-url)
+
+`https://api.neosantara.xyz/v1`
+
+## [Autentikasi](#autentikasi)
+
+Gunakan API key Neosantara Kamu dengan header `Authorization: Bearer <token>`.
+
+## [Integrasi SDK](#integrasi-sdk)
+
+<CodeGroup>
+
+```typescript Node.js
+import OpenAI from 'openai';
+ 
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+```
+
+```python Python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+```
+
+</CodeGroup>
+
+## [Fitur Utama](#fitur-utama)
+
+*   [Chat Completions](/id/sdk/openai-compat/chat-completions) - Mendukung teks, visi, dan streaming.
+*   [Tool Calls](/id/sdk/openai-compat/tool-calls) - Pemanggilan fungsi eksternal secara otomatis.
+*   [Structured Outputs](/id/sdk/openai-compat/structured-outputs) - Ekstraksi data JSON yang handal.
+*   [Embeddings](/id/sdk/openai-compat/embeddings) - Vektor representasi untuk pencarian semantik.

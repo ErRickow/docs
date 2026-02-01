@@ -1,0 +1,32 @@
+---
+title: "Structured Outputs"
+description: "Dapatkan respons JSON yang terstruktur dan sesuai skema."
+---
+
+# Structured Outputs
+
+Neosantara mendukung format `json_schema` standar OpenAI untuk memastikan respons model mengikuti struktur data yang Kamu tentukan.
+
+### [Contoh Skema](#contoh-skema)
+
+```typescript
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [{ role: 'user', content: 'Ekstrak: Budi, 25 tahun, dari Bandung.' }],
+  response_format: {
+    type: 'json_schema',
+    json_schema: {
+      name: 'person_info',
+      schema: {
+        type: 'object',
+        properties: {
+          nama: { type: 'string' },
+          umur: { type: 'number' },
+          kota: { type: 'string' },
+        },
+        required: ['nama', 'umur', 'kota'],
+      },
+    },
+  },
+});
+```

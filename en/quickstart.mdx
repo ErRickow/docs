@@ -1,0 +1,169 @@
+---
+title: "Quickstart"
+description: "Follow our step-by-step quickstart guide to set up your API keys, choose a model, and integrate Neosantara into your application in less than 5 minutes."
+---
+
+## Getting Started
+
+Follow these steps to make your first API call to Neosantara. Our platform acts as a **unified gateway**, allowing you to access various SOTA models from different providers using a single API key and SDK.
+
+<Steps>
+  <Step title="Get API Key">
+    * Access [Neosantara App](https://app.neosantara.xyz/signup) to Register or Login.
+    * Access the [Billing Page](https://app.neosantara.xyz/billing) to top up your balance if needed.
+    * Create an API Key in the [API Keys](https://app.neosantara.xyz/api-keys) management page.
+    * Copy your API Key securely.
+
+    <CardGroup cols={2}>
+      <Card title="Neosantara Dashboard" icon="link" href="https://app.neosantara.xyz/dashboard">
+        Manage your account, billing, and usage statistics.
+      </Card>
+
+      <Card title="API Keys Management" icon="key" href="https://app.neosantara.xyz/api-keys">
+        Create and manage your unique API access keys.
+      </Card>
+    </CardGroup>
+  </Step>
+
+  <Step title="Choose Your Model">
+    Access the world's best models through a single interface. Switch between providers by simply changing the `model` parameter. See [Models & Pricing](/en/about/billing-pricing) for the full list.
+
+    <CardGroup cols={2}>
+      <Card title="Global Flagships" icon="sparkles" href="/en/models-overview">
+        Access **Claude 4.5 Sonnet**, **Gemini 3 Flash**, and **Grok 4.1** via a single integration.
+      </Card>
+
+      <Card title="Coding & Logic" icon="code" href="/en/models-overview">
+        High-performance reasoning with models optimized for coding tasks.
+      </Card>
+
+      <Card title="Multimodal & Vision" icon="eye" href="/en/capability/ocr">
+        Generate images with **Gen-2045** or extract text with **DeepSeek OCR**.
+      </Card>
+
+      <Card title="AI Coding Tools" icon="terminal" href="/en/guides/ai-coding-tools">
+        Configure with **Claude Code**, **Cursor**, **Windsurf**, and more.
+      </Card>
+    </CardGroup>
+  </Step>
+
+  <Step title="Choose Calling Method">
+    Neosantara is designed to be a multi-compatible gateway. Use the official SDK that fits your existing ecosystem.
+
+    <CardGroup cols={3}>
+      <Card title="OpenAI SDK" icon="openai" href="/en/sdk/openai-compat">
+        Drop-in replacement for any OpenAI-based application.
+      </Card>
+
+      <Card title="Anthropic SDK" icon="bolt" href="/en/sdk/anthropic-compat">
+        Native support for the Anthropic Messages API format.
+      </Card>
+
+      <Card title="API Reference" icon="book" href="/api-reference">
+        Complete documentation for direct REST API calls.
+      </Card>
+    </CardGroup>
+  </Step>
+
+  <Step title="Make Your First Call">
+    Once you have your `API Key` and selected a model, you can start making requests. Here are examples using popular methods:
+
+    <Tabs>
+      <Tab title="Python SDK">
+        **Install SDK**
+
+        <CodeGroup>
+        ```bash pip
+        pip install --upgrade openai
+        ```
+        </CodeGroup>
+
+        **Usage Example**
+
+        ```python icon="python"
+        from openai import OpenAI
+        import os
+
+        client = OpenAI(
+            api_key="YOUR_NEOSANTARA_API_KEY",
+            base_url="https://api.neosantara.xyz/v1"
+        )
+
+        # You can use ANY model available on the platform here
+        # Choose any model available on the platform
+        response = client.responses.create(
+            model="nusantara-base",
+            input="Help me debug this React function that's not working correctly",
+            store=True
+        )
+
+        print(response.output_text)
+        ```
+      </Tab>
+
+      <Tab title="Node.js SDK">
+        **Install SDK**
+
+        <CodeGroup>
+        ```bash npm
+        npm install openai
+        ```
+        </CodeGroup>
+
+        **Usage Example**
+
+        ```javascript icon="js"
+        import OpenAI from "openai";
+
+        const client = new OpenAI({
+            apiKey: "YOUR_NEOSANTARA_API_KEY",
+            baseURL: "https://api.neosantara.xyz/v1"
+        });
+
+        async function main() {
+            const response = await client.responses.create({
+                model: "qwen3-32b",
+                input: "Help me debug this React function that's not working correctly",
+                store: true
+            });
+
+            console.log(response.output_text);
+        }
+
+        main();
+        ```
+      </Tab>
+
+      <Tab title="cURL">
+        **Usage Example**
+
+        ```bash icon="terminal"
+        curl https://api.neosantara.xyz/v1/responses \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+          -d '{
+            "model": "nusantara-base",
+            "input": "Generate a Python function to validate email addresses",
+            "store": true
+          }'
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+### Explore More
+
+<CardGroup cols={3}>
+  <Card title="API Reference" icon="code" href="/api-reference">
+    Detailed endpoint specs.
+  </Card>
+
+  <Card title="Guides" icon="map" href="/en/guides/ai-coding-tools">
+    Tutorials and best practices.
+  </Card>
+
+  <Card title="Integrations" icon="puzzle-piece" href="/en/integrations">
+    Frameworks and libraries.
+  </Card>
+</CardGroup>

@@ -1,0 +1,96 @@
+---
+title: "Output Terstruktur"
+description: "Dapatkan respons terstruktur dari model AI dalam format JSON yang bersih menggunakan Mode JSON atau Responses API."
+---
+
+### Pengantar
+
+Secara default, model bahasa menghasilkan teks biasa. Meskipun bagus untuk chatbot, sulit untuk mengekstrak detail spesifik dari teks secara terprogram. Neosantara menyediakan dua cara untuk mendapatkan data terstruktur:
+
+1.  **Responses API (Direkomendasikan)**: Endpoint khusus untuk ekstraksi data yang andal dan berbasis skema.
+2.  **Mode JSON**: Fitur kompatibilitas standar yang memaksa model untuk mengeluarkan string JSON yang valid.
+
+### Responses API (Direkomendasikan)
+
+Responses API adalah cara paling andal untuk mendapatkan data terstruktur. API ini menangani pembuatan prompt dan penegakan skema secara internal, serta mengembalikan objek yang bersih.
+
+<Card title="Pelajari Responses API" icon="bolt" href="/id/response">
+  Lihat cara menggunakan endpoint Responses berperforma tinggi untuk data terstruktur.
+</Card>
+
+---
+
+### Mode JSON
+
+Mode JSON adalah fitur standar yang didukung oleh sebagian besar model di platform kami. Untuk mengaktifkannya, Kamu perlu mengatur `response_format` ke `{"type": "json_object"}`.
+
+#### Model yang Didukung
+
+Model publik berikut secara eksplisit mendukung Mode JSON di backend kami. Untuk daftar lengkap dan terbaru dari semua model yang tersedia, lihat [Tinjauan Model](/id/models-overview).
+
+| Kategori | ID Model |
+| :--- | :--- |
+| **Global LLMs** | `claude-4.5-sonnet`, `gemini-3-flash`, `gemini-3-flash-preview`, `claude-3-sonnet`, `claude-3-haiku`, `gemma-3-27b-it`, `gemma2-9b-it` |
+| **Neosantara Flagship** | `archipelago-70b`, `nusantara-base`, `garda-beta-mini`, `sea-lion-v4-27b-it` |
+| **Llama & Spesialis** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-4.1-fast-non-reasoning`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
+
+#### Menangani dan Mem-parsing Respons
+
+Model mungkin membungkus JSON dalam blok markdown atau mengembalikan string JSON padat. Praktik terbaik adalah menggunakan fungsi parsing yang aman.
+
+<Info>
+  Saat menggunakan Mode JSON, Kamu **harus** memberikan instruksi format JSON. Ini bisa dilakukan di dalam system prompt atau langsung di pesan pengguna.
+</Info>
+
+<CodeGroup>
+
+```python Python (Grok)
+import json
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+# Grok sangat andal untuk ekstraksi JSON bahkan tanpa system prompt
+response = client.chat.completions.create(
+    model="grok-code-fast",
+    messages=[
+        {"role": "user", "content": "Ekstrak bahan resep sebagai JSON: nasi, telur, kecap. Gunakan kunci 'bahan'."}
+    ],
+    response_format={"type": "json_object"}
+)
+
+data = json.loads(response.choices[0].message.content)
+print(data)
+```
+
+```javascript Node.js (Gemini)
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: "YOUR_NEOSANTARA_API_KEY",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+const response = await client.chat.completions.create({
+  model: "gemini-3-flash",
+  messages: [
+    { role: "system", content: "Berikan respons HANYA dalam format JSON." },
+    { role: "user", content: "Sebutkan warna bendera Indonesia." }
+  ],
+  response_format: { type: "json_object" }
+});
+
+const data = JSON.parse(response.choices[0].message.content);
+console.log(data);
+```
+
+</CodeGroup>
+
+### Praktik Terbaik
+
+*   **Spesifik**: Sebutkan secara eksplisit kunci (keys) yang Kamu inginkan dalam objek JSON.
+*   **Pemilihan Model**: Gunakan `claude-4.5-sonnet` atau `qwen3-32b` untuk skema JSON yang kompleks atau bersarang.
+*   **Penanganan Error**: Selalu bungkus parsing JSON Kamu dalam blok try-catch untuk menangani kemungkinan halusinasi model.

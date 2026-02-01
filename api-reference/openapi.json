@@ -1,0 +1,3688 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Neosantara AI API",
+    "description": "OpenAI-compatible LLM Gateway with unified interface for multiple providers.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.neosantara.xyz",
+      "description": "Production API Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/models": {
+      "get": {
+        "operationId": "getV1Models",
+        "tags": [
+          "Models"
+        ],
+        "summary": "List models",
+        "description": "Lists the currently available models, and provides information about each one such as the owner and availability.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "list"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "capability",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "chat",
+                "embeddings",
+                "image_generation",
+                "web_search",
+                "function_calling"
+              ]
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/cost-estimate": {
+      "post": {
+        "operationId": "postV1CostEstimate",
+        "tags": [
+          "Utilities"
+        ],
+        "summary": "Estimate cost",
+        "description": "Calculate the estimated cost based on token counts and model pricing.",
+        "responses": {
+          "200": {
+            "description": "Cost estimate result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "string"
+                    },
+                    "estimated_cost": {
+                      "type": "number"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "pricing_rates": {}
+                  },
+                  "required": [
+                    "model",
+                    "estimated_cost",
+                    "currency"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/audio/transcriptions": {
+      "post": {
+        "operationId": "postV1AudioTranscriptions",
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Transcription",
+        "description": "Transcribes audio into the input language.",
+        "responses": {
+          "200": {
+            "description": "Successful transcription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\naudio_file = open('speech.mp3', 'rb')\ntranscription = client.audio.transcriptions.create(\n    model='whisper-large-v3-turbo',\n    file=audio_file\n)\nprint(transcription.text)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import fs from 'fs';\nimport OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst transcription = await client.audio.transcriptions.create({\n  file: fs.createReadStream('speech.mp3'),\n  model: 'whisper-large-v3-turbo',\n});\nconsole.log(transcription.text);"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "curl https://api.neosantara.xyz/v1/audio/transcriptions \\\n  -H 'Authorization: Bearer YOUR_NEOSANTARA_API_KEY' \\\n  -F 'file=@speech.mp3' \\\n  -F 'model=whisper-large-v3-turbo'"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The audio file object to transcribe."
+                  },
+                  "model": {
+                    "type": "string",
+                    "description": "ID of the model to use.",
+                    "default": "whisper-large-v3-turbo"
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "ISO-639-1 language code."
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Optional guide text."
+                  },
+                  "response_format": {
+                    "type": "string",
+                    "enum": [
+                      "json",
+                      "text",
+                      "verbose_json"
+                    ],
+                    "default": "json"
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0
+                  }
+                },
+                "required": [
+                  "file",
+                  "model"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/images/generations": {
+      "post": {
+        "operationId": "postV1ImagesGenerations",
+        "tags": [
+          "Images"
+        ],
+        "summary": "Create image",
+        "description": "Creates an image given a prompt.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "created": {
+                      "type": "number"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string"
+                          },
+                          "b64_json": {
+                            "type": "string"
+                          },
+                          "revised_prompt": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "created",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "n": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4,
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "string",
+                    "pattern": "^\\d+x\\d+$",
+                    "default": "1024x1024"
+                  },
+                  "response_format": {
+                    "type": "string",
+                    "enum": [
+                      "url",
+                      "b64_json"
+                    ],
+                    "default": "url"
+                  },
+                  "steps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 50,
+                    "default": 20
+                  },
+                  "user": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string"
+                  },
+                  "mask_image": {
+                    "type": "string"
+                  },
+                  "outpainting_mode": {
+                    "type": "string",
+                    "enum": [
+                      "DEFAULT",
+                      "PRECISE"
+                    ]
+                  },
+                  "quality": {
+                    "type": "string"
+                  },
+                  "style": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "model",
+                  "prompt"
+                ]
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.images.generate(\n    model='neosantara-gen-2045',\n    prompt='Pemandangan alam Indonesia yang indah',\n    n=1,\n    size='1024x1024'\n)\nprint(response.data[0].url)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.images.generate({\n  model: 'neosantara-gen-2045',\n  prompt: 'Pemandangan alam Indonesia yang indah',\n  n: 1,\n  size: '1024x1024',\n});\nconsole.log(response.data[0].url);"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/conversations": {
+      "get": {
+        "operationId": "getV1Conversations",
+        "tags": [
+          "Conversation"
+        ],
+        "summary": "List conversations",
+        "description": "Get a list of recent conversation sessions for the authenticated user.",
+        "responses": {
+          "200": {
+            "description": "List of conversations"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "operationId": "postV1ChatCompletions",
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Create chat completion",
+        "description": "Creates a model response for the given chat conversation. Supports streaming and tool calling.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "chat.completion"
+                    },
+                    "created": {
+                      "type": "number"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "choices": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "usage": {}
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "created",
+                    "model",
+                    "choices"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Model Not Found"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "system",
+                            "developer",
+                            "user",
+                            "assistant",
+                            "tool",
+                            "function"
+                          ]
+                        },
+                        "content": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "array",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "text"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "text"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "image_url"
+                                      },
+                                      "image_url": {
+                                        "type": "object",
+                                        "properties": {
+                                          "url": {
+                                            "type": "string",
+                                            "format": "uri"
+                                          },
+                                          "detail": {
+                                            "type": "string",
+                                            "enum": [
+                                              "auto",
+                                              "low",
+                                              "high"
+                                            ],
+                                            "default": "auto"
+                                          }
+                                        },
+                                        "required": [
+                                          "url"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "image_url"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "file"
+                                      },
+                                      "file_url": {
+                                        "type": "object",
+                                        "properties": {
+                                          "url": {
+                                            "type": "string",
+                                            "format": "uri"
+                                          },
+                                          "detail": {
+                                            "type": "string",
+                                            "enum": [
+                                              "auto",
+                                              "low",
+                                              "high"
+                                            ],
+                                            "default": "auto"
+                                          }
+                                        },
+                                        "required": [
+                                          "url"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "file_url"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "input_text"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "text"
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "tool_call_id": {
+                          "type": "string"
+                        },
+                        "tool_calls": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string",
+                                "const": "function"
+                              },
+                              "function": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "arguments": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "name",
+                                  "arguments"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "function"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "role"
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "default": 0.7
+                  },
+                  "top_p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 1
+                  },
+                  "n": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 128,
+                    "default": 1
+                  },
+                  "stop": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "max_tokens": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "max_output_tokens": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "stream": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "stream_options": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "include_usage": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "presence_penalty": {
+                    "type": "number",
+                    "minimum": -2,
+                    "maximum": 2,
+                    "default": 0
+                  },
+                  "frequency_penalty": {
+                    "type": "number",
+                    "minimum": -2,
+                    "maximum": 2,
+                    "default": 0
+                  },
+                  "response_format": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "text",
+                          "json_object",
+                          "json_schema"
+                        ]
+                      },
+                      "json_schema": {}
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  },
+                  "tools": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "function"
+                            },
+                            "function": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "parameters": {
+                                  "type": "object",
+                                  "additionalProperties": {}
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "function"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "web_search",
+                                "bash",
+                                "computer",
+                                "text_editor_20241022"
+                              ]
+                            },
+                            "function": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "parameters": {
+                                  "type": "object",
+                                  "additionalProperties": {}
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ]
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "display_height_px": {
+                              "type": "number"
+                            },
+                            "display_width_px": {
+                              "type": "number"
+                            },
+                            "display_number": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "parameters": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            }
+                          },
+                          "required": [
+                            "name"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "functions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "parameters": {
+                          "type": "object",
+                          "additionalProperties": {}
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ]
+                    }
+                  },
+                  "tool_choice": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "none",
+                          "auto",
+                          "required"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "function"
+                          },
+                          "function": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "function"
+                        ]
+                      }
+                    ]
+                  },
+                  "parallel_tool_calls": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "reasoning": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "effort": {
+                        "type": "string",
+                        "enum": [
+                          "low",
+                          "medium",
+                          "high"
+                        ]
+                      },
+                      "max_tokens": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  },
+                  "web_search_options": {},
+                  "user": {
+                    "type": "string"
+                  },
+                  "seed": {
+                    "type": "integer"
+                  },
+                  "logit_bias": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "number",
+                      "minimum": -100,
+                      "maximum": 100
+                    }
+                  },
+                  "logprobs": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "top_logprobs": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 20
+                  }
+                },
+                "required": [
+                  "model",
+                  "messages"
+                ]
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.chat.completions.create(\n    model='gemini-3-flash',\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(response.choices[0].message.content)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'gemini-3-flash',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(response.choices[0].message.content);"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/completions": {
+      "post": {
+        "operationId": "postV1Completions",
+        "tags": [
+          "Completions"
+        ],
+        "summary": "Create completion",
+        "description": "Creates a completion for the provided prompt and parameters.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "text_completion"
+                    },
+                    "created": {
+                      "type": "number"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "choices": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "usage": {}
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "created",
+                    "model",
+                    "choices"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/ocr": {
+      "post": {
+        "operationId": "postV1Ocr",
+        "tags": [
+          "Vision"
+        ],
+        "summary": "OCR Extraction",
+        "description": "Extract text from images using advanced OCR models.",
+        "responses": {
+          "200": {
+            "description": "Successful OCR extraction"
+          },
+          "400": {
+            "description": "Invalid image or model"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/responses": {
+      "post": {
+        "operationId": "postV1Responses",
+        "tags": [
+          "Responses"
+        ],
+        "summary": "Generate a response",
+        "description": "Create a response using the specified model and instructions.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "response"
+                    },
+                    "created_at": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "in_progress",
+                        "completed",
+                        "failed"
+                      ]
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "output": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "usage": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "created_at",
+                    "status",
+                    "model",
+                    "output"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Rate Limit Exceeded"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "input": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "input_text",
+                                    "text"
+                                  ]
+                                },
+                                "text": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "text"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "function_call"
+                                },
+                                "call_id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "arguments": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "call_id",
+                                "name",
+                                "arguments"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "function_call_output"
+                                },
+                                "call_id": {
+                                  "type": "string"
+                                },
+                                "output": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "call_id"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "message"
+                                },
+                                "message": {
+                                  "type": "object",
+                                  "properties": {
+                                    "role": {
+                                      "type": "string",
+                                      "enum": [
+                                        "system",
+                                        "developer",
+                                        "user",
+                                        "assistant",
+                                        "tool",
+                                        "function"
+                                      ]
+                                    },
+                                    "content": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "anyOf": [
+                                              {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string",
+                                                    "const": "text"
+                                                  },
+                                                  "text": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "type",
+                                                  "text"
+                                                ]
+                                              },
+                                              {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string",
+                                                    "const": "image_url"
+                                                  },
+                                                  "image_url": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "url": {
+                                                        "type": "string",
+                                                        "format": "uri"
+                                                      },
+                                                      "detail": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                          "auto",
+                                                          "low",
+                                                          "high"
+                                                        ],
+                                                        "default": "auto"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "url"
+                                                    ]
+                                                  }
+                                                },
+                                                "required": [
+                                                  "type",
+                                                  "image_url"
+                                                ]
+                                              },
+                                              {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string",
+                                                    "const": "file"
+                                                  },
+                                                  "file_url": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "url": {
+                                                        "type": "string",
+                                                        "format": "uri"
+                                                      },
+                                                      "detail": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                          "auto",
+                                                          "low",
+                                                          "high"
+                                                        ],
+                                                        "default": "auto"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "url"
+                                                    ]
+                                                  }
+                                                },
+                                                "required": [
+                                                  "type",
+                                                  "file_url"
+                                                ]
+                                              },
+                                              {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string",
+                                                    "const": "input_text"
+                                                  },
+                                                  "text": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "type",
+                                                  "text"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "tool_call_id": {
+                                      "type": "string"
+                                    },
+                                    "tool_calls": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "id": {
+                                            "type": "string"
+                                          },
+                                          "type": {
+                                            "type": "string",
+                                            "const": "function"
+                                          },
+                                          "function": {
+                                            "type": "object",
+                                            "properties": {
+                                              "name": {
+                                                "type": "string"
+                                              },
+                                              "arguments": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "name",
+                                              "arguments"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "id",
+                                          "type",
+                                          "function"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "role"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "message"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "role": {
+                                  "type": "string",
+                                  "enum": [
+                                    "system",
+                                    "developer",
+                                    "user",
+                                    "assistant",
+                                    "tool",
+                                    "function"
+                                  ]
+                                },
+                                "content": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "anyOf": [
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "text"
+                                              },
+                                              "text": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "type",
+                                              "text"
+                                            ]
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "image_url"
+                                              },
+                                              "image_url": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "url": {
+                                                    "type": "string",
+                                                    "format": "uri"
+                                                  },
+                                                  "detail": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                      "auto",
+                                                      "low",
+                                                      "high"
+                                                    ],
+                                                    "default": "auto"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "url"
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "type",
+                                              "image_url"
+                                            ]
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "file"
+                                              },
+                                              "file_url": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "url": {
+                                                    "type": "string",
+                                                    "format": "uri"
+                                                  },
+                                                  "detail": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                      "auto",
+                                                      "low",
+                                                      "high"
+                                                    ],
+                                                    "default": "auto"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "url"
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "type",
+                                              "file_url"
+                                            ]
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "input_text"
+                                              },
+                                              "text": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "type",
+                                              "text"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "tool_call_id": {
+                                  "type": "string"
+                                },
+                                "tool_calls": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string",
+                                        "const": "function"
+                                      },
+                                      "function": {
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "type": "string"
+                                          },
+                                          "arguments": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "name",
+                                          "arguments"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "type",
+                                      "function"
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "role"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type"
+                              ],
+                              "additionalProperties": true
+                            }
+                          ]
+                        },
+                        "minItems": 1
+                      }
+                    ]
+                  },
+                  "prompt": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "string"
+                      },
+                      "variables": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  },
+                  "previous_response_id": {
+                    "type": "string"
+                  },
+                  "instructions": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "content": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "content"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "default": 0.7
+                  },
+                  "top_p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 1
+                  },
+                  "max_tokens": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "max_output_tokens": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "stream": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "background": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "service_tier": {
+                    "type": "string",
+                    "enum": [
+                      "auto",
+                      "default",
+                      "flex",
+                      "priority"
+                    ],
+                    "default": "auto"
+                  },
+                  "stream_options": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "include_obfuscation": {
+                        "type": "boolean"
+                      },
+                      "include_usage": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "tools": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "function"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "parameters": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            },
+                            "strict": {
+                              "type": "boolean",
+                              "default": true
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "name",
+                            "parameters"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "custom"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "format": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "const": "text"
+                                    }
+                                  },
+                                  "required": [
+                                    "type"
+                                  ]
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "const": "grammar"
+                                    },
+                                    "definition": {
+                                      "type": "string"
+                                    },
+                                    "syntax": {
+                                      "type": "string",
+                                      "enum": [
+                                        "lark",
+                                        "regex"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "type",
+                                    "definition",
+                                    "syntax"
+                                  ]
+                                }
+                              ],
+                              "default": {
+                                "type": "text"
+                              }
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "name"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "local_shell"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "shell"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "web_search"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "file_search"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "code_interpreter"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "function",
+                              "default": "function"
+                            },
+                            "function": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "parameters": {
+                                  "type": "object",
+                                  "additionalProperties": {}
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "function"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "additionalProperties": true
+                        },
+                        {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "function"
+                                },
+                                "function": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    },
+                                    "parameters": {
+                                      "type": "object",
+                                      "additionalProperties": {}
+                                    }
+                                  },
+                                  "required": [
+                                    "name"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "function"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "web_search",
+                                    "bash",
+                                    "computer",
+                                    "text_editor_20241022"
+                                  ]
+                                },
+                                "function": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    },
+                                    "parameters": {
+                                      "type": "object",
+                                      "additionalProperties": {}
+                                    }
+                                  },
+                                  "required": [
+                                    "name"
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "display_height_px": {
+                                  "type": "number"
+                                },
+                                "display_width_px": {
+                                  "type": "number"
+                                },
+                                "display_number": {
+                                  "type": "number"
+                                }
+                              },
+                              "required": [
+                                "type"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "parameters": {
+                                  "type": "object",
+                                  "additionalProperties": {}
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "tool_choice": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "none",
+                          "auto",
+                          "required"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "function"
+                          },
+                          "function": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "function"
+                        ]
+                      }
+                    ]
+                  },
+                  "parallel_tool_calls": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "truncation": {
+                    "type": "string",
+                    "enum": [
+                      "auto",
+                      "disabled"
+                    ],
+                    "default": "auto"
+                  },
+                  "store": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "text": {
+                    "type": "object",
+                    "properties": {
+                      "format": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "text",
+                              "json_object",
+                              "json_schema"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  },
+                  "user": {
+                    "type": "string"
+                  },
+                  "safety_identifier": {
+                    "type": "string"
+                  },
+                  "prompt_cache_key": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "model"
+                ]
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.responses.create(\n    model='claude-4.5-sonnet',\n    input='Halo, apa kabar?',\n    instructions='Jawab dengan gaya santai.',\n    store=True\n)\nprint(response.output_text)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.responses.create({\n  model: 'claude-4.5-sonnet',\n  input: 'Halo, apa kabar?',\n  instructions: 'Jawab dengan gaya santai.',\n  store: true\n});\nconsole.log(response.output_text);"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/anthropic/v1/models": {
+      "get": {
+        "operationId": "getAnthropicV1Models",
+        "tags": [
+          "Anthropic"
+        ],
+        "summary": "List models",
+        "description": "Get a list of models available via the Anthropic-compatible API.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "model"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "display_name": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "context_window": {
+                            "type": "number"
+                          },
+                          "max_output_tokens": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "id",
+                          "display_name",
+                          "created_at",
+                          "context_window",
+                          "max_output_tokens"
+                        ]
+                      }
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "first_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "last_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "has_more",
+                    "first_id",
+                    "last_id"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/anthropic/v1/models/{modelId}": {
+      "get": {
+        "operationId": "getAnthropicV1ModelsByModelId",
+        "tags": [
+          "Anthropic"
+        ],
+        "summary": "Retrieve model",
+        "description": "Get information about a specific model via the Anthropic-compatible API.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "model"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "display_name": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "context_window": {
+                      "type": "number"
+                    },
+                    "max_output_tokens": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id",
+                    "display_name",
+                    "created_at",
+                    "context_window",
+                    "max_output_tokens"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Model not found"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "modelId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/anthropic/v1/messages": {
+      "post": {
+        "operationId": "postAnthropicV1Messages",
+        "tags": [
+          "Anthropic"
+        ],
+        "summary": "Create a message",
+        "description": "Create a message using the Anthropic-compatible API. Supports tool use and streaming.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "message"
+                    },
+                    "role": {
+                      "type": "string",
+                      "const": "assistant"
+                    },
+                    "content": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "stop_reason": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "stop_sequence": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "input_tokens": {
+                          "type": "number"
+                        },
+                        "output_tokens": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "input_tokens",
+                        "output_tokens"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "role",
+                    "content",
+                    "model",
+                    "stop_reason",
+                    "stop_sequence",
+                    "usage"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Model Not Found"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "user",
+                            "assistant"
+                          ]
+                        },
+                        "content": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "array",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "text"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "text"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "image"
+                                      },
+                                      "source": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string",
+                                            "const": "base64"
+                                          },
+                                          "media_type": {
+                                            "type": "string"
+                                          },
+                                          "data": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "type",
+                                          "media_type",
+                                          "data"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "source"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "tool_use"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "input": {
+                                        "type": "object",
+                                        "additionalProperties": {}
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "name",
+                                      "input"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {}
+                                          }
+                                        ]
+                                      },
+                                      "is_error": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "source": {},
+                                      "image_url": {},
+                                      "cache_control": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string",
+                                            "const": "ephemeral"
+                                          }
+                                        },
+                                        "required": [
+                                          "type"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type"
+                                    ],
+                                    "additionalProperties": true
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "role",
+                        "content"
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "max_tokens": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "system": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "text"
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "cache_control": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "ephemeral"
+                                }
+                              },
+                              "required": [
+                                "type"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "text"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "top_p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "top_k": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "stream": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "stop_sequences": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "metadata": {},
+                  "tools": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "tool_choice": {},
+                  "thinking": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "enabled",
+                          "disabled"
+                        ]
+                      },
+                      "budget_tokens": {
+                        "type": "integer",
+                        "minimum": 1024
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  }
+                },
+                "required": [
+                  "model",
+                  "messages",
+                  "max_tokens"
+                ]
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='archipelago-70b',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/anthropic'\n});\n\nconst message = await client.messages.create({\n  model: 'archipelago-70b',\n  max_tokens: 1024,\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(message.content[0].text);"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/anthropic/v1/messages/count_tokens": {
+      "post": {
+        "operationId": "postAnthropicV1MessagesCountTokens",
+        "tags": [
+          "Anthropic"
+        ],
+        "summary": "Count tokens",
+        "description": "Count the number of tokens in a message using the Anthropic-compatible API.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "input_tokens": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "input_tokens"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "user",
+                            "assistant"
+                          ]
+                        },
+                        "content": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "array",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "text"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "text"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "image"
+                                      },
+                                      "source": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string",
+                                            "const": "base64"
+                                          },
+                                          "media_type": {
+                                            "type": "string"
+                                          },
+                                          "data": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "type",
+                                          "media_type",
+                                          "data"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "source"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "tool_use"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "input": {
+                                        "type": "object",
+                                        "additionalProperties": {}
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "name",
+                                      "input"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "array",
+                                            "items": {}
+                                          }
+                                        ]
+                                      },
+                                      "is_error": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      },
+                                      "source": {},
+                                      "image_url": {},
+                                      "cache_control": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string",
+                                            "const": "ephemeral"
+                                          }
+                                        },
+                                        "required": [
+                                          "type"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type"
+                                    ],
+                                    "additionalProperties": true
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "role",
+                        "content"
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "system": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "text"
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "cache_control": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "ephemeral"
+                                }
+                              },
+                              "required": [
+                                "type"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "text"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "tools": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "thinking": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "enabled",
+                          "disabled"
+                        ]
+                      },
+                      "budget_tokens": {
+                        "type": "integer",
+                        "minimum": 1024
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  }
+                },
+                "required": [
+                  "model",
+                  "messages"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/models/{modelId}": {
+      "get": {
+        "operationId": "getV1ModelsByModelId",
+        "tags": [
+          "Models"
+        ],
+        "summary": "Retrieve model",
+        "description": "Retrieves a model instance, providing basic information about the model.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "model"
+                    },
+                    "created": {
+                      "type": "number"
+                    },
+                    "owned_by": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "created",
+                    "owned_by"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Model not found"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "modelId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/embeddings": {
+      "post": {
+        "operationId": "postV1Embeddings",
+        "tags": [
+          "Embeddings"
+        ],
+        "summary": "Create embeddings",
+        "description": "Creates an embedding vector representing the input text.",
+        "responses": {
+          "200": {
+            "description": "Successful embedding response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "input": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 8000
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 1,
+                        "maxItems": 2048
+                      }
+                    ]
+                  },
+                  "encoding_format": {
+                    "type": "string",
+                    "enum": [
+                      "float",
+                      "base64"
+                    ],
+                    "default": "float"
+                  },
+                  "user": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "model",
+                  "input"
+                ]
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\nresponse = client.embeddings.create(\n    model='nusa-embedding-0001',\n    input='Kecerdasan Buatan adalah masa depan.'\n)\nprint(response.data[0].embedding)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.embeddings.create({\n  model: 'nusa-embedding-0001',\n  input: 'Kecerdasan Buatan adalah masa depan.',\n});\nconsole.log(response.data[0].embedding);"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/moderations": {
+      "post": {
+        "operationId": "postV1Moderations",
+        "tags": [
+          "System"
+        ],
+        "summary": "Create moderation",
+        "description": "Classify if text is potentially harmful.",
+        "responses": {
+          "200": {
+            "description": "Successful moderation"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/system/status": {
+      "get": {
+        "operationId": "getV1SystemStatus",
+        "tags": [
+          "System"
+        ],
+        "summary": "Get system status",
+        "description": "Get health and performance metrics for the Neosantara AI platform.",
+        "responses": {
+          "200": {
+            "description": "System status"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/files": {
+      "post": {
+        "operationId": "postV1Files",
+        "tags": [
+          "Files"
+        ],
+        "summary": "Upload file",
+        "description": "Upload a file that can be used across various endpoints.",
+        "responses": {
+          "200": {
+            "description": "Successful upload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "file"
+                    },
+                    "bytes": {
+                      "type": "number"
+                    },
+                    "created_at": {
+                      "type": "number"
+                    },
+                    "filename": {
+                      "type": "string"
+                    },
+                    "purpose": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "bytes",
+                    "created_at",
+                    "filename",
+                    "purpose",
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getV1Files",
+        "tags": [
+          "Files"
+        ],
+        "summary": "List files",
+        "description": "Returns a list of files that belong to the user.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "purpose",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "batch",
+                "assistants",
+                "fine-tune"
+              ]
+            },
+            "description": "Filter files by purpose."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            },
+            "description": "The maximum number of files to return."
+          },
+          {
+            "in": "query",
+            "name": "after",
+            "schema": {
+              "type": "string"
+            },
+            "description": "A cursor for pagination."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of files",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "list"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "object": {
+                            "type": "string",
+                            "const": "file"
+                          },
+                          "bytes": {
+                            "type": "number"
+                          },
+                          "created_at": {
+                            "type": "number"
+                          },
+                          "filename": {
+                            "type": "string"
+                          },
+                          "purpose": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "object",
+                          "bytes",
+                          "created_at",
+                          "filename",
+                          "purpose",
+                          "status"
+                        ]
+                      }
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/files/{file_id}": {
+      "get": {
+        "operationId": "getV1FilesByFileId",
+        "tags": [
+          "Files"
+        ],
+        "summary": "Retrieve file",
+        "description": "Returns information about a specific file.",
+        "responses": {
+          "200": {
+            "description": "File metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "file"
+                    },
+                    "bytes": {
+                      "type": "number"
+                    },
+                    "created_at": {
+                      "type": "number"
+                    },
+                    "filename": {
+                      "type": "string"
+                    },
+                    "purpose": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "bytes",
+                    "created_at",
+                    "filename",
+                    "purpose",
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "file_id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteV1FilesByFileId",
+        "tags": [
+          "Files"
+        ],
+        "summary": "Delete file",
+        "description": "Deletes the specified file.",
+        "responses": {
+          "200": {
+            "description": "File deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "file"
+                    },
+                    "deleted": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "file_id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/files/{file_id}/content": {
+      "get": {
+        "operationId": "getV1FilesByFileIdContent",
+        "tags": [
+          "Files"
+        ],
+        "summary": "Retrieve file content",
+        "description": "Returns the contents of the specified file.",
+        "responses": {
+          "200": {
+            "description": "File content"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "file_id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/batches": {
+      "post": {
+        "operationId": "postV1Batches",
+        "tags": [
+          "Batches"
+        ],
+        "summary": "Create batch",
+        "description": "Creates a new batch job for asynchronous processing.",
+        "responses": {
+          "200": {
+            "description": "Batch created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "batch"
+                    },
+                    "endpoint": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "number"
+                    },
+                    "request_counts": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "completed": {
+                          "type": "number"
+                        },
+                        "failed": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "completed",
+                        "failed"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "endpoint",
+                    "status",
+                    "created_at",
+                    "request_counts"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Permission denied"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getV1Batches",
+        "tags": [
+          "Batches"
+        ],
+        "summary": "List batches",
+        "description": "Returns a list of batch jobs belonging to the user.",
+        "responses": {
+          "200": {
+            "description": "List of batches",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "list"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/batches/{batch_id}": {
+      "get": {
+        "operationId": "getV1BatchesByBatchId",
+        "tags": [
+          "Batches"
+        ],
+        "summary": "Retrieve batch",
+        "description": "Returns information about a specific batch job.",
+        "responses": {
+          "200": {
+            "description": "Batch details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "batch"
+                    },
+                    "endpoint": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "number"
+                    },
+                    "request_counts": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "completed": {
+                          "type": "number"
+                        },
+                        "failed": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "completed",
+                        "failed"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "endpoint",
+                    "status",
+                    "created_at",
+                    "request_counts"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Batch not found"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "batch_id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/batches/{batch_id}/cancel": {
+      "post": {
+        "operationId": "postV1BatchesByBatchIdCancel",
+        "tags": [
+          "Batches"
+        ],
+        "summary": "Cancel batch",
+        "description": "Cancels an in-progress batch job.",
+        "responses": {
+          "200": {
+            "description": "Batch cancellation requested",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "batch"
+                    },
+                    "status": {
+                      "type": "string",
+                      "const": "canceled"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "object",
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Batch not found"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "batch_id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/": {
+      "get": {
+        "operationId": "getIndex",
+        "tags": [
+          "System"
+        ],
+        "summary": "Root Redirect",
+        "description": "Redirects to main website.",
+        "responses": {},
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+---
+title: "Download File Content"
+api: 'GET /v1/files/:file_id/content'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+Download the actual content of an uploaded file.
+
+<ParamField path="file_id" type="string" required>
+The ID of the file to download (e.g., `file-abc123`).
+</ParamField>
+
+### Returns
+
+Returns the raw file content with appropriate headers:
+
+- `Content-Type`: The MIME type of the file (e.g., `text/jsonl`)
+- `Content-Disposition`: Attachment header with the original filename
+- `Content-Length`: Size of the content in bytes
+
+### Return Examples
+
+```text Response 200
+Raw file content will be returned with appropriate headers
+```
+
+```json Error 404 - File Not Found
+{
+  "error": {
+    "message": "File not found or access denied",
+    "type": "invalid_request_error",
+    "code": "file_not_found"
+  }
+}
+```
+
+```json Error 410 - File Expired
+{
+  "error": {
+    "message": "File has expired",
+    "type": "invalid_request_error",
+    "code": "file_expired"
+  }
+}
+```
+
+```json Error 500 - Content Unavailable
+{
+  "error": {
+    "message": "File content not available",
+    "type": "server_error",
+    "code": "content_unavailable"
+  }
+}
+```

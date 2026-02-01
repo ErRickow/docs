@@ -1,0 +1,150 @@
+---
+title: "AI Coding Tools"
+description: "Configure Neosantara with popular coding assistants like Claude Code, Cursor, Cline, and more."
+---
+
+Neosantara provides full compatibility with both OpenAI and Anthropic API formats, allowing you to use state-of-the-art coding models like **Claude 4.5 Sonnet**, **Qwen 3 32B**, or **Llama 3.3 Nemotron** directly inside your favorite development tools.
+
+<Note>
+  Neosantara operates on a **Pay-As-You-Go** billing system. Ensure you have an active balance in your [Dashboard](https://app.neosantara.xyz/billing) before starting.
+</Note>
+
+## Use Neosantara in Claude Code (CLI)
+
+Claude Code is a high-performance CLI agent that can search, edit code, and execute terminal commands.
+
+### Configure Neosantara API
+
+<Warning>
+  **Important: Clear Anthropic Environment Variables**
+  Before configuring, ensure you clear existing Anthropic variables to avoid conflicts:
+  `unset ANTHROPIC_AUTH_TOKEN`
+  `unset ANTHROPIC_BASE_URL`
+</Warning>
+
+1. Edit or create the Claude Code configuration file at `~/.claude/settings.json`.
+2. Add the following `env` configuration:
+
+* **ANTHROPIC_BASE_URL**: `https://api.neosantara.xyz/anthropic`
+* **ANTHROPIC_AUTH_TOKEN**: Your Neosantara API Key.
+* **ANTHROPIC_MODEL**: Your preferred model ID
+
+```json icon="code"
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "YOUR_NEOSANTARA_API_KEY",
+    "API_TIMEOUT_MS": "3600000",
+    "ANTHROPIC_MODEL": "qwen3-32b",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-3-flash"
+  }
+}
+```
+
+3. Run `claude` in your terminal and select **Trust This Folder** to begin.
+
+---
+
+## Use Neosantara in Cursor
+
+Cursor is an AI-powered IDE built on VS Code that supports custom model providers.
+
+### Cursor Configuration Steps
+
+1. Open Cursor Settings (**Cmd+Shift+J** or **Ctrl+Shift+J**).
+2. Go to **Models** > **OpenAI API Key**.
+3. Click **"Override OpenAI Base URL"** and enter:
+   `https://api.neosantara.xyz/v1`
+4. Enter your Neosantara API Key in the API Key field.
+5. Click **"Add Custom Model"** and enter your preferred model ID, such as `claude-4.5-sonnet`, `qwen3-32b`, or any other available model.
+6. Enable the added model and disable others if you want to force Neosantara usage.
+
+---
+
+## Use Neosantara in Cline / Roo Code
+
+Cline and Roo Code are powerful VS Code extensions for autonomous coding.
+
+### Cline / Roo Code Configuration Steps
+
+1. Click the Cline/Roo Code icon in the sidebar.
+2. Open **Settings**.
+3. Under **API Provider**, select **OpenAI Compatible**.
+4. Set **Base URL** to: `https://api.neosantara.xyz/v1`
+5. Set **API Key** to your Neosantara API Key.
+6. Set **Model ID** to your preferred model ID.
+7. Ensure **Context Window** is set to at least `131072`.
+
+---
+
+## Use Neosantara in TRAE
+
+TRAE is an adaptive AI IDE that supports custom model configurations.
+
+### TRAE Configuration Steps
+
+1. Open **Settings** > **Models**.
+2. Click **+ Add Model**.
+3. Enter Configuration:
+   * **Provider**: OpenAI Compatible
+   * **Base URL**: `https://api.neosantara.xyz/v1`
+   * **Model Name**: Your preferred model ID
+   * **API Key**: Your Neosantara API Key.
+4. Click **Save** and select the model in the chat panel.
+
+---
+
+## Use Neosantara in Windsurf
+
+Windsurf is an AI-powered IDE built on VS Code with advanced Cascade features.
+
+### Windsurf Configuration Steps
+
+1. Open Windsurf Settings
+2. Go to **Models** > **Cascade Settings**
+3. Add Neosantara provider:
+   * **Provider Name**: Neosantara
+   * **Base URL**: `https://api.neosantara.xyz/v1`
+   * **API Key**: Your Neosantara API Key
+   * **Default Model**: Choose any model available on the platform
+
+4. Enable provider and select your preferred model
+5. Start using AI-assisted development with full Cascade features
+
+---
+
+## Use Neosantara in OpenCode
+
+OpenCode is a VS Code extension that provides AI-powered coding assistance.
+
+### OpenCode Configuration Steps
+
+1. Install OpenCode from VS Code Marketplace
+2. Click the OpenCode icon in the sidebar
+3. Open **Settings** (gear icon)
+4. Under **API Provider**, select **OpenAI Compatible**
+5. Set **Base URL** to: `https://api.neosantara.xyz/v1`
+6. Set **API Key** to your Neosantara API Key
+7. Set **Model** to your preferred model ID.
+8. Ensure **Context Window** is set to at least `131072`
+
+---
+
+## Troubleshooting
+
+### API Error: Model Not Found
+
+Ensure you are using the correct base URL:
+
+* Use `/anthropic` for tools expecting Anthropic format (Claude Code, Droid).
+* Use `/v1` for tools expecting OpenAI format (Cursor, Cline, Trae).
+
+### Error: Missing Capability
+
+Some tools (like Claude CLI) require **Function Calling**. Ensure you use models that support this feature, such as `claude-4.5-sonnet`, `qwen3-32b`, or `gemini-3-flash`.
+
+### Balance Issues
+
+If you receive a `402 Payment Required` or `insufficient_quota` error, please check your balance at [app.neosantara.xyz/billing](https://app.neosantara.xyz/billing).

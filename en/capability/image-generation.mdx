@@ -1,250 +1,87 @@
 ---
-title: 'Image Generations'
-description: '> Generate high-quality images from text prompts using various AI models.'
+title: "Image Generations"
+description: "Generate high-quality images from text prompts using various AI models like FLUX, Titan, and Stable Diffusion."
 ---
 
 Image generation allows you to create unique visual content directly from textual descriptions (prompts). This capability can be used for creative applications, content creation, design, and more.
 
-## How Image Generation Works
-
-You provide a text prompt describing the image you want to create, and the NeosantaraAI API utilizes advanced generative AI models to produce the corresponding image(s). You can specify parameters like the number of images, their size, and the format of the output.
-
-The NeosantaraAI API provides an `/v1/images/generations` endpoint for this purpose.
-
 ## Usage
 
-To generate images, send a POST request to the `/v1/images/generations` endpoint with your text prompt and desired parameters.
+To generate images, send a POST request to the `/v1/images/generations` endpoint. This endpoint is fully compatible with the OpenAI Image Generation standard.
 
 ### Endpoint
 
 `POST /v1/images/generations`
 
-### Request Body
+<Note>
+  For detailed parameter descriptions and to test the API directly, visit the [API Reference](/api-reference/images/create-image-generation).
+</Note>
 
-```json
-{
-  "prompt": "A futuristic city skyline at sunset with flying cars and neon lights, highly detailed, cyberpunk style.",
-  "model": "neosantara-gen-2045",
-  "n": 1,
-  "size": "1024x1024",
-  "steps": 50,
-  "response_format": "url"
-}
-```
+## Advanced Capabilities
 
-#### Parameters
+Some models, like **Titan Image G1**, support advanced image manipulation tasks:
 
-* **`prompt`** (string, **required**): The text description of the image(s) to generate.
-* **`model`** (string, optional, default: `"neosantara-gen-2045"`): The ID of the image generation model to use.
-* **`n`** (integer, optional, default: `1`): The number of images to generate. Must be between 1 and 4.
-* **`size`** (string, optional, default: `"1024x1024"`): The size of the generated images. Supported sizes depend on the model but commonly include `"512x512"`, `"1024x1024"`.
-* **`steps`** (integer, optional, default: `1`): The number of diffusion steps for image generation. Higher values generally lead to better quality but take longer.
-* **`response_format`** (string, optional, default: `"url"`): The format in which the generated images are returned.
-    * `"url"`: Returns a temporary URL to the generated image. These URLs are typically valid for a short period (e.g., 5 minutes).
-    * `"b64_json"`: Returns the image data directly as a base64-encoded JSON string.
+### Image-to-Image (Variation)
 
-### Supported Image Generation Models
+Generate a new image based on an existing one. Provide the original image in the `image` parameter (as a base64 string) and a `prompt` describing the desired changes or style.
 
-The NeosantaraAI API supports the following image generation models:
+### Inpainting & Outpainting
 
-* **`neosantara-gen-2045`**: Our primary image generation model, hosted on Together AI. Recommended for quality and speed.
-* **`replicate-stable-diffusion-xl`**: A Stable Diffusion XL model hosted on Replicate, serving as a robust fallback for image generation.
+*   **Inpainting**: Modify specific areas of an image using a `mask_image`.
+*   **Outpainting**: Extend an image beyond its borders by setting `outpainting_mode` to `"DEFAULT"` or `"PRECISE"`.
 
-### Example Response (`"response_format": "url"`)
+---
 
-```json
-{
-  "id": "img-abcdef1234567890abcdef123456",
-  "object": "image",
-  "created": 1701234567,
-  "model": "neosantara-gen-2045",
-  "data": [
-    {
-      "url": "[https://api.neosantara.xyz/share/generated/a1b2c3d4e5f67890a1b2c3d4e5f67890](https://api.neosantara.xyz/share/generated/a1b2c3d4e5f67890a1b2c3d4e5f67890)",
-      "b64_json": null
-    }
-  ],
-  "usage": {
-    "prompt_tokens": 100,
-    "completion_tokens": 0,
-    "total_tokens": 100
-  },
-  "_metadata": {
-    "creator": "neosantara.xyz",
-    "status": true,
-    "model_used": "neosantara-gen-2045",
-    "tier": "Free",
-    "image_count": 1,
-    "image_size": "1024x1024",
-    "prompt_length": 65,
-    "steps": 50,
-    "equivalent_tokens_used": 100,
-    "response_format": "url",
-    "processing_time": 1234,
-    "timestamp": "2025-07-28 04:10:00"
-  }
-}
-```
+## Supported Image Models
 
-### Example Response (`"response_format": "b64_json"`)
+| Model ID | Best For |
+| :--- | :--- |
+| `titan-image-g1` | Versatile, high-performance, supports Inpainting/Outpainting |
+| `neosantara-gen-2045` | High-quality, artistic, and cinematic outputs |
+| `stable-diffusion-v1-5-img2img` | Efficient and fast image-to-image generation |
 
-```json
-{
-  "id": "img-abcdef1234567890abcdef123456",
-  "object": "image",
-  "created": 1701234567,
-  "model": "neosantara-gen-2045",
-  "data": [
-    {
-      "url": null,
-      "b64_json": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-    }
-  ],
-  "usage": {
-    "prompt_tokens": 100,
-    "completion_tokens": 0,
-    "total_tokens": 100
-  },
-  "_metadata": {
-    "creator": "neosantara.xyz",
-    "status": true,
-    "model_used": "neosantara-gen-2045",
-    "tier": "Free",
-    "image_count": 1,
-    "image_size": "1024x1024",
-    "prompt_length": 65,
-    "steps": 50,
-    "equivalent_tokens_used": 100,
-    "response_format": "b64_json",
-    "processing_time": 1234,
-    "timestamp": "2025-07-28 04:10:00"
-  }
-}
-```
+---
 
-## Python and JavaScript Examples (with OpenAI SDK)
-
-You can generate images using the OpenAI SDK by configuring its `base_url` to point to the NeosantaraAI API.
+## Python and JavaScript Examples (OpenAI SDK)
 
 <CodeGroup>
-```python Py icon="python"
-from openai import OpenAI
-import base64 # Needed if you want to decode and save/display base64
 
-# Initialize the OpenAI client with your API key
-# Replace "YOUR_API_KEY" with your actual NeosantaraAI API Key
+```python Python
+from openai import OpenAI
+import os
+
 client = OpenAI(
-    api_key="YOUR_API_KEY",
+    api_key=os.environ.get("YOUR_NEOSANTARA_API_KEY"),
     base_url="https://api.neosantara.xyz/v1"
 )
 
-def generate_image(prompt: str, model: str = "neosantara-gen-2045", num_images: int = 1, size: str = "1024x1024", response_format: str = "url"):
-    """
-    Generates images from a text prompt using the NeosantaraAI API.
-    """
-    print(f"Generating image(s) for prompt: '{prompt}' with model: {model}")
+response = client.images.generate(
+    model="neosantara-gen-2045",
+    prompt="A serene Indonesian rice paddy field at sunrise, cinematic lighting.",
+    n=1,
+    size="1024x1024",
+    response_format="url"
+)
 
-    try:
-        response = client.images.generate(
-            model=model,
-            prompt=prompt,
-            n=num_images,
-            size=size,
-            response_format=response_format # 'url' or 'b64_json'
-        )
-
-        if response_format == "url":
-            image_urls = [item.url for item in response.data]
-            print("\nGenerated Image URLs:")
-            for url in image_urls:
-                print(url)
-            return image_urls
-        elif response_format == "b64_json":
-            base64_images = [item.b64_json for item in response.data]
-            print(f"\nGenerated {len(base64_images)} base64-encoded images.")
-            # Example: To save the first image (requires 'base64' import)
-            # with open("generated_image.png", "wb") as f:
-            #     f.write(base64.b64decode(base64_images[0]))
-            return base64_images
-        else:
-            print("Unsupported response format.")
-            return None
-
-    except Exception as e:
-        print(f"\nAn error occurred during image generation: {e}")
-        return None
-
-if __name__ == "__main__":
-    # Example 1: Generate image and get URL
-    image_prompt_url = "A serene Indonesian rice paddy field at sunrise, with a traditional farmer working, cinematic lighting."
-    generated_urls = generate_image(image_prompt_url, num_images=1, size="1024x1024", response_format="url")
-
-    # Example 2: Generate image and get base64 data (useful for direct embedding)
-    # image_prompt_b64 = "A majestic Komodo dragon basking in the sun on a rocky beach, realistic, high detail."
-    # generated_b64_data = generate_image(image_prompt_b64, num_images=1, size="512x512", response_format="b64_json")
-    # if generated_b64_data:
-    #     print("\nFirst base64 image data (truncated):")
-    #     print(generated_b64_data[0][:50], "...")
+print(response.data[0].url)
 ```
-```javascript Js icon="square-js"
-// Install the OpenAI Node.js library: npm install openai
+
+```javascript Node.js
 import OpenAI from 'openai';
 
-// Initialize the OpenAI client with your API key
-// Replace "YOUR_API_KEY" with your actual NeosantaraAI API Key
 const client = new OpenAI({
-  apiKey: "YOUR_API_KEY",
+  apiKey: "YOUR_NEOSANTARA_API_KEY",
   baseURL: "https://api.neosantara.xyz/v1",
 });
 
-async function generateImage(prompt, model = "neosantara-gen-2045", numImages = 1, size = "1024x1024", responseFormat = "url") {
-  console.log(`Generating image(s) for prompt: '${prompt}' with model: ${model}`);
+const response = await client.images.generate({
+  model: "titan-image-g1",
+  prompt: "A majestic Komodo dragon basking in the sun on a rocky beach, realistic.",
+  n: 1,
+  size: "1024x1024",
+});
 
-  try {
-    const response = await client.images.generate({
-      model: model,
-      prompt: prompt,
-      n: numImages,
-      size: size,
-      response_format: responseFormat, // 'url' or 'b64_json'
-    });
-
-    if (responseFormat === "url") {
-      const imageUrls = response.data.map(item => item.url);
-      console.log("\nGenerated Image URLs:");
-      imageUrls.forEach(url => console.log(url));
-      return imageUrls;
-    } else if (responseFormat === "b64_json") {
-      const base64Images = response.data.map(item => item.b64_json);
-      console.log(`\nGenerated ${base64Images.length} base64-encoded images.`);
-      // Example: To save the first image (Node.js example, requires 'fs' module)
-      // import fs from 'fs';
-      // fs.writeFileSync('generated_image.png', Buffer.from(base64Images[0], 'base64'));
-      return base64Images;
-    } else {
-      console.log("Unsupported response format.");
-      return null;
-    }
-
-  } catch (error) {
-    console.error(`\nAn error occurred during image generation: ${error.message}`);
-    return null;
-  }
-}
-
-// Example usage
-(async () => {
-  // Example 1: Generate image and get URL
-  const imagePromptUrl = "A serene Indonesian rice paddy field at sunrise, with a traditional farmer working, cinematic lighting.";
-  const generatedUrls = await generateImage(imagePromptUrl, 1, "1024x1024", "url");
-
-  // Example 2: Generate image and get base64 data (useful for direct embedding)
-  // const imagePromptB64 = "A majestic Komodo dragon basking in the sun on a rocky beach, realistic, high detail.";
-  // const generatedB64Data = await generateImage(imagePromptB64, 1, "512x512", "b64_json");
-  // if (generatedB64Data) {
-  //   console.log("\nFirst base64 image data (truncated):");
-  //   console.log(generatedB64Data[0].substring(0, 50), "...");
-  // }
-})();
+console.log(response.data[0].url);
 ```
+
 </CodeGroup>

@@ -1,0 +1,44 @@
+---
+title: "Authentication"
+description: "Learn how to authenticate your applications using API Keys and JWT tokens. Detailed guide on header configuration and security best practices for Neosantara."
+---
+
+Neosantara API supports standard authentication methods across endpoints.
+
+## Methods
+
+- Bearer Token (API Key in Authorization header)
+- API Key header (e.g., `x-api-key`)
+- Environment variables (recommended for local development)
+
+## How to Use
+
+- Set Authorization header: `Authorization: Bearer YOUR_NEOSANTARA_API_KEY`
+- Or provide API key via header like `x-api-key: <KEY>` depending on client library.
+- For browser-based apps, use a secure backend to proxy requests and keep keys secret.
+
+## Examples
+
+Python
+
+```python icon="python"
+import requests
+headers = {"Authorization": "Bearer YOUR_NEOSANTARA_API_KEY"}
+payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]}
+resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
+```
+
+JavaScript
+
+```js
+const payload = {
+  model: "nusantara-base",
+  messages: [{ role: "user", content: "Hello" }]
+};
+
+const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer YOUR_NEOSANTARA_API_KEY' },
+  body: JSON.stringify(payload)
+})
+```

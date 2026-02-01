@@ -1,0 +1,212 @@
+---
+title: "Retrieval-Augmented Generation (RAG)"
+description: "Build a Knowledge-Aware AI using Neosantara Embeddings and Chat"
+---
+
+This guide shows you how to build a "Real World" RAG application: a **Customer Support Assistant** that answers questions based on your company's documentation, rather than just its training data.
+
+## What we're building
+
+We will build a system that:
+
+1. **Reads** your support documents.
+2. **Converts** them into vector embeddings using `nusa-embedding-0001`.
+3. **Searches** for relevant info when a user asks a question.
+4. **Generates** an accurate answer using `nusantara-base` or `garda-beta-mini`.
+
+## Prerequisites
+
+* A Neosantara API Key.
+* A simple vector store (we'll use a local in-memory example for simplicity, but you can use Pinecone, Supabase, or Qdrant).
+
+---
+
+## Step 1: Create Embeddings (Ingestion)
+
+First, we need to turn your text data into numbers (vectors) so the AI can search it.
+
+```javascript icon="js"
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+// Your "Knowledge Base"
+const documents = [
+  "To reset your password, go to Settings > Security > Reset Password.",
+  "Our refund policy allows returns within 30 days of purchase. To initiate a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return.",
+  "Support hours are Monday to Friday, 9 AM to 5 PM WIB.",
+  "Neosantara API rate limit for Free tier is 1000 RPM."
+];
+
+async function createKnowledgeBase() {
+  console.log("Creating embeddings...");
+  
+  const vectorStore = [];
+
+  for (const doc of documents) {
+    const response = await client.embeddings.create({
+      model: "nusa-embedding-0001", // Optimized for retrieval
+      input: doc
+    });
+
+    vectorStore.push({
+      text: doc,
+      vector: response.data[0].embedding
+    });
+  }
+  
+  return vectorStore;
+}
+```
+
+## Step 2: Search (Retrieval)
+
+When a user asks a question, we convert their question into a vector and find the closest matching documents using **Cosine Similarity**.
+
+```javascript icon="js"
+// Simple cosine similarity function
+function cosineSimilarity(vecA, vecB) {
+  let dotProduct = 0.0;
+  let normA = 0.0;
+  let normB = 0.0;
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+async function retrieveContext(query, vectorStore) {
+  // 1. Embed the user's question
+  const queryResponse = await client.embeddings.create({
+    model: "nusa-embedding-0001",
+    input: query
+  });
+  const queryVector = queryResponse.data[0].embedding;
+
+  // 2. Calculate similarity with all docs
+  const scoredDocs = vectorStore.map(doc => ({
+    text: doc.text,
+    score: cosineSimilarity(queryVector, doc.vector)
+  }));
+
+  // 3. Get top 2 most relevant docs
+  scoredDocs.sort((a, b) => b.score - a.score);
+  return scoredDocs.slice(0, 2).map(d => d.text).join("\n\n");
+}
+```
+
+## Step 3: Generate Answer (Generation)
+
+Finally, we pass the retrieved context to the LLM to generate a natural answer.
+
+```javascript icon="js"
+async function answerUserQuestion(question, vectorStore) {
+  console.log(`User asks: "${question}"`);
+
+  // Retrieve relevant info
+  const context = await retrieveContext(question, vectorStore);
+  console.log(`Found context:\n${context}\n---
+
+`);
+
+  // Generate answer
+  const response = await client.chat.completions.create({
+    model: "nusantara-base", // General purpose model
+    messages: [
+      {
+        role: "system",
+        content: "You are a helpful support agent. Answer the user's question using ONLY the provided context. If the answer isn't in the context, say you don't know."
+      },
+      {
+        role: "user",
+        content: `Context:\n${context}\n\nQuestion: ${question}`
+      }
+    ]
+  });
+
+  console.log("AI Answer:", response.choices[0].message.content);
+}
+```
+
+## Running the Full Example
+
+Combining it all together:
+
+```javascript icon="js"
+async function main() {
+  // 1. Setup
+  const kb = await createKnowledgeBase();
+
+  // 2. Ask a question that IS in the docs
+  await answerUserQuestion("How do I get a refund?", kb);
+  
+  // 3. Ask a question that IS NOT in the docs
+  await answerUserQuestion("How do I bake a cake?", kb);
+}
+
+main();
+```
+
+### Expected Output
+
+```text
+User asks: "How do I get a refund?"
+Found context:
+Our refund policy allows returns within 30 days of purchase. To initiate a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return.
+...
+AI Answer: To get a refund, please contact our support team at support@neosantara.xyz with your order number and reason for return.
+
+User asks: "How do I bake a cake?"
+Found context:
+Support hours are Monday to Friday... (or other irrelevant context)
+...
+AI Answer: I don't know. I can only help with support questions related to our services.
+```
+
+## Why this matters?
+
+Without RAG, the model might hallucinate a fake refund policy or give generic advice. With RAG, it adheres strictly to **your** data, providing accurate and actionable information.
+
+---
+
+## Integrating with Vector Databases (e.g., Pinecone)
+
+For production-ready RAG applications, you'll need a scalable way to store and retrieve your embeddings. **Vector databases** like Pinecone, Weaviate, Qdrant, or Postgres with `pgvector` are designed for this purpose.
+
+The core RAG flow remains the same, but Step 1 (Create Embeddings) and Step 2 (Search) will involve interacting with your chosen vector database instead of a local in-memory array.
+
+### High-Level Steps for Pinecone Integration
+
+1. **Setup Pinecone Index**: Initialize a Pinecone client and create an index with the appropriate `dimension` (e.g., 768 for `nusa-embedding-0001`).
+2. **Upsert Embeddings**: When creating your knowledge base, instead of pushing to `vectorStore`, you'll `upsert` your document chunks and their corresponding embeddings to your Pinecone index.
+3. **Query Pinecone**: For retrieval, embed the user's query and then use the Pinecone client to query your index for the top-k (e.g., top 2) most similar vectors. Pinecone handles the similarity calculation for you.
+4. **Retrieve Full Context**: From the Pinecone query results, extract the original text content of the relevant documents to pass to the LLM.
+
+```javascript icon="js"
+// Example (conceptual):
+// import { Pinecone } from '@pinecone-database/pinecone';
+// const pc = new Pinecone({ apiKey: 'YOUR_NEOSANTARA_API_KEY' });
+// const index = pc.index('my-rag-index');
+
+async function createPineconeKnowledgeBase(documents) {
+  // ... (embed documents as before)
+  // await index.upsert(vectors_with_metadata);
+}
+
+async function retrievePineconeContext(query) {
+  // ... (embed query as before)
+  // const queryVector = ...;
+  // const queryResult = await index.query({ vector: queryVector, topK: 2 });
+  // return queryResult.matches.map(m => m.metadata.text).join("\n\n");
+}
+```
+
+By leveraging a robust vector database, your RAG application can scale to millions of documents while maintaining fast and accurate retrieval.
+
+For a complete, runnable example using ChromaDB, see our detailed guide: [Build a RAG Application with ChromaDB](/en/guides/rag-chromadb-example).
+For integrating with Cloudflare Vectorize, see: [Build a RAG Application with Cloudflare Vectorize](/en/guides/rag-cloudflare-vectorize-example).

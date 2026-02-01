@@ -1,0 +1,120 @@
+---
+title: "Quickstart: Using Vercel AI SDK With Neosantara"
+description: "> This guide will walk you through how to use Neosantara models with the Vercel AI SDK."
+---
+
+The Vercel AI SDK is a powerful Typescript library designed to help developers build AI-powered applications. Using Neosantara and the Vercel AI SDK, you can easily integrate AI into your TypeScript, React, or Next.js project. In this tutorial, we'll look into how easy it is to use Neosantara's models and the Vercel AI SDK.
+
+## QuickStart: 15 lines of code
+
+1. Install both the Vercel AI SDK and OpenAI's Vercel package.
+
+```bash icon="terminal"
+npm i ai @ai-sdk/openai-compatible
+```
+
+```bash icon="terminal"
+yarn add ai @ai-sdk/openai-compatible
+```
+
+2. Instantiate the Neosantara client and call the `generateText` function with nusantara-base to generate some text.
+
+```javascript icon="js"
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { generateText } from 'ai';
+
+const neosantara = createOpenAICompatible({
+  name: 'neosantara_xyz',
+  apiKey: process.env.NAI_API_KEY ?? "",
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const { text } = await generateText({
+  model: neosantara('nusantara-base'),
+  prompt: 'Write a story about cat want a whiskas',
+});
+
+console.log(text)
+```
+
+### Output
+```text
+Luna, seekor kucing dengan bulu hitam pekat, sedang tidur siang di ambang jendela. Cahaya matahari menyentuh punggungnya yang lembut.
+
+Perlahan, sebuah dorongan halus muncul. Bukan dari cahaya, melainkan dari dalam perutnya. Ada kekosongan kecil, sebuah isyarat.
+
+Pikirannya melayang pada aroma tertentu. Aroma yang kaya, yang selalu ada di dalam kemasan foil. Aroma Whiskas.
+
+Ia membuka mata hijaunya. Menggeliat, meregangkan setiap otot, lalu melompat turun dengan anggun. Kakinya yang lembut melangkah tanpa suara di lantai kayu.
+
+Ia menemukan manusia di dapur, sibuk dengan kegiatannya sendiri. Luna duduk di dekat kaki manusia, ekornya sesekali bergerak perlahan. Ia mendongak, matanya bertemu dengan mata manusia. Sebuah meong kecil, lembut namun penuh harap, keluar dari tenggorokannya.
+
+Manusia itu menunduk, seolah memahami. Sebuah senyum tipis terukir. Manusia itu bergerak menuju lemari, membuka pintu, dan mengambil sebuah kantung kecil.
+
+Suara sobekan kemasan Whiskas adalah musik di telinga Luna. Ia mengamati setiap gerakan, menunggu.
+
+Saat mangkuk diletakkan di lantai, Luna tidak tergesa-gesa. Ia mendekat, mengendus sebentar, lalu mulai makan dengan tenang. Setiap gigitan adalah kepuasan yang sederhana. Keinginan itu telah terpenuhi.
+```
+
+## Streaming with the Vercel AI SDK
+
+To stream from Neosantara models using the Vercel AI SDK, simply use `streamText` as seen below.
+
+```javascript icon="js"
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { streamText } from "ai";
+
+const neosantara = createOpenAICompatible({
+  apiKey: process.env.NAI_API_KEY ?? "",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function main() {
+  const result = await streamText({
+    model: neosantara("nusantara-base"),
+    prompt: "Invent a new holiday and describe its traditions.",
+  });
+
+  for await (const textPart of result.textStream) {
+    process.stdout.write(textPart);
+  }
+}
+
+main();
+```
+
+### Output
+
+```text
+Introducing "Luminaria Day" - a joyous holiday celebrated on the spring equinox, marking the return of warmth and light to the world. This festive occasion is a time for family, friends, and community to come together, share stories, and bask in the radiance of the season.
+
+**Date:** Luminaria Day is observed on the spring equinox, typically around March 20th or 21st.
+
+**Traditions:**
+
+1. **The Lighting of the Lanterns:** As the sun rises on Luminaria Day, people gather in their neighborhoods, parks, and public spaces to light lanterns made of paper, wood, or other sustainable materials. These lanterns are adorned with intricate designs, symbols, and messages of hope and renewal.
+2. **The Storytelling Circle:** Families and friends gather around a central fire or candlelight to share stories of resilience, courage, and triumph. These tales are passed down through generations, serving as a reminder of the power of human connection and the importance of learning from the past.
+3. **The Luminaria Procession:** As the sun sets, communities come together for a vibrant procession, carrying their lanterns and sharing music, dance, and laughter. The procession winds its way through the streets, symbolizing the return of light and life to the world.
+4. **The Feast of Renewal:** After the procession, people gather for a festive meal, featuring dishes made with seasonal ingredients and traditional recipes. The feast is a time for gratitude, reflection, and celebration of the cycle of life.
+5. **The Gift of Kindness:** On Luminaria Day, people are encouraged to perform acts of kindness and generosity for others. This can take the form of volunteering, donating to charity, or simply offering a helping hand to a neighbor in need.
+
+**Symbolism:**
+
+* The lanterns represent the light of hope and guidance, illuminating the path forward.
+* The storytelling circle symbolizes the power of shared experiences and the importance of learning from one another.
+* The procession represents the return of life and energy to the world, as the seasons shift from winter to spring.
+* The feast of renewal celebrates the cycle of life, death, and rebirth.
+* The gift of kindness embodies the spirit of generosity and compassion that defines Luminaria Day.
+
+**Activities:**
+
+* Create your own lanterns using recycled materials and decorate them with symbols, messages, or stories.
+* Share your own stories of resilience and triumph with family and friends.
+* Participate in the Luminaria Procession and enjoy the music, dance, and laughter.
+* Prepare traditional dishes for the Feast of Renewal and share them with loved ones.
+* Perform acts of kindness and generosity for others, spreading joy and positivity throughout your community.
+
+Luminaria Day is a time to come together, celebrate the return of light and life, and honor the power of human connection.
+```
+
+***

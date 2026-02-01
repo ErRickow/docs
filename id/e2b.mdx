@@ -1,0 +1,83 @@
+---
+title: "Code Interpreter"
+description: "> Pelajari cara menggunakan Neosantara dan E2B Code Interpreter."
+---
+
+## Tinjauan
+
+Panduan ini menjelaskan cara menggunakan **Neosantara** dan **E2B Code Interpreter SDK** untuk membuat sandbox cloud yang aman guna mengeksekusi kode Python untuk analisis data dan visualisasi.
+
+---
+
+## Prasyarat
+
+<Info>
+  Daftar di [Neosantara](https://app.neosantara.xyz/api-keys) untuk mendapatkan **kredit gratis** di awal dan **refill kredit bulanan** (cek dashboard untuk detail promo).
+</Info>
+
+- **Node.js**: Versi 16+.
+- **Python**: Versi 3.6+.
+- **Paket Python**: `openai`, `e2b_code_interpreter`, `python-dotenv`.
+
+---
+
+## Instalasi
+
+```bash icon="terminal"
+pip install e2b_code_interpreter==1.0.0 python-dotenv openai -q
+```
+
+---
+
+## Setup
+
+1. **Buat File Python**: Misal `index.py`.
+2. **Konfigurasi .env**:
+
+    ```env
+    NAI_API_KEY=api_key_neosantara_Kamu
+    E2B_API_KEY=api_key_e2b_Kamu
+    ```
+
+3. **Pilih Model**: `nusantara-base`, `archipelago-70b`, atau `llama-3.3-nemotron-super-49b-v1.5`.
+
+---
+
+## Contoh Kode
+
+```python icon="python"
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+from e2b_code_interpreter import Sandbox
+import re
+
+load_dotenv()
+
+# Inisialisasi klien
+client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
+
+def chat_with_llm(e2b_code_interpreter, user_message):
+    messages = [
+        {"role": "system", "content": "You are a Python data scientist. Respond only with code in a markdown block."},
+        {"role": "user", "content": user_message},
+    ]
+    response = client.chat.completions.create(model='nusantara-base', messages=messages)
+    code = re.search(r"```python\s*([\s\S]*?)\s*```", response.choices[0].message.content).group(1)
+    
+    # Jalankan di sandbox
+    execution = e2b_code_interpreter.run_code(code)
+    return execution.results
+
+with Sandbox(api_key=os.getenv("E2B_API_KEY")) as code_interpreter:
+    results = chat_with_llm(code_interpreter, "Generate a plot of a sine wave.")
+    print("Visualisasi berhasil dibuat!")
+```
+
+---
+
+## Fitur Utama
+
+- **Secure Sandbox**: Kode berjalan di lingkungan terisolasi.
+- **Visualisasi Data**: Gunakan `matplotlib` atau `seaborn`.
+- **Akses File**: Baca/tulis file di dalam sandbox.

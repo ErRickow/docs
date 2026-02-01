@@ -1,0 +1,85 @@
+---
+title: "DSPy"
+description: "> Menggunakan DSPy dengan Neosantara."
+---
+
+DSPy adalah framework untuk pemrograman model bahasa daripada mengandalkan prompt statis. Framework ini memungkinkan Kamu membangun sistem AI modular dengan kode alih-alih prompt yang dibuat secara manual, dan menawarkan metode untuk mengoptimalkan sistem ini secara otomatis.
+
+Fitur
+
+* Pendekatan programatik untuk interaksi LLM melalui Python
+* Komponen modular untuk membangun pipa AI yang kompleks
+* Algoritma perbaikan mandiri yang mengoptimalkan prompt dan bobot
+* Dukungan untuk berbagai aplikasi dari klasifikasi sederhana hingga sistem RAG dan loop agen
+
+## Instalasi Library
+
+```shell
+pip install -U dspy -q
+```
+
+Atur API Key Neosantara Kamu:
+
+```shell
+export NAI_API_KEY=***
+```
+
+## Contoh Penggunaan
+
+Setup dan hubungkan DSPy ke LLM di Neosantara
+
+```python icon="python"
+import dspy
+import os
+
+# Konfigurasi dspy dengan LLM dari Neosantara
+lm = dspy.LM('openai/nusantara-base',
+             api_key=os.environ.get("NAI_API_KEY"),
+             api_base="https://api.neosantara.xyz/v1")
+
+# Sekarang Kamu dapat memanggil LLM secara langsung sebagai berikut
+lm("Say this is a test!", temperature=0.7)  # => ['Ini adalah sebuah tes.']
+lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['Ini adalah sebuah tes.']
+```
+
+Sekarang kita dapat mengatur modul DSPy, seperti `dspy.ReAct` dengan signature khusus tugas. Misalnya, `question -> answer: str` memberi tahu modul untuk menerima pertanyaan dan menghasilkan jawaban string di bawah ini.
+
+```python icon="python"
+# Konfigurasi dspy untuk menggunakan LLM
+import dspy
+import os
+
+# Konfigurasi dspy dengan LLM dari Neosantara
+lm = dspy.LM('openai/archipelago-70b',
+             api_key=os.environ.get("NAI_API_KEY"),
+             api_base="https://api.neosantara.xyz/v1")
+
+# Konfigurasi dspy untuk menggunakan LLM
+dspy.configure(lm=lm)
+
+## Memberikan agen akses ke tools pencarian wikipedia
+def search_wikipedia(query: str):
+    # Gunakan endpoint pencarian ColBERTv2 yang valid (contoh endpoint publik)
+    results = dspy.ColBERTv2(url='http://20.102.90.50:2017/wiki17_abstracts')(query, k=5)
+    # Kembalikan konten teks mentah untuk diproses oleh LLM
+    return results[0]['text'] if results else "Tidak ada informasi relevan yang ditemukan."
+
+
+## Setup modul ReAct dengan signature pertanyaan dan jawaban string
+# Mengubah signature untuk mengharapkan jawaban string
+react = dspy.ReAct("question -> answer: str", tools=[search_wikipedia])
+
+# Gunakan pertanyaan yang membutuhkan jawaban teks
+pred = react(question="kapan hari ulang tahun prabowo?")
+
+print(pred.answer)
+```
+
+<Accordion title="Lihat output">
+  Output akan mengembalikan string jawaban di bawah ini:
+
+   ```bash icon="terminal"
+Prabowo Subianto lahir pada tanggal 17 Oktober 1951.
+```
+
+</Accordion>

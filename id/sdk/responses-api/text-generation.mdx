@@ -1,0 +1,51 @@
+---
+title: "Generasi Teks"
+description: "Pelajari cara menghasilkan respons teks menggunakan Responses API yang stateful."
+---
+
+# Generasi Teks
+
+Gunakan [Responses API](/id/sdk/responses-api) untuk menghasilkan respons teks berkualitas tinggi. API ini memungkinkan Kamu mengirim string sederhana atau objek pesan terstruktur sambil mempertahankan state percakapan di server.
+
+### [Contoh Permintaan](#contoh-permintaan)
+
+<CodeGroup>
+
+```typescript generate.ts
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'grok-4.1-fast-non-reasoning',
+    input: 'Mengapa pengembang menyukai dark mode?'
+  }),
+});
+ 
+const result = await response.json();
+console.log(result.output_text);
+```
+
+</CodeGroup>
+
+---
+
+## [Format Respons](#format)
+
+Respons menyertakan teks yang dihasilkan dalam array `output`, bersama dengan informasi penggunaan token dan helper `output_text` untuk akses cepat.
+
+```json
+{
+  "id": "resp_abc123",
+  "object": "response",
+  "model": "grok-4.1-fast-non-reasoning",
+  "output_text": "Kebiasaan dan estetika memperkuat preferensi ini...",
+  "usage": {
+    "prompt_tokens": 14,
+    "completion_tokens": 18,
+    "total_tokens": 32
+  }
+}
+```

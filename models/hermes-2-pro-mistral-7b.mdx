@@ -1,0 +1,45 @@
+---
+title: "Hermes 2 Pro Mistral 7B"
+description: "Nous Hermes 2 Pro on Mistral 7B: Flagship 7B model optimized for Function Calling and JSON Mode."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { hermes2ProMistral7bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...hermes2ProMistral7bData} />
+
+## Overview
+
+Nous Hermes 2 Pro on Mistral 7B is a flagship 7B parameter model optimized for advanced tasks like Function Calling and JSON Mode. It provides high performance in a compact size, making it ideal for efficient yet capable AI applications.
+
+## Quick Integration
+
+```bash icon="terminal"
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "hermes-2-pro-mistral-7b",
+    "messages": [
+      { "role": "user", "content": "Bantu saya membuat struktur JSON untuk data mahasiswa." }
+    ]
+  }'
+```
+
+```python icon="python"
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="hermes-2-pro-mistral-7b",
+    messages=[
+        {"role": "user", "content": "Bantu saya membuat struktur JSON untuk data mahasiswa."}
+    ]
+)
+
+print(response.choices[0].message.content)
+```

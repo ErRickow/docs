@@ -1,0 +1,110 @@
+---
+title: "Template Prompt"
+description: "Buat dan gunakan kembali prompt dinamis dengan variabel, khusus didedikasikan untuk API Responses."
+---
+
+Template prompt memungkinkan Kamu menyimpan dan mengelola instruksi kompleks di platform Neosantara. Alih-alih mengirimkan prompt yang panjang di setiap panggilan API, Kamu cukup mereferensikan ID template dan memasukkan variabel secara dinamis.
+
+<Warning>
+  **Khusus API Responses**: Template prompt adalah fitur khusus dari endpoint `/v1/responses`. Fitur ini **tidak** didukung oleh endpoint legacy `/v1/chat/completions`.
+</Warning>
+
+## Membuat Template
+
+Kamu dapat mengelola template Kamu langsung dari dashboard:
+
+1.  Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** Kamu.
+2.  Pilih bagian **"Prompt Templates"**.
+3.  Tentukan **ID** Kamu (misalnya, `analisis-hukum`) dan **Konten**.
+4.  Gunakan sintaks `{{nama_variabel}}` untuk placeholder dinamis.
+
+**Contoh Konten:**
+
+```text
+Kamu adalah seorang ahli hukum. Analisis dokumen berikut: {{teks_dokumen}}. 
+Fokuslah secara khusus pada {{area_fokus}}.
+```
+
+---
+
+## Menggunakan Template dengan OpenAI SDK
+
+API Responses Neosantara kompatibel dengan struktur SDK OpenAI terbaru. Kamu dapat menggunakan namespace `responses` untuk memanggil template Kamu.
+
+<CodeGroup>
+
+```python Python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    api_key="YOUR_NEOSANTARA_API_KEY",
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+# Gunakan namespace 'responses' yang tersedia di SDK
+response = client.responses.create(
+    model="claude-4.5-sonnet",
+    prompt={
+        "id": "analisis-hukum",
+        "variables": {
+            "teks_dokumen": "Ini adalah contoh kontrak...",
+            "area_fokus": "klausul kewajiban"
+        }
+    }
+)
+
+print(response.output_text)
+```
+
+```javascript Node.js
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  api_key: 'YOUR_NEOSANTARA_API_KEY',
+  base_url: 'https://api.neosantara.xyz/v1'
+});
+
+// Akses API responses secara langsung melalui SDK
+const response = await client.responses.create({
+  model: 'claude-4.5-sonnet',
+  prompt: {
+    id: 'analisis-hukum',
+    variables: {
+      teks_dokumen: 'Ini adalah contoh kontrak...', 
+      area_fokus: 'klausul kewajiban'
+    }
+  }
+});
+
+console.log(response.output_text);
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "claude-4.5-sonnet",
+    "prompt": {
+      "id": "analisis-hukum",
+      "variables": {
+        "teks_dokumen": "...",
+        "area_fokus": "..."
+      }
+    }
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Mengapa menggunakan Template Prompt?
+
+| Fitur | Chat Standar | Template Prompt |
+| :--- | :--- | :--- |
+| **Penggunaan Kembali** | Harus kirim ulang seluruh prompt | Referensi via ID |
+| **Keamanan** | Prompt terlihat di kode | Logika tersembunyi di Dashboard |
+| **Ukuran Payload** | Lebih besar (teks lengkap) | Lebih kecil (ID + variabel) |
+| **Endpoint** | `/v1/chat/completions` | `/v1/responses` |

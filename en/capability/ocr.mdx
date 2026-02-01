@@ -1,0 +1,82 @@
+---
+title: "OCR (Optical Character Recognition)"
+description: "Extract text from images with high precision using Neosantara's unified OCR API."
+---
+
+Neosantara provides a dedicated OCR endpoint that leverages state-of-the-art models (like DeepSeek OCR) to extract text from various image formats, including documents, receipts, and handwritten notes.
+
+## Endpoint
+
+| Method | Endpoint |
+| :--- | :--- |
+| `POST` | `/v1/ocr` |
+
+## Usage Examples
+
+### Extract Text from Image URL
+
+You can provide a direct URL to an image for processing.
+
+```bash icon="terminal"
+curl https://api.neosantara.xyz/v1/ocr \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"image": "https://example.com/receipt.jpg", "image_type": "url"}'
+```
+
+```python icon="python"
+import requests
+
+url = "https://api.neosantara.xyz/v1/ocr"
+headers = {
+    "Authorization": "Bearer YOUR_NEOSANTARA_API_KEY",
+    "Content-Type": "application/json"
+}
+payload = {
+    "image": "https://example.com/receipt.jpg",
+    "image_type": "url"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json()["choices"][0]["text"])
+```
+
+### Extract Text from Base64
+
+For local images, you can encode them as Base64 strings.
+
+```bash icon="terminal"
+curl https://api.neosantara.xyz/v1/ocr \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...", "image_type": "base64"}'
+```
+
+## Parameters
+
+| Parameter | Type | Required | Default | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `image` | `string` | Yes | - | The image URL or Base64 data string. |
+| `image_type` | `string` | No | `url` | Type of image input: `url` or `base64`. |
+| `return_image` | `boolean` | No | `false` | If `true`, returns a processed image with OCR bounding boxes (if supported by the model). |
+
+## Response Format
+
+The API returns a JSON object containing the extracted text and metadata.
+
+```json icon="code"
+{
+  "id": "ocr-abc123def456",
+  "object": "ocr.completion",
+  "choices": [
+    {
+      "index": 0,
+      "text": "TEXT CONTENT HERE",
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "total_tokens": 50
+  }
+}
+```

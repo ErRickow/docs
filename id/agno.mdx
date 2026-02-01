@@ -1,0 +1,68 @@
+---
+title: "Agno"
+description: "> Menggunakan Agno dengan Neosantara."
+---
+
+Agno adalah library open-source untuk membuat agen multimodal. Agno mendukung interaksi dengan teks, gambar, audio, dan video sambil tetap bersifat model-agnostic, memungkinkan Kamu menggunakan model apa pun dalam library Neosantara dengan integrasi kami.
+
+## Instalasi Library
+
+```bash icon="terminal"
+pip install -U agno ddgs -q
+```
+
+## Autentikasi
+
+Atur variabel lingkungan `NAI_API_KEY` Kamu.
+
+```shell
+export NAI_API_KEY=***
+```
+
+## Contoh Penggunaan
+
+Di bawah ini adalah contoh agen sederhana dengan akses ke pencarian web.
+
+```python icon="python"
+from agno.agent import Agent
+from agno.models.openai.like import OpenAILike
+from agno.tools.duckduckgo import DuckDuckGoTools
+import os
+
+agent = Agent(
+    model=OpenAILike(
+        id="nusantara-base",
+        api_key=os.environ.get("NAI_API_KEY"),
+        base_url="https://api.neosantara.xyz/v1"
+    ),
+    tools=[DuckDuckGoTools()],
+    markdown=True
+)
+agent.print_response("Apa yang sedang terjadi di Indonesia?", stream=True)
+```
+
+<Accordion title="Lihat output.">
+  Output akan mengembalikan string jawaban di bawah ini:
+
+```bash icon="terminal"
+▰▰▰▰▰▰▰▰ Thinking...
+┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                                                                                                 ┃
+┃ Apa yang sedang terjadi di Indonesia?                                                                           ┃
+┃                                                                                                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┏━ Tools Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                                                                                                 ┃
+┃ • duckduckgo_news(query=Indonesia)                                                                              ┃
+┃                                                                                                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+┏━ Response (6.3s) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                                                                                                                 ┃
+┃ [Simulasi respons contoh: ringkasan tingkat tinggi dan non-spesifik mengenai peristiwa terkini atau tanggapan   ┃
+┃ publik, dirancang untuk menunjukkan format output tanpa referensi ke peristiwa nyata yang sensitif.]            ┃
+┃                                                                                                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+WARNING:ddgs.engines.yahoo_news:Error post-processing results: IndexError('list index out of range')
+```
+
+</Accordion>

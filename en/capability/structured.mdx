@@ -1,0 +1,96 @@
+---
+title: "Structured Output"
+description: "Get reliable, structured responses from AI models in a clean JSON format using JSON Mode or the Responses API."
+---
+
+### Introduction
+
+By default, language models generate plain text. While great for chatbots, it's difficult to programmatically extract specific details from text. Neosantara provides two ways to get structured data:
+
+1.  **Responses API (Recommended)**: A specialized endpoint for reliable, schema-driven data extraction.
+2.  **JSON Mode**: A standard compatibility feature that forces models to output a valid JSON string.
+
+### Responses API (Recommended)
+
+The Responses API is the most reliable way to get structured data. It handles the prompting and schema enforcement internally, returning a clean object.
+
+<Card title="Learn about Responses API" icon="bolt" href="/en/response">
+  See how to use the high-performance Responses endpoint for structured data.
+</Card>
+
+---
+
+### JSON Mode
+
+JSON Mode is a standard feature supported by most models on the platform. To enable it, you need to set `response_format` to `{"type": "json_object"}`.
+
+#### Supported Models
+
+The following publicly listed models explicitly support JSON Mode. For a complete and up-to-date list of all available models, see the [Model Overview](/en/models-overview).
+
+| Category | Model IDs |
+| :--- | :--- |
+| **Global LLMs** | `claude-4.5-sonnet`, `gemini-3-flash`, `gemini-3-flash-preview`, `claude-3-sonnet`, `claude-3-haiku`, `gemma-3-27b-it`, `gemma2-9b-it` |
+| **Neosantara Flagship** | `archipelago-70b`, `nusantara-base`, `garda-beta-mini`, `sea-lion-v4-27b-it` |
+| **Llama & Specialized** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-4.1-fast-non-reasoning`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
+
+#### Handling and Parsing the Response
+
+Models might wrap JSON in markdown blocks or return a minified string. It's best practice to use a robust parsing function.
+
+<Info>
+  When using JSON Mode, you **must** instruct the model to respond in JSON format. This can be done in the system prompt or directly in the user message.
+</Info>
+
+<CodeGroup>
+
+```python Python (Grok)
+import json
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+# Grok is highly reliable for JSON extraction without system prompts
+response = client.chat.completions.create(
+    model="grok-4.1-fast-non-reasoning",
+    messages=[
+        {"role": "user", "content": "Extract recipe ingredients as JSON: rice, egg, soy sauce. Use 'ingredients' as key."}
+    ],
+    response_format={"type": "json_object"}
+)
+
+data = json.loads(response.choices[0].message.content)
+print(data)
+```
+
+```javascript Node.js (Gemini)
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: "YOUR_NEOSANTARA_API_KEY",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+const response = await client.chat.completions.create({
+  model: "gemini-3-flash",
+  messages: [
+    { role: "system", content: "Respond ONLY in JSON format." },
+    { role: "user", content: "List the colors of the Indonesian flag." }
+  ],
+  response_format: { type: "json_object" }
+});
+
+const data = JSON.parse(response.choices[0].message.content);
+console.log(data);
+```
+
+</CodeGroup>
+
+### Best Practices
+
+*   **Be Specific**: Explicitly mention the keys you want in your JSON object.
+*   **Model Selection**: Use `claude-4.5-sonnet` or `qwen3-32b` for complex nested schemas.
+*   **Error Handling**: Always wrap your JSON parsing in a try-catch block to handle potential model hallucinations.

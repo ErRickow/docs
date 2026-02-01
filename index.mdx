@@ -1,82 +1,140 @@
-<div className="relative w-full pt-12 pb-12">
-  {/* Hero Section */}
-  <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 max-w-6xl mx-auto px-5 mb-12">
-    {/* Image Section */}
-    <div className="flex-1 flex justify-center lg:justify-end order-1 lg:order-2">
-      <img 
-        src="/logo/hands.png"
-        alt="Neosantara AI" 
-        style={{ 
-          maxWidth: '100%', 
-          height: 'auto', 
-          maxHeight: '20rem',
-          borderRadius: '12px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
-        }} 
-      />
-    </div>
+---
+title: "Documentation"
+sidebarTitle: "Home"
+mode: "custom"
+---
 
-    {/* Content Section */}
-    <div className="flex-1 order-2 lg:order-1 text-center lg:text-left">
-      <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 mb-6">
-        <span className="text-3xl lg:text-4xl font-medium text-white/80">
-          Integrate
-        </span>
-        <img 
-          src="/logo/black.svg" 
-          alt="Neosantara logo" 
-          className="h-8 w-auto"
-        />
-      </div>
-    
-      <p className="text-lg text-white/90 leading-relaxed max-w-lg mx-auto lg:mx-0">
-        Learn how to get started with the Neosantara API, integrate our Culture Intelligence, and build amazing applications.
-      </p>
-    </div>
-  </div>
+<div className="home-page mx-auto max-w-8xl px-0 lg:px-5" style={{ paddingBottom: "8rem" }}>
+    <div className="mdx-content prose prose-gray dark:prose-invert mx-4 pt-10">
+        <h1 className="flex whitespace-pre-wrap group font-semibold text-3xl sm:text-4xl mt-8 mb-4">Neosantara AI</h1>
 
-  {/* Cards Section */}
-  <div className="max-w-6xl mx-auto px-5 relative z-10">
-    <CardGroup cols={3}>
-      <Card 
-        title="Quickstart" 
-        icon="rocket-launch" 
-        href="/api-reference/quickstart"
-      >
-        Start integrating Neosantara APIs in minutes
-      </Card>
-      
-      <Card 
-        title="API Reference" 
-        icon="square-terminal" 
-        href="/api-reference"
-      >
-        Start using Neosantara Culture AI Intelligence
-      </Card>
-      
-      <Card 
-        title="API Credits Overview" 
-        icon="book-open" 
-        href="/about/token-credits"
-      >
-        Learn how to manage token credits for Neosantara APIs
-      </Card>
-      
-      <Card 
-        title="Rate Limits" 
-        icon="gauge" 
-        href="/about/rate-limits"
-      >
-        Learn about Neosantara's Rate Limiting
-      </Card>
-      
-      <Card 
-        title="Models" 
-        icon="globe" 
-        href="/about/model"
-      >
-        Explore Our Available Models
-      </Card>
-    </CardGroup>
-  </div>
+        Neosantara is the high-performance AI platform for agent engineering, optimized for Indonesia and Southeast Asia. 
+        Build reliable agents with our regional LLMs and global state-of-the-art models.
+
+        <div className="flex items-center mb-12">
+            <button
+                type="button"
+                className="flex items-center text-sm leading-6 rounded-lg mt-6 py-2.5 px-4 shadow-sm text-gray-400 ring-1 ring-gray-400/20 hover:ring-gray-600/25 focus:outline-primary bg-white/5"
+                style={{ width: '100%', maxWidth: '32rem' }}
+                onClick={() => document.getElementById("search-bar-entry").click()}
+            >
+                <Icon icon="magnifying-glass" className="mr-3" />
+                <span>Search Neosantara documentation...</span>
+            </button>
+        </div>
+
+        <h2 className="flex whitespace-pre-wrap group font-semibold text-2xl mb-6">Open source agent frameworks</h2>
+
+        <Tabs>
+            <Tab title="Python" icon="python">
+                <CardGroup cols={3}>
+                    <Card
+                        title="OpenAI SDK"
+                        href="/en/sdk/openai-compat"
+                        icon="bolt"
+                        cta="Get started"
+                    >
+                        Quickly get started building agents with the familiar OpenAI Python library.
+                    </Card>
+                    <Card
+                        title="LangChain"
+                        href="/en/langchain"
+                        icon="link"
+                        cta="Learn more"
+                    >
+                        Build powerful agentic workflows using our dedicated LangChain integration.
+                    </Card>
+                    <Card
+                        title="CrewAI"
+                        href="/en/crewai"
+                        icon="users-gear"
+                        cta="Learn more"
+                    >
+                        Orchestrate role-playing collaborative agents using the CrewAI framework.
+                    </Card>
+                </CardGroup>
+            </Tab>
+            <Tab title="TypeScript" icon="js">
+                <CardGroup cols={3}>
+                    <Card
+                        title="Vercel AI SDK"
+                        href="/en/using-neosantara-with-vercels-ai-sdk"
+                        icon="rocket"
+                        cta="Get started"
+                    >
+                        Seamlessly integrate Neosantara models into your modern Next.js and React applications.
+                    </Card>
+                    <Card
+                        title="LangChain.js"
+                        href="/en/langchain"
+                        icon="link"
+                        cta="Learn more"
+                    >
+                        Use Neosantara with the JavaScript version of LangChain for web-scale agents.
+                    </Card>
+                    <Card
+                        title="SDK Compatibility"
+                        href="/en/sdk/openai-compat"
+                        icon="code"
+                        cta="View SDKs"
+                    >
+                        Connect via standard OpenAI-compatible libraries in Node.js or browser environments.
+                    </Card>
+                </CardGroup>
+            </Tab>
+        </Tabs>
+
+        <h2 className="flex whitespace-pre-wrap group font-semibold text-2xl mt-12 mb-6">Explore Our Platform</h2>
+
+        <CardGroup cols={3}>
+            <Card
+                title="API Reference"
+                href="/en/api-introduction"
+                icon="code"
+                cta="View Reference"
+            >
+                Detailed documentation for all our endpoints, including chat, embeddings, and images.
+            </Card>
+            <Card
+                title="Models Overview"
+                href="/en/models-overview"
+                icon="layer-group"
+                cta="See Models"
+            >
+                Discover our regional LLMs like Nusantara-Base and global models like Claude 3.5.
+            </Card>
+            <Card
+                title="Integrations"
+                href="/en/integrations"
+                icon="circle-nodes"
+                cta="Explore All"
+            >
+                Connect Neosantara with PydanticAI, DSPy, AutoGen, and more ecosystem tools.
+            </Card>
+        </CardGroup>
+
+        <h2 className="flex whitespace-pre-wrap group font-semibold text-2xl mt-12 mb-6">Capabilities</h2>
+
+        <CardGroup cols={4}>
+            <Card title="Image Gen" icon="image" href="/en/capability/image-generation" cta="Learn more" />
+            <Card title="Reasoning" icon="brain" href="/en/capability/reasoning" cta="Learn more" />
+            <Card title="OCR" icon="eye" href="/en/capability/ocr" cta="Learn more" />
+            <Card title="Embeddings" icon="database" href="/en/capability/embeddings" cta="Learn more" />
+        </CardGroup>
+
+        <h2 className="flex whitespace-pre-wrap group font-semibold text-2xl mt-12 mb-6">Additional resources</h2>
+
+        <CardGroup cols={3}>
+            <Card title="Neosantara Dashboard" icon="desktop" href="https://app.neosantara.xyz" cta="Visit">
+                Manage your API keys, monitor usage, and explore playground.
+            </Card>
+            <Card title="Support portal" icon="user-headset" href="mailto:support@neosantara.xyz" cta="Visit">
+                Submit tickets and get help from our expert support team.
+            </Card>
+            <Card title="X (Twitter)" icon="x-twitter" href="https://x.com/NeosantaraAI" cta="Follow">
+                Follow us for the latest updates, model releases, and AI news.
+            </Card>
+        </CardGroup>
+
+    </div>
 </div>

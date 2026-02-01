@@ -1,0 +1,46 @@
+---
+title: "Delete File"
+api: 'DELETE /v1/files/:file_id'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+Delete a file. This action marks the file as deleted and removes it from storage.
+
+<ParamField path="file_id" type="string" required>
+The ID of the file to delete (e.g., `file-abc123`).
+</ParamField>
+
+### Returns
+
+<ResponseField name="id" type="string">
+The ID of the deleted file.
+</ResponseField>
+
+<ResponseField name="object" type="string">
+The object type, which is always `file`.
+</ResponseField>
+
+<ResponseField name="deleted" type="boolean">
+Confirmation that the file was deleted. Always `true` on success.
+</ResponseField>
+
+### Return Examples
+
+```json Response 200
+{
+  "id": "file-abc123",
+  "object": "file",
+  "deleted": true
+}
+```
+
+```json Error 404 - File Not Found
+{
+  "error": {
+    "message": "File not found or access denied",
+    "type": "invalid_request_error",
+    "code": "file_not_found"
+  }
+}
+```

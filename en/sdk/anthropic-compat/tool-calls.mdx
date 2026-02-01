@@ -1,0 +1,134 @@
+---
+title: "Tool Calls"
+description: "Use Anthropic-compatible tool calling with Neosantara models."
+---
+
+Neosantara API supports Anthropic-compatible tool calling (function calling), allowing models to interact with external tools and functions. This follows the standard Anthropic Messages API specification.
+
+### Example request
+
+Define your tools and messages, then point the Anthropic SDK to Neosantara.
+
+<CodeGroup>
+
+```typescript tool-calls.ts
+import Anthropic from '@anthropic-ai/sdk';
+ 
+const anthropic = new Anthropic({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+});
+ 
+const message = await anthropic.messages.create({
+  model: 'claude-4.5-sonnet',
+  max_tokens: 1024,
+  tools: [
+    {
+      name: 'get_weather',
+      description: 'Get the current weather in a given location',
+      input_schema: {
+        type: 'object',
+        properties: {
+          location: {
+            type: 'string',
+            description: 'The city and state, e.g. Jakarta, Indonesia',
+          },
+          unit: {
+            type: 'string',
+            enum: ['celsius', 'fahrenheit'],
+            description: 'The unit for temperature',
+          },
+        },
+        required: ['location'],
+      },
+    },
+  ],
+  messages: [
+    {
+      role: 'user',
+      content: 'What is the weather like in Jakarta?',
+    },
+  ],
+});
+ 
+console.log('Response:', JSON.stringify(message.content, null, 2));
+```
+
+```python tool-calls.py
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    tools=[
+        {
+            'name': 'get_weather',
+            'description': 'Get the current weather in a given location',
+            'input_schema': {
+                'type': 'object',
+                'properties': {
+                    'location': {
+                        'type': 'string',
+                        'description': 'The city and state, e.g. Jakarta, Indonesia'
+                    },
+                    'unit': {
+                        'type': 'string',
+                        'enum': ['celsius', 'fahrenheit'],
+                        'description': 'The unit for temperature'
+                    }
+                },
+                'required': ['location']
+            }
+        }
+    ],
+    messages=[
+        {
+            'role': 'user',
+            'content': 'What is the weather like in Jakarta?'
+        }
+    ],
+)
+ 
+print('Response:', message.content)
+```
+
+</CodeGroup>
+
+---
+
+### Tool call response format
+
+When the model decides to use a tool, the response includes a `tool_use` block. Your application should then execute the corresponding function and return the results.
+
+```json
+{
+  "id": "msg_123",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "tool_use",
+      "id": "toolu_123",
+      "name": "get_weather",
+      "input": {
+        "location": "Jakarta, Indonesia",
+        "unit": "celsius"
+      }
+    }
+  ],
+  "model": "claude-4.5-sonnet",
+  "stop_reason": "tool_use",
+  "usage": {
+    "input_tokens": 82,
+    "output_tokens": 45
+  }
+}
+```
+
+Learn more about handling tool results in our [Tool Use Guide](/en/how-tools).

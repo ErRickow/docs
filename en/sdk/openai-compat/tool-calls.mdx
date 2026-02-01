@@ -1,0 +1,166 @@
+---
+title: "Tool Calls"
+description: "Use OpenAI-compatible function calling with Neosantara models."
+---
+
+Neosantara supports OpenAI-compatible function calling (tool calls), allowing models to interact with external tools and functions. This follows the standard OpenAI Function Calling specification.
+
+### Basic tool calls
+
+Define your tools and point the OpenAI SDK to Neosantara.
+
+<CodeGroup>
+
+```typescript tool-calls.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const tools: OpenAI.Chat.Completions.ChatCompletionTool[] = [
+  {
+    type: 'function',
+    function: {
+      name: 'get_weather',
+      description: 'Get the current weather in a given location',
+      parameters: {
+        type: 'object',
+        properties: {
+          location: {
+            type: 'string',
+            description: 'The city and state, e.g. Jakarta, Indonesia',
+          },
+          unit: {
+            type: 'string',
+            enum: ['celsius', 'fahrenheit'],
+            description: 'The unit for temperature',
+          },
+        },
+        required: ['location'],
+      },
+    },
+  },
+];
+ 
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    {
+      role: 'user',
+      content: 'What is the weather like in Jakarta?',
+    },
+  ],
+  tools: tools,
+  tool_choice: 'auto',
+  stream: false,
+});
+ 
+console.log('Assistant:', completion.choices[0].message.content);
+console.log('Tool calls:', completion.choices[0].message.tool_calls);
+```
+
+```python tool-calls.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+tools = [
+    {
+        'type': 'function',
+        'function': {
+            'name': 'get_weather',
+            'description': 'Get the current weather in a given location',
+            'parameters': {
+                'type': 'object',
+                'properties': {
+                    'location': {
+                        'type': 'string',
+                        'description': 'The city and state, e.g. Jakarta, Indonesia'
+                    },
+                    'unit': {
+                        'type': 'string',
+                        'enum': ['celsius', 'fahrenheit'],
+                        'description': 'The unit for temperature'
+                    }
+                },
+                'required': ['location']
+            }
+        }
+    }
+]
+ 
+completion = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'What is the weather like in Jakarta?'
+        }
+    ],
+    tools=tools,
+    tool_choice='auto',
+    stream=False,
+)
+ 
+print('Assistant:', completion.choices[0].message.content)
+print('Tool calls:', completion.choices[0].message.tool_calls)
+```
+
+</CodeGroup>
+
+### Controlling tool selection
+
+By default, `tool_choice` is set to `'auto'`, allowing the model to decide when to use tools. You can also:
+
+*   Set to `'none'` to disable tool calls.
+*   Force a specific tool with: `tool_choice: { type: 'function', function: { name: 'your_function_name' } }`.
+
+---
+
+### Tool call response format
+
+When the model decides to make a tool call, the response includes a `tool_calls` array inside the assistant's message.
+
+```json
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "created": 1677652288,
+  "model": "grok-4.1-fast-non-reasoning",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_123",
+            "type": "function",
+            "function": {
+              "name": "get_weather",
+              "arguments": "{\"location\": \"Jakarta, Indonesia\", \"unit\": \"celsius\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 82,
+    "completion_tokens": 18,
+    "total_tokens": 100
+  }
+}
+```
+
+Learn more about handling tool results in our [Tool Use Guide](/en/how-tools).
+
+```

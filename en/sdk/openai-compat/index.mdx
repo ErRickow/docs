@@ -1,0 +1,100 @@
+---
+title: "OpenAI-Compatible API"
+description: "Neosantara provides OpenAI-compatible API endpoints, allowing you to use official OpenAI SDKs and tools with minimal changes."
+---
+
+[Neosantara AI Gateway](/en/intro) provides OpenAI-compatible API endpoints, so you can use the official OpenAI SDK and tools through a unified gateway with only a URL change. No code rewrites required.
+
+The OpenAI-compatible API implements the core specification of the [OpenAI Chat Completions API](https://platform.openai.com/docs/api-reference/chat), while providing Neosantara-specific extensions for advanced reasoning and multimodal features.
+
+## Base URL
+
+The OpenAI-compatible API is available at the following base URL:
+
+`https://api.neosantara.xyz/v1`
+
+## Authentication
+
+The OpenAI-compatible API supports standard Bearer token authentication:
+
+*   **API key**: Use your Neosantara API key with the `Authorization: Bearer <token>` header.
+
+## Supported endpoints
+
+Neosantara supports the following OpenAI-compatible endpoints:
+
+*   [`POST /chat/completions`](/en/sdk/openai-compat/chat-completions) - Create chat completions with support for streaming, [tool calls](/en/sdk/openai-compat/tool-calls), **vision (image input)**, and [file attachments](/en/sdk/openai-compat/chat-completions#pdf-attachments).
+*   [`POST /embeddings`](/en/sdk/openai-compat/embeddings) - Generate vector embeddings for text.
+*   [`POST /chat/completions` (Vision)](/en/sdk/openai-compat/image-generation) - Analyze images alongside text using multimodal models.
+*   [`POST /images/generations`](/en/capability/image-generation) - Generate images from text prompts (Standard API).
+
+## Integration with OpenAI SDK
+
+Point your client to the Neosantara base URL and use your [API key](/en/authentication) for authentication.
+
+<CodeGroup>
+
+```typescript client.ts
+import OpenAI from 'openai';
+ 
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const completion = await client.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [{ role: 'user', content: 'Hello, world!' }],
+});
+```
+
+```python client.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {'role': 'user', 'content': 'Hello, world!'}
+    ]
+)
+```
+
+</CodeGroup>
+
+## Parameters
+
+The chat completions endpoint supports standard OpenAI parameters:
+
+### Required parameters
+
+*   **`model`** (string): The model ID to use (e.g., `grok-4.1-fast-non-reasoning`, `claude-4.5-sonnet`).
+*   **`messages`** (array): Array of message objects with `role` and `content` fields.
+
+### Optional parameters
+
+*   **`stream`** (boolean): Whether to stream the response. Defaults to `false`.
+*   **`temperature`** (number): Controls randomness in the output. Range: 0-2.
+*   **`max_tokens`** (integer): Maximum number of tokens to generate.
+*   **`tools`** (array): Array of tool definitions for function calling.
+*   **`response_format`** (object): Controls the format of the model's response (e.g., [Structured Outputs](/en/sdk/openai-compat/structured-outputs)).
+*   **`reasoning`** (object): [Extended reasoning configuration](/en/sdk/openai-compat/advanced#reasoning-configuration) for supported models.
+
+## Error handling
+
+The API returns standard OpenAI-compatible error responses:
+
+```json
+{
+  "error": {
+    "message": "Invalid request: missing required parameter 'messages'",
+    "type": "invalid_request_error",
+    "code": "400"
+  }
+}
+```

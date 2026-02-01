@@ -1,0 +1,36 @@
+---
+title: "GLM 4.6V Flash"
+description: "A fast multimodal model from Zhipu AI supporting video and image inputs with native reasoning."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { glm46vFlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...glm46vFlashData} />
+
+## Multimodal Capabilities
+
+GLM 4.6V Flash is uniquely positioned as a cost-effective model that supports video input alongside images and text.
+
+### Video Input Example
+
+You can pass a video URL directly in the content array:
+
+```json icon="code"
+{
+  "model": "glm-4.6v-flash",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        { "type": "text", "text": "What happens in this video?" },
+        { "type": "video_url", "video_url": { "url": "https://example.com/video.mp4" } }
+      ]
+    }
+  ]
+}
+```
+
+## Native Reasoning
+
+This model supports native reasoning. When enabled, it provides a thought process before the final answer, wrapped in `<think>` tags.

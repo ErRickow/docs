@@ -1,0 +1,91 @@
+---
+title: "Use docs programmatically"
+description: "Connect Neosantara documentation to your AI tools and workflows"
+---
+
+We want to make our documentation as accessible as possible. We've included several ways for you to use these docs programmatically through AI assistants, code editors, and direct integrations, such as Model Context Protocol (MCP).
+
+## Quick access options
+
+On any page in our documentation, you'll find a contextual menu dropdown in the top right corner. This includes our `llms.txt`, MCP server connection, and other quick access options such as ChatGPT and Claude.
+
+## Use our MCP server
+
+Our documentation includes a built-in **Model Context Protocol (MCP) server** that lets AI applications query the latest docs in real-time.
+
+The Neosantara docs MCP server is available at:
+
+```txt
+https://docs.neosantara.xyz/mcp
+```
+
+Once connected, you can ask your AI assistant questions about Neosantara, our models, and APIs, and it will search our documentation to provide accurate, current answers.
+
+### Connect with Claude Code
+
+If you're using Claude Code, run this command in your terminal to add the server to your current project:
+
+```bash icon="terminal"
+claude mcp add --transport http docs-neosantara https://docs.neosantara.xyz/mcp
+```
+
+### Connect with Claude Desktop
+
+1. Open Claude Desktop
+2. Go to Settings > Connectors
+3. Add our MCP server URL: `https://docs.neosantara.xyz/mcp`
+
+### Connect with Cursor
+
+Add the following to your MCP settings configuration file:
+
+```json icon="code"
+{
+  "mcpServers": {
+    "docs-neosantara": {
+      "url": "https://docs.neosantara.xyz/mcp"
+    }
+  }
+}
+```
+
+### Connect with VS Code
+
+Add the following to your MCP settings configuration file:
+
+```json icon="code"
+{
+  "servers": {
+    "docs-neosantara": {
+      "url": "https://docs.neosantara.xyz/mcp"
+    }
+  }
+}
+```
+
+### Connect with Windsurf
+
+Add the following to your Windsurf MCP configuration:
+
+```json icon="code"
+{
+  "mcpServers": {
+    "docs-neosantara": {
+      "url": "https://docs.neosantara.xyz/mcp"
+    }
+  }
+}
+```
+
+## Best Practices
+
+*   **Relevance**: Connect only the MCP servers relevant to your current work to optimize context usage.
+*   **Specificity**: Be specific in your prompts. AI agents decide when to search based on query relevance.
+*   **Efficiency**: Disconnect servers you are not actively using to reduce potential context overhead.
+
+## LLMs.txt and Skill.md
+
+In addition to the MCP server, Mintlify automatically hosts industry-standard files to help LLMs understand your documentation:
+
+*   **llms.txt**: A markdown file containing the most important content for LLMs. Available at `https://docs.neosantara.xyz/llms.txt`.
+*   **skill.md**: Provides instructions on how to use the documentation effectively. Available at `https://docs.neosantara.xyz/skill.md`.

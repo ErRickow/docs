@@ -1,0 +1,60 @@
+---
+title: "Kimi K2"
+description: "Kimi K2 Instruct is a large-scale 1T Mixture-of-Experts (MoE) language model optimized for agentic capabilities, reasoning, and long-context understanding up to 128K tokens."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { kimiK2Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...kimiK2Data} />
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "kimi-k2",
+    "messages": [
+      { "role": "user", "content": "Hello!" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="kimi-k2",
+    messages=[
+        {"role": "user", "content": "Hello!"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Hello!" }],
+  model: "kimi-k2",
+});
+
+console.log(completion.choices[0].message.content);
+```
+
+</CodeGroup>

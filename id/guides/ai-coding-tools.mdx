@@ -1,0 +1,150 @@
+---
+title: "Integrasi AI Coding Tools"
+description: "Konfigurasi Neosantara dengan asisten pengodean populer seperti Claude Code, Cursor, Cline, dan lainnya."
+---
+
+Neosantara menyediakan kompatibilitas penuh dengan format API OpenAI dan Anthropic, memungkinkan Kamu menggunakan model pengodean tercanggih seperti **qwen3-32b**, **Claude 4.5 Sonnet**, atau **Llama 3.3 Nemotron** langsung di dalam tools pengembangan favorit Kamu.
+
+<Note>
+  Neosantara menggunakan sistem penagihan **Pay-As-You-Go**. Pastikan Kamu memiliki saldo aktif di [Dashboard](https://app.neosantara.xyz/billing) sebelum memulai.
+</Note>
+
+## Gunakan Neosantara di Claude Code (CLI)
+
+Claude Code adalah agen CLI berperforma tinggi yang dapat mencari, mengedit kode, dan mengeksekusi perintah terminal.
+
+### Konfigurasi API Neosantara
+
+<Warning>
+  **Penting: Hapus Variabel Lingkungan Anthropic**
+  Sebelum mengonfigurasi, pastikan Kamu menghapus variabel Anthropic yang ada untuk menghindari konflik:
+  `unset ANTHROPIC_AUTH_TOKEN`
+  `unset ANTHROPIC_BASE_URL`
+</Warning>
+
+1. Edit atau buat file konfigurasi Claude Code di `~/.claude/settings.json`.
+2. Tambahkan konfigurasi `env` berikut:
+
+* **ANTHROPIC_BASE_URL**: `https://api.neosantara.xyz/anthropic`
+* **ANTHROPIC_AUTH_TOKEN**: Kunci API Neosantara milik Kamu.
+* **ANTHROPIC_MODEL**: `qwen3-32b` (Direkomendasikan untuk pengodean cepat).
+
+```json icon="code"
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "YOUR_NEOSANTARA_API_KEY",
+    "API_TIMEOUT_MS": "3600000",
+    "ANTHROPIC_MODEL": "qwen3-32b",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-3-flash"
+  }
+}
+```
+
+3. Jalankan `claude` di terminal Kamu dan pilih **Trust This Folder** untuk memulai.
+
+---
+
+## Gunakan Neosantara di Cursor
+
+Cursor adalah IDE bertenaga AI yang dibangun di atas VS Code yang mendukung penyedia model kustom.
+
+### Langkah Konfigurasi Cursor
+
+1. Buka Pengaturan Cursor (**Cmd+Shift+J** atau **Ctrl+Shift+J**).
+2. Buka **Models** > **OpenAI API Key**.
+3. Klik **"Override OpenAI Base URL"** dan masukkan:
+   `https://api.neosantara.xyz/v1`
+4. Masukkan Kunci API Neosantara milik Kamu di kolom API Key.
+5. Klik **"Add Custom Model"** dan masukkan ID model pilihan Kamu, seperti `qwen3-32b` atau `claude-4.5-sonnet`.
+6. Aktifkan model tersebut dan nonaktifkan yang lain jika Kamu ingin memaksa penggunaan Neosantara.
+
+---
+
+## Gunakan Neosantara di Cline / Roo Code
+
+Cline dan Roo Code adalah ekstensi VS Code yang kuat untuk pengodean otonom.
+
+### Langkah Konfigurasi Cline / Roo Code
+
+1. Klik ikon Cline/Roo Code di bilah samping.
+2. Buka **Settings**.
+3. Di bawah **API Provider**, pilih **OpenAI Compatible**.
+4. Atur **Base URL** ke: `https://api.neosantara.xyz/v1`
+5. Atur **API Key** ke Kunci API Neosantara milik Kamu.
+6. Atur **Model ID** ke `qwen3-32b` (Sangat dioptimalkan untuk tugas pengodean).
+7. Pastikan **Context Window** diatur minimal `131072`.
+
+---
+
+## Gunakan Neosantara di TRAE
+
+TRAE adalah IDE AI adaptif yang mendukung konfigurasi model kustom.
+
+### Langkah Konfigurasi TRAE
+
+1. Buka **Settings** > **Models**.
+2. Klik **+ Add Model**.
+3. Masukkan Konfigurasi:
+   * **Provider**: OpenAI Compatible
+   * **Base URL**: `https://api.neosantara.xyz/v1`
+   * **Model Name**: `qwen3-32b`
+   * **API Key**: Kunci API Neosantara milik Kamu.
+4. Klik **Save** dan pilih model tersebut di panel chat.
+
+---
+
+## Gunakan Neosantara di Windsurf
+
+Windsurf adalah IDE bertenaga AI yang dibangun di VS Code dengan fitur Cascade canggih.
+
+### Langkah Konfigurasi Windsurf
+
+1. Buka Pengaturan Windsurf
+2. Pergi ke **Models** > **Cascade Settings**
+3. Tambahkan provider Neosantara:
+   * **Provider Name**: Neosantara
+   * **Base URL**: `https://api.neosantara.xyz/v1`
+   * **API Key**: Kunci API Neosantara Kamu
+   * **Default Model**: `qwen3-32b` (Direkomendasikan untuk pengodean)
+
+4. Aktifkan provider dan pilih model favorit Kamu
+5. Mulai gunakan pengembangan berbantuan AI dengan fitur Cascade penuh
+
+---
+
+## Gunakan Neosantara di OpenCode
+
+OpenCode adalah ekstensi VS Code yang menyediakan asisten pengodean bertenaga AI.
+
+### Langkah Konfigurasi OpenCode
+
+1. Instal OpenCode dari VS Code Marketplace
+2. Klik ikon OpenCode di sidebar
+3. Buka **Settings** (ikon gear)
+4. Di bagian **API Provider**, pilih **OpenAI Compatible**
+5. Set **Base URL** ke: `https://api.neosantara.xyz/v1`
+6. Set **API Key** ke Kunci API Neosantara Kamu
+7. Set **Model** ke `qwen3-32b` (Dioptimasi untuk tugas pengodean)
+8. Pastikan **Context Window** diatur ke minimal `131072`
+
+---
+
+## Pemecahan Masalah
+
+### API Error: Model Not Found
+
+Pastikan Kamu menggunakan base URL yang benar:
+
+* Gunakan `/anthropic` untuk tools yang mengharapkan format Anthropic (Claude Code, Droid).
+* Gunakan `/v1` untuk tools yang mengharapkan format OpenAI (Cursor, Cline, Trae).
+
+### Error: Missing Capability
+
+Beberapa tools (seperti Claude CLI) memerlukan **Function Calling**. Pastikan Kamu menggunakan model yang mendukungnya, seperti `qwen3-32b`, `claude-4.5-sonnet`, atau `gemini-3-flash`.
+
+### Masalah Saldo
+
+Jika Kamu menerima error `402 Payment Required` atau `insufficient_quota`, silakan periksa saldo Kamu di [app.neosantara.xyz/billing](https://app.neosantara.xyz/billing).

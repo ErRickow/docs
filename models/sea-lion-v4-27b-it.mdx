@@ -1,0 +1,60 @@
+---
+title: "SEA-LION V4 27B IT"
+description: "SEA-LION v4: State-of-the-art multimodal LLM specialized for Southeast Asian languages including Bahasa Indonesia, with native-level fluency and cultural context understanding."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { seaLionV4Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...seaLionV4Data} />
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "sea-lion-v4-27b-it",
+    "messages": [
+      { "role": "user", "content": "Hello!" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="sea-lion-v4-27b-it",
+    messages=[
+        {"role": "user", "content": "Hello!"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Hello!" }],
+  model: "sea-lion-v4-27b-it",
+});
+
+console.log(completion.choices[0].message.content);
+```
+
+</CodeGroup>

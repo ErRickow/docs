@@ -1,0 +1,48 @@
+---
+title: "Autentikasi"
+description: "Pelajari cara mengautentikasi aplikasi Kamu menggunakan Kunci API dan token JWT. Panduan mendetail tentang konfigurasi header dan praktik keamanan terbaik."
+---
+
+API Neosantara mendukung metode autentikasi standar di seluruh endpoint, termasuk penggunaan token Kunci API.
+
+## Metode
+
+- Bearer Token (Kunci API di header Authorization)
+- Header Kunci API (misalnya, `x-api-key`)
+- Variabel lingkungan (direkomendasikan untuk pengembangan lokal)
+
+## Cara Penggunaan
+
+- Atur header Authorization: `Authorization: Bearer <KUNCI_API_ANDA>`
+- Atau berikan kunci API melalui header seperti `x-api-key: <KUNCI>` tergantung pada perpustakaan klien yang digunakan.
+- Untuk autentikasi berbasis JWT (jika didukung untuk integrasi khusus), sertakan token JWT Kamu di header Authorization dengan skema Bearer.
+- Untuk aplikasi berbasis browser, gunakan backend yang aman untuk memproksi permintaan dan menjaga kerahasiaan kunci.
+
+## Contoh
+
+Python
+
+```python icon="python"
+import requests
+headers = {"Authorization": "Bearer <KUNCI_API_ANDA>"}
+payload = {
+    "model": "nusantara-base",
+    "messages": [{"role": "user", "content": "Halo"}]
+}
+resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
+```
+
+JavaScript
+
+```js
+const payload = {
+  "model": "nusantara-base",
+  "messages": [{"role": "user", "content": "Halo"}]
+};
+
+const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KUNCI_API_ANDA>' },
+  body: JSON.stringify(payload)
+})
+```

@@ -1,0 +1,60 @@
+---
+title: "DeepSeek OCR"
+description: "DeepSeek OCR model for extracting text from images with high accuracy. Supports URLs and base64 images."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { deepseekOcrData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...deepseekOcrData} />
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "deepseek-ocr",
+    "messages": [
+      { "role": "user", "content": "Hello!" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="deepseek-ocr",
+    messages=[
+        {"role": "user", "content": "Hello!"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Hello!" }],
+  model: "deepseek-ocr",
+});
+
+console.log(completion.choices[0].message.content);
+```
+
+</CodeGroup>

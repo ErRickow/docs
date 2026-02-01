@@ -1,0 +1,66 @@
+---
+title: "Input Gambar"
+description: "Kirim gambar bersama teks untuk dianalisis oleh model berkemampuan visi melalui Responses API."
+---
+
+# Input Gambar
+
+[Responses API](/id/sdk/responses-api) mendukung input multimodal, memungkinkan Kamu mengirim gambar bersama teks untuk dianalisis oleh model berkemampuan visi. Ini sangat ideal untuk membangun aplikasi pencarian visual, OCR, atau deskripsi gambar.
+
+### [Contoh Permintaan](#contoh-permintaan)
+
+Sertakan objek `image_url` dalam array konten pesan Kamu. Kamu dapat memberikan URL publik atau URI data berkode base64.
+
+<CodeGroup>
+
+```typescript image-input.ts
+const apiKey = process.env.NAI_API_KEY;
+ 
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'claude-4.5-sonnet',
+    input: [
+      {
+        type: 'message',
+        role: 'user',
+        content: [
+          { type: 'text', text: 'Jelaskan isi gambar ini secara detail.' },
+          {
+            type: 'image_url',
+            image_url: { 
+              url: 'https://example.com/gambar.jpg', 
+              detail: 'auto' 
+            },
+          },
+        ],
+      },
+    ],
+  }),
+});
+ 
+const result = await response.json();
+console.log(result.output_text);
+```
+
+</CodeGroup>
+
+---
+
+## [Gambar berkode Base64](#base64)
+
+Untuk file lokal, Kamu dapat memberikan gambar sebagai string base64:
+
+```json
+{
+  "type": "image_url",
+  "image_url": {
+    "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ...",
+    "detail": "high"
+  }
+}
+```

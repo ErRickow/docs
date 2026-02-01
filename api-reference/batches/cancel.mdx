@@ -1,0 +1,91 @@
+---
+title: "Cancel Batch"
+api: 'POST /v1/batches/:batch_id/cancel'
+playground: 'simple'
+authMethod: 'bearer'
+---
+
+Cancel a batch job that is currently in progress. Once cancelled, the batch cannot be resumed.
+
+<ParamField path="batch_id" type="string" required>
+The ID of the batch to cancel (e.g., `batch-abc123`).
+</ParamField>
+
+### Returns
+
+<ResponseField name="id" type="string">
+The ID of the cancelled batch.
+</ResponseField>
+
+<ResponseField name="object" type="string">
+The object type, which is always `batch`.
+</ResponseField>
+
+<ResponseField name="endpoint" type="string">
+The API endpoint that was used for the batch.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+The batch status, which will be `canceled`.
+</ResponseField>
+
+<ResponseField name="cancelled_at" type="integer">
+The Unix timestamp when the batch was cancelled.
+</ResponseField>
+
+<ResponseField name="request_counts" type="object">
+Request statistics at the time of cancellation.
+
+<Expandable title="request_counts properties">
+<ResponseField name="total" type="integer">
+Total number of requests in the batch.
+</ResponseField>
+
+<ResponseField name="completed" type="integer">
+Number of requests completed before cancellation.
+</ResponseField>
+
+<ResponseField name="failed" type="integer">
+Number of requests that failed before cancellation.
+</ResponseField>
+</Expandable>
+</ResponseField>
+
+<CodeGroup>
+
+```json Response 200
+{
+  "id": "batch-abc123",
+  "object": "batch",
+  "endpoint": "/v1/chat/completions",
+  "status": "canceled",
+  "cancelled_at": 1699566000,
+  "request_counts": {
+    "total": 100,
+    "completed": 45,
+    "failed": 2
+  }
+}
+```
+
+```json Error 404 - Batch Not Found
+{
+  "error": {
+    "message": "Batch not found",
+    "type": "invalid_request_error",
+    "code": "batch_not_found"
+  }
+}
+```
+
+```json Error 400 - Cannot Cancel
+{
+  "error": {
+    "message": "Cannot cancel batch with status: completed",
+    "type": "invalid_request_error",
+    "code": "cannot_cancel"
+  }
+}
+```
+
+</CodeGroup>

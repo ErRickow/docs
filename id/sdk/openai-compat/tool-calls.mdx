@@ -1,0 +1,37 @@
+---
+title: "Tool Calls"
+description: "Gunakan fitur pemanggilan fungsi (function calling) yang kompatibel dengan OpenAI."
+---
+
+# Tool Calls
+
+Neosantara AI mendukung pemanggilan fungsi (tool calling), memungkinkan model untuk berinteraksi dengan sistem atau database eksternal Kamu.
+
+### [Contoh Penggunaan](#contoh-penggunaan)
+
+<CodeGroup>
+
+```typescript tools.ts
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [{ role: 'user', content: 'Bagaimana cuaca di Jakarta?' }],
+  tools: [
+    {
+      type: 'function',
+      function: {
+        name: 'get_weather',
+        description: 'Mendapatkan cuaca di lokasi tertentu',
+        parameters: {
+          type: 'object',
+          properties: {
+            location: { type: 'string', description: 'Nama kota' },
+          },
+          required: ['location'],
+        },
+      },
+    },
+  ],
+});
+```
+
+</CodeGroup>

@@ -1,0 +1,35 @@
+---
+title: "Tool Calling"
+description: "Berikan model akses ke fungsi eksternal menggunakan Responses API."
+---
+
+# Tool Calling
+
+[Responses API](/id/sdk/responses-api) mendukung pemanggilan tool secara native. Kamu mendefinisikan tool menggunakan JSON schema, dan model akan mengembalikan data terstruktur saat menentukan bahwa tool diperlukan.
+
+### [Contoh Tool Call](#contoh-tool-call)
+
+```json
+{
+  "model": "grok-4.1-fast-non-reasoning",
+  "input": "Bagaimana cuaca di Jakarta?",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_weather",
+        "description": "Mendapatkan cuaca saat ini",
+        "parameters": {
+          "type": "object",
+          "properties": { 
+            "location": { 
+              "type": "string",
+              "description": "Nama kota, misal: Jakarta"
+            } 
+          }
+        }
+      }
+    }
+  ]
+}
+```

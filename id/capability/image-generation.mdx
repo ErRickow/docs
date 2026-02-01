@@ -1,0 +1,87 @@
+---
+title: "Pembuatan Gambar"
+description: "Hasilkan gambar berkualitas tinggi dari prompt teks menggunakan berbagai model AI seperti FLUX, Titan, dan Stable Diffusion."
+---
+
+Pembuatan gambar memungkinkan Kamu membuat konten visual unik langsung dari deskripsi tekstual (prompt). Kapabilitas ini dapat digunakan untuk aplikasi kreatif, pembuatan konten, desain, dan banyak lagi.
+
+## Penggunaan
+
+Untuk menghasilkan gambar, kirim permintaan POST ke endpoint `/v1/images/generations`. Endpoint ini sepenuhnya kompatibel dengan standar OpenAI Image Generation.
+
+### Endpoint
+
+`POST /v1/images/generations`
+
+<Note>
+  Untuk deskripsi parameter yang mendetail dan untuk mencoba API secara langsung, kunjungi [Referensi API](/api-reference/images/create-image-generation).
+</Note>
+
+## Kapabilitas Lanjutan
+
+Beberapa model, seperti **Titan Image G1**, mendukung tugas manipulasi gambar tingkat lanjut:
+
+### Image-to-Image (Variasi)
+
+Hasilkan gambar baru berdasarkan gambar yang sudah ada. Berikan gambar asli dalam parameter `image` (sebagai string base64) dan `prompt` yang menjelaskan perubahan atau gaya yang diinginkan.
+
+### Inpainting & Outpainting
+
+*   **Inpainting**: Ubah area spesifik dari sebuah gambar menggunakan `mask_image`.
+*   **Outpainting**: Perluas gambar melampaui batas aslinya dengan mengatur `outpainting_mode` ke `"DEFAULT"` atau `"PRECISE"`.
+
+---
+
+## Model Gambar yang Didukung
+
+| ID Model | Terbaik Untuk |
+| :--- | :--- |
+| `titan-image-g1` | Serbaguna, performa tinggi, mendukung Inpainting/Outpainting |
+| `neosantara-gen-2045` | Hasil berkualitas tinggi, artistik, dan sinematik |
+| `stable-diffusion-v1-5-img2img` | Pembuatan gambar-ke-gambar yang efisien dan cepat |
+
+---
+
+## Contoh Python dan JavaScript (OpenAI SDK)
+
+<CodeGroup>
+
+```python Python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    api_key=os.environ.get("YOUR_NEOSANTARA_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.images.generate(
+    model="neosantara-gen-2045",
+    prompt="Sawah terasering di Bali saat pagi hari, pencahayaan sinematik.",
+    n=1,
+    size="1024x1024",
+    response_format="url"
+)
+
+print(response.data[0].url)
+```
+
+```javascript Node.js
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: "YOUR_NEOSANTARA_API_KEY",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+const response = await client.images.generate({
+  model: "titan-image-g1",
+  prompt: "Komodo naga yang megah sedang berjemur di pantai berbatu, realistis.",
+  n: 1,
+  size: "1024x1024",
+});
+
+console.log(response.data[0].url);
+```
+
+</CodeGroup>

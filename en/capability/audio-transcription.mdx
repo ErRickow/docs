@@ -1,0 +1,111 @@
+---
+title: "Audio Transcription"
+description: "> Convert audio into high-accuracy text using SOTA models like Whisper."
+---
+
+Neosantara provides a high-performance endpoint for transcribing audio files. Powered by models like **Whisper Large v3 Turbo**, OpenAI's fastest speech recognition model optimized for speed while maintaining high accuracy.
+
+This model delivers exceptional performance with optimized speed, high accuracy across diverse audio conditions, and multilingual support. Built on OpenAI's optimized transformer architecture, it features streamlined processing for enhanced speed while preserving the core capabilities of the Whisper family. The model incorporates efficiency improvements and optimizations that reduce computational overhead without sacrificing transcription quality, making it perfect for time-sensitive applications.
+
+## How it Works
+
+You upload an audio file (MP3, WAV, M4A, etc.) to our unified endpoint, and the model converts the spoken words into written text. You can choose between a simple text response or a detailed JSON structure with timestamps.
+
+The Neosantara API provides the [`/v1/audio/transcriptions`](/api-reference/audio/transcription) endpoint for this purpose.
+
+## Usage
+
+To transcribe audio, send a `multipart/form-data` request to the `/v1/audio/transcriptions` endpoint.
+
+### Endpoint
+
+`POST /v1/audio/transcriptions`
+
+### Supported Parameters
+
+| Parameter | Type | Required | Default | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| **`file`** | File | Yes | - | The audio file object to transcribe. Supported: `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `wav`, `webm`. |
+| **`model`** | String | Yes | - | ID of the model to use. Currently supported: `whisper-large-v3-turbo`. |
+| **`language`** | String | No | - | The language of the input audio (ISO-639-1 format). |
+| **`prompt`** | String | No | - | An optional text to guide the model's style or continue a previous segment. |
+| **`response_format`** | String | No | `json` | Format of the transcript. Options: `json`, `text`, `verbose_json`. |
+| **`temperature`** | Number | No | `0` | Sampling temperature (0 to 1). |
+
+---
+
+## Python and JavaScript Examples (OpenAI SDK)
+
+Since Neosantara is OpenAI-compatible, you can use the official SDKs to transcribe audio seamlessly.
+
+<CodeGroup>
+
+```python Python
+import os
+from openai import OpenAI
+
+# Initialize the OpenAI client
+client = OpenAI(
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
+)
+
+def transcribe_audio(file_path: str):
+    """
+    Transcribes an audio file using Neosantara.
+    """
+    print(f"Transcribing file: {file_path}...")
+
+    try:
+        with open(file_path, "rb") as audio_file:
+            transcription = client.audio.transcriptions.create(
+                model="whisper-large-v3-turbo",
+                file=audio_file,
+                response_format="text"
+            )
+        
+        print("\nTranscription Result:")
+        print(transcription)
+        return transcription
+
+    except Exception as e:
+        print(f"\nAn error occurred during transcription: {e}")
+        return None
+
+if __name__ == "__main__":
+    transcribe_audio("meeting_record.mp3")
+```
+
+```javascript Node.js
+import fs from "fs";
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function main() {
+  const transcription = await client.audio.transcriptions.create({
+    file: fs.createReadStream("speech.mp3"),
+    model: "whisper-large-v3-turbo",
+  });
+
+  console.log(transcription.text);
+}
+
+main();
+```
+
+</CodeGroup>
+
+## Pricing
+
+Audio transcription is billed with high precision based on the **duration of the audio**.
+
+| Model | Unit | Price |
+| :--- | :--- | :--- |
+| `whisper-large-v3-turbo` | per Hour | **$0.04** |
+| `whisper-large-v3-turbo` | per Second | $0.000012 |
+
+## Pricing FAQ

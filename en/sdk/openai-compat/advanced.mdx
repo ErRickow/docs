@@ -1,0 +1,108 @@
+---
+title: "Advanced Configuration"
+description: "Configure reasoning and prompt caching using the OpenAI-compatible API."
+---
+
+Neosantara API provides advanced configuration options through the OpenAI-compatible API, enabling you to control reasoning behavior and optimize performance for supported models.
+
+## Reasoning configuration
+
+Configure reasoning behavior for models that support extended thinking or chain-of-thought reasoning (e.g., **Llama Nemotron**, **GLM 4**). The `reasoning` parameter allows you to control how reasoning tokens are generated and returned.
+
+### Example request
+
+<CodeGroup>
+
+```typescript reasoning-openai-sdk.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+// @ts-expect-error - reasoning parameter is a gateway extension
+const completion = await openai.chat.completions.create({
+  model: 'kimi-k2',
+  messages: [
+    {
+      role: 'user',
+      content: 'What is the meaning of life? Think before answering.',
+    },
+  ],
+  stream: false,
+  reasoning: {
+    max_tokens: 2000, // Limit reasoning tokens
+    enabled: true, // Enable reasoning output
+  },
+});
+ 
+console.log('Reasoning:', completion.choices[0].message.reasoning);
+console.log('Answer:', completion.choices[0].message.content);
+console.log(
+  'Reasoning tokens:',
+  completion.usage.completion_tokens_details?.reasoning_tokens,
+);
+```
+
+```python reasoning.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='kimi-k2',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'What is the meaning of life? Think before answering.'
+        }
+    ],
+    stream=False,
+    extra_body={
+        'reasoning': {
+            'max_tokens': 2000,
+            'enabled': True
+        }
+    }
+)
+ 
+print('Reasoning:', completion.choices[0].message.reasoning)
+print('Answer:', completion.choices[0].message.content)
+print('Reasoning tokens:', completion.usage.completion_tokens_details.reasoning_tokens)
+```
+
+</CodeGroup>
+
+### Reasoning parameters
+
+*   **`enabled`** (boolean): Enable reasoning output. When true, the model will provide its reasoning process.
+*   **`max_tokens`** (number): Maximum number of tokens to allocate for reasoning.
+*   **`exclude`** (boolean): When `true`, excludes reasoning content from the response payload but still generates it internally.
+
+---
+
+## Prompt caching
+
+Support for prompt caching (specifically for Claude models) to reduce costs and latency for repeated prompts.
+
+<CodeGroup>
+
+```typescript prompt-caching.ts
+const response = await openai.chat.completions.create({
+  model: 'claude-4.5-sonnet',
+  messages: [
+    {
+      role: 'user',
+      content: 'Analyze this long document...',
+      cache_control: { type: 'ephemeral' },
+    },
+  ],
+});
+```
+
+</CodeGroup>

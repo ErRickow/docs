@@ -1,0 +1,41 @@
+---
+title: "Konfigurasi Lanjutan"
+description: "Konfigurasi reasoning dan prompt caching menggunakan API yang kompatibel dengan OpenAI."
+---
+
+# Konfigurasi Lanjutan
+
+Neosantara AI menyediakan beberapa opsi konfigurasi lanjutan melalui API yang kompatibel dengan OpenAI.
+
+### [Konfigurasi Reasoning](#konfigurasi-reasoning)
+
+Atur perilaku penalaran untuk model yang mendukung *extended thinking* atau penalaran chain-of-thought (seperti **Kimi K2** atau **Claude 3.7**).
+
+```typescript
+const completion = await openai.chat.completions.create({
+  model: 'kimi-k2',
+  messages: [{ role: 'user', content: 'Berpikir mendalam tentang teori relativitas.' }],
+  stream: false,
+  reasoning: {
+    enabled: true,
+    max_tokens: 2000
+  }
+});
+```
+
+### [Prompt Caching](#prompt-caching)
+
+Dukungan untuk prompt caching (khusus model Claude) guna mengurangi biaya dan latensi pada permintaan yang berulang.
+
+```typescript
+const response = await openai.chat.completions.create({
+  model: 'claude-4.5-sonnet',
+  messages: [
+    {
+      role: 'user',
+      content: 'Analisis dokumen panjang ini...',
+      cache_control: { type: 'ephemeral' },
+    },
+  ],
+});
+```

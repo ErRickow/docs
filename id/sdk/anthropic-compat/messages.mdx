@@ -1,0 +1,30 @@
+---
+title: "Messages API"
+description: "Buat respons menggunakan format Anthropic Messages."
+---
+
+Endpoint: `POST /v1/messages`
+
+### [Contoh Pesan](#contoh-pesan)
+
+```typescript
+const message = await client.messages.create({
+  model: 'claude-4.5-sonnet',
+  max_tokens: 1024,
+  messages: [
+    { role: 'user', content: 'Siapa presiden pertama Indonesia?' }
+  ],
+});
+
+console.log(message.content[0].text);
+```
+
+### [Streaming](#streaming)
+
+```typescript
+client.messages.stream({
+  model: 'claude-4.5-sonnet',
+  max_tokens: 1024,
+  messages: [{ role: 'user', content: 'Tulis sebuah puisi tentang Jakarta.' }],
+}).on('text', (text) => console.log(text));
+```

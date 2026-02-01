@@ -1,0 +1,60 @@
+---
+title: "Claude 4.5 Sonnet"
+description: "Claude Sonnet 4.5 is the newest model in the Sonnet series, offering improvements and updates over Sonnet 4."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claude45SonnetData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claude45SonnetData} />
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "claude-4.5-sonnet",
+    "messages": [
+      { "role": "user", "content": "Hello!" }
+    ]
+  }'
+```
+
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="claude-4.5-sonnet",
+    messages=[
+        {"role": "user", "content": "Hello!"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+const completion = await openai.chat.completions.create({
+  messages: [{ role: "user", content: "Hello!" }],
+  model: "claude-4.5-sonnet",
+});
+
+console.log(completion.choices[0].message.content);
+```
+
+</CodeGroup>

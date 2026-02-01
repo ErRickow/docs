@@ -1,0 +1,52 @@
+---
+title: "Claude 3 Sonnet"
+description: "Anthropic's balanced model, offering the ideal combination of intelligence and speed for enterprise workloads."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claude3SonnetData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claude3SonnetData} />
+
+## Overview
+
+Claude 3 Sonnet strikes the perfect balance between high intelligence and fast performance. It is designed for enterprise-scale workloads and complex reasoning tasks. With a 200,000 token context window, it can handle extensive data processing and detailed analysis.
+
+## Use Cases
+
+- **Coding and Development**: Assist with code generation, debugging, and refactoring.
+- **Enterprise Automation**: Automate complex business workflows and data processing.
+- **Advanced Reasoning**: Solve difficult problems in math, science, and logic.
+- **Content Generation**: Create high-quality, long-form content and reports.
+
+## Quick Integration
+
+```bash icon="terminal"
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "claude-3-sonnet",
+    "messages": [
+      { "role": "user", "content": "Write a complex React component for a data dashboard." }
+    ]
+  }'
+```
+
+```python icon="python"
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+response = client.chat.completions.create(
+    model="claude-3-sonnet",
+    messages=[
+        {"role": "user", "content": "Write a complex React component for a data dashboard."}
+    ]
+)
+
+print(response.choices[0].message.content)
+```

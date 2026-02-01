@@ -1,0 +1,93 @@
+---
+title: "Streaming"
+description: "Learn how to use Server-Sent Events (SSE) to receive real-time updates from the Responses API."
+---
+
+The [Responses API](/en/sdk/responses-api) supports streaming, allowing you to receive tokens as they are generated instead of waiting for the entire completion. This provides a much better user experience for chat applications.
+
+To enable streaming, set **`stream: true`** in your request body. The response will be a stream of Server-Sent Events (SSE).
+
+### Example Request
+
+Use the standard `fetch` API to read the stream in real-time.
+
+<CodeGroup>
+
+```typescript stream.ts
+const apiKey = process.env.NAI_API_KEY;
+ 
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'grok-4.1-fast-non-reasoning',
+    input: 'Write a haiku about debugging code.',
+    stream: true,
+  }),
+});
+ 
+const reader = response.body.getReader();
+const decoder = new TextDecoder('utf-8');
+let buffer = '';
+ 
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+ 
+  // Use streaming mode to handle split UTF-8 characters
+  buffer += decoder.decode(value, { stream: true });
+  const lines = buffer.split('\n');
+ 
+  // Store the last potentially incomplete line back into the buffer
+  buffer = lines.pop() || '';
+ 
+  for (const line of lines) {
+    processLine(line);
+  }
+}
+ 
+// Flush remaining bytes and process the final line if any
+buffer += decoder.decode();
+if (buffer) {
+  processLine(buffer);
+}
+
+function processLine(line) {
+  if (line.startsWith('data:')) {
+    const data = line.substring(5).trim(); // Handle "data: "
+    if (data === '[DONE]') return;
+    
+    try {
+      const event = JSON.parse(data);
+      if (event.type === 'response.output_text.delta') {
+        process.stdout.write(event.delta);
+      }
+    } catch (e) {
+      // Skip malformed JSON
+    }
+  }
+}
+```
+
+</CodeGroup>
+
+---
+
+## Streaming events
+
+The Responses API emits specific events during the generation process:
+
+| Event Type | Description |
+| :--- | :--- |
+| `response.created` | Emitted when the response object is initialized. |
+| `response.output_text.delta` | Contains a chunk of text in the `delta` field. |
+| `response.output_text.done` | Emitted when the text block has finished generating. |
+| `response.item.completed` | Emitted when a specific item (like a tool call) is complete. |
+| `response.completed` | The final event containing the complete response object and usage statistics. |
+
+<Note>
+  When building custom parsers, always look for the `response.output_text.delta` type to capture the streaming text for your UI.
+</Note>

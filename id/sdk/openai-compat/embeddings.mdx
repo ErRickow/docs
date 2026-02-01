@@ -1,0 +1,17 @@
+---
+title: "Embeddings"
+description: "Hasilkan vektor representasi untuk teks guna pencarian semantik dan RAG."
+---
+
+Endpoint: `POST /v1/embeddings`
+
+### [Contoh Embeddings](#contoh-embeddings)
+
+```typescript
+const response = await openai.embeddings.create({
+  model: 'nusa-embedding-0001',
+  input: 'Hari yang cerah di pantai.',
+});
+
+console.log(response.data[0].embedding);
+```

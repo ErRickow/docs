@@ -1,0 +1,47 @@
+---
+title: "Stable Diffusion v1.5 Image-to-Image"
+description: "Stable Diffusion v1.5 Image-to-Image. Generate a new image from an input image and a text prompt."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { stableDiffusionImg2ImgData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...stableDiffusionImg2ImgData} />
+
+## Overview
+
+Stable Diffusion v1.5 Image-to-Image allows users to transform an existing image into a new one based on a text prompt. This is ideal for style transfer, image editing, and creative variations of original visual content.
+
+## Quick Integration
+
+<CodeGroup>
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{
+    "model": "stable-diffusion-v1-5-img2img",
+    "prompt": "Ubah gambar ini menjadi gaya lukisan cat minyak.",
+    "image": "base64_encoded_image_here"
+  }'
+```
+
+```python Python
+import requests
+
+url = "https://api.neosantara.xyz/v1/images/generations"
+headers = {
+    "Authorization": "Bearer YOUR_NEOSANTARA_API_KEY",
+    "Content-Type": "application/json"
+}
+payload = {
+    "model": "stable-diffusion-v1-5-img2img",
+    "prompt": "Ubah gambar ini menjadi gaya lukisan cat minyak.",
+    "image": "base64_encoded_image_here"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())
+```
+
+</CodeGroup>

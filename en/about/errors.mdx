@@ -1,0 +1,143 @@
+---
+title: "Errors"
+description: "Understand how to handle errors and troubleshoot issues with the Neosantara API."
+---
+
+The Neosantara API uses standard HTTP status codes to indicate the success or failure of an API request. In general:
+
+- **2xx** codes indicate success.
+- **4xx** codes indicate an error that failed given the information provided (e.g., a required parameter was omitted, a charge failed, etc.).
+- **5xx** codes indicate an error with Neosantara's servers.
+
+## HTTP Status Codes
+
+| Status Code | Error Type | Description |
+| :--- | :--- | :--- |
+| **400** | `invalid_request_error` | The request was unacceptable, often due to missing a required parameter. |
+| **401** | `authentication_error` | No valid API key provided. |
+| **403** | `permission_error` | The API key doesn't have permissions to perform the request. |
+| **404** | `not_found_error` | The requested resource (e.g., model, file, conversation) doesn't exist. |
+| **422** | `unprocessable_entity` | The request was well-formed but unable to be followed due to semantic errors. |
+| **429** | `rate_limit_error` | Too many requests hit the API too quickly. |
+| **500** | `api_error` | An internal error occurred on Neosantara's side. |
+| **503** | `service_unavailable` | The server is currently overloaded or down for maintenance. |
+
+## Error Response Structure
+
+Errors are returned as a JSON object with a detailed error message and code.
+
+```json icon="code"
+{
+  "error": {
+    "message": "Input message content exceeds the model's maximum context window.",
+    "type": "invalid_request_error",
+    "param": "messages",
+    "code": "context_window_exceeded"
+  }
+}
+```
+
+## Common Error Codes
+
+Below are specific error codes you might encounter in the `code` field of the error response, along with recommended actions.
+
+### Request & Validation Errors
+
+| Code | Description | Recommended Action |
+| :--- | :--- | :--- |
+| `context_window_exceeded` | The total tokens (input + output) exceed the model's limit. | Shorten your prompt or switch to a model with a larger context window (e.g., `gemini-1.5-pro` or `nusa-context-large`). |
+| `model_not_found` | The specified model ID does not exist or you don't have access. | Check the [Models List](/api-reference/models/list-available-models) for valid IDs. |
+| `missing_required_parameter` | A mandatory parameter (e.g., `messages`, `prompt`) is missing. | Review the API reference for the specific endpoint you are calling. |
+| `invalid_api_key` | The provided API key is incorrect or has been revoked. | Verify your API key in the [Dashboard](https://app.neosantara.xyz/dashboard) and ensure no extra spaces. |
+| `invalid_image_url` | The provided image URL cannot be accessed or parsed. | Ensure the URL is publicly accessible and points to a valid image format (PNG, JPEG, WebP). |
+
+### Billing & Rate Limits
+
+| Code | Description | Recommended Action |
+| :--- | :--- | :--- |
+| `insufficient_quota` | You have run out of credits or hit your spending limit. | [Add credits](https://app.neosantara.xyz/billing) to your account or upgrade your plan. |
+| `rate_limit_exceeded` | You are sending requests too quickly. | Implement exponential backoff in your retry logic. See [Rate Limits](/en/about/rate-limits) for details. |
+
+### Server & Generation Errors
+
+| Code | Description | Recommended Action |
+| :--- | :--- | :--- |
+| `image_generation_failed` | The image model failed to generate content (e.g., safety filter). | Try a different prompt. If persistent, contact support. |
+| `server_error` | An unexpected error occurred on our side. | Retry the request after a brief wait. Check our [Status Page](https://status.neosantara.xyz) for outages. |
+
+## Handling Rate Limits
+
+When you hit a rate limit (429), the API will include headers indicating when you can retry.
+
+```bash icon="terminal"
+HTTP/1.1 429 Too Many Requests
+X-Ratelimit-Limit-Requests: 60
+X-Ratelimit-Remaining-Requests: 0
+X-Ratelimit-Reset-Requests: 1s
+```
+
+**Best Practice:** Use an exponential backoff strategy. If your request fails with a 429, wait for a short time (e.g., 1s), retry, and if it fails again, double the wait time (2s, 4s, etc.) up to a maximum limit.
+
+## Handling Errors Programmatically
+
+<CodeGroup>
+
+```python Python
+import openai
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="YOUR_NEOSANTARA_API_KEY"
+)
+
+try:
+    response = client.chat.completions.create(
+        model="nusantara-base",
+        messages=[{"role": "user", "content": "Hello!"}]
+    )
+except openai.APIError as e:
+    # Handle API error here, e.g. retry or log
+    print(f"OpenAI API returned an API Error: {e}")
+    pass
+except openai.APIConnectionError as e:
+    # Handle connection error here
+    print(f"Failed to connect to OpenAI API: {e}")
+    pass
+except openai.RateLimitError as e:
+    # Handle rate limit error (we recommend using exponential backoff)
+    print(f"OpenAI API request exceeded rate limit: {e}")
+    pass
+```
+
+```javascript Node.js
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "YOUR_NEOSANTARA_API_KEY"
+});
+
+async function main() {
+  try {
+    const completion = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: 'Hello!' }],
+      model: 'nusantara-base',
+    });
+  } catch (error) {
+    if (error instanceof OpenAI.APIError) {
+      console.error(error.status);  // e.g. 400
+      console.error(error.message); // e.g. The requested model was not found
+      console.error(error.code);    // e.g. model_not_found
+      console.error(error.type);    // e.g. invalid_request_error
+    } else {
+      // Non-API error
+      console.log(error);
+    }
+  }
+}
+
+main();
+```
+
+</CodeGroup>
