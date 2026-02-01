@@ -42,7 +42,7 @@ For advanced features, see:
 
 *   Route requests through high-performance regional models.
 *   Monitor traffic and spend in your [usage overview](/en/about/token-credits).
-*   Use models like `nusantara-base` or `archipelago-70b` for coding tasks.
+*   Use models like `claude-3-5-sonnet` or `archipelago-70b` for coding tasks.
 
 1.  ### [Configure environment variables](#configure-environment-variables)
     
@@ -117,7 +117,7 @@ const client = new Anthropic({
 });
  
 const message = await client.messages.create({
-  model: 'nusantara-base',
+  model: 'claude-3-5-sonnet',
   max_tokens: 1024,
   messages: [{ role: 'user', content: 'Hello, world!' }],
 });
@@ -133,7 +133,7 @@ client = anthropic.Anthropic(
 )
  
 message = client.messages.create(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     max_tokens=1024,
     messages=[
         {'role': 'user', 'content': 'Hello, world!'}
@@ -149,7 +149,7 @@ The messages endpoint supports the following parameters:
 
 ### [Required parameters](#required-parameters)
 
-*   `model` (string): The model to use (e.g., `nusantara-base`)
+*   `model` (string): The model to use (e.g., `claude-3-5-sonnet`)
 *   `max_tokens` (integer): Maximum number of tokens to generate
 *   `messages` (array): Array of message objects with `role` and `content` fields
 

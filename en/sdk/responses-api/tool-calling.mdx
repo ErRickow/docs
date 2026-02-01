@@ -23,7 +23,7 @@ const response = await fetch('https://api.neosantara.xyz/v1/responses', {
     Authorization: `Bearer ${apiKey}`,
   },
   body: JSON.stringify({
-    model: 'nusantara-base',
+    model: 'grok-4.1-fast-non-reasoning',
     input: [
       {
         type: 'message',

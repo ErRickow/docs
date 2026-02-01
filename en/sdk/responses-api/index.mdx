@@ -48,7 +48,7 @@ const response = await fetch('https://api.neosantara.xyz/v1/responses', {
     Authorization: `Bearer ${apiKey}`,
   },
   body: JSON.stringify({
-    model: 'nusantara-base',
+    model: 'grok-4.1-fast-non-reasoning',
     input: 'What is the capital of Indonesia?',
     store: true // Enable state management
   }),
@@ -71,7 +71,7 @@ response = requests.post(
         "Authorization": f"Bearer {api_key}"
     },
     json={
-        "model": "nusantara-base",
+        "model": "grok-4.1-fast-non-reasoning",
         "input": "What is the capital of Indonesia?",
         "store": True
     }
@@ -87,7 +87,7 @@ print(result["output_text"])
 
 ### [Required parameters](#required-parameters)
 
-*   **`model`** (string): The Neosantara model ID (e.g., `nusantara-base`, `archipelago-70b`).
+*   **`model`** (string): The Neosantara model ID (e.g., `grok-4.1-fast-non-reasoning`, `archipelago-70b`).
 *   **`input`** (string or array): The user input. Can be a simple string or an array of message objects.
 
 ### [Optional parameters](#optional-parameters)

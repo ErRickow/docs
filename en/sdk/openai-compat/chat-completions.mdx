@@ -26,7 +26,7 @@ const openai = new OpenAI({
 });
  
 const completion = await openai.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [
     {
       role: 'user',
@@ -50,7 +50,7 @@ client = OpenAI(
 )
  
 completion = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {
             'role': 'user',
@@ -73,7 +73,7 @@ print('Tokens used:', completion.usage)
   "id": "chatcmpl-123",
   "object": "chat.completion",
   "created": 1677652288,
-  "model": "nusantara-base",
+  "model": "grok-4.1-fast-non-reasoning",
   "choices": [
     {
       "index": 0,
@@ -109,7 +109,7 @@ const openai = new OpenAI({
 });
  
 const stream = await openai.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [
     {
       role: 'user',
@@ -137,7 +137,7 @@ client = OpenAI(
 )
  
 stream = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {
             'role': 'user',
@@ -162,9 +162,9 @@ Streaming responses are sent as [Server-Sent Events (SSE)](https://developer.moz
 The response format follows the OpenAI streaming specification:
 
 ```
-data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1677652288,"model":"nusantara-base","choices":[{"index":0,"delta":{"content":"Once"},"finish_reason":null}]}
+data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1677652288,"model":"grok-4.1-fast-non-reasoning","choices":[{"index":0,"delta":{"content":"Once"},"finish_reason":null}]}
  
-data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1677652288,"model":"nusantara-base","choices":[{"index":0,"delta":{"content":" upon"},"finish_reason":null}]}
+data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1677652288,"model":"grok-4.1-fast-non-reasoning","choices":[{"index":0,"delta":{"content":" upon"},"finish_reason":null}]}
  
 data: [DONE]
 ```
@@ -191,7 +191,7 @@ const imageBuffer = fs.readFileSync('./path/to/image.png');
 const imageBase64 = imageBuffer.toString('base64');
  
 const completion = await openai.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [
     {
       role: 'user',
@@ -228,7 +228,7 @@ with open('./path/to/image.png', 'rb') as image_file:
     image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
  
 completion = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {
             'role': 'user',
@@ -274,7 +274,7 @@ const pdfBuffer = fs.readFileSync('./path/to/document.pdf');
 const pdfBase64 = pdfBuffer.toString('base64');
  
 const completion = await openai.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [
     {
       role: 'user',
@@ -315,7 +315,7 @@ with open('./path/to/document.pdf', 'rb') as pdf_file:
     pdf_base64 = base64.b64encode(pdf_file.read()).decode('utf-8')
  
 completion = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {
             'role': 'user',
@@ -349,7 +349,7 @@ print('Assistant:', completion.choices[0].message.content)
 
 #### [Required parameters](#required-parameters)
 
-*   `model` (string): The model ID to use (e.g., `nusantara-base`, `archipelago-70b`).
+*   `model` (string): The model ID to use (e.g., `grok-4.1-fast-non-reasoning`, `archipelago-70b`).
 *   `messages` (array): Array of message objects with `role` and `content` fields.
 
 #### [Optional parameters](#optional-parameters)

@@ -22,7 +22,7 @@ const openai = new OpenAI({
 });
  
 const completion = await openai.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [
     {
       role: 'user',
@@ -89,7 +89,7 @@ client = OpenAI(
 )
  
 completion = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {
             'role': 'user',
@@ -156,7 +156,7 @@ The response contains structured JSON that conforms to your specified schema:
   "id": "chatcmpl-123",
   "object": "chat.completion",
   "created": 1677652288,
-  "model": "nusantara-base",
+  "model": "grok-4.1-fast-non-reasoning",
   "choices": [
     {
       "index": 0,
@@ -192,7 +192,7 @@ const openai = new OpenAI({
 });
  
 const completion = await openai.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [
     {
       role: 'user',
@@ -238,7 +238,7 @@ client = OpenAI(
 )
  
 completion = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {
             'role': 'user',
@@ -291,7 +291,7 @@ const openai = new OpenAI({
 });
  
 const stream = await openai.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [
     {
       role: 'user',
@@ -341,7 +341,7 @@ client = OpenAI(
 )
  
 stream = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {
             'role': 'user',

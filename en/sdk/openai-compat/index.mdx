@@ -43,7 +43,7 @@ const client = new OpenAI({
 });
  
 const completion = await client.chat.completions.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   messages: [{ role: 'user', content: 'Hello, world!' }],
 });
 ```
@@ -58,7 +58,7 @@ client = OpenAI(
 )
  
 completion = client.chat.completions.create(
-    model='nusantara-base',
+    model='grok-4.1-fast-non-reasoning',
     messages=[
         {'role': 'user', 'content': 'Hello, world!'}
     ]
@@ -73,7 +73,7 @@ The chat completions endpoint supports standard OpenAI parameters:
 
 ### [Required parameters](#required-parameters)
 
-*   **`model`** (string): The model ID to use (e.g., `nusantara-base`, `archipelago-70b`).
+*   **`model`** (string): The model ID to use (e.g., `grok-4.1-fast-non-reasoning`, `archipelago-70b`).
 *   **`messages`** (array): Array of message objects with `role` and `content` fields.
 
 ### [Optional parameters](#optional-parameters)

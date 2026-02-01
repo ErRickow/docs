@@ -39,7 +39,7 @@ client = OpenAI(
 )
  
 response = client.chat.completions.create(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     messages=[
         {'role': 'user', 'content': 'Explain quantum computing in one paragraph.'}
     ]
@@ -58,7 +58,7 @@ client = anthropic.Anthropic(
 )
  
 message = client.messages.create(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     max_tokens=1024,
     messages=[
         {'role': 'user', 'content': 'Explain quantum computing in one paragraph.'}
@@ -97,7 +97,7 @@ client = OpenAI(
 )
  
 stream = client.chat.completions.create(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     messages=[
         {'role': 'user', 'content': 'Write a short story about a robot.'}
     ],
@@ -119,7 +119,7 @@ client = anthropic.Anthropic(
 )
  
 with client.messages.stream(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     max_tokens=1024,
     messages=[
         {'role': 'user', 'content': 'Write a short story about a robot.'}
@@ -149,7 +149,7 @@ client = AsyncOpenAI(
  
 async def main():
     response = await client.chat.completions.create(
-        model='nusantara-base',
+        model='claude-3-5-sonnet',
         messages=[{'role': 'user', 'content': 'Hello!'}]
     )
     print(response.choices[0].message.content)
@@ -169,7 +169,7 @@ client = anthropic.AsyncAnthropic(
  
 async def main():
     message = await client.messages.create(
-        model='nusantara-base',
+        model='claude-3-5-sonnet',
         max_tokens=1024,
         messages=[{'role': 'user', 'content': 'Hello!'}]
     )
@@ -203,7 +203,7 @@ tools = [{
 }]
  
 response = client.chat.completions.create(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     messages=[{'role': 'user', 'content': "What's the weather in Tokyo?"}],
     tools=tools
 )
@@ -223,7 +223,7 @@ tools = [{
 }]
  
 message = client.messages.create(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     max_tokens=1024,
     messages=[{'role': 'user', 'content': "What's the weather in Tokyo?"}],
     tools=tools
@@ -238,7 +238,7 @@ Generate responses that conform to a JSON schema.
 
 ```python
 response = client.chat.completions.create(
-    model='nusantara-base',
+    model='claude-3-5-sonnet',
     messages=[
         {'role': 'user', 'content': 'Extract: John is 30 years old and lives in NYC'}
     ],

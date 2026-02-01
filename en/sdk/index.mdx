@@ -20,7 +20,7 @@ const client = new OpenAI({
 });
  
 const response = await client.chat.completions.create({
-  model: 'nusantara-base', // Any available model
+  model: 'grok-4.1-fast-non-reasoning', // Any available model
   messages: [{ role: 'user', content: 'Hello!' }],
 });
 ```
@@ -34,7 +34,7 @@ const client = new Anthropic({
 });
  
 const message = await client.messages.create({
-  model: 'nusantara-base',
+  model: 'grok-4.1-fast-non-reasoning',
   max_tokens: 1024,
   messages: [{ role: 'user', content: 'Hello!' }],
 });
@@ -45,7 +45,7 @@ curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "nusantara-base",
+    "model": "grok-4.1-fast-non-reasoning",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
