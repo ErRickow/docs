@@ -3,13 +3,11 @@ title: "Streaming"
 description: "Learn how to use Server-Sent Events (SSE) to receive real-time updates from the Responses API."
 ---
 
-# Streaming
-
 The [Responses API](/en/sdk/responses-api) supports streaming, allowing you to receive tokens as they are generated instead of waiting for the entire completion. This provides a much better user experience for chat applications.
 
 To enable streaming, set **`stream: true`** in your request body. The response will be a stream of Server-Sent Events (SSE).
 
-### [Example Request](#example-request)
+### Example Request
 
 Use the standard `fetch` API to read the stream in real-time.
 
@@ -78,7 +76,7 @@ function processLine(line) {
 
 ---
 
-## [Streaming events](#streaming-events)
+## Streaming events
 
 The Responses API emits specific events during the generation process:
 

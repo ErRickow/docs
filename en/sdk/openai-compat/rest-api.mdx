@@ -3,11 +3,9 @@ title: "Direct REST API Usage"
 description: "Make direct HTTP requests to the Neosantara AI Gateway using cURL, Fetch, or any other HTTP client."
 ---
 
-# Direct REST API Usage
-
 If you prefer to use the Neosantara AI Gateway API directly without the OpenAI client libraries, you can make HTTP requests using any standard HTTP client. This is useful for environments where installing a full SDK is not ideal.
 
-### [List models](#list-models)
+### List models
 
 Retrieve a list of all available models and their capabilities.
 
@@ -36,7 +34,7 @@ console.log(models);
 
 ---
 
-### [Basic chat completion](#basic-chat-completion)
+### Basic chat completion
 
 Create a standard chat completion request.
 
@@ -88,7 +86,7 @@ console.log(result);
 
 ---
 
-### [Streaming chat completion](#streaming-chat-completion)
+### Streaming chat completion
 
 Receive tokens in real-time as they are generated using Server-Sent Events (SSE).
 
@@ -165,7 +163,7 @@ while (true) {
 
 ---
 
-### [Image analysis](#image-analysis)
+### Image analysis
 
 Send images for processing using multimodal models.
 
@@ -241,7 +239,7 @@ console.log(result);
 
 ---
 
-### [Tool calls](#tool-calls)
+### Tool calls
 
 Interact with external functions by providing tool definitions.
 
@@ -304,56 +302,6 @@ const response = await fetch(
         },
       ],
       tool_choice: 'auto'
-    }),
-  },
-);
- 
-const result = await response.json();
-console.log(result);
-```
-
-</CodeGroup>
-
----
-
-### [Provider options](#provider-options)
-
-Control routing and specify preference for upstream providers.
-
-<CodeGroup>
-
-```bash cURL
-curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
-  -H "Authorization: Bearer $NAI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "claude-4.5-sonnet",
-    "messages": [{ "role": "user", "content": "Hello!" }],
-    "providerOptions": {
-      "gateway": {
-        "order": ["vertex", "anthropic"]
-      }
-    }
-  }'
-```
-
-```javascript JavaScript
-const response = await fetch(
-  'https://api.neosantara.xyz/v1/chat/completions',
-  {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${process.env.NAI_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'claude-4.5-sonnet',
-      messages: [{ role: 'user', content: 'Hello!' }],
-      providerOptions: {
-        gateway: {
-          order: ['vertex', 'anthropic']
-        },
-      },
     }),
   },
 );

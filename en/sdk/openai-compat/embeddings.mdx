@@ -1,17 +1,15 @@
 ---
 title: "Embeddings"
-description: "Generate vector embeddings from input text for semantic search and RAG using Neosantara AI."
+description: "Generate vector embeddings from input text for semantic search and RAG using Neosantara API."
 ---
 
-# Embeddings
+Generate vector embeddings from input text for semantic search, similarity matching, and retrieval-augmented generation (RAG). Neosantara provides an OpenAI-compatible embeddings endpoint that works with popular models and libraries.
 
-Generate vector embeddings from input text for semantic search, similarity matching, and retrieval-augmented generation (RAG). Neosantara AI provides an OpenAI-compatible embeddings endpoint that works with popular models and libraries.
-
-Endpoint
+**Endpoint**
 
 `POST /v1/embeddings`
 
-### [Example request](#example-request)
+### Example request
 
 Use the standard OpenAI SDK and point it to the Neosantara AI gateway.
 
@@ -54,7 +52,7 @@ print(response.data[0].embedding)
 
 ---
 
-### [Response format](#response-format)
+### Response format
 
 The response returns a list of embedding objects conforming to the OpenAI specification.
 
@@ -75,29 +73,3 @@ The response returns a list of embedding objects conforming to the OpenAI specif
   }
 }
 ```
-
----
-
-### [Dimensions parameter](#dimensions-parameter)
-
-You can set the root-level `dimensions` field, and the gateway will automatically map it to the underlying provider's expected field. This is useful for models that support variable embedding sizes.
-
-<CodeGroup>
-
-```typescript embeddings-dimensions.ts
-const response = await openai.embeddings.create({
-  model: 'openai/text-embedding-3-small',
-  input: 'Sunny day at the beach',
-  dimensions: 768,
-});
-```
-
-```python embeddings-dimensions.py
-response = client.embeddings.create(
-    model='openai/text-embedding-3-small',
-    input='Sunny day at the beach',
-    dimensions=768,
-)
-```
-
-</CodeGroup>

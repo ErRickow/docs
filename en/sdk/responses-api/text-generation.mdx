@@ -3,13 +3,11 @@ title: "Text Generation"
 description: "Learn how to generate text responses using the stateful Responses API."
 ---
 
-# Text Generation
-
 Use the [Responses API](/en/sdk/responses-api) to generate high-quality text responses from AI models. Unlike the legacy Chat Completions API, the Responses API allows you to pass simple strings or structured message objects while optionally maintaining conversation state on the server.
 
-### [Basic Request](#basic-request)
+### Basic Request
 
-Point your HTTP client to the Neosantara AI responses endpoint.
+Point your HTTP client to the Neosantara responses endpoint.
 
 <CodeGroup>
 
@@ -64,7 +62,7 @@ print(result["output_text"])
 
 ---
 
-## [Response Format](#response-format)
+## Response Format
 
 The response includes the generated text in the `output` array, along with token usage information and a convenient `output_text` helper for quick access.
 
@@ -95,7 +93,7 @@ The response includes the generated text in the `output` array, along with token
 }
 ```
 
-### [Accessing the Output](#accessing-the-output)
+### Accessing the Output
 
 *   **`output_text`**: A top-level string containing the full concatenated text response. Best for simple chat apps.
 *   **`output`**: An array of detailed message blocks. Use this if you need to access specific item IDs, reasoning content, or tool calls.

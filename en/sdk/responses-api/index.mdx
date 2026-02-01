@@ -1,27 +1,25 @@
 ---
 title: "Responses API"
-description: "Neosantara AI supports the Responses API specification, providing a unified and stateful interface for AI model interactions."
+description: "Neosantara API supports the Responses API specification, providing a unified and stateful interface for AI model interactions."
 ---
 
-# Responses API
-
-Neosantara AI supports the **Responses API**, a modern specification for AI model interactions. It provides a unified interface across providers with built-in support for stateful conversations, streaming, tool calling, reasoning, and multi-modal inputs.
+Neosantara API supports the **Responses API**, a modern specification for AI model interactions. It provides a unified interface across providers with built-in support for stateful conversations, streaming, tool calling, reasoning, and multi-modal inputs.
 
 For a detailed comparison with the legacy Chat Completions API, see [Responses vs. Chat Completions](/en/response).
 
-## [Base URL](#base-url)
+## Base URL
 
 The Responses API is available at:
 
 `https://api.neosantara.xyz/v1`
 
-## [Authentication](#authentication)
+## Authentication
 
 The Responses API supports standard Bearer token authentication:
 
 *   **API key**: Use your Neosantara AI API key with the `Authorization: Bearer <token>` header.
 
-## [Supported Features](#supported-features)
+## Supported Features
 
 The Responses API is designed for building advanced AI applications:
 
@@ -32,7 +30,7 @@ The Responses API is designed for building advanced AI applications:
 *   **[Tool Calling](/en/sdk/responses-api/tool-calling)** - Seamless integration with external functions.
 *   **[Structured Outputs](/en/capability/structured)** - Reliable JSON data extraction.
 
-## [Getting started](#getting-started)
+## Getting started
 
 Here's a simple example to generate a text response using the `fetch` API:
 
@@ -83,14 +81,14 @@ print(result["output_text"])
 
 </CodeGroup>
 
-## [Parameters](#parameters)
+## Parameters
 
-### [Required parameters](#required-parameters)
+### Required parameters
 
-*   **`model`** (string): The Neosantara model ID (e.g., `grok-4.1-fast-non-reasoning`, `archipelago-70b`).
+*   **`model`** (string): The Neosantara model ID (e.g., `grok-4.1-fast-non-reasoning`, `claude-3-haiku`).
 *   **`input`** (string or array): The user input. Can be a simple string or an array of message objects.
 
-### [Optional parameters](#optional-parameters)
+### Optional parameters
 
 *   **`stream`** (boolean): Stream the response using SSE. Defaults to `false`.
 *   **`store`** (boolean): Whether to persist the conversation state for future turns.
@@ -103,11 +101,11 @@ print(result["output_text"])
 
 ---
 
-## [Error handling](#error-handling)
+## Error handling
 
 The API returns standard HTTP status codes and OpenAI-compatible error responses.
 
-### [Common error codes](#common-error-codes)
+### Common error codes
 
 *   `400 Bad Request` - Invalid request parameters.
 *   `401 Unauthorized` - Invalid or missing API key.
@@ -115,7 +113,7 @@ The API returns standard HTTP status codes and OpenAI-compatible error responses
 *   `429 Too Many Requests` - Rate limit or credit balance exceeded.
 *   `500 Internal Server Error` - Gateway or provider error.
 
-### [Error response format](#error-response-format)
+### Error response format
 
 ```json
 {

@@ -3,11 +3,9 @@ title: "Tool Calling"
 description: "Give models access to external functions using the Responses API."
 ---
 
-# Tool Calling
-
 The [Responses API](/en/sdk/responses-api) supports native tool calling, allowing models to interact with external systems and functions. You define your tools using JSON schema, and the model returns structured data when it determines a tool is needed.
 
-### [Example Request](#example-request)
+### Example Request
 
 Define your tools in the `tools` array and set the `tool_choice` behavior.
 
@@ -61,7 +59,7 @@ const result = await response.json();
 
 ---
 
-## [Tool Call Response](#tool-call-response)
+## Tool Call Response
 
 When the model decides to use a tool, the response includes a `function_call` item in the `output` array.
 
@@ -81,7 +79,7 @@ When the model decides to use a tool, the response includes a `function_call` it
 }
 ```
 
-### [Executing the Tool](#executing-the-tool)
+### Executing the Tool
 
 After receiving a `function_call`, your application should:
 1.  Parse the `arguments` (JSON string).
@@ -90,7 +88,7 @@ After receiving a `function_call`, your application should:
 
 ---
 
-## [Tool Choice Options](#tool-choice-options)
+## Tool Choice Options
 
 You can control how the model interacts with tools using the `tool_choice` parameter:
 

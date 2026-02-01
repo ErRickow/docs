@@ -3,23 +3,21 @@ title: "Image Generation"
 description: "Generate images alongside text using multimodal models through the OpenAI-compatible API."
 ---
 
-# Image Generation
+Generate images using AI models that support multimodal output through the OpenAI-compatible API. This feature allows you to create images alongside text responses using models like **stable diffusion**.
 
-Generate images using AI models that support multimodal output through the OpenAI-compatible API. This feature allows you to create images alongside text responses using models like **Gemini 2.0 Flash**.
-
-Endpoint
+**Endpoint**
 
 `POST /v1/chat/completions`
 
-### [Parameters](#parameters) 
+### Parameters
 
 To enable image generation, include the `modalities` parameter in your request:
 
 *   **`modalities`** (array): Array of strings specifying the desired output modalities. Use `['text', 'image']` for both text and image generation, or `['image']` for image-only generation.
 
-### [Example requests](#example-requests)
+### Example requests
 
-Point the OpenAI SDK to Neosantara AI and specify the modalities.
+Point the OpenAI SDK to Neosantara and specify the modalities.
 
 <CodeGroup>
 
@@ -105,7 +103,7 @@ if hasattr(message, 'images') and message.images:
 
 ---
 
-### [Response format](#response-format)
+### Response format
 
 When image generation is enabled, the response separates text content from generated images:
 
@@ -143,7 +141,7 @@ When image generation is enabled, the response separates text content from gener
 
 ---
 
-### [Streaming responses](#streaming-responses)
+### Streaming responses
 
 For streaming requests, images are delivered in delta chunks just like text.
 

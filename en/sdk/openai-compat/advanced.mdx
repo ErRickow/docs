@@ -3,15 +3,13 @@ title: "Advanced Configuration"
 description: "Configure reasoning and prompt caching using the OpenAI-compatible API."
 ---
 
-# Advanced Configuration
+Neosantara API provides advanced configuration options through the OpenAI-compatible API, enabling you to control reasoning behavior and optimize performance for supported models.
 
-Neosantara AI provides advanced configuration options through the OpenAI-compatible API, enabling you to control reasoning behavior and optimize performance for supported models.
+## Reasoning configuration
 
-## [Reasoning configuration](#reasoning-configuration)
+Configure reasoning behavior for models that support extended thinking or chain-of-thought reasoning (e.g., **LLMA Nemotron**, **GLM 4**). The `reasoning` parameter allows you to control how reasoning tokens are generated and returned.
 
-Configure reasoning behavior for models that support extended thinking or chain-of-thought reasoning (e.g., **Kimi K2**, **Claude 3.7**). The `reasoning` parameter allows you to control how reasoning tokens are generated and returned.
-
-### [Example request](#example-request)
+### Example request
 
 <CodeGroup>
 
@@ -80,7 +78,7 @@ print('Reasoning tokens:', completion.usage.completion_tokens_details.reasoning_
 
 </CodeGroup>
 
-### [Reasoning parameters](#reasoning-parameters)
+### Reasoning parameters
 
 *   **`enabled`** (boolean): Enable reasoning output. When true, the model will provide its reasoning process.
 *   **`max_tokens`** (number): Maximum number of tokens to allocate for reasoning.
@@ -88,7 +86,7 @@ print('Reasoning tokens:', completion.usage.completion_tokens_details.reasoning_
 
 ---
 
-## [Prompt caching](#prompt-caching)
+## Prompt caching
 
 Support for prompt caching (specifically for Claude models) to reduce costs and latency for repeated prompts.
 

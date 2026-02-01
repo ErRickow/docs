@@ -3,17 +3,15 @@ title: "File Attachments"
 description: "Send images and PDF documents as part of your message request using the Anthropic format."
 ---
 
-# File Attachments
-
 Neosantara AI supports sending images and PDF documents as part of your message request through the Anthropic-compatible API. This allows you to build multimodal applications that can "see" images and "read" documents.
 
-### [Example request](#example-request)
+### Example request
 
-Point the Anthropic SDK to Neosantara AI and provide your files as base64-encoded strings.
+Point the Anthropic SDK to Neosantara API and provide your files as base64-encoded strings.
 
 <CodeGroup>
 
-```typescript file-attachment.ts
+```typescript file-attachment.ts icon="typescript"
 import Anthropic from '@anthropic-ai/sdk';
 import fs from 'node:fs';
  
@@ -64,7 +62,7 @@ const message = await anthropic.messages.create({
 console.log('Response:', message.content[0].text);
 ```
 
-```python file-attachment.py
+```python file-attachment.py icon="py"
 import os
 import base64
 import anthropic
@@ -120,11 +118,11 @@ print('Response:', message.content[0].text)
 
 ---
 
-### [Supported file types](#supported-file-types)
+### Supported file types
 
 *   **Images**: `image/jpeg`, `image/png`, `image/gif`, `image/webp`
 *   **Documents**: `application/pdf`
 
 <Info>
-  **Model Compatibility**: Ensure you are using a multimodal model (like `claude-4.5-sonnet`, `archipelago-70b`, or `kimi-k2`) when sending file attachments.
+  **Model Compatibility**: Ensure you are using a multimodal model (like `claude-4.5-sonnet`, `nusantara-base`, or `kimi-k2`) when sending file attachments.
 </Info>

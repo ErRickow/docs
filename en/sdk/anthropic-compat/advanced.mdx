@@ -3,23 +3,21 @@ title: "Advanced Features"
 description: "Configure extended thinking using the Anthropic Messages API format."
 ---
 
-# Advanced Features
+Neosantara supports advanced Anthropic features like extended thinking, allowing for more complex reasoning and chain-of-thought processing.
 
-Neosantara AI supports advanced Anthropic features like extended thinking, allowing for more complex reasoning and chain-of-thought processing.
+## Extended thinking
 
-## [Extended thinking](#extended-thinking)
-
-Configure extended thinking for models that support chain-of-thought reasoning (e.g., **Kimi K2**, **Claude 3.7**). The `thinking` parameter allows you to control how reasoning tokens are generated and returned.
+Configure extended thinking for models that support chain-of-thought reasoning (e.g., **Llma Nemotron**, **GLM 4**). The `thinking` parameter allows you to control how reasoning tokens are generated and returned.
 
 <Note>
   Extended thinking is only available on specific reasoning models. Ensure your chosen model supports this capability before enabling it.
 </Note>
 
-### [Example request](#example-request)
+### Example request
 
 <CodeGroup>
 
-```typescript thinking.ts
+```typescript thinking.ts icon="typescript"
 import Anthropic from '@anthropic-ai/sdk';
  
 const anthropic = new Anthropic({
@@ -28,7 +26,7 @@ const anthropic = new Anthropic({
 });
  
 const message = await anthropic.messages.create({
-  model: 'kimi-k2',
+  model: 'glm-4.6v-flash',
   max_tokens: 8192,
   thinking: {
     type: 'enabled',
@@ -51,7 +49,7 @@ for (const block of message.content) {
 }
 ```
 
-```python thinking.py
+```python thinking.py icon="py"
 import os
 import anthropic
  
@@ -61,7 +59,7 @@ client = anthropic.Anthropic(
 )
  
 message = client.messages.create(
-    model='kimi-k2',
+    model='glm-4.6v-flash',
     max_tokens=2048,
     thinking={
         'type': 'enabled',
@@ -84,12 +82,12 @@ for block in message.content:
 
 </CodeGroup>
 
-### [Thinking parameters](#thinking-parameters)
+### Thinking parameters
 
 *   `type`: Set to `'enabled'` to enable extended thinking.
 *   `budget_tokens`: Maximum number of tokens to allocate for thinking (chain-of-thought).
 
-### [Response with thinking](#response-with-thinking)
+### Response with thinking
 
 When thinking is enabled, the response includes thinking blocks separate from the final answer:
 
@@ -109,7 +107,7 @@ When thinking is enabled, the response includes thinking blocks separate from th
       "text": "Quantum entanglement is like having two magic coins..."
     }
   ],
-  "model": "kimi-k2",
+  "model": "glm-4.6v-flash",
   "stop_reason": "end_turn",
   "usage": {
     "input_tokens": 15,

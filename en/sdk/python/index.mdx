@@ -1,13 +1,11 @@
 ---
 title: "Python"
-description: "Use official OpenAI and Anthropic Python SDKs with Neosantara AI."
+description: "Use official OpenAI and Anthropic Python SDKs with Neosantara."
 ---
 
-# Python
+To get started with Python and Neosantara, you can either call the [OpenAI-Compatible](/en/sdk/openai-compat) or [Anthropic-Compatible](/en/sdk/anthropic-compat) API directly, or use the official [OpenAI](https://github.com/openai/openai-python) and [Anthropic](https://github.com/anthropics/anthropic-sdk-python) Python SDKs.
 
-To get started with Python and Neosantara AI, you can either call the [OpenAI-Compatible](/en/sdk/openai-compat) or [Anthropic-Compatible](/en/sdk/anthropic-compat) API directly, or use the official [OpenAI](https://github.com/openai/openai-python) and [Anthropic](https://github.com/anthropics/anthropic-sdk-python) Python SDKs.
-
-## [Installation](#installation)
+## Installation
 
 Install your preferred SDK:
 
@@ -23,7 +21,7 @@ pip install anthropic
 
 </CodeGroup>
 
-## [Quick start](#quick-start)
+## Quick start
 
 Point your SDK to the Neosantara AI gateway using the `base_url` parameter.
 
@@ -70,7 +68,7 @@ print(message.content[0].text)
 
 </CodeGroup>
 
-## [Authentication](#authentication)
+## Authentication
 
 Both SDKs use standard API key authentication. We recommend storing your key in an environment variable.
 
@@ -81,7 +79,7 @@ import os
 api_key = os.getenv('NAI_API_KEY')
 ```
 
-## [Streaming](#streaming)
+## Streaming
 
 Stream responses for real-time output in chat applications.
 
@@ -131,7 +129,7 @@ with client.messages.stream(
 
 </CodeGroup>
 
-## [Async support](#async-support)
+## Async support
 
 Both SDKs provide async clients for use with `asyncio`.
 
@@ -180,7 +178,7 @@ asyncio.run(main())
 
 </CodeGroup>
 
-## [Tool calling](#tool-calling)
+## Tool calling
 
 Enable models to call external functions.
 
@@ -232,7 +230,7 @@ message = client.messages.create(
 
 </CodeGroup>
 
-## [Structured outputs](#structured-outputs)
+## Structured outputs
 
 Generate responses that conform to a JSON schema.
 
@@ -260,7 +258,7 @@ response = client.chat.completions.create(
 )
 ```
 
-## [Framework integrations](#framework-integrations)
+## Framework integrations
 
 | Framework | Integration Guide |
 | --- | --- |
@@ -269,7 +267,7 @@ response = client.chat.completions.create(
 | **LangChain** | [LangChain Guide](/en/langchain) |
 | **CrewAI** | [CrewAI Guide](/en/crewai) |
 
-## [API reference](#api-reference)
+## API reference
 
 *   [OpenAI-compatible API](/en/sdk/openai-compat) — Chat completions, embeddings, streaming, tool calls, and more.
 *   [Anthropic-compatible API](/en/sdk/anthropic-compat) — Messages API, streaming, and extended thinking.

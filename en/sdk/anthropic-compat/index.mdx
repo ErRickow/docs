@@ -7,9 +7,9 @@ Neosantara [AI Gateway](/en/intro) provides Anthropic-compatible API endpoints, 
 
 The Anthropic-compatible API implements the same specification as the [Anthropic Messages API](https://docs.anthropic.com/en/api/messages).
 
-For more on using Neosantara AI with Claude Code, see the [AI Coding Tools guide](/en/guides/ai-coding-tools).
+For more on using Neosantara with Claude Code, see the [AI Coding Tools guide](/en/guides/ai-coding-tools).
 
-## [Base URL](#base-url)
+## Base URL
 
 The Anthropic-compatible API is available at the following base URL:
 
@@ -19,32 +19,32 @@ The Anthropic-compatible API is available at the following base URL:
   Ensure you use the `/anthropic` base URL when configuring the Anthropic SDK. Using the `/v1` root will lead to schema mismatches.
 </Warning>
 
-## [Authentication](#authentication)
+## Authentication
 
 The Anthropic-compatible API supports the same authentication methods as the main Neosantara API:
 
 *   **API key**: Use your Neosantara API key with the `x-api-key` header or `Authorization: Bearer <token>` header.
 *   **Anthropic Header**: You can also use the standard `x-api-key` header expected by the Anthropic SDK.
 
-## [Supported endpoints](#supported-endpoints)
+## Supported endpoints
 
-Neosantara AI supports the following Anthropic-compatible endpoint:
+Neosantara supports the following Anthropic-compatible endpoint:
 
 *   [`POST /v1/messages`](/en/sdk/anthropic-compat/messages) - Create messages with support for streaming, [tool calls](/en/sdk/anthropic-compat/tool-calls), [extended thinking](/en/sdk/anthropic-compat/advanced#extended-thinking), and [file attachments](/en/sdk/anthropic-compat/file-attachments).
 
 For advanced features, see:
 
-*   [Advanced Features](/en/sdk/anthropic-compat/advanced) - Extended thinking and web search.
+*   [Advanced Features](/en/sdk/anthropic-compat/advanced) - Extended thinking.
 
-## [Configuring Claude Code](#configuring-claude-code)
+## Configuring Claude Code
 
 [Claude Code](https://code.claude.com/docs) is Anthropic's agentic coding tool. You can configure it to use Neosantara AI Gateway, enabling you to:
 
 *   Route requests through high-performance regional models.
 *   Monitor traffic and spend in your [usage overview](/en/about/token-credits).
-*   Use models like `claude-4.5-sonnet` or `archipelago-70b` for coding tasks.
+*   Use models like `claude-4.5-sonnet` or `grok-code-fast` for coding tasks.
 
-1.  ### [Configure environment variables](#configure-environment-variables)
+1.  ### Configure environment variables
     
     Configure Claude Code to use Neosantara AI by setting these [environment variables](https://code.claude.com/docs/en/settings#environment-variables):
     
@@ -56,12 +56,12 @@ For advanced features, see:
     
     Setting `ANTHROPIC_API_KEY` to an empty string is important. Claude Code checks this variable first, and if it's set to a non-empty value, it will use that instead of `ANTHROPIC_AUTH_TOKEN`.
     
-    #### [Option 1: Shell alias (simplest)](#option-1-shell-alias-simplest)
+    #### Option 1: Shell alias (simplest)
     
     Add this alias to your `~/.zshrc` (or `~/.bashrc`):
     
     ```bash
-    alias claude-nusa='ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" ANTHROPIC_AUTH_TOKEN="your-api-key-here" ANTHROPIC_API_KEY="" claude'
+    alias claude-nai='ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" ANTHROPIC_AUTH_TOKEN="your-api-key-here" ANTHROPIC_API_KEY="" claude'
     ```
     
     Then reload your shell:
@@ -70,13 +70,13 @@ For advanced features, see:
     source ~/.zshrc
     ```
     
-    #### [Option 2: Wrapper script](#option-2-wrapper-script)
+    #### Option 2: Wrapper script
     
-    For more flexibility, create a wrapper script at `~/bin/claude-nusa`:
+    For more flexibility, create a wrapper script at `~/bin/claude-nai`:
     
     ```bash
     #!/usr/bin/env bash
-    # Routes Claude Code through Neosantara AI
+    # Routes Claude Code through Neosantara
      
     ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" \
     ANTHROPIC_AUTH_TOKEN="your-api-key-here" \
@@ -88,21 +88,21 @@ For advanced features, see:
     
     ```bash
     mkdir -p ~/bin
-    chmod +x ~/bin/claude-nusa
+    chmod +x ~/bin/claude-nai
     echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
     source ~/.zshrc
     ```
     
-2.  ### [Run Claude Code](#run-claude-code)
+2.  ### Run Claude Code
     
-    Run `claude-nusa` to start Claude Code with Neosantara AI:
+    Run `claude-nai` to start Claude Code with Neosantara:
     
     ```bash
-    claude-nusa
+    claude-nai
     ```
     
 
-## [Integration with Anthropic SDK](#integration-with-anthropic-sdk)
+## Integration with Anthropic SDK
 
 Point your client to the Neosantara AI base URL and use your [API key](/en/authentication) for authentication.
 
@@ -143,17 +143,17 @@ message = client.messages.create(
 
 </CodeGroup>
 
-## [Parameters](#parameters)
+## Parameters
 
 The messages endpoint supports the following parameters:
 
-### [Required parameters](#required-parameters)
+### Required parameters
 
 *   `model` (string): The model to use (e.g., `claude-4.5-sonnet`)
 *   `max_tokens` (integer): Maximum number of tokens to generate
 *   `messages` (array): Array of message objects with `role` and `content` fields
 
-### [Optional parameters](#optional-parameters)
+### Optional parameters
 
 *   `stream` (boolean): Whether to stream the response. Defaults to `false`
 *   `temperature` (number): Controls randomness in the output. Range: 0-1
@@ -165,11 +165,11 @@ The messages endpoint supports the following parameters:
 *   `thinking` (object): [Extended thinking](/en/capability/reasoning) configuration
 *   `system` (string or array): System prompt
 
-## [Error handling](#error-handling)
+## Error handling
 
 The API returns standard HTTP status codes and error responses:
 
-### [Common error codes](#common-error-codes)
+### Common error codes
 
 *   `400 Bad Request`: Invalid request parameters
 *   `401 Unauthorized`: Invalid or missing authentication
@@ -178,7 +178,7 @@ The API returns standard HTTP status codes and error responses:
 *   `429 Too Many Requests`: Rate limit or credit balance exceeded
 *   `500 Internal Server Error`: Provider or Gateway error
 
-### [Error response format](#error-response-format)
+### Error response format
 
 ```json
 {

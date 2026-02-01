@@ -1,15 +1,13 @@
 ---
 title: "Tool Calls"
-description: "Use Anthropic-compatible tool calling with Neosantara AI models."
+description: "Use Anthropic-compatible tool calling with Neosantara models."
 ---
 
-# Tool Calls
+Neosantara API supports Anthropic-compatible tool calling (function calling), allowing models to interact with external tools and functions. This follows the standard Anthropic Messages API specification.
 
-Neosantara AI supports Anthropic-compatible tool calling (function calling), allowing models to interact with external tools and functions. This follows the standard Anthropic Messages API specification.
+### Example request
 
-### [Example request](#example-request)
-
-Define your tools and messages, then point the Anthropic SDK to Neosantara AI.
+Define your tools and messages, then point the Anthropic SDK to Neosantara.
 
 <CodeGroup>
 
@@ -104,7 +102,7 @@ print('Response:', message.content)
 
 ---
 
-### [Tool call response format](#tool-call-response-format)
+### Tool call response format
 
 When the model decides to use a tool, the response includes a `tool_use` block. Your application should then execute the corresponding function and return the results.
 

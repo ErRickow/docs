@@ -3,15 +3,13 @@ title: "Chat Completions"
 description: "Create chat completions using various AI models available through Neosantara AI Gateway."
 ---
 
-# Chat Completions
-
 Create chat completions using various AI models available through the Neosantara AI Gateway. This endpoint follows the standard OpenAI Chat Completions specification.
 
-Endpoint
+**Endpoint**
 
 `POST /v1/chat/completions`
 
-### [Basic chat completion](#basic-chat-completion)
+### Basic chat completion
 
 Create a non-streaming chat completion.
 
@@ -94,7 +92,7 @@ print('Tokens used:', completion.usage)
 
 ---
 
-### [Streaming chat completion](#streaming-chat-completion)
+### Streaming chat completion
 
 Create a streaming chat completion that streams tokens as they are generated.
 
@@ -155,7 +153,7 @@ for chunk in stream:
 
 </CodeGroup>
 
-#### [Streaming response format](#streaming-response-format)
+#### Streaming response format
 
 Streaming responses are sent as [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). Each event contains a JSON object with partial response data.
 
@@ -171,7 +169,7 @@ data: [DONE]
 
 ---
 
-### [Image attachments](#image-attachments)
+### Image attachments
 
 Send images as part of your chat completion request using multimodal models.
 
@@ -191,7 +189,7 @@ const imageBuffer = fs.readFileSync('./path/to/image.png');
 const imageBase64 = imageBuffer.toString('base64');
  
 const completion = await openai.chat.completions.create({
-  model: 'grok-4.1-fast-non-reasoning',
+  model: 'claude-3-haiku',
   messages: [
     {
       role: 'user',
@@ -228,7 +226,7 @@ with open('./path/to/image.png', 'rb') as image_file:
     image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
  
 completion = client.chat.completions.create(
-    model='grok-4.1-fast-non-reasoning',
+    model='claude-3-haiku',
     messages=[
         {
             'role': 'user',
@@ -254,7 +252,7 @@ print('Assistant:', completion.choices[0].message.content)
 
 ---
 
-### [PDF attachments](#pdf-attachments)
+### PDF attachments
 
 Send PDF documents as part of your chat completion request.
 
@@ -274,7 +272,7 @@ const pdfBuffer = fs.readFileSync('./path/to/document.pdf');
 const pdfBase64 = pdfBuffer.toString('base64');
  
 const completion = await openai.chat.completions.create({
-  model: 'grok-4.1-fast-non-reasoning',
+  model: 'claude-3-haiku',
   messages: [
     {
       role: 'user',
@@ -315,7 +313,7 @@ with open('./path/to/document.pdf', 'rb') as pdf_file:
     pdf_base64 = base64.b64encode(pdf_file.read()).decode('utf-8')
  
 completion = client.chat.completions.create(
-    model='grok-4.1-fast-non-reasoning',
+    model='claude-3-haiku',
     messages=[
         {
             'role': 'user',
@@ -345,14 +343,14 @@ print('Assistant:', completion.choices[0].message.content)
 
 ---
 
-### [Parameters](#parameters)
+### Parameters
 
-#### [Required parameters](#required-parameters)
+#### Required parameters
 
-*   `model` (string): The model ID to use (e.g., `grok-4.1-fast-non-reasoning`, `archipelago-70b`).
+*   `model` (string): The model ID to use (e.g., `grok-4.1-fast-non-reasoning`, `claude-3-haiku`).
 *   `messages` (array): Array of message objects with `role` and `content` fields.
 
-#### [Optional parameters](#optional-parameters)
+#### Optional parameters
 
 *   `stream` (boolean): Whether to stream the response. Defaults to `false`.
 *   `temperature` (number): Controls randomness in the output. Range: 0-2.

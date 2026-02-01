@@ -1,17 +1,15 @@
 ---
 title: "Messages"
-description: "Create messages using the Anthropic Messages API format through Neosantara AI."
+description: "Create messages using the Anthropic Messages API format through Neosantara."
 ---
-
-# Messages
 
 Create messages using the Anthropic Messages API format. This endpoint is fully compatible with the official Anthropic SDKs and tools.
 
-Endpoint
+**Endpoint**
 
 `POST /v1/messages`
 
-### [Basic message](#basic-message)
+### Basic message
 
 Create a non-streaming message.
 
@@ -92,7 +90,7 @@ print('Usage:', message.usage)
 
 ---
 
-### [Streaming messages](#streaming-messages)
+### Streaming messages
 
 Create a streaming message that delivers tokens as they are generated.
 
@@ -154,7 +152,7 @@ with client.messages.stream(
 
 </CodeGroup>
 
-#### [Streaming event types](#streaming-event-types)
+#### Streaming event types
 
 Streaming responses use [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). The key event types are:
 
