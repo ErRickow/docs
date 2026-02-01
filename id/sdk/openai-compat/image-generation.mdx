@@ -23,4 +23,8 @@ const completion = await openai.chat.completions.create({
   // @ts-expect-error - ekstensi gateway
   modalities: ['text', 'image'],
 });
+
+<Note>
+  **Ekstensi Gateway**: Parameter `modalities` serta bidang `message.images` dan `delta.images` yang dihasilkan adalah ekstensi gateway khusus Neosantara. Ini bukan bagian dari skema Chat Completions OpenAI standar dan mungkin tidak tersedia di endpoint kompatibel OpenAI lainnya.
+</Note>
 ```

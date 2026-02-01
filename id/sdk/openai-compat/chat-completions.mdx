@@ -77,4 +77,28 @@ const completion = await openai.chat.completions.create({
 });
 ```
 
+```typescript pdf.ts
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        { type: 'text', text: 'Ringkas dokumen ini:' },
+        {
+          type: 'file',
+          file_url: { url: `data:application/pdf;base64,${pdfBase64}` },
+        },
+      ],
+    },
+  ],
+});
+```
+
 </CodeGroup>
+
+<Note>
+  **Ekstensi Neosantara**: Meskipun API Chat Completions OpenAI standar terutama mendukung `image_url`, Neosantara memperluas ini untuk mendukung tipe `file` melalui `file_url` untuk dokumen seperti PDF. Perhatikan bahwa lampiran base64 sebaris (inline) yang ditunjukkan di sini adalah ekstensi khusus Neosantara.
+</Note>
+
+---
