@@ -32,18 +32,23 @@ const response = await fetch('https://api.neosantara.xyz/v1/responses', {
 });
  
 const reader = response.body.getReader();
-const decoder = new TextDecoder();
+const decoder = new TextDecoder('utf-8');
+let buffer = '';
  
 while (true) {
   const { done, value } = await reader.read();
   if (done) break;
  
-  const chunk = decoder.decode(value);
-  const lines = chunk.split('\n');
+  // Use streaming mode to handle split UTF-8 characters
+  buffer += decoder.decode(value, { stream: true });
+  const lines = buffer.split('\n');
+ 
+  // Store the last potentially incomplete line back into the buffer
+  buffer = lines.pop() || '';
  
   for (const line of lines) {
     if (line.startsWith('data:')) {
-      const data = line.substring(5).trim(); // "data: " is 6 chars, but check for leading spaces
+      const data = line.substring(5).trim(); // Handle "data: "
       if (data === '[DONE]') break;
       
       try {

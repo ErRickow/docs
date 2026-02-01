@@ -5,14 +5,14 @@ description: "Konfigurasi extended thinking menggunakan format Anthropic Message
 
 # Fitur Lanjutan
 
-### [Extended Thinking](#thinking)
+### [Extended Thinking](#extended-thinking)
 
 Konfigurasi pemikiran mendalam untuk model yang mendukung penalaran chain-of-thought (misalnya **Claude 3.7** atau **Kimi K2**).
 
 ```typescript
 const message = await client.messages.create({
   model: 'claude-4.5-sonnet',
-  max_tokens: 2048,
+  max_tokens: 8192,
   thinking: {
     type: 'enabled',
     budget_tokens: 5000,

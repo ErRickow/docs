@@ -26,23 +26,32 @@ const response = await fetch('https://api.neosantara.xyz/v1/responses', {
 });
  
 const reader = response.body.getReader();
-const decoder = new TextDecoder();
+const decoder = new TextDecoder('utf-8');
+let buffer = '';
  
 while (true) {
   const { done, value } = await reader.read();
   if (done) break;
  
-  const chunk = decoder.decode(value);
-  const lines = chunk.split('\n');
+  // Gunakan { stream: true } agar karakter multi-byte yang terpotong didekode dengan benar
+  buffer += decoder.decode(value, { stream: true });
+  const lines = buffer.split('\n');
+ 
+  // Simpan baris terakhir yang mungkin belum lengkap ke dalam buffer
+  buffer = lines.pop() || '';
  
   for (const line of lines) {
     if (line.startsWith('data:')) {
       const data = line.substring(5).trim();
       if (data === '[DONE]') break;
       
-      const event = JSON.parse(data);
-      if (event.type === 'response.output_text.delta') {
-        process.stdout.write(event.delta);
+      try {
+        const event = JSON.parse(data);
+        if (event.type === 'response.output_text.delta') {
+          process.stdout.write(event.delta);
+        }
+      } catch (e) {
+        // Abaikan JSON yang tidak valid atau chunk kosong
       }
     }
   }

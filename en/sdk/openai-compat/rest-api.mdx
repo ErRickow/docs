@@ -173,7 +173,7 @@ Send images for processing using multimodal models.
 
 ```bash cURL
 # First, convert your image to base64
-IMAGE_BASE64=$(base64 -i ./image.png)
+IMAGE_BASE64=$(base64 -w 0 ./image.png)
  
 curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
   -H "Authorization: Bearer $NAI_API_KEY" \

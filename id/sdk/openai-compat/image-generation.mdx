@@ -9,12 +9,12 @@ Hasilkan gambar menggunakan model AI yang mendukung output multimodal. Fitur ini
 
 Endpoint: `POST /v1/chat/completions`
 
-### [Parameter Modalities](#parameters)
+### [Parameter Modalities](#parameter-modalities)
 
 Sertakan parameter `modalities` untuk mengaktifkan generasi gambar:
 *   **`modalities`**: `['text', 'image']` untuk teks dan gambar, atau `['image']` untuk gambar saja.
 
-### [Contoh Permintaan](#example)
+### [Contoh Permintaan](#contoh-permintaan)
 
 ```typescript
 const completion = await openai.chat.completions.create({

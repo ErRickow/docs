@@ -42,7 +42,7 @@ Kirim gambar untuk diproses menggunakan model multimodal.
 
 ```bash cURL
 # Konversi gambar ke base64 terlebih dahulu
-IMAGE_BASE64=$(base64 -i ./gambar.png)
+IMAGE_BASE64=$(base64 -w 0 ./gambar.png)
  
 curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
   -H "Authorization: Bearer $NAI_API_KEY" \
