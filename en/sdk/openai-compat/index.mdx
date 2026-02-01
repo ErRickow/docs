@@ -5,7 +5,7 @@ description: "Neosantara provides OpenAI-compatible API endpoints, allowing you 
 
 [Neosantara AI Gateway](/en/intro) provides OpenAI-compatible API endpoints, so you can use the official OpenAI SDK and tools through a unified gateway with only a URL change. No code rewrites required.
 
-The OpenAI-compatible API implements the same specification as the [OpenAI Chat Completions API](https://platform.openai.com/docs/api-reference/chat).
+The OpenAI-compatible API implements the core specification of the [OpenAI Chat Completions API](https://platform.openai.com/docs/api-reference/chat), while providing Neosantara-specific extensions for advanced reasoning and multimodal features.
 
 ## Base URL
 
@@ -23,9 +23,9 @@ The OpenAI-compatible API supports standard Bearer token authentication:
 
 Neosantara supports the following OpenAI-compatible endpoints:
 
-*   [`POST /chat/completions`](/en/sdk/openai-compat/chat-completions) - Create chat completions with support for streaming, [tool calls](/en/sdk/openai-compat/tool-calls), vision (images), and [file attachments](/en/sdk/openai-compat/chat-completions#pdf-attachments).
+*   [`POST /chat/completions`](/en/sdk/openai-compat/chat-completions) - Create chat completions with support for streaming, [tool calls](/en/sdk/openai-compat/tool-calls), **vision (image input)**, and [file attachments](/en/sdk/openai-compat/chat-completions#pdf-attachments).
 *   [`POST /embeddings`](/en/sdk/openai-compat/embeddings) - Generate vector embeddings for text.
-*   [`POST /chat/completions` (Images)](/en/sdk/openai-compat/image-generation) - Generate images alongside text using multimodal models.
+*   [`POST /chat/completions` (Vision)](/en/sdk/openai-compat/image-generation) - Analyze images alongside text using multimodal models.
 *   [`POST /images/generations`](/en/capability/image-generation) - Generate images from text prompts (Standard API).
 
 ## Integration with OpenAI SDK
