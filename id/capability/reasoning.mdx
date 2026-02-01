@@ -1,11 +1,11 @@
 ---
 title: "Penalaran (Reasoning)"
-description: "> Mulai dengan Neosantara AI menggunakan model Llama 3.3 Nemotron, model penalaran terbuka yang kuat."
+description: "> Mulai dengan Neosantara menggunakan model Llama 3.3 Nemotron, model penalaran terbuka yang kuat."
 ---
 
 Model penalaran bobot terbuka ini dirancang untuk pengembang dan perusahaan yang membutuhkan transparansi dan kustomisasi sambil mempertahankan kemampuan penalaran tingkat lanjut untuk tugas-tugas kompleks.
 
-Llama 3.3 Nemotron sangat unggul dalam pengodean, matematika, dan alur kerja agen. Secara default, Neosantara AI mengoptimalkan kecepatan dan biaya dengan menonaktifkan penalaran. Kamu dapat mengaktifkannya secara eksplisit jika dibutuhkan.
+Llama 3.3 Nemotron sangat unggul dalam pengodean, matematika, dan alur kerja agen. Secara default, Neosantara mengoptimalkan kecepatan dan biaya dengan menonaktifkan penalaran. Kamu dapat mengaktifkannya secara eksplisit jika dibutuhkan.
 
 ---
 
@@ -13,7 +13,7 @@ Llama 3.3 Nemotron sangat unggul dalam pengodean, matematika, dan alur kerja age
 
 ### Cara Menggunakan API
 
-Untuk model penalaran yang menghasilkan respon yang lebih panjang dan rinci, kami sangat menyarankan streaming token untuk memastikan pengalaman pengguna terbaik.
+Untuk model penalaran yang menghasilkan respons yang lebih panjang dan rinci, kami sangat menyarankan streaming token untuk memastikan pengalaman pengguna terbaik.
 
 #### **Perilaku Default (Penalaran Mati)**
 
@@ -46,8 +46,6 @@ stream = client.chat.completions.create(
 )
 
 for chunk in stream:
-  if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
-      print(f"[Berpikir] {chunk.choices[0].delta.reasoning_content}", end="", flush=True)
   if chunk.choices[0].delta.content:
       print(chunk.choices[0].delta.content, end="", flush=True)
 ```
@@ -62,16 +60,16 @@ Kamu juga dapat mengontrol penalaran melalui instruksi prompt:
 
 ### Model Khusus Neosantara
 
-Neosantara AI menyediakan versi optimal dari model inti seperti `nusantara-base` dan `archipelago-70b` yang dikhususkan untuk penalaran. Model-model ini menggunakan mekanisme **Instruction Injection** untuk memberikan pemikiran langkah demi langkah bahkan pada model chat standar.
+Neosantara menyediakan versi optimal dari model inti seperti `nusantara-base` dan `archipelago-70b` yang dikhususkan untuk penalaran. Model-model ini menggunakan mekanisme **Instruction Injection** untuk memberikan pemikiran langkah demi langkah bahkan pada model chat standar.
 
 #### **Cara Kerjanya**
-Saat Kamu mengaktifkan penalaran untuk model-model ini (via parameter `thinking` atau `/think`), Neosantara AI secara otomatis menambahkan instruksi tingkat sistem (contoh: *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaanmu. Ini memastikan model membedah masalah sebelum memberikan jawaban akhir.
+Saat Kamu mengaktifkan penalaran untuk model-model ini (via parameter `thinking` atau `/think`), Neosantara secara otomatis menambahkan instruksi tingkat sistem (contoh: *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaan Kamu. Ini memastikan model membedah masalah sebelum memberikan jawaban akhir.
 
 ---
 
 ### Model Berpikir (Claude & Gemini)
 
-Untuk model yang mendukung penalaran asli (*native reasoning*), seperti **Claude 3.5 Sonnet** dan **Gemini 2.0 Flash**, Neosantara AI mendukung parameter `thinking`. Ini memungkinkan Kamu mengalokasikan anggaran token tertentu untuk proses berpikir internal model.
+Untuk model yang mendukung penalaran asli (*native reasoning*), seperti **Claude 3.5 Sonnet** dan **Gemini 2.0 Flash**, Neosantara mendukung parameter `thinking`. Ini memungkinkan Kamu mengalokasikan anggaran token tertentu untuk proses berpikir internal model.
 
 #### **Menggunakan Parameter `thinking`**
 
@@ -107,8 +105,8 @@ Untuk mendapatkan hasil terbaik dari Llama 3.3 Nemotron, perlakukan seperti peme
 
 - **Kekuatan**: Unggul dalam penalaran terbuka, logika multi-langkah, dan masalah pengodean atau matematika yang kompleks.
 - **Hindari Prompt Berlebihan**: Mengatur setiap langkah secara mikro dapat membatasi kemampuan penalaran tingkat lanjut model. Berikan tujuannya, bukan jalan persisnya.
-- **Berikan Tujuan Jelas**: Pastikan promptmu jelas dan tidak ambigu untuk mendapatkan respon yang paling akurat dan relevan.
-- **Gunakan Streaming**: Untuk kueri yang kompleks, proses penalaran dapat menghasilkan banyak teks. Streaming respon memberikan pengalaman pengguna yang jauh lebih baik.
+- **Berikan Tujuan Jelas**: Pastikan prompt Kamu jelas dan tidak ambigu untuk mendapatkan respons yang paling akurat dan relevan.
+- **Gunakan Streaming**: Untuk kueri yang kompleks, proses penalaran dapat menghasilkan banyak teks. Streaming respons memberikan pengalaman pengguna yang jauh lebih baik.
 
 ---
 

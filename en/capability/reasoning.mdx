@@ -1,11 +1,11 @@
 ---
 title: "Llama 3.3 Nemotron Quickstart"
-description: "> Get started with Neosantara AI integration of Llama 3.3 Nemotron, a powerful open reasoning model."
+description: "> Get started with Neosantara integration of Llama 3.3 Nemotron, a powerful open reasoning model."
 ---
 
 This flexible open-weight reasoning model is designed for developers and enterprises who need transparency and customization while maintaining advanced reasoning capabilities for complex tasks.
 
-The Llama 3.3 Nemotron model is highly capable in coding, mathematics, and agentic workflows. By default, Neosantara AI optimizes for speed and cost-efficiency by disabling reasoning. You can explicitly enable it when needed.
+The Llama 3.3 Nemotron model is highly capable in coding, mathematics, and agentic workflows. By default, Neosantara optimizes for speed and cost-efficiency by disabling reasoning. You can explicitly enable it when needed.
 
 ---
 
@@ -62,17 +62,17 @@ You can also control reasoning via prompt instructions:
 
 ### Specialized Neosantara Models
 
-Neosantara AI provides optimized versions of core models like `nusantara-base` and `archipelago-70b` that are specifically tuned for reasoning. These models use an **Instruction Injection** mechanism to provide step-by-step thinking even on standard chat models.
+Neosantara provides optimized versions of core models like `nusantara-base` and `archipelago-70b` that are specifically tuned for reasoning. These models use an **Instruction Injection** mechanism to provide step-by-step thinking even on standard chat models.
 
 #### **How it Works**
 
-When you enable reasoning for these models (via `thinking` parameter or `/think`), Neosantara AI automatically appends a system-level instruction (e.g., *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) to your request. This ensures the model breaks down the problem before giving you the final answer.
+When you enable reasoning for these models (via `thinking` parameter or `/think`), Neosantara automatically appends a system-level instruction (e.g., *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) to your request. This ensures the model breaks down the problem before giving you the final answer.
 
 ---
 
 ### Thinking Models (Claude & Gemini)
 
-For models that support native reasoning, such as **Claude 3.5 Sonnet** and **Gemini 2.0 Flash**, Neosantara AI supports the `thinking` parameter. This allows you to allocate a specific token budget for the model's internal thought process.
+For models that support native reasoning, such as **Claude 3.5 Sonnet** and **Gemini 2.0 Flash**, Neosantara supports the `thinking` parameter. This allows you to allocate a specific token budget for the model's internal thought process.
 
 #### **Using the `thinking` Parameter**
 

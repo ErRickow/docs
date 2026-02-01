@@ -3,7 +3,7 @@ title: "Prompt Templates"
 description: "Create and reuse dynamic prompts with variables, dedicated exclusively to the Responses API."
 ---
 
-Prompt templates allow you to save and manage complex instructions on the Neosantara AI platform. Instead of sending long prompts with every API call, you can reference a template ID and inject variables dynamically.
+Prompt templates allow you to save and manage complex instructions on the Neosantara platform. Instead of sending long prompts with every API call, you can reference a template ID and inject variables dynamically.
 
 <Warning>
   **Exclusive to Responses API**: Prompt templates are a dedicated feature of the `/v1/responses` endpoint. They are **not** supported by the legacy `/v1/chat/completions` endpoint.
@@ -29,7 +29,7 @@ Focus specifically on {{focus_area}}.
 
 ## Using Templates with OpenAI SDK
 
-Neosantara AI's Responses API is compatible with the latest OpenAI SDK structure. You can use the dedicated `responses` namespace to call your templates.
+Neosantara's Responses API is compatible with the latest OpenAI SDK structure. You can use the dedicated `responses` namespace to call your templates.
 
 <CodeGroup>
 

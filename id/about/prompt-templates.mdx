@@ -3,7 +3,7 @@ title: "Template Prompt"
 description: "Buat dan gunakan kembali prompt dinamis dengan variabel, khusus didedikasikan untuk API Responses."
 ---
 
-Template prompt memungkinkan Kamu menyimpan dan mengelola instruksi kompleks di platform Neosantara AI. Alih-alih mengirimkan prompt yang panjang di setiap panggilan API, Kamu cukup mereferensikan ID template dan memasukkan variabel secara dinamis.
+Template prompt memungkinkan Kamu menyimpan dan mengelola instruksi kompleks di platform Neosantara. Alih-alih mengirimkan prompt yang panjang di setiap panggilan API, Kamu cukup mereferensikan ID template dan memasukkan variabel secara dinamis.
 
 <Warning>
   **Khusus API Responses**: Template prompt adalah fitur khusus dari endpoint `/v1/responses`. Fitur ini **tidak** didukung oleh endpoint legacy `/v1/chat/completions`.
@@ -29,7 +29,7 @@ Fokuslah secara khusus pada {{area_fokus}}.
 
 ## Menggunakan Template dengan OpenAI SDK
 
-API Responses Neosantara AI kompatibel dengan struktur SDK OpenAI terbaru. Kamu dapat menggunakan namespace `responses` untuk memanggil template Kamu.
+API Responses Neosantara kompatibel dengan struktur SDK OpenAI terbaru. Kamu dapat menggunakan namespace `responses` untuk memanggil template Kamu.
 
 <CodeGroup>
 
@@ -61,8 +61,8 @@ print(response.output_text)
 import OpenAI from 'openai';
 
 const client = new OpenAI({
-  api_key: 'YOUR_NEOSANTARA_API_KEY',
-  base_url: 'https://api.neosantara.xyz/v1'
+  apiKey: 'YOUR_NEOSANTARA_API_KEY',
+  baseURL: 'https://api.neosantara.xyz/v1'
 });
 
 // Akses API responses secara langsung melalui SDK

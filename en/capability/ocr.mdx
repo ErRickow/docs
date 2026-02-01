@@ -3,7 +3,7 @@ title: "OCR (Optical Character Recognition)"
 description: "Extract text from images with high precision using Neosantara's unified OCR API."
 ---
 
-Neosantara AI provides a dedicated OCR endpoint that leverages state-of-the-art models (like DeepSeek OCR) to extract text from various image formats, including documents, receipts, and handwritten notes.
+Neosantara provides a dedicated OCR endpoint that leverages state-of-the-art models (like DeepSeek OCR) to extract text from various image formats, including documents, receipts, and handwritten notes.
 
 ## Endpoint
 
@@ -38,7 +38,7 @@ payload = {
 }
 
 response = requests.post(url, json=payload, headers=headers)
-print(response.json()["extracted_text"])
+print(response.json()["choices"][0]["text"])
 ```
 
 ### Extract Text from Base64
@@ -66,11 +66,17 @@ The API returns a JSON object containing the extracted text and metadata.
 
 ```json icon="code"
 {
-  "extracted_text": "TEXT CONTENT HERE",
-  "status": "success",
-  "model": "deepseek-ocr",
+  "id": "ocr-abc123def456",
+  "object": "ocr.completion",
+  "choices": [
+    {
+      "index": 0,
+      "text": "TEXT CONTENT HERE",
+      "finish_reason": "stop"
+    }
+  ],
   "usage": {
-    "tokens": 50
+    "total_tokens": 50
   }
 }
 ```

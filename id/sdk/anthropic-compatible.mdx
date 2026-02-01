@@ -1,9 +1,9 @@
 ---
 title: "Kompatibilitas Anthropic"
-description: "Gunakan SDK Anthropic dan format API dengan model Neosantara AI."
+description: "Gunakan SDK Anthropic dan format API dengan model Neosantara."
 ---
 
-Neosantara AI menyediakan kompatibilitas penuh dengan API Messages Anthropic, yang memungkinkan Kamu menggunakan SDK dan tools resmi Anthropic dengan model kami. Ini memudahkan integrasi kemampuan Neosantara ke dalam alur kerja berbasis Anthropic yang sudah Kamu miliki.
+Neosantara menyediakan kompatibilitas penuh dengan API Messages Anthropic, yang memungkinkan Kamu menggunakan SDK dan tools resmi Anthropic dengan model kami. Ini memudahkan integrasi kemampuan Neosantara ke dalam alur kerja berbasis Anthropic yang sudah Kamu miliki.
 
 <Note>
   **URL Dasar Endpoint**: `https://api.neosantara.xyz/anthropic`<br/>
@@ -11,12 +11,12 @@ Neosantara AI menyediakan kompatibilitas penuh dengan API Messages Anthropic, ya
 </Note>
 
 <Warning>
-  Pastikan Kamu menggunakan URL dasar `/anthropic` untuk SDK ini. Menggunakan URL dasar `/v1` akan menyebabkan kesalahan otentikasi atau skema.
+  Pastikan Kamu menggunakan URL dasar `/anthropic` untuk SDK ini. Menggunakan URL dasar `/v1` akan menyebabkan kesalahan autentikasi atau skema.
 </Warning>
 
 ## Mulai Cepat
 
-Mulai gunakan Neosantara AI dengan format API Messages Anthropic.
+Mulai gunakan Neosantara dengan format API Messages Anthropic.
 
 <Steps>
   <Step title="Instal SDK Anthropic">
@@ -65,7 +65,7 @@ message = client.messages.create(
     messages=[
         {
             "role": "user",
-            "content": "Halo! Ceritakan tentang Neosantara AI."
+            "content": "Halo! Ceritakan tentang Neosantara."
         }
     ]
 )
@@ -79,7 +79,7 @@ const message = await client.messages.create({
   messages: [
     {
       role: 'user',
-      content: 'Halo! Ceritakan tentang Neosantara AI.',
+      content: 'Halo! Ceritakan tentang Neosantara.',
     },
   ],
 });
@@ -307,7 +307,7 @@ client.messages.create(
   "content": [
     {
       "type": "text",
-      "text": "Neosantara AI adalah platform AI mutakhir..."
+      "text": "Neosantara adalah platform AI mutakhir..."
     }
   ],
   "model": "nusantara-base",

@@ -1,6 +1,6 @@
 --- 
 title: "Cara Mengimplementasikan Penggunaan Tools"
-description: "> Panduan untuk mengintegrasikan dan memanfaatkan tools dengan model NeosantaraAI untuk kemampuan yang ditingkatkan."
+description: "> Panduan untuk mengintegrasikan dan memanfaatkan tools dengan model Neosantara untuk kemampuan yang ditingkatkan."
 ---
 
 ## Memilih Model
@@ -12,9 +12,7 @@ Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan tools.
 Tools (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan API Kamu. Setiap definisi tools mencakup:
 
 | Parameter | Deskripsi |
-| :---
-
---------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :--- | :--- |
 | `type` | Harus `"function"`. 
 | `function` | Objek yang mendefinisikan metadata fungsi, termasuk nama, deskripsi, dan parameternya. 
 | `name` | (di dalam `function`): Nama tools. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`. 
@@ -57,18 +55,18 @@ Tools (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan A
 
 ### Memaksa Penggunaan Tools (Forcing Tool Use)
 
-Kamu dapat memaksa NeosantaraAI untuk menggunakan tools tertentu dengan parameter `tool_choice`.
+Kamu dapat memaksa Neosantara untuk menggunakan tools tertentu dengan parameter `tool_choice`.
 
 Opsi `tool_choice`:
 
 * `auto`: (Default) Model memutuskan sendiri.
 * `any`: Model harus menggunakan salah satu tools.
-* `{"type": "function", "function": {"name": "nama_tools_kamu"}}`: Memaksa model menggunakan tools spesifik ini.
+* `{"type": "function", "function": {"name": "nama_tools_Kamu"}}`: Memaksa model menggunakan tools spesifik ini.
 * `none`: Mencegah model menggunakan tools apa pun.
 
 ### Output JSON
 
-Kamu dapat menggunakan tools untuk menginstruksikan NeosantaraAI menghasilkan output JSON yang mengikuti skema tertentu, bahkan jika Kamu tidak berniat mengeksekusi output tersebut.
+Kamu dapat menggunakan tools untuk menginstruksikan Neosantara menghasilkan output JSON yang mengikuti skema tertentu, bahkan jika Kamu tidak berniat mengeksekusi output tersebut.
 
 * Biasanya berikan **satu** definisi tools.
 * Atur `tool_choice` ke nama tools tersebut.
@@ -79,7 +77,7 @@ Kamu dapat menggunakan tools untuk menginstruksikan NeosantaraAI menghasilkan ou
 ### Panggilan Tools Paralel Tidak Bekerja
 
 1. **Format Hasil Tools Salah**: Pastikan semua hasil tools dari satu pesan `tool_calls` dikirim dalam pesan `tool` yang sesuai secara berurutan atau dalam satu array jika didukung.
-2. **Prompt Lemah**: Gunakan bahasa yang lebih kuat dalam promptmu, misal: "Harap gunakan panggilan tools paralel untuk mendapatkan cuaca Jakarta dan Bandung secara bersamaan."
+2. **Prompt Lemah**: Gunakan bahasa yang lebih kuat dalam prompt Kamu, misal: "Harap gunakan panggilan tools paralel untuk mendapatkan cuaca Jakarta dan Bandung secara bersamaan."
 
 ### Nama Tools atau Parameter Tidak Valid
 

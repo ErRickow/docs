@@ -1,9 +1,9 @@
 ---
 title: "Error Codes"
-description: "Pahami cara menangani error dan troubleshooting pada API Neosantara AI."
+description: "Pahami cara menangani error dan troubleshooting pada Neosantara API."
 ---
 
-API Neosantara AI menggunakan kode status HTTP standar:
+Neosantara API menggunakan kode status HTTP standar:
 
 - **2xx**: Berhasil.
 - **4xx**: Error pada sisi permintaan (misal: parameter kurang, saldo habis).
@@ -43,7 +43,7 @@ Error dikembalikan dalam objek JSON dengan pesan dan kode yang jelas.
 | `model_not_found` | ID model tidak ditemukan. | Periksa daftar model yang tersedia. |
 | `missing_required_parameter` | Parameter wajib (misal: `messages`) hilang. | Periksa dokumentasi endpoint yang Kamu panggil. |
 | `invalid_api_key` | API key salah atau dicabut. | Verifikasi API key Kamu di Dashboard. |
-| `insufficient_quota` | Saldo habis atau mencapai batas limit. | [Tambah kredit](https://app.neosantara.xyz/billing) pada akunmu. |
+| `insufficient_quota` | Saldo habis atau mencapai batas limit. | [Tambah kredit](https://app.neosantara.xyz/billing) pada akun Kamu. |
 | `rate_limit_exceeded` | Permintaan terlalu cepat. | Gunakan strategi *exponential backoff* pada logika retry Kamu. |
 
 ## Penanganan Rate Limits

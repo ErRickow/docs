@@ -1,20 +1,20 @@
 ---
 title: "RAG with ChromaDB Example"
-description: "Build a Retrieval-Augmented Generation (RAG) application using Neosantara AI and ChromaDB."
+description: "Build a Retrieval-Augmented Generation (RAG) application using Neosantara and ChromaDB."
 ---
 
-This guide demonstrates how to build a complete Retrieval-Augmented Generation (RAG) application using Neosantara AI for embeddings and large language model (LLM) calls, integrated with [ChromaDB](https://www.trychroma.com/) as your vector database.
+This guide demonstrates how to build a complete Retrieval-Augmented Generation (RAG) application using Neosantara for embeddings and large language model (LLM) calls, integrated with [ChromaDB](https://www.trychroma.com/) as your vector database.
 
 ## Overview
 
 You will learn to:
 
-1. Set up your Neosantara AI API client.
+1. Set up your Neosantara API client.
 2. Install and initialize ChromaDB.
-3. Use Neosantara AI's embedding model (`nusa-embedding-0001`) to vectorize your documents.
+3. Use Neosantara's embedding model (`nusa-embedding-0001`) to vectorize your documents.
 4. Store these embeddings in ChromaDB.
 5. Retrieve relevant documents from ChromaDB based on a user query.
-6. Use Neosantara AI's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
+6. Use Neosantara's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
 
 ## Setup
 
@@ -24,21 +24,21 @@ First, ensure you have Python installed. Then, install the necessary libraries:
 pip install -U openai chromadb numpy pandas
 ```
 
-### Configure your Neosantara AI API Key
+### Configure your Neosantara API Key
 
-You'll need a Neosantara AI API Key. If you don't have one, get it from your [Neosantara Dashboard](https://app.neosantara.xyz/dashboard).
+You'll need a Neosantara API Key. If you don't have one, get it from your [Neosantara Dashboard](https://app.neosantara.xyz/dashboard).
 
-Set your API key and Neosantara AI base URL as environment variables or directly in your script:
+Set your API key and Neosantara base URL as environment variables or directly in your script:
 
 ```python icon="python"
 import os
 from openai import OpenAI
 
-# Configure your Neosantara AI API key and base URL
+# Configure your Neosantara API key and base URL
 NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "YOUR_NEOSANTARA_API_KEY_HERE")
 NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
 
-# Initialize the OpenAI client pointing to Neosantara AI
+# Initialize the OpenAI client pointing to Neosantara
 client = OpenAI(
     base_url=NEOSANTARA_BASE_URL,
     api_key=NEOSANTARA_API_KEY
@@ -55,7 +55,7 @@ ChromaDB is a lightweight vector database that runs locally (or can be scaled up
 
 ### Custom Embedding Function for ChromaDB
 
-ChromaDB allows you to define a custom embedding function. We'll wrap the Neosantara AI embedding API call within this function.
+ChromaDB allows you to define a custom embedding function. We'll wrap the Neosantara embedding API call within this function.
 
 ```python icon="python"
 import chromadb
@@ -65,7 +65,7 @@ from chromadb import Documents, EmbeddingFunction, Embeddings
 
 class NeosantaraEmbeddingFunction(EmbeddingFunction):
   def __call__(self, input: Documents) -> Embeddings:
-    # Neosantara AI's embedding API expects a list of strings
+    # Neosantara's embedding API expects a list of strings
     # The input here is a list of documents (strings)
     response = client.embeddings.create(
         model=EMBEDDING_MODEL,
@@ -178,7 +178,7 @@ def get_relevant_passage(query, db):
 
 ## Generating a Grounded Answer (Generation)
 
-Finally, construct a prompt with the retrieved passage and send it to a Neosantara AI chat model to generate a response.
+Finally, construct a prompt with the retrieved passage and send it to a Neosantara chat model to generate a response.
 
 ```python icon="python"
 import textwrap
@@ -213,7 +213,7 @@ def generate_answer(query, db):
   # 2. Construct the prompt
   full_prompt = make_prompt(query, passage)
   
-  # 3. Call the Neosantara AI chat model
+  # 3. Call the Neosantara chat model
   response = client.chat.completions.create(
       model=CHAT_MODEL,
       messages=[

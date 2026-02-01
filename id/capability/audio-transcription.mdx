@@ -3,15 +3,15 @@ title: "Transkripsi Audio"
 description: "> Ubah audio menjadi teks dengan akurasi tinggi menggunakan model SOTA seperti Whisper."
 ---
 
-Neosantara AI menyediakan endpoint berperforma tinggi untuk mentranskripsi file audio. Ditenagai oleh model seperti **Whisper Large v3 Turbo**, model pengenalan suara tercepat dari OpenAI yang dioptimalkan untuk kecepatan tanpa mengorbankan akurasi tinggi.
+Neosantara menyediakan endpoint berperforma tinggi untuk mentranskripsi file audio. Ditenagai oleh model seperti **Whisper Large v3 Turbo**, model pengenalan suara tercepat dari OpenAI yang dioptimalkan untuk kecepatan tanpa mengorbankan akurasi tinggi.
 
-Model ini memberikan performa luar biasa dengan kecepatan yang dioptimalkan, akurasi tinggi di berbagai kondisi audio, dan dukungan multibahasa. Dibangun di atas arsitektur transformer OpenAI yang dioptimalkan, model ini menghadirkan pemrosesan yang efisien untuk meningkatkan kecepatan sambil tetap mempertahankan kemampuan inti dari keluarga Whisper. Whisper Large v3 Turbo sangat cocok untuk aplikasi yang membutuhkan waktu respon cepat tanpa mengurangi kualitas transkripsi.
+Model ini memberikan performa luar biasa dengan kecepatan yang dioptimalkan, akurasi tinggi di berbagai kondisi audio, dan dukungan multibahasa. Dibangun di atas arsitektur transformer OpenAI yang dioptimalkan, model ini menghadirkan pemrosesan yang efisien untuk meningkatkan kecepatan sambil tetap mempertahankan kemampuan inti dari keluarga Whisper. Whisper Large v3 Turbo sangat cocok untuk aplikasi yang membutuhkan waktu respons cepat tanpa mengurangi kualitas transkripsi.
 
 ## Cara Kerja
 
-Kamu mengunggah file audio (MP3, WAV, M4A, dll.) ke endpoint terpadu kami, dan model akan mengubah kata-kata lisan menjadi teks tertulis. Kamu dapat memilih antara respon teks sederhana atau struktur JSON detail dengan timestamp.
+Kamu mengunggah file audio (MP3, WAV, M4A, dll.) ke endpoint terpadu kami, dan model akan mengubah kata-kata lisan menjadi teks tertulis. Kamu dapat memilih antara respons teks sederhana atau struktur JSON detail dengan timestamp.
 
-API Neosantara AI menyediakan endpoint [`/v1/audio/transcriptions`](/api-reference/audio/transcription) untuk tujuan ini.
+Neosantara API menyediakan endpoint [`/v1/audio/transcriptions`](/api-reference/audio/transcription) untuk tujuan ini.
 
 ## Penggunaan
 
@@ -52,7 +52,7 @@ client = OpenAI(
 
 def transkripsi_audio(file_path: str):
     """
-    Mentranskripsi file audio menggunakan Neosantara AI.
+    Mentranskripsi file audio menggunakan Neosantara.
     """
     print(f"Memproses file: {file_path}...")
 
@@ -106,6 +106,6 @@ Transkripsi audio ditagih dengan presisi tinggi berdasarkan **durasi audio**.
 | Model | Satuan | Harga |
 | :--- | :--- | :--- |
 | `whisper-large-v3-turbo` | per Jam | **$0.04** |
-| `whisper-large-v3-turbo` | per Detik | $0.000012 |
+| `whisper-large-v3-turbo` | per Detik | $0.0000111 |
 
 ## FAQ Harga

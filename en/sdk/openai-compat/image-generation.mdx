@@ -101,6 +101,10 @@ if hasattr(message, 'images') and message.images:
 
 </CodeGroup>
 
+<Note>
+  **Gateway Extensions**: The `modalities` parameter and the resulting `message.images` and `delta.images` fields are Neosantara-specific gateway extensions. These are not part of the standard OpenAI Chat Completions schema and may not be available in other OpenAI-compatible endpoints.
+</Note>
+
 ---
 
 ### Response format

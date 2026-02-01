@@ -1,6 +1,6 @@
 ---
 title: "How to Implement Tool Use"
-description: "> A guide to integrating and utilizing tools with NeosantaraAI models for enhanced capabilities."
+description: "> A guide to integrating and utilizing tools with Neosantara models for enhanced capabilities."
 ---
 
 ## Choosing a Model
@@ -52,7 +52,7 @@ Tools (functions) are specified in the `tools` top-level parameter of your API r
 
 ### Best Practices for Tool Definitions
 
-To get the best performance out of NeosantaraAI when using tools, follow these guidelines:
+To get the best performance out of Neosantara when using tools, follow these guidelines:
 
 * **Provide extremely detailed descriptions.** This is by far the most important factor in tool performance. Your descriptions should explain every detail about the tool, including:
   * What the tool does.
@@ -106,7 +106,7 @@ The good description clearly explains what the tool does, when to use it, what d
 
 ### Forcing Tool Use
 
-In some cases, you may want NeosantaraAI to use a specific tool to answer the user's question, even if the model thinks it can provide an answer without using a tool. You can do this by specifying the tool in the `tool_choice` field.
+In some cases, you may want Neosantara to use a specific tool to answer the user's question, even if the model thinks it can provide an answer without using a tool. You can do this by specifying the tool in the `tool_choice` field.
 
 The `tool_choice` parameter offers four possible options:
 
@@ -133,11 +133,11 @@ When using tools for JSON output:
 * You should set `tool_choice` to `{"type": "function", "function": {"name": "your_tool_name"}}` to explicitly instruct the model to use that tool.
 * The `function`'s `parameters` define the exact JSON schema the model should adhere to.
 
-See the [Tool use with NeosantaraAI overview](/en/tools-overview) for a full working example of JSON output for image description.
+See the [Tool use with Neosantara overview](/en/tools-overview) for a full working example of JSON output for image description.
 
 ### Chain of Thought
 
-When using tools, NeosantaraAI models often show their "chain of thought", i.e., the step-by-step reasoning they use to break down the problem and decide which tools to use. This provides insight into the model's reasoning process and can help you debug unexpected behavior.
+When using tools, Neosantara models often show their "chain of thought", i.e., the step-by-step reasoning they use to break down the problem and decide which tools to use. This provides insight into the model's reasoning process and can help you debug unexpected behavior.
 
 For example, given the prompt "What's the weather like in Jakarta right now, and what time is it there?", a model might implicitly reason:
 
@@ -150,7 +150,7 @@ Your code should then execute these `tool_calls` and feed the results back to th
 
 ## Handling Tool Use and Tool Result Content Blocks
 
-NeosantaraAI's response for tool use will have a `finish_reason` of `tool_calls` and one or more `tool_calls` content blocks within the assistant's message. These blocks include:
+Neosantara's response for tool use will have a `finish_reason` of `tool_calls` and one or more `tool_calls` content blocks within the assistant's message. These blocks include:
 
 * `id`: A unique identifier for this particular tool call. This will be used to match up the tool results later.
 * `type`: Always `"function"`.
@@ -229,17 +229,17 @@ When you receive a tool use response, you should:
     }
     ```
 
-    NeosantaraAI will then interpret this content and incorporate it into its response to the user, e.g., "I'm sorry, I was unable to retrieve the current weather because the weather service API is not available. Please try again later."
+    Neosantara will then interpret this content and incorporate it into its response to the user, e.g., "I'm sorry, I was unable to retrieve the current weather because the weather service API is not available. Please try again later."
   </Accordion>
 </AccordionGroup>
 
-After receiving the tool result, NeosantaraAI will use that information to continue generating a response to the original user prompt.
+After receiving the tool result, Neosantara will use that information to continue generating a response to the original user prompt.
 
 ## Troubleshooting
 
 ### Parallel Tool Calls Not Working
 
-If NeosantaraAI isn't making parallel tool calls when expected, check these common issues:
+If Neosantara isn't making parallel tool calls when expected, check these common issues:
 
 **1. Incorrect Tool Result Formatting**
 
@@ -257,7 +257,7 @@ Different models may have varying propensities for parallel tool use. Experiment
 
 If the model's attempted use of a tool is invalid (e.g., missing required parameters), it usually means that there wasn't enough information for the model to use the tool correctly, or the tool definition was unclear. Your best bet during development is to try the request again with more-detailed `description` values in your tool definitions.
 
-If a tool request is invalid or missing parameters, NeosantaraAI will typically retry 2-3 times with corrections before apologizing to the user. You can also return an error in the `tool` message by providing an error string in the `content` field.
+If a tool request is invalid or missing parameters, Neosantara will typically retry 2-3 times with corrections before apologizing to the user. You can also return an error in the `tool` message by providing an error string in the `content` field.
 
 ## Pricing
 

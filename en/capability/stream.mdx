@@ -87,10 +87,10 @@ def stream_response(prompt: str, model: str = "nusantara-base"):
             if event.type == 'response.output_text.delta':
                 content = event.delta
                 full_response_content += content
-                print(content, end="", flush=True)
-
-        print("\n\n--- Stream finished ---")
-        return full_response_content
+                                print(content, end="", flush=True)
+                
+                        print("\n\n--- Stream finished ---\n\n")
+                        return full_response_content
 
     except Exception as e:
         print(f"\nAn error occurred: {e}")

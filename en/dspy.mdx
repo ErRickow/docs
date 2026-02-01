@@ -1,6 +1,6 @@
 ---
 title: "DSPy"
-description: "> Using DSPy with Neosantara AI."
+description: "> Using DSPy with Neosantara."
 ---
 
 DSPy is a framework for programming language models rather than relying on static prompts. It enables you to build modular AI systems with code instead of hand-crafted prompting, and it offers methods to automatically optimize these systems.
@@ -18,7 +18,7 @@ Features
 pip install -U dspy -q
 ```
 
-Set your Neosantara AI API key:
+Set your Neosantara API key:
 
 ```shell
 export NAI_API_KEY=***
@@ -26,13 +26,13 @@ export NAI_API_KEY=***
 
 ## Example
 
-Setup and connect DSPy to LLMs on Neosantara AI
+Setup and connect DSPy to LLMs on Neosantara
 
 ```python icon="python"
 import os
 import dspy
 
-# Configure dspy with a LLM from Neosantara AI
+# Configure dspy with a LLM from Neosantara
 lm = dspy.LM('openai/nusantara-base',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")
@@ -49,7 +49,7 @@ Now we can set up a DSPy module, like `dspy.ReAct` with a task-specific signatur
 import os
 import dspy
 
-# Configure dspy with a LLM from Neosantara AI
+# Configure dspy with a LLM from Neosantara
 lm = dspy.LM('openai/archipelago-70b',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")

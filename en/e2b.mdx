@@ -202,7 +202,7 @@ def code_interpret(e2b_code_interpreter, code):
 
 # Function to extract Python code from LLM response
 def match_code_blocks(llm_response):
-    pattern = re.compile(r"```python icon="python"
+    pattern = re.compile(r"```python\s*([\s\S]*?)\s*```")
     match = pattern.search(llm_response)
     return match.group(1) if match else ""
 

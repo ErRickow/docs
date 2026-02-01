@@ -1,6 +1,6 @@
 ---
 title: "DSPy"
-description: "> Menggunakan DSPy dengan Neosantara AI."
+description: "> Menggunakan DSPy dengan Neosantara."
 ---
 
 DSPy adalah framework untuk pemrograman model bahasa daripada mengandalkan prompt statis. Framework ini memungkinkan Kamu membangun sistem AI modular dengan kode alih-alih prompt yang dibuat secara manual, dan menawarkan metode untuk mengoptimalkan sistem ini secara otomatis.
@@ -18,7 +18,7 @@ Fitur
 pip install -U dspy -q
 ```
 
-Atur API Key Neosantara AI Kamu:
+Atur API Key Neosantara Kamu:
 
 ```shell
 export NAI_API_KEY=***
@@ -26,13 +26,13 @@ export NAI_API_KEY=***
 
 ## Contoh Penggunaan
 
-Setup dan hubungkan DSPy ke LLM di Neosantara AI
+Setup dan hubungkan DSPy ke LLM di Neosantara
 
 ```python icon="python"
 import dspy
 import os
 
-# Konfigurasi dspy dengan LLM dari Neosantara AI
+# Konfigurasi dspy dengan LLM dari Neosantara
 lm = dspy.LM('openai/nusantara-base',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")
@@ -49,7 +49,7 @@ Sekarang kita dapat mengatur modul DSPy, seperti `dspy.ReAct` dengan signature k
 import dspy
 import os
 
-# Konfigurasi dspy dengan LLM dari Neosantara AI
+# Konfigurasi dspy dengan LLM dari Neosantara
 lm = dspy.LM('openai/archipelago-70b',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")
@@ -59,10 +59,8 @@ dspy.configure(lm=lm)
 
 ## Memberikan agen akses ke tools pencarian wikipedia
 def search_wikipedia(query: str):
-    # Gunakan pencarian yang lebih umum atau halaman spesifik jika diketahui dapat diandalkan
-    # Untuk pencarian umum, Kamu mungkin menggunakan tools atau API yang berbeda
-    # Untuk kasus spesifik ini, kita tetap menggunakan URL yang disediakan tetapi menyederhanakan outputnya
-    results = dspy.ColBERTv2(url='https://id.m.wikipedia.org/wiki/Prabowo_Subianto')(query, k=5) # Ambil 5 hasil
+    # Gunakan endpoint pencarian ColBERTv2 yang valid (contoh endpoint publik)
+    results = dspy.ColBERTv2(url='http://20.102.90.50:2017/wiki17_abstracts')(query, k=5)
     # Kembalikan konten teks mentah untuk diproses oleh LLM
     return results[0]['text'] if results else "Tidak ada informasi relevan yang ditemukan."
 

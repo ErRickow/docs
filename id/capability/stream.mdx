@@ -3,11 +3,11 @@ title: "Streaming Response"
 description: "> Terima sebagian hasil secara real-time saat sedang dibuat."
 ---
 
-Streaming memungkinkan Kamu menerima sebagian respon dari API saat sedang dibuat, daripada menunggu seluruh respon selesai. Ini dapat meningkatkan persepsi latensi dan pengalaman pengguna secara signifikan, terutama untuk hasil yang panjang.
+Streaming memungkinkan Kamu menerima sebagian respons dari API saat sedang dibuat, daripada menunggu seluruh respons selesai. Ini dapat meningkatkan persepsi latensi dan pengalaman pengguna secara signifikan, terutama untuk hasil yang panjang.
 
 ## Cara Kerja Streaming
 
-Neosantara AI API mengimplementasikan streaming menggunakan **Server-Sent Events (SSE)** ketika Kamu mengatur parameter `stream: true` dalam permintaan Kamu. Saat permintaan streaming dibuat:
+Neosantara API mengimplementasikan streaming menggunakan **Server-Sent Events (SSE)** ketika Kamu mengatur parameter `stream: true` dalam permintaan Kamu. Saat permintaan streaming dibuat:
 
 1. **Header `Content-Type`**: API menetapkan header `Content-Type` ke `text/event-stream`.
 2. **Potongan Data Parsial**: Server mengirim data dalam potongan-potongan kecil. Setiap potongan adalah sebuah event dengan tipe dan payload data tertentu.

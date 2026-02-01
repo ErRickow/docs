@@ -3,9 +3,9 @@ title: "Tinjauan (Penggunaan Tools)"
 description: "> Perluas kemampuan Neosantara dengan memungkinkannya berinteraksi dengan tools dan fungsi eksternal."
 ---
 
-Model NeosantaraAI mampu berinteraksi dengan tools (juga dikenal sebagai fungsi), memungkinkan Kamu memperluas kemampuan AI untuk melakukan berbagai tugas yang lebih luas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
+Model Neosantara mampu berinteraksi dengan tools (juga dikenal sebagai fungsi), memungkinkan Kamu memperluas kemampuan AI untuk melakukan berbagai tugas yang lebih luas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
 
-Berikut adalah contoh cara memberikan tools ke NeosantaraAI menggunakan chat completions API:
+Berikut adalah contoh cara memberikan tools ke Neosantara menggunakan chat completions API:
 
 <CodeGroup>
   ```bash Shell
@@ -82,34 +82,34 @@ Berikut adalah contoh cara memberikan tools ke NeosantaraAI menggunakan chat com
 
 ## Bagaimana Penggunaan Tools Bekerja
 
-Fungsionalitas penggunaan tools NeosantaraAI mengikuti pola umum, mirip dengan pemanggilan fungsi OpenAI, di mana Kamu memberikan deskripsi tools yang tersedia kepada model, dan model memutuskan apakah dan bagaimana menggunakannya.
+Fungsionalitas penggunaan tools Neosantara mengikuti pola umum, mirip dengan pemanggilan fungsi OpenAI, di mana Kamu memberikan deskripsi tools yang tersedia kepada model, dan model memutuskan apakah dan bagaimana menggunakannya.
 
-Integrasikan tools sisi klien dengan NeosantaraAI dalam langkah-langkah ini:
+Integrasikan tools sisi klien dengan Neosantara dalam langkah-langkah ini:
 
 <Steps>
-  <Step title="Berikan NeosantaraAI tools dan prompt pengguna">
+  <Step title="Berikan Neosantara tools dan prompt pengguna">
     * Definisikan tools dengan nama, deskripsi, dan skema input (parameter) dalam permintaan API Kamu di dalam parameter `tools`.
     * Sertakan prompt pengguna yang mungkin memerlukan tools ini, misal, "Bagaimana cuaca di Jakarta?"
   </Step>
 
-  <Step title="NeosantaraAI memutuskan untuk menggunakan tools">
+  <Step title="Neosantara memutuskan untuk menggunakan tools">
     * Model menilai apakah ada tools yang dapat membantu pertanyaan pengguna.
     * Jika ya, model membangun objek `tool_calls` dalam responsnya, berisi nama tools yang akan dipanggil dan argumen (input) untuk tools tersebut.
     * Respons API akan memiliki `finish_reason` berupa `tool_calls`.
   </Step>
 
   <Step title="Eksekusi tools dan kembalikan hasil">
-    * Aplikasi Kamu mengekstrak nama tools dan input dari respons `tool_calls` NeosantaraAI.
+    * Aplikasi Kamu mengekstrak nama tools dan input dari respons `tool_calls` Neosantara.
     * Aplikasi Kamu kemudian mengeksekusi kode tools yang sebenarnya di sistem Kamu.
     * Kembalikan hasilnya ke model dalam pesan `user` baru dengan peran `tool`, berisi `tool_call_id` dan `content` dari output tools.
   </Step>
 
-  <Step title="NeosantaraAI menggunakan hasil tools untuk merumuskan respons">
-    * NeosantaraAI menganalisis hasil tools yang Kamu berikan untuk membuat respons bahasa alami finalnya terhadap prompt pengguna asli.
+  <Step title="Neosantara menggunakan hasil tools untuk merumuskan respons">
+    * Neosantara menganalisis hasil tools yang Kamu berikan untuk membuat respons bahasa alami finalnya terhadap prompt pengguna asli.
   </Step>
 </Steps>
 
-Catatan: Langkah 3 dan 4 bersifat opsional. Untuk beberapa alur kerja, permintaan penggunaan tools NeosantaraAI (langkah 2) mungkin adalah semua yang Kamu butuhkan.
+Catatan: Langkah 3 dan 4 bersifat opsional. Untuk beberapa alur kerja, permintaan penggunaan tools Neosantara (langkah 2) mungkin adalah semua yang Kamu butuhkan.
 
 ***
 

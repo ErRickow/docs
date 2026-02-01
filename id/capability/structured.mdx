@@ -5,7 +5,7 @@ description: "Dapatkan respons terstruktur dari model AI dalam format JSON yang 
 
 ### Pengantar
 
-Secara default, model bahasa menghasilkan teks biasa. Meskipun bagus untuk chatbot, sulit untuk mengekstrak detail spesifik dari teks secara terprogram. Neosantara AI menyediakan dua cara untuk mendapatkan data terstruktur:
+Secara default, model bahasa menghasilkan teks biasa. Meskipun bagus untuk chatbot, sulit untuk mengekstrak detail spesifik dari teks secara terprogram. Neosantara menyediakan dua cara untuk mendapatkan data terstruktur:
 
 1.  **Responses API (Direkomendasikan)**: Endpoint khusus untuk ekstraksi data yang andal dan berbasis skema.
 2.  **Mode JSON**: Fitur kompatibilitas standar yang memaksa model untuk mengeluarkan string JSON yang valid.
@@ -55,7 +55,7 @@ client = OpenAI(
 
 # Grok sangat andal untuk ekstraksi JSON bahkan tanpa system prompt
 response = client.chat.completions.create(
-    model="grok-4.1-fast-non-reasoning",
+    model="grok-code-fast",
     messages=[
         {"role": "user", "content": "Ekstrak bahan resep sebagai JSON: nasi, telur, kecap. Gunakan kunci 'bahan'."}
     ],

@@ -3,7 +3,7 @@ title: "Audio Transcription"
 description: "> Convert audio into high-accuracy text using SOTA models like Whisper."
 ---
 
-Neosantara AI provides a high-performance endpoint for transcribing audio files. Powered by models like **Whisper Large v3 Turbo**, OpenAI's fastest speech recognition model optimized for speed while maintaining high accuracy.
+Neosantara provides a high-performance endpoint for transcribing audio files. Powered by models like **Whisper Large v3 Turbo**, OpenAI's fastest speech recognition model optimized for speed while maintaining high accuracy.
 
 This model delivers exceptional performance with optimized speed, high accuracy across diverse audio conditions, and multilingual support. Built on OpenAI's optimized transformer architecture, it features streamlined processing for enhanced speed while preserving the core capabilities of the Whisper family. The model incorporates efficiency improvements and optimizations that reduce computational overhead without sacrificing transcription quality, making it perfect for time-sensitive applications.
 
@@ -11,7 +11,7 @@ This model delivers exceptional performance with optimized speed, high accuracy 
 
 You upload an audio file (MP3, WAV, M4A, etc.) to our unified endpoint, and the model converts the spoken words into written text. You can choose between a simple text response or a detailed JSON structure with timestamps.
 
-The Neosantara AI API provides the [`/v1/audio/transcriptions`](/api-reference/audio/transcription) endpoint for this purpose.
+The Neosantara API provides the [`/v1/audio/transcriptions`](/api-reference/audio/transcription) endpoint for this purpose.
 
 ## Usage
 
@@ -52,7 +52,7 @@ client = OpenAI(
 
 def transcribe_audio(file_path: str):
     """
-    Transcribes an audio file using Neosantara AI.
+    Transcribes an audio file using Neosantara.
     """
     print(f"Transcribing file: {file_path}...")
 

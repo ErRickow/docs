@@ -283,10 +283,8 @@ const completion = await openai.chat.completions.create({
         },
         {
           type: 'file',
-          file: {
-            data: pdfBase64,
-            media_type: 'application/pdf',
-            filename: 'document.pdf',
+          file_url: {
+            url: `data:application/pdf;base64,${pdfBase64}`,
           },
         },
       ],
@@ -324,10 +322,8 @@ completion = client.chat.completions.create(
                 },
                 {
                     'type': 'file',
-                    'file': {
-                        'data': pdf_base64,
-                        'media_type': 'application/pdf',
-                        'filename': 'document.pdf'
+                    'file_url': {
+                        'url': f'data:application/pdf;base64,{pdf_base64}'
                     }
                 }
             ]
@@ -340,6 +336,10 @@ print('Assistant:', completion.choices[0].message.content)
 ```
 
 </CodeGroup>
+
+<Note>
+  **Neosantara Extension**: While the standard OpenAI Chat Completions API primarily supports `image_url`, Neosantara extends this to support `file` types via `file_url` for documents like PDFs. Note that inline base64 attachments shown here are a Neosantara-specific extension.
+</Note>
 
 ---
 

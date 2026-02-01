@@ -1,9 +1,9 @@
 ---
 title: "RAG with Cloudflare Vectorize"
-description: "Build a RAG application using Neosantara AI and Cloudflare Vectorize"
+description: "Build a RAG application using Neosantara and Cloudflare Vectorize"
 ---
 
-This guide demonstrates how to build a scalable Retrieval-Augmented Generation (RAG) application leveraging **Cloudflare Vectorize** as your managed vector database, integrated with Neosantara AI for embeddings and large language model (LLM) calls.
+This guide demonstrates how to build a scalable Retrieval-Augmented Generation (RAG) application leveraging **Cloudflare Vectorize** as your managed vector database, integrated with Neosantara for embeddings and large language model (LLM) calls.
 
 Cloudflare Vectorize offers a serverless and highly scalable solution for storing and querying vector embeddings, making it an excellent choice for RAG applications that need to handle large datasets.
 
@@ -11,18 +11,18 @@ Cloudflare Vectorize offers a serverless and highly scalable solution for storin
 
 You will learn to:
 
-1. Set up your Neosantara AI API client and Cloudflare API credentials.
+1. Set up your Neosantara API client and Cloudflare API credentials.
 2. Create and manage a Vectorize index (v2).
-3. Use Neosantara AI's embedding model (`nusa-embedding-0001`) to vectorize your documents.
+3. Use Neosantara's embedding model (`nusa-embedding-0001`) to vectorize your documents.
 4. Store these embeddings in Cloudflare Vectorize using NDJSON format.
 5. Retrieve relevant documents from Vectorize based on a user query.
-6. Use Neosantara AI's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
+6. Use Neosantara's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
 
 ## Prerequisites
 
 * A Cloudflare account with API Token access (with permissions for Vectorize).
 * Your Cloudflare Account ID.
-* A Neosantara AI API Key.
+* A Neosantara API Key.
 
 ## Setup
 
@@ -40,7 +40,7 @@ import json
 import requests
 from openai import OpenAI
 
-# --- Neosantara AI Configuration ---
+# --- Neosantara Configuration ---
 NEOSANTARA_API_KEY = os.getenv("NAI_API_KEY", "YOUR_NEOSANTARA_API_KEY")
 NEOSANTARA_BASE_URL = os.getenv("NAI_BASE_URL", "https://api.neosantara.xyz/v1")
 
@@ -189,7 +189,7 @@ def query_vectorize(query_text, top_k=2):
 ```
 ## Step 3: Generate Answer (Generation)
 
-Finally, construct the prompt with the retrieved context and send it to a Neosantara AI chat model.
+Finally, construct the prompt with the retrieved context and send it to a Neosantara chat model.
 
 ```python icon="python"
 def make_prompt(query, retrieved_context):
@@ -226,7 +226,7 @@ def generate_answer_with_rag(query_text):
     # 2. Construct prompt for LLM
     full_prompt = make_prompt(query_text, context)
     
-    # 3. Generate answer using Neosantara AI chat model
+    # 3. Generate answer using Neosantara chat model
     response = neosantara_client.chat.completions.create(
         model=CHAT_MODEL,
         messages=[

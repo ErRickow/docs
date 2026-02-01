@@ -1,6 +1,6 @@
 ---
 title: "Integrations"
-description: "Neosantara AI integrates with popular community AI frameworks and tools."
+description: "Neosantara integrates with popular community AI frameworks and tools."
 ---
 
 # Framework Integrations
@@ -13,11 +13,11 @@ You can integrate the AI Gateway with popular frameworks in several ways:
 
 *   **OpenAI Compatibility Layer**: Use the AI Gateway's [OpenAI-compatible endpoints](/en/sdk/openai-compat) to connect any framework that supports OpenAI.
 *   **Native Support**: Direct integration through specific provider settings or official support.
-*   **AI SDK Integration**: Leverage the [Vercel AI SDK](/en/using-neosantara-with-vercels-ai-sdk) to access [Neosantara AI](/en/intro) capabilities directly.
+*   **AI SDK Integration**: Leverage the [Vercel AI SDK](/en/using-neosantara-with-vercels-ai-sdk) to access [Neosantara](/en/intro) capabilities directly.
 
 ### [Supported frameworks](#supported-frameworks)
 
-The following is a non-exhaustive list of frameworks that currently support Neosantara AI integration:
+The following is a non-exhaustive list of frameworks that currently support Neosantara integration:
 
 *   [LangChain](/en/langchain)
 *   [LlamaIndex](/en/llama-index)
@@ -31,7 +31,7 @@ The following is a non-exhaustive list of frameworks that currently support Neos
 
 ## LangChain
 
-*LangChain is a framework for developing applications powered by large language models (LLMs). Swapping to Neosantara AI is as simple as changing the `base_url`.*
+*LangChain is a framework for developing applications powered by large language models (LLMs). Swapping to Neosantara is as simple as changing the `base_url`.*
 
 Install the `langchain-openai` package.
 
@@ -87,7 +87,7 @@ const { text } = await generateText({
 console.log(text)
 ```
 
-Learn more in our [Neosantara AI - Vercel AI SDK Guide](/en/using-neosantara-with-vercels-ai-sdk).
+Learn more in our [Neosantara - Vercel AI SDK Guide](/en/using-neosantara-with-vercels-ai-sdk).
 
 ## LlamaIndex
 
@@ -99,7 +99,7 @@ Install `llama-index`
 pip install llama-index
 ```
 
-Here's sample code to get you started with Llama Index + Neosantara AI:
+Here's sample code to get you started with Llama Index + Neosantara:
 
 ```python icon="python"
 from llama_index.llms.openai_like import OpenAILike
@@ -185,7 +185,7 @@ pip install pydantic-ai
 export NAI_API_KEY=***
 ```
 
-Build PydanticAI agents using Neosantara AI models
+Build PydanticAI agents using Neosantara models
 
 ```python icon="python"
 from pydantic_ai import Agent
@@ -218,11 +218,11 @@ Learn more in our [PydanticAI Guide](/en/pydantic-ai)
 
 *Arcade is a platform that lets AI securely use tools like email, files, and APIs to take real action—not just chat. Build powerful assistants in minutes with ready-to-use integrations or a custom SDK.*
 
-Our guide demonstrates how to integrate Neosantara AI's language models with Arcade's tools to create an AI agent that can send emails.
+Our guide demonstrates how to integrate Neosantara's language models with Arcade's tools to create an AI agent that can send emails.
 
 Prerequisites:
 
-* Neosantara AI API key - see here [https://app.neosantara.xyz/](https://app.neosantara.xyz/api-keys)
+* Neosantara API key - see here [https://app.neosantara.xyz/](https://app.neosantara.xyz/api-keys)
 * Arcade API key - see here [https://arcade.dev/](https://arcade.dev/)
 * Gmail account to connect via OAuth
 
@@ -283,7 +283,7 @@ Build a question answering agent
 import dspy
 import os
 
-# Configure dspy with a LLM from Neosantara AI
+# Configure dspy with a LLM from Neosantara
 lm = dspy.LM('openai/nusantara-base', 
              api_key=os.environ.get("NAI_API_KEY"), 
              api_base="https://api.neosantara.xyz/v1")
@@ -412,7 +412,7 @@ Learn more in our [Agno Guide](/en/agno).
 
 *Pinecone is a vector database that helps companies build RAG applications.*
 
-Here's some sample code to get you started with Pinecone + Neosantara AI:
+Here's some sample code to get you started with Pinecone + Neosantara:
 
 ```python icon="python"
 from pinecone import Pinecone, ServerlessSpec
@@ -436,7 +436,7 @@ index = pc.create_index(
     spec=ServerlessSpec(cloud="aws", region="us-west-2"),
 )
 
-# Create an embedding on Neosantara AI
+# Create an embedding on Neosantara
 textToEmbed = "Our solar system orbits the Milky Way galaxy at about 515,000 mph"
 embeddings = nai.embeddings.create(
     model="nusa-embedding-0001", 

@@ -1,6 +1,6 @@
 ---
 title: "Integrasi"
-description: "> Gunakan model Neosantara AI melalui integrasi mitra."
+description: "> Gunakan model Neosantara melalui integrasi mitra."
 ---
 
 ## LangChain
@@ -61,7 +61,7 @@ const { text } = await generateText({
 console.log(text)
 ```
 
-Pelajari lebih lanjut di [Panduan Neosantara AI - Vercel AI SDK](/id/using-neosantara-with-vercels-ai-sdk).
+Pelajari lebih lanjut di [Panduan Neosantara - Vercel AI SDK](/id/using-neosantara-with-vercels-ai-sdk).
 
 ## LlamaIndex
 
@@ -73,7 +73,7 @@ Instal `llama-index`
 pip install llama-index
 ```
 
-Berikut adalah contoh kode untuk memulai dengan Llama Index + Neosantara AI:
+Berikut adalah contoh kode untuk memulai dengan Llama Index + Neosantara:
 
 ```python icon="python"
 from llama_index.llms.openai_like import OpenAILike
@@ -159,7 +159,7 @@ pip install pydantic-ai
 export NAI_API_KEY=***
 ```
 
-Bangun agen PydanticAI menggunakan model Neosantara AI
+Bangun agen PydanticAI menggunakan model Neosantara
 
 ```python icon="python"
 from pydantic_ai import Agent
@@ -194,7 +194,7 @@ Pelajari lebih lanjut di [Panduan PydanticAI](/id/pydantic-ai) kami.
 
 Prasyarat:
 
-* Kunci API Neosantara AI - lihat di sini [https://app.neosantara.xyz/](https://app.neosantara.xyz/api-keys)
+* Kunci API Neosantara - lihat di sini [https://app.neosantara.xyz/](https://app.neosantara.xyz/api-keys)
 * Kunci API Arcade - lihat di sini [https://arcade.dev/](https://arcade.dev/)
 * Akun Gmail untuk terhubung via OAuth
 
@@ -213,15 +213,15 @@ from arcadepy import Arcade
 from openai import OpenAI
 
 # Set environment variables
-os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Ganti dengan kunci API Neosantara kamu
-os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Ganti dengan kunci API Arcade kamu
+os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Ganti dengan kunci API Neosantara Kamu
+os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Ganti dengan kunci API Arcade Kamu
 
 # Inisialisasi klien
 nai_client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
 arcade_client = Arcade()  # Secara otomatis menemukan variabel env ARCADE_API_KEY
 
-# Siapkan ID pengguna (emailmu)
-USER_ID = "<emailkamu@gmail.com>"  # Ubah ini ke emailmu
+# Siapkan ID pengguna (email Kamu)
+USER_ID = "<email Kamu@gmail.com>"  # Ubah ini ke email Kamu
 
 # Otorisasi akses Gmail
 auth_response = arcade_client.tools.authorize(
@@ -240,7 +240,7 @@ print("Otorisasi selesai!")
 
 ## DSPy
 
-*DSPy adalah framework yang memungkinkan kamu membangun sistem AI modular dengan kode, bukan prompting manual.*
+*DSPy adalah framework yang memungkinkan Kamu membangun sistem AI modular dengan kode, bukan prompting manual.*
 
 Instal `dspy`
 
@@ -255,7 +255,7 @@ Bangun agen penjawab pertanyaan
 import dspy
 import os
 
-# Konfigurasi dspy dengan LLM dari Neosantara AI
+# Konfigurasi dspy dengan LLM dari Neosantara
 lm = dspy.LM('openai/nusantara-base', 
              api_key=os.environ.get("NAI_API_KEY"), 
              api_base="https://api.neosantara.xyz/v1")
@@ -303,7 +303,7 @@ config_list = [
         # Mari pilih model Nusantara-Base
         "model": "nusantara-base",
         "base_url": "https://api.neosantara.xyz/v1",
-        # Berikan kunci API Neosantara.xyz kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
+        # Berikan kunci API Neosantara.xyz Kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
         "api_key": os.environ.get("NAI_API_KEY"),
         # Kami tentukan Tipe API sebagai 'openai' sehingga menggunakan kelas klien OpenAI
         "api_type": "openai",
@@ -327,7 +327,7 @@ user_proxy_agent = UserProxyAgent(
 )
 
 system_message = """Kamu adalah asisten AI yang membantu menulis kode dan pengguna mengeksekusinya.
-Selesaikan tugas menggunakan keterampilan pengodean dan bahasa kamu.
+Selesaikan tugas menggunakan keterampilan pengodean dan bahasa Kamu.
 """
 
 # AssistantAgent, menggunakan model nusantara-base Neosantara, akan mengambil permintaan pengodean dan mengembalikan kode
@@ -382,7 +382,7 @@ Pelajari lebih lanjut di [Panduan Agno](/id/agno) kami.
 
 *Pinecone adalah basis data vektor yang membantu perusahaan membangun aplikasi RAG.*
 
-Berikut adalah contoh kode untuk memulai dengan Pinecone + Neosantara AI:
+Berikut adalah contoh kode untuk memulai dengan Pinecone + Neosantara:
 
 ```python icon="python"
 from pinecone import Pinecone, ServerlessSpec
@@ -406,7 +406,7 @@ index = pc.create_index(
     spec=ServerlessSpec(cloud="aws", region="us-west-2"),
 )
 
-# Buat embedding di Neosantara AI
+# Buat embedding di Neosantara
 textToEmbed = "Tata surya kita mengorbit galaksi Bima Sakti dengan kecepatan sekitar 515.000 mph"
 embeddings = nai.embeddings.create(
     model="nusa-embedding-0001", 

@@ -1,9 +1,9 @@
 ---
 title: "RAG dengan Cloudflare Vectorize"
-description: "Bangun aplikasi RAG menggunakan Neosantara AI dan Cloudflare Vectorize"
+description: "Bangun aplikasi RAG menggunakan Neosantara dan Cloudflare Vectorize"
 ---
 
-Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang skalabel dengan memanfaatkan **Cloudflare Vectorize** sebagai database vektor terkelola Kamu, yang terintegrasi dengan Neosantara AI untuk embedding dan pemanggilan model bahasa besar (LLM).
+Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang skalabel dengan memanfaatkan **Cloudflare Vectorize** sebagai database vektor terkelola Kamu, yang terintegrasi dengan Neosantara untuk embedding dan pemanggilan model bahasa besar (LLM).
 
 Cloudflare Vectorize menawarkan solusi serverless dan sangat skalabel untuk menyimpan dan menanyakan embedding vektor, menjadikannya pilihan tepat bagi aplikasi RAG yang perlu menangani dataset besar.
 
@@ -11,18 +11,18 @@ Cloudflare Vectorize menawarkan solusi serverless dan sangat skalabel untuk meny
 
 Kamu akan mempelajari cara:
 
-1. Menyiapkan klien API Neosantara AI dan kredensial API Cloudflare.
+1. Menyiapkan klien Neosantara API dan kredensial API Cloudflare.
 2. Membuat dan mengelola indeks Vectorize (v2).
-3. Menggunakan model embedding Neosantara AI (`nusa-embedding-0001`) untuk menvektorisasi dokumen Kamu.
+3. Menggunakan model embedding Neosantara (`nusa-embedding-0001`) untuk menvektorisasi dokumen Kamu.
 4. Menyimpan embedding ini di Cloudflare Vectorize menggunakan format NDJSON.
 5. Mengambil dokumen yang relevan dari Vectorize berdasarkan kueri pengguna.
-6. Menggunakan model chat Neosantara AI (`nusantara-base`) untuk menghasilkan jawaban berdasarkan konteks yang diambil.
+6. Menggunakan model chat Neosantara (`nusantara-base`) untuk menghasilkan jawaban berdasarkan konteks yang diambil.
 
 ## Prasyarat
 
 * Akun Cloudflare dengan akses Token API (dengan izin untuk Vectorize).
 * ID Akun Cloudflare Kamu.
-* Kunci API Neosantara AI.
+* Kunci API Neosantara.
 
 ## Penyiapan
 
@@ -40,7 +40,7 @@ import json
 import requests
 from openai import OpenAI
 
-# --- Konfigurasi Neosantara AI ---
+# --- Konfigurasi Neosantara ---
 NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "KUNCI_API_NEOSANTARA_KAMU")
 NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
 
@@ -190,7 +190,7 @@ def query_vectorize(query_text, top_k=2):
 
 ## Langkah 3: Hasilkan Jawaban (Generation)
 
-Terakhir, buat prompt dengan konteks yang diambil dan kirimkan ke model chat Neosantara AI.
+Terakhir, buat prompt dengan konteks yang diambil dan kirimkan ke model chat Neosantara.
 
 ```python icon="python"
 def make_prompt(query, retrieved_context):
@@ -227,7 +227,7 @@ def generate_answer_with_rag(query_text):
     # 2. Buat prompt untuk LLM
     full_prompt = make_prompt(query_text, context)
     
-    # 3. Hasilkan jawaban menggunakan model chat Neosantara AI
+    # 3. Hasilkan jawaban menggunakan model chat Neosantara
     response = neosantara_client.chat.completions.create(
         model=CHAT_MODEL,
         messages=[

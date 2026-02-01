@@ -9,7 +9,7 @@ Embeddings adalah representasi numerik dari teks yang menangkap makna semantik. 
 
 Saat Kamu mengirim teks ke endpoint embeddings, model AI memproses teks dan mengeluarkan daftar angka floating-point (vektor). Teks dengan makna serupa akan memiliki vektor yang secara numerik "lebih dekat" satu sama lain dalam ruang dimensi tinggi.
 
-API NeosantaraAI menyediakan endpoint `/v1/embeddings`.
+API Neosantara menyediakan endpoint `/v1/embeddings`.
 
 ## Penggunaan
 
@@ -60,7 +60,7 @@ Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
 
 ## Contoh Python dan JavaScript (OpenAI SDK)
 
-Kamu dapat menghasilkan embeddings menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API NeosantaraAI.
+Kamu dapat menghasilkan embeddings menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API Neosantara.
 
 <CodeGroup>
 
@@ -76,7 +76,7 @@ client = OpenAI(
 
 def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
     """
-    Menghasilkan embeddings untuk daftar teks menggunakan API NeosantaraAI.
+    Menghasilkan embeddings untuk daftar teks menggunakan API Neosantara.
     """
     print(f"Menghasilkan embeddings untuk model: {model}")
 
