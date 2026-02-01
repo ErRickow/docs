@@ -1,0 +1,191 @@
+---
+title: "Anthropic-Compatible API"
+description: "Neosantara AI provides Anthropic-compatible API endpoints, allowing you to use official Anthropic SDKs and tools like Claude Code."
+---
+
+Neosantara [AI Gateway](/en/intro) provides Anthropic-compatible API endpoints, so you can use the Anthropic SDK and tools like [Claude Code](https://www.claude.com/product/claude-code) through a unified gateway with only a URL change.
+
+The Anthropic-compatible API implements the same specification as the [Anthropic Messages API](https://docs.anthropic.com/en/api/messages).
+
+For more on using Neosantara AI with Claude Code, see the [AI Coding Tools guide](/en/guides/ai-coding-tools).
+
+## [Base URL](#base-url)
+
+The Anthropic-compatible API is available at the following base URL:
+
+`https://api.neosantara.xyz/anthropic`
+
+<Warning>
+  Ensure you use the `/anthropic` base URL when configuring the Anthropic SDK. Using the `/v1` root will lead to schema mismatches.
+</Warning>
+
+## [Authentication](#authentication)
+
+The Anthropic-compatible API supports the same authentication methods as the main Neosantara API:
+
+*   **API key**: Use your Neosantara API key with the `x-api-key` header or `Authorization: Bearer <token>` header.
+*   **Anthropic Header**: You can also use the standard `x-api-key` header expected by the Anthropic SDK.
+
+## [Supported endpoints](#supported-endpoints)
+
+Neosantara AI supports the following Anthropic-compatible endpoint:
+
+*   [`POST /v1/messages`](/en/sdk/anthropic-compat/messages) - Create messages with support for streaming, [tool calls](/en/sdk/anthropic-compat/tool-calls), [extended thinking](/en/sdk/anthropic-compat/advanced#extended-thinking), and [file attachments](/en/sdk/anthropic-compat/file-attachments).
+
+For advanced features, see:
+
+*   [Advanced Features](/en/sdk/anthropic-compat/advanced) - Extended thinking and web search.
+
+## [Configuring Claude Code](#configuring-claude-code)
+
+[Claude Code](https://code.claude.com/docs) is Anthropic's agentic coding tool. You can configure it to use Neosantara AI Gateway, enabling you to:
+
+*   Route requests through high-performance regional models.
+*   Monitor traffic and spend in your [usage overview](/en/about/token-credits).
+*   Use models like `nusantara-base` or `archipelago-70b` for coding tasks.
+
+1.  ### [Configure environment variables](#configure-environment-variables)
+    
+    Configure Claude Code to use Neosantara AI by setting these [environment variables](https://code.claude.com/docs/en/settings#environment-variables):
+    
+    | Variable | Value |
+    | --- | --- |
+    | `ANTHROPIC_BASE_URL` | `https://api.neosantara.xyz/anthropic` |
+    | `ANTHROPIC_AUTH_TOKEN` | Your Neosantara API key |
+    | `ANTHROPIC_API_KEY` | `""` (empty string) |
+    
+    Setting `ANTHROPIC_API_KEY` to an empty string is important. Claude Code checks this variable first, and if it's set to a non-empty value, it will use that instead of `ANTHROPIC_AUTH_TOKEN`.
+    
+    #### [Option 1: Shell alias (simplest)](#option-1-shell-alias-simplest)
+    
+    Add this alias to your `~/.zshrc` (or `~/.bashrc`):
+    
+    ```bash
+    alias claude-nusa='ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" ANTHROPIC_AUTH_TOKEN="your-api-key-here" ANTHROPIC_API_KEY="" claude'
+    ```
+    
+    Then reload your shell:
+    
+    ```bash
+    source ~/.zshrc
+    ```
+    
+    #### [Option 2: Wrapper script](#option-2-wrapper-script)
+    
+    For more flexibility, create a wrapper script at `~/bin/claude-nusa`:
+    
+    ```bash
+    #!/usr/bin/env bash
+    # Routes Claude Code through Neosantara AI
+     
+    ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" \
+    ANTHROPIC_AUTH_TOKEN="your-api-key-here" \
+    ANTHROPIC_API_KEY="" \
+    claude "$@"
+    ```
+    
+    Make it executable and ensure `~/bin` is in your PATH:
+    
+    ```bash
+    mkdir -p ~/bin
+    chmod +x ~/bin/claude-nusa
+    echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
+    source ~/.zshrc
+    ```
+    
+2.  ### [Run Claude Code](#run-claude-code)
+    
+    Run `claude-nusa` to start Claude Code with Neosantara AI:
+    
+    ```bash
+    claude-nusa
+    ```
+    
+
+## [Integration with Anthropic SDK](#integration-with-anthropic-sdk)
+
+Point your client to the Neosantara AI base URL and use your [API key](/en/authentication) for authentication.
+
+<CodeGroup>
+
+```typescript client.ts
+import Anthropic from '@anthropic-ai/sdk';
+ 
+const client = new Anthropic({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+});
+ 
+const message = await client.messages.create({
+  model: 'nusantara-base',
+  max_tokens: 1024,
+  messages: [{ role: 'user', content: 'Hello, world!' }],
+});
+```
+
+```python client.py
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+message = client.messages.create(
+    model='nusantara-base',
+    max_tokens=1024,
+    messages=[
+        {'role': 'user', 'content': 'Hello, world!'}
+    ]
+)
+```
+
+</CodeGroup>
+
+## [Parameters](#parameters)
+
+The messages endpoint supports the following parameters:
+
+### [Required parameters](#required-parameters)
+
+*   `model` (string): The model to use (e.g., `nusantara-base`)
+*   `max_tokens` (integer): Maximum number of tokens to generate
+*   `messages` (array): Array of message objects with `role` and `content` fields
+
+### [Optional parameters](#optional-parameters)
+
+*   `stream` (boolean): Whether to stream the response. Defaults to `false`
+*   `temperature` (number): Controls randomness in the output. Range: 0-1
+*   `top_p` (number): Nucleus sampling parameter. Range: 0-1
+*   `top_k` (integer): Top-k sampling parameter
+*   `stop_sequences` (array): Stop sequences for the generation
+*   `tools` (array): Array of tool definitions for function calling
+*   `tool_choice` (object): Controls which tools are called
+*   `thinking` (object): [Extended thinking](/en/capability/reasoning) configuration
+*   `system` (string or array): System prompt
+
+## [Error handling](#error-handling)
+
+The API returns standard HTTP status codes and error responses:
+
+### [Common error codes](#common-error-codes)
+
+*   `400 Bad Request`: Invalid request parameters
+*   `401 Unauthorized`: Invalid or missing authentication
+*   `403 Forbidden`: Insufficient permissions (e.g., model access denied)
+*   `404 Not Found`: Model or endpoint not found
+*   `429 Too Many Requests`: Rate limit or credit balance exceeded
+*   `500 Internal Server Error`: Provider or Gateway error
+
+### [Error response format](#error-response-format)
+
+```json
+{
+  "type": "error",
+  "error": {
+    "type": "invalid_request_error",
+    "message": "Invalid request: missing required parameter 'max_tokens'"
+  }
+}
+```

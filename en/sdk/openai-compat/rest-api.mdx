@@ -1,0 +1,365 @@
+---
+title: "Direct REST API Usage"
+description: "Make direct HTTP requests to the Neosantara AI Gateway using cURL, Fetch, or any other HTTP client."
+---
+
+# Direct REST API Usage
+
+If you prefer to use the Neosantara AI Gateway API directly without the OpenAI client libraries, you can make HTTP requests using any standard HTTP client. This is useful for environments where installing a full SDK is not ideal.
+
+### [List models](#list-models)
+
+Retrieve a list of all available models and their capabilities.
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.neosantara.xyz/v1/models" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.neosantara.xyz/v1/models', {
+  method: 'GET',
+  headers: {
+    Authorization: `Bearer ${process.env.NAI_API_KEY}`,
+    'Content-Type': 'application/json',
+  },
+});
+ 
+const models = await response.json();
+console.log(models);
+```
+
+</CodeGroup>
+
+---
+
+### [Basic chat completion](#basic-chat-completion)
+
+Create a standard chat completion request.
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Write a one-sentence bedtime story about a unicorn."
+      }
+    ],
+    "stream": false
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.neosantara.xyz/v1/chat/completions',
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.NAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'nusantara-base',
+      messages: [
+        {
+          role: 'user',
+          content: 'Write a one-sentence bedtime story about a unicorn.',
+        },
+      ],
+      stream: false,
+    }),
+  },
+);
+ 
+const result = await response.json();
+console.log(result);
+```
+
+</CodeGroup>
+
+---
+
+### [Streaming chat completion](#streaming-chat-completion)
+
+Receive tokens in real-time as they are generated using Server-Sent Events (SSE).
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Write a one-sentence bedtime story about a unicorn."
+      }
+    ],
+    "stream": true
+  }' \
+  --no-buffer
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.neosantara.xyz/v1/chat/completions',
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.NAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'nusantara-base',
+      messages: [
+        {
+          role: 'user',
+          content: 'Write a one-sentence bedtime story about a unicorn.',
+        },
+      ],
+      stream: true,
+    }),
+  },
+);
+ 
+const reader = response.body.getReader();
+const decoder = new TextDecoder();
+ 
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+ 
+  const chunk = decoder.decode(value);
+  const lines = chunk.split('\n');
+ 
+  for (const line of lines) {
+    if (line.startsWith('data: ')) {
+      const data = line.slice(6);
+      if (data === '[DONE]') {
+        console.log('Stream complete');
+        break;
+      } else if (data.trim()) {
+        const parsed = JSON.parse(data);
+        const content = parsed.choices?.[0]?.delta?.content;
+        if (content) {
+          process.stdout.write(content);
+        }
+      }
+    }
+  }
+}
+```
+
+</CodeGroup>
+
+---
+
+### [Image analysis](#image-analysis)
+
+Send images for processing using multimodal models.
+
+<CodeGroup>
+
+```bash cURL
+# First, convert your image to base64
+IMAGE_BASE64=$(base64 -i ./image.png)
+ 
+curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          { "type": "text", "text": "Describe this image in detail." },
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,'"$IMAGE_BASE64"'"
+            }
+          }
+        ]
+      }
+    ],
+    "stream": false
+  }'
+```
+
+```javascript JavaScript
+import fs from 'node:fs';
+ 
+const imageBuffer = fs.readFileSync('./image.png');
+const imageBase64 = imageBuffer.toString('base64');
+ 
+const response = await fetch(
+  'https://api.neosantara.xyz/v1/chat/completions',
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.NAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'nusantara-base',
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: 'Describe this image in detail.' },
+            {
+              type: 'image_url',
+              image_url: {
+                url: `data:image/png;base64,${imageBase64}`
+              },
+            },
+          ],
+        },
+      ],
+      stream: false,
+    }),
+  },
+);
+ 
+const result = await response.json();
+console.log(result);
+```
+
+</CodeGroup>
+
+---
+
+### [Tool calls](#tool-calls)
+
+Interact with external functions by providing tool definitions.
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is the weather like in Jakarta?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get current weather",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "location": { "type": "string" }
+            },
+            "required": ["location"]
+          }
+        }
+      }
+    ],
+    "tool_choice": "auto"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.neosantara.xyz/v1/chat/completions',
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.NAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'nusantara-base',
+      messages: [{ role: 'user', content: 'What is the weather in Jakarta?' }],
+      tools: [
+        {
+          type: 'function',
+          function: {
+            name: 'get_weather',
+            parameters: {
+              type: 'object',
+              properties: { location: { type: 'string' } }
+            }
+          },
+        },
+      ],
+      tool_choice: 'auto'
+    }),
+  },
+);
+ 
+const result = await response.json();
+console.log(result);
+```
+
+</CodeGroup>
+
+---
+
+### [Provider options](#provider-options)
+
+Control routing and specify preference for upstream providers.
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "claude-4.5-sonnet",
+    "messages": [{ "role": "user", "content": "Hello!" }],
+    "providerOptions": {
+      "gateway": {
+        "order": ["vertex", "anthropic"]
+      }
+    }
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.neosantara.xyz/v1/chat/completions',
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.NAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'claude-4.5-sonnet',
+      messages: [{ role: 'user', content: 'Hello!' }],
+      providerOptions: {
+        gateway: {
+          order: ['vertex', 'anthropic']
+        },
+      },
+    }),
+  },
+);
+ 
+const result = await response.json();
+console.log(result);
+```
+
+</CodeGroup>

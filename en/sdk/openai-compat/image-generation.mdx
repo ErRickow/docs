@@ -1,0 +1,226 @@
+---
+title: "Image Generation"
+description: "Generate images alongside text using multimodal models through the OpenAI-compatible API."
+---
+
+# Image Generation
+
+Generate images using AI models that support multimodal output through the OpenAI-compatible API. This feature allows you to create images alongside text responses using models like **Gemini 2.0 Flash**.
+
+Endpoint
+
+`POST /v1/chat/completions`
+
+### [Parameters](#parameters) 
+
+To enable image generation, include the `modalities` parameter in your request:
+
+*   **`modalities`** (array): Array of strings specifying the desired output modalities. Use `['text', 'image']` for both text and image generation, or `['image']` for image-only generation.
+
+### [Example requests](#example-requests)
+
+Point the OpenAI SDK to Neosantara AI and specify the modalities.
+
+<CodeGroup>
+
+```typescript image-generation.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const completion = await openai.chat.completions.create({
+  model: 'gemini-3-flash', // A model supporting multimodal output
+  messages: [
+    {
+      role: 'user',
+      content: 'Generate a beautiful sunset over mountains and describe the scene.',
+    },
+  ],
+  // @ts-expect-error - modalities is a gateway extension for OpenAI SDK
+  modalities: ['text', 'image'],
+  stream: false,
+});
+ 
+const message = completion.choices[0].message;
+ 
+// Text content is always a string
+console.log('Text:', message.content);
+ 
+// Images are in a separate array
+if (message.images && Array.isArray(message.images)) {
+  console.log(`Generated ${message.images.length} images:`);
+  for (const [index, img] of message.images.entries()) {
+    if (img.type === 'image_url' && img.image_url) {
+      console.log(`Image ${index + 1}:`, {
+        size: img.image_url.url?.length || 0,
+        preview: `${img.image_url.url?.substring(0, 50)}...`,
+      });
+    }
+  }
+}
+```
+
+```python image-generation.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='gemini-3-flash',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Generate a beautiful sunset over mountains and describe the scene.'
+        }
+    ],
+    # Note: modalities parameter is supported by our gateway
+    extra_body={'modalities': ['text', 'image']},
+    stream=False,
+)
+ 
+message = completion.choices[0].message
+ 
+# Text content is always a string
+print(f"Text: {message.content}")
+ 
+# Images are in a separate array
+if hasattr(message, 'images') and message.images:
+    print(f"Generated {len(message.images)} images:")
+    for i, img in enumerate(message.images):
+        if img.get('type') == 'image_url' and img.get('image_url'):
+            image_url = img['image_url']['url']
+            data_size = len(image_url) if image_url else 0
+            print(f"Image {i+1}: size: {data_size} chars")
+            print(f"Preview: {image_url[:50]}...")
+```
+
+</CodeGroup>
+
+---
+
+### [Response format](#response-format)
+
+When image generation is enabled, the response separates text content from generated images:
+
+```json
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "created": 1677652288,
+  "model": "gemini-3-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Here's a beautiful sunset scene over the mountains...",
+        "images": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ..."
+            }
+          }
+        ]
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 15,
+    "completion_tokens": 28,
+    "total_tokens": 43
+  }
+}
+```
+
+---
+
+### [Streaming responses](#streaming-responses)
+
+For streaming requests, images are delivered in delta chunks just like text.
+
+<CodeGroup>
+
+```typescript streaming-images.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const stream = await openai.chat.completions.create({
+  model: 'gemini-3-flash',
+  messages: [{ role: 'user', content: 'Generate a sunset image' }],
+  // @ts-expect-error
+  modalities: ['text', 'image'],
+  stream: true,
+});
+ 
+for await (const chunk of stream) {
+  const delta = chunk.choices[0]?.delta;
+ 
+  // Handle text content
+  if (delta?.content) {
+    process.stdout.write(delta.content);
+  }
+ 
+  // Handle images
+  if (delta?.images) {
+    for (const img of delta.images) {
+      if (img.type === 'image_url' && img.image_url) {
+        console.log(`
+[Image received: ${img.image_url.url.length} chars]`);
+      }
+    }
+  }
+}
+```
+
+```python streaming-images.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+stream = client.chat.completions.create(
+    model='gemini-3-flash',
+    messages=[{'role': 'user', 'content': 'Generate a sunset image'}],
+    extra_body={'modalities': ['text', 'image']},
+    stream=True,
+)
+ 
+for chunk in stream:
+    if chunk.choices and chunk.choices[0].delta:
+        delta = chunk.choices[0].delta
+ 
+        # Handle text content
+        if hasattr(delta, 'content') and delta.content:
+            print(delta.content, end='', flush=True)
+ 
+        # Handle images
+        if hasattr(delta, 'images') and delta.images:
+            for img in delta.images:
+                if img.get('type') == 'image_url' and img.get('image_url'):
+                    image_url = img['image_url']['url']
+                    print(f"\n[Image received: {len(image_url)} chars]")
+```
+
+</CodeGroup>
+
+<Note>
+  **Base64 Output**: Generated images are currently returned as base64-encoded data URIs. For traditional image-only generation with URL output, use the [Images API](/en/capability/image-generation).
+</Note>
+
+```

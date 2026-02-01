@@ -1,20 +1,84 @@
 ---
-title: "SDK Documentation"
-description: "Explore the various SDKs and libraries supported by Neosantara AI."
+title: "SDKs & APIs"
+description: "Neosantara AI provides drop-in compatible APIs that let you switch by changing a base URL. No code rewrites required."
 ---
 
-Neosantara AI provides multiple compatibility layers, allowing you to use official SDKs from popular AI providers. Choose the documentation based on the ecosystem you are using.
+Neosantara [AI Gateway](/en/intro) provides drop-in compatible APIs that let you switch by changing a base URL. Use the same SDKs and tools you already know, with access to 100+ models from every major provider.
 
-<CardGroup cols={2}>
-  <Card title="OpenAI Compatible" icon="openai" href="/en/sdk/openai-compatible">
-    Learn how to use Neosantara with official OpenAI SDKs for Python, Node.js, and more.
-  </Card>
-  <Card title="Anthropic Compatible" icon="bolt" href="/en/sdk/anthropic-compatible">
-    Use the Anthropic Messages API format with official Anthropic SDKs and Claude ecosystem tools.
-  </Card>
-</CardGroup>
+## [Quick start](#quick-start)
 
-## Which one should I choose?
+Point your existing SDK to the gateway:
 
-- **OpenAI Compatible**: Best if you already have an OpenAI-based application or are using universal libraries like LangChain or LlamaIndex.
-- **Anthropic Compatible**: Ideal if you are building with Claude-specific tools like Claude Code or prefer the Anthropic Messages structure.
+<CodeGroup>
+
+```javascript OpenAI SDK
+import OpenAI from 'openai';
+ 
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const response = await client.chat.completions.create({
+  model: 'nusantara-base', // Any available model
+  messages: [{ role: 'user', content: 'Hello!' }],
+});
+```
+
+```javascript Anthropic SDK
+import Anthropic from '@anthropic-ai/sdk';
+ 
+const client = new Anthropic({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz',
+});
+ 
+const message = await client.messages.create({
+  model: 'nusantara-base',
+  max_tokens: 1024,
+  messages: [{ role: 'user', content: 'Hello!' }],
+});
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+
+</CodeGroup>
+
+## [Why use these APIs?](#why-use-these-apis)
+
+*   **No vendor lock-in**: Switch between Claude, GPT, Gemini, and other models without changing your code.
+*   **Unified billing**: One credit balance for all providers instead of managing multiple accounts and invoices.
+*   **Built-in fallbacks**: Enhanced reliability with multi-provider routing and regional optimization.
+*   **Streaming support**: Real-time responses with SSE across all compatible endpoints.
+*   **Full feature parity**: Tool calling, structured outputs, vision, and embeddings work exactly as documented.
+
+## [Available APIs](#available-apis)
+
+| API | Best for | Documentation |
+| --- | --- | --- |
+| [OpenAI-Compatible](/en/sdk/openai-compat) | Existing OpenAI integrations, broad language support | [Chat](/en/sdk/openai-compat/chat-completions), [Tools](/en/sdk/openai-compat/tool-calls), [Embeddings](/en/sdk/openai-compat/embeddings) |
+| [Anthropic-Compatible](/en/sdk/anthropic-compat) | Claude Code, Anthropic SDK users | [Messages](/en/sdk/anthropic-compat/messages), [Tools](/en/sdk/anthropic-compat/tool-calls), [Vision](/en/capability/ocr) |
+| [Responses API](/en/sdk/responses-api) | New projects, stateful conversations | [Streaming](/en/capability/stream), [Tools](/en/how-tools), [Structured](/en/capability/structured) |
+| [Python](/en/sdk/python) | Python developers | [Async](/en/sdk/python#async-support), [Streaming](/en/sdk/python#streaming), [Frameworks](/en/sdk/python#framework-integrations) |
+
+## [Choosing an API](#choosing-an-api)
+
+**Already using OpenAI?** Use the [OpenAI-Compatible API](/en/sdk/openai-compat). Change your base URL and you're done.
+
+**Using Claude Code or Anthropic SDK?** Use the [Anthropic-Compatible API](/en/sdk/anthropic-compat) for native feature support.
+
+**Starting fresh?** We strongly recommend the [Responses API](/en/sdk/responses-api) for a modern, stateful interface, or [Vercel AI SDK](/en/using-neosantara-with-vercels-ai-sdk) for the best TypeScript experience.
+
+## [Next steps](#next-steps)
+
+*   [Get your API key](/en/authentication) to start making requests
+*   [Browse available models](/en/models-overview) to find the right model for your use case
+*   [Check usage limits](/en/about/rate-limits) to understand your tier's throughput

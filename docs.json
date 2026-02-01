@@ -75,9 +75,46 @@
                   "en/quickstart",
                   "en/about",
                   "en/use-these-docs",
-                  "en/sdk/index",
-                  "en/sdk/openai-compatible",
-                  "en/sdk/anthropic-compatible"
+                  {
+                    "group": "SDKs & APIs",
+                    "pages": [
+                      "en/sdk/index",
+                      {
+                        "group": "OpenResponses API",
+                        "pages": [
+                          "en/sdk/responses-api/index",
+                          "en/sdk/responses-api/text-generation",
+                          "en/sdk/responses-api/streaming",
+                          "en/sdk/responses-api/image-input",
+                          "en/sdk/responses-api/tool-calling"
+                        ]
+                      },
+                      {
+                        "group": "OpenAI Compatible",
+                        "pages": [
+                          "en/sdk/openai-compat/index",
+                          "en/sdk/openai-compat/chat-completions",
+                          "en/sdk/openai-compat/tool-calls",
+                          "en/sdk/openai-compat/structured-outputs",
+                          "en/sdk/openai-compat/image-generation",
+                          "en/sdk/openai-compat/embeddings",
+                          "en/sdk/openai-compat/advanced",
+                          "en/sdk/openai-compat/rest-api"
+                        ]
+                      },
+                      {
+                        "group": "Anthropic Compatible",
+                        "pages": [
+                          "en/sdk/anthropic-compat/index",
+                          "en/sdk/anthropic-compat/messages",
+                          "en/sdk/anthropic-compat/tool-calls",
+                          "en/sdk/anthropic-compat/advanced",
+                          "en/sdk/anthropic-compat/file-attachments"
+                        ]
+                      },
+                      "en/sdk/python/index"
+                    ]
+                  }
                 ]
               },
               {
@@ -306,9 +343,46 @@
                   "id/quickstart",
                   "id/about",
                   "id/use-these-docs",
-                  "id/sdk/index",
-                  "id/sdk/openai-compatible",
-                  "id/sdk/anthropic-compatible"
+                  {
+                    "group": "SDKs & APIs",
+                    "pages": [
+                      "id/sdk/index",
+                      {
+                        "group": "OpenResponses API",
+                        "pages": [
+                          "id/sdk/responses-api/index",
+                          "id/sdk/responses-api/text-generation",
+                          "id/sdk/responses-api/streaming",
+                          "id/sdk/responses-api/image-input",
+                          "id/sdk/responses-api/tool-calling"
+                        ]
+                      },
+                      {
+                        "group": "OpenAI Compatible",
+                        "pages": [
+                          "id/sdk/openai-compat/index",
+                          "id/sdk/openai-compat/chat-completions",
+                          "id/sdk/openai-compat/tool-calls",
+                          "id/sdk/openai-compat/structured-outputs",
+                          "id/sdk/openai-compat/image-generation",
+                          "id/sdk/openai-compat/embeddings",
+                          "id/sdk/openai-compat/advanced",
+                          "id/sdk/openai-compat/rest-api"
+                        ]
+                      },
+                      {
+                        "group": "Anthropic Compatible",
+                        "pages": [
+                          "id/sdk/anthropic-compat/index",
+                          "id/sdk/anthropic-compat/messages",
+                          "id/sdk/anthropic-compat/tool-calls",
+                          "id/sdk/anthropic-compat/advanced",
+                          "id/sdk/anthropic-compat/file-attachments"
+                        ]
+                      },
+                      "id/sdk/python/index"
+                    ]
+                  }
                 ]
               },
               {

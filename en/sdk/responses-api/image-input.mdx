@@ -1,0 +1,80 @@
+---
+title: "Image Input"
+description: "Send images alongside text for vision-capable models using the Responses API."
+---
+
+# Image Input
+
+The [Responses API](/en/sdk/responses-api) supports multimodal inputs, allowing you to send images alongside text for vision-capable models to analyze. This is ideal for building visual search, OCR, or image description applications.
+
+### [Example Request](#example-request)
+
+Include an `image_url` object in your message content array. You can provide either a public URL or a base64-encoded data URI.
+
+<CodeGroup>
+
+```typescript image-input.ts
+const apiKey = process.env.NAI_API_KEY;
+ 
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'nusantara-base',
+    input: [
+      {
+        type: 'message',
+        role: 'user',
+        content: [
+          { type: 'text', text: 'Describe this image in detail.' },
+          {
+            type: 'image_url',
+            image_url: { 
+              url: 'https://example.com/image.jpg', 
+              detail: 'auto' 
+            },
+          },
+        ],
+      },
+    ],
+  }),
+});
+ 
+const result = await response.json();
+console.log(result.output_text);
+```
+
+</CodeGroup>
+
+---
+
+## [Base64-encoded images](#base64-encoded-images)
+
+For local files or privacy-sensitive data, you can provide the image as a base64-encoded string:
+
+```json
+{
+  "type": "image_url",
+  "image_url": {
+    "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ...",
+    "detail": "high"
+  }
+}
+```
+
+---
+
+## [Detail parameter](#detail-parameter)
+
+The `detail` parameter controls the fidelity used for image analysis:
+
+*   **`auto`** (default): Let the model decide the appropriate resolution based on the image size and complexity.
+*   **`low`**: Resize the image to a lower resolution for faster processing and lower token consumption.
+*   **`high`**: Preserve more detail for complex tasks like OCR or identifying small objects.
+
+<Info>
+  **Pro Tip**: Use `low` detail if you only need a general description of the image to save on processing costs.
+</Info>

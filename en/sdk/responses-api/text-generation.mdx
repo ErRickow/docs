@@ -1,0 +1,103 @@
+---
+title: "Text Generation"
+description: "Learn how to generate text responses using the stateful Responses API."
+---
+
+# Text Generation
+
+Use the [Responses API](/en/sdk/responses-api) to generate high-quality text responses from AI models. Unlike the legacy Chat Completions API, the Responses API allows you to pass simple strings or structured message objects while optionally maintaining conversation state on the server.
+
+### [Basic Request](#basic-request)
+
+Point your HTTP client to the Neosantara AI responses endpoint.
+
+<CodeGroup>
+
+```typescript generate.ts
+const apiKey = process.env.NAI_API_KEY;
+ 
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'nusantara-base',
+    input: [
+      {
+        type: 'message',
+        role: 'user',
+        content: 'Why do developers prefer dark mode?',
+      },
+    ],
+  }),
+});
+ 
+const result = await response.json();
+console.log(result.output_text);
+```
+
+```python generate.py
+import requests
+import os
+
+api_key = os.getenv("NAI_API_KEY")
+
+response = requests.post(
+    "https://api.neosantara.xyz/v1/responses",
+    headers={
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}"
+    },
+    json={
+        "model": "nusantara-base",
+        "input": "Why do developers prefer dark mode?"
+    }
+)
+
+result = response.json()
+print(result["output_text"])
+```
+
+</CodeGroup>
+
+---
+
+## [Response Format](#response-format)
+
+The response includes the generated text in the `output` array, along with token usage information and a convenient `output_text` helper for quick access.
+
+```json
+{
+  "id": "resp_abc123",
+  "object": "response",
+  "model": "nusantara-base",
+  "output_text": "Habit and aesthetics reinforce the preference, but ergonomics and contrast are the primary drivers.",
+  "output": [
+    {
+      "id": "msg_abc123",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Habit and aesthetics reinforce the preference, but ergonomics and contrast are the primary drivers."
+        }
+      ]
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 14,
+    "completion_tokens": 18,
+    "total_tokens": 32
+  }
+}
+```
+
+### [Accessing the Output](#accessing-the-output)
+
+*   **`output_text`**: A top-level string containing the full concatenated text response. Best for simple chat apps.
+*   **`output`**: An array of detailed message blocks. Use this if you need to access specific item IDs, reasoning content, or tool calls.
+
+Learn more about managing these responses over multiple turns in the [Conversation Management](/en/conversation-management) guide.

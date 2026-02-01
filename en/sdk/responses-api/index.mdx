@@ -1,0 +1,129 @@
+---
+title: "Responses API"
+description: "Neosantara AI supports the Responses API specification, providing a unified and stateful interface for AI model interactions."
+---
+
+# Responses API
+
+Neosantara AI supports the **Responses API**, a modern specification for AI model interactions. It provides a unified interface across providers with built-in support for stateful conversations, streaming, tool calling, reasoning, and multi-modal inputs.
+
+For a detailed comparison with the legacy Chat Completions API, see [Responses vs. Chat Completions](/en/response).
+
+## [Base URL](#base-url)
+
+The Responses API is available at:
+
+`https://api.neosantara.xyz/v1`
+
+## [Authentication](#authentication)
+
+The Responses API supports standard Bearer token authentication:
+
+*   **API key**: Use your Neosantara AI API key with the `Authorization: Bearer <token>` header.
+
+## [Supported Features](#supported-features)
+
+The Responses API is designed for building advanced AI applications:
+
+*   **[Text Generation](/en/sdk/responses-api/text-generation)** - Generate high-quality text responses.
+*   **[Conversation Management](/en/conversation-management)** - Native support for stateful multi-turn chats using `previous_response_id`.
+*   **[Streaming](/en/sdk/responses-api/streaming)** - Real-time token delivery via SSE.
+*   **[Image & Vision](/en/sdk/responses-api/image-input)** - Process images and multimodal inputs.
+*   **[Tool Calling](/en/sdk/responses-api/tool-calling)** - Seamless integration with external functions.
+*   **[Structured Outputs](/en/capability/structured)** - Reliable JSON data extraction.
+
+## [Getting started](#getting-started)
+
+Here's a simple example to generate a text response using the `fetch` API:
+
+<CodeGroup>
+
+```typescript quickstart.ts
+const apiKey = process.env.NAI_API_KEY;
+ 
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'nusantara-base',
+    input: 'What is the capital of Indonesia?',
+    store: true // Enable state management
+  }),
+});
+ 
+const result = await response.json();
+console.log(result.output_text);
+```
+
+```python quickstart.py
+import os
+import requests
+
+api_key = os.getenv("NAI_API_KEY")
+
+response = requests.post(
+    "https://api.neosantara.xyz/v1/responses",
+    headers={
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}"
+    },
+    json={
+        "model": "nusantara-base",
+        "input": "What is the capital of Indonesia?",
+        "store": True
+    }
+)
+
+result = response.json()
+print(result["output_text"])
+```
+
+</CodeGroup>
+
+## [Parameters](#parameters)
+
+### [Required parameters](#required-parameters)
+
+*   **`model`** (string): The Neosantara model ID (e.g., `nusantara-base`, `archipelago-70b`).
+*   **`input`** (string or array): The user input. Can be a simple string or an array of message objects.
+
+### [Optional parameters](#optional-parameters)
+
+*   **`stream`** (boolean): Stream the response using SSE. Defaults to `false`.
+*   **`store`** (boolean): Whether to persist the conversation state for future turns.
+*   **`previous_response_id`** (string): The ID of the previous response to continue a stateful conversation.
+*   **`temperature`** (number): Controls randomness. Range: 0-2.
+*   **`max_output_tokens`** (integer): Maximum tokens to generate in the completion.
+*   **`tools`** (array): Tool definitions for function calling.
+*   **`tool_choice`** (string): Tool selection mode: `auto`, `required`, or `none`.
+*   **`reasoning`** (object): [Reasoning configuration](/en/sdk/openai-compat/advanced#reasoning-configuration) for supported models.
+
+---
+
+## [Error handling](#error-handling)
+
+The API returns standard HTTP status codes and OpenAI-compatible error responses.
+
+### [Common error codes](#common-error-codes)
+
+*   `400 Bad Request` - Invalid request parameters.
+*   `401 Unauthorized` - Invalid or missing API key.
+*   `404 Not Found` - Model or endpoint not found.
+*   `429 Too Many Requests` - Rate limit or credit balance exceeded.
+*   `500 Internal Server Error` - Gateway or provider error.
+
+### [Error response format](#error-response-format)
+
+```json
+{
+  "error": {
+    "message": "Invalid request: missing required parameter 'model'",
+    "type": "invalid_request_error",
+    "param": "model",
+    "code": "missing_parameter"
+  }
+}
+```
