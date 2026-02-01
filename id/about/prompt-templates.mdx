@@ -61,8 +61,8 @@ print(response.output_text)
 import OpenAI from 'openai';
 
 const client = new OpenAI({
-  apiKey: 'YOUR_NEOSANTARA_API_KEY',
-  baseURL: 'https://api.neosantara.xyz/v1'
+  api_key: 'YOUR_NEOSANTARA_API_KEY',
+  base_url: 'https://api.neosantara.xyz/v1'
 });
 
 // Akses API responses secara langsung melalui SDK
@@ -71,7 +71,7 @@ const response = await client.responses.create({
   prompt: {
     id: 'analisis-hukum',
     variables: {
-      document_text: 'Ini adalah contoh kontrak...', 
+      teks_dokumen: 'Ini adalah contoh kontrak...', 
       area_fokus: 'klausul kewajiban'
     }
   }
@@ -89,7 +89,7 @@ curl https://api.neosantara.xyz/v1/responses \
     "prompt": {
       "id": "analisis-hukum",
       "variables": {
-        "document_text": "...",
+        "teks_dokumen": "...",
         "area_fokus": "..."
       }
     }
