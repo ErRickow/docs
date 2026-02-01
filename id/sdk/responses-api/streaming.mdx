@@ -1,0 +1,52 @@
+---
+title: "Streaming"
+description: "Pelajari cara menggunakan Server-Sent Events (SSE) untuk mendapatkan pembaruan real-time dari Responses API."
+---
+
+# Streaming
+
+[Responses API](/id/sdk/responses-api) mendukung streaming, memungkinkan Anda menerima token saat dihasilkan tanpa harus menunggu seluruh penyelesaian.
+
+Untuk mengaktifkan streaming, atur **`stream: true`** dalam body permintaan Anda.
+
+### [Contoh Implementasi](#example)
+
+```typescript stream.ts
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'grok-4.1-fast-non-reasoning',
+    input: 'Tulis puisi tentang koding.',
+    stream: true,
+  }),
+});
+ 
+const reader = response.body.getReader();
+const decoder = new TextDecoder();
+ 
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+ 
+  const chunk = decoder.decode(value);
+  const lines = chunk.split('\n');
+ 
+  for (const line of lines) {
+    if (line.startsWith('data:')) {
+      const data = line.substring(5).trim();
+      if (data === '[DONE]') break;
+      
+      const event = JSON.parse(data);
+      if (event.type === 'response.output_text.delta') {
+        process.stdout.write(event.delta);
+      }
+    }
+  }
+}
+```
+
+```

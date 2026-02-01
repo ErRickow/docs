@@ -1,0 +1,36 @@
+---
+title: "Lampiran File"
+description: "Kirim gambar dan dokumen PDF sebagai bagian dari pesan Anda menggunakan format Anthropic."
+---
+
+# Lampiran File
+
+Neosantara AI mendukung pengiriman gambar dan dokumen PDF secara native melalui API yang kompatibel dengan Anthropic. Ini memungkinkan Anda membangun aplikasi multimodal.
+
+### [Jenis File yang Didukung](#files)
+
+*   **Gambar**: `image/jpeg`, `image/png`, `image/gif`, `image/webp`
+*   **Dokumen**: `application/pdf`
+
+### [Contoh Permintaan](#example)
+
+```typescript
+const message = await client.messages.create({
+  model: 'claude-4.5-sonnet',
+  max_tokens: 1024,
+  messages: [{
+    role: 'user',
+    content: [
+      {
+        type: 'document',
+        source: {
+          type: 'base64',
+          media_type: 'application/pdf',
+          data: pdfBase64 // String base64 dari file PDF
+        }
+      },
+      { type: 'text', text: 'Ringkas isi dokumen ini.' }
+    ]
+  }]
+});
+```

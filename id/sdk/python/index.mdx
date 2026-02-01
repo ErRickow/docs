@@ -1,0 +1,51 @@
+---
+title: "Python SDK"
+description: "Gunakan library Python resmi OpenAI atau Anthropic dengan Neosantara AI."
+---
+
+# Python
+
+Anda dapat menggunakan SDK Python resmi untuk berinteraksi dengan Neosantara AI. Cukup arahkan parameter `base_url` ke gateway kami.
+
+## [Instalasi](#install)
+
+```bash
+pip install openai anthropic
+```
+
+## [Quick Start](#quickstart)
+
+<CodeGroup>
+
+```python OpenAI SDK
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+
+response = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[{'role': 'user', 'content': 'Halo!'}]
+)
+```
+
+```python Anthropic SDK
+import anthropic
+import os
+
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[{'role': 'user', 'content': 'Halo!'}]
+)
+```
+
+</CodeGroup>

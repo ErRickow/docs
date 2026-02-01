@@ -1,0 +1,22 @@
+---
+title: "Fitur Lanjutan"
+description: "Konfigurasi extended thinking menggunakan format Anthropic Messages API."
+---
+
+# Fitur Lanjutan
+
+### [Extended Thinking](#thinking)
+
+Konfigurasi pemikiran mendalam untuk model yang mendukung penalaran chain-of-thought (misalnya **Claude 3.7** atau **Kimi K2**).
+
+```typescript
+const message = await client.messages.create({
+  model: 'claude-4.5-sonnet',
+  max_tokens: 2048,
+  thinking: {
+    type: 'enabled',
+    budget_tokens: 5000,
+  },
+  messages: [{ role: 'user', content: 'Jelaskan teori kuantum dalam bahasa sederhana.' }]
+});
+```

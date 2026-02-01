@@ -1,20 +1,67 @@
 ---
-title: "Dokumentasi SDK"
-description: "Jelajahi berbagai SDK dan pustaka yang didukung oleh Neosantara AI."
+title: "SDK & API"
+description: "Neosantara AI menyediakan API yang kompatibel secara langsung sehingga Anda dapat beralih hanya dengan mengubah base URL. Tidak perlu menulis ulang kode."
 ---
 
-Neosantara AI menyediakan beberapa lapisan kompatibilitas, memungkinkan Kamu menggunakan SDK resmi dari penyedia AI populer. Pilih dokumentasi berdasarkan ekosistem yang Kamu gunakan.
+Neosantara [AI Gateway](/id/intro) menyediakan API yang kompatibel dengan berbagai standar industri, memungkinkan Anda beralih antar model hanya dengan mengubah base URL. Gunakan SDK dan alat yang sudah Anda kuasai untuk mengakses 100+ model dari berbagai provider utama.
 
-<CardGroup cols={2}>
-  <Card title="Kompatibel OpenAI" icon="openai" href="/id/sdk/openai-compatible">
-    Pelajari cara menggunakan Neosantara dengan SDK resmi OpenAI untuk Python, Node.js, dan lainnya.
-  </Card>
-  <Card title="Kompatibel Anthropic" icon="bolt" href="/id/sdk/anthropic-compatible">
-    Gunakan format API Anthropic Messages dengan SDK resmi Anthropic dan alat ekosistem Claude.
-  </Card>
-</CardGroup>
+## [Quick Start](#quick-start)
 
-## Mana yang Harus Kamu Pilih?
+Hubungkan SDK Anda yang sudah ada ke gateway Neosantara:
 
-- **Kompatibel OpenAI**: Terbaik jika Kamu sudah memiliki aplikasi berbasis OpenAI atau menggunakan library universal seperti LangChain atau LlamaIndex.
-- **Kompatibel Anthropic**: Ideal jika Kamu membangun dengan alat khusus Claude seperti Claude Code atau lebih menyukai struktur Anthropic Messages.
+<CodeGroup>
+
+```javascript OpenAI SDK
+import OpenAI from 'openai';
+ 
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const response = await client.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [{ role: 'user', content: 'Halo!' }],
+});
+```
+
+```javascript Anthropic SDK
+import Anthropic from '@anthropic-ai/sdk';
+ 
+const client = new Anthropic({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+});
+ 
+const message = await client.messages.create({
+  model: 'claude-4.5-sonnet',
+  max_tokens: 1024,
+  messages: [{ role: 'user', content: 'Halo!' }],
+});
+```
+
+</CodeGroup>
+
+## [Mengapa Menggunakan API Ini?](#why-use-these-apis)
+
+*   **Tanpa Vendor Lock-in**: Beralih antara Claude, GPT, Gemini, dan model lainnya tanpa mengubah kode Anda.
+*   **Penagihan Terpadu**: Satu saldo kredit untuk semua provider, tidak perlu mengelola banyak akun dan faktur.
+*   **Keandalan**: Dukungan redundansi multi-provider memastikan layanan tetap aktif meski satu provider sedang down.
+*   **Fitur Lengkap**: Pemanggilan tool, output terstruktur, visi, dan embedding bekerja persis seperti yang didokumentasikan.
+
+## [API yang Tersedia](#available-apis)
+
+| API | Cocok Untuk | Dokumentasi |
+| --- | --- | --- |
+| [Kompatibel OpenAI](/id/sdk/openai-compat) | Integrasi OpenAI yang sudah ada, dukungan bahasa yang luas | [Chat](/id/sdk/openai-compat/chat-completions), [Tool](/id/sdk/openai-compat/tool-calls), [Embedding](/id/sdk/openai-compat/embeddings) |
+| [Kompatibel Anthropic](/id/sdk/anthropic-compat) | Pengguna Claude Code dan SDK Anthropic | [Message](/id/sdk/anthropic-compat/messages), [Tool](/id/sdk/anthropic-compat/tool-calls), [Visi](/id/sdk/anthropic-compat/file-attachments) |
+| [Responses API](/id/sdk/responses-api) | Proyek baru, percakapan stateful | [Streaming](/id/sdk/responses-api/streaming), [Tool](/id/sdk/responses-api/tool-calling), [Teks](/id/sdk/responses-api/text-generation) |
+| [Python](/id/sdk/python) | Pengembang Python | [Async](/id/sdk/python#async-support), [Streaming](/id/sdk/python#streaming), [Framework](/id/sdk/python#framework-integrations) |
+
+## [Memilih API](#choosing-an-api)
+
+**Sudah menggunakan OpenAI?** Gunakan [API Kompatibel OpenAI](/id/sdk/openai-compat). Cukup ubah base URL Anda.
+
+**Menggunakan Claude Code atau SDK Anthropic?** Gunakan [API Kompatibel Anthropic](/id/sdk/anthropic-compat) untuk dukungan fitur native.
+
+**Memulai dari awal?** Kami sangat merekomendasikan [Responses API](/id/sdk/responses-api) untuk antarmuka modern dan stateful, atau [Vercel AI SDK](/id/using-neosantara-with-vercels-ai-sdk) untuk pengalaman TypeScript terbaik.

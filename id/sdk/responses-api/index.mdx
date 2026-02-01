@@ -1,0 +1,34 @@
+---
+title: "Responses API"
+description: "Antarmuka modern dan stateful untuk interaksi model AI."
+---
+
+# Responses API
+
+Responses API adalah antarmuka utama Neosantara yang dirancang untuk pembangunan aplikasi agentik secara cepat. API ini mengelola state percakapan secara otomatis di server.
+
+Endpoint: `POST /v1/responses`
+
+### [Permintaan Cepat](#quickstart)
+
+```typescript
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'grok-4.1-fast-non-reasoning',
+    input: 'Halo, siapa namamu?',
+    store: true
+  }),
+});
+
+const result = await response.json();
+console.log(result.output_text);
+```
+
+### [Melanjutkan Percakapan](#stateful)
+
+Cukup sertakan `previous_response_id` untuk melanjutkan konteks percakapan tanpa perlu mengirim ulang seluruh riwayat pesan.

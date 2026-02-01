@@ -30,7 +30,7 @@ const pdfBase64 = pdfData.toString('base64');
 const imageBase64 = imageData.toString('base64');
  
 const message = await anthropic.messages.create({
-  model: 'claude-3-5-sonnet', // Ensure model supports multimodal input
+  model: 'claude-4.5-sonnet', // Ensure model supports multimodal input
   max_tokens: 1024,
   messages: [
     {
@@ -82,7 +82,7 @@ with open('./image.png', 'rb') as f:
     image_base64 = base64.b64encode(f.read()).decode('utf-8')
  
 message = client.messages.create(
-    model='claude-3-5-sonnet',
+    model='claude-4.5-sonnet',
     max_tokens=1024,
     messages=[
         {
@@ -126,5 +126,5 @@ print('Response:', message.content[0].text)
 *   **Documents**: `application/pdf`
 
 <Info>
-  **Model Compatibility**: Ensure you are using a multimodal model (like `claude-3-5-sonnet`, `archipelago-70b`, or `kimi-k2`) when sending file attachments.
+  **Model Compatibility**: Ensure you are using a multimodal model (like `claude-4.5-sonnet`, `archipelago-70b`, or `kimi-k2`) when sending file attachments.
 </Info>

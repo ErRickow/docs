@@ -1,0 +1,26 @@
+---
+title: "Generasi Gambar"
+description: "Hasilkan gambar bersama teks menggunakan model multimodal melalui API yang kompatibel dengan OpenAI."
+---
+
+# Generasi Gambar
+
+Hasilkan gambar menggunakan model AI yang mendukung output multimodal. Fitur ini memungkinkan Anda membuat gambar bersamaan dengan respons teks menggunakan model seperti **Gemini 2.0 Flash**.
+
+Endpoint: `POST /v1/chat/completions`
+
+### [Parameter Modalities](#parameters)
+
+Sertakan parameter `modalities` untuk mengaktifkan generasi gambar:
+*   **`modalities`**: `['text', 'image']` untuk teks dan gambar, atau `['image']` untuk gambar saja.
+
+### [Contoh Permintaan](#example)
+
+```typescript
+const completion = await openai.chat.completions.create({
+  model: 'gemini-3-flash',
+  messages: [{ role: 'user', content: 'Hasilkan pemandangan matahari terbenam.' }],
+  // @ts-expect-error - ekstensi gateway
+  modalities: ['text', 'image'],
+});
+```
