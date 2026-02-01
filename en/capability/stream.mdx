@@ -89,9 +89,7 @@ def stream_response(prompt: str, model: str = "nusantara-base"):
                 full_response_content += content
                 print(content, end="", flush=True)
 
-        print("\n\n--- Stream finished ---
-
-")
+        print("\n\n--- Stream finished ---")
         return full_response_content
 
     except Exception as e:
