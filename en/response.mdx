@@ -3,7 +3,7 @@ title: "Responses vs. Chat Completions"
 description: "> Understanding the practical differences when using the OpenAI SDK with our endpoints."
 ---
 
-When you use an official OpenAI SDK like [`openai-python`](https://pypi.org/project/openai/) or [`openai-node`](https://www.npmjs.com/package/openai)) with Neosantara's `base_url`, the library maps its methods to our API endpoints. While both [`v1/responses`](/api-reference/responses/create) and [`v1/chat/completions`](/api-reference/chat/completions/create) can hold a conversation, how you interact with them through the SDK is fundamentally different.
+When you use an official OpenAI SDK like [`openai-python`](https://pypi.org/project/openai/) or [`openai-node`](https://www.npmjs.com/package/openai) with Neosantara's `base_url`, the library maps its methods to our API endpoints. While both [`v1/responses`](/api-reference/responses/create) and [`v1/chat/completions`](/api-reference/chat/completions/create) can hold a conversation, how you interact with them through the SDK is fundamentally different.
 
 For new projects, we strongly recommend using the **`client.responses.create()`** method.
 
@@ -55,7 +55,7 @@ response = client.responses.create( # [!code ++]
 This is a critical difference. The structure of the returned object in the SDK reflects the underlying API response.
 
 - **Chat Completions**: The response is always nested inside a `choices` array. To get the text, you must access `response.choices[0].message.content`.
-- **Responses**: The SDK provides a convenient helper property called `output_text` that directly gives you the concatenated text. However, the most reliable way is to access the `output` array and get the `.text` from the first element, as `output` can also contain other types of content like function calls.
+- **Responses**: The SDK provides a convenient and safe helper property called `output_text` that automatically filters and concatenates text from all message parts. This is the recommended way to access the AI's reply unless you need to manually inspect non-text content (like tool calls) in the raw `output` array.
 
 <CodeGroup>
 
@@ -69,11 +69,17 @@ print(response.choices[0].message.content)
 # Responses: Accessing the content
 # response = client.responses.create(...)
 
-# The reliable way (accessing the raw output structure)
-print(response.output[0].content[0].text)
-
-# The convenience helper (provided by the SDK)
+# The recommended and safe way
 print(response.output_text)
+
+# For advanced use cases (e.g., iterating raw output parts)
+text_parts = []
+for part in response.output:
+    if part.type == "message":
+        for content in part.content:
+            if content.type == "output_text":
+                text_parts.append(content.text)
+full_text = "".join(text_parts)
 ```
 
 </CodeGroup>
@@ -83,8 +89,6 @@ print(response.output_text)
 ```python icon="code" lines
 # Accessing AI Response Content
 print(response.choices[0].message.content) # [!code --]
-print(response.output[0].content[0].text) # [!code ++]
-# Or use the convenience helper
 print(response.output_text) # [!code ++]
 ```
 

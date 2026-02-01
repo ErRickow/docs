@@ -5,16 +5,16 @@ description: "> Extend Neosantara capabilities by enabling it to interact with e
 
 Neosantara models are capable of interacting with tools (also known as functions), allowing you to extend the AI's capabilities to perform a wider variety of tasks, such as fetching real-time data, performing calculations, or interacting with external systems.
 
-Here's an example of how to provide tools to Neosantara using the chat completions API:
+Here's an example of how to provide tools to Neosantara using the Responses API:
 
 <CodeGroup>
   ```bash Shell
-  curl https://api.neosantara.xyz/v1/chat/completions \
+  curl https://api.neosantara.xyz/v1/responses \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $NEOSANTARA_API_KEY" \
     -d '{
       "model": "nusantara-base",
-      "max_tokens": 1024,
+      "input": "What is the weather like in Jakarta?",
       "tools": [
         {
           "type": "function",

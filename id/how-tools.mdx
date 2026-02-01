@@ -13,12 +13,11 @@ Tools (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan A
 
 | Parameter | Deskripsi |
 | :--- | :--- |
-| `type` | Harus `"function"`. 
-| `function` | Objek yang mendefinisikan metadata fungsi, termasuk nama, deskripsi, dan parameternya. 
-| `name` | (di dalam `function`): Nama tools. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`. 
-| `description` | (di dalam `function`): Deskripsi teks biasa yang terperinci tentang apa yang dilakukan tools, kapan harus digunakan, dan bagaimana perilakunya. Ini sangat penting agar model memahami tujuan tools. 
-| `parameters` | (di dalam `function`): Objek [JSON Schema](https://json-schema.org/) yang mendefinisikan parameter yang diharapkan untuk tools tersebut. Skema ini menjelaskan `input` yang diharapkan tools. 
-
+| `type` | Harus `"function"`. |
+| `function` | Objek yang mendefinisikan metadata fungsi, termasuk nama, deskripsi, dan parameternya. |
+| `name` | (di dalam `function`): Nama tools. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`. |
+| `description` | (di dalam `function`): Deskripsi teks biasa yang terperinci tentang apa yang dilakukan tools, kapan harus digunakan, dan bagaimana perilakunya. Ini sangat penting agar model memahami tujuan tools. |
+| `parameters` | (di dalam `function`): Objek [JSON Schema](https://json-schema.org/) yang mendefinisikan parameter yang diharapkan untuk tools tersebut. Skema ini menjelaskan `input` yang diharapkan tools. |
 <Accordion title="Contoh Definisi Tools Sederhana">
   ```json icon="code"
   {

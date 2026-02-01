@@ -49,8 +49,8 @@ export const ModelInfo = ({
   const currency = pricing.currency === "USD" ? "$" : "Rp ";
 
   // tokenCredits fields (Neosantara)
-  const freeBalance = tokenCredits.freeBalance ?? "Rp 20,000";
-  const docsUrl = "/en/about/token-credits";
+  const freeBalance = tokenCredits.freeBalance ?? "Promo Aktif";
+  const docsUrl = "/en/about/billing-pricing";
   const rateLimitDocsUrl = "/en/about/rate-limits";
 
   return (

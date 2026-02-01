@@ -26,13 +26,13 @@ JSON Mode is a standard feature supported by most models on the platform. To ena
 
 #### Supported Models
 
-The following publicly listed models explicitly support JSON Mode:
+The following publicly listed models explicitly support JSON Mode. For a complete and up-to-date list of all available models, see the [Model Overview](/en/models-overview).
 
 | Category | Model IDs |
 | :--- | :--- |
 | **Global LLMs** | `claude-4.5-sonnet`, `gemini-3-flash`, `gemini-3-flash-preview`, `claude-3-sonnet`, `claude-3-haiku`, `gemma-3-27b-it`, `gemma2-9b-it` |
 | **Neosantara Flagship** | `archipelago-70b`, `nusantara-base`, `garda-beta-mini`, `sea-lion-v4-27b-it` |
-| **Llama & Specialized** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
+| **Llama & Specialized** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-4.1-fast-non-reasoning`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
 
 #### Handling and Parsing the Response
 
@@ -78,7 +78,7 @@ const response = await client.chat.completions.create({
   model: "gemini-3-flash",
   messages: [
     { role: "system", content: "Respond ONLY in JSON format." },
-    { role: "user", content: "List 3 colors of the Indonesian flag." }
+    { role: "user", content: "List the colors of the Indonesian flag." }
   ],
   response_format: { type: "json_object" }
 });

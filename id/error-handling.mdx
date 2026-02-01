@@ -46,9 +46,14 @@ resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payl
 - JavaScript
 
 ```js
+const payload = {
+  model: "nusantara-base",
+  messages: [{ role: "user", content: "Halo" }]
+};
+
 const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
   method: 'POST',
   headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KUNCI_API_ANDA>' },
   body: JSON.stringify(payload)
-})
+});
 ```

@@ -26,13 +26,13 @@ Mode JSON adalah fitur standar yang didukung oleh sebagian besar model di platfo
 
 #### Model yang Didukung
 
-Model publik berikut secara eksplisit mendukung Mode JSON di backend kami:
+Model publik berikut secara eksplisit mendukung Mode JSON di backend kami. Untuk daftar lengkap dan terbaru dari semua model yang tersedia, lihat [Tinjauan Model](/id/models-overview).
 
 | Kategori | ID Model |
 | :--- | :--- |
 | **Global LLMs** | `claude-4.5-sonnet`, `gemini-3-flash`, `gemini-3-flash-preview`, `claude-3-sonnet`, `claude-3-haiku`, `gemma-3-27b-it`, `gemma2-9b-it` |
 | **Neosantara Flagship** | `archipelago-70b`, `nusantara-base`, `garda-beta-mini`, `sea-lion-v4-27b-it` |
-| **Llama & Spesialis** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
+| **Llama & Spesialis** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-4.1-fast-non-reasoning`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
 
 #### Menangani dan Mem-parsing Respons
 
@@ -78,7 +78,7 @@ const response = await client.chat.completions.create({
   model: "gemini-3-flash",
   messages: [
     { role: "system", content: "Berikan respons HANYA dalam format JSON." },
-    { role: "user", content: "Sebutkan 3 warna bendera Indonesia." }
+    { role: "user", content: "Sebutkan warna bendera Indonesia." }
   ],
   response_format: { type: "json_object" }
 });

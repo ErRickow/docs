@@ -12,10 +12,10 @@ export const nusantaraBaseData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "300", outputPrice: "1500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "300", outputPrice: "1500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "vision", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -36,10 +36,10 @@ export const archipelago70bData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "4710", outputPrice: "36543", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "4710", outputPrice: "36543", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -59,10 +59,10 @@ export const gardaBetaMiniData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "2500", outputPrice: "10499", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "2500", outputPrice: "10499", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -82,10 +82,10 @@ export const seaLionV4Data = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "350", outputPrice: "560", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "350", outputPrice: "560", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -105,10 +105,10 @@ export const gemma327bItData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "200", outputPrice: "1500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "200", outputPrice: "1500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -128,10 +128,10 @@ export const granite38bInstructData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "2880", outputPrice: "11520", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "2880", outputPrice: "11520", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "function_calling", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -151,10 +151,10 @@ export const llama33NemotronData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "4560", outputPrice: "31991", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "4560", outputPrice: "31991", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -174,10 +174,10 @@ export const llama3370bInstructData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "4560", outputPrice: "31991", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "4560", outputPrice: "31991", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -197,10 +197,10 @@ export const gemma29bItData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "200", outputPrice: "1000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "200", outputPrice: "1000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -220,10 +220,10 @@ export const llama3370bTurboData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "300", outputPrice: "1200", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "300", outputPrice: "1200", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -243,10 +243,10 @@ export const llama3211bData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "100", outputPrice: "400", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "100", outputPrice: "400", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -266,15 +266,15 @@ export const neosantaraGen2045Data = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
   pricing: { 
     inputPrice: "400 - 1,500", 
     outputPrice: "0", 
     currency: "Rp", 
     inputUnit: "per Image", 
-    pricingUrl: "/en/about/token-credits" 
+    pricingUrl: "/en/about/billing-pricing" 
   },
   endpoints: ["Image Generations"],
   features: ["image_generation"],
@@ -300,10 +300,10 @@ export const nusaEmbedding0001Data = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "100", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "100", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Embeddings"],
   features: ["embedding"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["embedding"] }
@@ -323,10 +323,10 @@ export const kimiK2Data = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
   inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
@@ -347,10 +347,10 @@ export const kimiK2LatestData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
   inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
@@ -371,10 +371,10 @@ export const kimiK2SearchData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming", "web_search"],
   inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
@@ -395,10 +395,10 @@ export const kimiK2ResearchData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
   inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
@@ -419,10 +419,10 @@ export const kimiK2MathData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
   inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
@@ -443,10 +443,10 @@ export const kimiK2SilentData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
   inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
@@ -467,10 +467,10 @@ export const kimiK1Data = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "file_interpretation", "streaming"],
   inputOutput: { inputFormats: ["text", "image", "file"], outputFormats: ["text"] },
@@ -491,10 +491,10 @@ export const glm46Data = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "823", outputPrice: "2823", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "823", outputPrice: "2823", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -515,10 +515,10 @@ export const glm45FlashData = {
     { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
   ],
   tokenCredits: {
-    docsUrl: "en/about/token-credits",
-    freeBalance: "Rp 20,000"
+    docsUrl: "en/about/billing-pricing",
+    freeBalance: "Promo Aktif"
   },
-  pricing: { inputPrice: "0", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "0", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -538,10 +538,10 @@ export const glm46PlusData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "823", outputPrice: "2832", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "823", outputPrice: "2832", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -561,10 +561,10 @@ export const deepseekChatV31Data = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -584,10 +584,10 @@ export const qwen3CoderData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -607,10 +607,10 @@ export const claude45SonnetData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "3.00", outputPrice: "15.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "3.00", outputPrice: "15.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -632,7 +632,7 @@ export const titanImageG1Data = {
     outputPrice: "0", 
     currency: "USD", 
     inputUnit: "per Image", 
-    pricingUrl: "/en/about/token-credits" 
+    pricingUrl: "/en/about/billing-pricing" 
   },
   endpoints: ["Image Generations"],
   features: ["image_generation", "image_variation", "inpainting", "outpainting"],
@@ -655,7 +655,7 @@ export const claude3HaikuData = {
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
     { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" }
   ],
-  pricing: { inputPrice: "0.25", outputPrice: "1.25", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "0.25", outputPrice: "1.25", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -672,7 +672,7 @@ export const claude3SonnetData = {
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
     { tier: "Basic", requestsPerMin: "20", inputTokensPerMin: "10,000", outputTokensPerMin: "2,500" }
   ],
-  pricing: { inputPrice: "3.00", outputPrice: "15.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "3.00", outputPrice: "15.00", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -689,7 +689,7 @@ export const gemini3FlashData = {
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
     { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" }
   ],
-  pricing: { inputPrice: "1,600", outputPrice: "6,400", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "1,600", outputPrice: "6,400", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions", "Responses API"],
   features: ["text_generation", "vision", "reasoning", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -705,7 +705,7 @@ export const luminaiData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" }
   ],
-  pricing: { inputPrice: "1000", outputPrice: "3000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "1000", outputPrice: "3000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -721,7 +721,7 @@ export const holo230bData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" }
   ],
-  pricing: { inputPrice: "1500", outputPrice: "4500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "1500", outputPrice: "4500", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -737,7 +737,7 @@ export const hermes2ProMistral7bData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" }
   ],
-  pricing: { inputPrice: "450", outputPrice: "1200", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "450", outputPrice: "1200", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -758,7 +758,7 @@ export const stableDiffusionImg2ImgData = {
     outputPrice: "0", 
     currency: "Rp", 
     inputUnit: "per Image", 
-    pricingUrl: "/en/about/token-credits" 
+    pricingUrl: "/en/about/billing-pricing" 
   },
   endpoints: ["Image Generations"],
   features: ["image_generation", "img2img"],
@@ -775,7 +775,7 @@ export const tongyiDeepResearchData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" }
   ],
-  pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "3333", outputPrice: "8333", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -795,10 +795,10 @@ export const deepseekOcrData = {
   { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
 ],
   tokenCredits: {
-  docsUrl: "en/about/token-credits",
-  freeBalance: "Rp 20,000"
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
 },
-  pricing: { inputPrice: "100", outputPrice: "0", currency: "IDR", inputUnit: "per Image", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "100", outputPrice: "0", currency: "IDR", inputUnit: "per Image", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["OCR"],
   features: ["ocr", "vision"],
   inputOutput: { inputFormats: ["image"], outputFormats: ["text"] }
@@ -819,10 +819,10 @@ export const grok41FastNonReasoningData = {
     { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
   ],
   tokenCredits: {
-    docsUrl: "en/about/token-credits",
-    freeBalance: "Rp 20,000"
+    docsUrl: "en/about/billing-pricing",
+    freeBalance: "Promo Aktif"
   },
-  pricing: { inputPrice: "0.30", outputPrice: "0.72", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "0.30", outputPrice: "0.72", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -843,10 +843,10 @@ export const grokCodeFastData = {
     { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
   ],
   tokenCredits: {
-    docsUrl: "en/about/token-credits",
-    freeBalance: "Rp 20,000"
+    docsUrl: "en/about/billing-pricing",
+    freeBalance: "Promo Aktif"
   },
-  pricing: { inputPrice: "0.20", outputPrice: "1.50", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "0.20", outputPrice: "1.50", currency: "USD", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -863,7 +863,7 @@ export const gemini3ProData = {
     { tier: "Free", requestsPerMin: "0" },
     { tier: "Basic", requestsPerMin: "20", inputTokensPerMin: "10,000", outputTokensPerMin: "2,500" }
   ],
-  pricing: { inputPrice: "40,536", outputPrice: "162,144", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "40,536", outputPrice: "162,144", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions", "Responses API"],
   features: ["text_generation", "vision", "reasoning", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -879,7 +879,7 @@ export const geminiEmbeddingData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "15" }
   ],
-  pricing: { inputPrice: "0", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "0", outputPrice: "0", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Embeddings"],
   features: ["embedding"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["embedding"] }
@@ -895,7 +895,7 @@ export const glm46vFlashData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "3" }
   ],
-  pricing: { inputPrice: "823", outputPrice: "2823", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "823", outputPrice: "2823", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "video", "reasoning", "streaming"],
   inputOutput: { inputFormats: ["text", "image", "video"], outputFormats: ["text"] }
@@ -911,7 +911,7 @@ export const glm47Data = {
   rateLimits: [
     { tier: "Basic", requestsPerMin: "20" }
   ],
-  pricing: { inputPrice: "1000", outputPrice: "3000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "1000", outputPrice: "3000", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "vision", "reasoning", "streaming"],
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
@@ -927,7 +927,7 @@ export const gptOss20bData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" }
   ],
-  pricing: { inputPrice: "400", outputPrice: "1,600", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "400", outputPrice: "1,600", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -943,7 +943,7 @@ export const kimiK2ThinkingData = {
   rateLimits: [
     { tier: "Basic", requestsPerMin: "5" }
   ],
-  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "16642", outputPrice: "49929", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "reasoning", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
@@ -964,10 +964,10 @@ export const qwen332bData = {
     { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
   ],
   tokenCredits: {
-    docsUrl: "en/about/token-credits",
-    freeBalance: "Rp 20,000"
+    docsUrl: "en/about/billing-pricing",
+    freeBalance: "Promo Aktif"
   },
-  pricing: { inputPrice: "4828", outputPrice: "9823", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "4828", outputPrice: "9823", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "function_calling", "json_mode", "streaming"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] },
@@ -984,7 +984,7 @@ export const llamaGuard38bData = {
   rateLimits: [
     { tier: "Free", requestsPerMin: "3" }
   ],
-  pricing: { inputPrice: "7,680", outputPrice: "480", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/token-credits" },
+  pricing: { inputPrice: "7,680", outputPrice: "480", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
   endpoints: ["Chat Completions"],
   features: ["text_generation", "moderation"],
   inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }

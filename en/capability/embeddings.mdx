@@ -37,7 +37,7 @@ To generate embeddings, send a POST request to the `/v1/embeddings` endpoint wit
 
 ### Supported Embedding Models
 
-The NusantaraAI API supports various embedding models, often utilizing intelligent fallbacks to ensure reliability. Some of the available models include:
+The Neosantara API supports various embedding models, often utilizing intelligent fallbacks to ensure reliability. Some of the available models include:
 
 * **`nusa-embedding-0001`**: The primary embedding model, offering good performance for general-purpose embeddings.
 
@@ -87,7 +87,7 @@ client = OpenAI(
 
 def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
     """
-    Generates embeddings for a list of texts using the NusantaraAI API.
+    Generates embeddings for a list of texts using the Neosantara API.
     """
     print(f"Generating embeddings for model: {model}")
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 import OpenAI from 'openai';
 
 // Initialize the OpenAI client with your API key
-// Replace "YOUR_NEOSANTARA_API_KEY" with your actual NusantaraAI API Key
+// Replace "YOUR_NEOSANTARA_API_KEY" with your actual Neosantara API Key
 const client = new OpenAI({
   apiKey: "YOUR_NEOSANTARA_API_KEY",
   baseURL: "https://api.neosantara.xyz/v1",

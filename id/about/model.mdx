@@ -11,86 +11,88 @@ Neosantara menyediakan berbagai model AI dengan kemampuan berbeda, dioptimalkan 
 
 <AccordionGroup>
   <Accordion title='nusantara-base'>
-    **Deskripsi**: Model spesialis untuk konten Indonesia dengan pemahaman mendalam tentang konteks budaya.
-    **Jendela Konteks**: 64.000 Token
-    **Kemampuan**: `function_calling`, `json_mode`
+    **Deskripsi**: Model unggulan kami. Kinerja seimbang untuk tugas umum, dioptimalkan untuk konteks Indonesia.
+    **Jendela Konteks**: 64k Token
+    **Kemampuan**: `text_generation`, `vision`, `function_calling`, `json_mode`
     **Cocok untuk**: Memahami nuansa budaya, konteks lokal, dan teks Indonesia yang kompleks.
   </Accordion>
 
-  <Accordion title="archipelago-7b">
-    **Deskripsi**: Model khusus untuk konten Bahasa Indonesia dengan pemahaman konteks budaya.
-    **Jendela Konteks**: 4.096 Token
-    **Kemampuan**: `json_mode`
-    **Cocok untuk**: Pemahaman budaya dan konteks lokal.
+  <Accordion title="archipelago-70b">
+    **Deskripsi**: Llama-3.3 70B yang disesuaikan untuk nuansa budaya Indonesia yang mendalam.
+    **Jendela Konteks**: 24k Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Pemahaman budaya tingkat lanjut dan konteks lokal yang presisi.
   </Accordion>
-  
-  <Accordion title="bahasa-llm">
-    **Deskripsi**: Model cepat dan efisien, dioptimalkan untuk pemahaman bahasa Indonesia dan respons kilat.
-    **Jendela Konteks**: 8.192 Token
-    **Kemampuan**: `function_calling`, `json_mode`
-    **Cocok untuk**: Pemrosesan cepat, pemahaman singkat, dan panggilan fungsi dalam konteks Indonesia.
+
+  <Accordion title="garda-beta-mini">
+    **Deskripsi**: Sangat cepat dan efisien. Terbaik untuk tugas bervolume tinggi dan penanganan konteks panjang.
+    **Jendela Konteks**: 131k Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Pemrosesan cepat, pemahaman singkat, dan aplikasi skala besar.
   </Accordion>
 </AccordionGroup>
 
 ## Model Serba Guna
 
 <AccordionGroup>
-  <Accordion title='gemini-1.5-flash'>
-    **Deskripsi**: Model Google Gemini Flash terbaru, dioptimalkan untuk jawaban cepat dan efisien.
-    **Jendela Konteks**: 1.000.000 Token
-    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
-    **Cocok untuk**: Pertanyaan faktual, ringkasan cepat, dan tugas umum.
-  </Accordion>
-
-  <Accordion title="gemini-1.5-pro">
-    **Deskripsi**: Model Google Gemini Pro untuk tugas yang sangat kompleks dan jendela konteks yang masif.
-    **Jendela Konteks**: 1.000.000 Token
-    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
-    **Cocok untuk**: Analisis mendalam, penalaran kompleks, dan pemrosesan dokumen panjang.
-  </Accordion>
-
-  <Accordion title="gpt-4o-mini">
-    **Deskripsi**: Model OpenAI yang cepat dan hemat biaya untuk tugas rutin.
-    **Jendela Konteks**: 128.000 Token
-    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
-    **Cocok untuk**: Chatbot ringan, ekstraksi data sederhana, dan klasifikasi teks.
-  </Accordion>
-
-  <Accordion title="gpt-4o">
-    **Deskripsi**: Model flagship OpenAI dengan kemampuan penalaran dan multimodal yang luar biasa.
-    **Jendela Konteks**: 128.000 Token
+  <Accordion title='gemini-3-flash'>
+    **Deskripsi**: Model paling cerdas Google yang dibuat untuk kecepatan dan efisiensi.
+    **Jendela Konteks**: 1M Token
     **Kemampuan**: `text_generation`, `function_calling`, `json_mode`, `vision`
-    **Cocok untuk**: Tugas kreatif tingkat lanjut, penglihatan komputer, dan pemecahan masalah rumit.
+    **Cocok untuk**: Pertanyaan faktual, ringkasan cepat, dan tugas umum bervolume tinggi.
   </Accordion>
 
-  <Accordion title="claude-3-5-sonnet">
-    **Deskripsi**: Model paling cerdas dari Anthropic dengan kemampuan coding dan penulisan yang sangat baik.
-    **Jendela Konteks**: 200.000 Token
+  <Accordion title="claude-4.5-sonnet">
+    **Deskripsi**: Model flagship Anthropic dengan kemampuan penalaran dan pengodean yang luar biasa.
+    **Jendela Konteks**: 200k Token
     **Kemampuan**: `text_generation`, `function_calling`, `json_mode`, `vision`
     **Cocok untuk**: Coding, pembuatan konten berkualitas tinggi, dan instruksi presisi.
   </Accordion>
 
-  <Accordion title="llama-3.1-70b">
-    **Deskripsi**: Model open-source Meta yang sangat kuat, setara dengan model berpemilik terkemuka.
-    **Jendela Konteks**: 128.000 Token
+  <Accordion title="claude-3-sonnet">
+    **Deskripsi**: Keseimbangan antara kecerdasan dan kecepatan untuk tugas tingkat perusahaan.
+    **Jendela Konteks**: 200k Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`, `vision`
+    **Cocok untuk**: Analisis data, penulisan konten, dan otomatisasi alur kerja.
+  </Accordion>
+
+  <Accordion title="claude-3-haiku">
+    **Deskripsi**: Model tercepat dan paling efisien dalam keluarga Claude 3.
+    **Jendela Konteks**: 200k Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`, `vision`
+    **Cocok untuk**: Interaksi instan, klasifikasi ringan, dan ekstraksi data.
+  </Accordion>
+
+  <Accordion title="llama-3.3-70b-instruct">
+    **Deskripsi**: Model standar Meta dengan kecerdasan umum yang sangat kuat.
+    **Jendela Konteks**: 24k Token
     **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
-    **Cocok untuk**: Penggunaan umum yang kuat dan alternatif model berbayar.
+    **Cocok untuk**: Penggunaan umum yang kuat dan alternatif model berpemilik.
+  </Accordion>
+
+  <Accordion title="deepseek-chat-v3.1">
+    **Deskripsi**: Model hibrida MoE 671B dengan performa tinggi.
+    **Jendela Konteks**: 164k Token
+    **Kemampuan**: `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Tugas penalaran kompleks dan pemrosesan informasi luas.
   </Accordion>
 </AccordionGroup>
 
 ## Model Lanjutan (Reasoning)
 
 <AccordionGroup>
-  <Accordion title="o3-mini">
-    **Deskripsi**: Model penalaran terbaru dari OpenAI yang dioptimalkan untuk kecepatan dan efisiensi dalam tugas teknis.
-    **Kemampuan**: `reasoning`
-    **Cocok untuk**: Debugging kode cepat dan bantuan matematika.
+  <Accordion title="llama-3.3-nemotron-super-49b-v1.5">
+    **Deskripsi**: Model 49B dengan kemampuan penalaran langkah-demi-langkah yang luar biasa.
+    **Jendela Konteks**: 132k Token
+    **Kemampuan**: `reasoning`, `text_generation`, `function_calling`
+    **Cocok untuk**: Logika matematika kompleks dan pemecahan masalah teknis.
   </Accordion>
 
-  <Accordion title="o3">
-    **Deskripsi**: Model penalaran flagship terbaru yang dirancang untuk memecahkan masalah tersulit di berbagai domain.
-    **Kemampuan**: `reasoning`
-    **Cocok untuk**: Algoritma kompleks dan penalaran tingkat tinggi.
+  <Accordion title="qwen3-32b">
+    **Deskripsi**: Model Qwen 3 terbaru dengan penalaran SOTA dan dukungan multibahasa yang kuat.
+    **Jendela Konteks**: 131k Token
+    **Kemampuan**: `reasoning`, `text_generation`, `function_calling`, `json_mode`
+    **Cocok untuk**: Algoritma kompleks, coding, dan pemahaman lintas bahasa.
   </Accordion>
 </AccordionGroup>
 

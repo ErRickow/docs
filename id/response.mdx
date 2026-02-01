@@ -3,7 +3,7 @@ title: "Responses vs. Chat Completions"
 description: "> Memahami perbedaan praktis saat menggunakan SDK OpenAI dengan endpoint kami."
 ---
 
-Saat Kamu menggunakan SDK resmi OpenAI seperti [`openai-python`](https://pypi.org/project/openai/) atau [`openai-node`](https://www.npmjs.com/package/openai)) dengan `base_url` Neosantara, perpustakaan memetakan metodenya ke endpoint API kami. Meskipun [`v1/responses`](/api-reference/responses/create) dan [`v1/chat/completions`](/api-reference/chat/completions/create) keduanya dapat mengadakan percakapan, cara Kamu berinteraksi dengan keduanya melalui SDK pada dasarnya berbeda.
+Saat Kamu menggunakan SDK resmi OpenAI seperti [`openai-python`](https://pypi.org/project/openai/) atau [`openai-node`](https://www.npmjs.com/package/openai) dengan `base_url` Neosantara, perpustakaan memetakan metodenya ke endpoint API kami. Meskipun [`v1/responses`](/api-reference/responses/create) dan [`v1/chat/completions`](/api-reference/chat/completions/create) keduanya dapat mengadakan percakapan, cara Kamu berinteraksi dengan keduanya melalui SDK pada dasarnya berbeda.
 
 Untuk proyek baru, kami sangat menyarankan menggunakan metode **`client.responses.create()`**.
 
@@ -42,7 +42,7 @@ response = client.responses.create(
 Ini adalah perbedaan kritis. Struktur objek yang dikembalikan dalam SDK mencerminkan respons API yang mendasarinya.
 
 - **Chat Completions**: Respons selalu bersarang di dalam array `choices`. Untuk mendapatkan teks, Kamu harus mengakses `response.choices[0].message.content`.
-- **Responses**: SDK menyediakan properti pembantu yang nyaman bernama `output_text` yang secara langsung memberi Kamu teks gabungan. Namun, cara yang paling andal adalah mengakses array `output` dan mendapatkan `.text` dari elemen pertama.
+- **Responses**: SDK menyediakan properti pembantu yang nyaman dan aman bernama `output_text` yang secara otomatis memfilter dan menggabungkan teks dari semua bagian pesan. Ini adalah cara yang direkomendasikan untuk mengakses balasan AI kecuali Kamu perlu memeriksa konten non-teks (seperti panggilan tool) secara manual di array `output` mentah.
 
 <CodeGroup>
 
@@ -56,11 +56,17 @@ print(response.choices[0].message.content)
 # Responses: Mengakses konten
 # response = client.responses.create(...)
 
-# Cara yang andal (mengakses struktur output mentah)
-print(response.output[0].text)
-
-# Pembantu kenyamanan (disediakan oleh SDK)
+# Cara yang direkomendasikan dan aman
 print(response.output_text)
+
+# Untuk kasus penggunaan lanjutan (misal: melakukan iterasi pada bagian output mentah)
+text_parts = []
+for part in response.output:
+    if part.type == "message":
+        for content in part.content:
+            if content.type == "output_text":
+                text_parts.append(content.text)
+full_text = "".join(text_parts)
 ```
 
 </CodeGroup>
