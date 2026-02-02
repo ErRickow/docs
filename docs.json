@@ -742,7 +742,6 @@
       "target": "all",
       "og:type": "website",
       "og:url": "https://docs.neosantara.xyz",
-      "og:image": "https://docs.neosantara.xyz/og-image.png",
       "og:description": "Get Started With Neosantara AI - Your gateway to advanced AI models.",
       "og:locale": "id_ID",
       "twitter:card": "summary_large_image",
@@ -750,8 +749,6 @@
       "twitter:creator": "@ErRickow",
       "twitter:title": "Neosantara AI - API Documentation",
       "twitter:description": "Access powerful AI models for chat, embeddings, moderation, and more with Neosantara AI.",
-      "twitter:image": "https://docs.neosantara.xyz/og-image.png",
-      "twitter:image:alt": "Neosantara AI Documentation",
       "article:author": "Neosantara AI Team",
       "article:section": "Technology, AI, Artificial Intelligence, API Documentation",
       "article:tag": "ai, neosantaraai, nai, indonesianAi, LLM, API, documentation"
