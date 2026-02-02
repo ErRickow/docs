@@ -19,7 +19,8 @@
   },
   "favicon": "/favicon.ico",
   "styling": {
-    "eyebrows": "breadcrumbs"
+    "eyebrows": "breadcrumbs",
+    "latex": true
   },
   "appearance": {
     "default": "dark",
@@ -721,5 +722,8 @@
   "head": [
     "<link rel=\"stylesheet\" href=\"/style.css\">",
     "<script src=\"/language-toggle.js\"></script>"
-  ]
+  ],
+  "thumbnails": {
+    "appearance": "dark"
+  }
 }
