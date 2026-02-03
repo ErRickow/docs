@@ -86,4 +86,141 @@ completion = client.chat.completions.create(
 message = completion.choices[0].message
  
 # Konten teks selalu berupa string
-print(f
+print(f"Teks: {message.content}")
+ 
+# Gambar berada dalam array terpisah
+if hasattr(message, 'images') and message.images:
+    print(f"Dihasilkan {len(message.images)} gambar:")
+    for i, img in enumerate(message.images):
+        if img.get('type') == 'image_url' and img.get('image_url'):
+            image_url = img['image_url']['url']
+            data_size = len(image_url) if image_url else 0
+            print(f"Gambar {i+1}: ukuran: {data_size} karakter")
+            print(f"Pratinjau: {image_url[:50]}...")
+```
+
+</CodeGroup>
+
+<Note>
+  **Ekstensi Gateway**: Parameter `modalities` dan bidang `message.images` serta `delta.images` yang dihasilkan adalah ekstensi gateway khusus Neosantara. Ini bukan bagian dari skema OpenAI Chat Completions standar dan mungkin tidak tersedia di endpoint kompatibel OpenAI lainnya.
+</Note>
+
+---
+
+### Format respons
+
+Saat pembuatan gambar diaktifkan, respons memisahkan konten teks dari gambar yang dihasilkan:
+
+```json
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "created": 1677652288,
+  "model": "gemini-3-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Ini adalah pemandangan matahari terbenam yang indah di atas pegunungan...",
+        "images": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ..."
+            }
+          }
+        ]
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 15,
+    "completion_tokens": 28,
+    "total_tokens": 43
+  }
+}
+```
+
+---
+
+### Respons streaming
+
+Untuk permintaan streaming, gambar dikirimkan dalam potongan delta sama seperti teks.
+
+<CodeGroup>
+
+```typescript streaming-images.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const stream = await openai.chat.completions.create({
+  model: 'gemini-3-flash',
+  messages: [{ role: 'user', content: 'Hasilkan gambar matahari terbenam' }],
+  // @ts-expect-error
+  modalities: ['text', 'image'],
+  stream: true,
+});
+ 
+for await (const chunk of stream) {
+  const delta = chunk.choices[0]?.delta;
+ 
+  // Tangani konten teks
+  if (delta?.content) {
+    process.stdout.write(delta.content);
+  }
+ 
+  // Tangani gambar
+  if (delta?.images) {
+    for (const img of delta.images) {
+      if (img.type === 'image_url' && img.image_url) {
+        console.log(`
+[Gambar diterima: ${img.image_url.url.length} karakter]`);
+      }
+    }
+  }
+}
+```
+
+```python streaming-images.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+stream = client.chat.completions.create(
+    model='gemini-3-flash',
+    messages=[{'role': 'user', 'content': 'Hasilkan gambar matahari terbenam'}],
+    extra_body={'modalities': ['text', 'image']},
+    stream=True,
+)
+ 
+for chunk in stream:
+    if chunk.choices and chunk.choices[0].delta:
+        delta = chunk.choices[0].delta
+ 
+        # Tangani konten teks
+        if hasattr(delta, 'content') and delta.content:
+            print(delta.content, end='', flush=True)
+ 
+        # Tangani gambar
+        if hasattr(delta, 'images') and delta.images:
+            for img in delta.images:
+                if img.get('type') == 'image_url' and img.get('image_url'):
+                    image_url = img['image_url']['url']
+                    print(f"\n[Gambar diterima: {len(image_url)} karakter]")
+```
+
+</CodeGroup>
+
+<Note>
+  **Output Base64**: Gambar yang dihasilkan saat ini dikembalikan sebagai URI data berkode base64. Untuk pembuatan gambar tradisional saja dengan output URL, gunakan [API Images](/id/capability/image-generation).
+</Note>

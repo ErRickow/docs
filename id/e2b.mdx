@@ -97,9 +97,9 @@ Untuk detail tambahan tentang metode yang tersedia, lihat [dokumentasi E2B](http
 
 ## Contoh Kode
 
-Di bawah ini adalah contoh lengkap yang menunjukkan cara menyiapkan Code Interpreter, mengunggah kumpulan data, dan membuat visualisasi (misalnya, grafik regresi linier PDB per kapita vs. angka harapan hidup).
+Di bawah ini adalah lengkap contoh yang menunjukkan cara menyiapkan Code Interpreter, mengunggah kumpulan data, dan membuat visualisasi.
 
-```python icon="python"
+````python icon="python"
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -115,79 +115,34 @@ NAI_API_KEY = os.getenv("NAI_API_KEY")
 E2B_API_KEY = os.getenv("E2B_API_KEY")
 
 # Pemilihan model
-MODEL_NAME = 'nusantara-base'  # Alternatif: 'archipelago-70b', 'Llama-3.3-Nemotron-Super-49B'
+MODEL_NAME = 'nusantara-base'
 
 # Prompt sistem untuk LLM
-SYSTEM_PROMPT = """
-Kamu adalah seorang ilmuwan data Python. Kamu diberikan tugas untuk diselesaikan dan Kamu menjalankan kode Python untuk menyelesaikannya.
+SYSTEM_PROMPT = """Kamu adalah seorang ilmuwan data Python. Kamu diberikan tugas untuk diselesaikan dan Kamu menjalankan kode Python untuk menyelesaikannya.
 
-Informasi tentang kumpulan data csv:
-- Terletak di file `/home/user/data.csv`
-- File CSV menggunakan , sebagai pemisah
-- Memiliki kolom-kolom berikut (termasuk contoh):
+Information about the csv dataset:
+- It's in the `/home/user/data.csv` file
+- The CSV file is using , as the delimiter
+- It has the following columns (examples included):
     - country: "Argentina", "Australia"
     - Region: "SouthAmerica", "Oceania"
-    - Surface area (km2): misalnya, 2780400
-    - Population in thousands (2017): misalnya, 44271
-    - Population density (per km2, 2017): misalnya, 16.2
-    - Sex ratio (m per 100 f, 2017): misalnya, 95.9
-    - GDP: Gross domestic product (million current US$): misalnya, 632343
-    - GDP growth rate (annual %, const. 2005 prices): misalnya, 2.4
-    - GDP per capita (current US$): misalnya, 14564.5
-    - Economy: Agriculture (% of GVA): misalnya, 10.0
-    - Economy: Industry (% of GVA): misalnya, 28.1
-    - Economy: Services and other activity (% of GVA): misalnya, 61.9
-    - Employment: Agriculture (% of employed): misalnya, 4.8
-    - Employment: Industry (% of employed): misalnya, 20.6
-    - Employment: Services (% of employed): misalnya, 74.7
-    - Unemployment (% of labour force): misalnya, 8.5
-    - Employment: Female (% of employed): misalnya, 43.7
-    - Employment: Male (% of employed): misalnya, 56.3
-    - Labour force participation (female %): misalnya, 48.5
-    - Labour force participation (male %): misalnya, 71.1
-    - International trade: Imports (million US$): misalnya, 59253
-    - International trade: Exports (million US$): misalnya, 57802
-    - International trade: Balance (million US$): misalnya, -1451
-    - Education: Government expenditure (% of GDP): misalnya, 5.3
-    - Health: Total expenditure (% of GDP): misalnya, 8.1
-    - Health: Government expenditure (% of total health expenditure): misalnya, 69.2
-    - Health: Private expenditure (% of total health expenditure): misalnya, 30.8
-    - Health: Out-of-pocket expenditure (% of total health expenditure): misalnya, 20.2
-    - Health: External health expenditure (% of total health expenditure): misalnya, 0.2
-    - Education: Primary gross enrollment ratio (f/m per 100 pop): misalnya, 111.5/107.6
-    - Education: Secondary gross enrollment ratio (f/m per 100 pop): misalnya, 104.7/98.9
-    - Education: Tertiary gross enrollment ratio (f/m per 100 pop): misalnya, 90.5/72.3
-    - Education: Mean years of schooling (female): misalnya, 10.4
-    - Education: Mean years of schooling (male): misalnya, 9.7
-    - Urban population (% of total population): misalnya, 91.7
-    - Population growth rate (annual %): misalnya, 0.9
-    - Fertility rate (births per woman): misalnya, 2.3
-    - Infant mortality rate (per 1,000 live births): misalnya, 8.9
-    - Life expectancy at birth, female (years): misalnya, 79.7
-    - Life expectancy at birth, male (years): misalnya, 72.9
-    - Life expectancy at birth, total (years): misalnya, 76.4
-    - Military expenditure (% of GDP): misalnya, 0.9
-    - Population, female: misalnya, 22572521
-    - Population, male: misalnya, 21472290
-    - Tax revenue (% of GDP): misalnya, 11.0
-    - Taxes on income, profits and capital gains (% of revenue): misalnya, 12.9
-    - Urban population (% of total population): misalnya, 91.7
+    - Surface area (km2): for example, 2780400
+    ... 
+    - Life expectancy at birth, total (years): for example, 76.4
 
-Secara umum, Kamu mengikuti aturan-aturan ini:
-- SELALU FORMAT RESPONS KAMU DALAM MARKDOWN
-- SELALU MERESPONS HANYA DENGAN KODE DALAM BLOK KODE SEPERTI INI:
-`\
+Generally, you follow these rules:
+- ALWAYS FORMAT YOUR RESPONSE IN MARKDOWN
+- ALWAYS RESPOND ONLY WITH CODE IN CODE BLOCK LIKE THIS:
 ```python
-{kode}
+{code}
 ```
-`\
-- Kode Python berjalan di buku catatan (notebook) Jupyter.
-- Setiap blok kode Python dijalankan dalam sel terpisah.
-- Tampilkan visualisasi menggunakan matplotlib atau pustaka lain secara langsung di buku catatan.
-- Kamu memiliki akses ke internet dan dapat membuat permintaan API.
-- Kamu dapat membaca/menulis file di sistem file sandbox.
-- Instal paket pip apa pun menggunakan `!pip install {paket}` jika diperlukan (paket analisis data umum sudah terinstal sebelumnya).
-- Semua kode berjalan di lingkungan sandbox yang aman.
+- The Python code runs in a Jupyter notebook.
+- Each Python code block is executed in a separate cell.
+- Display visualizations using matplotlib or other libraries directly in the notebook.
+- You have access to the internet and can make API requests.
+- You can read/write files in the sandbox filesystem.
+- Install any pip package using `!pip install {package}` if needed.
+- All code runs in a secure sandbox environment.
 """
 
 # Fungsi untuk mengeksekusi kode di sandbox
@@ -211,7 +166,7 @@ def match_code_blocks(llm_response):
 
 # Fungsi untuk berinteraksi dengan LLM dan mengeksekusi kode
 def chat_with_llm(e2b_code_interpreter, user_message):
-    print(f"\n{'='*50}\nPesan pengguna: {user_message}\n{'='*50}")
+    print(f"\nPesan pengguna: {user_message}")
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": user_message},
@@ -223,7 +178,7 @@ def chat_with_llm(e2b_code_interpreter, user_message):
     if python_code:
         return code_interpret(e2b_code_interpreter, python_code)
     else:
-        print(f"Tidak ada kode Python yang ditemukan dalam respons: {response_message}")
+        print(f"Tidak ada kode Python yang ditemukan dalam respons.")
         return []
 
 # Fungsi untuk mengunggah kumpulan data ke sandbox
@@ -236,8 +191,6 @@ def upload_dataset(code_interpreter):
         with open(dataset_path, "rb") as f:
             file_buffer = f.read()
             remote_path = code_interpreter.files.write('data.csv', file_buffer)
-        if not remote_path:
-            raise ValueError("Gagal mengunggah kumpulan data")
         print("Kumpulan data diunggah ke:", remote_path)
         return remote_path
     except Exception as error:
@@ -264,7 +217,7 @@ with Sandbox(api_key=E2B_API_KEY) as code_interpreter:
 # Tampilkan visualisasi (misalnya, output PNG)
 first_result
 
-```
+````
 
 ---
 
