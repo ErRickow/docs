@@ -1,11 +1,37 @@
 ---
 title: "Integrasi"
-description: "> Gunakan model Neosantara melalui integrasi mitra."
+description: "Neosantara terintegrasi dengan berbagai framework dan alat AI komunitas yang populer."
+---
+
+# Integrasi Framework
+
+[AI Gateway](/id/intro) Neosantara terintegrasi dengan berbagai framework dan alat AI komunitas yang populer, memungkinkan Kamu membangun aplikasi AI yang kuat sambil memanfaatkan fitur-fitur Gateway seperti [pelacakan penggunaan](/id/about/billing-pricing) dan [akses API terpadu](/id/models-overview).
+
+### [Ikhtisar integrasi](#integration-overview)
+
+Kamu dapat mengintegrasikan AI Gateway dengan framework populer dalam beberapa cara:
+
+*   **Lapisan Kompatibilitas OpenAI**: Gunakan [endpoint kompatibel OpenAI](/id/sdk/openai-compat) milik AI Gateway untuk menghubungkan framework apa pun yang mendukung OpenAI.
+*   **Dukungan Native**: Integrasi langsung melalui pengaturan penyedia tertentu atau dukungan resmi.
+*   **Integrasi SDK AI**: Manfaatkan [Vercel AI SDK](/id/using-neosantara-with-vercels-ai-sdk) untuk mengakses kemampuan [Neosantara](/id/intro) secara langsung.
+
+### [Framework yang didukung](#supported-frameworks)
+
+Berikut adalah daftar non-lengkap framework yang saat ini mendukung integrasi Neosantara:
+
+*   [LangChain](/id/langchain)
+*   [LlamaIndex](/id/llama-index)
+*   [Pydantic AI](/id/pydantic-ai)
+*   [CrewAI](/id/crewai)
+*   [DSPy](/id/dspy)
+*   [AutoGen (AG2)](/id/autogen)
+*   [Agno](/id/agno)
+
 ---
 
 ## LangChain
 
-*LangChain adalah framework untuk mengembangkan aplikasi yang ditenagai oleh large language models (LLMs).*
+*LangChain adalah framework untuk mengembangkan aplikasi yang ditenagai oleh model bahasa besar (LLM). Beralih ke Neosantara semudah mengubah `base_url`.*
 
 Instal paket `langchain-openai`.
 
@@ -13,7 +39,7 @@ Instal paket `langchain-openai`.
 pip install langchain-openai
 ```
 
-Buat instance klien Neosantara dan panggil model tersebut.
+Instansiasi klien Neosantara dan panggil model tersebut.
 
 ```python icon="python"
 from langchain_openai import ChatOpenAI
@@ -25,11 +51,11 @@ llm = ChatOpenAI(
     base_url="https://api.neosantara.xyz/v1",
 )
 
-response = llm.invoke("Apa keuntungan menggunakan API AI regional?")
+response = llm.invoke("Apa saja manfaat menggunakan API AI regional?")
 print(response.content)
 ```
 
-Pelajari lebih lanjut di [Panduan LangChain](/id/langchain).
+Pelajari lebih lanjut di [Panduan LangChain](/id/langchain) kami.
 
 ## Vercel AI SDK
 
@@ -38,10 +64,10 @@ Pelajari lebih lanjut di [Panduan LangChain](/id/langchain).
 Instal Vercel AI SDK dan paket OpenAI Vercel.
 
 ```bash icon="terminal"
-npm i ai @ai-sdk/openai
+npm i ai @ai-sdk/openai-compatible
 ```
 
-Buat instance klien Neosantara dan panggil fungsi generateText untuk menghasilkan teks.
+Instansiasi klien Neosantara dan panggil fungsi `generateText` untuk menghasilkan beberapa teks.
 
 ```typescript
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -65,7 +91,7 @@ Pelajari lebih lanjut di [Panduan Neosantara - Vercel AI SDK](/id/using-neosanta
 
 ## LlamaIndex
 
-*LlamaIndex adalah framework data yang sederhana dan fleksibel untuk menghubungkan sumber data khusus ke model bahasa besar (LLM).*
+*LlamaIndex adalah framework data yang sederhana dan fleksibel untuk menghubungkan sumber data kustom ke model bahasa besar (LLM).*
 
 Instal `llama-index`
 
@@ -82,13 +108,13 @@ import os
 llm = OpenAILike(
     model="nusantara-base",
     api_base="https://api.neosantara.xyz/v1",
-    api_key="NAI_API_KEY",
+    api_key=os.environ.get("NAI_API_KEY"),
     is_chat_model=True,
     is_function_calling_model=True,
     temperature=0.1,
 )
 
-response = llm.complete("Tulis esai hingga 500 kata yang menjelaskan Large Language Models")
+response = llm.complete("Tulis esai hingga 500 kata yang menjelaskan tentang Large Language Models")
 
 print(response)
 ```
@@ -119,15 +145,15 @@ llm = LLM(model="openai/nusantara-base",
 
 research_agent = Agent(
     llm = llm,
-    role="Analis Riset",
+    role="Research Analyst",
     goal="Temukan dan ringkas informasi tentang topik tertentu",
     backstory="Kamu adalah peneliti berpengalaman dengan perhatian terhadap detail",
     verbose=True  # Aktifkan logging untuk debugging
 )
 
 research_task = Task(
-    description="Lakukan riset menyeluruh tentang Agen AI.",
-    expected_output="Daftar dengan 10 poin penting tentang Agen AI",
+    description="Lakukan riset mendalam tentang Agen AI.",
+    expected_output="Daftar dengan 10 poin informasi paling relevan tentang Agen AI",
     agent=research_agent
 )
 
@@ -176,10 +202,10 @@ model = OpenAIChatModel(
     ),
 )
 
-# Siapkan agen
+# Setup agen
 agent = Agent(
     model,
-    system_prompt='Singkat, jawab dengan satu kalimat.',
+    system_prompt='Jadilah ringkas, jawab dalam satu kalimat.',
 )
 
 result = agent.run_sync('Dari mana asal kata "hello world"?')  
@@ -190,13 +216,15 @@ Pelajari lebih lanjut di [Panduan PydanticAI](/id/pydantic-ai) kami.
 
 ## Arcade.dev
 
-*Arcade adalah platform yang memungkinkan AI menggunakan Tools seperti email, file, dan API dengan aman untuk mengambil tindakan nyata—bukan hanya mengobrol.*
+*Arcade adalah platform yang memungkinkan AI menggunakan alat seperti email, file, dan API dengan aman untuk mengambil tindakan nyata—bukan hanya mengobrol. Bangun asisten yang kuat dalam hitungan menit dengan integrasi siap pakai atau SDK kustom.*
+
+Panduan kami mendemonstrasikan cara mengintegrasikan model bahasa Neosantara dengan alat Arcade untuk membuat agen AI yang dapat mengirim email.
 
 Prasyarat:
 
 * Kunci API Neosantara - lihat di sini [https://app.neosantara.xyz/](https://app.neosantara.xyz/api-keys)
 * Kunci API Arcade - lihat di sini [https://arcade.dev/](https://arcade.dev/)
-* Akun Gmail untuk terhubung via OAuth
+* Akun Gmail untuk terhubung melalui OAuth
 
 ```bash icon="terminal"
 # instal paket yang diperlukan
@@ -212,7 +240,7 @@ import os
 from arcadepy import Arcade
 from openai import OpenAI
 
-# Set environment variables
+# Set variabel lingkungan
 os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Ganti dengan kunci API Neosantara Kamu
 os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Ganti dengan kunci API Arcade Kamu
 
@@ -221,7 +249,7 @@ nai_client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neos
 arcade_client = Arcade()  # Secara otomatis menemukan variabel env ARCADE_API_KEY
 
 # Siapkan ID pengguna (email Kamu)
-USER_ID = "<email Kamu@gmail.com>"  # Ubah ini ke email Kamu
+USER_ID = "<Kamu@gmail.com>"  # Ganti dengan email Kamu
 
 # Otorisasi akses Gmail
 auth_response = arcade_client.tools.authorize(
@@ -240,7 +268,7 @@ print("Otorisasi selesai!")
 
 ## DSPy
 
-*DSPy adalah framework yang memungkinkan Kamu membangun sistem AI modular dengan kode, bukan prompting manual.*
+*DSPy adalah framework yang memungkinkan Kamu membangun sistem AI modular dengan kode alih-alih prompt yang dibuat secara manual*
 
 Instal `dspy`
 
@@ -263,13 +291,15 @@ lm = dspy.LM('openai/nusantara-base',
 # Konfigurasi dspy untuk menggunakan LLM
 dspy.configure(lm=lm)
 
-# Memberikan agen akses ke Tools pencarian wikipedia
+# Memberikan agen akses ke alat pencarian wikipedia
 def search_wikipedia(query: str):
-    results = dspy.ColBERTv2(url='https://id.m.wikipedia.org/wiki/Prabowo_Subianto')(query, k=1) # Ambil hasil teratas 1
-    return results[0]['text'] if results else "Tidak ada informasi relevan ditemukan."
+    # Gunakan pencarian yang lebih umum atau halaman spesifik jika diketahui dapat diandalkan
+    results = dspy.ColBERTv2(url='https://id.m.wikipedia.org/wiki/Prabowo_Subianto')(query, k=1) # Ambil hasil 1 teratas
+    # Kembalikan konten teks mentah untuk diproses oleh LLM
+    return results[0]['text'] if results else "Informasi relevan tidak ditemukan."
 
 
-# siapkan modul ReAct dengan signature pertanyaan dan jawaban string
+# setup modul ReAct dengan signature pertanyaan dan jawaban string
 react = dspy.ReAct("question -> answer: str", tools=[search_wikipedia])
 
 pred = react(question="kapan prabowo lahir?")
@@ -305,7 +335,7 @@ config_list = [
         "base_url": "https://api.neosantara.xyz/v1",
         # Berikan kunci API Neosantara.xyz Kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
         "api_key": os.environ.get("NAI_API_KEY"),
-        # Kami tentukan Tipe API sebagai 'openai' sehingga menggunakan kelas klien OpenAI
+        # Kami menentukan Tipe API sebagai 'openai' sehingga menggunakan kelas klien OpenAI
         "api_type": "openai",
         "stream": False,
         "price": [300/1000000*1000, 1500/1000000*1000] # Input: $300/Jt token, Output: $1500/Jt token
@@ -319,7 +349,7 @@ code_executor = LocalCommandLineCodeExecutor(work_dir=workdir)
 
 # Menyiapkan agen
 
-# UserProxyAgent akan mengeksekusi kode yang diberikan AssistantAgent
+# UserProxyAgent akan mengeksekusi kode yang disediakan AssistantAgent
 user_proxy_agent = UserProxyAgent(
     name="User",
     code_execution_config={"executor": code_executor},
@@ -337,7 +367,7 @@ assistant_agent = AssistantAgent(
     llm_config={"config_list": config_list},
 )
 
-# Mulai obrolan, dengan UserProxyAgent meminta pesan ke AssistantAgent
+# Mulai obrolan, dengan UserProxyAgent menanyakan pesan ke AssistantAgent
 chat_result = user_proxy_agent.initiate_chat(
     assistant_agent,
     message="Berikan kode untuk menghitung jumlah bilangan prima dari 1 hingga 10000.",
@@ -348,7 +378,7 @@ Pelajari lebih lanjut di [Panduan Autogen](/id/autogen) kami.
 
 ## Agno
 
-*Agno adalah perpustakaan sumber terbuka untuk membuat agen multimodal.*
+*Agno adalah library sumber terbuka untuk membuat agen multimodal.*
 
 Instal `agno`
 
@@ -382,7 +412,7 @@ Pelajari lebih lanjut di [Panduan Agno](/id/agno) kami.
 
 *Pinecone adalah basis data vektor yang membantu perusahaan membangun aplikasi RAG.*
 
-Berikut adalah contoh kode untuk memulai dengan Pinecone + Neosantara:
+Berikut adalah beberapa contoh kode untuk memulai Pinecone + Neosantara:
 
 ```python icon="python"
 from pinecone import Pinecone, ServerlessSpec
@@ -407,11 +437,11 @@ index = pc.create_index(
 )
 
 # Buat embedding di Neosantara
-textToEmbed = "Tata surya kita mengorbit galaksi Bima Sakti dengan kecepatan sekitar 515.000 mph"
+textToEmbed = "Sistem tata surya kita mengorbit galaksi Bima Sakti dengan kecepatan sekitar 515.000 mph"
 embeddings = nai.embeddings.create(
     model="nusa-embedding-0001", 
    input=textToEmbed
 )
 
-# Gunakan index.upsert() untuk memasukkan embeddings dan index.query() untuk mencari vektor serupa
+# Gunakan index.upsert() untuk memasukkan embedding dan index.query() untuk mencari vektor yang serupa
 ```

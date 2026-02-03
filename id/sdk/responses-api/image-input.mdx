@@ -1,13 +1,11 @@
 ---
 title: "Input Gambar"
-description: "Kirim gambar bersama teks untuk dianalisis oleh model berkemampuan visi melalui Responses API."
+description: "Kirim gambar bersama teks untuk model berkemampuan visi menggunakan API Responses."
 ---
 
-# Input Gambar
+[API Responses](/id/sdk/responses-api) mendukung input multimodal, yang memungkinkan Kamu mengirimkan gambar bersama teks untuk dianalisis oleh model berkemampuan visi. Ini sangat ideal untuk membangun aplikasi pencarian visual, OCR, atau deskripsi gambar.
 
-[Responses API](/id/sdk/responses-api) mendukung input multimodal, memungkinkan Kamu mengirim gambar bersama teks untuk dianalisis oleh model berkemampuan visi. Ini sangat ideal untuk membangun aplikasi pencarian visual, OCR, atau deskripsi gambar.
-
-### [Contoh Permintaan](#contoh-permintaan)
+### Contoh Permintaan
 
 Sertakan objek `image_url` dalam array konten pesan Kamu. Kamu dapat memberikan URL publik atau URI data berkode base64.
 
@@ -20,7 +18,7 @@ const response = await fetch('https://api.neosantara.xyz/v1/responses', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${apiKey}`,
+    Authorization: `Bearer ${apiKey}`,
   },
   body: JSON.stringify({
     model: 'claude-4.5-sonnet',
@@ -29,11 +27,11 @@ const response = await fetch('https://api.neosantara.xyz/v1/responses', {
         type: 'message',
         role: 'user',
         content: [
-          { type: 'text', text: 'Jelaskan isi gambar ini secara detail.' },
+          { type: 'text', text: 'Jelaskan gambar ini secara detail.' },
           {
             type: 'image_url',
             image_url: { 
-              url: 'https://example.com/gambar.jpg', 
+              url: 'https://example.com/image.jpg', 
               detail: 'auto' 
             },
           },
@@ -51,9 +49,9 @@ console.log(result.output_text);
 
 ---
 
-## [Gambar berkode Base64](#base64)
+## Gambar berkode base64
 
-Untuk file lokal, Kamu dapat memberikan gambar sebagai string base64:
+Untuk file lokal atau data sensitif privasi, Kamu dapat memberikan gambar sebagai string berkode base64:
 
 ```json
 {
@@ -64,3 +62,17 @@ Untuk file lokal, Kamu dapat memberikan gambar sebagai string base64:
   }
 }
 ```
+
+---
+
+## Parameter Detail
+
+Parameter `detail` mengontrol fidelitas yang digunakan untuk analisis gambar:
+
+*   **`auto`** (default): Membiarkan model memutuskan resolusi yang sesuai berdasarkan ukuran dan kompleksitas gambar.
+*   **`low`**: Mengubah ukuran gambar ke resolusi yang lebih rendah untuk pemrosesan yang lebih cepat dan konsumsi token yang lebih rendah.
+*   **`high`**: Mempertahankan lebih banyak detail untuk tugas-tugas kompleks seperti OCR atau mengidentifikasi objek kecil.
+
+<Info>
+  **Tips Pro**: Gunakan detail `low` jika Kamu hanya memerlukan deskripsi umum gambar untuk menghemat biaya pemrosesan.
+</Info>

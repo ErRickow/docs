@@ -3,28 +3,87 @@ title: "Generasi Gambar"
 description: "Hasilkan gambar bersama teks menggunakan model multimodal melalui API yang kompatibel dengan OpenAI."
 ---
 
-# Generasi Gambar
+Hasilkan gambar menggunakan model AI yang mendukung output multimodal melalui API yang kompatibel dengan OpenAI. Fitur ini memungkinkan Kamu membuat gambar bersamaan dengan respons teks menggunakan model seperti **stable diffusion**.
 
-Hasilkan gambar menggunakan model AI yang mendukung output multimodal. Fitur ini memungkinkan Kamu membuat gambar bersamaan dengan respons teks menggunakan model seperti **Gemini 2.0 Flash**.
+**Endpoint**
 
-Endpoint: `POST /v1/chat/completions`
+`POST /v1/chat/completions`
 
-### [Parameter Modalities](#parameter-modalities)
+### Parameter
 
-Sertakan parameter `modalities` untuk mengaktifkan generasi gambar:
-*   **`modalities`**: `['text', 'image']` untuk teks dan gambar, atau `['image']` untuk gambar saja.
+Untuk mengaktifkan pembuatan gambar, sertakan parameter `modalities` dalam permintaan Kamu:
 
-### [Contoh Permintaan](#contoh-permintaan)
+*   **`modalities`** (array): Array string yang menentukan modalitas output yang diinginkan. Gunakan `['text', 'image']` untuk pembuatan teks dan gambar, atau `['image']` untuk pembuatan gambar saja.
 
-```typescript
-const completion = await openai.chat.completions.create({
-  model: 'gemini-3-flash',
-  messages: [{ role: 'user', content: 'Hasilkan pemandangan matahari terbenam.' }],
-  // @ts-expect-error - ekstensi gateway
-  modalities: ['text', 'image'],
+### Contoh permintaan
+
+Arahkan SDK OpenAI ke Neosantara dan tentukan modalitasnya.
+
+<CodeGroup>
+
+```typescript image-generation.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
 });
-
-<Note>
-  **Ekstensi Gateway**: Parameter `modalities` serta bidang `message.images` dan `delta.images` yang dihasilkan adalah ekstensi gateway khusus Neosantara. Ini bukan bagian dari skema Chat Completions OpenAI standar dan mungkin tidak tersedia di endpoint kompatibel OpenAI lainnya.
-</Note>
+ 
+const completion = await openai.chat.completions.create({
+  model: 'gemini-3-flash', // Model yang mendukung output multimodal
+  messages: [
+    {
+      role: 'user',
+      content: 'Hasilkan matahari terbenam yang indah di atas pegunungan dan jelaskan pemandangannya.',
+    },
+  ],
+  // @ts-expect-error - modalities adalah ekstensi gateway untuk SDK OpenAI
+  modalities: ['text', 'image'],
+  stream: false,
+});
+ 
+const message = completion.choices[0].message;
+ 
+// Konten teks selalu berupa string
+console.log('Teks:', message.content);
+ 
+// Gambar berada dalam array terpisah
+if (message.images && Array.isArray(message.images)) {
+  console.log(`Dihasilkan ${message.images.length} gambar:`);
+  for (const [index, img] of message.images.entries()) {
+    if (img.type === 'image_url' && img.image_url) {
+      console.log(`Gambar ${index + 1}:`, {
+        ukuran: img.image_url.url?.length || 0,
+        pratinjau: `${img.image_url.url?.substring(0, 50)}...`,
+      });
+    }
+  }
+}
 ```
+
+```python image-generation.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='gemini-3-flash',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Hasilkan matahari terbenam yang indah di atas pegunungan dan jelaskan pemandangannya.'
+        }
+    ],
+    # Catatan: parameter modalities didukung oleh gateway kami
+    extra_body={'modalities': ['text', 'image']},
+    stream=False,
+)
+ 
+message = completion.choices[0].message
+ 
+# Konten teks selalu berupa string
+print(f

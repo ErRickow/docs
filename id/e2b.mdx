@@ -1,49 +1,103 @@
 ---
 title: "Code Interpreter"
-description: "> Pelajari cara menggunakan Neosantara dan E2B Code Interpreter."
+description: "> Pelajari cara menggunakan Neosantara dan E2B Code Interpreter"
 ---
 
-## Tinjauan
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1r5I11nX5_W6xBKUX-0uPF4S6yjRImVu8?usp=sharing)
 
-Panduan ini menjelaskan cara menggunakan **Neosantara** dan **E2B Code Interpreter SDK** untuk membuat sandbox cloud yang aman guna mengeksekusi kode Python untuk analisis data dan visualisasi.
+## Ikhtisar
+
+Panduan ini menjelaskan cara menggunakan **Neosantara** dan **SDK E2B Code Interpreter** untuk membuat sandbox cloud yang aman yang didukung oleh [Firecracker](https://github.com/firecracker-microvm/firecracker). Sandbox ini menyertakan server Jupyter yang sedang berjalan, yang memungkinkan model bahasa besar (LLM) untuk menjalankan kode Python untuk tugas-tugas seperti analisis dan visualisasi data.
 
 ---
 
 ## Prasyarat
 
+Untuk memulai, pastikan Kamu memiliki hal-hal berikut:
+
 <Info>
-  Daftar di [Neosantara](https://app.neosantara.xyz/api-keys) untuk mendapatkan **kredit gratis** di awal dan **refill kredit bulanan** (cek dashboard untuk detail promo).
+  Daftar di [Neosantara](https://app.neosantara.xyz/api-keys) untuk menerima **kredit awal gratis**. Tidak diperlukan kartu kredit.
 </Info>
 
-- **Node.js**: Versi 16+.
-- **Python**: Versi 3.6+.
-- **Paket Python**: `openai`, `e2b_code_interpreter`, `python-dotenv`.
+<Card icon="key" href="https://e2b.dev/docs" title="Dapatkan Kunci API E2B Kamu" horizontal>
+  Dapatkan kunci API dari [E2B](https://e2b.dev/docs) untuk menggunakan Code Interpreter.
+</Card>
+
+- **Node.js**: Versi 16 atau lebih tinggi.
+- **Python**: Versi 3.6 atau lebih tinggi.
+- **Paket Python yang Diperlukan**:
+  - [`openai`](https://pypi.org/project/openai/): Untuk berinteraksi dengan API Neosantara.
+  - [`e2b_code_interpreter`](https://pypi.org/project/e2b-code-interpreter/): Untuk menjalankan kode di sandbox E2B.
+  - [`python-dotenv`](https://pypi.org/project/python-dotenv/): Untuk mengelola variabel lingkungan.
 
 ---
 
 ## Instalasi
 
+Instal paket Python yang diperlukan menggunakan pip:
+
 ```bash icon="terminal"
 pip install e2b_code_interpreter==1.0.0 python-dotenv openai -q
 ```
 
+Untuk detail tambahan tentang metode yang tersedia, lihat [dokumentasi E2B](https://e2b.dev/docs/quickstart).
+
 ---
 
-## Setup
+## Instruksi Penyiapan
 
-1. **Buat File Python**: Misal `index.py`.
-2. **Konfigurasi .env**:
+<Steps>
+  <Step title="Buat Skrip Python">
+    Buat file baru, misalnya `index.py`, untuk menampung kode Kamu. Pastikan file tersebut memiliki ekstensi `.py`.
+
+    <Note>
+    Nama skrip dapat disesuaikan (misalnya, `index.py` atau `my_script.py`), tetapi harus berupa file `.py` yang valid.
+    </Note>
+  </Step>
+
+  <Step title="Konfigurasikan Variabel Lingkungan">
+    Buat file `.env` di direktori proyek Kamu untuk menyimpan kunci API Kamu:
 
     ```env
-    NAI_API_KEY=api_key_neosantara_Kamu
-    E2B_API_KEY=api_key_e2b_Kamu
+    NAI_API_KEY=kunci_api_neosantara_kamu
+    E2B_API_KEY=kunci_api_e2b_kamu
     ```
+    
+    Ganti `kunci_api_neosantara_kamu` dan `kunci_api_e2b_kamu` dengan kunci yang diperoleh masing-masing dari [Neosantara](https://app.neosantara.xyz/api-keys) dan [E2B](https://e2b.dev/docs).
+  </Step>
 
-3. **Pilih Model**: `nusantara-base`, `archipelago-70b`, atau `llama-3.3-nemotron-super-49b-v1.5`.
+  <Step title="Pilih Model">
+    Pilih model pembuatan kode dari Neosantara. Opsi yang tersedia meliputi:
+    - `nusantara-base` (default)
+    - `archipelago-70b`
+    - `Llama-3.3-Nemotron-Super-49B`
+
+    Lihat daftar lengkap model di [Model Neosantara](https://www.neosantara.xyz/models).
+  </Step>
+
+  <Step title="Informasi Kumpulan Data (Dataset)">
+    Code interpreter menggunakan kumpulan data yang terletak di `/home/user/data.csv` dalam sandbox. File CSV tersebut menggunakan koma (`,`) sebagai pemisah dan berisi kolom-kolom berikut:
+
+  | Nama Kolom | Contoh Nilai | Deskripsi |
+  | :--- | :--- | :--- |
+  | `country` | Argentina, Australia | Nama negara |
+  | `Region` | SouthAmerica, Oceania | Wilayah geografis |
+  | `Surface area (km2)` | 2780400 | Luas daratan dalam kilometer persegi |
+  | `Population in thousands (2017)` | 44271 | Populasi dalam ribuan |
+  | `Population density (per km2, 2017)` | 16.2 | Jumlah orang per kilometer persegi |
+  | `Sex ratio (m per 100 f, 2017)` | 95.9 | Rasio laki-laki terhadap perempuan |
+  | `GDP: Gross domestic product (million current US$)` | 632343 | PDB dalam juta USD |
+  | `GDP per capita (current US$)` | 14564.5 | PDB per kapita |
+  | `Life expectancy at birth, total (years)` | 76.4 | Rata-rata angka harapan hidup |
+  | ... (dan lainnya) |  | Lihat daftar lengkapnya dalam [contoh kode](#contoh-kode). |
+  </Step>
+</Steps>
 
 ---
 
 ## Contoh Kode
+
+Di bawah ini adalah contoh lengkap yang menunjukkan cara menyiapkan Code Interpreter, mengunggah kumpulan data, dan membuat visualisasi (misalnya, grafik regresi linier PDB per kapita vs. angka harapan hidup).
 
 ```python icon="python"
 import os
@@ -51,33 +105,204 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from e2b_code_interpreter import Sandbox
 import re
+import json
 
+# Muat variabel lingkungan
 load_dotenv()
 
-# Inisialisasi klien
-client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
+# Kunci API
+NAI_API_KEY = os.getenv("NAI_API_KEY")
+E2B_API_KEY = os.getenv("E2B_API_KEY")
 
+# Pemilihan model
+MODEL_NAME = 'nusantara-base'  # Alternatif: 'archipelago-70b', 'Llama-3.3-Nemotron-Super-49B'
+
+# Prompt sistem untuk LLM
+SYSTEM_PROMPT = """
+Kamu adalah seorang ilmuwan data Python. Kamu diberikan tugas untuk diselesaikan dan Kamu menjalankan kode Python untuk menyelesaikannya.
+
+Informasi tentang kumpulan data csv:
+- Terletak di file `/home/user/data.csv`
+- File CSV menggunakan , sebagai pemisah
+- Memiliki kolom-kolom berikut (termasuk contoh):
+    - country: "Argentina", "Australia"
+    - Region: "SouthAmerica", "Oceania"
+    - Surface area (km2): misalnya, 2780400
+    - Population in thousands (2017): misalnya, 44271
+    - Population density (per km2, 2017): misalnya, 16.2
+    - Sex ratio (m per 100 f, 2017): misalnya, 95.9
+    - GDP: Gross domestic product (million current US$): misalnya, 632343
+    - GDP growth rate (annual %, const. 2005 prices): misalnya, 2.4
+    - GDP per capita (current US$): misalnya, 14564.5
+    - Economy: Agriculture (% of GVA): misalnya, 10.0
+    - Economy: Industry (% of GVA): misalnya, 28.1
+    - Economy: Services and other activity (% of GVA): misalnya, 61.9
+    - Employment: Agriculture (% of employed): misalnya, 4.8
+    - Employment: Industry (% of employed): misalnya, 20.6
+    - Employment: Services (% of employed): misalnya, 74.7
+    - Unemployment (% of labour force): misalnya, 8.5
+    - Employment: Female (% of employed): misalnya, 43.7
+    - Employment: Male (% of employed): misalnya, 56.3
+    - Labour force participation (female %): misalnya, 48.5
+    - Labour force participation (male %): misalnya, 71.1
+    - International trade: Imports (million US$): misalnya, 59253
+    - International trade: Exports (million US$): misalnya, 57802
+    - International trade: Balance (million US$): misalnya, -1451
+    - Education: Government expenditure (% of GDP): misalnya, 5.3
+    - Health: Total expenditure (% of GDP): misalnya, 8.1
+    - Health: Government expenditure (% of total health expenditure): misalnya, 69.2
+    - Health: Private expenditure (% of total health expenditure): misalnya, 30.8
+    - Health: Out-of-pocket expenditure (% of total health expenditure): misalnya, 20.2
+    - Health: External health expenditure (% of total health expenditure): misalnya, 0.2
+    - Education: Primary gross enrollment ratio (f/m per 100 pop): misalnya, 111.5/107.6
+    - Education: Secondary gross enrollment ratio (f/m per 100 pop): misalnya, 104.7/98.9
+    - Education: Tertiary gross enrollment ratio (f/m per 100 pop): misalnya, 90.5/72.3
+    - Education: Mean years of schooling (female): misalnya, 10.4
+    - Education: Mean years of schooling (male): misalnya, 9.7
+    - Urban population (% of total population): misalnya, 91.7
+    - Population growth rate (annual %): misalnya, 0.9
+    - Fertility rate (births per woman): misalnya, 2.3
+    - Infant mortality rate (per 1,000 live births): misalnya, 8.9
+    - Life expectancy at birth, female (years): misalnya, 79.7
+    - Life expectancy at birth, male (years): misalnya, 72.9
+    - Life expectancy at birth, total (years): misalnya, 76.4
+    - Military expenditure (% of GDP): misalnya, 0.9
+    - Population, female: misalnya, 22572521
+    - Population, male: misalnya, 21472290
+    - Tax revenue (% of GDP): misalnya, 11.0
+    - Taxes on income, profits and capital gains (% of revenue): misalnya, 12.9
+    - Urban population (% of total population): misalnya, 91.7
+
+Secara umum, Kamu mengikuti aturan-aturan ini:
+- SELALU FORMAT RESPONS KAMU DALAM MARKDOWN
+- SELALU MERESPONS HANYA DENGAN KODE DALAM BLOK KODE SEPERTI INI:
+`\
+```python
+{kode}
+```
+`\
+- Kode Python berjalan di buku catatan (notebook) Jupyter.
+- Setiap blok kode Python dijalankan dalam sel terpisah.
+- Tampilkan visualisasi menggunakan matplotlib atau pustaka lain secara langsung di buku catatan.
+- Kamu memiliki akses ke internet dan dapat membuat permintaan API.
+- Kamu dapat membaca/menulis file di sistem file sandbox.
+- Instal paket pip apa pun menggunakan `!pip install {paket}` jika diperlukan (paket analisis data umum sudah terinstal sebelumnya).
+- Semua kode berjalan di lingkungan sandbox yang aman.
+"""
+
+# Fungsi untuk mengeksekusi kode di sandbox
+def code_interpret(e2b_code_interpreter, code):
+    print("Menjalankan code interpreter...")
+    exec = e2b_code_interpreter.run_code(
+        code,
+        on_stderr=lambda stderr: print("[Code Interpreter] Kesalahan:", stderr),
+        on_stdout=lambda stdout: print("[Code Interpreter] Output:", stdout),
+    )
+    if exec.error:
+        print("[KESALAHAN Code Interpreter]", exec.error)
+        return None
+    return exec.results
+
+# Fungsi untuk mengekstrak kode Python dari respons LLM
+def match_code_blocks(llm_response):
+    pattern = re.compile(r"```python\s*([\s\S]*?)\s*```")
+    match = pattern.search(llm_response)
+    return match.group(1) if match else ""
+
+# Fungsi untuk berinteraksi dengan LLM dan mengeksekusi kode
 def chat_with_llm(e2b_code_interpreter, user_message):
+    print(f"\n{'='*50}\nPesan pengguna: {user_message}\n{'='*50}")
     messages = [
-        {"role": "system", "content": "You are a Python data scientist. Respond only with code in a markdown block."},
+        {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": user_message},
     ]
-    response = client.chat.completions.create(model='nusantara-base', messages=messages)
-    code = re.search(r"```python\s*([\s\S]*?)\s*```", response.choices[0].message.content).group(1)
-    
-    # Jalankan di sandbox
-    execution = e2b_code_interpreter.run_code(code)
-    return execution.results
+    client = OpenAI(api_key=NAI_API_KEY, base_url="https://api.neosantara.xyz/v1")
+    response = client.chat.completions.create(model=MODEL_NAME, messages=messages)
+    response_message = response.choices[0].message
+    python_code = match_code_blocks(response_message.content)
+    if python_code:
+        return code_interpret(e2b_code_interpreter, python_code)
+    else:
+        print(f"Tidak ada kode Python yang ditemukan dalam respons: {response_message}")
+        return []
 
-with Sandbox(api_key=os.getenv("E2B_API_KEY")) as code_interpreter:
-    results = chat_with_llm(code_interpreter, "Generate a plot of a sine wave.")
-    print("Visualisasi berhasil dibuat!")
+# Fungsi untuk mengunggah kumpulan data ke sandbox
+def upload_dataset(code_interpreter):
+    print("Mengunggah kumpulan data ke sandbox Code Interpreter...")
+    dataset_path = "./data.csv"
+    if not os.path.exists(dataset_path):
+        raise FileNotFoundError("File kumpulan data tidak ditemukan di ./data.csv")
+    try:
+        with open(dataset_path, "rb") as f:
+            file_buffer = f.read()
+            remote_path = code_interpreter.files.write('data.csv', file_buffer)
+        if not remote_path:
+            raise ValueError("Gagal mengunggah kumpulan data")
+        print("Kumpulan data diunggah ke:", remote_path)
+        return remote_path
+    except Exception as error:
+        print("Kesalahan selama pengunggahan file:", error)
+        raise error
+
+# Eksekusi utama
+with Sandbox(api_key=E2B_API_KEY) as code_interpreter:
+    # Unggah kumpulan data
+    upload_dataset(code_interpreter)
+    
+    # Contoh tugas: Buat grafik regresi linier
+    code_results = chat_with_llm(
+        code_interpreter,
+        "Buat grafik yang menunjukkan regresi linier PDB per kapita vs. angka harapan hidup dari kumpulan data. Saring nilai yang hilang atau tidak valid.",
+    )
+    
+    if code_results:
+        first_result = code_results[0]
+        print("Visualisasi berhasil dibuat!")
+    else:
+        raise Exception("Tidak ada hasil dari code interpreter")
+
+# Tampilkan visualisasi (misalnya, output PNG)
+first_result
+
 ```
+
+---
+
+## Menjalankan Kode
+
+1. **Pastikan kumpulan data** (`data.csv`) berada di direktori yang sama dengan skrip Kamu.
+2. **Jalankan skrip** menggunakan:
+
+   ```bash icon="terminal"
+   python index.py
+   ```
+
+3. **Lihat output**: Skrip mengunggah kumpulan data, mengirimkan tugas ke LLM, mengeksekusi kode Python yang dihasilkan di sandbox, dan menampilkan hasilnya (misalnya, grafik).
+
+### Contoh Output
+
+Tugas contoh tersebut menghasilkan plot sebar dengan garis regresi linier yang menunjukkan hubungan antara PDB per kapita dan angka harapan hidup, yang telah disaring untuk data yang valid.
+
+![Hasil Gambar](/images/result.png)
 
 ---
 
 ## Fitur Utama
 
-- **Secure Sandbox**: Kode berjalan di lingkungan terisolasi.
-- **Visualisasi Data**: Gunakan `matplotlib` atau `seaborn`.
-- **Akses File**: Baca/tulis file di dalam sandbox.
+- **Sandbox Aman**: Kode berjalan di lingkungan terisolasi yang didukung oleh Firecracker.
+- **Integrasi Jupyter**: Eksekusi kode Python di buku catatan Jupyter di dalam sandbox.
+- **Visualisasi Data**: Gunakan pustaka seperti `matplotlib` atau `seaborn` untuk membuat grafik langsung di buku catatan.
+- **Akses File**: Baca/tulis file di sistem file sandbox.
+- **Dukungan API**: Buat permintaan API dari dalam sandbox.
+- **Ekstensibilitas**: Instal paket Python tambahan menggunakan `!pip install`.
+
+---
+
+## Pemecahan Masalah
+
+- **Masalah Kunci API**: Pastikan kunci API Neosantara dan E2B Kamu valid dan disetel dengan benar di file `.env`.
+- **Kumpulan Data Tidak Ditemukan**: Verifikasi bahwa `data.csv` ada di direktori skrip.
+- **Kesalahan Eksekusi Kode**: Periksa konsol untuk pesan kesalahan dari sandbox (`[KESALAHAN Code Interpreter]`).
+- **Kode Python Hilang**: Jika respons LLM tidak memiliki blok kode Python, pastikan prompt Kamu jelas dan spesifik.
+
+Untuk bantuan lebih lanjut, lihat [dokumentasi E2B](https://e2b.dev/docs) atau [dukungan Neosantara](https://www.neosantara.xyz/contact).

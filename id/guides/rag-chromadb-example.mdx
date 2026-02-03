@@ -1,100 +1,279 @@
---- 
-title: "RAG dengan ChromaDB"
-description: "Bangun aplikasi RAG menggunakan Neosantara dan ChromaDB."
+---
+title: "RAG dengan Contoh ChromaDB"
+description: "Bangun aplikasi Retrieval-Augmented Generation (RAG) menggunakan Neosantara dan ChromaDB."
 ---
 
-Panduan ini menunjukkan cara membangun aplikasi Retrieval-Augmented Generation (RAG) menggunakan Neosantara untuk embedding dan LLM, serta [ChromaDB](https://www.trychroma.com/) sebagai basis data vektor.
+Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang lengkap menggunakan Neosantara untuk embedding dan panggilan model bahasa besar (LLM), yang terintegrasi dengan [ChromaDB](https://www.trychroma.com/) sebagai basis data vektor Kamu.
 
-## Tinjauan
+## Ikhtisar
 
-Kamu akan mempelajari cara:
+Kamu akan belajar untuk:
 
-1. Setup klien Neosantara API.
-2. Instalasi dan inisialisasi ChromaDB.
-3. Menggunakan model embedding (`nusa-embedding-0001`) untuk vektorisasi dokumen.
-4. Menyimpan embedding di ChromaDB.
-5. Mengambil dokumen relevan dan menghasilkan jawaban dengan `nusantara-base`.
+1. Menyiapkan klien API Neosantara Kamu.
+2. Menginstal dan menginisialisasi ChromaDB.
+3. Menggunakan model embedding Neosantara (`nusa-embedding-0001`) untuk melakukan vektorisasi pada dokumen Kamu.
+4. Menyimpan embedding ini di ChromaDB.
+5. Mengambil dokumen yang relevan dari ChromaDB berdasarkan kueri pengguna.
+6. Menggunakan model obrolan Neosantara (`nusantara-base`) untuk menghasilkan jawaban yang berdasar menggunakan konteks yang diambil.
 
-## Setup
+## Penyiapan
 
-Instal library yang diperlukan:
+Pertama, pastikan Kamu telah menginstal Python. Kemudian, instal pustaka yang diperlukan:
 
 ```bash icon="terminal"
-pip install -U openai chromadb numpy pkamus
+pip install -U openai chromadb numpy pandas
 ```
 
-### Konfigurasi API Key
+### Konfigurasikan Kunci API Neosantara Kamu
+
+Kamu memerlukan Kunci API Neosantara. Jika Kamu belum memilikinya, dapatkan dari [Dashboard Neosantara](https://app.neosantara.xyz/dashboard) Kamu.
+
+Setel kunci API dan URL dasar Neosantara Kamu sebagai variabel lingkungan atau langsung di skrip Kamu:
 
 ```python icon="python"
 import os
 from openai import OpenAI
 
-# Konfigurasi klien
+# Konfigurasikan kunci API Neosantara dan URL dasar Kamu
+NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "KUNCI_API_NEOSANTARA_KAMU_DI_SINI")
+NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
+
+# Inisialisasi klien OpenAI yang diarahkan ke Neosantara
 client = OpenAI(
-    base_url="https://api.neosantara.xyz/v1",
-    api_key=os.getenv("NAI_API_KEY", "YOUR_NEOSANTARA_API_KEY_HERE")
+    base_url=NEOSANTARA_BASE_URL,
+    api_key=NEOSANTARA_API_KEY
 )
 
+# Tentukan model yang akan digunakan
 EMBEDDING_MODEL = "nusa-embedding-0001"
 CHAT_MODEL = "nusantara-base"
 ```
 
-## Membuat Database Embedding dengan ChromaDB
+## Membuat Basis Data Embedding dengan ChromaDB
 
-### Custom Embedding Function
+ChromaDB adalah basis data vektor ringan yang berjalan secara lokal (atau dapat diskalakan). Kamu akan membuat koleksi Chroma dan mengisinya dengan embedding dokumen Kamu.
+
+### Fungsi Embedding Kustom untuk ChromaDB
+
+ChromaDB memungkinkan Kamu mendefinisikan fungsi embedding kustom. Kita akan membungkus panggilan API embedding Neosantara di dalam fungsi ini.
 
 ```python icon="python"
 import chromadb
+import numpy as np
+import pandas as pd
 from chromadb import Documents, EmbeddingFunction, Embeddings
 
 class NeosantaraEmbeddingFunction(EmbeddingFunction):
   def __call__(self, input: Documents) -> Embeddings:
+    # API embedding Neosantara mengharapkan daftar string
+    # Input di sini adalah daftar dokumen (string)
     response = client.embeddings.create(
         model=EMBEDDING_MODEL,
-        input=input
+        input=input # Berikan daftar dokumen
     )
+    # Respons berisi daftar objek embedding, ekstrak nilai 'embedding' mereka
     return [d.embedding for d in response.data]
 ```
 
-### Inisialisasi Database
+### Data Kamu
+
+Berikut adalah sekumpulan kecil dokumen yang akan Kamu gunakan untuk membuat basis data embedding. Dalam aplikasi nyata, dokumen-dokumen ini akan berasal dari basis pengetahuan, wiki internal, dll.
 
 ```python icon="python"
-documents = [
-    "Sistem kontrol iklim Googlecar memungkinkan Kamu mengatur suhu dan aliran udara menggunakan kenop di konsol tengah.",
-    "Googlecar memiliki layar sentuh besar untuk navigasi, hiburan, dan kontrol iklim.",
-    "Shifting Gears: Googlecar memiliki transmisi otomatis dengan posisi Park, Reverse, Neutral, Drive, dan Low."
-]
+DOCUMENT1 = """
+  Mengoperasikan Sistem Kontrol Iklim Googlecar Kamu memiliki sistem
+  kontrol iklim yang memungkinkan Kamu menyesuaikan suhu dan aliran udara
+  di dalam mobil. Untuk mengoperasikan sistem kontrol iklim, gunakan tombol
+  dan kenop yang terletak di konsol tengah. Suhu: Kenop suhu mengontrol
+  suhu di dalam mobil. Putar kenop searah jarum jam untuk menaikkan
+  suhu atau berlawanan arah jarum jam untuk menurunkan suhu.
+  Aliran Udara: Kenop aliran udara mengontrol jumlah aliran udara di dalam mobil.
+  Putar kenop searah jarum jam untuk meningkatkan aliran udara atau
+  berlawanan arah jarum jam untuk mengurangi aliran udara. Kecepatan kipas:
+  Kenop kecepatan kipas mengontrol kecepatan kipas. Putar kenop searah jarum jam
+  untuk meningkatkan kecepatan kipas atau berlawanan arah jarum jam untuk
+  mengurangi kecepatan kipas.
+  Mode: Tombol mode memungkinkan Kamu memilih mode yang diinginkan. Mode yang
+  tersedia adalah: Otomatis: Mobil akan secara otomatis menyesuaikan suhu dan
+  aliran udara untuk menjaga tingkat kenyamanan.
+  Dingin: Mobil akan meniupkan udara dingin ke dalam mobil.
+  Panas: Mobil akan meniupkan udara hangat ke dalam mobil.
+  Defrost: Mobil akan meniupkan udara hangat ke kaca depan untuk menghilangkan embun.
+"
+DOCUMENT2 = """
+  Googlecar Kamu memiliki layar sentuh besar yang menyediakan akses ke
+  berbagai fitur, termasuk navigasi, hiburan, dan kontrol iklim. Untuk
+  menggunakan layar sentuh, cukup sentuh ikon yang diinginkan. Misalnya,
+  Kamu dapat menyentuh ikon "Navigasi" untuk mendapatkan petunjuk arah ke
+  tujuan Kamu atau menyentuh ikon "Musik" untuk memutar lagu favorit Kamu.
+"
+DOCUMENT3 = """
+  Berpindah Gigi Googlecar Kamu memiliki transmisi otomatis. Untuk berpindah
+  gigi, cukup gerakkan tuas pemindah ke posisi yang diinginkan.
+  Parkir: Posisi ini digunakan saat Kamu parkir. Roda terkunci dan mobil tidak
+  dapat bergerak.
+  Mundur: Posisi ini digunakan untuk mundur.
+  Netral: Posisi ini digunakan saat Kamu berhenti di lampu merah atau di tengah kemacetan.
+  Mobil tidak masuk gigi dan tidak akan bergerak kecuali Kamu menginjak pedal gas.
+  Jalan: Posisi ini digunakan untuk melaju ke depan.
+  Rendah: Posisi ini digunakan untuk berkendara di salju atau kondisi licin lainnya.
+"
 
-def create_chroma_db(documents, name):
-  chroma_client = chromadb.Client()
-  db = chroma_client.create_collection(
-      name=name,
-      embedding_function=NeosantaraEmbeddingFunction()
-  )
-  for i, d in enumerate(documents):
-    db.add(documents=d, ids=[str(i)])
-  return db
-
-vector_db = create_chroma_db(documents, "car-manual-db")
+documents = [DOCUMENT1, DOCUMENT2, DOCUMENT3]
 ```
 
-## Pengambilan dan Pembuatan Jawaban
+### Membuat dan Mengisi ChromaDB
+
+Sekarang, buat klien ChromaDB, tentukan koleksi, dan tambahkan dokumen Kamu ke dalamnya menggunakan fungsi embedding kustom.
 
 ```python icon="python"
-def generate_answer(query, db):
-  # 1. Ambil dokumen relevan
-  results = db.query(query_texts=[query], n_results=1)
-  passage = results['documents'][0][0]
+def create_chroma_db(documents, name):
+  chroma_client = chromadb.Client() # Menginisialisasi klien Chroma dalam memori
+  
+  # Hapus koleksi yang ada jika sudah ada untuk mulai baru
+  try:
+      chroma_client.delete_collection(name=name)
+  except:
+      pass # Abaikan jika koleksi tidak ada
 
-  # 2. Buat prompt dan panggil LLM
-  prompt = f"Jawab pertanyaan berikut hanya berdasarkan konteks: {passage}\n\nPertanyaan: {query}"
+  db = chroma_client.create_collection(
+      name=name,
+      embedding_function=NeosantaraEmbeddingFunction() # Gunakan fungsi embedding kustom kami
+  )
+
+  for i, d in enumerate(documents):
+    db.add(
+      documents=[d],
+      ids=[str(i)] # ID harus berupa daftar string
+    )
+  return db
+
+# Siapkan DB
+# Ini akan menyematkan dokumen dan menyimpannya di ChromaDB
+
+# Opsional: Verifikasi data telah ditambahkan
+# sample_data = vector_db.get(include=['documents', 'embeddings'])
+# df = pd.DataFrame({
+#     "ID": sample_data['ids'],
+#     "Dokumen": sample_data['documents'],
+#     "Embedding": [str(emb)[:50] + "..." for emb in sample_data['embeddings']]
+# })
+# print(df)
+```
+
+## Mendapatkan Dokumen yang Relevan (Pengambilan)
+
+Setelah ChromaDB terisi, Kamu sekarang dapat menanyakannya untuk menemukan dokumen yang relevan dengan pertanyaan pengguna.
+
+```python icon="python"
+def get_relevant_passage(query, db):
+  # ChromaDB akan menggunakan fungsi embedding untuk menyematkan kueri
+  # lalu menemukan tetangga terdekat
+  results = db.query(query_texts=[query], n_results=1)
+  
+  # Ekstrak teks dokumen yang relevan
+  if results and results['documents'] and results['documents'][0]:
+    return results['documents'][0][0]
+  return "Informasi relevan tidak ditemukan."
+```
+
+## Menghasilkan Jawaban yang Berdasar (Generasi)
+
+Terakhir, susun prompt dengan bagian yang diambil dan kirimkan ke model obrolan Neosantara untuk menghasilkan respons.
+
+```python icon="python"
+import textwrap
+
+def make_prompt(query, relevant_passage):
+  # Ganti baris baru dengan spasi untuk memastikan itu adalah satu baris logika untuk konteks prompt.
+  # F-string dengan kutipan tiga menangani kutipan tunggal/ganda internal dengan baik.
+  processed_passage = relevant_passage.replace("\n", " ")
+  
+  prompt = textwrap.dedent(f"""
+    Kamu adalah bot yang membantu dan informatif yang menjawab pertanyaan menggunakan
+    teks dari bagian referensi yang disertakan di bawah ini.
+    Pastikan untuk merespons dengan kalimat lengkap, komprehensif,
+    termasuk semua informasi latar belakang yang relevan. 
+    Namun, Kamu sedang berbicara dengan audiens non-teknis, jadi pastikan untuk
+    menjelaskan konsep-konsep rumit dan menggunakan nada yang ramah
+    serta santai. Jika bagian referensi tidak relevan dengan jawabannya, 
+    Kamu dapat mengabaikannya dan mengatakan "Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan."
+
+    PERTANYAAN: '{query}'
+    BAGIAN REFERENSI: '{processed_passage}'
+
+    JAWABAN:
+  """")
+  return prompt
+
+def generate_answer(query, db):
+  # 1. Ambil bagian yang paling relevan
+  passage = get_relevant_passage(query, db)
+  print(f"Bagian yang Diambil: {passage[:100]}...\n") # Cetak 100 karakter pertama
+
+  # 2. Susun prompt
+  full_prompt = make_prompt(query, passage)
+  
+  # 3. Panggil model obrolan Neosantara
   response = client.chat.completions.create(
       model=CHAT_MODEL,
-      messages=[{"role": "user", "content": prompt}]
+      messages=[
+          {"role": "user", "content": full_prompt}
+      ]
   )
   return response.choices[0].message.content
+```
 
-# Contoh eksekusi
-query = "Bagaimana cara mengatur suhu di mobil?"
-print(generate_answer(query, vector_db))
+## Eksekusi Contoh Lengkap
+
+Mari kita satukan semuanya dan uji dengan beberapa kueri:
+
+```python icon="python"
+if __name__ == "__main__":
+  # Pastikan Kunci API dan URL Dasar telah disetel di lingkungan atau ganti "KUNCI_API_NEOSANTARA_KAMU_DI_SINI"
+  if "KUNCI_API_NEOSANTARA_KAMU_DI_SINI" in NEOSANTARA_API_KEY:
+      print("⚠️ Harap setel variabel lingkungan NEOSANTARA_API_KEY Kamu atau ganti 'KUNCI_API_NEOSANTARA_KAMU_DI_SINI' dalam skrip.")
+  
+  print("Menginisialisasi ChromaDB dan mengisi dengan embedding dokumen...")
+  vector_db = create_chroma_db(documents, "neosantara-car-manual-db")
+  print("ChromaDB siap.\n")
+
+  # Kueri 1: Informasi yang ADA dalam dokumen
+  query1 = "Bagaimana cara mengatur suhu di dalam mobil?"
+  print(f"Kueri Pengguna: {query1}")
+  answer1 = generate_answer(query1, vector_db)
+  print(f"Respons AI: {answer1}\n")
+
+  # Kueri 2: Informasi yang TIDAK ADA dalam dokumen (atau hanya sebagian)
+  query2 = "Bagaimana cara membuat kopi di Google car?"
+  print(f"Kueri Pengguna: {query2}")
+  answer2 = generate_answer(query2, vector_db)
+  print(f"Respons AI: {answer2}\n")
+
+  # Kueri 3: Kueri lain yang relevan dengan dokumen
+  query3 = "Ceritakan tentang layar sentuhnya."
+  print(f"Kueri Pengguna: {query3}")
+  answer3 = generate_answer(query3, vector_db)
+  print(f"Respons AI: {answer3}\n")
+```
+
+### Contoh Output yang Diharapkan
+
+```text
+Menginisialisasi ChromaDB dan mengisi dengan embedding dokumen...
+ChromaDB siap.
+
+Kueri Pengguna: Bagaimana cara mengatur suhu di dalam mobil?
+Bagian yang Diambil:   Mengoperasikan Sistem Kontrol Iklim Googlecar Kamu memiliki sistem kontrol
+  iklim yang memungkinkan... 
+Respons AI: Untuk menyesuaikan suhu di Googlecar Kamu, Kamu akan menggunakan kenop suhu yang terletak di konsol tengah. Memutar kenop searah jarum jam akan menaikkan suhu, sedangkan memutarnya berlawanan arah jarum jam akan menurunkannya.
+
+Kueri Pengguna: Bagaimana cara membuat kopi di Google car?
+Bagian yang Diambil: Informasi relevan tidak ditemukan....
+Respons AI: Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan.
+
+Kueri Pengguna: Ceritakan tentang layar sentuhnya.
+Bagian yang Diambil:   Googlecar Kamu memiliki layar sentuh besar yang menyediakan akses ke
+  berbagai fitur, termasuk naviga... 
+Respons AI: Googlecar Kamu dilengkapi dengan layar sentuh besar yang memberikan akses mudah ke berbagai fitur seperti navigasi, hiburan, dan sistem kontrol iklim. Untuk menggunakannya, Kamu cukup menyentuh ikon fitur yang Kamu inginkan. Misalnya, menyentuh ikon "Navigasi" akan membantu Kamu mendapatkan petunjuk arah, sementara ikon "Musik" memungkinkan Kamu memutar lagu favorit Kamu.
 ```

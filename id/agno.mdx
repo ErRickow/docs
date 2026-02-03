@@ -3,9 +3,9 @@ title: "Agno"
 description: "> Menggunakan Agno dengan Neosantara."
 ---
 
-Agno adalah library open-source untuk membuat agen multimodal. Agno mendukung interaksi dengan teks, gambar, audio, dan video sambil tetap bersifat model-agnostic, memungkinkan Kamu menggunakan model apa pun dalam library Neosantara dengan integrasi kami.
+Agno adalah library sumber terbuka untuk membuat agen multimodal. Agno mendukung interaksi dengan teks, gambar, audio, dan video sambil tetap bersifat agnostik model, memungkinkan Kamu menggunakan model apa pun di perpustakaan Neosantara dengan integrasi kami.
 
-## Instalasi Library
+## Instal Perpustakaan
 
 ```bash icon="terminal"
 pip install -U agno ddgs -q
@@ -13,21 +13,21 @@ pip install -U agno ddgs -q
 
 ## Autentikasi
 
-Atur variabel lingkungan `NAI_API_KEY` Kamu.
+Setel variabel lingkungan `NAI_API_KEY` Kamu.
 
 ```shell
 export NAI_API_KEY=***
 ```
 
-## Contoh Penggunaan
+## Contoh
 
-Di bawah ini adalah contoh agen sederhana dengan akses ke pencarian web.
+Di bawah ini adalah agen sederhana dengan akses ke pencarian web.
 
 ```python icon="python"
+import os
 from agno.agent import Agent
 from agno.models.openai.like import OpenAILike
 from agno.tools.duckduckgo import DuckDuckGoTools
-import os
 
 agent = Agent(
     model=OpenAILike(
@@ -42,7 +42,7 @@ agent.print_response("Apa yang sedang terjadi di Indonesia?", stream=True)
 ```
 
 <Accordion title="Lihat output.">
-  Output akan mengembalikan string jawaban di bawah ini:
+  Output akan mengembalikan string untuk jawaban di bawah ini:
 
 ```bash icon="terminal"
 ▰▰▰▰▰▰▰▰ Thinking...
@@ -51,15 +51,20 @@ agent.print_response("Apa yang sedang terjadi di Indonesia?", stream=True)
 ┃ Apa yang sedang terjadi di Indonesia?                                                                           ┃
 ┃                                                                                                                 ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-┏━ Tools Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┏━ Tool Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                                                                                                 ┃
 ┃ • duckduckgo_news(query=Indonesia)                                                                              ┃
 ┃                                                                                                                 ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ┏━ Response (6.3s) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                                                                                                 ┃
-┃ [Simulasi respons contoh: ringkasan tingkat tinggi dan non-spesifik mengenai peristiwa terkini atau tanggapan   ┃
-┃ publik, dirancang untuk menunjukkan format output tanpa referensi ke peristiwa nyata yang sensitif.]            ┃
+┃ Saat ini, Indonesia mengalami gelombang protes nasional terkait kesulitan ekonomi dan tunjangan anggota         ┃
+┃ parlemen. Protes ini telah menyebabkan bentrokan kekerasan dan menimbulkan kekhawatiran tentang respons aparat  ┃
+┃ keamanan yang keras. Beberapa pihak melihat situasi ini sebagai ujian besar bagi pemerintahan Presiden Prabowo  ┃
+┃ Subianto dan mengingatkan pada masa-masa kelam dalam sejarah negara itu.                                        ┃
+┃                                                                                                                 ┃
+┃ Di sisi lain, Presiden Prabowo Subianto juga telah bertemu dengan Presiden Tiongkok Xi Jinping di Beijing untuk ┃
+┃ membahas kerja sama dalam proyek infrastruktur besar, termasuk pembangunan tanggul laut dan kereta api cepat.   ┃
 ┃                                                                                                                 ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 WARNING:ddgs.engines.yahoo_news:Error post-processing results: IndexError('list index out of range')

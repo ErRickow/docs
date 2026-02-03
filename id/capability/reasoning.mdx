@@ -1,11 +1,11 @@
 ---
-title: "Penalaran (Reasoning)"
-description: "> Mulai dengan Neosantara menggunakan model Llama 3.3 Nemotron, model penalaran terbuka yang kuat."
+title: "Mulai Cepat Llama 3.3 Nemotron"
+description: "> Dapatkan panduan memulai integrasi Neosantara dengan Llama 3.3 Nemotron, model penalaran terbuka yang kuat."
 ---
 
-Model penalaran bobot terbuka ini dirancang untuk pengembang dan perusahaan yang membutuhkan transparansi dan kustomisasi sambil mempertahankan kemampuan penalaran tingkat lanjut untuk tugas-tugas kompleks.
+Model penalaran bobot terbuka yang fleksibel ini dirancang untuk pengembang dan perusahaan yang membutuhkan transparansi dan kustomisasi sambil tetap mempertahankan kemampuan penalaran tingkat lanjut untuk tugas-tugas kompleks.
 
-Llama 3.3 Nemotron sangat unggul dalam pengodean, matematika, dan alur kerja agen. Secara default, Neosantara mengoptimalkan kecepatan dan biaya dengan menonaktifkan penalaran. Kamu dapat mengaktifkannya secara eksplisit jika dibutuhkan.
+Model Llama 3.3 Nemotron sangat mumpuni dalam pengodean, matematika, dan alur kerja agentik. Secara default, Neosantara mengoptimalkan kecepatan dan efisiensi biaya dengan menonaktifkan penalaran. Kamu dapat mengaktifkannya secara eksplisit saat diperlukan.
 
 ---
 
@@ -13,7 +13,7 @@ Llama 3.3 Nemotron sangat unggul dalam pengodean, matematika, dan alur kerja age
 
 ### Cara Menggunakan API
 
-Untuk model penalaran yang menghasilkan respons yang lebih panjang dan rinci, kami sangat menyarankan streaming token untuk memastikan pengalaman pengguna terbaik.
+Untuk model penalaran yang menghasilkan respons yang lebih panjang dan terperinci, kami sangat menyarankan untuk melakukan streaming token guna memastikan pengalaman pengguna terbaik.
 
 #### **Perilaku Default (Penalaran Mati)**
 
@@ -21,7 +21,7 @@ Secara default, model akan memberikan jawaban langsung tanpa proses berpikir unt
 
 #### **Mengaktifkan Penalaran**
 
-Untuk mengaktifkan penalaran langkah demi langkah, Kamu dapat menggunakan **parameter `thinking`** (Direkomendasikan untuk SDK Anthropic/OpenAI) atau menambahkan `/think` ke system prompt Kamu.
+Untuk mengaktifkan penalaran langkah demi langkah, Kamu dapat menggunakan **parameter `thinking`** (Direkomendasikan untuk SDK Anthropic/OpenAI) atau menambahkan `/think` ke prompt sistem Kamu.
 
 ```python icon="python"
 from openai import OpenAI
@@ -36,7 +36,7 @@ stream = client.chat.completions.create(
   model="llama-3.3-nemotron-super-49b-v1.5",
   messages=[{
     "role": "user",
-    "content": "Selesaikan teka-teki logika ini: Jika semua mawar adalah bunga dan beberapa bunga berwarna merah, bisakah kita menyimpulkan bahwa beberapa mawar berwarna merah?",
+    "content": "Selesaikan teka-teki logika ini: Jika semua mawar adalah bunga dan beberapa bunga berwarna merah, dapatkah kita menyimpulkan bahwa beberapa mawar berwarna merah?",
   }],
   extra_body={
     "thinking": {"type": "enabled", "budget_tokens": 2048}
@@ -46,6 +46,8 @@ stream = client.chat.completions.create(
 )
 
 for chunk in stream:
+  if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
+      print(f"[Berpikir] {chunk.choices[0].delta.reasoning_content}", end="", flush=True)
   if chunk.choices[0].delta.content:
       print(chunk.choices[0].delta.content, end="", flush=True)
 ```
@@ -53,27 +55,28 @@ for chunk in stream:
 #### **Kontrol Manual**
 
 Kamu juga dapat mengontrol penalaran melalui instruksi prompt:
-- **Aktifkan**: Mulai system prompt dengan `/think`.
-- **Matikan (Default)**: Mulai system prompt dengan `/no_think`.
+- **Aktifkan**: Mulai prompt sistem dengan `/think`.
+- **Nonaktifkan (Default)**: Mulai prompt sistem dengan `/no_think`.
 
 ---
 
 ### Model Khusus Neosantara
 
-Neosantara menyediakan versi optimal dari model inti seperti `nusantara-base` dan `archipelago-70b` yang dikhususkan untuk penalaran. Model-model ini menggunakan mekanisme **Instruction Injection** untuk memberikan pemikiran langkah demi langkah bahkan pada model chat standar.
+Neosantara menyediakan versi optimal dari model inti seperti `nusantara-base` dan `archipelago-70b` yang secara khusus disetel untuk penalaran. Model-model ini menggunakan mekanisme **Instruction Injection** untuk memberikan pemikiran langkah demi langkah bahkan pada model obrolan standar.
 
 #### **Cara Kerjanya**
-Saat Kamu mengaktifkan penalaran untuk model-model ini (via parameter `thinking` atau `/think`), Neosantara secara otomatis menambahkan instruksi tingkat sistem (contoh: *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaan Kamu. Ini memastikan model membedah masalah sebelum memberikan jawaban akhir.
+
+Saat Kamu mengaktifkan penalaran untuk model-model ini (melalui parameter `thinking` atau `/think`), Neosantara secara otomatis menambahkan instruksi tingkat sistem (misalnya, *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaan Kamu. Ini memastikan model membedah masalah sebelum memberi Kamu jawaban akhir.
 
 ---
 
 ### Model Berpikir (Claude & Gemini)
 
-Untuk model yang mendukung penalaran asli (*native reasoning*), seperti **Claude 3.5 Sonnet** dan **Gemini 2.0 Flash**, Neosantara mendukung parameter `thinking`. Ini memungkinkan Kamu mengalokasikan anggaran token tertentu untuk proses berpikir internal model.
+Untuk model yang mendukung penalaran asli, seperti **Claude 3.5 Sonnet** dan **Gemini 2.0 Flash**, Neosantara mendukung parameter `thinking`. Ini memungkinkan Kamu untuk mengalokasikan anggaran token tertentu untuk proses pemikiran internal model.
 
 #### **Menggunakan Parameter `thinking`**
 
-Saat menggunakan API yang kompatibel dengan Anthropic, Kamu dapat menyediakan objek `thinking`.
+Saat menggunakan API yang kompatibel dengan Anthropic, Kamu dapat memberikan objek `thinking`.
 
 ```json icon="code"
 {
@@ -86,7 +89,7 @@ Saat menggunakan API yang kompatibel dengan Anthropic, Kamu dapat menyediakan ob
 }
 ```
 
-#### **Pemetaan Upaya Penalaran (Reasoning Effort)**
+#### **Pemetaan Upaya Penalaran**
 
 Jika Kamu menggunakan API yang kompatibel dengan OpenAI, anggaran `thinking` secara otomatis dipetakan ke parameter `reasoning_effort` berdasarkan standar industri:
 
@@ -101,25 +104,26 @@ Jika Kamu menggunakan API yang kompatibel dengan OpenAI, anggaran `thinking` sec
 
 ### Praktik Terbaik
 
-Untuk mendapatkan hasil terbaik dari Llama 3.3 Nemotron, perlakukan seperti pemecah masalah ahli. Berikan tujuan tingkat tinggi yang jelas dan biarkan model menentukan langkah terbaik untuk mencapai solusi.
+Untuk mendapatkan hasil terbaik dari Llama 3.3 Nemotron, perlakukan ia seperti pemecah masalah ahli. Berikan tujuan tingkat tinggi yang jelas dan biarkan model menentukan langkah terbaik untuk mencapai solusi.
 
 - **Kekuatan**: Unggul dalam penalaran terbuka, logika multi-langkah, dan masalah pengodean atau matematika yang kompleks.
-- **Hindari Prompt Berlebihan**: Mengatur setiap langkah secara mikro dapat membatasi kemampuan penalaran tingkat lanjut model. Berikan tujuannya, bukan jalan persisnya.
-- **Berikan Tujuan Jelas**: Pastikan prompt Kamu jelas dan tidak ambigu untuk mendapatkan respons yang paling akurat dan relevan.
-- **Gunakan Streaming**: Untuk kueri yang kompleks, proses penalaran dapat menghasilkan banyak teks. Streaming respons memberikan pengalaman pengguna yang jauh lebih baik.
+- **Hindari Over-prompting**: Mengatur setiap langkah secara mikro dapat membatasi kemampuan penalaran tingkat lanjut model. Berikan tujuannya, bukan jalan pastinya.
+- **Berikan Tujuan yang Jelas**: Pastikan prompt Kamu jelas dan tidak ambigu untuk mendapatkan respons yang paling akurat dan relevan.
+- **Gunakan Streaming**: Untuk kueri yang kompleks, proses penalaran dapat menghasilkan banyak teks. Melakukan streaming respons memberikan pengalaman pengguna yang jauh lebih baik.
 
 ---
 
 ### Kasus Penggunaan
 
-- **Pembuatan & Analisis Kode**: Menganalisis basis kode besar, menyarankan perbaikan, dan menghasilkan cuplikan kode kompleks.
-- **Perencanaan Strategis**: Mengembangkan rencana multi-tahap, menalar tentang pendekatan optimal dan potensi hambatan.
-- **Analisis Dokumen Kompleks**: Memproses dan meringkas spesifikasi teknis, kontrak hukum, dan makalah penelitian.
-- **Alur Kerja Agen**: Membangun agen AI canggih yang dapat melakukan tugas multi-langkah yang kompleks.
-- **Riset Ilmiah**: Membantu dalam pembuatan hipotesis, desain eksperimen, dan analisis data.
-- **Pemecahan Masalah Tingkat Lanjut**: Menangani persyaratan ambigu dengan menyimpulkan asumsi yang tidak dinyatakan dan memberikan solusi logis.
+- **Pembuatan & Analisis Kode:** Menganalisis basis kode besar, menyarankan perbaikan, dan menghasilkan cuplikan kode yang kompleks.
+- **Perencanaan Strategis:** Mengembangkan rencana multi-tahap, menalar tentang pendekatan optimal dan hambatan potensial.
+- **Analisis Dokumen Kompleks:** Memproses dan meringkas spesifikasi teknis, kontrak hukum, dan makalah penelitian.
+- **Alur Kerja Agentik:** Membangun agen AI canggih yang dapat melakukan tugas multi-langkah yang kompleks.
+- **Penelitian Ilmiah:** Membantu dalam pembuatan hipotesis, desain eksperimen, dan analisis data.
+- **Pemecahan Masalah Tingkat Lanjut:** Menangani persyaratan yang ambigu dengan menyimpulkan asumsi yang tidak dinyatakan dan memberikan solusi logis.
 
 ## Langkah Selanjutnya
 
-- Lihat [kemampuan embeddings kami](/id/capability/embeddings)
+- Lihat [kemampuan embedding kami](/id/capability/embeddings)
 - Lihat [kemampuan pembuatan gambar kami](/id/capability/image-generation)
+- Lihat [integrasi kami](/id/integrations)

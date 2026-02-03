@@ -1,21 +1,114 @@
 ---
 title: "API Kompatibel Anthropic"
-description: "Gunakan SDK Anthropic resmi untuk mengakses Neosantara AI."
+description: "Neosantara AI menyediakan endpoint API yang kompatibel dengan Anthropic, memungkinkan Kamu menggunakan SDK Anthropic resmi dan alat seperti Claude Code."
 ---
 
-Neosantara [AI Gateway](/id/intro) menyediakan endpoint yang kompatibel dengan Anthropic Messages API, memungkinkan Kamu menggunakan SDK Anthropic atau alat seperti [Claude Code](https://code.claude.com) dengan mudah.
+[AI Gateway Neosantara](/id/intro) menyediakan endpoint API yang kompatibel dengan Anthropic, sehingga Kamu dapat menggunakan SDK Anthropic dan alat seperti [Claude Code](https://www.claude.com/product/claude-code) melalui gateway terpadu hanya dengan perubahan URL.
 
-## [Base URL](#base-url)
+API yang kompatibel dengan Anthropic mengimplementasikan spesifikasi yang sama dengan [API Messages Anthropic](https://docs.anthropic.com/en/api/messages).
+
+Untuk informasi lebih lanjut tentang penggunaan Neosantara dengan Claude Code, lihat [panduan AI Coding Tools](/id/guides/ai-coding-tools).
+
+## Base URL
+
+API yang kompatibel dengan Anthropic tersedia di URL dasar berikut:
 
 `https://api.neosantara.xyz/anthropic`
 
 <Warning>
-Pastikan Kamu menggunakan sub-path `/anthropic` saat mengonfigurasi SDK Anthropic. Penggunaan root `/v1` akan menyebabkan kegagalan skema.
+  Pastikan Kamu menggunakan URL dasar `/anthropic` saat mengonfigurasi SDK Anthropic. Menggunakan root `/v1` akan menyebabkan ketidakcocokan skema.
 </Warning>
 
-## [Quick Start SDK](#quick-start)
+## Autentikasi
 
-```typescript
+API yang kompatibel dengan Anthropic mendukung metode autentikasi yang sama dengan API Neosantara utama:
+
+*   **Kunci API**: Gunakan kunci API Neosantara Kamu dengan header `x-api-key` atau header `Authorization: Bearer <token>`.
+*   **Header Anthropic**: Kamu juga dapat menggunakan header `x-api-key` standar yang diharapkan oleh SDK Anthropic.
+
+## Endpoint yang didukung
+
+Neosantara mendukung endpoint kompatibel Anthropic berikut:
+
+*   [`POST /v1/messages`](/id/sdk/anthropic-compat/messages) - Buat pesan dengan dukungan untuk streaming, [panggilan tool](/id/sdk/anthropic-compat/tool-calls), [extended thinking](/id/sdk/anthropic-compat/advanced#extended-thinking), dan [lampiran file](/id/sdk/anthropic-compat/file-attachments).
+
+Untuk fitur lanjutan, lihat:
+
+*   [Fitur Lanjutan](/id/sdk/anthropic-compat/advanced) - Extended thinking.
+
+## Mengonfigurasi Claude Code
+
+[Claude Code](https://code.claude.com/docs) adalah alat pengodean agentik milik Anthropic. Kamu dapat mengonfigurasinya untuk menggunakan AI Gateway Neosantara, yang memungkinkan Kamu untuk:
+
+*   Merutekan permintaan melalui model regional berkinerja tinggi.
+*   Memantau lalu lintas dan pengeluaran dalam [ikhtisar penggunaan](/id/about/billing-pricing) Kamu.
+*   Menggunakan model seperti `claude-4.5-sonnet` atau `grok-code-fast` untuk tugas pengodean.
+
+1.  ### Konfigurasi variabel lingkungan
+    
+    Konfigurasikan Claude Code untuk menggunakan AI Neosantara dengan menetapkan [variabel lingkungan](https://code.claude.com/docs/en/settings#environment-variables) berikut:
+    
+    | Variabel | Nilai |
+    | --- | --- |
+    | `ANTHROPIC_BASE_URL` | `https://api.neosantara.xyz/anthropic` |
+    | `ANTHROPIC_AUTH_TOKEN` | Kunci API Neosantara Kamu |
+    | `ANTHROPIC_API_KEY` | `""` (string kosong) |
+    
+    Menetapkan `ANTHROPIC_API_KEY` ke string kosong itu penting. Claude Code memeriksa variabel ini terlebih dahulu, dan jika ditetapkan ke nilai yang tidak kosong, ia akan menggunakannya alih-alih `ANTHROPIC_AUTH_TOKEN`.
+    
+    #### Opsi 1: Alias shell (paling sederhana)
+    
+    Tambahkan alias ini ke `~/.zshrc` (atau `~/.bashrc`) Kamu:
+    
+    ```bash
+    alias claude-nai='ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" ANTHROPIC_AUTH_TOKEN="kunci-api-kamu-di-sini" ANTHROPIC_API_KEY="" claude'
+    ```
+    
+    Kemudian muat ulang shell Kamu:
+    
+    ```bash
+    source ~/.zshrc
+    ```
+    
+    #### Opsi 2: Skrip wrapper
+    
+    Untuk fleksibilitas lebih, buat skrip wrapper di `~/bin/claude-nai`:
+    
+    ```bash
+    #!/usr/bin/env bash
+    # Merutekan Claude Code melalui Neosantara
+     
+    ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" \
+    ANTHROPIC_AUTH_TOKEN="kunci-api-kamu-di-sini" \
+    ANTHROPIC_API_KEY="" \
+    claude "$@"
+    ```
+    
+    Buat skrip tersebut dapat dieksekusi dan pastikan `~/bin` ada di PATH Kamu:
+    
+    ```bash
+    mkdir -p ~/bin
+    chmod +x ~/bin/claude-nai
+    echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
+    source ~/.zshrc
+    ```
+    
+2.  ### Jalankan Claude Code
+    
+    Jalankan `claude-nai` untuk memulai Claude Code dengan Neosantara:
+    
+    ```bash
+    claude-nai
+    ```
+    
+
+## Integrasi dengan SDK Anthropic
+
+Arahkan klien Kamu ke URL dasar AI Neosantara dan gunakan [kunci API Kamu](/id/authentication) untuk autentikasi.
+
+<CodeGroup>
+
+```typescript client.ts
 import Anthropic from '@anthropic-ai/sdk';
  
 const client = new Anthropic({
@@ -26,12 +119,73 @@ const client = new Anthropic({
 const message = await client.messages.create({
   model: 'claude-4.5-sonnet',
   max_tokens: 1024,
-  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],
+  messages: [{ role: 'user', content: 'Halo dunia!' }],
 });
 ```
 
-## [Fitur Lanjutan](#advanced)
+```python client.py
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[
+        {'role': 'user', 'content': 'Halo dunia!'}
+    ]
+)
+```
 
-*   [Messages API](/id/sdk/anthropic-compat/messages) - Struktur pesan native Anthropic.
-*   [Extended Thinking](/id/sdk/anthropic-compat/advanced) - Mendukung model dengan penalaran mendalam.
-*   [File Attachments](/id/sdk/anthropic-compat/file-attachments) - Kirim PDF dan gambar secara native.
+</CodeGroup>
+
+## Parameter
+
+Endpoint messages mendukung parameter berikut:
+
+### Parameter wajib
+
+*   `model` (string): Model yang akan digunakan (misalnya, `claude-4.5-sonnet`)
+*   `max_tokens` (integer): Jumlah maksimum token untuk dihasilkan
+*   `messages` (array): Array objek pesan dengan kolom `role` dan `content`
+
+### Parameter opsional
+
+*   `stream` (boolean): Apakah akan melakukan streaming respons. Default-nya `false`
+*   `temperature` (number): Mengontrol keacakan dalam output. Rentang: 0-1
+*   `top_p` (number): Parameter nucleus sampling. Rentang: 0-1
+*   `top_k` (integer): Parameter top-k sampling
+*   `stop_sequences` (array): Urutan berhenti untuk pembuatan
+*   `tools` (array): Array definisi tool untuk pemanggilan fungsi
+*   `tool_choice` (object): Mengontrol tool mana yang dipanggil
+*   `thinking` (object): Konfigurasi [Extended thinking](/id/capability/reasoning)
+*   `system` (string atau array): Prompt sistem
+
+## Penanganan kesalahan
+
+API mengembalikan kode status HTTP standar dan respons kesalahan:
+
+### Kode kesalahan umum
+
+*   `400 Bad Request`: Parameter permintaan tidak valid
+*   `401 Unauthorized`: Autentikasi tidak valid atau hilang
+*   `403 Forbidden`: Izin tidak cukup (misalnya, akses model ditolak)
+*   `404 Not Found`: Model atau endpoint tidak ditemukan
+*   `429 Too Many Requests`: Batas penggunaan atau saldo kredit terlampaui
+*   `500 Internal Server Error`: Kesalahan Penyedia atau Gateway
+
+### Format respons kesalahan
+
+```json
+{
+  "type": "error",
+  "error": {
+    "type": "invalid_request_error",
+    "message": "Permintaan tidak valid: parameter 'max_tokens' yang wajib diisi hilang"
+  }
+}
+```

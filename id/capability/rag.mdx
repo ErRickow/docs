@@ -10,39 +10,39 @@ Panduan ini menunjukkan cara membangun aplikasi RAG "Dunia Nyata": **Asisten Duk
 Kita akan membangun sistem yang:
 
 1. **Membaca** dokumen dukungan Kamu.
-2. **Mengonversi** dokumen tersebut menjadi vektor embedding menggunakan `nusa-embedding-0001`.
-3. **Mencari** info relevan saat pengguna bertanya.
-4. **Menghasilkan** jawaban akurat menggunakan `nusantara-base` atau `garda-beta-mini`.
+2. **Mengonversi** mereka menjadi vektor embedding menggunakan `nusa-embedding-0001`.
+3. **Mencari** info relevan saat pengguna mengajukan pertanyaan.
+4. **Menghasilkan** jawaban yang akurat menggunakan `nusantara-base` atau `garda-beta-mini`.
 
 ## Prasyarat
 
 * Kunci API Neosantara.
-* Penyimpanan vektor sederhana (kita gunakan contoh in-memory lokal untuk kesederhanaan, tapi Kamu bisa menggunakan Pinecone, Supabase, atau Qdrant).
+* Penyimpanan vektor sederhana (kita akan menggunakan contoh in-memory lokal untuk kesederhanaan, tetapi Kamu dapat menggunakan Pinecone, Supabase, atau Qdrant).
 
 ---
 
-## Langkah 1: Buat Embeddings (Ingestion)
+## Langkah 1: Buat Embedding (Ingesti)
 
-Pertama, kita perlu mengubah data teks Kamu menjadi angka (vektor) agar AI bisa mencarinya.
+Pertama, kita perlu mengubah data teks Kamu menjadi angka (vektor) sehingga AI dapat mencarinya.
 
 ```javascript icon="js"
 import OpenAI from "openai";
 
 const client = new OpenAI({
   baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "KUNCI_API_KAMU"
+  apiKey: "KUNCI_API_NEOSANTARA_KAMU"
 });
 
 // "Basis Pengetahuan" Kamu
 const documents = [
   "Untuk mereset kata sandi Kamu, buka Pengaturan > Keamanan > Reset Kata Sandi.",
-  "Kebijakan pengembalian dana kami memungkinkan pengembalian dalam 30 hari setelah pembelian. Hubungi support@neosantara.xyz dengan nomor pesanan Kamu.",
-  "Jam dukungan adalah Senin sampai Jumat, jam 9 pagi sampai 5 sore WIB.",
-  "Batas rate API Neosantara untuk tier Gratis adalah 1000 RPM."
+  "Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.",
+  "Jam dukungan adalah Senin sampai Jumat, pukul 09.00 hingga 17.00 WIB.",
+  "Batas kecepatan API Neosantara untuk tier Gratis adalah 1000 RPM."
 ];
 
 async function createKnowledgeBase() {
-  console.log("Membuat embeddings...");
+  console.log("Membuat embedding...");
   
   const vectorStore = [];
 
@@ -62,9 +62,9 @@ async function createKnowledgeBase() {
 }
 ```
 
-## Langkah 2: Cari (Retrieval)
+## Langkah 2: Cari (Pengambilan)
 
-Saat pengguna bertanya, kita konversi pertanyaan mereka menjadi vektor dan temukan dokumen yang paling cocok menggunakan **Cosine Similarity**.
+Saat pengguna mengajukan pertanyaan, kita mengonversi pertanyaan mereka menjadi vektor dan menemukan dokumen yang paling cocok menggunakan **Cosine Similarity**.
 
 ```javascript icon="js"
 // Fungsi cosine similarity sederhana
@@ -88,7 +88,7 @@ async function retrieveContext(query, vectorStore) {
   });
   const queryVector = queryResponse.data[0].embedding;
 
-  // 2. Hitung kemiripan dengan semua dokumen
+  // 2. Hitung kesamaan dengan semua dokumen
   const scoredDocs = vectorStore.map(doc => ({
     text: doc.text,
     score: cosineSimilarity(queryVector, doc.vector)
@@ -100,9 +100,9 @@ async function retrieveContext(query, vectorStore) {
 }
 ```
 
-## Langkah 3: Hasilkan Jawaban (Generation)
+## Langkah 3: Hasilkan Jawaban (Generasi)
 
-Terakhir, kita berikan konteks yang diambil ke LLM untuk menghasilkan jawaban alami.
+Terakhir, kita meneruskan konteks yang diambil ke LLM untuk menghasilkan jawaban yang alami.
 
 ```javascript icon="js"
 async function answerUserQuestion(question, vectorStore) {
@@ -110,16 +110,17 @@ async function answerUserQuestion(question, vectorStore) {
 
   // Ambil info relevan
   const context = await retrieveContext(question, vectorStore);
-  console.log(`Konteks ditemukan:\n${context}\n---
+  console.log(`Menemukan konteks:\n${context}\n---
+
 `);
 
   // Hasilkan jawaban
   const response = await client.chat.completions.create({
-    model: "nusantara-base", // Model serbaguna
+    model: "nusantara-base", // Model tujuan umum
     messages: [
       {
         role: "system",
-        content: "Kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan. Jika jawaban tidak ada dalam konteks, katakan Kamu tidak tahu."
+        content: "Kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan. Jika jawabannya tidak ada dalam konteks, katakan Kamu tidak tahu."
       },
       {
         role: "user",
@@ -141,10 +142,10 @@ async function main() {
   // 1. Setup
   const kb = await createKnowledgeBase();
 
-  // 2. Tanya pertanyaan yang ADA di dokumen
-  await answerUserQuestion("Bagaimana cara dapat refund?", kb);
+  // 2. Ajukan pertanyaan yang ADA di dokumen
+  await answerUserQuestion("Bagaimana cara mendapatkan pengembalian dana?", kb);
   
-  // 3. Tanya pertanyaan yang TIDAK ADA di dokumen
+  // 3. Ajukan pertanyaan yang TIDAK ADA di dokumen
   await answerUserQuestion("Bagaimana cara membuat kue?", kb);
 }
 
@@ -154,15 +155,58 @@ main();
 ### Output yang Diharapkan
 
 ```text
-Pengguna bertanya: "Bagaimana cara dapat refund?"
-Konteks ditemukan:
-Kebijakan pengembalian dana kami...
+Pengguna bertanya: "Bagaimana cara mendapatkan pengembalian dana?"
+Menemukan konteks:
+Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.
 ...
-Jawaban AI: Untuk mendapatkan pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.
+Jawaban AI: Untuk mendapatkan pengembalian dana, harap hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.
 
 Pengguna bertanya: "Bagaimana cara membuat kue?"
-Konteks ditemukan:
-Jam dukungan adalah Senin... (atau konteks tidak relevan lainnya)
+Menemukan konteks:
+Jam dukungan adalah Senin sampai Jumat... (atau konteks tidak relevan lainnya)
 ...
-Jawaban AI: Saya tidak tahu. Saya hanya bisa membantu dengan pertanyaan dukungan terkait layanan kami.
+Jawaban AI: Saya tidak tahu. Saya hanya dapat membantu dengan pertanyaan dukungan yang berkaitan dengan layanan kami.
 ```
+
+## Mengapa ini penting?
+
+Tanpa RAG, model mungkin berhalusinasi tentang kebijakan pengembalian dana palsu atau memberikan saran umum. Dengan RAG, ia mematuhi data **Kamu** secara ketat, memberikan informasi yang akurat dan dapat ditindaklanjuti.
+
+---
+
+## Berintegrasi dengan Database Vektor (misalnya, Pinecone)
+
+Untuk aplikasi RAG siap produksi, Kamu memerlukan cara yang skalabel untuk menyimpan dan mengambil embedding Kamu. **Database vektor** seperti Pinecone, Weaviate, Qdrant, atau Postgres dengan `pgvector` dirancang untuk tujuan ini.
+
+Alur inti RAG tetap sama, tetapi Langkah 1 (Buat Embedding) dan Langkah 2 (Cari) akan melibatkan interaksi dengan database vektor pilihan Kamu, alih-alih array in-memory lokal.
+
+### Langkah Tingkat Tinggi untuk Integrasi Pinecone
+
+1. **Siapkan Indeks Pinecone**: Inisialisasi klien Pinecone dan buat indeks dengan `dimensi` yang sesuai (misalnya, 768 untuk `nusa-embedding-0001`).
+2. **Upsert Embedding**: Saat membuat basis pengetahuan Kamu, alih-alih memasukkannya ke `vectorStore`, Kamu akan melakukan `upsert` potongan dokumen Kamu dan embedding korespondensinya ke indeks Pinecone Kamu.
+3. **Kueri Pinecone**: Untuk pengambilan, embed pertanyaan pengguna lalu gunakan klien Pinecone untuk menanyakan indeks Kamu untuk top-k (misalnya, top 2) vektor yang paling mirip. Pinecone menangani perhitungan kesamaan untuk Kamu.
+4. **Ambil Konteks Lengkap**: Dari hasil kueri Pinecone, ekstrak konten teks asli dari dokumen yang relevan untuk diteruskan ke LLM.
+
+```javascript icon="js"
+// Contoh (konseptual):
+// import { Pinecone } from '@pinecone-database/pinecone';
+// const pc = new Pinecone({ apiKey: 'KUNCI_API_NEOSANTARA_KAMU' });
+// const index = pc.index('my-rag-index');
+
+async function createPineconeKnowledgeBase(documents) {
+  // ... (embed dokumen seperti sebelumnya)
+  // await index.upsert(vectors_with_metadata);
+}
+
+async function retrievePineconeContext(query) {
+  // ... (embed kueri seperti sebelumnya)
+  // const queryVector = ...;
+  // const queryResult = await index.query({ vector: queryVector, topK: 2 });
+  // return queryResult.matches.map(m => m.metadata.text).join("\n\n");
+}
+```
+
+Dengan memanfaatkan database vektor yang kuat, aplikasi RAG Kamu dapat diskalakan ke jutaan dokumen sambil tetap mempertahankan pengambilan yang cepat dan akurat.
+
+Untuk contoh lengkap yang dapat dijalankan menggunakan ChromaDB, lihat panduan terperinci kami: [Bangun Aplikasi RAG dengan ChromaDB](/id/guides/rag-chromadb-example).
+Untuk berintegrasi dengan Cloudflare Vectorize, lihat: [Bangun Aplikasi RAG dengan Cloudflare Vectorize](/id/guides/rag-cloudflare-vectorize-example).

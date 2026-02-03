@@ -1,15 +1,21 @@
 ---
 title: "Chat Completions"
-description: "Buat respons obrolan menggunakan berbagai model AI melalui API yang kompatibel dengan OpenAI."
+description: "Buat chat completions menggunakan berbagai model AI yang tersedia melalui Gateway AI Neosantara."
 ---
 
-Endpoint: `POST /v1/chat/completions`
+Buat chat completions menggunakan berbagai model AI yang tersedia melalui Gateway AI Neosantara. Endpoint ini mengikuti spesifikasi OpenAI Chat Completions standar.
 
-### [Permintaan Dasar](#basic)
+**Endpoint**
+
+`POST /v1/chat/completions`
+
+### Chat completion dasar
+
+Buat chat completion non-streaming.
 
 <CodeGroup>
 
-```typescript chat.ts
+```typescript chat-completion.ts
 import OpenAI from 'openai';
  
 const openai = new OpenAI({
@@ -20,85 +26,339 @@ const openai = new OpenAI({
 const completion = await openai.chat.completions.create({
   model: 'grok-4.1-fast-non-reasoning',
   messages: [
-    { role: 'user', content: 'Ceritakan dongeng singkat tentang robot.' },
+    {
+      role: 'user',
+      content: 'Tulis satu kalimat cerita sebelum tidur tentang unicorn.',
+    },
   ],
+  stream: false,
 });
  
-console.log(completion.choices[0].message.content);
+console.log('Asisten:', completion.choices[0].message.content);
+console.log('Token yang digunakan:', completion.usage);
+```
+
+```python chat-completion.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Tulis satu kalimat cerita sebelum tidur tentang unicorn.'
+        }
+    ],
+    stream=False,
+)
+ 
+print('Asisten:', completion.choices[0].message.content)
+print('Token yang digunakan:', completion.usage)
 ```
 
 </CodeGroup>
 
+#### Format respons
+
+```json
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "created": 1677652288,
+  "model": "grok-4.1-fast-non-reasoning",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Dahulu kala, seekor unicorn lembut dengan surai perak berkilauan menari melintasi awan yang diterangi cahaya bulan, menaburkan mimpi debu bintang kepada anak-anak yang tertidur di bawah."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 15,
+    "completion_tokens": 28,
+    "total_tokens": 43
+  }
+}
+```
+
 ---
 
-### [Streaming](#streaming)
+### Streaming chat completion
 
-Gunakan streaming untuk mendapatkan token secara real-time.
+Buat streaming chat completion yang mengirimkan token saat sedang dihasilkan.
 
 <CodeGroup>
 
-```typescript streaming.ts
+```typescript streaming-chat.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
 const stream = await openai.chat.completions.create({
   model: 'grok-4.1-fast-non-reasoning',
-  messages: [{ role: 'user', content: 'Jelaskan kuantum komputer.' }],
+  messages: [
+    {
+      role: 'user',
+      content: 'Tulis satu kalimat cerita sebelum tidur tentang unicorn.',
+    },
+  ],
   stream: true,
 });
  
 for await (const chunk of stream) {
-  process.stdout.write(chunk.choices[0]?.delta?.content || '');
+  const content = chunk.choices[0]?.delta?.content;
+  if (content) {
+    process.stdout.write(content);
+  }
 }
+```
+
+```python streaming-chat.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+stream = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Tulis satu kalimat cerita sebelum tidur tentang unicorn.'
+        }
+    ],
+    stream=True,
+)
+ 
+for chunk in stream:
+    content = chunk.choices[0].delta.content
+    if content:
+        print(content, end='', flush=True)
+```
+
+</CodeGroup>
+
+#### Format respons streaming
+
+Respons streaming dikirim sebagai [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). Setiap event berisi objek JSON dengan data respons parsial.
+
+Format respons mengikuti spesifikasi streaming OpenAI:
+
+```
+data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1677652288,"model":"grok-4.1-fast-non-reasoning","choices":[{"index":0,"delta":{"content":"Dahulu"},"finish_reason":null}]}
+ 
+data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1677652288,"model":"grok-4.1-fast-non-reasoning","choices":[{"index":0,"delta":{"content":" kala"},"finish_reason":null}]}
+ 
+data: [DONE]
+```
+
+---
+
+### Lampiran gambar
+
+Kirim gambar sebagai bagian dari permintaan chat completion Kamu menggunakan model multimodal.
+
+<CodeGroup>
+
+```typescript image-analysis.ts
+import fs from 'node:fs';
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+// Baca file gambar sebagai base64
+const imageBuffer = fs.readFileSync('./path/ke/gambar.png');
+const imageBase64 = imageBuffer.toString('base64');
+ 
+const completion = await openai.chat.completions.create({
+  model: 'claude-3-haiku',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        { type: 'text', text: 'Jelaskan gambar ini secara detail.' },
+        {
+          type: 'image_url',
+          image_url: {
+            url: `data:image/png;base64,${imageBase64}`,
+            detail: 'auto',
+          },
+        },
+      ],
+    },
+  ],
+  stream: false,
+});
+ 
+console.log('Asisten:', completion.choices[0].message.content);
+```
+
+```python image-analysis.py
+import os
+import base64
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+# Baca file gambar sebagai base64
+with open('./path/ke/gambar.png', 'rb') as image_file:
+    image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+ 
+completion = client.chat.completions.create(
+    model='claude-3-haiku',
+    messages=[
+        {
+            'role': 'user',
+            'content': [
+                {'type': 'text', 'text': 'Jelaskan gambar ini secara detail.'},
+                {
+                    'type': 'image_url',
+                    'image_url': {
+                        'url': f'data:image/png;base64,{image_base64}',
+                        'detail': 'auto'
+                    }
+                }
+            ]
+        }
+    ],
+    stream=False,
+)
+ 
+print('Asisten:', completion.choices[0].message.content)
 ```
 
 </CodeGroup>
 
 ---
 
-### [Lampiran Gambar & PDF](#multimodal)
+### Lampiran PDF
 
-Gunakan model multimodal untuk menganalisis dokumen atau gambar.
+Kirim dokumen PDF sebagai bagian dari permintaan chat completion Kamu.
 
 <CodeGroup>
 
-```typescript vision.ts
-const completion = await openai.chat.completions.create({
-  model: 'grok-4.1-fast-non-reasoning',
-  messages: [
-    {
-      role: 'user',
-      content: [
-        { type: 'text', text: 'Apa isi gambar ini?' },
-        {
-          type: 'image_url',
-          image_url: { url: `data:image/png;base64,${base64Image}` },
-        },
-      ],
-    },
-  ],
+```typescript pdf-analysis.ts
+import fs from 'node:fs';
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
 });
-```
-
-```typescript pdf.ts
+ 
+// Baca file PDF sebagai base64
+const pdfBuffer = fs.readFileSync('./path/ke/dokumen.pdf');
+const pdfBase64 = pdfBuffer.toString('base64');
+ 
 const completion = await openai.chat.completions.create({
-  model: 'grok-4.1-fast-non-reasoning',
+  model: 'claude-3-haiku',
   messages: [
     {
       role: 'user',
       content: [
-        { type: 'text', text: 'Ringkas dokumen ini:' },
+        {
+          type: 'text',
+          text: 'Apa topik utama dari dokumen ini? Harap rangkum poin-poin utamanya.',
+        },
         {
           type: 'file',
-          file_url: { url: `data:application/pdf;base64,${pdfBase64}` },
+          file_url: {
+            url: `data:application/pdf;base64,${pdfBase64}`,
+          },
         },
       ],
     },
   ],
+  stream: false,
 });
+ 
+console.log('Asisten:', completion.choices[0].message.content);
+```
+
+```python pdf-analysis.py
+import os
+import base64
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+# Baca file PDF sebagai base64
+with open('./path/ke/dokumen.pdf', 'rb') as pdf_file:
+    pdf_base64 = base64.b64encode(pdf_file.read()).decode('utf-8')
+ 
+completion = client.chat.completions.create(
+    model='claude-3-haiku',
+    messages=[
+        {
+            'role': 'user',
+            'content': [
+                {
+                    'type': 'text',
+                    'text': 'Apa topik utama dari dokumen ini? Harap rangkum poin-poin utamanya.'
+                },
+                {
+                    'type': 'file',
+                    'file_url': {
+                        'url': f'data:application/pdf;base64,{pdf_base64}'
+                    }
+                }
+            ]
+        }
+    ],
+    stream=False,
+)
+ 
+print('Asisten:', completion.choices[0].message.content)
 ```
 
 </CodeGroup>
 
 <Note>
-  **Ekstensi Neosantara**: Meskipun API Chat Completions OpenAI standar terutama mendukung `image_url`, Neosantara memperluas ini untuk mendukung tipe `file` melalui `file_url` untuk dokumen seperti PDF. Perhatikan bahwa lampiran base64 sebaris (inline) yang ditunjukkan di sini adalah ekstensi khusus Neosantara.
+  **Ekstensi Neosantara**: Meskipun API Chat Completions OpenAI standar terutama mendukung `image_url`, Neosantara memperluas ini untuk mendukung tipe `file` melalui `file_url` untuk dokumen seperti PDF. Perhatikan bahwa lampiran base64 sebaris (*inline*) yang ditunjukkan di sini adalah ekstensi khusus Neosantara.
 </Note>
 
 ---
+
+### Parameter
+
+#### Parameter wajib
+
+*   `model` (string): ID model yang akan digunakan (misalnya, `grok-4.1-fast-non-reasoning`, `claude-3-haiku`).
+*   `messages` (array): Array objek pesan dengan kolom `role` dan `content`.
+
+#### Parameter opsional
+
+*   `stream` (boolean): Apakah akan melakukan streaming respons. Default-nya `false`.
+*   `temperature` (number): Mengontrol keacakan dalam output. Rentang: 0-2.
+*   `max_tokens` (integer): Jumlah maksimum token yang akan dihasilkan.
+*   `top_p` (number): Parameter nucleus sampling. Rentang: 0-1.
+*   `frequency_penalty` (number): Penalti untuk token yang sering muncul. Rentang: -2 hingga 2.
+*   `presence_penalty` (number): Penalti untuk token yang ada. Rentang: -2 hingga 2.
+*   `stop` (string atau array): Urutan penghentian untuk pembuatan.
+*   `tools` (array): Array definisi tool untuk pemanggilan fungsi.
+*   `tool_choice` (string atau object): Mengontrol tool mana yang dipanggil.
+*   `response_format` (object): Mengontrol format respons model (misalnya, mode JSON).

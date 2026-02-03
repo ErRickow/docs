@@ -3,24 +3,25 @@ title: "Responses vs. Chat Completions"
 description: "> Memahami perbedaan praktis saat menggunakan SDK OpenAI dengan endpoint kami."
 ---
 
-Saat Kamu menggunakan SDK resmi OpenAI seperti [`openai-python`](https://pypi.org/project/openai/) atau [`openai-node`](https://www.npmjs.com/package/openai) dengan `base_url` Neosantara, perpustakaan memetakan metodenya ke endpoint API kami. Meskipun [`v1/responses`](/api-reference/responses/create) dan [`v1/chat/completions`](/api-reference/chat/completions/create) keduanya dapat mengadakan percakapan, cara Kamu berinteraksi dengan keduanya melalui SDK pada dasarnya berbeda.
+Saat Kamu menggunakan SDK resmi OpenAI seperti [`openai-python`](https://pypi.org/project/openai/) atau [`openai-node`](https://www.npmjs.com/package/openai) dengan `base_url` Neosantara, perpustakaan tersebut memetakan metodenya ke endpoint API kami. Meskipun [`v1/responses`](/api-reference/responses/create) dan [`v1/chat/completions`](/api-reference/chat/completions/create) keduanya dapat melakukan percakapan, cara Kamu berinteraksi dengan mereka melalui SDK pada dasarnya berbeda.
 
-Untuk proyek baru, kami sangat menyarankan menggunakan metode **`client.responses.create()`**.
+Untuk proyek baru, kami sangat menyarankan untuk menggunakan metode **`client.responses.create()`**.
 
 ---
 
-## Perbedaan SDK Utama
+## Perbedaan Utama SDK
 
-### 1. Metode Yang Kamu Panggil
+### 1. Metode yang Kamu Panggil
 
-Perbedaan paling langsung adalah metode yang Kamu panggil pada objek klien.
+Perbedaan yang paling langsung adalah metode yang Kamu panggil pada objek klien.
 
 - **Chat Completions** menggunakan metode bersarang `chat.completions.create()`.
-- **Responses** menggunakan metode tingkat atas `responses.create()`, mencerminkan statusnya sebagai API utama dan modern.
+- **Responses** menggunakan metode tingkat atas `responses.create()`, yang mencerminkan statusnya sebagai API utama yang modern.
 
 <CodeGroup>
 
 ```python icon="python"
+# Penggunaan SDK Chat Completions
 completion = client.chat.completions.create(
     model="gemini-3-flash",
     messages=[{"role": "user", "content": "Halo!"}]
@@ -37,12 +38,24 @@ response = client.responses.create(
 
 </CodeGroup>
 
-### 2. Mengakses Balasan AI
+**Perbandingan Diff:**
 
-Ini adalah perbedaan kritis. Struktur objek yang dikembalikan dalam SDK mencerminkan respons API yang mendasarinya.
+```python icon="code" lines
+# Penggunaan Metode SDK
+completion = client.chat.completions.create( # [!code --]
+response = client.responses.create( # [!code ++]
+    model="claude-4.5-sonnet",
+    messages=[{"role": "user", "content": "Halo!"}] # [!code --]
+    input="Halo!" # [!code ++]
+)
+```
+
+### 2. Mengakses Jawaban AI
+
+Ini adalah perbedaan yang kritis. Struktur objek yang dikembalikan dalam SDK mencerminkan respons API yang mendasarinya.
 
 - **Chat Completions**: Respons selalu bersarang di dalam array `choices`. Untuk mendapatkan teks, Kamu harus mengakses `response.choices[0].message.content`.
-- **Responses**: SDK menyediakan properti pembantu yang nyaman dan aman bernama `output_text` yang secara otomatis memfilter dan menggabungkan teks dari semua bagian pesan. Ini adalah cara yang direkomendasikan untuk mengakses balasan AI kecuali Kamu perlu memeriksa konten non-teks (seperti panggilan tool) secara manual di array `output` mentah.
+- **Responses**: SDK menyediakan properti pembantu yang nyaman dan aman yang disebut `output_text` yang secara otomatis memfilter dan menggabungkan teks dari semua bagian pesan. Ini adalah cara yang direkomendasikan untuk mengakses jawaban AI kecuali Kamu perlu memeriksa konten non-teks (seperti panggilan tool) secara manual dalam array `output` mentah.
 
 <CodeGroup>
 
@@ -59,7 +72,7 @@ print(response.choices[0].message.content)
 # Cara yang direkomendasikan dan aman
 print(response.output_text)
 
-# Untuk kasus penggunaan lanjutan (misal: melakukan iterasi pada bagian output mentah)
+# Untuk kasus penggunaan tingkat lanjut (misalnya, mengiterasi bagian output mentah)
 text_parts = []
 for part in response.output:
     if part.type == "message":
@@ -71,12 +84,20 @@ full_text = "".join(text_parts)
 
 </CodeGroup>
 
+**Perbandingan Diff:**
+
+```python icon="code" lines
+# Mengakses Konten Respons AI
+print(response.choices[0].message.content) # [!code --]
+print(response.output_text) # [!code ++]
+```
+
 ### 3. Mengelola Riwayat Percakapan
 
-API Responses dibangun untuk membuat percakapan multi-putaran lebih mudah, dan ini tercermin dalam penggunaan SDK.
+API Responses dibuat untuk memudahkan percakapan multi-turn, dan ini tercermin dalam penggunaan SDK.
 
-- **Chat Completions**: Kamu sepenuhnya bertanggung jawab untuk mengelola percakapan. Kamu harus secara manual membuat daftar, menambahkan respons asisten, menambahkan pesan pengguna berikutnya, dan mengirim seluruh daftar kembali setiap saat.
-- **Responses**: Kamu dapat membiarkan API mengelola statusnya. Setelah putaran pertama, Kamu cukup meneruskan `previous_response_id` untuk melanjutkan percakapan. SDK dan backend Kamu menangani sisanya.
+- **Chat Completions**: Kamu bertanggung jawab penuh untuk mengelola percakapan. Kamu harus membuat daftar secara manual, menambahkan respons asisten, menambahkan pesan pengguna berikutnya, dan mengirim seluruh daftar kembali setiap saat.
+- **Responses**: Kamu dapat membiarkan API mengelola statusnya. Setelah turn pertama, Kamu cukup meneruskan `previous_response_id` untuk melanjutkan percakapan. SDK dan backend Kamu akan menangani sisanya.
 
 <CodeGroup>
 
@@ -85,35 +106,88 @@ API Responses dibangun untuk membuat percakapan multi-putaran lebih mudah, dan i
 messages = [{"role": "user", "content": "Apa ibu kota Indonesia?"}]
 completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
 
-# Secara manual tambahkan riwayat untuk putaran berikutnya
+# Tambahkan riwayat secara manual untuk turn berikutnya
 messages.append(completion.choices[0].message)
-messages.append({"role": "user", "content": "Berapa populasinya?"})
+messages.append({"role": "user", "content": "Berapa jumlah penduduknya?"})
 next_completion = client.chat.completions.create(model="llama-3.3-nemotron-super-49b-v1.5", messages=messages)
 ```
 
-{/*Automatic status management*/}
 ```python icon="python"
 # Responses: Manajemen status otomatis
-# Putaran pertama
+# Turn pertama
 response1 = client.responses.create(
     model="gemini-3-flash",
     input="Apa ibu kota Indonesia?",
-    store=True # Harus true untuk menyimpan status
+    store=True # Harus bernilai true untuk menyimpan status
 )
 
-# Putaran kedua - cukup gunakan ID
+# Turn kedua - cukup gunakan ID
 response2 = client.responses.create(
     model="gemini-3-flash",
     previous_response_id=response1.id,
-    input="Berapa populasinya?"
+    input="Berapa jumlah penduduknya?"
 )
 ```
 
 </CodeGroup>
 
+**Perbandingan Diff - Manajemen Percakapan:**
+```python icon="code" lines
+# Manajemen riwayat manual (Chat Completions)
+messages = [{"role": "user", "content": "Apa ibu kota Indonesia?"}] # [!code --]
+completion = client.chat.completions.create(model="nusantara-base", messages=messages) # [!code --]
+
+# Tambahkan riwayat secara manual untuk turn berikutnya # [!code --]
+messages.append(completion.choices[0].message) # [!code --]
+messages.append({"role": "user", "content": "Berapa jumlah penduduknya?"}) # [!code --]
+next_completion = client.chat.completions.create(model="nusantara-base", messages=messages) # [!code --]
+
+# Manajemen status otomatis (Responses) # [!code ++]
+response1 = client.responses.create( # [!code ++]
+    model="gemini-3-flash", # [!code ++]
+    input="Apa ibu kota Indonesia?", # [!code ++]
+    store=True # [!code ++]
+) # [!code ++]
+
+# Turn kedua - cukup gunakan ID # [!code ++]
+response2 = client.responses.create( # [!code ++]
+    model="gemini-3-flash", # [!code ++]
+    previous_response_id=response1.id, # [!code ++]
+    input="Berapa jumlah penduduknya?" # [!code ++]
+) # [!code ++]
+```
+
+## Contoh Migrasi Lengkap
+
+Berikut adalah cara Kamu bermigrasi dari Chat Completions ke Responses:
+
+```python icon="code" lines
+# Sebelum: Pendekatan Chat Completions
+import openai # [!code --]
+client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code --]
+
+messages = [{"role": "user", "content": "Halo, apa kabar?"}] # [!code --]
+completion = client.chat.completions.create( # [!code --]
+    model="gemini-3-flash", # [!code --]
+    messages=messages # [!code --]
+) # [!code --]
+ai_response = completion.choices[0].message.content # [!code --]
+
+# Sesudah: Pendekatan Responses
+import openai # [!code ++]
+client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code ++]
+
+response = client.responses.create( # [!code ++]
+    model="claude-4.5-sonnet", # [!code ++]
+    input="Halo, apa kabar?", # [!code ++]
+    store=True # [!code ++]
+) # [!code ++]
+ai_response = response.output_text # [!code ++]
+```
+
 ## Rekomendasi
 
-| Jika Kamu... | Kamu sebaiknya menggunakan... | Mengapa? |
+| Jika Kamu... | Kamu harus menggunakan... | Mengapa? |
 | :--- | :--- | :--- |
-| **Memulai proyek baru** | `client.responses.create()` | Lebih sederhana, lebih kuat, dan menawarkan manajemen status, penalaran tingkat lanjut, dan output terstruktur yang ketat. |
-| **Migrasi aplikasi yang ada** | `client.chat.completions.create()` | Ini memberikan penggantian drop-in yang mulus untuk kode yang sudah ditulis untuk endpoint `chat/completions` OpenAI. |
+| **Memulai proyek baru** | `client.responses.create()` | Ini lebih sederhana, lebih kuat, dan menawarkan manajemen status, penalaran tingkat lanjut, dan output terstruktur yang ketat. |
+| **Memigrasi aplikasi yang sudah ada** | `client.chat.completions.create()` | Ini menyediakan pengganti drop-in yang mulus untuk kode yang sudah ditulis untuk endpoint `chat/completions` OpenAI. |

@@ -1,42 +1,70 @@
---- 
+---
 title: "DeepSeek OCR"
 description: "Mulai gunakan DeepSeek OCR di API Neosantara"
 ---
 
 ## Pengenalan Karakter Optik (OCR)
 
-API DeepSeek OCR memungkinkan Kamu mengekstrak teks dari gambar dengan akurasi tinggi. Model ini dapat memproses gambar dari URL atau data base64, ideal untuk pemrosesan dokumen, pemindaian tanda terima, dan ekstraksi data kartu identitas.
+API DeepSeek OCR memungkinkan Kamu untuk mengekstrak teks dari gambar dengan akurasi tinggi. Model OCR yang kuat ini dapat memproses gambar dari URL atau data berkode base64, menjadikannya ideal untuk pemrosesan dokumen, pemindaian tanda terima, ekstraksi KTP, dan tugas pengenalan teks lainnya.
 
 ## Fitur Utama
 
-- **Akurasi Tinggi**: Ekstraksi teks presisi untuk berbagai jenis dokumen.
-- **Input Fleksibel**: Mendukung URL publik maupun data base64.
-- **Cepat**: Dioptimalkan untuk ekstraksi teks yang efisien.
-- **Annotated Image**: Dapat mengembalikan gambar dengan tanda area teks yang terdeteksi.
+- **Akurasi Tinggi**: Model OCR canggih untuk ekstraksi teks yang presisi
+- **Input Fleksibel**: Dukungan untuk gambar berkode URL dan base64
+- **Pemrosesan Cepat**: Dioptimalkan untuk ekstraksi teks cepat
+- **Pengembalian Gambar Opsional**: Dapatkan kembali gambar beranotasi dengan wilayah teks yang dikenali
+- **Kompatibel dengan OpenAI**: Format API standar untuk integrasi yang mudah
 
-## API Endpoint
+## Endpoint API
 
 ```http
 POST https://api.neosantara.xyz/v1/ocr
 ```
 
+## Autentikasi
+
+Sertakan kunci API Kamu di header permintaan:
+
+```http
+Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU
+```
+
 <Warning>
-  **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin mengalami penundaan 10-15 detik karena proses *cold start*. Permintaan berikutnya akan jauh lebih cepat (2-5 detik).
+  **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin mengalami penundaan 10-15 detik karena inisialisasi cold start. Permintaan berikutnya akan diproses jauh lebih cepat (2-5 detik). Jika Kamu menerima kesalahan batas waktu pada permintaan pertama Kamu, harap coba lagi setelah beberapa detik.
 </Warning>
 
 ## Parameter Permintaan
 
-- **model** (string): Gunakan `deepseek-ocr`.
-- **image** (string, **wajib**): URL gambar atau data base64.
-- **image_type** (string): `"url"` atau `"base64"`.
-- **return_image** (boolean): Jika `true`, mengembalikan gambar hasil anotasi dalam field `result_image_base64`.
+<ParamField path="model" type="string" default="deepseek-ocr">
+  Model OCR yang akan digunakan. Saat ini mendukung `deepseek-ocr`.
+</ParamField>
 
-## Contoh Respon
+<ParamField path="image" type="string" required>
+  Gambar yang akan diproses. Bisa berupa:
+  - URL gambar yang dapat diakses publik (ketika `image_type` adalah "url")
+  - Data gambar berkode Base64 (ketika `image_type` adalah "base64")
+</ParamField>
+
+<ParamField path="image_type" type="string" default="url">
+  Jenis data gambar yang disediakan. Harus berupa:
+  - `"url"` - Gambar disediakan sebagai URL
+  - `"base64"` - Gambar disediakan sebagai data berkode base64
+</ParamField>
+
+<ParamField path="return_image" type="boolean" default={false}>
+  Apakah akan mengembalikan gambar beranotasi dengan wilayah teks yang dikenali. Jika disetel ke `true`, respons akan menyertakan kolom `result_image_base64` yang berisi gambar yang diproses.
+</ParamField>
+
+## Format Respons
+
+API mengembalikan respons JSON dalam format yang kompatibel dengan OpenAI dengan struktur berikut:
 
 ```json icon="code"
 {
   "id": "ocr-abc123def456",
   "object": "ocr.completion",
+  "created": 1234567890,
+  "model": "deepseek-ocr",
   "choices": [
     {
       "index": 0,
@@ -44,19 +72,45 @@ POST https://api.neosantara.xyz/v1/ocr
       "finish_reason": "stop"
     }
   ],
+  "result_image_base64": "iVBORw0KG...", // Hanya jika return_image bernilai true
   "usage": {
+    "prompt_tokens": 50,
+    "completion_tokens": 0,
     "total_tokens": 50
   }
 }
 ```
 
-## Contoh Cepat (Curl)
+### Kolom Respons
+
+- **id**: Pengenal unik untuk permintaan OCR ini
+- **object**: Jenis objek respons, selalu "ocr.completion"
+- **created**: Timestamp Unix saat permintaan diproses
+- **model**: Model yang digunakan untuk pemrosesan OCR (misalnya, "deepseek-ocr")
+- **choices**: Array yang berisi hasil OCR
+  - **index**: Indeks pilihan, selalu 0 untuk OCR
+  - **text**: Teks yang diekstrak dari gambar
+  - **finish_reason**: Status penyelesaian, biasanya "stop"
+- **result_image_base64**: Gambar beranotasi berkode Base64 (hanya disertakan jika `return_image` bernilai true)
+- **usage**: Informasi penggunaan token untuk penagihan
+
+## Pengujian Mulai Cepat
+
+Ingin mencoba API OCR segera? Gunakan URL gambar uji ini untuk mengekstrak teks dari contoh tanda terima:
+
+**URL Gambar Uji**: `https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg`
+
+<Tip>
+  Gambar contoh ini adalah tanda terima dari Mandiri BNI. Kamu dapat menggunakannya untuk menguji API tanpa memerlukan gambar Kamu sendiri. Hasil yang diharapkan: info merchant, detail transaksi, jumlah, dan tanggal/waktu.
+</Tip>
+
+### Tes Cepat dengan Curl
 
 ```bash icon="terminal"
 curl -X POST https://api.neosantara.xyz/v1/ocr \
-  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
   -H "Content-Type: application/json" \
-  -d '{
+  -d '{ 
     "model": "deepseek-ocr",
     "image": "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
     "image_type": "url",
@@ -64,7 +118,413 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
   }'
 ```
 
+<Note>
+  Ingat: Permintaan pertama mungkin memakan waktu 10-15 detik karena cold start. Jika Kamu mendapatkan batas waktu, tunggu beberapa detik dan coba lagi.
+</Note>
+
+## Contoh Kode
+
+<CodeGroup>
+
+  ```python Python icon="python"
+  import requests
+  import base64
+
+# Contoh 1: OCR dari URL
+
+  def ocr_from_url(image_url, api_key):
+      url = "https://api.neosantara.xyz/v1/ocr"
+
+      headers = {
+          "Authorization": f"Bearer {api_key}",
+          "Content-Type": "application/json"
+      }
+
+      payload = {
+          "model": "deepseek-ocr",
+          "image": image_url,
+          "image_type": "url",
+          "return_image": False
+      }
+
+      response = requests.post(url, json=payload, headers=headers)
+      result = response.json()
+
+      print("Teks yang Diekstrak:", result["choices"][0]["text"])
+      return result
+
+# Contoh 2: OCR dari gambar base64
+
+  def ocr_from_base64(image_path, api_key):
+      url = "https://api.neosantara.xyz/v1/ocr"
+
+      # Baca dan kodekan gambar
+      with open(image_path, "rb") as image_file:
+          image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+
+      headers = {
+          "Authorization": f"Bearer {api_key}",
+          "Content-Type": "application/json"
+      }
+
+      payload = {
+          "model": "deepseek-ocr",
+          "image": image_base64,
+          "image_type": "base64",
+          "return_image": True  # Dapatkan kembali gambar beranotasi
+      }
+
+      response = requests.post(url, json=payload, headers=headers)
+      result = response.json()
+
+      print("Teks yang Diekstrak:", result["choices"][0]["text"])
+
+      # Simpan gambar beranotasi jika dikembalikan
+      if "result_image_base64" in result:
+          with open("annotated_image.png", "wb") as f:
+              f.write(base64.b64decode(result["result_image_base64"]))
+          print("Gambar beranotasi disimpan sebagai 'annotated_image.png'")
+
+      return result
+
+# Contoh Penggunaan
+
+  api_key = "kunci_api_kamu_di_sini"
+
+# Contoh OCR dari URL
+
+  result = ocr_from_url(
+      "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+      api_key
+  )
+
+# OCR dari file lokal
+
+  result = ocr_from_base64("./document.png", api_key)
+
+```
+
+  ```javascript JavaScript icon="js"
+  // Contoh 1: OCR dari URL
+  async function ocrFromUrl(imageUrl, apiKey) {
+    const url = "https://api.neosantara.xyz/v1/ocr";
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "deepseek-ocr",
+        image: imageUrl,
+        image_type: "url",
+        return_image: false
+      })
+    });
+
+    const result = await response.json();
+    console.log("Teks yang Diekstrak:", result.choices[0].text);
+    return result;
+  }
+
+  // Contoh 2: OCR dari base64 (Node.js)
+  const fs = require('fs');
+
+  async function ocrFromBase64(imagePath, apiKey) {
+    const url = "https://api.neosantara.xyz/v1/ocr";
+
+    // Baca dan kodekan gambar
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageBase64 = imageBuffer.toString('base64');
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "deepseek-ocr",
+        image: imageBase64,
+        image_type: "base64",
+        return_image: true  // Dapatkan kembali gambar beranotasi
+      })
+    });
+
+    const result = await response.json();
+    console.log("Teks yang Diekstrak:", result.choices[0].text);
+
+    // Simpan gambar beranotasi jika dikembalikan
+    if (result.result_image_base64) {
+      const buffer = Buffer.from(result.result_image_base64, 'base64');
+      fs.writeFileSync('annotated_image.png', buffer);
+      console.log("Gambar beranotasi disimpan sebagai 'annotated_image.png'");
+    }
+
+    return result;
+  }
+
+  // Penggunaan
+  const apiKey = "kunci_api_kamu_di_sini";
+
+  // OCR dari URL (menggunakan gambar uji)
+  ocrFromUrl(
+    "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    apiKey
+  );
+
+  // OCR dari file lokal
+  ocrFromBase64("./document.png", apiKey);
+```
+
+</CodeGroup>
+
+## Kasus Penggunaan
+
+### Pemrosesan Dokumen
+
+Ekstrak teks dari dokumen yang dipindai, PDF yang dikonversi menjadi gambar, atau kertas yang difoto untuk pengarsipan dan pemrosesan digital.
+
+```python icon="python"
+# Memproses dokumen yang dipindai
+result = ocr_from_url(
+    "https://example.com/scanned-document.jpg",
+    api_key
+)
+print("Teks Dokumen:", result["choices"][0]["text"])
+```
+
+### Pemindaian Tanda Terima
+
+Ekstrak detail transaksi, jumlah, dan informasi pedagang secara otomatis dari gambar tanda terima untuk pelacakan pengeluaran.
+
+```python icon="python"
+# Ekstrak informasi tanda terima (menggunakan tanda terima uji)
+result = ocr_from_url(
+    "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    api_key
+)
+# Uraikan teks yang diekstrak untuk bidang tertentu
+# (jumlah, pedagang, tanggal, dll.)
+print("Pedagang:", "DUNNY MANDIRI - BNI OBP")
+print("Jumlah:", "Rp 100.000")
+```
+
+### Verifikasi KTP & Dokumen
+
+Ekstrak informasi dari kartu identitas, paspor, dan dokumen identitas lainnya untuk proses verifikasi.
+
+```python icon="python"
+# Ekstrak informasi KTP
+result = ocr_from_base64("./id-card.jpg", api_key)
+# Uraikan teks yang diekstrak untuk nama, nomor ID, dll.
+```
+
+### Anotasi Gambar
+
+Gunakan parameter `return_image` untuk mendapatkan kembali gambar beranotasi yang menunjukkan wilayah teks yang terdeteksi, berguna untuk debugging dan visualisasi.
+
+```python icon="python"
+# Dapatkan gambar beranotasi dengan wilayah teks (menggunakan tanda terima uji)
+import requests
+
+url = "https://api.neosantara.xyz/v1/ocr"
+headers = {
+    "Authorization": f"Bearer {api_key}",
+    "Content-Type": "application/json"
+}
+payload = {
+    "model": "deepseek-ocr",
+    "image": "https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg",
+    "image_type": "url",
+    "return_image": True  # Minta gambar beranotasi
+}
+
+result = requests.post(url, json=payload, headers=headers).json()
+# result["result_image_base64"] berisi gambar beranotasi
+print("Memiliki gambar beranotasi:", "result_image_base64" in result)
+```
+
+## Penanganan Kesalahan
+
+API mengembalikan respons kesalahan terstruktur untuk permintaan yang tidak valid:
+
+```json icon="code"
+{
+  "error": {
+    "message": "Pesan kesalahan terperinci",
+    "type": "invalid_request_error",
+    "param": "image",
+    "code": "parameter_missing"
+  }
+}
+```
+
+### Kode Kesalahan Umum
+
+- **model_not_found**: Model yang ditentukan tidak ada
+- **unsupported_capability**: Model tidak mendukung OCR
+- **parameter_missing**: Parameter yang diperlukan hilang
+- **invalid_parameter**: Nilai parameter tidak valid
+- **invalid_parameter_type**: Parameter memiliki tipe data yang salah
+- **invalid_url_format**: Format URL gambar salah
+- **invalid_url_protocol**: URL gambar harus menggunakan HTTP/HTTPS
+- **invalid_base64_format**: Data base64 tidak valid
+
+### Contoh Penanganan Kesalahan
+
+<CodeGroup>
+
+  ```python Python icon="python"
+  import requests
+
+  def ocr_with_error_handling(image, api_key, image_type="url"):
+      url = "https://api.neosantara.xyz/v1/ocr"
+
+      headers = {
+          "Authorization": f"Bearer {api_key}",
+          "Content-Type": "application/json"
+      }
+
+      payload = {
+          "model": "deepseek-ocr",
+          "image": image,
+          "image_type": image_type,
+          "return_image": False
+      }
+
+      try:
+          response = requests.post(url, json=payload, headers=headers)
+
+          # Periksa kesalahan HTTP
+          if response.status_code != 200:
+              error_data = response.json()
+              error = error_data.get("error", {})
+              print(f"Kesalahan: {error.get('message')}")
+              print(f"Tipe: {error.get('type')}")
+              print(f"Kode: {error.get('code')}")
+              return None
+
+          result = response.json()
+          return result["choices"][0]["text"]
+
+      except requests.exceptions.RequestException as e:
+          print(f"Permintaan gagal: {str(e)}")
+          return None
+
+# Contoh Penggunaan dengan Penanganan Kesalahan
+
+  text = ocr_with_error_handling(
+      "https://example.com/document.jpg",
+      "kunci_api_kamu_di_sini"
+  )
+
+  if text:
+      print("Diekstrak:", text)
+
+```
+
+  ```javascript JavaScript icon="js"
+  async function ocrWithErrorHandling(image, apiKey, imageType = "url") {
+    const url = "https://api.neosantara.xyz/v1/ocr";
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "deepseek-ocr",
+          image: image,
+          image_type: imageType,
+          return_image: false
+        })
+      });
+
+      const result = await response.json();
+
+      // Periksa kesalahan
+      if (!response.ok) {
+        const error = result.error || {};
+        console.error(`Kesalahan: ${error.message}`);
+        console.error(`Tipe: ${error.type}`);
+        console.error(`Kode: ${error.code}`);
+        return null;
+      }
+
+      return result.choices[0].text;
+
+    } catch (error) {
+      console.error(`Permintaan gagal: ${error.message}`);
+      return null;
+    }
+  }
+
+  // Penggunaan
+  const text = await ocrWithErrorHandling(
+    "https://example.com/document.jpg",
+    "kunci_api_kamu_di_sini"
+  );
+
+  if (text) {
+    console.log("Diekstrak:", text);
+  }
+```
+
+</CodeGroup>
+
 ## Harga
 
-- **Biaya per Gambar**: Setara dengan 100 token (sekitar 50 token input).
-- **Annotated Image**: Fitur `return_image` tidak dikenakan biaya tambahan.
+API DeepSeek OCR menggunakan harga berbasis token:
+
+- **Per Pemrosesan Gambar**: Setara dengan 100 token (sekitar 50 token)
+- **Biaya Token**: Dikenakan biaya sesuai dengan tingkat harga Neosantara Kamu
+
+Penggunaan token dilaporkan dalam kolom `usage` di respons.
+
+<Note>
+  Parameter `return_image` tidak memengaruhi penggunaan token. Gambar beranotasi disediakan tanpa biaya tambahan.
+</Note>
+
+## Praktik Terbaik
+
+1. **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin memakan waktu 10-15 detik karena inisialisasi cold start. Permintaan berikutnya akan jauh lebih cepat (2-5 detik). Jika Kamu mengalami batas waktu pada permintaan pertama, coba lagi setelah beberapa detik.
+2. **Kualitas Gambar**: Gunakan gambar yang jelas dan beresolusi tinggi untuk hasil terbaik
+3. **Format Gambar**: Format yang didukung meliputi JPEG, PNG, dan format gambar umum lainnya
+4. **Aksesibilitas URL**: Pastikan URL gambar dapat diakses secara publik saat menggunakan `image_type: "url"`
+5. **Ukuran Base64**: Perhatikan ukuran gambar berkode base64 untuk gambar besar
+6. **Penanganan Kesalahan**: Selalu terapkan penanganan kesalahan yang tepat dalam aplikasi Kamu, termasuk logika upaya ulang untuk kesalahan batas waktu
+7. **Batas Kecepatan**: Hormati batas kecepatan API sesuai dengan tingkat layanan Kamu
+
+## Batas Kecepatan
+
+Batas kecepatan bervariasi berdasarkan tingkat langganan Neosantara Kamu. Periksa batas tingkat layanan Kamu di [dasbor](https://app.neosantara.xyz/billing).
+
+<Tip>
+  Tingkatkan tingkat layanan Kamu untuk batas kecepatan yang lebih tinggi dan fitur tambahan. Hubungi [support@neosantara.xyz](mailto:support@neosantara.xyz) untuk solusi perusahaan.
+</Tip>
+
+## Dukungan
+
+Butuh bantuan dengan API OCR? Kami siap membantu:
+
+- **Email**: [support@neosantara.xyz](mailto:support@neosantara.xyz)
+- **Dokumentasi**: [Referensi API](/id/quickstart)
+- **Komunitas**: Bergabunglah dengan komunitas Discord kami
+
+## Langkah Berikutnya
+
+<CardGroup cols={2}>
+  <Card title="API Chat Completions" icon="comments" href="/api-reference/chat/create-chat-completion">
+    Pelajari tentang API Chat Completions kami untuk AI percakapan
+  </Card>
+  <Card title="Kode Kesalahan" icon="triangle-exclamation" href="/id/about/errors">
+    Referensi lengkap kode kesalahan API
+  </Card>
+  <Card title="Batas Kecepatan" icon="gauge-high" href="/id/about/rate-limits">
+    Memahami batas kecepatan dan kuota
+  </Card>
+</CardGroup>

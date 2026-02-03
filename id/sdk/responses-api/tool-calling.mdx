@@ -1,35 +1,101 @@
 ---
-title: "Tool Calling"
-description: "Berikan model akses ke fungsi eksternal menggunakan Responses API."
+title: "Pemanggilan Tool (Tool Calling)"
+description: "Berikan model akses ke fungsi eksternal menggunakan API Responses."
 ---
 
-# Tool Calling
+[API Responses](/id/sdk/responses-api) mendukung pemanggilan tool native, yang memungkinkan model berinteraksi dengan sistem dan fungsi eksternal. Kamu mendefinisikan tool menggunakan skema JSON, dan model mengembalikan data terstruktur saat menentukan bahwa tool diperlukan.
 
-[Responses API](/id/sdk/responses-api) mendukung pemanggilan tool secara native. Kamu mendefinisikan tool menggunakan JSON schema, dan model akan mengembalikan data terstruktur saat menentukan bahwa tool diperlukan.
+### Contoh Permintaan
 
-### [Contoh Tool Call](#contoh-tool-call)
+Tentukan tool Kamu dalam array `tools` dan atur perilaku `tool_choice`.
+
+<CodeGroup>
+
+```typescript tool-calls.ts
+const apiKey = process.env.NAI_API_KEY;
+ 
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'grok-4.1-fast-non-reasoning',
+    input: [
+      {
+        type: 'message',
+        role: 'user',
+        content: 'Bagaimana cuaca di Jakarta?',
+      },
+    ],
+    tools: [
+      {
+        type: 'function',
+        function: {
+          name: 'get_weather',
+          description: 'Dapatkan cuaca saat ini di suatu lokasi',
+          parameters: {
+            type: 'object',
+            properties: {
+              location: {
+                type: 'string',
+                description: 'Nama kota, misalnya Jakarta, Indonesia',
+              },
+            },
+            required: ['location'],
+          },
+        },
+      },
+    ],
+    tool_choice: 'auto',
+  }),
+});
+ 
+const result = await response.json();
+```
+
+</CodeGroup>
+
+---
+
+## Respons Panggilan Tool
+
+Saat model memutuskan untuk menggunakan tool, respons menyertakan item `function_call` dalam array `output`.
 
 ```json
 {
-  "model": "grok-4.1-fast-non-reasoning",
-  "input": "Bagaimana cuaca di Jakarta?",
-  "tools": [
+  "id": "resp_abc123",
+  "object": "response",
+  "output": [
     {
-      "type": "function",
-      "function": {
-        "name": "get_weather",
-        "description": "Mendapatkan cuaca saat ini",
-        "parameters": {
-          "type": "object",
-          "properties": { 
-            "location": { 
-              "type": "string",
-              "description": "Nama kota, misal: Jakarta"
-            } 
-          }
-        }
-      }
+      "id": "item_abc123",
+      "type": "function_call",
+      "name": "get_weather",
+      "arguments": "{\"location\": \"Jakarta\"}",
+      "call_id": "call_abc123"
     }
   ]
 }
 ```
+
+### Menjalankan Tool
+
+Setelah menerima `function_call`, aplikasi Kamu harus:
+1.  Mengurai `arguments` (string JSON).
+2.  Menjalankan fungsi yang sesuai dalam basis kode Kamu.
+3.  Mengirimkan hasilnya kembali menggunakan alur [Manajemen Percakapan](/id/conversation-management).
+
+---
+
+## Opsi Pilihan Tool (Tool Choice)
+
+Kamu dapat mengontrol bagaimana model berinteraksi dengan tool menggunakan parameter `tool_choice`:
+
+*   **`auto`** (default): Model memutuskan apakah akan memanggil tool berdasarkan konteks percakapan.
+*   **`required`**: Model dipaksa untuk memanggil setidaknya satu tool.
+*   **`none`**: Model dicegah untuk memanggil tool apa pun, meskipun tool tersebut telah didefinisikan.
+
+<Note>
+  Untuk panduan terperinci tentang penanganan hasil tool dan pemanggilan berantai, lihat [Panduan Penggunaan Tool Lengkap](/id/how-tools) kami.
+</Note>

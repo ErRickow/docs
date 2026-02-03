@@ -1,18 +1,18 @@
 ---
 title: "Penanganan Kesalahan"
-description: "Kuasai penanganan kesalahan di Neosantara. Panduan lengkap tentang kode status HTTP, jenis kesalahan, dan strategi untuk menyelesaikan masalah integrasi API."
+description: "Kuasai penanganan kesalahan di Neosantara. Panduan komprehensif tentang kode status HTTP, jenis kesalahan, dan strategi yang dapat ditindaklanjuti untuk menyelesaikan masalah integrasi API yang umum."
 ---
 
-Neosantara API menggunakan kode status HTTP standar. Halaman ini mendokumentasikan kesalahan umum, artinya, dan langkah-langkah perbaikan yang direkomendasikan.
+API Neosantara menggunakan kode status HTTP standar. Halaman ini mendokumentasikan kesalahan umum, artinya, dan langkah-langkah remediasi yang disarankan.
 
 ## Kesalahan Umum
 
 - 400 `invalid_request_error` — Permintaan tidak terbentuk dengan benar atau parameter yang diperlukan hilang.
 - 401 `authentication_error` — Kunci API / token hilang atau tidak valid.
 - 403 `permission_error` — Akses ke sumber daya dilarang.
-- 429 `rate_limit_error` — Kamu telah melampaui batas penggunaan Kamu.
+- 429 `rate_limit_error` — Kamu telah melampaui batas kecepatan Kamu.
 - 500 `api_error` — Kesalahan server internal.
-- 503 `overloaded_error` — Layanan sementara tidak tersedia.
+- 503 `overloaded_error` — Layanan untuk sementara tidak tersedia.
 
 ## Contoh Respons Kesalahan
 
@@ -20,7 +20,7 @@ Neosantara API menggunakan kode status HTTP standar. Halaman ini mendokumentasik
 {
   "error": {
     "code": "invalid_request_error",
-    "message": "Parameter 'messages' diperlukan.",
+    "message": "Parameter 'messages' wajib diisi.",
     "type": "invalid_request_error"
   }
 }
@@ -28,9 +28,9 @@ Neosantara API menggunakan kode status HTTP standar. Halaman ini mendokumentasik
 
 ## Upaya Ulang & Pemulihan
 
-- Gunakan *exponential backoff* untuk upaya ulang.
-- Terapkan pola *circuit breaker* untuk menghindari lonjakan upaya ulang.
-- Validasi input sebelum mencoba kembali.
+- Gunakan exponential backoff untuk upaya ulang.
+- Terapkan pola circuit breaker untuk menghindari lonjakan upaya ulang.
+- Validasi input sebelum mencoba ulang.
 
 ## Contoh Kode (Language Bindings)
 
@@ -38,7 +38,7 @@ Neosantara API menggunakan kode status HTTP standar. Halaman ini mendokumentasik
 
 ```python icon="python"
 import requests
-headers = {"Authorization": "Bearer <KUNCI_API_ANDA>"}
+headers = {"Authorization": "Bearer KUNCI_API_NEOSANTARA_KAMU"}
 payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]}
 resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
 ```
@@ -53,7 +53,7 @@ const payload = {
 
 const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KUNCI_API_ANDA>' },
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer KUNCI_API_NEOSANTARA_KAMU' },
   body: JSON.stringify(payload)
-});
+})
 ```

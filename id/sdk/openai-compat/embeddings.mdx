@@ -1,17 +1,75 @@
 ---
 title: "Embeddings"
-description: "Hasilkan vektor representasi untuk teks guna pencarian semantik dan RAG."
+description: "Hasilkan vektor embedding dari teks input untuk pencarian semantik dan RAG menggunakan API Neosantara."
 ---
 
-Endpoint: `POST /v1/embeddings`
+Hasilkan vektor embedding dari teks input untuk pencarian semantik, pencocokan kemiripan, dan retrieval-augmented generation (RAG). Neosantara menyediakan endpoint embedding yang kompatibel dengan OpenAI yang berfungsi dengan model dan pustaka populer.
 
-### [Contoh Embeddings](#contoh-embeddings)
+**Endpoint**
 
-```typescript
+`POST /v1/embeddings`
+
+### Contoh permintaan
+
+Gunakan SDK OpenAI standar dan arahkan ke gateway AI Neosantara.
+
+<CodeGroup>
+
+```typescript embeddings.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
 const response = await openai.embeddings.create({
   model: 'nusa-embedding-0001',
-  input: 'Hari yang cerah di pantai.',
+  input: 'Hari yang cerah di pantai',
 });
-
+ 
 console.log(response.data[0].embedding);
+```
+
+```python embeddings.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
+)
+ 
+response = client.embeddings.create(
+    model="nusa-embedding-0001",
+    input="Hari yang cerah di pantai",
+)
+ 
+print(response.data[0].embedding)
+```
+
+</CodeGroup>
+
+---
+
+### Format respons
+
+Respons mengembalikan daftar objek embedding yang sesuai dengan spesifikasi OpenAI.
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "index": 0,
+      "embedding": [-0.0038, 0.021, 0.045, ...]
+    }
+  ],
+  "model": "nusa-embedding-0001",
+  "usage": {
+    "prompt_tokens": 6,
+    "total_tokens": 6
+  }
+}
 ```

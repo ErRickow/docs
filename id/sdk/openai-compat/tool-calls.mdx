@@ -1,37 +1,164 @@
 ---
-title: "Tool Calls"
-description: "Gunakan fitur pemanggilan fungsi (function calling) yang kompatibel dengan OpenAI."
+title: "Panggilan Tool"
+description: "Gunakan pemanggilan fungsi yang kompatibel dengan OpenAI (tool calls) dengan model Neosantara."
 ---
 
-# Tool Calls
+Neosantara mendukung pemanggilan fungsi yang kompatibel dengan OpenAI (tool calls), yang memungkinkan model berinteraksi dengan alat dan fungsi eksternal. Ini mengikuti spesifikasi Pemanggilan Fungsi OpenAI standar.
 
-Neosantara AI mendukung pemanggilan fungsi (tool calling), memungkinkan model untuk berinteraksi dengan sistem atau database eksternal Kamu.
+### Panggilan tool dasar
 
-### [Contoh Penggunaan](#contoh-penggunaan)
+Tentukan tool Kamu dan arahkan SDK OpenAI ke Neosantara.
 
 <CodeGroup>
 
-```typescript tools.ts
-const completion = await openai.chat.completions.create({
-  model: 'grok-4.1-fast-non-reasoning',
-  messages: [{ role: 'user', content: 'Bagaimana cuaca di Jakarta?' }],
-  tools: [
-    {
-      type: 'function',
-      function: {
-        name: 'get_weather',
-        description: 'Mendapatkan cuaca di lokasi tertentu',
-        parameters: {
-          type: 'object',
-          properties: {
-            location: { type: 'string', description: 'Nama kota' },
+```typescript tool-calls.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const tools: OpenAI.Chat.Completions.ChatCompletionTool[] = [
+  {
+    type: 'function',
+    function: {
+      name: 'get_weather',
+      description: 'Dapatkan cuaca saat ini di lokasi tertentu',
+      parameters: {
+        type: 'object',
+        properties: {
+          location: {
+            type: 'string',
+            description: 'Kota dan negara, misalnya Jakarta, Indonesia',
           },
-          required: ['location'],
+          unit: {
+            type: 'string',
+            enum: ['celsius', 'fahrenheit'],
+            description: 'Satuan suhu',
+          },
         },
+        required: ['location'],
       },
     },
+  },
+];
+ 
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    {
+      role: 'user',
+      content: 'Bagaimana cuaca di Jakarta?',
+    },
   ],
+  tools: tools,
+  tool_choice: 'auto',
+  stream: false,
 });
+ 
+console.log('Asisten:', completion.choices[0].message.content);
+console.log('Panggilan tool:', completion.choices[0].message.tool_calls);
+```
+
+```python tool-calls.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+tools = [
+    {
+        'type': 'function',
+        'function': {
+            'name': 'get_weather',
+            'description': 'Dapatkan cuaca saat ini di lokasi tertentu',
+            'parameters': {
+                'type': 'object',
+                'properties': {
+                    'location': {
+                        'type': 'string',
+                        'description': 'Kota dan negara, misalnya Jakarta, Indonesia'
+                    },
+                    'unit': {
+                        'type': 'string',
+                        'enum': ['celsius', 'fahrenheit'],
+                        'description': 'Satuan suhu'
+                    }
+                },
+                'required': ['location']
+            }
+        }
+    }
+]
+ 
+completion = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Bagaimana cuaca di Jakarta?'
+        }
+    ],
+    tools=tools,
+    tool_choice='auto',
+    stream=False,
+)
+ 
+print('Asisten:', completion.choices[0].message.content)
+print('Panggilan tool:', completion.choices[0].message.tool_calls)
 ```
 
 </CodeGroup>
+
+### Mengontrol pemilihan tool
+
+Secara default, `tool_choice` diatur ke `'auto'`, yang memungkinkan model memutuskan kapan harus menggunakan tool. Kamu juga dapat:
+
+*   Mengaturnya ke `'none'` untuk menonaktifkan panggilan tool.
+*   Memaksa tool tertentu dengan: `tool_choice: { type: 'function', function: { name: 'nama_fungsi_kamu' } }`.
+
+---
+
+### Format respons panggilan tool
+
+Saat model memutuskan untuk melakukan panggilan tool, respons menyertakan array `tool_calls` di dalam pesan asisten.
+
+```json
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "created": 1677652288,
+  "model": "grok-4.1-fast-non-reasoning",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_123",
+            "type": "function",
+            "function": {
+              "name": "get_weather",
+              "arguments": "{\"location\": \"Jakarta, Indonesia\", \"unit\": \"celsius\"}"
+            }
+          }
+        ]
+      },
+      "finish_reason": "tool_calls"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 82,
+    "completion_tokens": 18,
+    "total_tokens": 100
+  }
+}
+```
+
+Pelajari lebih lanjut tentang menangani hasil tool dalam [Panduan Penggunaan Tool](/id/how-tools).

@@ -1,35 +1,35 @@
---- 
-title: "Tinjauan (Penggunaan Tools)"
-description: "> Perluas kemampuan Neosantara dengan memungkinkannya berinteraksi dengan tools dan fungsi eksternal."
+---
+title: "Ikhtisar"
+description: "> Perluas kemampuan Neosantara dengan memungkinkannya berinteraksi dengan tool dan fungsi eksternal."
 ---
 
-Model Neosantara mampu berinteraksi dengan tools (juga dikenal sebagai fungsi), memungkinkan Kamu memperluas kemampuan AI untuk melakukan berbagai tugas yang lebih luas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
+Model Neosantara mampu berinteraksi dengan tool (juga dikenal sebagai fungsi), yang memungkinkan Kamu memperluas kemampuan AI untuk melakukan berbagai tugas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
 
-Berikut adalah contoh cara memberikan tools ke Neosantara menggunakan chat completions API:
+Berikut adalah contoh cara memberikan tool ke Neosantara menggunakan API Responses:
 
 <CodeGroup>
   ```bash Shell
-  curl https://api.neosantara.xyz/v1/chat/completions \
+  curl https://api.neosantara.xyz/v1/responses \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $NEOSANTARA_API_KEY" \
     -d '{
       "model": "nusantara-base",
-      "max_tokens": 1024,
+      "input": "Bagaimana cuaca di Jakarta?",
       "tools": [
         {
           "type": "function",
           "function": {
-            "name": "dapatkan_cuaca",
+            "name": "get_weather",
             "description": "Dapatkan cuaca saat ini di lokasi tertentu",
             "parameters": {
               "type": "object",
               "properties": {
-                "lokasi": {
+                "location": {
                   "type": "string",
-                  "description": "Kota dan negara, misal Jakarta, ID"
+                  "description": "Kota dan negara, misalnya Jakarta, ID"
                 }
               },
-              "required": ["lokasi"]
+              "required": ["location"]
             }
           }
         }
@@ -58,17 +58,17 @@ Berikut adalah contoh cara memberikan tools ke Neosantara menggunakan chat compl
           {
               "type": "function",
               "function": {
-                  "name": "dapatkan_cuaca",
+                  "name": "get_weather",
                   "description": "Dapatkan cuaca saat ini di lokasi tertentu",
                   "parameters": {
                       "type": "object",
                       "properties": {
-                          "lokasi": {
+                          "location": {
                               "type": "string",
-                              "description": "Kota dan negara, misal Jakarta, ID",
+                              "description": "Kota dan negara, misalnya Jakarta, ID",
                           }
                       },
-                      "required": ["lokasi"],
+                      "required": ["location"],
                   },
               }
           }
@@ -80,59 +80,851 @@ Berikut adalah contoh cara memberikan tools ke Neosantara menggunakan chat compl
 
 </CodeGroup>
 
-## Bagaimana Penggunaan Tools Bekerja
+## Cara Kerja Penggunaan Tool
 
-Fungsionalitas penggunaan tools Neosantara mengikuti pola umum, mirip dengan pemanggilan fungsi OpenAI, di mana Kamu memberikan deskripsi tools yang tersedia kepada model, dan model memutuskan apakah dan bagaimana menggunakannya.
+Fungsionalitas penggunaan tool Neosantara mengikuti pola umum, mirip dengan pemanggilan fungsi OpenAI, di mana Kamu memberikan deskripsi tentang tool yang tersedia kepada model, dan model memutuskan apakah dan bagaimana cara menggunakannya.
 
-Integrasikan tools sisi klien dengan Neosantara dalam langkah-langkah ini:
+Integrasikan tool sisi klien dengan Neosantara dalam langkah-langkah berikut:
 
 <Steps>
-  <Step title="Berikan Neosantara tools dan prompt pengguna">
-    * Definisikan tools dengan nama, deskripsi, dan skema input (parameter) dalam permintaan API Kamu di dalam parameter `tools`.
-    * Sertakan prompt pengguna yang mungkin memerlukan tools ini, misal, "Bagaimana cuaca di Jakarta?"
+  <Step title="Berikan tool dan prompt pengguna ke Neosantara">
+    * Tentukan tool dengan nama, deskripsi, dan skema input (parameter) dalam permintaan API Kamu di dalam parameter `tools`.
+    * Sertakan prompt pengguna yang mungkin memerlukan tool ini, misalnya, "Bagaimana cuaca di Jakarta?"
   </Step>
 
-  <Step title="Neosantara memutuskan untuk menggunakan tools">
-    * Model menilai apakah ada tools yang dapat membantu pertanyaan pengguna.
-    * Jika ya, model membangun objek `tool_calls` dalam responsnya, berisi nama tools yang akan dipanggil dan argumen (input) untuk tools tersebut.
+  <Step title="Neosantara memutuskan untuk menggunakan tool">
+    * Model menilai apakah ada tool yang dapat membantu menjawab kueri pengguna.
+    * Jika ya, model menyusun objek `tool_calls` di dalam responsnya, yang berisi nama tool yang akan dipanggil dan argumen (input) untuk tool tersebut.
     * Respons API akan memiliki `finish_reason` berupa `tool_calls`.
   </Step>
 
-  <Step title="Eksekusi tools dan kembalikan hasil">
-    * Aplikasi Kamu mengekstrak nama tools dan input dari respons `tool_calls` Neosantara.
-    * Aplikasi Kamu kemudian mengeksekusi kode tools yang sebenarnya di sistem Kamu.
-    * Kembalikan hasilnya ke model dalam pesan `user` baru dengan peran `tool`, berisi `tool_call_id` dan `content` dari output tools.
+  <Step title="Jalankan tool dan kembalikan hasilnya">
+    * Aplikasi Kamu mengekstrak nama tool dan input dari respons `tool_calls` Neosantara.
+    * Aplikasi Kamu kemudian menjalankan kode tool yang sebenarnya di sistem Kamu.
+    * Kembalikan hasilnya ke model dalam pesan `user` baru dengan peran `tool`, yang berisi `tool_call_id` dan `content` dari output tool tersebut.
   </Step>
 
-  <Step title="Neosantara menggunakan hasil tools untuk merumuskan respons">
-    * Neosantara menganalisis hasil tools yang Kamu berikan untuk membuat respons bahasa alami finalnya terhadap prompt pengguna asli.
+  <Step title="Neosantara menggunakan hasil tool untuk menyusun respons">
+    * Neosantara menganalisis hasil tool yang Kamu berikan untuk membuat respons bahasa alami akhirnya terhadap prompt pengguna yang asli.
   </Step>
 </Steps>
 
-Catatan: Langkah 3 dan 4 bersifat opsional. Untuk beberapa alur kerja, permintaan penggunaan tools Neosantara (langkah 2) mungkin adalah semua yang Kamu butuhkan.
+Catatan: Langkah 3 dan 4 bersifat opsional. Untuk beberapa alur kerja, permintaan penggunaan tool dari Neosantara (langkah 2) mungkin sudah cukup, tanpa perlu mengirimkan kembali hasilnya ke model.
+
+***
+
+## Contoh Penggunaan Tool
+
+Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan teknik penggunaan tool. Contoh-contoh ini menggunakan tool sederhana untuk kejelasan.
+
+<AccordionGroup>
+  <Accordion title="Contoh Tool Tunggal">
+    <CodeGroup>
+      ```bash Shell
+      curl https://api.neosantara.xyz/v1/chat/completions \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
+        --data '{ 
+          "model": "nusantara-base",
+          "max_tokens": 1024,
+          "tools": [{
+            "type": "function",
+            "function": {
+              "name": "get_weather",
+              "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "location": {"type": "string", "description": "Kota dan negara, misalnya Jakarta, ID"},
+                  "unit": {
+                    "type": "string",
+                    "enum": ["celsius", "fahrenheit"],
+                    "description": "Satuan suhu, baik \"celsius\" atau \"fahrenheit\""
+                  }
+                },
+                "required": ["location"]
+              }
+            }
+          }],
+          "messages": [{"role": "user", "content": "Bagaimana cuaca di Jakarta?"}]
+        }'
+      ```
+
+      ```python Python
+      from openai import OpenAI
+
+      client = OpenAI(api_key="KUNCI_API_NEOSANTARA_KAMU", base_url="https://api.neosantara.xyz/v1")
+
+      response = client.chat.completions.create(
+          model="nusantara-base",
+          max_tokens=1024,
+          tools=[
+              {
+                  "type": "function",
+                  "function": {
+                      "name": "get_weather",
+                      "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                      "parameters": {
+                          "type": "object",
+                          "properties": {
+                              "location": {
+                                  "type": "string",
+                                  "description": "Kota dan negara, misalnya Jakarta, ID"
+                              },
+                              "unit": {
+                                  "type": "string",
+                                  "enum": ["celsius", "fahrenheit"],
+                                  "description": "Satuan suhu, baik 'celsius' atau 'fahrenheit'"
+                              }
+                          },
+                          "required": ["location"]
+                      }
+                  }
+              }
+          ],
+          messages=[{"role": "user", "content": "Bagaimana cuaca di Jakarta?"}]
+      )
+
+      print(response)
+      ```
+    </CodeGroup>
+
+    Neosantara akan mengembalikan respons yang mirip dengan:
+
+    ```json icon="code"
+    {
+      "id": "chatcmpl-…",
+      "object": "chat.completion",
+      "created": 1701234567,
+      "model": "nusantara-base",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call_…",
+                "type": "function",
+                "function": {
+                  "name": "get_weather",
+                  "arguments": "{\"location\": \"Jakarta, ID\", \"unit\": \"celsius\"}"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 50,
+        "completion_tokens": 10,
+        "total_tokens": 60
+      },
+      "_metadata": {
+        "creator": "neosantara.xyz",
+        "status": true,
+        "tier": "Free"
+        // ...
+      }
+    }
+    ```
+
+    Kamu kemudian perlu menjalankan fungsi `get_weather` dengan input yang disediakan, dan mengembalikan hasilnya dalam pesan `user` yang baru:
+
+    <CodeGroup>
+      ```bash Shell
+      curl https://api.neosantara.xyz/v1/chat/completions \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
+        --data '{ 
+          "model": "nusantara-base",
+          "max_tokens": 1024,
+          "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "get_weather",
+                  "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "location": {"type": "string", "description": "Kota dan negara, misalnya Jakarta, ID"},
+                      "unit": {
+                        "type": "string",
+                        "enum": ["celsius", "fahrenheit"],
+                        "description": "Satuan suhu, baik \"celsius\" atau \"fahrenheit\""
+                      }
+                    },
+                    "required": ["location"]
+                  }
+                }
+              }
+          ],
+          "messages": [
+              {
+                  "role": "user",
+                  "content": "Bagaimana cuaca di Jakarta?"
+              },
+              {
+                  "role": "assistant",
+                  "content": null,
+                  "tool_calls": [
+                      {
+                          "id": "call_toolu_01A09q90qw90lq917835lq9",
+                          "type": "function",
+                          "function": {
+                              "name": "get_weather",
+                              "arguments": "{\"location\": \"Jakarta, ID\", \"unit\": \"celsius\"}"
+                          }
+                      }
+                  ]
+              },
+              {
+                  "role": "tool",
+                  "tool_call_id": "call_toolu_01A09q90qw90lq917835lq9",
+                  "content": "{\"temperature\": 28, \"unit\": \"celsius\", \"description\": \"Cerah berawan\"}"
+              }
+          ]
+        }'
+      ```
+
+      ```python Python
+      from openai import OpenAI
+      import json
+
+      client = OpenAI(api_key="KUNCI_API_NEOSANTARA_KAMU", base_url="https://api.neosantara.xyz/v1")
+
+      # Panggilan pertama untuk mendapatkan tool_call
+      response1 = client.chat.completions.create(
+          model="nusantara-base",
+          max_tokens=1024,
+          tools=[
+              {
+                  "type": "function",
+                  "function": {
+                      "name": "get_weather",
+                      "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                      "parameters": {
+                          "type": "object",
+                          "properties": {
+                              "location": {"type": "string"},
+                              "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]}
+                          },
+                          "required": ["location"]
+                      }
+                  }
+              }
+          ],
+          messages=[{"role": "user", "content": "Bagaimana cuaca di Jakarta?"}]
+      )
+
+      # Mengasumsikan response1 berisi tool_call
+      if response1.choices[0].message.tool_calls:
+          tool_call = response1.choices[0].message.tool_calls[0]
+          tool_name = tool_call.function.name
+          tool_args = json.loads(tool_call.function.arguments)
+          tool_call_id = tool_call.id
+
+          # --- Jalankan tool Kamu di sini ---
+          # Untuk demonstrasi, hasil cuaca tiruan
+          if tool_name == "get_weather":
+              mock_weather_result = {"temperature": 28, "unit": "celsius", "description": "Cerah berawan"}
+          else:
+              mock_weather_result = {"error": "Tool tidak ditemukan"}
+          # --- Akhir eksekusi tool ---
+
+          # Panggilan kedua untuk memberikan hasil tool kembali ke model
+          response2 = client.chat.completions.create(
+              model="nusantara-base",
+              max_tokens=1024,
+              tools=[
+                  {
+                      "type": "function",
+                      "function": {
+                          "name": "get_weather",
+                          "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                          "parameters": {
+                              "type": "object",
+                              "properties": {
+                                  "location": { "type": "string" },
+                                  "unit": { "type": "string", "enum": ["celsius", "fahrenheit"] }
+                              },
+                              "required": ["location"]
+                          }
+                      }
+                  }
+              ],
+              messages=[
+                  {"role": "user", "content": "Bagaimana cuaca di Jakarta?"},
+                  {"role": "assistant", "content": None, "tool_calls": [tool_call]},
+                  {"role": "tool", "tool_call_id": tool_call_id, "content": json.dumps(mock_weather_result)}
+              ]
+          )
+          print(response2)
+      ```
+    </CodeGroup>
+
+    Ini akan mencetak respons akhir Neosantara, yang menyertakan data cuaca:
+
+    ```json icon="code"
+    {
+      "id": "chatcmpl-…",
+      "object": "chat.completion",
+      "created": 1701234567,
+      "model": "nusantara-base",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Cuaca di Jakarta saat ini adalah 28 derajat Celsius, cerah berawan."
+          },
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 70,
+        "completion_tokens": 20,
+        "total_tokens": 90
+      },
+      "_metadata": {
+        "creator": "neosantara.xyz",
+        "status": true,
+        "tier": "Free"
+        // ...
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Penggunaan Tool Paralel">
+    Neosantara dapat memanggil beberapa tool secara paralel dalam satu respons tunggal, yang berguna untuk tugas yang memerlukan beberapa operasi independen. Saat menggunakan tool paralel, semua blok `tool_calls` disertakan dalam satu pesan asisten, dan semua hasil `tool` yang sesuai harus disediakan dalam pesan pengguna berikutnya, masing-masing dengan `tool_call_id`-nya.
+
+    <CodeGroup>
+      ```bash Shell
+      curl https://api.neosantara.xyz/v1/chat/completions \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
+        --data '{ 
+          "model": "nusantara-base",
+          "max_tokens": 1024,
+          "tools": [{
+              "type": "function",
+              "function": {
+                "name": "get_weather",
+                "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "location": { "type": "string", "description": "Kota dan negara, misalnya Jakarta, ID" }
+                  },
+                  "required": ["location"]
+                }
+              }
+            },
+            {
+              "type": "function",
+              "function": {
+                "name": "get_time",
+                "description": "Dapatkan waktu saat ini di zona waktu tertentu",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "timezone": { "type": "string", "description": "Nama zona waktu IANA, misalnya Asia/Jakarta" }
+                  },
+                  "required": ["timezone"]
+                }
+              }
+            }
+          ],
+          "messages": [{"role": "user", "content": "Bagaimana cuaca saat ini di Jakarta? Serta jam berapa di sana?"}]
+        }'
+      ```
+
+      ```python Python
+      from openai import OpenAI
+      import json
+
+      client = OpenAI(api_key="KUNCI_API_NEOSANTARA_KAMU", base_url="https://api.neosantara.xyz/v1")
+
+      # Panggilan pertama untuk mendapatkan tool_calls paralel
+      response1 = client.chat.completions.create(
+          model="nusantara-base",
+          max_tokens=1024,
+          tools=[
+              {
+                  "type": "function",
+                  "function": {
+                      "name": "get_weather",
+                      "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                      "parameters": {
+                          "type": "object",
+                          "properties": {
+                              "location": { "type": "string" }
+                          },
+                          "required": ["location"]
+                      }
+                  }
+              },
+              {
+                  "type": "function",
+                  "function": {
+                      "name": "get_time",
+                      "description": "Dapatkan waktu saat ini di zona waktu tertentu",
+                      "parameters": {
+                          "type": "object",
+                          "properties": {
+                              "timezone": { "type": "string" }
+                          },
+                          "required": ["timezone"]
+                      }
+                  }
+              }
+          ],
+          messages=[{"role": "user", "content": "Bagaimana cuaca saat ini di Jakarta? Serta jam berapa di sana?"}]
+      )
+
+      # Proses panggilan tool paralel
+      if response1.choices[0].message.tool_calls:
+          tool_calls = response1.choices[0].message.tool_calls
+          tool_outputs = []
+
+          for tool_call in tool_calls:
+              tool_name = tool_call.function.name
+              tool_args = json.loads(tool_call.function.arguments)
+              tool_call_id = tool_call.id
+
+              # --- Jalankan tool Kamu di sini secara paralel ---
+              if tool_name == "get_weather":
+                  mock_result = {"temperature": 28, "unit": "celsius", "description": "Cerah berawan"}
+              elif tool_name == "get_time":
+                  mock_result = {"time": "04:30 AM", "timezone": "Asia/Jakarta"}
+              else:
+                  mock_result = {"error": "Tool tidak ditemukan"}
+              # --- Akhir eksekusi tool ---
+              
+              tool_outputs.append({
+                  "tool_call_id": tool_call_id,
+                  "output": json.dumps(mock_result) # Output harus berupa string
+              })
+
+          # Susun daftar pesan untuk panggilan API kedua
+          messages_for_second_call = [
+              {"role": "user", "content": "Bagaimana cuaca saat ini di Jakarta? Serta jam berapa di sana?"},
+              {"role": "assistant", "content": None, "tool_calls": tool_calls} # Berikan tool_calls asli kembali
+          ]
+          for output in tool_outputs:
+              messages_for_second_call.append({
+                  "role": "tool",
+                  "tool_call_id": output["tool_call_id"],
+                  "content": output["output"] # content harus berupa string
+              })
+
+          # Panggilan kedua untuk mendapatkan respons akhir
+          response2 = client.chat.completions.create(
+              model="nusantara-base",
+              max_tokens=1024,
+              tools=[
+                  # Definisikan ulang tool untuk panggilan kedua
+                  { "type": "function", "function": { "name": "get_weather", "description": "...", "parameters": { "type": "object", "properties": { "location": { "type": "string" } }, "required": ["location"] } } },
+                  { "type": "function", "function": { "name": "get_time", "description": "...", "parameters": { "type": "object", "properties": { "timezone": { "type": "string" } }, "required": ["timezone"] } } }
+              ],
+              messages=messages_for_second_call
+          )
+          print(response2)
+      ```
+    </CodeGroup>
+  </Accordion>
+
+  <Accordion title="Informasi yang Kurang">
+    Jika prompt pengguna tidak menyertakan informasi yang cukup untuk mengisi semua parameter yang diperlukan untuk sebuah tool, Neosantara dirancang untuk mengenali bahwa ada parameter yang kurang dan menanyakannya.
+
+    Misalnya, menggunakan tool `get_weather`, jika Kamu bertanya "Bagaimana cuacanya?" tanpa menentukan lokasi, model kemungkinan akan merespons dengan pertanyaan klarifikasi alih-alih melakukan panggilan tool.
+
+    ```json icon="code"
+    {
+      "id": "chatcmpl-…",
+      "object": "chat.completion",
+      "created": 1701234567,
+      "model": "nusantara-base",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Tentu, saya bisa memberi tahu cuacanya. Kota dan negara mana yang Kamu maksud?"
+          },
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 40,
+        "completion_tokens": 20,
+        "total_tokens": 60
+      },
+      "_metadata": {
+        "creator": "neosantara.xyz",
+        "status": true,
+        "tier": "Free"
+        // ...
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Tool Sekuensial">
+    Beberapa tugas mungkin memerlukan pemanggilan beberapa tool secara berurutan, menggunakan output dari satu tool sebagai input untuk tool lainnya. Dalam kasus seperti itu, Neosantara akan memanggil satu tool pada satu waktu.
+
+    Berikut adalah contoh penggunaan tool `get_location_from_ip` untuk mendapatkan lokasi pengguna berdasarkan IP mereka, lalu meneruskan lokasi tersebut ke tool `get_weather`:
+
+    <CodeGroup>
+      ```bash Shell
+      curl https://api.neosantara.xyz/v1/chat/completions \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
+        --data '{ 
+          "model": "nusantara-base",
+          "max_tokens": 1024,
+          "tools": [
+            {
+              "type": "function",
+              "function": {
+                "name": "get_location_from_ip",
+                "description": "Dapatkan lokasi pengguna saat ini berdasarkan alamat IP mereka. Tool ini tidak memiliki parameter atau argumen.",
+                "parameters": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            {
+              "type": "function",
+              "function": {
+                "name": "get_weather",
+                "description": "Dapatkan cuaca saat ini di lokasi tertentu",
+                "parameters": {
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "type": "string",
+                      "description": "Kota dan negara, misalnya Jakarta, ID"
+                    },
+                    "unit": {
+                      "type": "string",
+                      "enum": ["celsius", "fahrenheit"],
+                      "description": "Satuan suhu, baik \"celsius\" atau \"fahrenheit\""
+                    }
+                  },
+                  "required": ["location"]
+                }
+              }
+            }
+          ],
+          "messages": [{"role": "user", "content": "Bagaimana cuaca di tempat saya berada?"}]
+        }'
+      ```
+
+      ```python Python
+      from openai import OpenAI
+      import json
+
+      client = OpenAI(api_key="KUNCI_API_NEOSANTARA_KAMU", base_url="https://api.neosantara.xyz/v1")
+
+      # Panggilan pertama untuk mendapatkan tool_calls bagi get_location_from_ip
+      response1 = client.chat.completions.create(
+          model="nusantara-base",
+          max_tokens=1024,
+          tools=[
+              { "type": "function", "function": { "name": "get_location_from_ip", "description": "...", "parameters": { "type": "object", "properties": {} } } },
+              { "type": "function", "function": { "name": "get_weather", "description": "...", "parameters": { "type": "object", "properties": { "location": { "type": "string" } }, "required": ["location"] } } }
+          ],
+          messages=[{"role": "user", "content": "Bagaimana cuaca di tempat saya berada?"}]
+      )
+
+      # Proses panggilan tool
+      if response1.choices[0].message.tool_calls:
+          tool_call1 = response1.choices[0].message.tool_calls[0]
+          tool_name1 = tool_call1.function.name
+          tool_call_id1 = tool_call1.id
+
+          # --- Jalankan tool get_location_from_ip ---
+          if tool_name1 == "get_location_from_ip":
+              mock_location_result = {"city": "Bandung", "state": "Jawa Barat", "country": "Indonesia"}
+          else:
+              mock_location_result = {"error": "Tool tidak ditemukan"}
+          # --- Akhir eksekusi tool ---
+
+          # Panggilan kedua: berikan hasil lokasi dan tanyakan cuaca
+          response2 = client.chat.completions.create(
+              model="nusantara-base",
+              max_tokens=1024,
+              tools=[
+                  { "type": "function", "function": { "name": "get_location_from_ip", "description": "...", "parameters": { "type": "object", "properties": {} } } },
+                  { "type": "function", "function": { "name": "get_weather", "description": "...", "parameters": { "type": "object", "properties": { "location": { "type": "string" } }, "required": ["location"] } } }
+              ],
+              messages=[
+                  {"role": "user", "content": "Bagaimana cuaca di tempat saya berada?"},
+                  {"role": "assistant", "content": None, "tool_calls": [tool_call1]},
+                  {"role": "tool", "tool_call_id": tool_call_id1, "content": json.dumps(mock_location_result)},
+                  # Tidak ada pesan pengguna baru, model diharapkan untuk melakukan panggilan tool lainnya
+              ]
+          )
+
+          # Proses panggilan tool kedua (get_weather)
+          if response2.choices[0].message.tool_calls:
+              tool_call2 = response2.choices[0].message.tool_calls[0]
+              tool_name2 = tool_call2.function.name
+              tool_args2 = json.loads(tool_call2.function.arguments)
+              tool_call_id2 = tool_call2.id
+
+              # --- Jalankan tool get_weather ---
+              if tool_name2 == "get_weather":
+                  mock_weather_result = {"temperature": 25, "unit": "celsius", "description": "Cerah"}
+              else:
+                  mock_weather_result = {"error": "Tool tidak ditemukan"}
+              # --- Akhir eksekusi tool ---
+
+              # Panggilan ketiga: berikan hasil cuaca dan dapatkan respons akhir
+              response3 = client.chat.completions.create(
+                  model="nusantara-base",
+                  max_tokens=1024,
+                  tools=[
+                      { "type": "function", "function": { "name": "get_location_from_ip", "description": "...", "parameters": { "type": "object", "properties": {} } } },
+                      { "type": "function", "function": { "name": "get_weather", "description": "...", "parameters": { "type": "object", "properties": { "location": { "type": "string" } }, "required": ["location"] } } }
+                  ],
+                  messages=[
+                      {"role": "user", "content": "Bagaimana cuaca di tempat saya berada?"},
+                      {"role": "assistant", "content": None, "tool_calls": [tool_call1]},
+                      {"role": "tool", "tool_call_id": tool_call_id1, "content": json.dumps(mock_location_result)},
+                      {"role": "assistant", "content": None, "tool_calls": [tool_call2]},
+                      {"role": "tool", "tool_call_id": tool_call_id2, "content": json.dumps(mock_weather_result)},
+                  ]
+              )
+              print(response3)
+      ```
+    </CodeGroup>
+
+    Alur percakapan lengkap akan melibatkan beberapa panggilan API:
+
+    1.  **Pengguna bertanya**: "Bagaimana cuaca di tempat saya berada?"
+    2.  **AI merespons (Panggilan Tool 1)**: Memanggil `get_location_from_ip`.
+    3.  **Kode Kamu menjalankan tool**: Mendapatkan lokasi (misalnya, "Bandung, Jawa Barat").
+    4.  **Kode Kamu mengirimkan hasil ke AI**: Mengirimkan pesan `tool` dengan lokasi.
+    5.  **AI merespons (Panggilan Tool 2)**: Memanggil `get_weather` dengan "Bandung, Jawa Barat".
+    6.  **Kode Kamu menjalankan tool**: Mendapatkan data cuaca (misalnya, "25°C, Cerah").
+    7.  **Kode Kamu mengirimkan hasil ke AI**: Mengirimkan pesan `tool` dengan cuaca.
+    8.  **AI merespons (Jawaban Akhir)**: "Cuaca di Bandung, Jawa Barat saat ini adalah 25°C dan cerah."
+  </Accordion>
+
+  <Accordion title="Mode JSON">
+    Kamu dapat menggunakan tool untuk menginstruksikan Neosantara agar menghasilkan output JSON yang mengikuti skema tertentu, meskipun Kamu tidak bermaksud mengeksekusi output tersebut melalui sebuah tool atau fungsi. Ini sering digunakan untuk ekstraksi atau pembuatan data terstruktur.
+
+    Saat menggunakan tool dengan cara ini:
+
+    * Kamu biasanya menyediakan **satu** tool.
+    * Kamu harus menyetel `tool_choice` ke `{"type": "function", "function": {"name": "nama_tool_Kamu"}}` untuk menginstruksikan model secara eksplisit agar menggunakan tool tersebut.
+    * Parameter `function` menentukan skema JSON persis yang harus dipatuhi oleh model.
+
+    Berikut ini menggunakan tool `record_summary` untuk mendeskripsikan gambar dengan format JSON tertentu. Perhatikan bahwa ini memerlukan model dengan kemampuan visi (misalnya, `vision-emas-2045`).
+
+    <CodeGroup>
+      ```bash Shell
+      #!/bin/bash
+      IMAGE_URL="https://upload.wikimedia.org/wikipedia/commons/a/a7/Camponotus_flavomarginatus_ant.jpg"
+      IMAGE_MEDIA_TYPE="image/jpeg"
+      IMAGE_BASE64=$(curl -s "$IMAGE_URL" | base64)
+
+      curl https://api.neosantara.xyz/v1/chat/completions \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
+        --data '{ 
+          "model": "vision-emas-2045",
+          "max_tokens": 1024,
+          "tools": [{
+            "type": "function",
+            "function": {
+              "name": "record_summary",
+              "description": "Rekam ringkasan gambar menggunakan JSON terstruktur dengan baik.",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "key_colors": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "r": { "type": "number", "description": "nilai merah [0.0, 1.0]" },
+                        "g": { "type": "number", "description": "nilai hijau [0.0, 1.0]" },
+                        "b": { "type": "number", "description": "nilai biru [0.0, 1.0]" },
+                        "name": { "type": "string", "description": "Nama warna yang dapat dibaca manusia dalam snake_case, misalnya \"olive_green\" atau \"turquoise\"" }
+                      },
+                      "required": [ "r", "g", "b", "name" ]
+                    },
+                    "description": "Warna-warna utama dalam gambar. Batasi kurang dari empat."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Deskripsi gambar. Maksimal satu hingga dua kalimat."
+                  },
+                  "estimated_year": {
+                    "type": "integer",
+                    "description": "Perkiraan tahun pengambilan gambar, jika berupa foto. Hanya setel ini jika gambar tampak non-fiksi. Perkiraan kasar tidak masalah!"
+                  }
+                },
+                "required": [ "key_colors", "description" ]
+              }
+            }
+          }],
+          "tool_choice": {"type": "function", "function": {"name": "record_summary"}},
+          "messages": [
+              {"role": "user", "content": [
+                  {"type": "image_url", "image_url": {"url": "'$IMAGE_URL'"}},
+                  {"type": "text", "text": "Jelaskan gambar ini dalam format JSON menggunakan skema tool yang disediakan."}
+              ]}
+          ]
+        }'
+      ```
+
+      ```python Python
+      from openai import OpenAI
+      import json
+
+      client = OpenAI(api_key="KUNCI_API_NEOSANTARA_KAMU", base_url="https://api.neosantara.xyz/v1")
+
+      image_url = "https://upload.wikimedia.org/wikipedia/commons/a/a7/Camponotus_flavomarginatus_ant.jpg"
+
+      message = client.chat.completions.create(
+          model="vision-emas-2045", # Gunakan model yang berkemampuan visi
+          max_tokens=1024,
+          tools=[
+              {
+                  "type": "function",
+                  "function": {
+                      "name": "record_summary",
+                      "description": "Rekam ringkasan gambar menggunakan JSON terstruktur dengan baik.",
+                      "parameters": {
+                          "type": "object",
+                          "properties": {
+                              "key_colors": {
+                                  "type": "array",
+                                  "items": {
+                                      "type": "object",
+                                      "properties": {
+                                          "r": {"type": "number"},
+                                          "g": {"type": "number"},
+                                          "b": {"type": "number"},
+                                          "name": {"type": "string"}
+                                      },
+                                      "required": ["r", "g", "b", "name"]
+                                  },
+                                  "description": "Warna-warna utama dalam gambar. Batasi kurang dari empat."
+                              },
+                              "description": {
+                                  "type": "string",
+                                  "description": "Deskripsi gambar. Maksimal satu hingga dua kalimat."
+                              },
+                              "estimated_year": {
+                                  "type": "integer",
+                                  "description": "Perkiraan tahun pengambilan gambar, jika berupa foto."
+                              }
+                          },
+                          "required": ["key_colors", "description"]
+                      }
+                  }
+              }
+          ],
+          tool_choice={"type": "function", "function": {"name": "record_summary"}},
+          messages=[
+              {"role": "user", "content": [
+                  {"type": "image_url", "image_url": {"url": image_url}},
+                  {"type": "text", "text": "Jelaskan gambar ini dalam format JSON menggunakan skema tool yang disediakan."}
+              ]}
+          ],
+      )
+      print(message)
+      ```
+    </CodeGroup>
+
+    Neosantara akan mengembalikan respons yang berisi output JSON terstruktur di dalam blok `tool_calls`:
+
+    ```json icon="code"
+    {
+      "id": "chatcmpl-…",
+      "object": "chat.completion",
+      "created": 1701234567,
+      "model": "vision-emas-2045",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call_…",
+                "type": "function",
+                "function": {
+                  "name": "record_summary",
+                  "arguments": "{\"key_colors\": [{\"r\": 0.2, \"g\": 0.2, \"b\": 0.1, \"name\": \"dark_brown\"}, {\"r\": 0.8, \"g\": 0.7, \"b\": 0.5, \"name\": \"light_beige\"}], \"description\": \"Foto close-up semut camponotus flavomarginatus pada permukaan berwarna terang.\", \"estimated_year\": 2008}"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 1500,
+        "completion_tokens": 100,
+        "total_tokens": 1600
+      },
+      "_metadata": {
+        "creator": "neosantara.xyz",
+        "status": true,
+        "tier": "Free"
+        // ...
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
 
 ***
 
 ## Harga
 
-Permintaan penggunaan tools diberi harga berdasarkan:
+Permintaan penggunaan tool diberi harga berdasarkan:
 
-1. Total jumlah token input yang dikirim ke model (termasuk token dari definisi tools).
-2. Jumlah token output yang dihasilkan (termasuk panggilan tools yang dihasilkan oleh model).
+1. Jumlah total token input yang dikirim ke model (termasuk token dari definisi tool di parameter `tools` serta pesan panggilan/hasil tool).
+2. Jumlah token output yang dihasilkan (termasuk panggilan tool yang dihasilkan oleh model).
+3. Biaya tambahan mungkin berlaku untuk kemampuan khusus (misalnya, pemrosesan visi untuk input gambar).
 
-Lihat [dokumentasi harga](/id/about/billing-pricing) kami untuk harga per model dan tingkatan penggunaan saat ini.
+Token tambahan dari penggunaan tool berasal dari:
+
+* Array `tools` dalam permintaan API (nama tool, deskripsi, dan skema parameter).
+* `tool_calls` yang dihasilkan oleh model dalam pesan asisten.
+* Pesan `tool` (berisi `tool_call_id` dan `content`) yang dikirim oleh aplikasi Kamu.
+
+Jumlah token ini ditambahkan ke token input dan output normal Kamu untuk menghitung total biaya permintaan.
+
+Lihat [dokumentasi harga](https://app.neosantara.xyz/pricing) kami untuk harga per model dan tier penggunaan saat ini.
+
+Saat Kamu mengirimkan prompt penggunaan tool, sama seperti permintaan API lainnya, respons akan menampilkan jumlah token input dan output sebagai bagian dari metrik `usage` yang dilaporkan.
 
 ***
 
 ## Langkah Selanjutnya
 
-Jelajahi kemampuan lain dan referensi API kami:
+Jelajahi kemampuan dan referensi API kami yang lain:
 
-<CardGroup cols={3}> <Card title="Pembuatan Gambar" icon="panorama" href="/id/capability/image-generation">
+<CardGroup cols={3}>
+  <Card title="Generasi Gambar" icon="panorama" href="/id/capability/image-generation">
     Hasilkan gambar berkualitas tinggi dari prompt teks.
   </Card>
 
-  <Card title="Embeddings" icon="bezier-curve" href="/id/capability/embeddings">
+  <Card title="Embedding" icon="bezier-curve" href="/id/capability/embeddings">
     Ubah teks menjadi vektor numerik untuk pencarian semantik.
   </Card>
 </CardGroup>

@@ -1,28 +1,25 @@
 ---
-title: "Mulai Cepat: Vercel AI SDK dengan Neosantara"
-description: "> Panduan menggunakan model Neosantara dengan Vercel AI SDK."
+title: "Mulai Cepat: Menggunakan Vercel AI SDK dengan Neosantara"
+description: "> Panduan ini akan memandu Kamu tentang cara menggunakan model Neosantara dengan Vercel AI SDK."
 ---
 
-Vercel AI SDK adalah library Typescript untuk membangun aplikasi bertenaga AI. Kamu dapat dengan mudah mengintegrasikan model Neosantara ke dalam proyek TypeScript, React, atau Next.js.
+Vercel AI SDK adalah pustaka Typescript yang kuat yang dirancang untuk membantu pengembang membangun aplikasi bertenaga AI. Dengan menggunakan Neosantara dan Vercel AI SDK, Kamu dapat dengan mudah mengintegrasikan AI ke dalam proyek TypeScript, React, atau Next.js Kamu. Dalam tutorial ini, kita akan melihat betapa mudahnya menggunakan model Neosantara dan Vercel AI SDK.
 
-## Mulai Cepat: 15 Baris Kode
+## Mulai Cepat: 15 baris kode
 
-1. Instal Vercel AI SDK dan paket OpenAI Compatible.
+1. Instal Vercel AI SDK dan paket Vercel dari OpenAI.
 
-<CodeGroup>
-  ```bash npm icon="terminal"
-  npm i ai @ai-sdk/openai-compatible
-  ```
+```bash icon="terminal"
+npm i ai @ai-sdk/openai-compatible
+```
 
-  ```bash yarn icon="terminal"
-  yarn add ai @ai-sdk/openai-compatible
-  ```
+```bash icon="terminal"
+yarn add ai @ai-sdk/openai-compatible
+```
 
-</CodeGroup>
+2. Buat instans klien Neosantara dan panggil fungsi `generateText` dengan nusantara-base untuk menghasilkan beberapa teks.
 
-2. Inisialisasi klien Neosantara dan gunakan fungsi `generateText`.
-
-```js TypeScript
+```javascript icon="js"
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText } from 'ai';
 
@@ -34,17 +31,36 @@ const neosantara = createOpenAICompatible({
 
 const { text } = await generateText({
   model: neosantara('nusantara-base'),
-  prompt: 'Tulis cerita pendek tentang kucing yang lapar',
+  prompt: 'Tulis cerita tentang kucing yang menginginkan whiskas',
 });
 
 console.log(text)
 ```
 
+### Output
+```text
+Luna, seekor kucing dengan bulu hitam pekat, sedang tidur siang di ambang jendela. Cahaya matahari menyentuh punggungnya yang lembut.
+
+Perlahan, sebuah dorongan halus muncul. Bukan dari cahaya, melainkan dari dalam perutnya. Ada kekosongan kecil, sebuah isyarat.
+
+Pikirannya melayang pada aroma tertentu. Aroma yang kaya, yang selalu ada di dalam kemasan foil. Aroma Whiskas.
+
+Ia membuka mata hijaunya. Menggeliat, meregangkan setiap otot, lalu melompat turun dengan anggun. Kakinya yang lembut melangkah tanpa suara di lantai kayu.
+
+Ia menemukan manusia di dapur, sibuk dengan kegiatannya sendiri. Luna duduk di dekat kaki manusia, ekornya sesekali bergerak perlahan. Ia mendongak, matanya bertemu dengan mata manusia. Sebuah meong kecil, lembut namun penuh harap, keluar dari tenggorokannya.
+
+Manusia itu menunduk, seolah memahami. Sebuah senyum tipis terukir. Manusia itu bergerak menuju lemari, membuka pintu, dan mengambil sebuah kantung kecil.
+
+Suara sobekan kemasan Whiskas adalah musik di telinga Luna. Ia mengamati setiap gerakan, menunggu.
+
+Saat mangkuk diletakkan di lantai, Luna tidak tergesa-gesa. Ia mendekat, mengendus sebentar, lalu mulai makan dengan tenang. Setiap gigitan adalah kepuasan yang sederhana. Keinginan itu telah terpenuhi.
+```
+
 ## Streaming dengan Vercel AI SDK
 
-Untuk melakukan streaming, gunakan fungsi `streamText`.
+Untuk melakukan streaming dari model Neosantara menggunakan Vercel AI SDK, cukup gunakan `streamText` seperti yang terlihat di bawah ini.
 
-```js TypeScript
+```javascript icon="js"
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { streamText } from "ai";
 
@@ -56,7 +72,7 @@ const neosantara = createOpenAICompatible({
 async function main() {
   const result = await streamText({
     model: neosantara("nusantara-base"),
-    prompt: "Jelaskan tradisi liburan baru yang unik.",
+    prompt: "Buat hari libur baru dan jelaskan tradisinya.",
   });
 
   for await (const textPart of result.textStream) {
@@ -66,3 +82,39 @@ async function main() {
 
 main();
 ```
+
+### Output
+
+```text
+Memperkenalkan "Hari Luminaria" - hari libur penuh sukacita yang dirayakan pada ekuinoks musim semi, menandai kembalinya kehangatan dan cahaya ke dunia. Perayaan meriah ini adalah waktu bagi keluarga, teman, dan komunitas untuk berkumpul, berbagi cerita, dan menikmati pancaran musim tersebut.
+
+**Tanggal:** Hari Luminaria diperingati pada ekuinoks musim semi, biasanya sekitar tanggal 20 atau 21 Maret.
+
+**Tradisi:**
+
+1. **Penyalaan Lentera:** Saat matahari terbit di Hari Luminaria, orang-orang berkumpul di lingkungan, taman, dan ruang publik mereka untuk menyalakan lentera yang terbuat dari kertas, kayu, atau bahan berkelanjutan lainnya. Lentera ini dihiasi dengan desain yang rumit, simbol, dan pesan harapan serta pembaruan.
+2. **Lingkaran Mendongeng:** Keluarga dan teman berkumpul di sekitar api sentral atau cahaya lilin untuk berbagi cerita tentang ketahanan, keberanian, dan kemenangan. Kisah-kisah ini diwariskan turun-temurun, berfungsi sebagai pengingat akan kekuatan hubungan manusia dan pentingnya belajar dari masa lalu.
+3. **Prosesi Luminaria:** Saat matahari terbenam, komunitas berkumpul untuk prosesi yang semarak, membawa lentera mereka dan berbagi musik, tarian, dan tawa. Prosesi ini menyusuri jalan-jalan, melambangkan kembalinya cahaya dan kehidupan ke dunia.
+4. **Perjamuan Pembaruan:** Setelah prosesi, orang-orang berkumpul untuk makan malam meriah, menampilkan hidangan yang dibuat dengan bahan-bahan musiman dan resep tradisional. Perjamuan ini adalah waktu untuk bersyukur, refleksi, dan merayakan siklus kehidupan.
+5. **Hadiah Kebaikan:** Pada Hari Luminaria, orang-orang didorong untuk melakukan tindakan kebaikan dan kemurahan hati kepada orang lain. Ini bisa berupa menjadi sukarelawan, menyumbang ke badan amal, atau sekadar menawarkan bantuan kepada tetangga yang membutuhkan.
+
+**Simbolisme:**
+
+* Lentera mewakili cahaya harapan dan bimbingan, menerangi jalan ke depan.
+* Lingkaran mendongeng melambangkan kekuatan pengalaman bersama dan pentingnya belajar satu sama lain.
+* Prosesi mewakili kembalinya kehidupan dan energi ke dunia, seiring pergeseran musim dari musim dingin ke musim semi.
+* Perjamuan pembaruan merayakan siklus hidup, mati, dan kelahiran kembali.
+* Hadiah kebaikan mewujudkan semangat kemurahan hati dan kasih sayang yang mendefinisikan Hari Luminaria.
+
+**Kegiatan:**
+
+* Buat lentera Kamu sendiri menggunakan bahan daur ulang dan hiasi dengan simbol, pesan, atau cerita.
+* Bagikan kisah ketahanan dan kemenangan Kamu sendiri dengan keluarga dan teman.
+* Berpartisipasi dalam Prosesi Luminaria dan nikmati musik, tarian, dan tawa.
+* Siapkan hidangan tradisional untuk Perjamuan Pembaruan dan bagikan dengan orang-orang terkasih.
+* Lakukan tindakan kebaikan dan kemurahan hati untuk orang lain, sebarkan kegembiraan dan kepositifan di seluruh komunitas Kamu.
+
+Hari Luminaria adalah waktu untuk berkumpul bersama, merayakan kembalinya cahaya dan kehidupan, serta menghormati kekuatan hubungan manusia.
+```
+
+***

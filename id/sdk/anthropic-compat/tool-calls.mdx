@@ -1,36 +1,134 @@
 ---
-title: "Tool Calls"
-description: "Gunakan pemanggilan tool yang kompatibel dengan Anthropic di Neosantara AI."
+title: "Panggilan Tool (Tool Calls)"
+description: "Gunakan pemanggilan tool yang kompatibel dengan Anthropic dengan model Neosantara."
 ---
 
-# Tool Calls
+API Neosantara mendukung pemanggilan tool yang kompatibel dengan Anthropic (pemanggilan fungsi), memungkinkan model untuk berinteraksi dengan tool dan fungsi eksternal. Ini mengikuti spesifikasi API Messages Anthropic standar.
 
-Neosantara AI mendukung pemanggilan tool (function calling) yang kompatibel dengan Anthropic, memungkinkan model untuk berinteraksi dengan fungsi eksternal menggunakan SDK Anthropic.
+### Contoh permintaan
 
-### [Contoh Permintaan](#contoh-permintaan)
+Tentukan tool dan pesan Kamu, lalu arahkan SDK Anthropic ke Neosantara.
 
-```typescript
+<CodeGroup>
+
+```typescript tool-calls.ts
 import Anthropic from '@anthropic-ai/sdk';
-
-const client = new Anthropic({
+ 
+const anthropic = new Anthropic({
   apiKey: process.env.NAI_API_KEY,
   baseURL: 'https://api.neosantara.xyz/anthropic',
 });
-
-const message = await client.messages.create({
+ 
+const message = await anthropic.messages.create({
   model: 'claude-4.5-sonnet',
   max_tokens: 1024,
-  tools: [{
-    name: 'get_weather',
-    description: 'Dapatkan cuaca di lokasi tertentu',
-    input_schema: {
-      type: 'object',
-      properties: {
-        location: { type: 'string', description: 'Kota dan Negara' }
+  tools: [
+    {
+      name: 'get_weather',
+      description: 'Dapatkan cuaca saat ini di lokasi tertentu',
+      input_schema: {
+        type: 'object',
+        properties: {
+          location: {
+            type: 'string',
+            description: 'Kota dan negara, misalnya Jakarta, Indonesia',
+          },
+          unit: {
+            type: 'string',
+            enum: ['celsius', 'fahrenheit'],
+            description: 'Satuan untuk suhu',
+          },
+        },
+        required: ['location'],
       },
-      required: ['location']
-    }
-  }],
-  messages: [{ role: 'user', content: 'Bagaimana cuaca di Jakarta?' }]
+    },
+  ],
+  messages: [
+    {
+      role: 'user',
+      content: 'Bagaimana cuaca di Jakarta?',
+    },
+  ],
 });
+ 
+console.log('Respons:', JSON.stringify(message.content, null, 2));
 ```
+
+```python tool-calls.py
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    tools=[
+        {
+            'name': 'get_weather',
+            'description': 'Dapatkan cuaca saat ini di lokasi tertentu',
+            'input_schema': {
+                'type': 'object',
+                'properties': {
+                    'location': {
+                        'type': 'string',
+                        'description': 'Kota dan negara, misalnya Jakarta, Indonesia'
+                    },
+                    'unit': {
+                        'type': 'string',
+                        'enum': ['celsius', 'fahrenheit'],
+                        'description': 'Satuan untuk suhu'
+                    }
+                },
+                'required': ['location']
+            }
+        }
+    ],
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Bagaimana cuaca di Jakarta?'
+        }
+    ],
+)
+ 
+print('Respons:', message.content)
+```
+
+</CodeGroup>
+
+---
+
+### Format respons panggilan tool
+
+Saat model memutuskan untuk menggunakan tool, respons menyertakan blok `tool_use`. Aplikasi Kamu kemudian harus menjalankan fungsi yang sesuai dan mengembalikan hasilnya.
+
+```json
+{
+  "id": "msg_123",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "tool_use",
+      "id": "toolu_123",
+      "name": "get_weather",
+      "input": {
+        "location": "Jakarta, Indonesia",
+        "unit": "celsius"
+      }
+    }
+  ],
+  "model": "claude-4.5-sonnet",
+  "stop_reason": "tool_use",
+  "usage": {
+    "input_tokens": 82,
+    "output_tokens": 45
+  }
+}
+```
+
+Pelajari lebih lanjut tentang menangani hasil tool dalam [Panduan Penggunaan Tool](/id/how-tools) kami.

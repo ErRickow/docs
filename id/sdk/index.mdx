@@ -1,13 +1,13 @@
 ---
-title: "SDK & API"
-description: "Neosantara menyediakan API yang kompatibel secara langsung sehingga Kamu dapat beralih hanya dengan mengubah base URL. Tidak perlu menulis ulang kode."
+title: "Ikhtisar SDK & API"
+description: "Neosantara menyediakan API drop-in yang kompatibel sehingga Kamu dapat beralih hanya dengan mengubah base URL. Tidak perlu menulis ulang kode."
 ---
 
-Neosantara [AI Gateway](/id/intro) menyediakan API yang kompatibel dengan berbagai standar industri, memungkinkan Kamu beralih antar model hanya dengan mengubah base URL. Gunakan SDK dan alat yang sudah Kamu kuasai untuk mengakses 100+ model dari berbagai provider utama.
+[AI Gateway Neosantara](/id/intro) menyediakan API drop-in yang kompatibel sehingga Kamu dapat beralih hanya dengan mengubah base URL. Gunakan SDK dan alat yang sama yang sudah Kamu kenal, dengan akses ke 100+ model dari setiap penyedia utama.
 
-## [Quick Start](#quick-start)
+## Mulai cepat
 
-Hubungkan SDK Kamu yang sudah ada ke gateway Neosantara:
+Arahkan SDK Kamu yang sudah ada ke gateway:
 
 <CodeGroup>
 
@@ -20,7 +20,7 @@ const client = new OpenAI({
 });
  
 const response = await client.chat.completions.create({
-  model: 'grok-4.1-fast-non-reasoning',
+  model: 'grok-4.1-fast-non-reasoning', // Model apa pun yang tersedia
   messages: [{ role: 'user', content: 'Halo!' }],
 });
 ```
@@ -34,34 +34,51 @@ const client = new Anthropic({
 });
  
 const message = await client.messages.create({
-  model: 'claude-4.5-sonnet',
+  model: 'grok-4.1-fast-non-reasoning',
   max_tokens: 1024,
   messages: [{ role: 'user', content: 'Halo!' }],
 });
 ```
 
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "grok-4.1-fast-non-reasoning",
+    "messages": [{"role": "user", "content": "Halo!"}]
+  }'
+```
+
 </CodeGroup>
 
-## [Mengapa Menggunakan API Ini?](#why-use-these-apis)
+## Mengapa menggunakan API ini?
 
-*   **Tanpa Vendor Lock-in**: Beralih antara Claude, GPT, Gemini, dan model lainnya tanpa mengubah kode Kamu.
-*   **Penagihan Terpadu**: Satu saldo kredit untuk semua provider, tidak perlu mengelola banyak akun dan faktur.
-*   **Keandalan**: Dukungan redundansi multi-provider memastikan layanan tetap aktif meski satu provider sedang down.
-*   **Fitur Lengkap**: Pemanggilan tool, output terstruktur, visi, dan embedding bekerja persis seperti yang didokumentasikan.
+*   **Tanpa vendor lock-in**: Beralih antara Claude, GPT, Gemini, dan model lainnya tanpa mengubah kode Kamu.
+*   **Penagihan terpadu**: Satu saldo kredit untuk semua model alih-alih mengelola banyak akun dan tagihan.
+*   **Fallback bawaan**: Keandalan yang ditingkatkan dengan perutean multi-penyedia dan optimalisasi regional.
+*   **Dukungan streaming**: Respons waktu nyata dengan SSE di semua endpoint yang kompatibel.
+*   **Paritas fitur lengkap**: Pemanggilan tool, output terstruktur, visi, dan embedding berfungsi persis seperti yang didokumentasikan.
 
-## [API yang Tersedia](#available-apis)
+## API yang Tersedia
 
-| API | Cocok Untuk | Dokumentasi |
+| API | Terbaik untuk | Dokumentasi |
 | --- | --- | --- |
-| [Kompatibel OpenAI](/id/sdk/openai-compat) | Integrasi OpenAI yang sudah ada, dukungan bahasa yang luas | [Chat](/id/sdk/openai-compat/chat-completions), [Tool](/id/sdk/openai-compat/tool-calls), [Embedding](/id/sdk/openai-compat/embeddings) |
-| [Kompatibel Anthropic](/id/sdk/anthropic-compat) | Pengguna Claude Code dan SDK Anthropic | [Message](/id/sdk/anthropic-compat/messages), [Tool](/id/sdk/anthropic-compat/tool-calls), [Visi](/id/sdk/anthropic-compat/file-attachments) |
-| [Responses API](/id/sdk/responses-api) | Proyek baru, percakapan stateful | [Streaming](/id/sdk/responses-api/streaming), [Tool](/id/sdk/responses-api/tool-calling), [Teks](/id/sdk/responses-api/text-generation) |
-| [Python](/id/sdk/python) | Pengembang Python | [Async](/id/sdk/python#async-support), [Streaming](/id/sdk/python#streaming), [Framework](/id/sdk/python#framework-integrations) |
+| [Kompatibel OpenAI](/id/sdk/openai-compat) | Integrasi OpenAI yang sudah ada, dukungan bahasa yang luas | [Chat](/id/sdk/openai-compat/chat-completions), [Tools](/id/sdk/openai-compat/tool-calls), [Embeddings](/id/sdk/openai-compat/embeddings) |
+| [Kompatibel Anthropic](/id/sdk/anthropic-compat) | Pengguna Claude Code, SDK Anthropic | [Messages](/id/sdk/anthropic-compat/messages), [Tools](/id/sdk/anthropic-compat/tool-calls), [Visi](/id/capability/ocr) |
+| [API Responses](/id/sdk/responses-api) | Proyek baru, percakapan stateful | [Streaming](/id/capability/stream), [Tools](/id/how-tools), [Terstruktur](/id/capability/structured) |
+| [Python](/id/sdk/python) | Pengembang Python | [Async](/id/sdk/python#async-support), [Streaming](/id/sdk/python#streaming), [Integrasi Framework](/id/sdk/python#framework-integrations) |
 
-## [Memilih API](#choosing-an-api)
+## Memilih API
 
-**Sudah menggunakan OpenAI?** Gunakan [API Kompatibel OpenAI](/id/sdk/openai-compat). Cukup ubah base URL Kamu.
+**Sudah menggunakan OpenAI?** Gunakan [API Kompatibel OpenAI](/id/sdk/openai-compat). Ubah base URL Kamu dan Kamu selesai.
 
 **Menggunakan Claude Code atau SDK Anthropic?** Gunakan [API Kompatibel Anthropic](/id/sdk/anthropic-compat) untuk dukungan fitur native.
 
-**Memulai dari awal?** Kami sangat merekomendasikan [Responses API](/id/sdk/responses-api) untuk antarmuka modern dan stateful, atau [Vercel AI SDK](/id/using-neosantara-with-vercels-ai-sdk) untuk pengalaman TypeScript terbaik.
+**Memulai baru?** Kami sangat merekomendasikan [API Responses](/id/sdk/responses-api) untuk antarmuka modern dan stateful, atau [Vercel AI SDK](/id/using-neosantara-with-vercels-ai-sdk) untuk pengalaman TypeScript terbaik.
+
+## Langkah berikutnya
+
+*   [Dapatkan kunci API Kamu](/id/authentication) untuk mulai membuat permintaan
+*   [Telusuri model yang tersedia](/id/models-overview) untuk menemukan model yang tepat untuk kasus penggunaan Kamu
+*   [Periksa batas penggunaan](/id/about/rate-limits) untuk memahami throughput tier Kamu

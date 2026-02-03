@@ -1,32 +1,381 @@
 ---
 title: "Structured Outputs"
-description: "Dapatkan respons JSON yang terstruktur dan sesuai skema."
+description: "Hasilkan respons JSON terstruktur yang sesuai dengan skema tertentu menggunakan API Neosantara."
 ---
 
-# Structured Outputs
+API Neosantara mendukung pembuatan respons JSON terstruktur yang sesuai dengan skema tertentu, memastikan format data yang dapat diprediksi dan diandalkan untuk aplikasi Kamu. Ini mengikuti spesifikasi OpenAI Structured Outputs resmi.
 
-Neosantara mendukung format `json_schema` standar OpenAI untuk memastikan respons model mengikuti struktur data yang Kamu tentukan.
+#### Format Skema JSON
 
-### [Contoh Skema](#contoh-skema)
+Gunakan format respons `json_schema` standar OpenAI untuk pengalaman output terstruktur yang paling kuat.
 
-```typescript
+<CodeGroup>
+
+```typescript structured-output-json-schema.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
 const completion = await openai.chat.completions.create({
   model: 'grok-4.1-fast-non-reasoning',
-  messages: [{ role: 'user', content: 'Ekstrak: Budi, 25 tahun, dari Bandung.' }],
+  messages: [
+    {
+      role: 'user',
+      content: 'Buat daftar produk untuk headset gaming nirkabel.',
+    },
+  ],
+  stream: false,
   response_format: {
     type: 'json_schema',
     json_schema: {
-      name: 'person_info',
+      name: 'daftar_produk',
+      description: 'Daftar produk dengan detail dan harga',
       schema: {
         type: 'object',
         properties: {
-          nama: { type: 'string' },
-          umur: { type: 'number' },
-          kota: { type: 'string' },
+          name: {
+            type: 'string',
+            description: 'Nama produk',
+          },
+          brand: {
+            type: 'string',
+            description: 'Nama merek',
+          },
+          price: {
+            type: 'number',
+            description: 'Harga dalam USD',
+          },
+          category: {
+            type: 'string',
+            description: 'Kategori produk',
+          },
+          description: {
+            type: 'string',
+            description: 'Deskripsi produk',
+          },
+          features: {
+            type: 'array',
+            items: { type: 'string' },
+            description: 'Fitur utama produk',
+          },
         },
-        required: ['nama', 'umur', 'kota'],
+        required: ['name', 'brand', 'price', 'category', 'description'],
+        additionalProperties: false,
       },
     },
   },
 });
+ 
+console.log('Asisten:', completion.choices[0].message.content);
+ 
+// Urutkan respons terstruktur
+const structuredData = JSON.parse(completion.choices[0].message.content);
+console.log('Data Terstruktur:', structuredData);
 ```
+
+```python structured-output-json-schema.py
+import os
+import json
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Buat daftar produk untuk headset gaming nirkabel.'
+        }
+    ],
+    stream=False,
+    response_format={
+        'type': 'json_schema',
+        'json_schema': {
+            'name': 'daftar_produk',
+            'description': 'Daftar produk dengan detail dan harga',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'name': {
+                        'type': 'string',
+                        'description': 'Nama produk'
+                    },
+                    'brand': {
+                        'type': 'string',
+                        'description': 'Nama merek'
+                    },
+                    'price': {
+                        'type': 'number',
+                        'description': 'Harga dalam USD'
+                    },
+                    'category': {
+                        'type': 'string',
+                        'description': 'Kategori produk'
+                    },
+                    'description': {
+                        'type': 'string',
+                        'description': 'Deskripsi produk'
+                    },
+                    'features': {
+                        'type': 'array',
+                        'items': {'type': 'string'},
+                        'description': 'Fitur utama produk'
+                    }
+                },
+                'required': ['name', 'brand', 'price', 'category', 'description'],
+                'additionalProperties': False
+            },
+        }
+    }
+)
+ 
+print('Asisten:', completion.choices[0].message.content)
+ 
+# Urutkan respons terstruktur
+structured_data = json.loads(completion.choices[0].message.content)
+print('Data Terstruktur:', json.dumps(structured_data, indent=2))
+```
+
+</CodeGroup>
+
+#### Format respons
+
+Respons berisi JSON terstruktur yang sesuai dengan skema yang Kamu tentukan:
+
+```json
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "created": 1677652288,
+  "model": "grok-4.1-fast-non-reasoning",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"name\":\"SteelSeries Arctis 7P\",\"brand\":\"SteelSeries\",\"price\":149.99,\"category\":\"Headset Gaming\",\"description\":\"Headset gaming nirkabel dengan suara surround 7.1\",\"features\":[\"Nirkabel 2.4GHz\",\"Suara Surround 7.1\",\"Baterai 24 jam\",\"Mikrofon yang dapat ditarik\"]}"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 25,
+    "completion_tokens": 45,
+    "total_tokens": 70
+  }
+}
+```
+
+---
+
+#### Format JSON legacy (alternatif)
+
+Format legacy berikut juga didukung untuk kompatibilitas ke belakang. Untuk implementasi baru, kami merekomendasikan format `json_schema` di atas.
+
+<CodeGroup>
+
+```typescript structured-output-legacy.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const completion = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    {
+      role: 'user',
+      content: 'Buat daftar produk untuk headset gaming nirkabel.',
+    },
+  ],
+  stream: false,
+  // @ts-expect-error - Format legacy tidak ada di tipe OpenAI
+  response_format: {
+    type: 'json',
+    name: 'daftar_produk',
+    description: 'Daftar produk dengan detail dan harga',
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', description: 'Nama produk' },
+        brand: { type: 'string', description: 'Nama merek' },
+        price: { type: 'number', description: 'Harga dalam USD' },
+        category: { type: 'string', description: 'Kategori produk' },
+        description: { type: 'string', description: 'Deskripsi produk' },
+        features: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Fitur utama produk',
+        },
+      },
+      required: ['name', 'brand', 'price', 'category', 'description'],
+    },
+  },
+});
+ 
+console.log('Asisten:', completion.choices[0].message.content);
+```
+
+```python structured-output-legacy.py
+import os
+import json
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Buat daftar produk untuk headset gaming nirkabel.'
+        }
+    ],
+    stream=False,
+    response_format={
+        'type': 'json',
+        'name': 'daftar_produk',
+        'description': 'Daftar produk dengan detail dan harga',
+        'schema': {
+            'type': 'object',
+            'properties': {
+                'name': {'type': 'string', 'description': 'Nama produk'},
+                'brand': {'type': 'string', 'description': 'Nama merek'},
+                'price': {'type': 'number', 'description': 'Harga dalam USD'},
+                'category': {'type': 'string', 'description': 'Kategori produk'},
+                'description': {'type': 'string', 'description': 'Deskripsi produk'},
+                'features': {
+                    'type': 'array',
+                    'items': {'type': 'string'},
+                    'description': 'Fitur utama produk'
+                }
+            },
+            'required': ['name', 'brand', 'price', 'category', 'description']
+        }
+    }
+)
+ 
+print('Asisten:', completion.choices[0].message.content)
+```
+
+</CodeGroup>
+
+---
+
+#### Streaming dengan output terstruktur
+
+Format `json_schema` dan `json` legacy berfungsi dengan respons streaming. Kamu harus mengumpulkan semua potongan sebelum menguraikannya.
+
+<CodeGroup>
+
+```typescript structured-streaming.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+const stream = await openai.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [
+    {
+      role: 'user',
+      content: 'Buat daftar produk untuk headset gaming nirkabel.',
+    },
+  ],
+  stream: true,
+  response_format: {
+    type: 'json_schema',
+    json_schema: {
+      name: 'daftar_produk',
+      schema: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          brand: { type: 'string' },
+          price: { type: 'number' },
+        },
+        required: ['name', 'brand', 'price'],
+        additionalProperties: false,
+      },
+    },
+  },
+});
+ 
+let completeResponse = '';
+for await (const chunk of stream) {
+  const content = chunk.choices[0]?.delta?.content;
+  if (content) {
+    process.stdout.write(content);
+    completeResponse += content;
+  }
+}
+ 
+const structuredData = JSON.parse(completeResponse);
+console.log('\nProduk yang Diurai:', structuredData);
+```
+
+```python structured-streaming.py
+import os
+import json
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+stream = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Buat daftar produk untuk headset gaming nirkabel.'
+        }
+    ],
+    stream=True,
+    response_format={
+        'type': 'json_schema',
+        'json_schema': {
+            'name': 'daftar_produk',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'name': {'type': 'string'},
+                    'brand': {'type': 'string'},
+                    'price': {'type': 'number'},
+                },
+                'required': ['name', 'brand', 'price'],
+                'additionalProperties': False
+            },
+        }
+    }
+)
+ 
+complete_response = ''
+for chunk in stream:
+    if chunk.choices and chunk.choices[0].delta.content:
+        content = chunk.choices[0].delta.content
+        print(content, end='', flush=True)
+        complete_response += content
+ 
+structured_data = json.loads(complete_response)
+print('\nProduk yang Diurai:', structured_data)
+```
+
+</CodeGroup>
+
+---

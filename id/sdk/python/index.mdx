@@ -1,51 +1,273 @@
 ---
-title: "Python SDK"
-description: "Gunakan library Python resmi OpenAI atau Anthropic dengan Neosantara AI."
+title: "Python"
+description: "Gunakan SDK Python resmi OpenAI dan Anthropic dengan Neosantara."
 ---
 
-# Python
+Untuk memulai dengan Python dan Neosantara, Kamu dapat memanggil API yang [Kompatibel dengan OpenAI](/id/sdk/openai-compat) atau [Kompatibel dengan Anthropic](/id/sdk/anthropic-compat) secara langsung, atau menggunakan SDK Python resmi [OpenAI](https://github.com/openai/openai-python) dan [Anthropic](https://github.com/anthropics/anthropic-sdk-python).
 
-Kamu dapat menggunakan SDK Python resmi untuk berinteraksi dengan Neosantara AI. Cukup arahkan parameter `base_url` ke gateway kami.
+## Instalasi
 
-## [Instalasi](#install)
+Instal SDK pilihan Kamu:
 
-```bash
-pip install openai anthropic
+<CodeGroup>
+
+```bash OpenAI SDK
+pip install openai
 ```
 
-## [Quick Start](#quickstart)
+```bash Anthropic SDK
+pip install anthropic
+```
+
+</CodeGroup>
+
+## Mulai cepat
+
+Arahkan SDK Kamu ke gateway AI Neosantara menggunakan parameter `base_url`.
 
 <CodeGroup>
 
 ```python OpenAI SDK
-from openai import OpenAI
 import os
-
+from openai import OpenAI
+ 
 client = OpenAI(
     api_key=os.getenv('NAI_API_KEY'),
     base_url='https://api.neosantara.xyz/v1'
 )
-
+ 
 response = client.chat.completions.create(
-    model='grok-4.1-fast-non-reasoning',
-    messages=[{'role': 'user', 'content': 'Halo!'}]
+    model='claude-4.5-sonnet',
+    messages=[
+        {'role': 'user', 'content': 'Jelaskan komputasi kuantum dalam satu paragraf.'}
+    ]
 )
+ 
+print(response.choices[0].message.content)
 ```
 
 ```python Anthropic SDK
-import anthropic
 import os
-
+import anthropic
+ 
 client = anthropic.Anthropic(
     api_key=os.getenv('NAI_API_KEY'),
     base_url='https://api.neosantara.xyz/anthropic'
 )
-
+ 
 message = client.messages.create(
     model='claude-4.5-sonnet',
     max_tokens=1024,
-    messages=[{'role': 'user', 'content': 'Halo!'}]
+    messages=[
+        {'role': 'user', 'content': 'Jelaskan komputasi kuantum dalam satu paragraf.'}
+    ]
+)
+ 
+print(message.content[0].text)
+```
+
+</CodeGroup>
+
+## Autentikasi
+
+Kedua SDK menggunakan autentikasi kunci API standar. Kami menyarankan untuk menyimpan kunci Kamu dalam variabel lingkungan.
+
+```python
+import os
+ 
+# Muat dari variabel lingkungan
+api_key = os.getenv('NAI_API_KEY')
+```
+
+## Streaming
+
+Lakukan streaming respons untuk output waktu nyata dalam aplikasi obrolan.
+
+<CodeGroup>
+
+```python OpenAI SDK
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+stream = client.chat.completions.create(
+    model='claude-4.5-sonnet',
+    messages=[
+        {'role': 'user', 'content': 'Tulis cerita pendek tentang robot.'}
+    ],
+    stream=True
+)
+ 
+for chunk in stream:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end='', flush=True)
+```
+
+```python Anthropic SDK
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+with client.messages.stream(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[
+        {'role': 'user', 'content': 'Tulis cerita pendek tentang robot.'}
+    ]
+) as stream:
+    for text in stream.text_stream:
+        print(text, end='', flush=True)
+```
+
+</CodeGroup>
+
+## Dukungan asinkron
+
+Kedua SDK menyediakan klien asinkron untuk digunakan dengan `asyncio`.
+
+<CodeGroup>
+
+```python OpenAI SDK
+import os
+import asyncio
+from openai import AsyncOpenAI
+ 
+client = AsyncOpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+async def main():
+    response = await client.chat.completions.create(
+        model='claude-4.5-sonnet',
+        messages=[{'role': 'user', 'content': 'Halo!'}]
+    )
+    print(response.choices[0].message.content)
+ 
+asyncio.run(main())
+```
+
+```python Anthropic SDK
+import os
+import asyncio
+import anthropic
+ 
+client = anthropic.AsyncAnthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+async def main():
+    message = await client.messages.create(
+        model='claude-4.5-sonnet',
+        max_tokens=1024,
+        messages=[{'role': 'user', 'content': 'Halo!'}]
+    )
+    print(message.content[0].text)
+ 
+asyncio.run(main())
+```
+
+</CodeGroup>
+
+## Pemanggilan tool
+
+Memungkinkan model untuk memanggil fungsi eksternal.
+
+<CodeGroup>
+
+```python OpenAI SDK
+tools = [{
+    'type': 'function',
+    'function': {
+        'name': 'get_weather',
+        'description': 'Dapatkan cuaca saat ini',
+        'parameters': {
+            'type': 'object',
+            'properties': {
+                'location': {'type': 'string'}
+            },
+            'required': ['location']
+        }
+    }
+}]
+ 
+response = client.chat.completions.create(
+    model='claude-4.5-sonnet',
+    messages=[{'role': 'user', 'content': "Bagaimana cuaca di Tokyo?"}],
+    tools=tools
+)
+```
+
+```python Anthropic SDK
+tools = [{
+    'name': 'get_weather',
+    'description': 'Dapatkan cuaca saat ini',
+    'input_schema': {
+        'type': 'object',
+        'properties': {
+            'location': {'type': 'string'}
+        },
+        'required': ['location']
+    }
+}]
+ 
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[{'role': 'user', 'content': "Bagaimana cuaca di Tokyo?"}],
+    tools=tools
 )
 ```
 
 </CodeGroup>
+
+## Output terstruktur
+
+Hasilkan respons yang sesuai dengan skema JSON.
+
+```python
+response = client.chat.completions.create(
+    model='claude-4.5-sonnet',
+    messages=[
+        {'role': 'user', 'content': 'Ekstrak: John berusia 30 tahun dan tinggal di NYC'}
+    ],
+    response_format={
+        'type': 'json_schema',
+        'json_schema': {
+            'name': 'person',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'name': {'type': 'string'},
+                    'age': {'type': 'integer'},
+                    'city': {'type': 'string'}
+                },
+                'required': ['name', 'age', 'city']
+            }
+        }
+    }
+)
+```
+
+## Integrasi framework
+
+| Framework | Panduan Integrasi |
+| --- | --- |
+| **Pydantic AI** | [Panduan Pydantic AI](/id/pydantic-ai) |
+| **LlamaIndex** | [Panduan LlamaIndex](/id/llama-index) |
+| **LangChain** | [Panduan LangChain](/id/langchain) |
+| **CrewAI** | [Panduan CrewAI](/id/crewai) |
+
+## Referensi API
+
+*   [API yang kompatibel dengan OpenAI](/id/sdk/openai-compat) — Chat completions, embedding, streaming, panggilan tool, dan banyak lagi.
+*   [API yang kompatibel dengan Anthropic](/id/sdk/anthropic-compat) — API Messages, streaming, dan extended thinking.

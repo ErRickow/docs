@@ -1,33 +1,98 @@
 ---
 title: "Konfigurasi Lanjutan"
-description: "Konfigurasi reasoning dan prompt caching menggunakan API yang kompatibel dengan OpenAI."
+description: "Konfigurasikan penalaran dan cache prompt menggunakan API yang kompatibel dengan OpenAI."
 ---
 
-# Konfigurasi Lanjutan
+API Neosantara menyediakan opsi konfigurasi lanjutan melalui API yang kompatibel dengan OpenAI, yang memungkinkan Kamu untuk mengontrol perilaku penalaran dan mengoptimalkan performa untuk model yang didukung.
 
-Neosantara AI menyediakan beberapa opsi konfigurasi lanjutan melalui API yang kompatibel dengan OpenAI.
+## Konfigurasi penalaran
 
-### [Konfigurasi Reasoning](#konfigurasi-reasoning)
+Konfigurasikan perilaku penalaran untuk model yang mendukung penalaran diperluas atau penalaran chain-of-thought (misalnya, **Llama Nemotron**, **GLM 4**). Parameter `reasoning` memungkinkan Kamu untuk mengontrol bagaimana token penalaran dihasilkan dan dikembalikan.
 
-Atur perilaku penalaran untuk model yang mendukung *extended thinking* atau penalaran chain-of-thought (seperti **Kimi K2** atau **Claude 3.7**).
+### Contoh permintaan
 
-```typescript
+<CodeGroup>
+
+```typescript reasoning-openai-sdk.ts
+import OpenAI from 'openai';
+ 
+const openai = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+ 
+// @ts-expect-error - parameter reasoning adalah ekstensi gateway
 const completion = await openai.chat.completions.create({
   model: 'kimi-k2',
-  messages: [{ role: 'user', content: 'Berpikir mendalam tentang teori relativitas.' }],
+  messages: [
+    {
+      role: 'user',
+      content: 'Apa arti kehidupan? Berpikirlah sebelum menjawab.',
+    },
+  ],
   stream: false,
   reasoning: {
-    enabled: true,
-    max_tokens: 2000
-  }
+    max_tokens: 2000, // Batasi token penalaran
+    enabled: true, // Aktifkan output penalaran
+  },
 });
+ 
+console.log('Penalaran:', completion.choices[0].message.reasoning);
+console.log('Jawaban:', completion.choices[0].message.content);
+console.log(
+  'Token penalaran:',
+  completion.usage.completion_tokens_details?.reasoning_tokens,
+);
 ```
 
-### [Prompt Caching](#prompt-caching)
+```python reasoning.py
+import os
+from openai import OpenAI
+ 
+client = OpenAI(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='kimi-k2',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Apa arti kehidupan? Berpikirlah sebelum menjawab.'
+        }
+    ],
+    stream=False,
+    extra_body={
+        'reasoning': {
+            'max_tokens': 2000,
+            'enabled': True
+        }
+    }
+)
+ 
+print('Penalaran:', completion.choices[0].message.reasoning)
+print('Jawaban:', completion.choices[0].message.content)
+print('Token penalaran:', completion.usage.completion_tokens_details.reasoning_tokens)
+```
 
-Dukungan untuk prompt caching (khusus model Claude) guna mengurangi biaya dan latensi pada permintaan yang berulang.
+</CodeGroup>
 
-```typescript
+### Parameter penalaran
+
+*   **`enabled`** (boolean): Mengaktifkan output penalaran. Jika true, model akan memberikan proses penalarannya.
+*   **`max_tokens`** (number): Jumlah maksimum token yang dialokasikan untuk penalaran.
+*   **`exclude`** (boolean): Jika `true`, mengeluarkan konten penalaran dari payload respons tetapi tetap menghasilkannya secara internal.
+
+---
+
+## Cache prompt
+
+Dukungan untuk cache prompt (khusus untuk model Claude) guna mengurangi biaya dan latensi untuk prompt yang berulang.
+
+<CodeGroup>
+
+```typescript prompt-caching.ts
 const response = await openai.chat.completions.create({
   model: 'claude-4.5-sonnet',
   messages: [
@@ -39,3 +104,5 @@ const response = await openai.chat.completions.create({
   ],
 });
 ```
+
+</CodeGroup>

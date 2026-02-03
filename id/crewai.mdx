@@ -3,21 +3,21 @@ title: "CrewAI"
 description: "> Menggunakan CrewAI dengan Neosantara."
 ---
 
-CrewAI adalah framework tingkat produksi open-source untuk mengorkestrasi sistem agen AI. Framework ini memungkinkan beberapa agen AI untuk berkolaborasi secara efektif dengan mengambil peran dan bekerja menuju tujuan bersama. Framework ini mendukung otomatisasi sederhana maupun aplikasi kompleks yang memerlukan perilaku agen yang terkoordinasi.
+CrewAI adalah framework tingkat produksi sumber terbuka untuk mengorkestrasi sistem agen AI. Ini memungkinkan banyak agen AI untuk berkolaborasi secara efektif dengan mengasumsikan peran dan bekerja menuju tujuan bersama. Framework ini mendukung otomatisasi sederhana dan aplikasi kompleks yang memerlukan perilaku agen yang terkoordinasi.
 
-## Instalasi Library
+## Menginstal Perpustakaan
 
 ```bash icon="terminal"
-pip install crewai
+uv pip install crewai
 ```
 
-Atur API Key Neosantara Kamu:
+Atur kunci API Neosantara Kamu:
 
 ```bash icon="terminal"
 export NAI_API_KEY=***
 ```
 
-## Contoh Penggunaan
+## Contoh
 
 ```python icon="python"
 import os
@@ -31,18 +31,18 @@ llm = LLM(model="openai/nusantara-base",
 research_agent = Agent(
     llm = llm,
     role="Research Analyst",
-    goal="Temukan dan ringkas informasi tentang topik tertentu",
+    goal="Temukan dan rangkum informasi tentang topik tertentu",
     backstory="Kamu adalah peneliti berpengalaman dengan perhatian terhadap detail",
-    verbose=True  # Aktifkan logging untuk debugging
+    verbose=True  # Aktifkan pembuatan log untuk debugging
 )
 
 research_task = Task(
-    description="Lakukan riset mendalam tentang AI Agents.",
-    expected_output="Daftar dengan 10 poin informasi paling relevan tentang AI Agents",
+    description="Lakukan penelitian menyeluruh tentang Agen AI.",
+    expected_output="Daftar dengan 10 poin bulet informasi paling relevan tentang Agen AI",
     agent=research_agent
 )
 
-# Eksekusi crew
+# Jalankan crew
 crew = Crew(
     agents=[research_agent],
     tasks=[research_task],
@@ -58,13 +58,12 @@ print(task_output)
 
 <Accordion title="Lihat output">
 
-```bash icon="terminal"
 ╭──────────────────────────────────────────── Crew Execution Started ─────────────────────────────────────────────╮
 │                                                                                                                 │
 │  Crew Execution Started                                                                                         │
 │  Name: crew                                                                                                     │
 │  ID: 9a2644b9-5ddb-4e23-bfd1-83dbb3c3e44e                                                                       │
-│  Tools Args:                                                                                                    │
+│  Tool Args:                                                                                                     │
 │                                                                                                                 │
 │                                                                                                                 │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
@@ -83,35 +82,35 @@ print(task_output)
 │  Agent: Research Analyst                                                                                        │
 │                                                                                                                 │
 │  Final Answer:                                                                                                  │
-│  * AI Agents adalah program komputer yang menggunakan kecerdasan buatan (AI) untuk melakukan tugas-tugas yang   │
-│  biasanya memerlukan kecerdasan manusia, seperti penalaran, pemecahan masalah, dan pengambilan keputusan.       │
+│  * Agen AI adalah program komputer yang menggunakan kecerdasan buatan (AI) untuk melakukan tugas-tugas yang     │
+│  biasanya membutuhkan kecerdasan manusia, seperti penalaran, pemecahan masalah, dan pengambilan keputusan.      │
 │  Mereka dapat digunakan dalam berbagai aplikasi, termasuk asisten virtual, chatbot layanan pelanggan, dan        │
 │  kendaraan otonom.                                                                                              │
-│* Ada beberapa jenis AI Agents, termasuk simple reflex agents, model-based reflex agents, goal-based agents,     │
-│  utility-based agents, dan learning agents. Setiap jenis agen memiliki kekuatan dan kelemahannya sendiri,       │
+│* Ada beberapa jenis Agen AI, termasuk agen refleks sederhana, agen refleks berbasis model, agen berbasis tujuan, │
+│  agen berbasis kegunaan, dan agen pembelajaran. Setiap jenis agen memiliki kekuatan dan kelemahannya sendiri,    │
 │  dan cocok untuk tugas dan lingkungan tertentu.                                                                 │
-│  * Simple reflex agents adalah jenis AI Agent yang paling dasar, dan bereaksi terhadap keadaan lingkungan saat  │
+│  * Agen refleks sederhana adalah jenis Agen AI yang paling dasar, dan bereaksi terhadap keadaan lingkungan saat │
 │  ini tanpa mempertimbangkan konsekuensi di masa depan. Mereka sering digunakan dalam aplikasi di mana lingkungan │
 │  dapat diamati sepenuhnya, seperti dalam permainan.                                                             │
-│* Model-based reflex agents, di sisi lain, mempertahankan model internal lingkungan dan menggunakan model ini    │
-│  untuk membuat keputusan. Mereka lebih canggih daripada simple reflex agents dan dapat menangani lingkungan     │
+│* Agen refleks berbasis model, di sisi lain, mempertahankan model internal lingkungan dan menggunakan model ini  │
+│  untuk membuat keputusan. Mereka lebih canggih daripada agen refleks sederhana dan dapat menangani lingkungan   │
 │  yang hanya dapat diamati sebagian.                                                                             │
-│  * Goal-based agents dirancang untuk mencapai tujuan tertentu, dan menggunakan berbagai teknik seperti          │
+│  * Agen berbasis tujuan dirancang untuk mencapai tujuan tertentu, dan menggunakan berbagai teknik seperti       │
 │  perencanaan dan pengambilan keputusan untuk mencapai tujuan tersebut. Mereka sering digunakan dalam aplikasi    │
 │  seperti robotika dan kendaraan otonom.                                                                         │
-│* Utility-based agents membuat keputusan berdasarkan fungsi utilitas yang memperkirakan keinginan dari setiap    │
+│* Agen berbasis kegunaan membuat keputusan berdasarkan fungsi kegunaan yang memperkirakan keinginan dari setiap  │
 │  tindakan yang mungkin. Mereka sering digunakan dalam aplikasi seperti sistem rekomendasi dan sistem pendukung   │
 │  keputusan.                                                                                                     │
-│  * Learning agents menggunakan algoritma pembelajaran mesin untuk meningkatkan kinerja mereka seiring waktu.    │
-│  Mereka dapat belajar dari pengalaman, dan beradaptasi dengan perubahan lingkungan dan tugas.                   │
-│* AI Agents dapat diklasifikasikan ke dalam dua kategori: agen otonom dan agen semi-otonom. Agen otonom          │
-│  beroperasi secara independen, sementara agen semi-otonom memerlukan intervensi manusia untuk berfungsi.         │
-│  * Keuntungan dari AI Agents termasuk peningkatan efisiensi, peningkatan akurasi, dan peningkatan kemampuan     │
+│  * Agen pembelajaran menggunakan algoritma pembelajaran mesin untuk meningkatkan kinerja mereka seiring waktu.  │
+│  Mereka dapat belajar dari pengalaman, dan beradaptasi dengan lingkungan dan tugas yang berubah.                │
+│* Agen AI dapat diklasifikasikan ke dalam dua kategori: agen otonom dan agen semi-otonom. Agen otonom            │
+│  beroperasi secara independen, sementara agen semi-otonom membutuhkan intervensi manusia untuk berfungsi.        │
+│  * Keuntungan dari Agen AI meliputi peningkatan efisiensi, peningkatan akurasi, dan peningkatan kemampuan       │
 │  pengambilan keputusan. Mereka juga dapat beroperasi 24/7 tanpa kelelahan, dan dapat menangani data dalam jumlah │
 │  besar dan tugas yang kompleks.                                                                                 │
-│* Pengembangan AI Agents melibatkan beberapa tantangan, termasuk memastikan keamanan, keselamatan, dan            │
-│  transparansi mereka. Ada juga kekhawatiran etis seputar penggunaan AI Agents, seperti bias, privasi, dan       │
-│  akuntabilitas. Karena AI Agents menjadi lebih luas, penting untuk mengatasi tantangan ini dan memastikan bahwa │
+│* Pengembangan Agen AI melibatkan beberapa tantangan, termasuk memastikan keselamatan, keamanan, dan             │
+│  transparansinya. Ada juga kekhawatiran etis seputar penggunaan Agen AI, seperti bias, privasi, dan             │
+│  akuntabilitas. Karena Agen AI menjadi lebih lazim, penting untuk mengatasi tantangan ini dan memastikan bahwa  │
 │  mereka dikembangkan dan digunakan secara bertanggung jawab.                                                    │
 │                                                                                                                 │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
@@ -120,7 +119,7 @@ print(task_output)
 │  Task Completed                                                                                                 │
 │  Name: 32381b2a-1faf-413c-bfd2-4f77430cce7f                                                                     │
 │  Agent: Research Analyst                                                                                        │
-│  Tools Args:                                                                                                    │
+│  Tool Args:                                                                                                     │
 │                                                                                                                 │
 │                                                                                                                 │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
@@ -129,40 +128,50 @@ print(task_output)
 │  Crew Execution Completed                                                                                       │
 │  Name: crew                                                                                                     │
 │  ID: 9a2644b9-5ddb-4e23-bfd1-83dbb3c3e44e                                                                       │
-│  Tools Args:                                                                                                    │
-│  Final Output: * AI Agents adalah program komputer yang menggunakan kecerdasan buatan (AI) untuk melakukan      │
-│  tugas-tugas yang biasanya memerlukan kecerdasan manusia, seperti penalaran, pemecahan masalah, dan             │
+│  Tool Args:                                                                                                     │
+│  Final Output: * Agen AI adalah program komputer yang menggunakan kecerdasan buatan (AI) untuk melakukan        │
+│  tugas-tugas yang biasanya membutuhkan kecerdasan manusia, seperti penalaran, pemecahan masalah, dan             │
 │  pengambilan keputusan. Mereka dapat digunakan dalam berbagai aplikasi, termasuk asisten virtual, chatbot        │
 │  layanan pelanggan, dan kendaraan otonom.                                                                       │
-│* Ada beberapa jenis AI Agents, termasuk simple reflex agents, model-based reflex agents, goal-based agents,     │
-│  utility-based agents, dan learning agents. Setiap jenis agen memiliki kekuatan dan kelemahannya sendiri,       │
+│* Ada beberapa jenis Agen AI, termasuk agen refleks sederhana, agen refleks berbasis model, agen berbasis tujuan, │
+│  agen berbasis kegunaan, dan agen pembelajaran. Setiap jenis agen memiliki kekuatan dan kelemahannya sendiri,    │
 │  dan cocok untuk tugas dan lingkungan tertentu.                                                                 │
-│  * Simple reflex agents adalah jenis AI Agent yang paling dasar, dan bereaksi terhadap keadaan lingkungan saat  │
+│  * Agen refleks sederhana adalah jenis Agen AI yang paling dasar, dan bereaksi terhadap keadaan lingkungan saat │
 │  ini tanpa mempertimbangkan konsekuensi di masa depan. Mereka sering digunakan dalam aplikasi di mana lingkungan │
 │  dapat diamati sepenuhnya, seperti dalam permainan.                                                             │
-│* Model-based reflex agents, di sisi lain, mempertahankan model internal lingkungan dan menggunakan model ini    │
-│  untuk membuat keputusan. Mereka lebih canggih daripada simple reflex agents dan dapat menangani lingkungan     │
+│* Agen refleks berbasis model, di sisi lain, mempertahankan model internal lingkungan dan menggunakan model ini  │
+│  untuk membuat keputusan. Mereka lebih canggih daripada agen refleks sederhana dan dapat menangani lingkungan   │
 │  yang hanya dapat diamati sebagian.                                                                             │
-│  * Goal-based agents dirancang untuk mencapai tujuan tertentu, dan menggunakan berbagai teknik seperti          │
+│  * Agen berbasis tujuan dirancang untuk mencapai tujuan tertentu, dan menggunakan berbagai teknik seperti       │
 │  perencanaan dan pengambilan keputusan untuk mencapai tujuan tersebut. Mereka sering digunakan dalam aplikasi    │
 │  seperti robotika dan kendaraan otonom.                                                                         │
-│* Utility-based agents membuat keputusan berdasarkan fungsi utilitas yang memperkirakan keinginan dari setiap    │
+│* Agen berbasis kegunaan membuat keputusan berdasarkan fungsi kegunaan yang memperkirakan keinginan dari setiap  │
 │  tindakan yang mungkin. Mereka sering digunakan dalam aplikasi seperti sistem rekomendasi dan sistem pendukung   │
 │  keputusan.                                                                                                     │
-│  * Learning agents menggunakan algoritma pembelajaran mesin untuk meningkatkan kinerja mereka seiring waktu.    │
-│  Mereka dapat belajar dari pengalaman, dan beradaptasi dengan perubahan lingkungan dan tugas.                   │
-│* AI Agents dapat diklasifikasikan ke dalam dua kategori: agen otonom dan agen semi-otonom. Agen otonom          │
-│  beroperasi secara independen, sementara agen semi-otonom memerlukan intervensi manusia untuk berfungsi.         │
-│  * Keuntungan dari AI Agents termasuk peningkatan efisiensi, peningkatan akurasi, dan peningkatan kemampuan     │
+│  * Agen pembelajaran menggunakan algoritma pembelajaran mesin untuk meningkatkan kinerja mereka seiring waktu.  │
+│  Mereka dapat belajar dari pengalaman, dan beradaptasi dengan lingkungan dan tugas yang berubah.                │
+│* Agen AI dapat diklasifikasikan ke dalam dua kategori: agen otonom dan agen semi-otonom. Agen otonom            │
+│  beroperasi secara independen, sementara agen semi-otonom membutuhkan intervensi manusia untuk berfungsi.        │
+│  * Keuntungan dari Agen AI meliputi peningkatan efisiensi, peningkatan akurasi, dan peningkatan kemampuan       │
 │  pengambilan keputusan. Mereka juga dapat beroperasi 24/7 tanpa kelelahan, dan dapat menangani data dalam jumlah │
 │  besar dan tugas yang kompleks.                                                                                 │
-│* Pengembangan AI Agents melibatkan beberapa tantangan, termasuk memastikan keamanan, keselamatan, dan            │
-│  transparansi mereka. Ada juga kekhawatiran etis seputar penggunaan AI Agents, seperti bias, privasi, dan       │
-│  akuntabilitas. Karena AI Agents menjadi lebih luas, penting untuk mengatasi tantangan ini dan memastikan bahwa │
+│* Pengembangan Agen AI melibatkan beberapa tantangan, termasuk memastikan keselamatan, keamanan, dan             │
+│  transparansinya. Ada juga kekhawatiran etis seputar penggunaan Agen AI, seperti bias, privasi, dan             │
+│  akuntabilitas. Karena Agen AI menjadi lebih lazim, penting untuk mengatasi tantangan ini dan memastikan bahwa  │
 │  mereka dikembangkan dan digunakan secara bertanggung jawab.                                                    │
 │                                                                                                                 │
 │                                                                                                                 │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-```
+
+* Agen AI adalah program komputer yang menggunakan kecerdasan buatan (AI) untuk melakukan tugas-tugas yang biasanya membutuhkan kecerdasan manusia, seperti penalaran, pemecahan masalah, dan pengambilan keputusan. Mereka dapat digunakan dalam berbagai aplikasi, termasuk asisten virtual, chatbot layanan pelanggan, dan kendaraan otonom.
+* Ada beberapa jenis Agen AI, termasuk agen refleks sederhana, agen refleks berbasis model, agen berbasis tujuan, agen berbasis kegunaan, dan agen pembelajaran. Setiap jenis agen memiliki kekuatan dan kelemahannya sendiri, dan cocok untuk tugas dan lingkungan tertentu.
+* Agen refleks sederhana adalah jenis Agen AI yang paling dasar, dan bereaksi terhadap keadaan lingkungan saat ini tanpa mempertimbangkan konsekuensi di masa depan. Mereka sering digunakan dalam aplikasi di mana lingkungan dapat diamati sepenuhnya, seperti dalam permainan.
+* Agen refleks berbasis model, di sisi lain, mempertahankan model internal lingkungan dan menggunakan model ini untuk membuat keputusan. Mereka lebih canggih daripada agen refleks sederhana dan dapat menangani lingkungan yang hanya dapat diamati sebagian.
+* Agen berbasis tujuan dirancang untuk mencapai tujuan tertentu, dan menggunakan berbagai teknik seperti perencanaan dan pengambilan keputusan untuk mencapai tujuan tersebut. Mereka sering digunakan dalam aplikasi seperti robotika dan kendaraan otonom.
+* Agen berbasis kegunaan membuat keputusan berdasarkan fungsi kegunaan yang memperkirakan keinginan dari setiap tindakan yang mungkin. Mereka sering digunakan dalam aplikasi seperti sistem rekomendasi dan sistem pendukung keputusan.
+* Agen pembelajaran menggunakan algoritma pembelajaran mesin untuk meningkatkan kinerja mereka seiring waktu. Mereka dapat belajar dari pengalaman, dan beradaptasi dengan lingkungan dan tugas yang berubah.
+* Agen AI dapat diklasifikasikan ke dalam dua kategori: agen otonom dan agen semi-otonom. Agen otonom beroperasi secara independen, sementara agen semi-otonom membutuhkan intervensi manusia untuk berfungsi.
+* Keuntungan dari Agen AI meliputi peningkatan efisiensi, peningkatan akurasi, dan peningkatan kemampuan pengambilan keputusan. Mereka juga dapat beroperasi 24/7 tanpa kelelahan, dan dapat menangani data dalam jumlah besar dan tugas yang kompleks.
+* Pengembangan Agen AI melibatkan beberapa tantangan, termasuk memastikan keselamatan, keamanan, dan transparansinya. Ada juga kekhawatiran etis seputar penggunaan Agen AI, seperti bias, privasi, dan akuntabilitas. Karena Agen AI menjadi lebih lazim, penting untuk mengatasi tantangan ini dan memastikan bahwa mereka dikembangkan dan digunakan secara bertanggung jawab.
 
 </Accordion>

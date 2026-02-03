@@ -1,63 +1,172 @@
 ---
-title: "AutoGen (AG2)"
-description: "> Menggunakan AutoGen (AG2) dengan Neosantara."
+title: "AutoGen(AG2)"
+description: "> Menggunakan AutoGen(AG2) dengan Neosantara."
 ---
 
-AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan mengorkestrasi agen AI yang saling berkolaborasi untuk menyelesaikan tugas kompleks.
+AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan mengorkestrasi agen AI. Framework ini berfokus pada memungkinkan banyak agen untuk bekerja sama dalam menyelesaikan tugas-tugas kompleks. Framework ini mendukung berbagai model bahasa dari Toge, integrasi alat, serta alur kerja otonom dan human-in-the-loop.
 
-## Instalasi
+## Menginstal Perpustakaan
 
-```shell
-pip install autogen
+```shell Shell
+  pip install autogen
 ```
 
-Atur API Key Neosantara Kamu:
+Atur kunci API Neosantara Kamu:
 
-```shell
-export NAI_API_KEY=***
+```shell Shell
+  export NAI_API_KEY=***
 ```
 
-## Contoh Penggunaan
+## Contoh
 
-Konfigurasikan AutoGen untuk menggunakan model dari Neosantara.
+Siapkan dan konfigurasikan AutoGen untuk menggunakan LLM dari Neosantara
 
 ```python icon="python"
-import os
-from pathlib import Path
-from autogen import AssistantAgent, UserProxyAgent
-from autogen.coding import LocalCommandLineCodeExecutor
+  import os
 
-config_list = [
-    {
-        "model": "nusantara-base",
-        "base_url": "https://api.neosantara.xyz/v1",
-        "api_key": os.environ.get("NAI_API_KEY"),
-        "api_type": "openai",
-        "stream": False,
-    }
-]
+  config_list = [
+      {
+          # Mari pilih model Nusantara-Base
+          "model": "nusantara-base",
+          "base_url": "https://api.neosantara.xyz/v1",
+          # Berikan kunci API Neosantara.xyz Kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
+          "api_key": os.environ.get("NAI_API_KEY"),
+          # Kami menentukan Tipe API sebagai 'openai' sehingga ia menggunakan kelas klien OpenAI
+          "api_type": "openai",
+          "stream": False,
+          "price": [300/1000000*1000, 1500/1000000*1000] # Input: $300/Jt token = $0.3/rb token, Output: $1500/Jt token = $1.5/rb token
+      }
+  ]
 
-# Setup eksekutor kode
-workdir = Path("coding")
-workdir.mkdir(exist_ok=True)
-code_executor = LocalCommandLineCodeExecutor(work_dir=workdir)
+```
 
-# Setup agen
-user_proxy_agent = UserProxyAgent(
-    name="User",
-    code_execution_config={"executor": code_executor},
-    is_termination_msg=lambda msg: "FINISH" in msg.get("content"),
-)
+Pentingnya, kami telah mengubah pesan sistem sehingga model tidak mengembalikan kata kunci penghentian, yang telah kami ubah menjadi FINISH, dengan blok kode.
 
-assistant_agent = AssistantAgent(
-    name="Neosantara-Assistant",
-    system_message="Kamu adalah asisten AI yang menulis kode Python untuk menyelesaikan tugas.",
-    llm_config={"config_list": config_list},
-)
+```python icon="python"
+  from pathlib import Path
+  from autogen import AssistantAgent, UserProxyAgent
+  from autogen.coding import LocalCommandLineCodeExecutor
 
-# Mulai percakapan
-user_proxy_agent.initiate_chat(
-    assistant_agent,
-    message="Berikan kode untuk menghitung jumlah bilangan prima dari 1 hingga 10000.",
-)
+  # Menyiapkan eksekutor kode
+  workdir = Path("coding")
+  workdir.mkdir(exist_ok=True)
+  code_executor = LocalCommandLineCodeExecutor(work_dir=workdir)
+
+  # Menyiapkan agen
+
+  # UserProxyAgent akan mengeksekusi kode yang disediakan oleh AssistantAgent
+  user_proxy_agent = UserProxyAgent(
+      name="User",
+      code_execution_config={"executor": code_executor},
+      is_termination_msg=lambda msg: "FINISH" in msg.get("content"),
+  )
+
+  system_message = """Kamu adalah asisten AI yang membantu yang menulis kode dan pengguna mengeksekusinya.
+  Selesaikan tugas menggunakan keterampilan pengodean dan bahasa Kamu.
+  Dalam kasus berikut, sarankan kode python (dalam blok pengodean python) untuk dieksekusi pengguna.
+  Selesaikan tugas langkah demi langkah jika Kamu perlu. Jika rencana tidak disediakan, jelaskan rencana Kamu terlebih dahulu. Jelaskan dengan jelas langkah mana yang menggunakan kode, dan langkah mana yang menggunakan keterampilan bahasa Kamu.
+  Saat menggunakan kode, Kamu harus menunjukkan tipe skrip dalam blok kode. Pengguna tidak dapat memberikan umpan balik lain atau melakukan tindakan lain selain mengeksekusi kode yang Kamu sarankan. Pengguna tidak dapat memodifikasi kode Kamu. Jadi jangan menyarankan kode yang tidak lengkap yang mengharuskan pengguna untuk memodifikasi. Jangan gunakan blok kode jika tidak dimaksudkan untuk dieksekusi oleh pengguna.
+  Jangan sertakan beberapa blok kode dalam satu respons. Jangan meminta pengguna untuk menyalin dan menempelkan hasilnya. Sebaliknya, gunakan fungsi 'print' untuk output jika relevan. Periksa hasil eksekusi yang dikembalikan oleh pengguna.
+  Jika hasil menunjukkan ada kesalahan, perbaiki kesalahan tersebut dan keluarkan kodenya lagi. Sarankan kode lengkap alih-alih kode parsial atau perubahan kode. Jika kesalahan tidak dapat diperbaiki atau jika tugas tidak terpecahkan bahkan setelah kode dieksekusi dengan sukses, analisis masalahnya, tinjau kembali asumsi Kamu, kumpulkan info tambahan yang Kamu butuhkan, dan pikirkan pendekatan yang berbeda untuk dicoba.
+  Ketika Kamu menemukan jawaban, verifikasi jawaban tersebut dengan hati-hati. Sertakan bukti yang dapat diverifikasi dalam respons Kamu jika memungkinkan.
+  PENTING: Tunggu pengguna untuk mengeksekusi kode Kamu dan kemudian Kamu dapat membalas dengan kata "FINISH". JANGAN KELUARKAN "FINISH" setelah blok kode Kamu."""
+
+  # AssistantAgent, menggunakan model nusantara-base Neosantara, akan menerima permintaan pengodean dan mengembalikan kode
+  assistant_agent = AssistantAgent(
+      name="Neosantara-Assistant",
+      system_message=system_message,
+      llm_config={"config_list": config_list},
+  )
+
+  # Mulai obrolan, dengan UserProxyAgent menanyakan pesan ke AssistantAgent
+  chat_result = user_proxy_agent.initiate_chat(
+      assistant_agent,
+      message="Berikan kode untuk menghitung jumlah bilangan prima dari 1 hingga 10000.",
+  )
+```
+
+<Accordion title="Lihat output">
+
+````text
+User (to Neosantara-Assistant):
+
+Berikan kode untuk menghitung jumlah bilangan prima dari 1 hingga 10000.
+
+---
+
+-----------------------------------------------------------------------------
+Neosantara-Assistant (to User):
+
+Berikut adalah rencana untuk menghitung jumlah bilangan prima dari 1 hingga 10000:
+1.  Buat fungsi `is_prime` untuk memeriksa apakah suatu angka adalah bilangan prima.
+2.  Iterasi dari 1 hingga 10000.
+3.  Untuk setiap angka, gunakan fungsi `is_prime` untuk menentukan apakah angka tersebut prima.
+4.  Jika angka tersebut prima, tambahkan ke penghitung.
+5.  Cetak total penghitung setelah iterasi selesai.
+
+```python icon="python"
+# script.py
+def is_prime(n):
+    """
+    Checks if a number is prime.
+    A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.
+    """
+    if n <= 1:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    i = 3
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 2
+    return True
+
+count = 0
+for number in range(1, 10001):
+    if is_prime(number):
+        count += 1
+
+print(f"Jumlah bilangan prima dari 1 hingga 10000 adalah: {count}")
+```
+
+--------------------------------------------------------------------------------
+Membalas sebagai User. Berikan umpan balik ke Neosantara-Assistant. Tekan enter untuk melewati dan menggunakan balas otomatis, atau ketik 'exit' untuk mengakhiri percakapan: jelaskan kodenya
+User (to Neosantara-Assistant):
+
+jelaskan kodenya
+
+--------------------------------------------------------------------------------
+Neosantara-Assistant (to User):
+
+Kode yang diberikan bertujuan untuk menghitung jumlah bilangan prima dalam rentang 1 hingga 10000. Berikut adalah penjelasannya:
+
+1.  **Fungsi `is_prime(n)`**:
+    *   Fungsi ini dirancang untuk memeriksa apakah sebuah angka `n` adalah bilangan prima.
+    *   **`if n <= 1: return False`**: Bilangan prima harus lebih besar dari 1. Jadi, angka 1 atau kurang dari 1 bukan prima.
+    *   **`if n == 2: return True`**: Angka 2 adalah bilangan prima terkecil dan satu-satunya bilangan prima genap.
+    *   **`if n % 2 == 0: return False`**: Setelah menangani angka 2, semua bilangan genap lainnya (yang lebih besar dari 2) tidak bisa menjadi prima karena mereka pasti habis dibagi 2.
+    *   **`i = 3` dan `while i * i <= n:`**: Ini adalah bagian inti dari pemeriksaan. Kita memulai dengan pembagi `i = 3`. Kita hanya perlu memeriksa pembagi hingga akar kuadrat dari `n`. Jika `n` memiliki pembagi `p` yang lebih besar dari `sqrt(n)`, maka `n` juga harus memiliki pembagi `q = n/p` yang lebih kecil dari `sqrt(n)`. Dengan demikian, kita cukup memeriksa hingga `sqrt(n)`.
+    *   **`if n % i == 0: return False`**: Jika `n` habis dibagi `i`, berarti `n` memiliki pembagi selain 1 dan dirinya sendiri, sehingga bukan prima.
+    *   **`i += 2`**: Kita hanya perlu memeriksa pembagi ganjil, karena semua pembagi genap sudah ditangani atau tidak relevan (jika `n` sendiri ganjil). Jadi, `i` ditingkatkan sebesar 2.
+    *   **`return True`**: Jika loop selesai tanpa menemukan pembagi, berarti `n` adalah bilangan prima.
+
+2.  **Inisialisasi Penghitung**:
+    *   `count = 0` : Sebuah variabel `count` diinisialisasi ke nol untuk menyimpan jumlah total bilangan prima yang ditemukan.
+
+3.  **Loop Utama**:
+    *   `for number in range(1, 10001):` : Loop ini mengiterasi setiap angka mulai dari 1 hingga 10000 (inklusif).
+    *   `if is_prime(number):` : Untuk setiap `number` dalam iterasi, fungsi `is_prime()` dipanggil untuk memeriksa apakah angka tersebut prima.
+    *   `count += 1` : Jika `is_prime()` mengembalikan `True`, berarti angka tersebut prima, dan `count` ditingkatkan satu.
+
+4.  **Cetak Hasil**:
+    *   `print(f"Jumlah bilangan prima dari 1 hingga 10000 adalah: {count}")` : Setelah loop selesai memproses semua angka dari 1 hingga 10000, nilai akhir dari `count` dicetak, menunjukkan total bilangan prima yang ditemukan.
+
+--------------------------------------------------------------------------------
+````
+
+  </Accordion>
+
 ```

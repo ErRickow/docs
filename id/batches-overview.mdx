@@ -5,7 +5,7 @@ description: "Proses beberapa permintaan API secara asinkron dengan penghematan 
 
 ## Pendahuluan
 
-API Batch memungkinkan Kamu memproses permintaan API dalam jumlah besar secara asinkron dengan biaya setengah dari panggilan API standar. Sangat cocok untuk operasi massal, pipa pemrosesan data, dan tugas semalam yang tidak memerlukan respons segera.
+API Batch memungkinkan Kamu memproses permintaan API dalam jumlah besar secara asinkron dengan biaya setengah dari panggilan API standar. Sangat cocok untuk operasi massal, pipa pemrosesan data, dan pekerjaan semalam yang tidak memerlukan respons segera.
 
 <Card icon="sparkles" title="Hemat 50% dengan Pemrosesan Batch" color="#16a34a">
 API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API sinkron standar. Proses ribuan permintaan secara efisien saat Kamu tidur!
@@ -13,19 +13,19 @@ API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API
 
 ### Manfaat Utama
 
-- 💰 **Pengurangan Biaya 50%**: Biaya yang jauh lebih rendah untuk pemrosesan massal.
-- ⚡ **Pemrosesan Asinkron**: Kirim tugas dan ambil hasilnya saat sudah siap.
-- 📊 **Pelacakan Kemajuan**: Pantau status penyelesaian secara real-time.
-- 🔄 **Upaya Ulang Otomatis**: Logika upaya ulang bawaan untuk permintaan yang gagal.
-- 📁 **Hasil Terorganisir**: File output terpisah untuk keberhasilan dan kesalahan.
-- ⏱️ **Jendela 24 Jam**: Semua batch selesai dalam waktu 24 jam.
+- 💰 **Pengurangan Biaya 50%**: Biaya yang jauh lebih rendah untuk pemrosesan massal
+- ⚡ **Pemrosesan Asinkron**: Kirim pekerjaan dan ambil hasilnya saat sudah siap
+- 📊 **Pelacakan Kemajuan**: Pantau status penyelesaian secara waktu nyata
+- 🔄 **Upaya Ulang Otomatis**: Logika upaya ulang bawaan untuk permintaan yang gagal
+- 📁 **Hasil Terorganisir**: File output terpisah untuk keberhasilan dan kesalahan
+- ⏱️ **Jendela 24 Jam**: Semua batch selesai dalam waktu 24 jam
 
-### Cara Kerja
+### Cara Kerjanya
 
-1. **Unggah** file JSONL yang berisi permintaan Kamu.
-2. **Buat** tugas batch yang merujuk ke file yang diunggah.
-3. **Pantau** kemajuan saat permintaan diproses secara asinkron.
-4. **Unduh** hasil dari file output setelah selesai.
+1. **Unggah** file JSONL yang berisi permintaan Kamu
+2. **Buat** pekerjaan batch yang mereferensikan file yang diunggah
+3. **Pantau** kemajuan saat permintaan diproses secara asinkron
+4. **Unduh** hasil dari file output setelah selesai
 
 ## Endpoint API
 
@@ -36,7 +36,7 @@ API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API
     href="/api-reference/batches/create"
     color="#10b981"
   >
-    Mulai tugas batch baru untuk pemrosesan permintaan asinkron
+    Mulai pekerjaan batch baru untuk pemrosesan permintaan asinkron
   </Card>
   <Card
     title="Ambil Batch"
@@ -44,7 +44,7 @@ API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API
     href="/api-reference/batches/get"
     color="#3b82f6"
   >
-    Periksa status dan kemajuan tugas batch
+    Periksa status dan kemajuan pekerjaan batch
   </Card>
   <Card
     title="Batalkan Batch"
@@ -52,7 +52,7 @@ API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API
     href="/api-reference/batches/cancel"
     color="#ef4444"
   >
-    Batalkan tugas batch yang sedang berjalan sebelum selesai
+    Batalkan pekerjaan batch yang sedang berjalan sebelum selesai
   </Card>
   <Card
     title="Daftar Batch"
@@ -60,7 +60,7 @@ API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API
     href="/api-reference/batches/list"
     color="#f59e0b"
   >
-    Lihat semua tugas batch Kamu dengan pemfilteran dan paginasi
+    Lihat semua pekerjaan batch Kamu dengan pemfilteran dan paginasi
   </Card>
 </CardGroup>
 
@@ -77,7 +77,7 @@ Pemrosesan batch tersedia untuk endpoint berikut:
   <Card title="Embeddings" icon="vector-square">
     `/v1/embeddings`
 
-    Hasilkan embedding dalam jumlah banyak
+    Hasilkan embedding dalam jumlah besar
   </Card>
   <Card title="Responses" icon="message-bot">
     `/v1/responses`
@@ -102,7 +102,7 @@ Buat file JSONL dengan permintaan Kamu:
 
 ```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/files \
-  -H "Authorization: Bearer KUNCI_API_ANDA" \
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
   -F purpose="batch" \
   -F file="@batch_input.jsonl"
 ```
@@ -123,7 +123,7 @@ Respons:
 
 ```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/batches \
-  -H "Authorization: Bearer KUNCI_API_ANDA" \
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
   -H "Content-Type: application/json" \
   -d '{ 
     "input_file_id": "file-abc123",
@@ -150,7 +150,7 @@ Respons:
 
 ```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/batches/batch-xyz789 \
-  -H "Authorization: Bearer KUNCI_API_ANDA"
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU"
 ```
 
 ### Langkah 5: Unduh Hasil
@@ -160,12 +160,12 @@ Setelah status batch menjadi `completed`:
 ```bash icon="terminal"
 # Unduh hasil yang berhasil
 curl https://api.neosantara.xyz/v1/files/file-output-123/content \
-  -H "Authorization: Bearer KUNCI_API_ANDA" \
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
   --output results.jsonl
 
 # Unduh kesalahan (jika ada)
 curl https://api.neosantara.xyz/v1/files/file-errors-456/content \
-  -H "Authorization: Bearer KUNCI_API_ANDA" \
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
   --output errors.jsonl
 ```
 
@@ -188,18 +188,18 @@ graph LR
 | `validating` | File input sedang divalidasi |
 | `in_progress` | Permintaan sedang diproses |
 | `finalizing` | Hasil sedang disusun |
-| `completed` | Batch selesai dengan sukses |
+| `completed` | Batch berhasil diselesaikan |
 | `failed` | Batch mengalami kesalahan |
 | `canceled` | Batch dibatalkan secara manual |
 | `expired` | Batch melebihi jendela 24 jam |
 
-## Batasan Tingkat Layanan
+## Batasan Tier
 
 <Warning>
-**Tingkat Free**: API Batch tidak tersedia pada tingkat layanan Free. [Tingkatkan ke Basic atau lebih tinggi](https://app.neosantara.xyz/billing) untuk membuka pemrosesan batch.
+**Tier Free**: API Batch tidak tersedia pada tier Free. [Tingkatkan ke Basic atau lebih tinggi](https://app.neosantara.xyz/billing) untuk membuka pemrosesan batch.
 </Warning>
 
-| Tingkat | Batch Bersamaan | Status |
+| Tier | Batch Bersamaan | Status |
 | :--- | :--- | :--- |
 | Free | 0 | ❌ Tidak Tersedia |
 | Basic | 5 | ✅ Tersedia |
@@ -222,10 +222,10 @@ graph LR
   </Accordion>
   
   <Accordion title="Pantau Batas Bersamaan" icon="chart-line">
-    Tetap berada dalam batas batch bersamaan tingkat layanan Kamu. Antrekan batch tambahan untuk dimulai setelah batch saat ini selesai.
+    Tetap berada dalam batas batch bersamaan tier Kamu. Antrekan batch tambahan untuk dimulai setelah batch yang ada selesai.
   </Accordion>
   
-  <Accordion title="Atur Batas Waktu yang Sesuai" icon="clock">
+  <Accordion title="Tetapkan Timeout yang Sesuai" icon="clock">
     Semua batch selesai dalam waktu 24 jam. Untuk operasi yang sensitif terhadap waktu, pertimbangkan untuk menggunakan panggilan API standar saja.
   </Accordion>
   
@@ -234,31 +234,46 @@ graph LR
   </Accordion>
 </AccordionGroup>
 
-## Contoh Kasus Penggunaan
+## Format File Output
+
+Hasil yang berhasil dikembalikan dalam format JSONL:
+
+```json example.jsonl
+{"id": "batch-req-1", "custom_id": "request-1", "response": {"status_code": 200, "body": {"id": "chatcmpl-123", "object": "chat.completion", "choices": [{"message": {"role": "assistant", "content": "Halo"}}]}}}
+{"id": "batch-req-2", "custom_id": "request-2", "response": {"status_code": 200, "body": {"id": "chatcmpl-124", "object": "chat.completion", "choices": [{"message": {"role": "assistant", "content": "Selamat tinggal"}}]}}}
+```
+
+Format file kesalahan:
+
+```json Respons kesalahan
+{"id": "batch-req-3", "custom_id": "request-3", "error": {"code": "invalid_request", "message": "Model yang ditentukan tidak valid"}}
+```
+
+## Kasus Penggunaan
 
 <CardGroup cols={2}>
   <Card title="Pelabelan Data" icon="tags">
-    Klasifikasi atau labeli ribuan sampel teks untuk dataset pelatihan ML.
+    Klasifikasikan atau beri label pada ribuan sampel teks untuk dataset pelatihan ML
   </Card>
   
   <Card title="Moderasi Konten" icon="shield-check">
-    Analisis volume besar konten buatan pengguna untuk kepatuhan kebijakan.
+    Analisis volume besar konten buatan pengguna untuk kepatuhan kebijakan
   </Card>
   
   <Card title="Terjemahan" icon="language">
-    Terjemahkan dokumentasi atau konten ke dalam berbagai bahasa dalam skala besar.
+    Terjemahkan dokumentasi atau konten ke dalam berbagai bahasa secara massal
   </Card>
   
   <Card title="Analisis Sentimen" icon="face-smile">
-    Proses umpan balik pelanggan, ulasan, atau postingan media sosial secara massal.
+    Proses umpan balik pelanggan, ulasan, atau kiriman media sosial secara massal
   </Card>
   
-  <Card title="Pembuatan Embeddings" icon="brain">
-    Buat penyematan vektor untuk seluruh koleksi dokumen atau basis pengetahuan.
+  <Card title="Pembuatan Embedding" icon="brain">
+    Buat vektor embedding untuk seluruh koleksi dokumen atau basis pengetahuan
   </Card>
   
   <Card title="Pembuatan Laporan" icon="file-invoice">
-    Hasilkan ratusan laporan yang dipersonalisasi dari data terstruktur.
+    Hasilkan ratusan laporan yang dipersonalisasi dari data terstruktur
   </Card>
 </CardGroup>
 
@@ -268,24 +283,24 @@ Kesalahan batch umum dan solusinya:
 
 | Kode Kesalahan | Deskripsi | Solusi |
 | :--- | :--- | :--- |
-| `batch_api_not_allowed` | Pembatasan tingkat Free | Tingkatkan ke tingkat Basic atau lebih tinggi |
+| `batch_api_not_allowed` | Pembatasan tier Free | Tingkatkan ke tier Basic atau lebih tinggi |
 | `missing_required_field` | Parameter wajib hilang | Sertakan semua bidang yang diperlukan dalam permintaan |
 | `invalid_endpoint` | Endpoint tidak didukung | Gunakan endpoint yang didukung saja |
 | `invalid_input_file` | File tidak ditemukan atau tujuan salah | Pastikan file ada dan memiliki `purpose="batch"` |
 | `invalid_jsonl` | Validasi JSONL gagal | Periksa format file untuk kesalahan sintaksis |
 | `concurrent_batches_limit` | Terlalu banyak batch aktif | Tunggu hingga batch yang ada selesai |
-| `batch_not_found` | ID Batch tidak ditemukan | Verifikasi bahwa batch_id sudah benar |
+| `batch_not_found` | ID Batch tidak ada | Verifikasi bahwa batch_id sudah benar |
 | `cannot_cancel` | Batch sudah selesai | Hanya dapat membatalkan batch yang sedang berjalan |
 
-## Batas Penggunaan
+## Batas Kecepatan
 
-Pemrosesan batch memiliki batas penggunaan yang berbeda dari panggilan API standar:
+Pemrosesan batch memiliki batas kecepatan yang berbeda dari panggilan API standar:
 
-- **Tugas Bersamaan**: Berdasarkan tingkat layanan Kamu (lihat tabel di atas).
-- **Permintaan per Batch**: Tidak ada batas keras, tetapi disarankan maksimal 10.000 untuk performa optimal.
-- **Ukuran File**: Maksimum 100MB per file input.
-- **Waktu Pemrosesan**: Semua batch selesai dalam waktu 24 jam.
+- **Pekerjaan Bersamaan**: Berdasarkan tier Kamu (lihat tabel di atas)
+- **Permintaan per Batch**: Tidak ada batas keras, tetapi disarankan maksimal 10.000 untuk performa optimal
+- **Ukuran File**: Maksimum 100MB per file input
+- **Waktu Pemrosesan**: Semua batch selesai dalam waktu 24 jam
 
 <Tip>
-Untuk memproses lebih dari 50.000 permintaan atau batas tugas bersamaan kustom, [hubungi tim enterprise kami](https://neosantara.xyz/contact) untuk rencana khusus.
+Untuk memproses lebih dari 50.000 permintaan atau batas bersamaan khusus, [hubungi tim enterprise kami](https://neosantara.xyz/contact) untuk rencana khusus.
 </Tip>

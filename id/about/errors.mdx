@@ -1,33 +1,35 @@
 ---
-title: "Error Codes"
-description: "Pahami cara menangani error dan troubleshooting pada Neosantara API."
+title: "Kesalahan (Errors)"
+description: "Pahami cara menangani kesalahan dan memecahkan masalah dengan API Neosantara."
 ---
 
-Neosantara API menggunakan kode status HTTP standar:
+API Neosantara menggunakan kode status HTTP standar untuk menunjukkan keberhasilan atau kegagalan permintaan API. Secara umum:
 
-- **2xx**: Berhasil.
-- **4xx**: Error pada sisi permintaan (misal: parameter kurang, saldo habis).
-- **5xx**: Error pada sisi server Neosantara.
+- **2xx**: Menunjukkan keberhasilan.
+- **4xx**: Menunjukkan kesalahan yang gagal karena informasi yang diberikan (misalnya, parameter wajib diabaikan, biaya gagal, dll.).
+- **5xx**: Menunjukkan kesalahan pada server Neosantara.
 
 ## Kode Status HTTP
 
-| Kode | Tipe Error | Deskripsi |
+| Kode Status | Tipe Kesalahan | Deskripsi |
 | :--- | :--- | :--- |
-| **400** | `invalid_request_error` | Permintaan tidak dapat diterima, biasanya karena parameter tidak lengkap. |
-| **401** | `authentication_error` | API key tidak valid atau tidak ada. |
-| **403** | `permission_error` | API key tidak memiliki izin untuk permintaan ini. |
-| **404** | `not_found_error` | Resource (model, file, atau percakapan) tidak ditemukan. |
-| **429** | `rate_limit_error` | Terlalu banyak permintaan dalam waktu singkat. |
-| **500** | `api_error` | Terjadi kesalahan internal pada server Neosantara. |
+| **400** | `invalid_request_error` | Permintaan tidak dapat diterima, sering kali karena parameter wajib yang hilang. |
+| **401** | `authentication_error` | Kunci API tidak valid yang diberikan. |
+| **403** | `permission_error` | Kunci API tidak memiliki izin untuk melakukan permintaan tersebut. |
+| **404** | `not_found_error` | Sumber daya yang diminta (misalnya, model, file, percakapan) tidak ada. |
+| **422** | `unprocessable_entity` | Permintaan terbentuk dengan baik tetapi tidak dapat diikuti karena kesalahan semantik. |
+| **429** | `rate_limit_error` | Terlalu banyak permintaan yang masuk ke API terlalu cepat. |
+| **500** | `api_error` | Terjadi kesalahan internal di sisi Neosantara. |
+| **503** | `service_unavailable` | Server saat ini kelebihan beban atau sedang dalam pemeliharaan. |
 
-## Struktur Respon Error
+## Struktur Respons Kesalahan
 
-Error dikembalikan dalam objek JSON dengan pesan dan kode yang jelas.
+Kesalahan dikembalikan sebagai objek JSON dengan pesan dan kode kesalahan terperinci.
 
 ```json icon="code"
 {
   "error": {
-    "message": "Konten pesan melebihi batas context window model.",
+    "message": "Konten pesan input melebihi batas maksimum jendela konteks model.",
     "type": "invalid_request_error",
     "param": "messages",
     "code": "context_window_exceeded"
@@ -35,51 +37,107 @@ Error dikembalikan dalam objek JSON dengan pesan dan kode yang jelas.
 }
 ```
 
-## Kode Error Umum
+## Kode Kesalahan Umum
 
-| Kode | Deskripsi | Tindakan |
+Di bawah ini adalah kode kesalahan khusus yang mungkin Kamu temui di kolom `code` pada respons kesalahan, bersama dengan tindakan yang disarankan.
+
+### Kesalahan Permintaan & Validasi
+
+| Kode | Deskripsi | Tindakan yang Disarankan |
 | :--- | :--- | :--- |
-| `context_window_exceeded` | Total token melebihi batas model. | Persingkat prompt atau gunakan model dengan context window lebih besar. |
-| `model_not_found` | ID model tidak ditemukan. | Periksa daftar model yang tersedia. |
-| `missing_required_parameter` | Parameter wajib (misal: `messages`) hilang. | Periksa dokumentasi endpoint yang Kamu panggil. |
-| `invalid_api_key` | API key salah atau dicabut. | Verifikasi API key Kamu di Dashboard. |
-| `insufficient_quota` | Saldo habis atau mencapai batas limit. | [Tambah kredit](https://app.neosantara.xyz/billing) pada akun Kamu. |
-| `rate_limit_exceeded` | Permintaan terlalu cepat. | Gunakan strategi *exponential backoff* pada logika retry Kamu. |
+| `context_window_exceeded` | Total token (input + output) melebihi batas model. | Perpendek prompt Kamu atau beralih ke model dengan jendela konteks yang lebih besar. |
+| `model_not_found` | ID model yang ditentukan tidak ada atau Kamu tidak memiliki akses. | Periksa [Daftar Model](/api-reference/models/list-available-models) untuk ID yang valid. |
+| `missing_required_parameter` | Parameter wajib (misalnya, `messages`, `prompt`) hilang. | Tinjau referensi API untuk endpoint khusus yang Kamu panggil. |
+| `invalid_api_key` | Kunci API yang diberikan salah atau telah dicabut. | Verifikasi kunci API Kamu di [Dashboard](https://app.neosantara.xyz/dashboard) dan pastikan tidak ada spasi tambahan. |
+| `invalid_image_url` | URL gambar yang diberikan tidak dapat diakses atau diurai. | Pastikan URL dapat diakses secara publik dan mengarah ke format gambar yang valid (PNG, JPEG, WebP). |
 
-## Penanganan Rate Limits
+### Penagihan & Batas Kecepatan
 
-Jika terkena limit (429), API akan menyertakan header indikator kapan Kamu bisa mencoba lagi.
+| Kode | Deskripsi | Tindakan yang Disarankan |
+| :--- | :--- | :--- |
+| `insufficient_quota` | Kamu kehabisan kredit atau mencapai batas pengeluaran Kamu. | [Tambah kredit](https://app.neosantara.xyz/billing) ke akun Kamu atau tingkatkan paket Kamu. |
+| `rate_limit_exceeded` | Kamu mengirim permintaan terlalu cepat. | Terapkan exponential backoff dalam logika upaya ulang Kamu. Lihat [Batas Kecepatan](/id/about/rate-limits) untuk detailnya. |
 
-**Saran:** Gunakan strategi *exponential backoff*. Jika gagal dengan error 429, tunggu sebentar (misal: 1 detik), coba lagi, dan jika masih gagal, lipat gkamukan waktu tunggu (2 detik, 4 detik, dst).
+### Kesalahan Server & Generasi
 
-## Contoh Penanganan Programmatic
+| Kode | Deskripsi | Tindakan yang Disarankan |
+| :--- | :--- | :--- |
+| `image_generation_failed` | Model gambar gagal menghasilkan konten (misalnya, filter keamanan). | Coba prompt yang berbeda. Jika terus berlanjut, hubungi dukungan. |
+| `server_error` | Terjadi kesalahan tak terduga di sisi kami. | Coba lagi permintaan setelah menunggu sebentar. Periksa [Halaman Status](https://status.neosantara.xyz) kami untuk gangguan. |
+
+## Menangani Batas Kecepatan
+
+Saat Kamu mencapai batas kecepatan (429), API akan menyertakan header yang menunjukkan kapan Kamu dapat mencoba lagi.
+
+```bash icon="terminal"
+HTTP/1.1 429 Too Many Requests
+X-Ratelimit-Limit-Requests: 60
+X-Ratelimit-Remaining-Requests: 0
+X-Ratelimit-Reset-Requests: 1s
+```
+
+**Praktik Terbaik:** Gunakan strategi exponential backoff. Jika permintaan Kamu gagal dengan 429, tunggu sebentar (misalnya, 1 detik), coba lagi, dan jika gagal lagi, lipat gandakan waktu tunggu (2 detik, 4 detik, dst.) hingga batas maksimum.
+
+## Menangani Kesalahan Secara Programatik
 
 <CodeGroup>
 
 ```python Python
+import openai
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.neosantara.xyz/v1",
+    api_key="KUNCI_API_NEOSANTARA_KAMU"
+)
+
 try:
     response = client.chat.completions.create(
         model="nusantara-base",
         messages=[{"role": "user", "content": "Halo!"}]
     )
-except openai.RateLimitError as e:
-    print(f"Permintaan melebihi rate limit: {e}")
 except openai.APIError as e:
-    print(f"Terjadi error pada API: {e}")
+    # Tangani kesalahan API di sini, misalnya coba lagi atau log
+    print(f"API OpenAI mengembalikan Kesalahan API: {e}")
+    pass
+except openai.APIConnectionError as e:
+    # Tangani kesalahan koneksi di sini
+    print(f"Gagal terhubung ke API OpenAI: {e}")
+    pass
+except openai.RateLimitError as e:
+    # Tangani kesalahan batas kecepatan (kami sarankan menggunakan exponential backoff)
+    print(f"Permintaan API OpenAI melebihi batas kecepatan: {e}")
+    pass
 ```
 
 ```javascript Node.js
-try {
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: 'Halo!' }],
-    model: 'nusantara-base',
-  });
-} catch (error) {
-  if (error instanceof OpenAI.APIError) {
-    console.error(error.status); // Contoh: 429
-    console.error(error.message);
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  baseURL: "https://api.neosantara.xyz/v1",
+  apiKey: "KUNCI_API_NEOSANTARA_KAMU"
+});
+
+async function main() {
+  try {
+    const completion = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: 'Halo!' }],
+      model: 'nusantara-base',
+    });
+  } catch (error) {
+    if (error instanceof OpenAI.APIError) {
+      console.error(error.status);  // misalnya 400
+      console.error(error.message); // misalnya ID model yang diminta tidak ditemukan
+      console.error(error.code);    // misalnya model_not_found
+      console.error(error.type);    // misalnya invalid_request_error
+    } else {
+      // Kesalahan non-API
+      console.log(error);
+    }
   }
 }
+
+main();
 ```
 
 </CodeGroup>

@@ -1,36 +1,128 @@
 ---
-title: "Lampiran File"
-description: "Kirim gambar dan dokumen PDF sebagai bagian dari pesan Kamu menggunakan format Anthropic."
+title: "Lampiran File (File Attachments)"
+description: "Kirim gambar dan dokumen PDF sebagai bagian dari permintaan pesan Kamu menggunakan format Anthropic."
 ---
 
-# Lampiran File
+Neosantara AI mendukung pengiriman gambar dan dokumen PDF sebagai bagian dari permintaan pesan Kamu melalui API yang kompatibel dengan Anthropic. Hal ini memungkinkan Kamu untuk membangun aplikasi multimodal yang dapat "melihat" gambar dan "membaca" dokumen.
 
-Neosantara AI mendukung pengiriman gambar dan dokumen PDF secara native melalui API yang kompatibel dengan Anthropic. Ini memungkinkan Kamu membangun aplikasi multimodal.
+### Contoh permintaan
 
-### [Jenis File yang Didukung](#jenis-file-yang-didukung)
+Arahkan SDK Anthropic ke API Neosantara dan berikan file Kamu sebagai string berkode base64.
+
+<CodeGroup>
+
+```typescript file-attachment.ts icon="typescript"
+import Anthropic from '@anthropic-ai/sdk';
+import fs from 'node:fs';
+ 
+const anthropic = new Anthropic({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+});
+ 
+// Baca file sebagai base64
+const pdfData = fs.readFileSync('./dokumen.pdf');
+const imageData = fs.readFileSync('./gambar.png');
+ 
+const pdfBase64 = pdfData.toString('base64');
+const imageBase64 = imageData.toString('base64');
+ 
+const message = await anthropic.messages.create({
+  model: 'claude-4.5-sonnet', // Pastikan model mendukung input multimodal
+  max_tokens: 1024,
+  messages: [
+    {
+      role: 'user',
+      content: [
+        {
+          type: 'document',
+          source: {
+            type: 'base64',
+            media_type: 'application/pdf',
+            data: pdfBase64,
+          },
+        },
+        {
+          type: 'image',
+          source: {
+            type: 'base64',
+            media_type: 'image/png',
+            data: imageBase64,
+          },
+        },
+        {
+          type: 'text',
+          text: 'Harap rangkum PDF tersebut dan jelaskan gambarnya.',
+        },
+      ],
+    },
+  ],
+});
+ 
+console.log('Respons:', message.content[0].text);
+```
+
+```python file-attachment.py icon="py"
+import os
+import base64
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+# Baca file sebagai base64
+with open('./dokumen.pdf', 'rb') as f:
+    pdf_base64 = base64.b64encode(f.read()).decode('utf-8')
+ 
+with open('./gambar.png', 'rb') as f:
+    image_base64 = base64.b64encode(f.read()).decode('utf-8')
+ 
+message = client.messages.create(
+    model='claude-4.5-sonnet',
+    max_tokens=1024,
+    messages=[
+        {
+            'role': 'user',
+            'content': [
+                {
+                    'type': 'document',
+                    'source': {
+                        'type': 'base64',
+                        'media_type': 'application/pdf',
+                        'data': pdf_base64,
+                    },
+                },
+                {
+                    'type': 'image',
+                    'source': {
+                        'type': 'base64',
+                        'media_type': 'image/png',
+                        'data': image_base64,
+                    },
+                },
+                {
+                    'type': 'text',
+                    'text': 'Harap rangkum PDF tersebut dan jelaskan gambarnya.'
+                },
+            ],
+        }
+    ],
+)
+ 
+print('Respons:', message.content[0].text)
+```
+
+</CodeGroup>
+
+---
+
+### Jenis file yang didukung
 
 *   **Gambar**: `image/jpeg`, `image/png`, `image/gif`, `image/webp`
 *   **Dokumen**: `application/pdf`
 
-### [Contoh Permintaan](#contoh-permintaan)
-
-```typescript
-const message = await client.messages.create({
-  model: 'claude-4.5-sonnet',
-  max_tokens: 1024,
-  messages: [{
-    role: 'user',
-    content: [
-      {
-        type: 'document',
-        source: {
-          type: 'base64',
-          media_type: 'application/pdf',
-          data: pdfBase64 // String base64 dari file PDF
-        }
-      },
-      { type: 'text', text: 'Ringkas isi dokumen ini.' }
-    ]
-  }]
-});
-```
+<Info>
+  **Kompatibilitas Model**: Pastikan Kamu menggunakan model multimodal (seperti `claude-4.5-sonnet`, `nusantara-base`, atau `kimi-k2`) saat mengirim lampiran file.
+</Info>

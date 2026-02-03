@@ -1,21 +1,23 @@
 ---
-title: "Batas Kecepatan"
-description: "Panduan lengkap batas kecepatan Neosantara (RPM, ITPM, OTPM). Pelajari cara perhitungan tingkatan throughput dan cara mengelola lalu lintas permintaan API yang tinggi."
+title: "Batas Kecepatan (Rate Limits)"
+description: "Panduan komprehensif untuk batas kecepatan Neosantara (RPM, ITPM, OTPM). Pelajari cara perhitungan tier throughput dan cara mengelola lalu lintas permintaan API bervolume tinggi."
 ---
 
-Neosantara menerapkan batas penggunaan untuk menjaga stabilitas platform dan memastikan pembagian sumber daya yang adil.
+Neosantara menerapkan batas throughput untuk memastikan stabilitas platform dan alokasi sumber daya yang adil. Sistem ini mengelola laju permintaan masuk dan pemrosesan token.
 
-Untuk informasi mengenai penagihan dan kredit, silakan lihat [Kredit Token & Harga](/id/about/billing-pricing).
+Untuk informasi tentang penagihan dan saldo kredit, silakan merujuk ke dokumentasi [Kredit Token & Harga](/id/about/billing-pricing).
 
 ---
 
 ## Batas Throughput (Kecepatan)
 
-Sistem menerapkan tiga jenis batasan:
+Batas throughput membatasi laju operasi selama jendela waktu tertentu. Ini adalah batasan teknis yang dirancang untuk mencegah kelebihan beban sistem dan berbeda dari batas penagihan.
 
-* **RPM (Requests Per Minute):** Maksimal jumlah permintaan HTTP per menit.
-* **ITPM (Input Tokens Per Minute):** Maksimal jumlah token input per menit.
-* **OTPM (Output Tokens Per Minute):** Maksimal jumlah token output per menit.
+Sistem menegakkan tiga jenis batas throughput:
+
+* **RPM (Requests Per Minute):** Jumlah maksimum permintaan HTTP yang diizinkan per menit.
+* **ITPM (Input Tokens Per Minute):** Jumlah maksimum token input yang diproses per menit.
+* **OTPM (Output Tokens Per Minute):** Jumlah maksimum token output yang dihasilkan per menit.
 
 ### Batas API Standar
 
@@ -28,34 +30,40 @@ Sistem menerapkan tiga jenis batasan:
 | Enterprise | 4.000 | 500.000 | 125.000 |
 
 <Note>
-**Upgrade Tier:** Tier akun disesuaikan otomatis berdasarkan riwayat total deposit Kamu.
+**Pembaruan Tier:** Tier throughput disesuaikan secara otomatis berdasarkan riwayat total deposit Kamu. Lihat [Kredit Token & Harga](/id/about/billing-pricing#throughput-tiers-speed-limits) untuk detailnya.
 </Note>
 
 ---
 
-## Response Headers
+## Header Respons
 
-Setiap respons API menyertakan header HTTP untuk memantau sisa kuota penggunaan Kamu secara waktu nyata.
+Respons API menyertakan header HTTP standar yang memberikan status waktu nyata dari penggunaan batas kecepatan klien. Klien harus memantau header ini untuk menghindari mencapai batas kecepatan.
 
 | Header | Deskripsi |
 | :--- | :--- |
-| `x-neosantara-ratelimit-requests-limit` | Batas RPM maksimal. |
-| `x-neosantara-ratelimit-requests-remaining` | Sisa jumlah permintaan dalam jendela waktu saat ini. |
-| `x-neosantara-ratelimit-requests-reset` | Waktu (ISO 8601) saat batas permintaan direset. |
-| `x-neosantara-tier` | Tier throughput yang saat ini ditetapkan untuk akun tersebut. |
+| `x-neosantara-ratelimit-requests-limit` | RPM maksimum yang diizinkan. |
+| `x-neosantara-ratelimit-requests-remaining` | Jumlah permintaan yang tersisa di jendela saat ini. |
+| `x-neosantara-ratelimit-requests-reset` | Waktu (ISO 8601) saat batas permintaan disetel ulang. |
+| `x-neosantara-ratelimit-input-tokens-limit` | ITPM maksimum yang diizinkan. |
+| `x-neosantara-ratelimit-input-tokens-remaining` | Jumlah token input yang tersisa di jendela saat ini. |
+| `x-neosantara-ratelimit-input-tokens-reset` | Waktu (ISO 8601) saat batas token input disetel ulang. |
+| `x-neosantara-ratelimit-output-tokens-limit` | OTPM maksimum yang diizinkan. |
+| `x-neosantara-ratelimit-output-tokens-remaining` | Jumlah token output yang tersisa di jendela saat ini. |
+| `x-neosantara-ratelimit-output-tokens-reset` | Waktu (ISO 8601) saat batas token output disetel ulang. |
+| `x-neosantara-tier` | Tier throughput saat ini yang ditetapkan untuk akun tersebut. |
 
 ---
 
-## Penanganan Error
+## Penanganan Kesalahan
 
 ### 429 Too Many Requests
 
-Error ini menunjukkan bahwa salah satu batas teknis (RPM, ITPM, atau OTPM) telah terlampaui. Respon akan menyertakan header `Retry-After` yang menentukan waktu tunggu dalam detik sebelum permintaan baru dapat dilakukan.
+Kesalahan ini menunjukkan bahwa salah satu **Batas Throughput** teknis (RPM, ITPM, atau OTPM) telah terlampaui. Respons menyertakan header `Retry-After` yang menentukan waktu tunggu dalam detik sebelum permintaan baru dapat dilakukan.
 
 ```json icon="code"
 {
   "error": {
-    "message": "Too many requests. Please try again later.",
+    "message": "Terlalu banyak permintaan. Silakan coba lagi nanti.",
     "type": "rate_limit_exceeded",
     "code": "rpm_exceeded",
     "details": {

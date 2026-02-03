@@ -1,34 +1,34 @@
----
-title: "Streaming Response"
-description: "> Terima sebagian hasil secara real-time saat sedang dibuat."
+--- 
+title: "Streaming Respons"
+description: "> Terima hasil parsial dalam waktu nyata saat sedang dihasilkan."
 ---
 
-Streaming memungkinkan Kamu menerima sebagian respons dari API saat sedang dibuat, daripada menunggu seluruh respons selesai. Ini dapat meningkatkan persepsi latensi dan pengalaman pengguna secara signifikan, terutama untuk hasil yang panjang.
+Streaming memungkinkan Kamu menerima respons parsial dari API saat sedang dihasilkan, daripada menunggu seluruh respons selesai. Hal ini dapat meningkatkan latensi yang dirasakan dan pengalaman pengguna secara signifikan, terutama untuk pembuatan konten yang panjang.
 
 ## Cara Kerja Streaming
 
-Neosantara API mengimplementasikan streaming menggunakan **Server-Sent Events (SSE)** ketika Kamu mengatur parameter `stream: true` dalam permintaan Kamu. Saat permintaan streaming dibuat:
+API AI Neosantara mengimplementasikan streaming menggunakan **Server-Sent Events (SSE)** saat Kamu menyetel parameter `stream: true` dalam permintaan Kamu. Saat permintaan streaming dibuat:
 
-1. **Header `Content-Type`**: API menetapkan header `Content-Type` ke `text/event-stream`.
-2. **Potongan Data Parsial**: Server mengirim data dalam potongan-potongan kecil. Setiap potongan adalah sebuah event dengan tipe dan payload data tertentu.
-3. **Sinyal Akhir Stream**: Stream diakhiri oleh event final, seperti `response.completed` atau pesan `data: [DONE]`, yang menunjukkan bahwa tidak ada lagi data yang akan dikirim.
+1. **Header `Content-Type`**: API menyetel header `Content-Type` ke `text/event-stream`.
+2. **Potongan Data Parsial**: Server mengirimkan data dalam potongan kecil. Setiap potongan adalah sebuah event dengan tipe dan payload data tertentu.
+3. **Sinyal Akhir Aliran**: Aliran diakhiri oleh event final, seperti `response.completed` atau pesan `data: [DONE]`, yang menunjukkan bahwa tidak ada lagi data yang akan dikirim.
 
-Ini memungkinkan aplikasi klien Kamu untuk menampilkan atau memproses konten yang dihasilkan secara bertahap.
+Hal ini memungkinkan aplikasi klien Kamu untuk menampilkan atau memproses konten yang dihasilkan secara bertahap.
 
 ## Penggunaan dengan SDK
 
-Kamu dapat mengaktifkan streaming dengan mudah dengan mengatur `stream: true` di body permintaan Kamu.
+Kamu dapat mengaktifkan streaming dengan mudah dengan menyetel `stream: true` di badan permintaan Kamu. Berikut adalah contoh untuk kedua endpoint utama kami.
 
 <Tabs>
-<Tab title="Responses API">
-Endpoint [`/v1/responses`](/api-reference/responses/create) menggunakan **stream berbasis event** yang modern.
+<Tab title="API Responses">
+Endpoint [`/v1/responses`](/api-reference/responses/create) menggunakan **stream berbasis event** yang modern. Setiap potongan adalah event yang diketik, memungkinkan Kamu menangani berbagai bagian respons dengan mudah, seperti delta teks atau argumen panggilan fungsi.
 
-### Contoh Request Body Responses API
+### Contoh Permintaan API Responses
 
 ```json icon="code"
 {
   "model": "nusantara-base",
-  "input": "Jelaskan konsep AI streaming secara detail.",
+  "input": "Jelaskan konsep streaming AI secara mendetail.",
   "stream": true
 }
 ````
@@ -39,24 +39,128 @@ Endpoint [`/v1/responses`](/api-reference/responses/create) menggunakan **stream
 event: response.created
 data: {"type":"response.created","response":{"id":"resp_abc123",...}}
 
+event: response.output_item.added
+data: {"type":"response.output_item.added","item":{"id":"msg_def456",...}}
+
 event: response.output_text.delta
 data: {"type":"response.output_text.delta","delta":"AI "}
 
 event: response.output_text.delta
 data: {"type":"response.output_text.delta","delta":"streaming "}
 
-... delta lainnya ...
+... lebih banyak event delta ...
 
 event: response.completed
 data: {"type":"response.completed","response":{...}}
 ```
 
+### Contoh Implementasi API Responses
+
+<CodeGroup>
+
+```python NAI.py icon="python" lines
+from openai import OpenAI
+
+# Inisialisasi klien untuk AI Neosantara
+client = OpenAI(
+    api_key="<NAI_API_KEY>", 
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+def stream_response(prompt: str, model: str = "nusantara-base"):
+    """Melakukan permintaan streaming ke API Responses."""
+    print(f"Streaming dari /v1/responses untuk model: {model}")
+    print(f"Prompt: {prompt}\n")
+
+    try:
+        stream = client.responses.create(
+            model=model,
+            input=prompt,
+            stream=True,
+            max_tokens=2045
+        )
+
+        full_response_content = ""
+        print("Respons AI: ", end="", flush=True)
+        for event in stream:
+            # Periksa tipe event yang berisi potongan teks
+            if event.type == 'response.output_text.delta':
+                content = event.delta
+                full_response_content += content
+                print(content, end="", flush=True)
+
+        print("\n\n--- Aliran selesai ---\n\n")
+        return full_response_content
+
+    except Exception as e:
+        print(f"\nTerjadi kesalahan: {e}")
+        return None
+
+if __name__ == "__main__":
+    user_prompt = "Ceritakan kisah singkat tentang makhluk mitos dari cerita rakyat Indonesia."
+    streamed_text = stream_response(user_prompt)
+    if streamed_text:
+        print(f"\nTotal panjang konten streaming: {len(streamed_text)} karakter")
+```
+
+```javascript NAI.ts icon="square-js" lines
+import OpenAI from 'openai';
+
+# Inisialisasi klien untuk AI Neosantara
+const client = new OpenAI({
+  apiKey: "<NAI_API_KEY>",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function streamResponse(prompt, model = "nusantara-base") {
+  console.log(`Streaming dari /v1/responses untuk model: ${model}`);
+  console.log(`Prompt: ${prompt}\n`);
+
+  try {
+    const stream = await client.responses.create({
+      model: model,
+      input: prompt,
+      stream: true,
+      max_tokens: 2045,
+    });
+
+    let fullResponseContent = "";
+    process.stdout.write("Respons AI: ");
+    for await (const event of stream) {
+      // Periksa tipe event yang berisi potongan teks
+      if (event.type === 'response.output_text.delta') {
+        const content = event.delta;
+        fullResponseContent += content;
+        process.stdout.write(content);
+      }
+    }
+
+    console.log("\n\n--- Aliran selesai ---");
+    return fullResponseContent;
+
+  } catch (error) {
+    console.error(`\nTerjadi kesalahan: ${error.message}`);
+    return null;
+  }
+}
+
+// Contoh penggunaan
+(async () => {
+  const userPrompt = "Ceritakan kisah singkat tentang makhluk mitos dari cerita rakyat Indonesia.";
+  const streamedText = await streamResponse(userPrompt);
+  if (streamedText) {
+    console.log(`\nTotal panjang konten streaming: ${streamedText.length} karakter`);
+  }
+})();
+```
+
+</CodeGroup>
 </Tab>
 
-<Tab title="Chat Completions API">
-Endpoint [`/v1/chat/completions`](/api-reference/chat) menyediakan streaming untuk kompatibilitas dengan integrasi OpenAI yang sudah ada. Mengirimkan stream objek `chat.completion.chunk`.
+<Tab title="API Chat Completions">
+Endpoint [`/v1/chat/completions`](/api-reference/chat) menyediakan streaming untuk kompatibilitas dengan integrasi OpenAI yang sudah ada. Endpoint ini mengirimkan aliran objek `chat.completion.chunk`.
 
-### Contoh Request Body Chat Completions API
+### Contoh Permintaan Chat Completions
 
 ```json icon="code"
 {
@@ -64,42 +168,122 @@ Endpoint [`/v1/chat/completions`](/api-reference/chat) menyediakan streaming unt
   "messages": [
     {
       "role": "user",
-      "content": "Jelaskan konsep AI streaming secara detail."
+      "content": "Jelaskan konsep streaming AI secara mendetail."
     }
   ],
   "stream": true
 }
 ```
 
-### Contoh Chunk Streaming
+### Contoh Potongan Streaming
 
 ```text
 data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","content":""}}]}
 data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"AI "}}]}
 data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"streaming"}}]}
-... chunk data lainnya ...
+... lebih banyak potongan data ...
 data: [DONE]
 ```
 
-### Contoh Python
+### Contoh Implementasi Chat Completions
 
-```python NAI.py icon="python"
+<CodeGroup>
+
+```python NAI.py icon="python" lines
 from openai import OpenAI
 
+# Inisialisasi klien untuk AI Neosantara
 client = OpenAI(
     api_key="<NAI_API_KEY>",
     base_url="https://api.neosantara.xyz/v1"
 )
 
-stream = client.chat.completions.create(
-    model="nusantara-base",
-    messages=[{"role": "user", "content": "Halo, apa kabar?"}],
-    stream=True
-)
+def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
+    """Melakukan permintaan streaming ke API Chat Completions."""
+    print(f"Streaming dari /v1/chat/completions untuk model: {model}")
+    print(f"Prompt: {prompt}\n")
 
-for chunk in stream:
-    print(chunk.choices[0].delta.content or "", end="")
+    try:
+        stream = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            stream=True,
+            max_tokens=500
+        )
+
+        full_response_content = ""
+        print("Respons AI: ", end="", flush=True)
+        for chunk in stream:
+            content = chunk.choices[0].delta.content or ""
+            full_response_content += content
+            print(content, end="", flush=True)
+            
+        print("\n\n--- Aliran selesai ---")
+        return full_response_content
+
+    except Exception as e:
+        print(f"\nTerjadi kesalahan: {e}")
+        return None
+
+if __name__ == "__main__":
+    user_prompt = "Jelaskan konsep streaming AI secara mendetail."
+    streamed_text = stream_chat_completion(user_prompt)
+    if streamed_text:
+        print(f"\nTotal panjang konten streaming: {len(streamed_text)} karakter")
 ```
 
+```javascript NAI.ts icon="square-js" lines
+import OpenAI from 'openai';
+
+# Inisialisasi klien untuk AI Neosantara
+const client = new OpenAI({
+  apiKey: "<NAI_API_KEY>",
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function streamChatCompletion(prompt, model = "nusantara-base") {
+  console.log(`Streaming dari /v1/chat/completions untuk model: {model}`);
+  console.log(`Prompt: ${prompt}\n`);
+
+  try {
+    const stream = await client.chat.completions.create({
+      model: model,
+      messages: [
+        { role: "user", content: prompt }
+      ],
+      stream: true,
+      max_tokens: 500,
+    });
+
+    let fullResponseContent = "";
+    process.stdout.write("Respons AI: ");
+    for await (const chunk of stream) {
+      const content = chunk.choices[0]?.delta?.content || "";
+      fullResponseContent += content;
+      process.stdout.write(content);
+    }
+
+    console.log("\n\n--- Aliran selesai ---");
+    return fullResponseContent;
+
+  } catch (error) {
+    console.error(`\nTerjadi kesalahan: ${error.message}`);
+    return null;
+  }
+}
+
+// Contoh penggunaan
+(async () => {
+  const userPrompt = "Jelaskan konsep streaming AI secara mendetail.";
+  const streamedText = await streamChatCompletion(userPrompt);
+  if (streamedText) {
+    console.log(`\nTotal panjang konten streaming: ${streamedText.length} karakter`);
+  }
+})();
+```
+
+</CodeGroup>
 </Tab>
 </Tabs>

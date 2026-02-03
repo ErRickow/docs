@@ -1,17 +1,17 @@
 ---
 title: "Transkripsi Audio"
-description: "> Ubah audio menjadi teks dengan akurasi tinggi menggunakan model SOTA seperti Whisper."
+description: "> Ubah audio menjadi teks dengan akurasi tinggi menggunakan model SOTA seperti Whisper.
 ---
 
-Neosantara menyediakan endpoint berperforma tinggi untuk mentranskripsi file audio. Ditenagai oleh model seperti **Whisper Large v3 Turbo**, model pengenalan suara tercepat dari OpenAI yang dioptimalkan untuk kecepatan tanpa mengorbankan akurasi tinggi.
+Neosantara menyediakan endpoint berkinerja tinggi untuk mentranskripsi file audio. Ditenagai oleh model seperti **Whisper Large v3 Turbo**, model pengenalan suara tercepat dari OpenAI yang dioptimalkan untuk kecepatan dengan tetap mempertahankan akurasi tinggi.
 
-Model ini memberikan performa luar biasa dengan kecepatan yang dioptimalkan, akurasi tinggi di berbagai kondisi audio, dan dukungan multibahasa. Dibangun di atas arsitektur transformer OpenAI yang dioptimalkan, model ini menghadirkan pemrosesan yang efisien untuk meningkatkan kecepatan sambil tetap mempertahankan kemampuan inti dari keluarga Whisper. Whisper Large v3 Turbo sangat cocok untuk aplikasi yang membutuhkan waktu respons cepat tanpa mengurangi kualitas transkripsi.
+Model ini memberikan performa luar biasa dengan kecepatan yang dioptimalkan, akurasi tinggi di berbagai kondisi audio, dan dukungan multibahasa. Dibangun di atas arsitektur transformer OpenAI yang dioptimalkan, model ini menghadirkan pemrosesan yang disederhanakan untuk meningkatkan kecepatan sambil mempertahankan kemampuan inti dari keluarga Whisper. Model ini menyertakan peningkatan efisiensi dan optimalisasi yang mengurangi beban komputasi tanpa mengorbankan kualitas transkripsi, menjadikannya sempurna untuk aplikasi yang sensitif terhadap waktu.
 
 ## Cara Kerja
 
-Kamu mengunggah file audio (MP3, WAV, M4A, dll.) ke endpoint terpadu kami, dan model akan mengubah kata-kata lisan menjadi teks tertulis. Kamu dapat memilih antara respons teks sederhana atau struktur JSON detail dengan timestamp.
+Kamu mengunggah file audio (MP3, WAV, M4A, dll.) ke endpoint terpadu kami, dan model akan mengubah kata-kata lisan menjadi teks tertulis. Kamu dapat memilih antara respons teks sederhana atau struktur JSON terperinci dengan timestamp.
 
-Neosantara API menyediakan endpoint [`/v1/audio/transcriptions`](/api-reference/audio/transcription) untuk tujuan ini.
+API Neosantara menyediakan endpoint [`/v1/audio/transcriptions`](/api-reference/audio/transcription) untuk tujuan ini.
 
 ## Penggunaan
 
@@ -26,15 +26,15 @@ Untuk mentranskripsi audio, kirim permintaan `multipart/form-data` ke endpoint `
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 | :--- | :--- | :--- | :--- | :--- |
 | **`file`** | File | Ya | - | Objek file audio yang akan ditranskripsi. Didukung: `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `wav`, `webm`. |
-| **`model`** | String | Ya | - | ID model yang digunakan. Saat ini didukung: `whisper-large-v3-turbo`. |
+| **`model`** | String | Ya | - | ID model yang akan digunakan. Saat ini didukung: `whisper-large-v3-turbo`. |
 | **`language`** | String | Tidak | - | Bahasa input audio (format ISO-639-1). |
 | **`prompt`** | String | Tidak | - | Teks opsional untuk memandu gaya model atau melanjutkan segmen sebelumnya. |
-| **`response_format`** | String | Tidak | `json` | Format hasil transkripsi. Opsi: `json`, `text`, `verbose_json`. |
+| **`response_format`** | String | Tidak | `json` | Format transkrip. Opsi: `json`, `text`, `verbose_json`. |
 | **`temperature`** | Number | Tidak | `0` | Suhu sampling (0 hingga 1). |
 
 ---
 
-## Contoh Python dan JavaScript (OpenAI SDK)
+## Contoh Python dan JavaScript (SDK OpenAI)
 
 Karena Neosantara kompatibel dengan OpenAI, Kamu dapat menggunakan SDK resmi untuk mentranskripsi audio dengan mulus.
 
@@ -50,11 +50,11 @@ client = OpenAI(
     base_url="https://api.neosantara.xyz/v1",
 )
 
-def transkripsi_audio(file_path: str):
+def transcribe_audio(file_path: str):
     """
     Mentranskripsi file audio menggunakan Neosantara.
     """
-    print(f"Memproses file: {file_path}...")
+    print(f"Mentranskripsi file: {file_path}...")
 
     try:
         with open(file_path, "rb") as audio_file:
@@ -69,11 +69,11 @@ def transkripsi_audio(file_path: str):
         return transcription
 
     except Exception as e:
-        print(f"\nTerjadi kesalahan saat transkripsi: {e}")
+        print(f"\nTerjadi kesalahan selama transkripsi: {e}")
         return None
 
 if __name__ == "__main__":
-    transkripsi_audio("rekaman_rapat.mp3")
+    transcribe_audio("rekaman_rapat.mp3")
 ```
 
 ```javascript Node.js
@@ -106,4 +106,4 @@ Transkripsi audio ditagih dengan presisi tinggi berdasarkan **durasi audio**.
 | Model | Satuan | Harga |
 | :--- | :--- | :--- |
 | `whisper-large-v3-turbo` | per Jam | **$0.04** |
-| `whisper-large-v3-turbo` | per Detik | $0.0000111 |
+| `whisper-large-v3-turbo` | per Detik | $0.000012 |

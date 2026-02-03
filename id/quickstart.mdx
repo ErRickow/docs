@@ -1,18 +1,18 @@
 ---
 title: "Mulai Cepat"
-description: "Ikuti langkah-langkah mudah untuk menyiapkan kunci API, memilih model, dan mengintegrasikan Neosantara ke dalam aplikasi Kamu dalam waktu kurang dari 5 menit."
+description: "Ikuti panduan mulai cepat langkah demi langkah kami untuk menyiapkan kunci API Kamu, memilih model, dan mengintegrasikan Neosantara ke dalam aplikasi Kamu dalam waktu kurang dari 5 menit."
 ---
 
-## Langkah Pertama
+## Memulai
 
-Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neosantara. Platform kami berfungsi sebagai **gateway terpadu**, yang memungkinkan Kamu mengakses berbagai model SOTA dari berbagai penyedia menggunakan satu kunci API dan SDK.
+Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neosantara. Platform kami bertindak sebagai **gateway terpadu**, yang memungkinkan Kamu mengakses berbagai model SOTA dari berbagai penyedia menggunakan satu kunci API dan SDK.
 
 <Steps>
   <Step title="Dapatkan Kunci API">
-    * Akses [Aplikasi Neosantara](https://app.neosantara.xyz/signup) untuk Daftar atau Masuk.
-    * Akses [Halaman Billing](https://app.neosantara.xyz/billing) untuk isi ulang saldo jika diperlukan.
+    * Akses [Aplikasi Neosantara](https://app.neosantara.xyz/signup) untuk Mendaftar atau Masuk.
+    * Akses [Halaman Penagihan](https://app.neosantara.xyz/billing) untuk top up saldo Kamu jika diperlukan.
     * Buat Kunci API di halaman manajemen [Kunci API](https://app.neosantara.xyz/api-keys).
-    * Salin Kunci API Kamu untuk digunakan.
+    * Simpan Kunci API Kamu dengan aman.
 
     <CardGroup cols={2}>
       <Card title="Dashboard Neosantara" icon="link" href="https://app.neosantara.xyz/dashboard">
@@ -25,16 +25,16 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
     </CardGroup>
   </Step>
 
-  <Step title="Pilih Model">
+  <Step title="Pilih Model Kamu">
     Akses model terbaik dunia melalui satu antarmuka. Beralih antar penyedia cukup dengan mengubah parameter `model`. Lihat [Model & Harga](/id/about/billing-pricing) untuk daftar lengkapnya.
 
     <CardGroup cols={2}>
-      <Card title="Model Unggulan Global" icon="sparkles" href="/id/models-overview">
-        Akses **Claude 4.5 Sonnet**, **Gemini 3 Flash**, and **Grok 4.1** melalui satu integrasi.
+      <Card title="Unggulan Global" icon="sparkles" href="/id/models-overview">
+        Akses **Claude 4.5 Sonnet**, **Gemini 3 Flash**, dan **Grok 4.1** melalui satu integrasi.
       </Card>
 
       <Card title="Pengodean & Logika" icon="code" href="/id/models-overview">
-        Model dengan performa tinggi yang dioptimasi untuk tugas pengodean.
+        Penalaran berperforma tinggi dengan model yang dioptimalkan untuk tugas pengodean.
       </Card>
 
       <Card title="Multimodal & Visi" icon="eye" href="/id/capability/ocr">
@@ -48,19 +48,19 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
   </Step>
 
   <Step title="Pilih Metode Pemanggilan">
-    Neosantara dirancang sebagai gateway multi-kompatibilitas. Gunakan SDK resmi yang paling sesuai dengan ekosistem Kamu.
+    Neosantara dirancang untuk menjadi gateway multi-kompatibel. Gunakan SDK resmi yang sesuai dengan ekosistem Kamu yang sudah ada.
 
     <CardGroup cols={3}>
-      <Card title="SDK OpenAI" icon="openai" href="/id/sdk/openai-compatible">
-        Pengganti langsung untuk aplikasi berbasis OpenAI.
+      <Card title="SDK OpenAI" icon="openai" href="/id/sdk/openai-compat">
+        Pengganti drop-in untuk aplikasi berbasis OpenAI apa pun.
       </Card>
 
-      <Card title="SDK Anthropic" icon="bolt" href="/id/sdk/anthropic-compatible">
+      <Card title="SDK Anthropic" icon="bolt" href="/id/sdk/anthropic-compat">
         Dukungan asli untuk format API Anthropic Messages.
       </Card>
 
       <Card title="Referensi API" icon="book" href="/api-reference">
-        Dokumentasi lengkap untuk panggilan REST API langsung.
+        Dokumentasi lengkap untuk panggilan API REST langsung.
       </Card>
     </CardGroup>
   </Step>
@@ -89,14 +89,15 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
             base_url="https://api.neosantara.xyz/v1"
         )
 
-        # Kamu bisa menggunakan model APAPUN yang tersedia di sini
-        completion = client.chat.completions.create(
+        # Kamu dapat menggunakan model APAPUN yang tersedia di platform di sini
+        # Pilih model apa pun yang tersedia di platform
+        response = client.responses.create(
             model="nusantara-base",
-            input="Bantu saya implementasi komponen React untuk todo list dengan TypeScript",
+            input="Bantu saya mendebug fungsi React ini yang tidak berfungsi dengan benar",
             store=True
         )
 
-        print(completion.choices[0].message.content)
+        print(response.output_text)
         ```
       </Tab>
 
@@ -122,7 +123,7 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
         async function main() {
             const response = await client.responses.create({
                 model: "qwen3-32b",
-                input: "Bantu saya debug fungsi React yang tidak berfungsi dengan benar",
+                input: "Bantu saya mendebug fungsi React ini yang tidak berfungsi dengan benar",
                 store: true
             });
 
@@ -140,10 +141,10 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
         curl https://api.neosantara.xyz/v1/responses \
           -H "Content-Type: application/json" \
           -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
-          -d '{
-            "model": "nusantara-base",
-            "input": "Hasilkan fungsi Python untuk validasi alamat email",
-            "store": true
+          -d '{ \
+            "model": "nusantara-base", \
+            "input": "Hasilkan fungsi Python untuk memvalidasi alamat email", \
+            "store": true \
           }'
         ```
       </Tab>
@@ -155,7 +156,7 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
 
 <CardGroup cols={3}>
   <Card title="Referensi API" icon="code" href="/api-reference">
-    Spesifikasi endpoint mendetail.
+    Spesifikasi endpoint terperinci.
   </Card>
 
   <Card title="Panduan" icon="map" href="/id/guides/ai-coding-tools">
@@ -163,6 +164,6 @@ Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neos
   </Card>
 
   <Card title="Integrasi" icon="puzzle-piece" href="/id/integrations">
-    Framework dan pustaka pendukung.
+    Framework dan pustaka.
   </Card>
 </CardGroup>

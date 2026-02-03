@@ -1,22 +1,117 @@
 ---
 title: "Fitur Lanjutan"
-description: "Konfigurasi extended thinking menggunakan format Anthropic Messages API."
+description: "Konfigurasikan pemikiran yang diperluas (extended thinking) menggunakan format API Messages Anthropic."
 ---
 
-# Fitur Lanjutan
+Neosantara mendukung fitur Anthropic tingkat lanjut seperti pemikiran yang diperluas (*extended thinking*), yang memungkinkan penalaran yang lebih kompleks dan pemrosesan chain-of-thought.
 
-### [Extended Thinking](#extended-thinking)
+## Pemikiran yang diperluas (Extended thinking)
 
-Konfigurasi pemikiran mendalam untuk model yang mendukung penalaran chain-of-thought (misalnya **Claude 3.7** atau **Kimi K2**).
+Konfigurasikan pemikiran yang diperluas untuk model yang mendukung penalaran chain-of-thought (misalnya, **Llama Nemotron**, **GLM 4**). Parameter `thinking` memungkinkan Kamu untuk mengontrol bagaimana token penalaran dihasilkan dan dikembalikan.
 
-```typescript
-const message = await client.messages.create({
-  model: 'claude-4.5-sonnet',
+<Note>
+  Pemikiran yang diperluas hanya tersedia pada model penalaran tertentu. Pastikan model pilihan Kamu mendukung kemampuan ini sebelum mengaktifkannya.
+</Note>
+
+### Contoh permintaan
+
+<CodeGroup>
+
+```typescript thinking.ts icon="typescript"
+import Anthropic from '@anthropic-ai/sdk';
+ 
+const anthropic = new Anthropic({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+});
+ 
+const message = await anthropic.messages.create({
+  model: 'glm-4.6v-flash',
   max_tokens: 8192,
   thinking: {
     type: 'enabled',
     budget_tokens: 5000,
   },
-  messages: [{ role: 'user', content: 'Jelaskan teori kuantum dalam bahasa sederhana.' }]
+  messages: [
+    {
+      role: 'user',
+      content: 'Jelaskan keterikatan kuantum dalam istilah sederhana.',
+    },
+  ],
 });
+ 
+for (const block of message.content) {
+  if (block.type === 'thinking') {
+    console.log('🧠 Berpikir:', block.thinking);
+  } else if (block.type === 'text') {
+    console.log('💬 Respons:', block.text);
+  }
+}
+```
+
+```python thinking.py icon="py"
+import os
+import anthropic
+ 
+client = anthropic.Anthropic(
+    api_key=os.getenv('NAI_API_KEY'),
+    base_url='https://api.neosantara.xyz/anthropic'
+)
+ 
+message = client.messages.create(
+    model='glm-4.6v-flash',
+    max_tokens=2048,
+    thinking={
+        'type': 'enabled',
+        'budget_tokens': 5000,
+    },
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Jelaskan keterikatan kuantum dalam istilah sederhana.'
+        }
+    ],
+)
+ 
+for block in message.content:
+    if block.type == 'thinking':
+        print('🧠 Berpikir:', block.thinking)
+    elif block.type == 'text':
+        print('💬 Respons:', block.text)
+```
+
+</CodeGroup>
+
+### Parameter pemikiran (thinking)
+
+*   `type`: Setel ke `'enabled'` untuk mengaktifkan pemikiran yang diperluas.
+*   `budget_tokens`: Jumlah maksimum token yang dialokasikan untuk pemikiran (chain-of-thought).
+
+### Respons dengan pemikiran
+
+Saat pemikiran diaktifkan, respons menyertakan blok pemikiran yang terpisah dari jawaban akhir:
+
+```json
+{
+  "id": "msg_123",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "thinking",
+      "thinking": "Izinkan saya berpikir tentang cara menjelaskan keterikatan kuantum...",
+      "signature": "signature-xyz"
+    },
+    {
+      "type": "text",
+      "text": "Keterikatan kuantum itu seperti memiliki dua koin ajaib..."
+    }
+  ],
+  "model": "glm-4.6v-flash",
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 15,
+    "output_tokens": 150
+  }
+}
 ```

@@ -1,46 +1,100 @@
 ---
 title: "API Kompatibel OpenAI"
-description: "Gunakan SDK OpenAI resmi untuk berinteraksi dengan Neosantara AI."
+description: "Neosantara menyediakan endpoint API yang kompatibel dengan OpenAI, memungkinkan Kamu menggunakan SDK dan alat resmi OpenAI dengan perubahan minimal."
 ---
 
-Neosantara [AI Gateway](/id/intro) menyediakan endpoint yang kompatibel dengan OpenAI, sehingga Kamu dapat menggunakan SDK dan alat resmi OpenAI dengan perubahan minimal. Cukup ganti base URL dan API key Kamu.
+[AI Gateway Neosantara](/id/intro) menyediakan endpoint API yang kompatibel dengan OpenAI, sehingga Kamu dapat menggunakan SDK dan alat resmi OpenAI melalui gateway terpadu hanya dengan perubahan URL. Tidak diperlukan penulisan ulang kode.
 
-## [Base URL](#base-url)
+API yang kompatibel dengan OpenAI mengimplementasikan spesifikasi inti dari [API Chat Completions OpenAI](https://platform.openai.com/docs/api-reference/chat), sambil menyediakan ekstensi khusus Neosantara untuk penalaran tingkat lanjut dan fitur multimodal.
+
+## Base URL
+
+API yang kompatibel dengan OpenAI tersedia di URL dasar berikut:
 
 `https://api.neosantara.xyz/v1`
 
-## [Autentikasi](#autentikasi)
+## Autentikasi
 
-Gunakan API key Neosantara Kamu dengan header `Authorization: Bearer <token>`.
+API yang kompatibel dengan OpenAI mendukung autentikasi token Bearer standar:
 
-## [Integrasi SDK](#integrasi-sdk)
+*   **Kunci API**: Gunakan kunci API Neosantara Kamu dengan header `Authorization: Bearer <token>`.
+
+## Endpoint yang didukung
+
+Neosantara mendukung endpoint kompatibel OpenAI berikut:
+
+*   [`POST /chat/completions`](/id/sdk/openai-compat/chat-completions) - Buat chat completions dengan dukungan untuk streaming, [tool calls](/id/sdk/openai-compat/tool-calls), **visi (input gambar)**, dan [lampiran file](/id/sdk/openai-compat/chat-completions#lampiran-pdf).
+*   [`POST /embeddings`](/id/sdk/openai-compat/embeddings) - Hasilkan vektor embedding untuk teks.
+*   [`POST /chat/completions` (Visi)](/id/sdk/openai-compat/image-generation) - Analisis gambar bersama teks menggunakan model multimodal.
+*   [`POST /images/generations`](/id/capability/image-generation) - Hasilkan gambar dari prompt teks (API Standar).
+
+## Integrasi dengan SDK OpenAI
+
+Arahkan klien Kamu ke URL dasar Neosantara dan gunakan [kunci API Kamu](/id/authentication) untuk autentikasi.
 
 <CodeGroup>
 
-```typescript Node.js
+```typescript client.ts
 import OpenAI from 'openai';
  
 const client = new OpenAI({
   apiKey: process.env.NAI_API_KEY,
   baseURL: 'https://api.neosantara.xyz/v1',
 });
+ 
+const completion = await client.chat.completions.create({
+  model: 'grok-4.1-fast-non-reasoning',
+  messages: [{ role: 'user', content: 'Halo dunia!' }],
+});
 ```
 
-```python Python
-from openai import OpenAI
+```python client.py
 import os
-
+from openai import OpenAI
+ 
 client = OpenAI(
     api_key=os.getenv('NAI_API_KEY'),
     base_url='https://api.neosantara.xyz/v1'
+)
+ 
+completion = client.chat.completions.create(
+    model='grok-4.1-fast-non-reasoning',
+    messages=[
+        {'role': 'user', 'content': 'Halo dunia!'}
+    ]
 )
 ```
 
 </CodeGroup>
 
-## [Fitur Utama](#fitur-utama)
+## Parameter
 
-*   [Chat Completions](/id/sdk/openai-compat/chat-completions) - Mendukung teks, visi, dan streaming.
-*   [Tool Calls](/id/sdk/openai-compat/tool-calls) - Pemanggilan fungsi eksternal secara otomatis.
-*   [Structured Outputs](/id/sdk/openai-compat/structured-outputs) - Ekstraksi data JSON yang handal.
-*   [Embeddings](/id/sdk/openai-compat/embeddings) - Vektor representasi untuk pencarian semantik.
+Endpoint chat completions mendukung parameter standar OpenAI:
+
+### Parameter wajib
+
+*   **`model`** (string): ID model yang akan digunakan (misalnya, `grok-4.1-fast-non-reasoning`, `claude-4.5-sonnet`).
+*   **`messages`** (array): Array objek pesan dengan kolom `role` dan `content`.
+
+### Parameter opsional
+
+*   **`stream`** (boolean): Apakah akan melakukan streaming respons. Default-nya `false`.
+*   **`temperature`** (number): Mengontrol keacakan dalam output. Rentang: 0-2.
+*   **`max_tokens`** (integer): Jumlah maksimum token yang akan dihasilkan.
+*   **`tools`** (array): Array definisi tool untuk pemanggilan fungsi.
+*   **`response_format`** (object): Mengontrol format respons model (misalnya, [Structured Outputs](/id/sdk/openai-compat/structured-outputs)).
+*   **`reasoning`** (object): [Konfigurasi penalaran diperluas](/id/sdk/openai-compat/advanced#konfigurasi-reasoning) untuk model yang didukung.
+
+## Penanganan kesalahan
+
+API mengembalikan respons kesalahan standar yang kompatibel dengan OpenAI:
+
+```json
+{
+  "error": {
+    "message": "Permintaan tidak valid: parameter 'messages' yang wajib diisi hilang",
+    "type": "invalid_request_error",
+    "code": "400"
+  }
+}
+```

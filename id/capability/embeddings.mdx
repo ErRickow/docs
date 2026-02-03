@@ -1,19 +1,19 @@
 ---
-title: "Embeddings"
+title: "Embedding"
 description: "> Ubah teks menjadi vektor numerik berdimensi tinggi untuk berbagai tugas AI."
 ---
 
-Embeddings adalah representasi numerik dari teks yang menangkap makna semantik. Mereka mengubah teks yang dapat dibaca manusia menjadi vektor yang dapat dipahami oleh model pembelajaran mesin. Vektor ini memungkinkan tugas-tugas seperti pencarian semantik, sistem rekomendasi, dan pengelompokan (clustering).
+Embedding adalah representasi numerik dari teks yang menangkap makna semantik. Mereka mengubah teks yang dapat dibaca manusia menjadi vektor berdimensi tinggi yang dapat dipahami dan diproses oleh model pembelajaran mesin. Vektor-vektor ini memungkinkan tugas-tugas seperti pencarian semantik, sistem rekomendasi, pengelompokan (*clustering*), dan deteksi anomali.
 
-## Cara Kerja
+## Cara Kerja Embedding
 
-Saat Kamu mengirim teks ke endpoint embeddings, model AI memproses teks dan mengeluarkan daftar angka floating-point (vektor). Teks dengan makna serupa akan memiliki vektor yang secara numerik "lebih dekat" satu sama lain dalam ruang dimensi tinggi.
+Saat Kamu mengirimkan teks ke endpoint embedding, model AI yang mendasarinya memproses teks tersebut dan mengeluarkan daftar angka titik mengambang (*floating-point*) atau sebuah vektor. Teks dengan makna yang serupa akan memiliki vektor yang secara numerik "lebih dekat" satu sama lain dalam ruang berdimensi tinggi.
 
-API Neosantara menyediakan endpoint `/v1/embeddings`.
+API Neosantara menyediakan endpoint `/v1/embeddings` untuk menghasilkan vektor-vektor ini.
 
 ## Penggunaan
 
-Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
+Untuk menghasilkan embedding, kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
 
 ### Endpoint
 
@@ -23,7 +23,7 @@ Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
 
 ```json icon="code"
 {
-  "input": "Rubah coklat cepat melompati anjing malas.",
+  "input": "The quick brown fox jumps over the lazy dog.",
   "model": "nusa-embedding-0001",
   "encoding_format": "float"
 }
@@ -31,15 +31,17 @@ Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
 
 #### Parameter
 
-* **`input`** (string atau array string, **wajib**): Teks yang akan di-embed.
-* **`model`** (string, opsional): ID model (default: `"nusa-embedding-0001"`).
-* **`encoding_format`** (string, opsional): Mengontrol format pengodean output embedding (default: `"float"`).
+* **`input`** (string atau array string, **wajib**): Teks yang akan disematkan. Bisa berupa string tunggal atau array string.
+* **`model`** (string, opsional, default: `"nusa-embedding-0001"`): ID model embedding yang akan digunakan.
+* **`encoding_format`** (string, opsional, default: `"float"`): Format embedding yang dikembalikan. Saat ini, `"float"` adalah format utama yang didukung.
 
-### Model Embeddings yang Didukung
+### Model Embedding yang Didukung
 
-* **`nusa-embedding-0001`**: Model embedding utama, menawarkan kinerja yang baik untuk embeddings tujuan umum.
+API Neosantara mendukung berbagai model embedding, sering kali menggunakan fallback cerdas untuk memastikan keandalan. Beberapa model yang tersedia meliputi:
 
-### Contoh Respon
+* **`nusa-embedding-0001`**: Model embedding utama, menawarkan performa yang baik untuk embedding tujuan umum.
+
+### Contoh Respons
 
 ```json icon="code"
 {
@@ -47,7 +49,14 @@ Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
   "data": [
     {
       "object": "embedding",
-      "embedding": [0.0053, -0.0071, ...],
+      "embedding": [
+        0.00539745,
+        -0.007137805,
+        0.02102179,
+        -0.003181825,
+        // ... (dipotong untuk ringkasan)
+        -0.010260487
+      ],
       "index": 0
     }
   ],
@@ -59,9 +68,9 @@ Kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
 }
 ```
 
-## Contoh Python dan JavaScript (OpenAI SDK)
+## Contoh Python dan JavaScript (dengan SDK OpenAI)
 
-Kamu dapat menghasilkan embeddings menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API Neosantara.
+Kamu dapat menghasilkan embedding menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API Neosantara.
 
 <CodeGroup>
 
@@ -70,6 +79,7 @@ import os
 from openai import OpenAI
 
 # Inisialisasi klien OpenAI dengan kunci API Kamu
+# Ganti variabel lingkungan dengan kunci API Neosantara Kamu jika diperlukan
 client = OpenAI(
     api_key=os.environ.get("NAI_API_KEY"),
     base_url="https://api.neosantara.xyz/v1",
@@ -77,9 +87,9 @@ client = OpenAI(
 
 def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
     """
-    Menghasilkan embeddings untuk daftar teks menggunakan API Neosantara.
+    Menghasilkan embedding untuk daftar teks menggunakan API Neosantara.
     """
-    print(f"Menghasilkan embeddings untuk model: {model}")
+    print(f"Menghasilkan embedding untuk model: {model}")
 
     try:
         response = client.embeddings.create(
@@ -89,22 +99,23 @@ def get_embeddings(texts: list[str], model: str = "nusa-embedding-0001"):
         )
 
         # response.data berisi daftar objek embedding
+        # Setiap objek memiliki 'embedding' (vektor) dan 'index'
         embeddings = [item.embedding for item in response.data]
 
-        print(f"Berhasil menghasilkan {len(embeddings)} embeddings.")
+        print(f"Dihasilkan {len(embeddings)} embedding. Dimensi: {len(embeddings[0]) if embeddings else 0}")
         print(f"Total token yang digunakan: {response.usage.total_tokens}")
 
         return embeddings
 
     except Exception as e:
-        print(f"Terjadi kesalahan saat pembuatan embedding: {e}")
+        print(f"Terjadi kesalahan selama pembuatan embedding: {e}")
         return None
 
 if __name__ == "__main__":
     example_texts = [
         "Kecerdasan buatan mengubah industri.",
-        "Machine learning adalah bagian dari AI.",
-        "Deep learning memungkinkan jaringan saraf."
+        "Pembelajaran mesin adalah bagian dari AI.",
+        "Pembelajaran mendalam memungkinkan jaringan saraf."
     ]
 
     generated_vectors = get_embeddings(example_texts)
@@ -112,20 +123,22 @@ if __name__ == "__main__":
     if generated_vectors:
         print("\nVektor embedding pertama (dipotong):")
         print(generated_vectors[0][:10], "...") # Cetak 10 elemen pertama
+
 ```
 
 ```javascript Node.js
-// Instal library OpenAI Node.js: npm install openai
+// Instal pustaka Node.js OpenAI: npm install openai
 import OpenAI from 'openai';
 
 // Inisialisasi klien OpenAI dengan kunci API Kamu
+// Ganti "KUNCI_API_NEOSANTARA_KAMU" dengan Kunci API Neosantara Kamu yang sebenarnya
 const client = new OpenAI({
-  apiKey: process.env.NAI_API_KEY,
+  apiKey: "KUNCI_API_NEOSANTARA_KAMU",
   baseURL: "https://api.neosantara.xyz/v1",
 });
 
 async function getEmbeddings(texts, model = "nusa-embedding-0001") {
-  console.log(`Menghasilkan embeddings untuk model: ${model}`);
+  console.log(`Menghasilkan embedding untuk model: ${model}`);
 
   try {
     const response = await client.embeddings.create({
@@ -135,15 +148,16 @@ async function getEmbeddings(texts, model = "nusa-embedding-0001") {
     });
 
     // response.data berisi daftar objek embedding
+    // Setiap objek memiliki 'embedding' (vektor) dan 'index'
     const embeddings = response.data.map(item => item.embedding);
 
-    console.log(`Berhasil menghasilkan ${embeddings.length} embeddings.`);
+    console.log(`Dihasilkan ${embeddings.length} embedding. Dimensi: ${embeddings[0] ? embeddings[0].length : 0}`);
     console.log(`Total token yang digunakan: ${response.usage.total_tokens}`);
 
     return embeddings;
 
   } catch (error) {
-    console.error(`Terjadi kesalahan: ${error.message}`);
+    console.error(`Terjadi kesalahan selama pembuatan embedding: ${error.message}`);
     return null;
   }
 }
@@ -152,8 +166,8 @@ async function getEmbeddings(texts, model = "nusa-embedding-0001") {
 (async () => {
   const exampleTexts = [
     "Kecerdasan buatan mengubah industri.",
-    "Machine learning adalah bagian dari AI.",
-    "Deep learning memungkinkan jaringan saraf."
+    "Pembelajaran mesin adalah bagian dari AI.",
+    "Pembelajaran mendalam memungkinkan jaringan saraf."
   ];
   
   const generatedVectors = await getEmbeddings(exampleTexts);

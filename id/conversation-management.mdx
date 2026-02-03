@@ -3,31 +3,27 @@ title: "Manajemen Percakapan"
 description: "Pelajari cara mengelola percakapan stateful menggunakan API Responses"
 ---
 
-Salah satu fitur paling kuat dari [API Responses](/id/sdk/openai-compatible#api-responses-direkomendasikan) adalah **Manajemen Percakapan** bawaan. Berbeda dengan API Chat Completions tradisional di mana Kamu harus mengirimkan seluruh riwayat pesan pada setiap permintaan, API Responses memungkinkan Kamu mempertahankan status percakapan di server.
+Salah satu fitur paling kuat dari [API Responses](/api-reference/responses/create) adalah **Manajemen Percakapan** bawaan. Berbeda dengan API Chat Completions tradisional di mana Kamu harus mengirimkan seluruh riwayat pesan dengan setiap permintaan, API Responses memungkinkan Kamu untuk mempertahankan status percakapan di server.
 
 ## Mengapa Percakapan Stateful?
 
 * **Mengurangi Latensi & Biaya**: Kamu tidak perlu mengunggah ulang ribuan token riwayat untuk setiap putaran baru.
-* **Logika Klien Lebih Sederhana**: Tidak perlu mengelola array `messages` yang kompleks dalam status aplikasi Kamu.
-* **Kontinuitas Konteks**: Memastikan model "mengingat" panggilan tools sebelumnya, langkah penalaran, dan konteks secara otomatis.
+* **Logika Klien yang Lebih Sederhana**: Tidak perlu mengelola array `messages` yang kompleks dalam status aplikasi Kamu.
+* **Kontinuitas Konteks**: Memastikan model "mengingat" panggilan tool sebelumnya, langkah penalaran, dan konteks secara otomatis.
 
-## Cara Kerja
+## Cara Kerjanya
 
-Sistem melacak utas percakapan menggunakan **ID Respons**. Setiap kali Kamu menghasilkan respons dengan `store: true` (default), sistem menyimpan input dan output. Untuk melanjutkan percakapan, Kamu cukup mengirimkan ID dari respons terakhir yang Kamu terima.
+Sistem melacak utas percakapan menggunakan **ID Respons**. Setiap kali Kamu menghasilkan respons dengan `store: true` (default), sistem menyimpan input dan output. Untuk melanjutkan percakapan, Kamu cukup meneruskan ID dari respons terakhir yang Kamu terima.
 
 ### 1. Memulai Percakapan
 
-Untuk memulai percakapan baru, cukup buat permintaan. Pastikan `store` diatur ke `true` (ini adalah nilai default).
+Untuk memulai percakapan baru, cukup buat permintaan. Pastikan `store` disetel ke `true` (secara default memang demikian).
 
 ```bash Permintaan
 curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "input": "Nama saya Alice. Saya seorang insinyur perangkat lunak.",
-    "store": true,
-    "max_output_tokens": 1024
-  }'
+  -H "Content-Type: application/json" \
+  -d '{ "model": "nusantara-base", "input": "Nama saya Alice. Saya seorang insinyur perangkat lunak.", "store": true, "max_output_tokens": 1024 }'
 ```
 
 API akan mengembalikan respons yang berisi `id`.
@@ -54,17 +50,13 @@ API akan mengembalikan respons yang berisi `id`.
 
 ### 2. Melanjutkan Percakapan
 
-Untuk membalas, berikan input baru Kamu dan `previous_response_id` dari putaran terakhir. Kamu **tidak perlu** mengirim ulang "Nama saya Alice".
+Untuk membalas, berikan input baru Kamu dan `previous_response_id` dari putaran terakhir. Kamu **tidak** perlu mengirim ulang "Nama saya Alice".
 
 ```bash Permintaan
 curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
-  -d '{
-    "model": "nusantara-base",
-    "input": "Apa yang memungkinkan saya mengelola status di React?",
-    "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
-    "max_output_tokens": 1024
-  }'
+  -H "Content-Type: application/json" \
+  -d '{ "model": "nusantara-base", "input": "Apa yang memungkinkan saya mengelola state di React?", "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b", "max_output_tokens": 1024 }'
 ```
 
 Model akan merespons dengan kesadaran konteks:
@@ -81,7 +73,7 @@ Model akan merespons dengan kesadaran konteks:
       "content": [
         {
           "type": "output_text",
-          "text": "Di React, Kamu dapat mengelola status menggunakan hook seperti `useState` dan `useReducer` untuk status lokal, Alice."
+          "text": "Di React, Kamu dapat mengelola state menggunakan hook seperti `useState` dan `useReducer` untuk status lokal, Alice."
         }
       ]
     }
@@ -89,7 +81,7 @@ Model akan merespons dengan kesadaran konteks:
 }
 ```
 
-Perhatikan bahwa model mengingat nama Kamu ("Alice") tanpa Kamu harus mengirimkannya lagi.
+Perhatikan bahwa model mengingat nama Kamu ("Alice") tanpa Kamu mengirimkannya lagi.
 
 ## Mengelola Jendela Konteks
 
@@ -104,7 +96,7 @@ Kamu dapat membuat "cabang" dalam percakapan dengan merujuk ke `previous_respons
 
 <Steps>
   <Step title="Putaran 1">
-    Pengguna: "Mari menulis puisi." -> Respons A (`resp_A`)
+    Pengguna: "Ayo tulis puisi." -> Respons A (`resp_A`)
   </Step>
   <Step title="Putaran 2 (Cabang 1)">
     Pengguna: "Buat jadi sedih." -> Input merujuk ke `resp_A` -> Respons B1
@@ -118,7 +110,7 @@ Ini menciptakan dua pohon percakapan terpisah yang bercabang dari akar yang sama
 
 ## Mode Stateless (Privasi & ZDR)
 
-Jika Kamu memiliki persyaratan Zero Data Retention (ZDR) yang ketat atau hanya tidak ingin menyimpan riwayat, atur `store: false`.
+Jika Kamu memiliki persyaratan Zero Data Retention (ZDR) yang ketat atau sekadar tidak ingin menyimpan riwayat, setel `store: false`.
 
 ```json icon="code"
 {
@@ -133,11 +125,11 @@ Jika Kamu memiliki persyaratan Zero Data Retention (ZDR) yang ketat atau hanya t
 
 * Percakapan **tidak** disimpan ke database.
 * Kamu **tidak dapat** menggunakan `previous_response_id` untuk melanjutkan percakapan ini nanti.
-* ID respons tidak dapat dirujuk kembali.
+* ID respons tidak dapat direferensikan.
 
-## Metadata & Pelabelan (Tagging)
+## Metadata & Pelabelan
 
-Kamu dapat melampirkan metadata ke respons apa pun untuk membantu mengatur percakapan Kamu. Ini berguna untuk memfilter atau mengidentifikasi sesi di dashboard Kamu.
+Kamu dapat melampirkan metadata ke respons apa pun untuk membantu mengatur percakapan Kamu. Ini berguna untuk memfilter atau mengidentifikasi sesi di dasbor Kamu.
 
 ```json icon="code"
 {

@@ -1,9 +1,9 @@
 ---
 title: "Autentikasi"
-description: "Pelajari cara mengautentikasi aplikasi Kamu menggunakan Kunci API dan token JWT. Panduan mendetail tentang konfigurasi header dan praktik keamanan terbaik."
+description: "Pelajari cara mengautentikasi aplikasi Kamu menggunakan Kunci API dan token JWT. Panduan terperinci tentang konfigurasi header dan praktik terbaik keamanan untuk Neosantara."
 ---
 
-API Neosantara mendukung metode autentikasi standar di seluruh endpoint, termasuk penggunaan token Kunci API.
+API Neosantara mendukung metode autentikasi standar di seluruh endpoint.
 
 ## Metode
 
@@ -11,11 +11,10 @@ API Neosantara mendukung metode autentikasi standar di seluruh endpoint, termasu
 - Header Kunci API (misalnya, `x-api-key`)
 - Variabel lingkungan (direkomendasikan untuk pengembangan lokal)
 
-## Cara Penggunaan
+## Cara Menggunakan
 
-- Atur header Authorization: `Authorization: Bearer <KUNCI_API_ANDA>`
-- Atau berikan kunci API melalui header seperti `x-api-key: <KUNCI>` tergantung pada perpustakaan klien yang digunakan.
-- Untuk autentikasi berbasis JWT (jika didukung untuk integrasi khusus), sertakan token JWT Kamu di header Authorization dengan skema Bearer.
+- Atur header Authorization: `Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU`
+- Atau berikan kunci API melalui header seperti `x-api-key: <KUNCI>` tergantung pada pustaka klien.
 - Untuk aplikasi berbasis browser, gunakan backend yang aman untuk memproksi permintaan dan menjaga kerahasiaan kunci.
 
 ## Contoh
@@ -24,11 +23,8 @@ Python
 
 ```python icon="python"
 import requests
-headers = {"Authorization": "Bearer <KUNCI_API_ANDA>"}
-payload = {
-    "model": "nusantara-base",
-    "messages": [{"role": "user", "content": "Halo"}]
-}
+headers = {"Authorization": "Bearer KUNCI_API_NEOSANTARA_KAMU"}
+payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]}
 resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
 ```
 
@@ -36,13 +32,13 @@ JavaScript
 
 ```js
 const payload = {
-  "model": "nusantara-base",
-  "messages": [{"role": "user", "content": "Halo"}]
+  model: "nusantara-base",
+  messages: [{ role: "user", content: "Halo" }]
 };
 
 const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer <KUNCI_API_ANDA>' },
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer KUNCI_API_NEOSANTARA_KAMU' },
   body: JSON.stringify(payload)
 })
 ```

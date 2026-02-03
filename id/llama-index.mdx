@@ -1,67 +1,160 @@
 ---
-title: "Membangun Aplikasi RAG dengan LlamaIndex"
-description: "> Panduan implementasi aplikasi RAG menggunakan Neosantara + LlamaIndex."
+title: "Membangun aplikasi RAG Kamu sendiri menggunakan Neosantara dan LlamaIndex"
+description: "> Panduan ini akan memandu Kamu melalui cara mengimplementasikan aplikasi RAG menggunakan Neosantara + LlamaIndex."
 ---
 
 ![image](/logo/llama-index.png)
 
 ## Apa itu Retrieval Augmented Generation (RAG)?
 
-RAG meningkatkan aplikasi AI Generatif dengan menyediakan informasi terbaru dan spesifik dari sumber data eksternal selama pembuatan respons, mengurangi risiko halusinasi dan meningkatkan akurasi.
+RAG meningkatkan aplikasi AI Generatif dengan menyediakan informasi terkini dan spesifik dari sumber data eksternal selama pembuatan respons, mengurangi risiko halusinasi dan secara signifikan meningkatkan performa serta akurasi.
+
+Membangun sistem RAG dapat menghemat biaya dan data tanpa memerlukan keahlian teknis untuk melatih model sambil tetap mempertahankan keuntungan lain yang disebutkan di atas.
 
 ## Mulai Cepat
 
-Untuk membangun RAG, Kamu perlu membuat toko vektor dengan mengindeks dokumen sumber menggunakan model embedding.
+Untuk membangun RAG, Kamu pertama-tama perlu membuat penyimpanan vektor dengan mengindeks dokumen sumber Kamu menggunakan model embedding pilihan Kamu. LlamaIndex menyediakan pustaka untuk [memuat dan mentransformasi](https://docs.llamaindex.ai/en/stable/understanding/loading/loading.html#loading-data-ingestion) dokumen. Setelah langkah ini, Kamu akan membuat VectorStoreIndex untuk objek dokumen Kamu dengan vektor embedding, dan [menyimpannya](https://docs.llamaindex.ai/en/stable/understanding/storing/storing.html) di penyimpanan vektor. LlamaIndex mendukung banyak penyimpanan vektor. Lihat daftar lengkap penyimpanan vektor yang didukung [di sini](https://docs.llamaindex.ai/en/stable/module_guides/storing/vector_stores.html).
 
-### Instalasi
+Sekarang ketika Kamu memiliki kueri, Kamu akan mengambil informasi yang relevan dari penyimpanan vektor, menambahkannya ke kueri asli Kamu, dan menggunakan LLM untuk mendapatkan output akhir Kamu.
+
+Di bawah ini Kamu akan menemukan contoh bagaimana Kamu dapat memasukkan artikel baru ke dalam aplikasi RAG Kamu menggunakan API Neosantara dan LlamaIndex, sehingga model generatif dapat merespons dengan informasi yang benar.
+
+Pertama, instal paket llama-index dari Pip. Lihat [dokumentasi instalasi](https://docs.llamaindex.ai/en/stable/getting_started/installation.html#installation-and-setup) untuk berbagai cara menginstal.
 
 ```bash icon="terminal"
-pip install -U llama-index
+pip install -U llama-index llama-index-llms-openai-like llama-index-embeddings-openai-like
 ```
 
-### Setup API Key
+Setel variabel lingkungan untuk kunci API. Kamu dapat menemukan kunci API Neosantara di [halaman api-keys](https://app.neosantara.xyz/api-keys).
 
 ```python icon="python"
+import getpass
 import os
-os.environ["NAI_API_KEY"] = "API_KEY_NEOSANTARA_KAMU"
+
+os.environ["NAI_API_KEY"] = getpass.getpass("Masukkan kunci API Neosantara Kamu: ")
 ```
 
-### Contoh Implementasi
-
-Berikut adalah cara menggunakan Neosantara API dengan LlamaIndex untuk menjawab pertanyaan berdasarkan dokumen.
+Sekarang kita akan memberikan beberapa pengenalan Neosantara dan menanyakan "Apa itu Neosantara?" dengan informasi yang diambil ke llama-3.3-nemotron-super-49b-v1.5, yang tidak tahu apa itu Neosantara. Kita akan menggunakan "nusa-embedding-0001" untuk embedding.
 
 ```python icon="python"
-from llama_index.core import SimpleDirectoryReader, VectorStoreIndex, Settings
+from llama_index.core import SimpleDirectoryReader, ServiceContext, VectorStoreIndex
 from llama_index.llms.openai_like import OpenAILike
 from llama_index.embeddings.openai_like import OpenAILikeEmbedding
 
-# Konfigurasi LLM dan Embedding
-Settings.llm = OpenAILike(
-    model="nusantara-base",
-    api_key=os.environ.get("NAI_API_KEY"),
-    api_base="https://api.neosantara.xyz/v1",
-)
+# Berikan template mengikuti template obrolan asli LLM.
+def completion_to_prompt(completion: str) -> str:
+    return f"<s>[INST] {completion} [/INST] </s>\n"
 
-Settings.embed_model = OpenAILikeEmbedding(
-    model="nusa-embedding-0001",
-    api_key=os.environ.get("NAI_API_KEY"),
-    api_base="https://api.neosantara.xyz/v1"
-)
 
-# Muat dokumen dari direktori
-documents = SimpleDirectoryReader("./data_dokumen").load_data()
+def run_rag_completion(
+    document_dir: str,
+    query_text: str,
+    embedding_model: str = "nusa-embedding-0001",
+    generative_model: str = "nusantara-base"
+) -> str:
+    """
+    Jalankan penyelesaian RAG menggunakan Neosantara dan LlamaIndex.
+    
+    Argumen:
+        document_dir: Direktori yang berisi dokumen untuk diindeks
+        query_text: Kueri untuk menanyakan sistem RAG
+        embedding_model: Model embedding yang akan digunakan
+        generative_model: Model generatif yang akan digunakan
+    
+    Pengembalian:
+        Respons dari sistem RAG
+    """
+    service_context = ServiceContext.from_defaults(
+        llm=OpenAILike(
+            model=generative_model,
+            api_key=os.environ.get("NAI_API_KEY"),
+            api_base="https://api.neosantara.xyz/v1",
+            temperature=0.8,
+            max_tokens=256,
+            top_p=0.7,
+            top_k=50,
+            # stop=...,
+            # repetition_penalty=...,
+            is_chat_model=False,
+            completion_to_prompt=completion_to_prompt
+        ),
+        embed_model=OpenAILikeEmbedding(
+            model=embedding_model,
+            api_key=os.environ.get("NAI_API_KEY"),
+            api_base="https://api.neosantara.xyz/v1"
+        )
+    )
+    
+    # Muat dokumen dari direktori
+    documents = SimpleDirectoryReader(document_dir).load_data()
+    
+    # Buat indeks vektor
+    index = VectorStoreIndex.from_documents(documents, service_context=service_context)
+    
+    # Kueri indeks
+    query_engine = index.as_query_engine(similarity_top_k=5)
+    response = query_engine.query(query_text)
 
-# Buat indeks vektor
-index = VectorStoreIndex.from_documents(documents)
+    return str(response)
 
-# Tanya indeks
-query_engine = index.as_query_engine()
-response = query_engine.query("Apa itu Neosantara?")
 
-print(response)
+# Contoh penggunaan
+query_text = "Apa itu Neosantara? Jelaskan dalam satu kalimat sederhana."
+document_dir = "./sample_doc_data"
+
+try:
+    response = run_rag_completion(document_dir, query_text)
+    print("Respons:", response)
+except Exception as e:
+    print(f"Kesalahan: {e}")
+    print("Pastikan Kamu telah:")
+    print("1. Menyetel variabel lingkungan NAI_API_KEY")
+    print("2. Membuat direktori dokumen dengan file sampel")
+    print("3. Menginstal semua dependensi yang diperlukan")
 ```
 
-### Troubleshooting
+### Output yang Diharapkan
 
-- **API Key Error:** Pastikan `NAI_API_KEY` sudah diatur dengan benar.
-- **Import Error:** Pastikan semua paket sudah terinstal: `pip install llama-index llama-index-llms-openai-like llama-index-embeddings-openai-like`.
+```python icon="python"
+Respons: Neosantara adalah platform AI yang menyediakan akses ke berbagai model bahasa dan layanan embedding melalui API-nya, dirancang untuk mendukung aplikasi bahasa Indonesia dan Asia Tenggara.
+```
+
+### Opsi Konfigurasi Tambahan
+
+Kamu dapat menyesuaikan sistem RAG lebih lanjut dengan:
+
+1. **Menyesuaikan parameter pengambilan:**
+
+```python icon="python"
+query_engine = index.as_query_engine(
+    similarity_top_k=10,  # Ambil lebih banyak dokumen
+    response_mode="compact"  # Mode respons yang berbeda
+)
+```
+
+2. **Mengonfigurasi parameter LLM:**
+
+```python icon="python"
+llm = OpenAILike(
+    model="llama-3.3-nemotron-super-49b-v1.5",
+    temperature=0.3,  # Lebih rendah untuk respons yang lebih deterministik
+    max_tokens=512,   # Respons yang lebih panjang
+    top_p=0.9
+)
+```
+
+### Pemecahan Masalah
+
+Masalah umum dan solusinya:
+
+- **Kesalahan Kunci API:** Pastikan kunci API Neosantara Kamu disetel dengan benar dalam variabel lingkungan
+- **Kesalahan Memuat Dokumen:** Periksa apakah direktori dokumen ada dan berisi file yang dapat dibaca
+- **Kesalahan Impor:** Pastikan semua paket yang diperlukan telah diinstal dengan `pip install llama-index llama-index-llms-openai-like llama-index-embeddings-openai-like`
+
+### Kesimpulan
+
+Contoh di atas menunjukkan cara membangun sistem RAG (Retrieval-Augmented Generation) menggunakan Neosantara dan LlamaIndex. Dengan memanfaatkan kekuatan alat-alat ini, Kamu dapat membuat model generatif yang memberikan respons akurat dan terkini dengan mengambil data yang relevan dari penyimpanan vektor Kamu.
+
+Saat Kamu terus menjelajahi kemampuan API Neosantara dan LlamaIndex, kami mendorong Kamu untuk bereksperimen dengan berbagai kasus penggunaan dan aplikasi. Kami sangat antusias melihat solusi inovatif yang akan Kamu bangun menggunakan alat-alat canggih ini.
+
+Terima kasih telah mengikuti tutorial ini!

@@ -1,18 +1,18 @@
 ---
 title: "Framework Agen"
-description: "Pelajari cara menggunakan Neosantara dengan framework agen sumber terbuka populer seperti LangChain, CrewAI, dan AutoGen. Bangun agen AI otonom dengan konteks regional."
+description: "Jelajahi cara menggunakan Neosantara dengan framework agen sumber terbuka populer seperti LangChain, CrewAI, dan AutoGen. Bangun agen AI otonom dengan konteks regional."
 ---
 
-Neosantara adalah cara termudah untuk mulai membangun agen dan aplikasi yang ditenagai oleh LLM di Asia Tenggara. Kami menyediakan kompatibilitas penuh dengan framework open-source terpopuler, memungkinkan Kamu membangun agen yang beradaptasi secepat ekosistem berkembang.
+Neosantara adalah cara termudah untuk mulai membangun agen dan aplikasi yang ditenagai oleh model bahasa besar (LLM) di Asia Tenggara. Kami menyediakan kompatibilitas penuh dengan framework sumber terbuka terpopuler, yang memungkinkan Kamu membangun agen yang beradaptasi secepat ekosistem berkembang.
 
 ## <Icon icon="star" /> Manfaat Utama
 
 <CardGroup cols={2}>
     <Card title="Antarmuka Model Standar" icon="arrows-rotate" href="/id/sdk">
-        Neosantara menyediakan API yang kompatibel dengan OpenAI, memudahkan Kamu untuk beralih penyedia dan menghindari ketergantungan pada satu vendor.
+        Neosantara menyediakan API yang kompatibel dengan OpenAI, menjadikannya mulus untuk beralih penyedia dan menghindari penguncian vendor (vendor lock-in).
     </Card>
     <Card title="Optimalisasi Regional" icon="earth-asia" href="/id/models-overview">
-        Model kami seperti `nusantara-base` dan `archipelago-70b` secara khusus disesuaikan untuk budaya dan nuansa Indonesia.
+        Model kami seperti `nusantara-base` dan `archipelago-70b` secara khusus disetel halus untuk budaya dan nuansa Indonesia.
     </Card>
 </CardGroup>
 
@@ -21,23 +21,23 @@ Neosantara adalah cara termudah untuk mulai membangun agen dan aplikasi yang dit
 Pilih framework pilihan Kamu untuk mempelajari cara menyempurnakan agen Kamu dengan Neosantara.
 
 <CardGroup cols={3}>
-    <Card title="LangChain" icon="link" href="/id/langchain" cta="Pelajari lebih lanjut">
+    <Card title="LangChain" icon="link" href="/id/langchain" cta="Pelajari selengkapnya">
         Framework terpopuler untuk membangun aplikasi LLM. Gunakan integrasi `langchain-openai` kami.
     </Card>
-    <Card title="CrewAI" icon="users" href="/id/crewai" cta="Pelajari lebih lanjut">
-        Orkestrasi beberapa agen AI untuk berkolaborasi secara efektif dengan asumsi peran dan tujuan bersama.
+    <Card title="CrewAI" icon="users" href="/id/crewai" cta="Pelajari selengkapnya">
+        Orkestrasikan beberapa agen AI untuk berkolaborasi secara efektif dengan mengasumsikan peran dan bekerja menuju tujuan bersama.
     </Card>
-    <Card title="PydanticAI" icon="shield-check" href="/id/pydantic-ai" cta="Pelajari lebih lanjut">
+    <Card title="PydanticAI" icon="shield-check" href="/id/pydantic-ai" cta="Pelajari selengkapnya">
         Ekstraksi dan validasi data terstruktur menggunakan skema Pydantic untuk output AI yang andal.
     </Card>
-    <Card title="Agno" icon="sparkles" href="/id/agno" cta="Pelajari lebih lanjut">
+    <Card title="Agno" icon="sparkles" href="/id/agno" cta="Pelajari selengkapnya">
         Buat agen multimodal yang mendukung interaksi dengan teks, gambar, audio, dan video.
     </Card>
-    <Card title="AutoGen" icon="diagram-project" href="/id/autogen" cta="Pelajari lebih lanjut">
+    <Card title="AutoGen" icon="diagram-project" href="/id/autogen" cta="Pelajari selengkapnya">
         Framework untuk percakapan multi-agen dan otomatisasi alur kerja oleh Microsoft (AG2).
     </Card>
-    <Card title="DSPy" icon="microchip" href="/id/dspy" cta="Pelajari lebih lanjut">
-        Framework pemrograman untuk sistem AI algoritmik dengan pendekatan seperti compiler untuk prompting.
+    <Card title="DSPy" icon="microchip" href="/id/dspy" cta="Pelajari selengkapnya">
+        Framework pemrograman untuk sistem AI algoritmik dengan pendekatan mirip compiler untuk pembuatan prompt.
     </Card>
 </CardGroup>
 
@@ -53,6 +53,6 @@ llm = ChatOpenAI(
     base_url="https://api.neosantara.xyz/v1",
 )
 
-response = llm.invoke("Buat rencana agen sederhana untuk tugas riset.")
+response = llm.invoke("Buat rencana agen sederhana untuk tugas penelitian.")
 print(response.content)
 ```

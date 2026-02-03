@@ -5,19 +5,19 @@ description: "> Menggunakan PydanticAI dengan Neosantara."
 
 PydanticAI adalah framework agen yang dibuat oleh tim Pydantic untuk menyederhanakan pembangunan aplikasi AI generatif tingkat produksi. Framework ini membawa filosofi desain ergonomis dari FastAPI ke pengembangan agen AI, menawarkan pendekatan yang familiar dan type-safe untuk bekerja dengan model bahasa.
 
-## Instalasi Library
+## Menginstal Perpustakaan
 
 ```shell
 pip install pydantic-ai -q
 ```
 
-Atur API Key Neosantara Kamu:
+Atur kunci API Neosantara Kamu:
 
 ```shell
 export NAI_API_KEY=***
 ```
 
-## Contoh Penggunaan
+## Contoh
 
 ```python icon="python"
 from pydantic_ai import Agent
@@ -37,15 +37,15 @@ model = OpenAIChatModel(
 # Setup agen
 agent = Agent(
     model,
-    system_prompt='Singkat, jawab dalam satu kalimat.',
+    system_prompt='Jadilah ringkas, balas dengan satu kalimat.',
 )
 
-result = agent.run_sync('Dari mana asal kata "hello world"?')  
+result = agent.run_sync('Dari mana asal "hello world"?')  
 print(result.output)
 ```
 
 ### Output
 
 ```python icon="python"
-It originated with Brian Kernighan's examples for the B programming language, later popularized in "The C Programming Language" book.
+Hal itu bermula dari contoh-contoh Brian Kernighan untuk bahasa pemrograman B, yang kemudian dipopulerkan dalam buku "The C Programming Language".
 ```

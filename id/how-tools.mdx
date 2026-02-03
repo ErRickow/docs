@@ -1,36 +1,39 @@
---- 
-title: "Cara Mengimplementasikan Penggunaan Tools"
-description: "> Panduan untuk mengintegrasikan dan memanfaatkan tools dengan model Neosantara untuk kemampuan yang ditingkatkan."
+---
+title: "Cara Mengimplementasikan Penggunaan Tool"
+description: "> Panduan untuk mengintegrasikan dan memanfaatkan tool dengan model Neosantara untuk kemampuan yang ditingkatkan."
 ---
 
 ## Memilih Model
 
-Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan tools. Untuk tools yang kompleks dan kueri yang ambigu, model seperti `nusantara-base`, `gpt-4o-mini`, atau `command-r-plus` direkomendasikan karena mereka menangani pemilihan tools dan inferensi parameter dengan lebih kuat.
+Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan tool. Untuk tool yang kompleks dan kueri yang ambigu, model seperti `nusantara-base`, `gpt-4o-mini`, `gemini-1.5-pro`, atau `command-r-plus` direkomendasikan karena mereka menangani pemilihan tool dan inferensi parameter dengan lebih kuat.
 
-## Menentukan Tools (Specifying Tools)
+Untuk tool yang lebih sederhana, model seperti `bahasa-llm` atau `gemini-1.5-flash` bisa efektif.
 
-Tools (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan API Kamu. Setiap definisi tools mencakup:
+## Menentukan Tool
+
+Tool (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan API Kamu. Setiap definisi tool mencakup:
 
 | Parameter | Deskripsi |
-| :--- | :--- |
+| :--------- | :----------- |
 | `type` | Harus `"function"`. |
 | `function` | Objek yang mendefinisikan metadata fungsi, termasuk nama, deskripsi, dan parameternya. |
-| `name` | (di dalam `function`): Nama tools. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`. |
-| `description` | (di dalam `function`): Deskripsi teks biasa yang terperinci tentang apa yang dilakukan tools, kapan harus digunakan, dan bagaimana perilakunya. Ini sangat penting agar model memahami tujuan tools. |
-| `parameters` | (di dalam `function`): Objek [JSON Schema](https://json-schema.org/) yang mendefinisikan parameter yang diharapkan untuk tools tersebut. Skema ini menjelaskan `input` yang diharapkan tools. |
-<Accordion title="Contoh Definisi Tools Sederhana">
+| `name` | (dalam `function`): Nama tool. Harus cocok dengan regex `^[a-zA-Z0-9_-]{1,64}$`. |
+| `description` | (dalam `function`): Deskripsi teks biasa yang terperinci tentang apa yang dilakukan tool, kapan tool tersebut harus digunakan, dan bagaimana perilakunya. Hal ini sangat penting agar model memahami tujuan tool tersebut. |
+| `parameters` | (dalam `function`): Objek [JSON Schema](https://json-schema.org/) yang mendefinisikan parameter yang diharapkan untuk tool tersebut. Skema ini menjelaskan `input` yang diharapkan model. |
+
+<Accordion title="Contoh Definisi Tool Sederhana">
   ```json icon="code"
   {
     "type": "function",
     "function": {
-      "name": "dapatkan_cuaca",
-      "description": "Dapatkan cuaca saat ini di lokasi tertentu. Gunakan tools ini ketika pengguna bertanya tentang kondisi cuaca untuk kota tertentu. Pastikan untuk menanyakan kota jika tidak disediakan.",
+      "name": "get_weather",
+      "description": "Dapatkan cuaca saat ini di lokasi tertentu. Gunakan tool ini ketika pengguna bertanya tentang kondisi cuaca untuk kota tertentu. Pastikan untuk menanyakan nama kota jika tidak diberikan.",
       "parameters": {
         "type": "object",
         "properties": {
-          "lokasi": {
+          "location": {
             "type": "string",
-            "description": "Kota dan negara, misal Jakarta, ID"
+            "description": "Kota dan negara, misalnya Jakarta, ID atau New York, USA"
           },
           "unit": {
             "type": "string",
@@ -38,46 +41,256 @@ Tools (fungsi) ditentukan dalam parameter tingkat atas `tools` dari permintaan A
             "description": "Satuan suhu, baik \"celsius\" atau \"fahrenheit\""
           }
         },
-        "required": ["lokasi"]
+        "required": ["location"]
       }
     }
   }
   ```
+
+  Tool ini, bernama `get_weather`, mengharapkan objek input dengan string `location` yang wajib diisi dan string `unit` opsional yang harus berupa "celsius" atau "fahrenheit".
 </Accordion>
 
-### Praktik Terbaik untuk Definisi Tools
+### Praktik Terbaik untuk Definisi Tool
 
-* **Berikan deskripsi yang sangat terperinci.** Ini adalah faktor paling penting. Jelaskan apa yang dilakukan tools, kapan harus digunakan, dan arti setiap parameter.
-* **Prioritaskan deskripsi daripada contoh.** Penjelasan yang jelas dan komprehensif lebih berharga bagi model daripada sekadar contoh penggunaan.
+Untuk mendapatkan performa terbaik dari Neosantara saat menggunakan tool, ikuti panduan berikut:
+
+* **Berikan deskripsi yang sangat mendetail.** Ini adalah faktor terpenting dalam performa tool. Deskripsi Kamu harus menjelaskan setiap detail tentang tool tersebut, termasuk:
+  * Apa yang dilakukan tool.
+  * Kapan tool tersebut harus digunakan (dan kapan tidak).
+  * Apa arti setiap parameter dan bagaimana pengaruhnya terhadap perilaku tool.
+  * Peringatan atau batasan penting, seperti informasi apa yang tidak dikembalikan tool jika nama tool tidak jelas. Semakin banyak konteks yang dapat Kamu berikan kepada model tentang tool Kamu, semakin baik model tersebut dalam memutuskan kapan dan bagaimana menggunakannya. Targetkan setidaknya 3-4 kalimat per deskripsi tool, lebih banyak jika tool tersebut kompleks.
+* **Prioritaskan deskripsi daripada contoh.** Meskipun Kamu dapat menyertakan contoh cara menggunakan tool dalam deskripsinya atau dalam prompt yang menyertainya, hal ini kurang penting dibandingkan memiliki penjelasan yang jelas dan komprehensif tentang tujuan dan parameter tool tersebut. Hanya tambahkan contoh setelah Kamu menyempurnakan deskripsinya.
+
+<AccordionGroup>
+  <Accordion title="Contoh Deskripsi Tool yang Baik">
+    ```json icon="code"
+    {
+      "name": "get_stock_price",
+      "description": "Mengambil harga saham saat ini untuk simbol ticker tertentu. Simbol ticker harus merupakan simbol yang valid untuk perusahaan publik di bursa efek utama (misalnya, NYSE, NASDAQ, BEI). Tool ini akan mengembalikan harga perdagangan terbaru dalam USD (atau IDR jika di BEI). Tool ini harus digunakan ketika pengguna bertanya tentang harga saham tertentu saat ini atau yang terbaru. Tool ini tidak akan memberikan informasi lain tentang saham atau perusahaan tersebut.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "description": "Simbol ticker saham, misalnya AAPL untuk Apple Inc. atau BBCA untuk Bank Central Asia."
+          }
+        },
+        "required": ["ticker"]
+      }
+    }
+  ```
+  </Accordion>
+
+  <Accordion title="Contoh Deskripsi Tool yang Buruk">
+    ```json icon="code"
+    {
+      "name": "get_stock_price",
+      "description": "Mendapatkan harga saham untuk ticker.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string"
+          }
+        },
+        "required": ["ticker"]
+      }
+    }
+  ```
+  </Accordion>
+</AccordionGroup>
+
+Deskripsi yang baik menjelaskan dengan jelas apa yang dilakukan tool, kapan harus digunakan, data apa yang dikembalikannya, dan apa arti parameter `ticker`. Deskripsi yang buruk terlalu singkat dan membuat model memiliki banyak pertanyaan yang tidak terjawab tentang perilaku dan penggunaan tool tersebut.
 
 ## Mengontrol Output Model
 
-### Memaksa Penggunaan Tools (Forcing Tool Use)
+### Memaksa Penggunaan Tool
 
-Kamu dapat memaksa Neosantara untuk menggunakan tools tertentu dengan parameter `tool_choice`.
+Dalam beberapa kasus, Kamu mungkin ingin Neosantara menggunakan tool tertentu untuk menjawab pertanyaan pengguna, bahkan jika model mengira ia dapat memberikan jawaban tanpa menggunakan tool. Kamu dapat melakukannya dengan menentukan tool di kolom `tool_choice`.
 
-Opsi `tool_choice`:
+Parameter `tool_choice` menawarkan empat opsi yang memungkinkan:
 
-* `auto`: (Default) Model memutuskan sendiri.
-* `any`: Model harus menggunakan salah satu tools.
-* `{"type": "function", "function": {"name": "nama_tools_Kamu"}}`: Memaksa model menggunakan tools spesifik ini.
-* `none`: Mencegah model menggunakan tools apa pun.
+* `auto`: (Default saat `tools` disediakan) Memungkinkan model untuk memutuskan apakah akan memanggil tool yang disediakan atau tidak.
+* `any`: Memberitahu model bahwa ia harus menggunakan salah satu tool yang disediakan, tetapi tidak memaksa tool tertentu.
+* `{"type": "function", "function": {"name": "nama_tool_kamu"}}`: Memungkinkan Kamu memaksa model untuk selalu menggunakan tool tertentu.
+* `none`: Mencegah model menggunakan tool apa pun. (Default saat tidak ada `tools` yang disediakan).
+
+Diagram ini mengilustrasikan cara kerja setiap opsi:
+
+<Frame>
+  <img src="https://mintlify.s3.us-west-1.amazonaws.com/anthropic/images/tool_choice.png" alt="Diagram yang mengilustrasikan opsi untuk parameter tool_choice: auto, any, tool spesifik, dan none." />
+</Frame>
+
+Jika Kamu ingin mempertahankan chain-of-thought (di mana model memberikan langkah-langkah penalarannya) sambil tetap meminta model menggunakan tool tertentu, Kamu dapat menggunakan `tool_choice: \"auto\"` (default) dan menambahkan instruksi eksplisit dalam pesan pengguna. Misalnya: "Bagaimana cuaca di London? Gunakan tool get_weather dalam respons Kamu."
 
 ### Output JSON
 
-Kamu dapat menggunakan tools untuk menginstruksikan Neosantara menghasilkan output JSON yang mengikuti skema tertentu, bahkan jika Kamu tidak berniat mengeksekusi output tersebut.
+Tool tidak selalu harus berupa fungsi klien — Kamu dapat menggunakan tool kapan pun Kamu ingin model mengembalikan output JSON yang mengikuti skema yang disediakan. Misalnya, Kamu mungkin menggunakan tool `record_summary` dengan skema tertentu untuk mengekstrak data terstruktur dari teks atau gambar.
 
-* Biasanya berikan **satu** definisi tools.
-* Atur `tool_choice` ke nama tools tersebut.
-* Parameter fungsi mendefinisikan skema JSON yang diinginkan.
+Saat menggunakan tool untuk output JSON:
 
-## Troubleshooting
+* Kamu biasanya menyediakan **satu** definisi tool.
+* Kamu harus menyetel `tool_choice` ke `{"type": "function", "function": {"name": "nama_tool_kamu"}}` untuk menginstruksikan model secara eksplisit agar menggunakan tool tersebut.
+* Parameter `function` menentukan skema JSON yang tepat yang harus dipatuhi oleh model.
 
-### Panggilan Tools Paralel Tidak Bekerja
+Lihat [Ikhtisar penggunaan tool dengan Neosantara](/id/tools-overview) untuk contoh lengkap output JSON untuk deskripsi gambar.
 
-1. **Format Hasil Tools Salah**: Pastikan semua hasil tools dari satu pesan `tool_calls` dikirim dalam pesan `tool` yang sesuai secara berurutan atau dalam satu array jika didukung.
-2. **Prompt Lemah**: Gunakan bahasa yang lebih kuat dalam prompt Kamu, misal: "Harap gunakan panggilan tools paralel untuk mendapatkan cuaca Jakarta dan Bandung secara bersamaan."
+### Chain of Thought
 
-### Nama Tools atau Parameter Tidak Valid
+Saat menggunakan tool, model Neosantara sering kali menunjukkan "chain of thought" mereka, yaitu penalaran langkah demi langkah yang mereka gunakan untuk menguraikan masalah dan memutuskan tool mana yang akan digunakan. Hal ini memberikan wawasan tentang proses penalaran model dan dapat membantu Kamu mendebug perilaku yang tidak terduga.
 
-Jika model gagal menggunakan tools (misal: parameter hilang), biasanya karena deskripsi tools kurang jelas atau informasi dari pengguna kurang lengkap. Perbaiki deskripsi `description` pada definisi tools Kamu.
+Misalnya, diberikan prompt "Bagaimana cuaca di Jakarta saat ini, dan jam berapa sekarang di sana?", sebuah model mungkin secara implisit bernalar:
+
+1. *Identifikasi maksud:* Pengguna menginginkan cuaca dan waktu untuk Jakarta.
+2. *Identifikasi tool:* Tool `get_weather` dan `get_time` tersedia.
+3. *Rencanakan eksekusi:* Kedua operasi bersifat independen, sehingga dapat dipanggil secara paralel.
+4. *Rumuskan panggilan:* Hasilkan `tool_calls` untuk `get_weather(location='Jakarta, ID')` dan `get_time(timezone='Asia/Jakarta')`.
+
+Kode Kamu kemudian harus mengeksekusi `tool_calls` ini dan memberikan hasilnya kembali ke model.
+
+## Menangani Blok Konten Penggunaan Tool dan Hasil Tool
+
+Respons Neosantara untuk penggunaan tool akan memiliki `finish_reason` berupa `tool_calls` dan satu atau lebih blok konten `tool_calls` di dalam pesan asisten. Blok-blok ini meliputi:
+
+* `id`: Pengenal unik untuk panggilan tool khusus ini. Ini akan digunakan untuk mencocokkan hasil tool nanti.
+* `type`: Selalu `"function"`.
+* `function`: Sebuah objek yang berisi nama tool (`name`) dan argumen (`arguments`) yang akan diteruskan kepadanya sebagai string JSON.
+
+<Accordion title="Contoh Respons API dengan Blok Konten `tool_calls` ">
+  ```json icon="code"
+  {
+    "id": "chatcmpl-...",
+    "object": "chat.completion",
+    "created": 1701234567,
+    "model": "nusantara-base",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "call_toolu_01A09q90qw90lq917835lq9",
+              "type": "function",
+              "function": {
+                "name": "get_weather",
+                "arguments": "{\"location\": \"Jakarta, ID\", \"unit\": \"celsius\"}"
+              }
+            }
+          ]
+        },
+        "finish_reason": "tool_calls"
+      }
+    ],
+    "usage": { /* ... */ },
+    "_metadata": { /* ... */ }
+  }
+  ```
+</Accordion>
+
+Saat Kamu menerima respons penggunaan tool, Kamu harus:
+
+1. Ekstrak `name`, `id`, dan `arguments` (mengurai string JSON) dari blok `tool_calls`.
+2. Jalankan tool yang sebenarnya di basis kode Kamu yang sesuai dengan nama tool tersebut, dengan meneruskan argumen tool yang telah diurai.
+3. Lanjutkan percakapan dengan mengirimkan pesan baru dengan peran `tool`, dan blok `content` yang berisi hasil eksekusi tool Kamu. Pesan ini juga harus menyertakan `tool_call_id` untuk menghubungkannya kembali ke permintaan tool asli.
+
+    * `tool_call_id`: `id` dari permintaan `tool_calls` yang merupakan hasil ini.
+    * `content`: Hasil dari tool, sebagai string. Untuk hasil yang kompleks, sering kali berupa string JSON.
+    * `is_error` (opsional): Kolom ini **diterima oleh lapisan API untuk kompatibilitas dengan SDK OpenAI**, tetapi interpretasi model AI yang mendasarinya tentang kesalahan bergantung pada **konten string ini** alih-alih bendera tertentu. Oleh karena itu, pastikan `content` Kamu menjelaskan dengan jelas kesalahan apa pun yang terjadi selama eksekusi tool.
+
+<Note>
+  **Persyaratan Pemformatan Penting**:
+
+* Pesan tool (`"role": "tool"`) harus selalu segera mengikuti pesan `assistant` korespondensinya yang berisi `tool_calls`. Kamu tidak dapat menyertakan pesan lain di antara keduanya.
+* Saat mengembalikan hasil untuk panggilan tool paralel, semua pesan `tool` harus disediakan dalam satu array `messages` dalam panggilan API berikutnya.
+</Note>
+
+<AccordionGroup>
+  <Accordion title="Contoh Hasil Tool yang Berhasil">
+    ```json icon="code"
+    {
+      "role": "tool",
+      "tool_call_id": "call_toolu_01A09q90qw90lq917835lq9",
+      "content": "{\"temperature\": 28, \"unit\": \"celsius\", \"description\": \"Cerah berawan\"}"
+    }
+  ```
+  </Accordion>
+
+  <Accordion title="Contoh Hasil Tool dengan Kesalahan">
+    Jika tool itu sendiri melemparkan kesalahan selama eksekusi (misalnya, kesalahan jaringan saat mengambil data cuaca), Kamu harus mengembalikan pesan kesalahan dalam `content` dari pesan `tool`. Meskipun bendera `is_error: true` diterima oleh lapisan API untuk kompatibilitas, pemahaman model tentang kesalahan bergantung pada teks deskriptif di dalam kolom `content`.
+
+    ```json icon="code"
+    {
+      "role": "tool",
+      "tool_call_id": "call_toolu_01A09q90qw90lq917835lq9",
+      "content": "ConnectionError: layanan API cuaca tidak tersedia (HTTP 500)",
+      "is_error": true
+    }
+    ```
+
+    Neosantara kemudian akan menginterpretasikan konten ini dan memasukkannya ke dalam responsnya kepada pengguna, misalnya, "Maaf, saya tidak dapat mengambil cuaca saat ini karena layanan API cuaca tidak tersedia. Silakan coba lagi nanti."
+  </Accordion>
+</AccordionGroup>
+
+Setelah menerima hasil tool, Neosantara akan menggunakan informasi tersebut untuk melanjutkan pembuatan respons terhadap prompt pengguna asli.
+
+## Pemecahan Masalah
+
+### Panggilan Tool Paralel Tidak Berfungsi
+
+Jika Neosantara tidak melakukan panggilan tool paralel saat diharapkan, periksa masalah umum berikut:
+
+**1. Pemformatan Hasil Tool yang Salah**
+
+Masalah yang paling umum adalah memformat hasil tool secara tidak benar dalam riwayat percakapan. Hal ini "mengajarkan" model untuk menghindari panggilan paralel. Semua hasil tool dari satu pesan `tool_calls` asisten **harus** dikirim dalam **pesan tool tunggal** (masing-masing hasil dalam blok kontennya sendiri jika ada beberapa panggilan paralel dengan `tool_call_id` dan `content`).
+
+**2. Prompting yang Lemah**
+
+Meskipun model umumnya mencoba panggilan paralel, Kamu dapat menggunakan bahasa yang lebih kuat dalam prompt Kamu untuk mendorongnya, misalnya: "Harap gunakan panggilan tool paralel untuk mendapatkan cuaca untuk Jakarta dan Bandung pada saat yang bersamaan."
+
+**3. Perilaku Khusus Model**
+
+Model yang berbeda mungkin memiliki kecenderungan yang bervariasi untuk penggunaan tool paralel. Bereksperimenlah dengan berbagai model untuk menemukan yang sesuai dengan kebutuhan Kamu.
+
+### Nama Tool atau Parameter Tidak Valid
+
+Jika upaya model untuk menggunakan tool tidak valid (misalnya, parameter wajib yang hilang), biasanya itu berarti tidak ada cukup informasi bagi model untuk menggunakan tool dengan benar, atau definisi tool tidak jelas. Taruhan terbaik Kamu selama pengembangan adalah mencoba permintaan lagi dengan nilai `description` yang lebih detail dalam definisi tool Kamu.
+
+Jika permintaan tool tidak valid atau parameter yang hilang, Neosantara biasanya akan mencoba lagi 2-3 kali dengan koreksi sebelum meminta maaf kepada pengguna. Kamu juga dapat mengembalikan kesalahan dalam pesan `tool` dengan menyediakan string kesalahan di kolom `content`.
+
+## Harga
+
+Permintaan penggunaan tool diberi harga berdasarkan:
+
+1. Jumlah total token input yang dikirim ke model (termasuk token dari definisi tool di parameter `tools` dan pesan panggilan/hasil tool).
+2. Jumlah token output yang dihasilkan (termasuk panggilan tool yang dihasilkan oleh model).
+3. Biaya tambahan mungkin berlaku untuk kemampuan tertentu (misalnya, pemrosesan visi untuk input gambar).
+
+Token tambahan dari penggunaan tool berasal dari:
+
+* Array `tools` dalam permintaan API (nama tool, deskripsi, dan skema parameter).
+* `tool_calls` yang dihasilkan oleh model dalam pesan asisten.
+* Pesan `tool` (berisi `tool_call_id` dan `content`) yang dikirim oleh aplikasi Kamu.
+
+Jumlah token ini ditambahkan ke token input dan output normal Kamu untuk menghitung total biaya permintaan.
+
+Lihat [dokumentasi harga](https://app.neosantara.xyz/pricing) kami untuk harga per model dan tier penggunaan saat ini.
+
+Saat Kamu mengirim prompt penggunaan tool, sama seperti permintaan API lainnya, respons akan mengeluarkan jumlah token input dan output sebagai bagian dari metrik `usage` yang dilaporkan.
+
+***
+
+## Langkah Selanjutnya
+
+Jelajahi kemampuan dan referensi API kami yang lain:
+
+<CardGroup cols={3}>
+  <Card title="Generasi Gambar" icon="image-frame" href="/id/capability/image-generation">
+    Hasilkan gambar berkualitas tinggi dari prompt teks.
+  </Card>
+
+  <Card title="Embedding" icon="vector-bezier" href="/id/capability/embeddings">
+    Ubah teks menjadi vektor numerik untuk pencarian semantik.
+  </Card>
+</CardGroup>

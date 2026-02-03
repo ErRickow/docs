@@ -1,45 +1,45 @@
 ---
 title: "Output Terstruktur"
-description: "Dapatkan respons terstruktur dari model AI dalam format JSON yang bersih menggunakan Mode JSON atau Responses API."
+description: "Dapatkan respons terstruktur yang andal dari model AI dalam format JSON yang bersih menggunakan Mode JSON atau API Responses."
 ---
 
-### Pengantar
+### Pendahuluan
 
-Secara default, model bahasa menghasilkan teks biasa. Meskipun bagus untuk chatbot, sulit untuk mengekstrak detail spesifik dari teks secara terprogram. Neosantara menyediakan dua cara untuk mendapatkan data terstruktur:
+Secara default, model bahasa menghasilkan teks biasa. Meskipun bagus untuk chatbot, sulit untuk mengekstrak detail spesifik dari teks secara programatik. Neosantara menyediakan dua cara untuk mendapatkan data terstruktur:
 
-1.  **Responses API (Direkomendasikan)**: Endpoint khusus untuk ekstraksi data yang andal dan berbasis skema.
+1.  **API Responses (Direkomendasikan)**: Endpoint khusus untuk ekstraksi data yang andal dan berbasis skema.
 2.  **Mode JSON**: Fitur kompatibilitas standar yang memaksa model untuk mengeluarkan string JSON yang valid.
 
-### Responses API (Direkomendasikan)
+### API Responses (Direkomendasikan)
 
-Responses API adalah cara paling andal untuk mendapatkan data terstruktur. API ini menangani pembuatan prompt dan penegakan skema secara internal, serta mengembalikan objek yang bersih.
+API Responses adalah cara paling andal untuk mendapatkan data terstruktur. API ini menangani pembuatan prompt dan penegakan skema secara internal, mengembalikan objek yang bersih.
 
-<Card title="Pelajari Responses API" icon="bolt" href="/id/response">
-  Lihat cara menggunakan endpoint Responses berperforma tinggi untuk data terstruktur.
+<Card title="Pelajari tentang API Responses" icon="bolt" href="/id/response">
+  Lihat cara menggunakan endpoint Responses berkinerja tinggi untuk data terstruktur.
 </Card>
 
 ---
 
 ### Mode JSON
 
-Mode JSON adalah fitur standar yang didukung oleh sebagian besar model di platform kami. Untuk mengaktifkannya, Kamu perlu mengatur `response_format` ke `{"type": "json_object"}`.
+Mode JSON adalah fitur standar yang didukung oleh sebagian besar model di platform ini. Untuk mengaktifkannya, Kamu perlu menyetel `response_format` ke `{"type": "json_object"}`.
 
 #### Model yang Didukung
 
-Model publik berikut secara eksplisit mendukung Mode JSON di backend kami. Untuk daftar lengkap dan terbaru dari semua model yang tersedia, lihat [Tinjauan Model](/id/models-overview).
+Model-model yang terdaftar secara publik berikut secara eksplisit mendukung Mode JSON. Untuk daftar lengkap dan terbaru dari semua model yang tersedia, lihat [Ikhtisar Model](/id/models-overview).
 
 | Kategori | ID Model |
 | :--- | :--- |
-| **Global LLMs** | `claude-4.5-sonnet`, `gemini-3-flash`, `gemini-3-flash-preview`, `claude-3-sonnet`, `claude-3-haiku`, `gemma-3-27b-it`, `gemma2-9b-it` |
-| **Neosantara Flagship** | `archipelago-70b`, `nusantara-base`, `garda-beta-mini`, `sea-lion-v4-27b-it` |
-| **Llama & Spesialis** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-4.1-fast-non-reasoning`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
+| **LLM Global** | `claude-4.5-sonnet`, `gemini-3-flash`, `gemini-3-flash-preview`, `claude-3-sonnet`, `claude-3-haiku`, `gemma-3-27b-it`, `gemma2-9b-it` |
+| **Unggulan Neosantara** | `archipelago-70b`, `nusantara-base`, `garda-beta-mini`, `sea-lion-v4-27b-it` |
+| **Llama & Khusus** | `llama-3.3-70b-turbo`, `llama-3.3-70b-instruct`, `llama-3.2-11b`, `qwen3-32b`, `grok-4.1-fast-non-reasoning`, `grok-code-fast`, `granite-3-8b-instruct`, `holo2-30b`, `hermes-2-pro-mistral-7b` |
 
-#### Menangani dan Mem-parsing Respons
+#### Menangani dan Mengurai Respons
 
-Model mungkin membungkus JSON dalam blok markdown atau mengembalikan string JSON padat. Praktik terbaik adalah menggunakan fungsi parsing yang aman.
+Model mungkin membungkus JSON dalam blok markdown atau mengembalikan string yang dipadatkan. Praktik terbaik adalah menggunakan fungsi penguraian yang kuat.
 
 <Info>
-  Saat menggunakan Mode JSON, Kamu **harus** memberikan instruksi format JSON. Ini bisa dilakukan di dalam system prompt atau langsung di pesan pengguna.
+  Saat menggunakan Mode JSON, Kamu **harus** menginstruksikan model untuk merespons dalam format JSON. Ini dapat dilakukan dalam prompt sistem atau langsung dalam pesan pengguna.
 </Info>
 
 <CodeGroup>
@@ -50,14 +50,14 @@ from openai import OpenAI
 
 client = OpenAI(
     base_url="https://api.neosantara.xyz/v1",
-    api_key="YOUR_NEOSANTARA_API_KEY"
+    api_key="KUNCI_API_NEOSANTARA_KAMU"
 )
 
-# Grok sangat andal untuk ekstraksi JSON bahkan tanpa system prompt
+# Grok sangat andal untuk ekstraksi JSON tanpa prompt sistem
 response = client.chat.completions.create(
-    model="grok-code-fast",
+    model="grok-4.1-fast-non-reasoning",
     messages=[
-        {"role": "user", "content": "Ekstrak bahan resep sebagai JSON: nasi, telur, kecap. Gunakan kunci 'bahan'."}
+        {"role": "user", "content": "Ekstrak bahan resep sebagai JSON: nasi, telur, kecap. Gunakan 'bahan' sebagai kunci."}
     ],
     response_format={"type": "json_object"}
 )
@@ -70,7 +70,7 @@ print(data)
 import OpenAI from 'openai';
 
 const client = new OpenAI({
-  apiKey: "YOUR_NEOSANTARA_API_KEY",
+  apiKey: "KUNCI_API_NEOSANTARA_KAMU",
   baseURL: "https://api.neosantara.xyz/v1",
 });
 
@@ -91,6 +91,6 @@ console.log(data);
 
 ### Praktik Terbaik
 
-*   **Spesifik**: Sebutkan secara eksplisit kunci (keys) yang Kamu inginkan dalam objek JSON.
-*   **Pemilihan Model**: Gunakan `claude-4.5-sonnet` atau `qwen3-32b` untuk skema JSON yang kompleks atau bersarang.
-*   **Penanganan Error**: Selalu bungkus parsing JSON Kamu dalam blok try-catch untuk menangani kemungkinan halusinasi model.
+*   **Jadilah Spesifik**: Sebutkan secara eksplisit kunci yang Kamu inginkan dalam objek JSON Kamu.
+*   **Pemilihan Model**: Gunakan `claude-4.5-sonnet` atau `qwen3-32b` untuk skema bersarang yang kompleks.
+*   **Penanganan Kesalahan**: Selalu bungkus penguraian JSON Kamu dalam blok try-catch untuk menangani potensi halusinasi model.

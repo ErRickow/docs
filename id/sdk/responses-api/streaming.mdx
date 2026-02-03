@@ -1,50 +1,54 @@
 ---
 title: "Streaming"
-description: "Pelajari cara menggunakan Server-Sent Events (SSE) untuk mendapatkan pembaruan real-time dari Responses API."
+description: "Pelajari cara menggunakan Server-Sent Events (SSE) untuk menerima pembaruan waktu nyata dari API Responses."
 ---
 
-# Streaming
+[API Responses](/id/sdk/responses-api) mendukung streaming, yang memungkinkan Kamu menerima token saat dihasilkan alih-alih menunggu seluruh penyelesaian selesai. Ini memberikan pengalaman pengguna yang jauh lebih baik untuk aplikasi obrolan.
 
-[Responses API](/id/sdk/responses-api) mendukung streaming, memungkinkan Kamu menerima token saat dihasilkan tanpa harus menunggu seluruh penyelesaian.
+Untuk mengaktifkan streaming, setel **`stream: true`** di bodi permintaan Kamu. Responsnya akan berupa stream Server-Sent Events (SSE).
 
-Untuk mengaktifkan streaming, atur **`stream: true`** dalam body permintaan Kamu.
+### Contoh Permintaan
 
-### [Contoh Implementasi](#example)
+Gunakan API `fetch` standar untuk membaca stream secara waktu nyata.
+
+<CodeGroup>
 
 ```typescript stream.ts
+const apiKey = process.env.NAI_API_KEY;
+
 const response = await fetch('https://api.neosantara.xyz/v1/responses', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${apiKey}`,
+    Authorization: `Bearer ${apiKey}`,
   },
   body: JSON.stringify({
     model: 'grok-4.1-fast-non-reasoning',
-    input: 'Tulis puisi tentang koding.',
+    input: 'Tulis haiku tentang mendebug kode.',
     stream: true,
   }),
 });
- 
+
 const reader = response.body.getReader();
 const decoder = new TextDecoder('utf-8');
 let buffer = '';
- 
+
 while (true) {
   const { done, value } = await reader.read();
   if (done) break;
- 
-  // Gunakan { stream: true } agar karakter multi-byte yang terpotong didekode dengan benar
+
+  // Gunakan mode streaming untuk menangani karakter UTF-8 yang terpisah
   buffer += decoder.decode(value, { stream: true });
   const lines = buffer.split('\n');
- 
-  // Simpan baris terakhir yang mungkin belum lengkap ke dalam buffer
+
+  // Simpan baris terakhir yang berpotensi tidak lengkap kembali ke dalam buffer
   buffer = lines.pop() || '';
- 
+
   for (const line of lines) {
     processLine(line);
   }
 }
- 
+
 // Flush sisa byte dan proses baris terakhir jika ada
 buffer += decoder.decode();
 if (buffer) {
@@ -53,7 +57,7 @@ if (buffer) {
 
 function processLine(line) {
   if (line.startsWith('data:')) {
-    const data = line.substring(5).trim();
+    const data = line.substring(5).trim(); // Menangani "data: "
     if (data === '[DONE]') return;
     
     try {
@@ -62,10 +66,28 @@ function processLine(line) {
         process.stdout.write(event.delta);
       }
     } catch (e) {
-      // Abaikan JSON yang tidak valid
+      // Lewati JSON yang tidak valid
     }
   }
 }
 ```
 
-```
+</CodeGroup>
+
+---
+
+## Event Streaming
+
+API Responses memancarkan event tertentu selama proses pembuatan:
+
+| Tipe Event | Deskripsi |
+| :--- | :--- |
+| `response.created` | Dipancarkan saat objek respons diinisialisasi. |
+| `response.output_text.delta` | Berisi potongan teks di kolom `delta`. |
+| `response.output_text.done` | Dipancarkan saat blok teks telah selesai dibuat. |
+| `response.item.completed` | Dipancarkan saat item tertentu (seperti panggilan tool) selesai. |
+| `response.completed` | Event terakhir yang berisi objek respons lengkap dan statistik penggunaan. |
+
+<Note>
+  Saat membangun parser kustom, selalu cari tipe `response.output_text.delta` untuk menangkap teks streaming untuk UI Kamu.
+</Note>

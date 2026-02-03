@@ -1,15 +1,15 @@
 ---
 title: "OCR (Optical Character Recognition)"
-description: "Ekstrak teks dari gambar dengan presisi tinggi menggunakan API OCR terpadu dari Neosantara."
+description: "Ekstrak teks dari gambar dengan presisi tinggi menggunakan API OCR terpadu Neosantara."
 ---
 
-Neosantara menyediakan endpoint OCR khusus yang memanfaatkan model tercanggih (seperti DeepSeek OCR) untuk mengekstrak teks dari berbagai format gambar, termasuk dokumen, struk belanja, dan catatan tulisan tangan.
+Neosantara menyediakan endpoint OCR khusus yang memanfaatkan model-model tercanggih (seperti DeepSeek OCR) untuk mengekstrak teks dari berbagai format gambar, termasuk dokumen, tanda terima, dan catatan tulisan tangan.
 
 ## Endpoint
 
-| Method | Endpoint | Deskripsi |
-| :--- | :--- | :--- |
-| `POST` | `/v1/ocr` | Endpoint ekstraksi OCR terpadu |
+| Metode | Endpoint |
+| :--- | :--- |
+| `POST` | `/v1/ocr` |
 
 ## Contoh Penggunaan
 
@@ -17,23 +17,19 @@ Neosantara menyediakan endpoint OCR khusus yang memanfaatkan model tercanggih (s
 
 Kamu dapat memberikan URL langsung ke gambar untuk diproses.
 
-<CodeGroup>
-```bash cURL
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/ocr \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <KUNCI_API_KAMU>" \
-  -d '{
-    "image": "https://example.com/receipt.jpg",
-    "image_type": "url"
-  }'
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
+  -d '{"image": "https://example.com/receipt.jpg", "image_type": "url"}'
 ```
 
-```python Python
+```python icon="python"
 import requests
 
 url = "https://api.neosantara.xyz/v1/ocr"
 headers = {
-    "Authorization": "Bearer <KUNCI_API_KAMU>",
+    "Authorization": "Bearer KUNCI_API_NEOSANTARA_KAMU",
     "Content-Type": "application/json"
 }
 payload = {
@@ -45,35 +41,28 @@ response = requests.post(url, json=payload, headers=headers)
 print(response.json()["choices"][0]["text"])
 ```
 
-</CodeGroup>
-
 ### Ekstrak Teks dari Base64
 
 Untuk gambar lokal, Kamu dapat menyandikannya sebagai string Base64.
 
-<CodeGroup>
-```bash cURL
+```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/ocr \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <KUNCI_API_KAMU>" \
-  -d '{
-    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg...",
-    "image_type": "base64"
-  }'
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
+  -d '{"image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...", "image_type": "base64"}'
 ```
-</CodeGroup>
 
 ## Parameter
 
 | Parameter | Tipe | Wajib | Default | Deskripsi |
 | :--- | :--- | :--- | :--- | :--- |
 | `image` | `string` | Ya | - | URL gambar atau string data Base64. |
-| `image_type` | `string` | Tidak | `url` | Tipe input gambar: `url` atau `base64`. |
-| `return_image` | `boolean` | Tidak | `false` | Jika `true`, mengembalikan gambar yang telah diproses dengan kotak pembatas OCR (jika didukung oleh model). |
+| `image_type` | `string` | Tidak | `url` | Jenis input gambar: `url` atau `base64`. |
+| `return_image` | `boolean` | Tidak | `false` | Jika `true`, mengembalikan gambar yang diproses dengan kotak pembatas OCR (jika didukung oleh model). |
 
 ## Format Respons
 
-API mengembalikan objek JSON yang berisi teks hasil ekstraksi dan metadata.
+API mengembalikan objek JSON yang berisi teks yang diekstrak dan metadata.
 
 ```json icon="code"
 {
@@ -82,7 +71,7 @@ API mengembalikan objek JSON yang berisi teks hasil ekstraksi dan metadata.
   "choices": [
     {
       "index": 0,
-      "text": "ISI TEKS DI SINI",
+      "text": "KONTEN TEKS DI SINI",
       "finish_reason": "stop"
     }
   ],
