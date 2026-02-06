@@ -1,0 +1,129 @@
+---
+title: "GLM OCR"
+description: "Mulai gunakan GLM OCR di API Neosantara"
+---
+
+## Pengenalan Karakter Optik (OCR)
+
+API GLM OCR memungkinkan Kamu untuk mengekstrak teks, tabel, dan rumus dari gambar dengan presisi tinggi. Didukung oleh GLM-OCR (0.9B) dari Z.ai, model ini dioptimalkan untuk tata letak dokumen yang kompleks, termasuk ekspresi matematika dan data terstruktur.
+
+## Fitur Utama
+
+- **Presisi Tinggi**: Pemrosesan dokumen SOTA untuk teks, tabel, dan rumus.
+- **Output Berbasis Prompt**: Gunakan awalan prompt khusus untuk mengontrol format output (Markdown, HTML, LaTeX, atau JSON).
+- **Input Fleksibel**: Dukungan untuk gambar melalui URL dan base64.
+- **Kompatibel dengan OpenAI**: Format API standar untuk integrasi yang mudah.
+
+## Endpoint API
+
+```http
+POST https://api.neosantara.xyz/v1/ocr
+```
+
+## Autentikasi
+
+Sertakan kunci API Kamu di header permintaan:
+
+```http
+Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU
+```
+
+<Warning>
+  **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin mengalami penundaan 10-15 detik karena inisialisasi cold start. Permintaan berikutnya akan diproses jauh lebih cepat (2-5 detik).
+</Warning>
+
+## Parameter Permintaan
+
+<ParamField path="model" type="string" default="glm-ocr">
+  Model OCR yang akan digunakan. Setel ke `glm-ocr`.
+</ParamField>
+
+<ParamField path="image" type="string" required>
+  Gambar yang akan diproses. Bisa berupa:
+  - URL gambar publik (jika `image_type` adalah "url")
+  - Data gambar base64 (jika `image_type` adalah "base64")
+</ParamField>
+
+<ParamField path="image_type" type="string" default="url">
+  Jenis data gambar yang disediakan. Harus `"url"` atau `"base64"`.
+</ParamField>
+
+<ParamField path="prompt" type="string">
+  Instruksi opsional untuk mengontrol mode pengenalan. Lihat [Mode Prompt](#mode-prompt) di bawah.
+</ParamField>
+
+<ParamField path="async" type="boolean" default={false}>
+  Apakah akan memproses permintaan secara asinkron. Direkomendasikan untuk dokumen besar guna menghindari timeout Vercel.
+</ParamField>
+
+## Mode Prompt
+
+GLM-OCR sangat sensitif terhadap awalan (prefix) prompt. Gunakan awalan berikut untuk mengontrol output:
+
+### 1. Pengenalan Teks (Text Recognition)
+Mengekstrak teks mentah dengan tetap mempertahankan struktur baris visual.
+- **Prompt:** `Text Recognition:`
+
+### 2. Pengenalan Tabel (Table Recognition)
+Mengonversi data tabel menjadi format HTML `<table>` yang bersih.
+- **Prompt:** `Table Recognition:`
+
+### 3. Pengenalan Rumus (Formula Recognition)
+Mengonversi ekspresi matematika atau array terstruktur menjadi format **LaTeX**.
+- **Prompt:** `Formula Recognition:`
+
+### 4. Ekstraksi JSON Terstruktur
+Mengekstrak bidang tertentu ke dalam objek JSON yang valid berdasarkan skema yang diberikan.
+- **Contoh Prompt:** `Formula Recognition: Please output the information in the image as a JSON object with fields: {"name": "", "amount": ""}`
+
+## Format Respons
+
+```json icon="code"
+{
+  "id": "ocr-abc123def456",
+  "object": "ocr.completion",
+  "created": 1234567890,
+  "model": "glm-ocr",
+  "choices": [
+    {
+      "index": 0,
+      "text": "Teks yang dikenali atau data terstruktur...",
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 50,
+    "completion_tokens": 20,
+    "total_tokens": 70
+  }
+}
+```
+
+## Pengujian Mulai Cepat
+
+Ekstrak tabel pasar saham menggunakan format HTML:
+
+```bash icon="terminal"
+curl -X POST https://api.neosantara.xyz/v1/ocr 
+  -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" 
+  -H "Content-Type: application/json" 
+  -d '{
+    "model": "glm-ocr",
+    "image": "http://www.mattmahoney.net/ocr/stock_gs200.jpg",
+    "image_type": "url",
+    "prompt": "Table Recognition:"
+  }'
+```
+
+## Harga
+
+API GLM OCR menggunakan harga berbasis token:
+
+- **Per Pemrosesan Gambar**: Setara dengan 100 token.
+- **Biaya Token**: Dikenakan biaya sesuai dengan tingkat harga Neosantara Kamu.
+
+## Praktik Terbaik
+
+1. **Presisi Prompt**: Selalu sertakan awalan yang benar (misal: `Table Recognition:`) untuk tugas terstruktur.
+2. **Async untuk Keandalan**: Gunakan `"async": true` untuk gambar yang kompleks guna mencegah timeout gateway.
+3. **Kualitas Gambar**: Pastikan teks terlihat jelas untuk akurasi maksimal.

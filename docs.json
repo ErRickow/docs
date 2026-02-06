@@ -198,6 +198,7 @@
                       "models/grok-code-fast",
                       "models/whisper-large-v3-turbo",
                       "models/deepseek-ocr",
+                      "models/glm-ocr",
                       "models/llama-guard-3-8b",
                       "models/nusa-embedding-0001",
                       "models/gemini-embedding-001"
@@ -238,6 +239,7 @@
                   "en/guides/rag-chromadb-example",
                   "en/guides/rag-cloudflare-vectorize-example",
                   "en/deepseek-ocr",
+                  "en/glm-ocr",
                   "en/llama-index"
                 ]
               }
@@ -466,6 +468,7 @@
                       "models/grok-code-fast",
                       "models/whisper-large-v3-turbo",
                       "models/deepseek-ocr",
+                      "models/glm-ocr",
                       "models/llama-guard-3-8b",
                       "models/nusa-embedding-0001",
                       "models/gemini-embedding-001"
@@ -506,6 +509,7 @@
                   "id/guides/rag-chromadb-example",
                   "id/guides/rag-cloudflare-vectorize-example",
                   "id/deepseek-ocr",
+                  "id/glm-ocr",
                   "id/llama-index"
                 ]
               }

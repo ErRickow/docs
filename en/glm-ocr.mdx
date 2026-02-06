@@ -1,0 +1,129 @@
+---
+title: "GLM OCR"
+description: "Get started using GLM OCR on Neosantara API"
+---
+
+## Optical Character Recognition
+
+The GLM OCR API enables you to extract text, tables, and formulas from images with high precision. Powered by Z.ai's GLM-OCR (0.9B), this model is optimized for complex document layouts, including mathematical expressions and structured data.
+
+## Key Features
+
+- **High Precision**: SOTA document parsing for text, tables, and formulas.
+- **Prompt-Driven Output**: Use specific prompt prefixes to control the output format (Markdown, HTML, LaTeX, or JSON).
+- **Flexible Input**: Support for both URL and base64-encoded images.
+- **OpenAI-Compatible**: Standard API format for easy integration.
+
+## API Endpoint
+
+```http
+POST https://api.neosantara.xyz/v1/ocr
+```
+
+## Authentication
+
+Include your API key in the request header:
+
+```http
+Authorization: Bearer YOUR_NEOSANTARA_API_KEY
+```
+
+<Warning>
+  **First Request Latency**: The initial OCR request may experience a 10-15 second delay due to cold start initialization. Subsequent requests will process much faster (2-5 seconds).
+</Warning>
+
+## Request Parameters
+
+<ParamField path="model" type="string" default="glm-ocr">
+  The OCR model to use. Set this to `glm-ocr`.
+</ParamField>
+
+<ParamField path="image" type="string" required>
+  The image to process. Can be either:
+  - A publicly accessible image URL (when `image_type` is "url")
+  - Base64-encoded image data (when `image_type` is "base64")
+</ParamField>
+
+<ParamField path="image_type" type="string" default="url">
+  The type of image data being provided. Must be either `"url"` or `"base64"`.
+</ParamField>
+
+<ParamField path="prompt" type="string">
+  An optional instruction to control the recognition mode. See [Prompt Modes](#prompt-modes) below.
+</ParamField>
+
+<ParamField path="async" type="boolean" default={false}>
+  Whether to process the request asynchronously. Recommended for large documents to avoid Vercel timeouts.
+</ParamField>
+
+## Prompt Modes
+
+GLM-OCR is highly sensitive to the prompt prefix. Use the following prefixes to control the output:
+
+### 1. Text Recognition
+Extracts raw text while maintaining the visual line structure.
+- **Prompt:** `Text Recognition:`
+
+### 2. Table Recognition
+Converts tabular data into clean HTML `<table>` format.
+- **Prompt:** `Table Recognition:`
+
+### 3. Formula Recognition
+Converts mathematical expressions or structured arrays into **LaTeX**.
+- **Prompt:** `Formula Recognition:`
+
+### 4. Structured JSON Extraction
+Extracts specific fields into a valid JSON object.
+- **Example Prompt:** `Formula Recognition: Please output the information in the image as a JSON object with fields: {"name": "", "amount": ""}`
+
+## Response Format
+
+```json icon="code"
+{
+  "id": "ocr-abc123def456",
+  "object": "ocr.completion",
+  "created": 1234567890,
+  "model": "glm-ocr",
+  "choices": [
+    {
+      "index": 0,
+      "text": "The recognized text or structured data...",
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 50,
+    "completion_tokens": 20,
+    "total_tokens": 70
+  }
+}
+```
+
+## Quick Start Testing
+
+Extract a stock market table using HTML format:
+
+```bash icon="terminal"
+curl -X POST https://api.neosantara.xyz/v1/ocr 
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" 
+  -H "Content-Type: application/json" 
+  -d '{
+    "model": "glm-ocr",
+    "image": "http://www.mattmahoney.net/ocr/stock_gs200.jpg",
+    "image_type": "url",
+    "prompt": "Table Recognition:"
+  }'
+```
+
+## Pricing
+
+The GLM OCR API uses token-based pricing:
+
+- **Per Image Processing**: 100 tokens equivalent.
+- **Token Cost**: Charged according to your Neosantara pricing tier.
+
+## Best Practices
+
+1. **Prompt Precision**: Always include the correct prefix (e.g., `Table Recognition:`) for structured tasks.
+2. **Async for Reliability**: Use `"async": true` for complex images to prevent gateway timeouts.
+3. **Image Quality**: Ensure text is clear and well-lit for maximum accuracy.

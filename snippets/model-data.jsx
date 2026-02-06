@@ -804,6 +804,29 @@ export const deepseekOcrData = {
   inputOutput: { inputFormats: ["image"], outputFormats: ["text"] }
 };
 
+export const glmOcrData = {
+  modelId: "glm-ocr",
+  modelCardUrl: "#",
+  contextLength: { freeTier: "0 tokens" },
+  maxOutput: { freeTier: "Text" },
+  speed: { value: "Fast", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
+},
+  pricing: { inputPrice: "100", outputPrice: "0", currency: "IDR", inputUnit: "per Image", pricingUrl: "/en/about/billing-pricing" },
+  endpoints: ["OCR"],
+  features: ["ocr", "vision"],
+  inputOutput: { inputFormats: ["image"], outputFormats: ["text"] }
+};
+
 export const grok41FastNonReasoningData = {
   modelId: "grok-4.1-fast-non-reasoning",
   provider: "xAI",
