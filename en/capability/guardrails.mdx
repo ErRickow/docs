@@ -1,0 +1,172 @@
+---
+title: "Guardrails (PII Redaction)"
+description: "Automatically protect sensitive user data with Indonesian-specific PII redaction."
+---
+
+<Info>
+  This feature is available for users on the **Basic tier and above**.
+</Info>
+
+Neosantara API provides built-in **Guardrails** to help you comply with Indonesian data privacy laws ([**UU PDP No. 27/2022**](https://pdp.kominfo.go.id/)). This feature automatically detects and redacts sensitive Personally Identifiable Information (PII) from your prompts before they are sent to the upstream AI providers (like OpenAI, Anthropic, or Grok).
+
+## How It Works
+
+*   **Automatic Protection**: For users on the Basic tier and above, Guardrails are enabled by default for every request without any additional configuration.
+*   **Indonesian Context**: Unlike generic redaction tools, Neosantara's Guardrails are specifically tuned for Indonesian identifiers like NIK, NPWP, and formal address structures.
+*   **Placeholders**: Sensitive data is replaced with descriptive placeholders like `[NIK]`, `[NAMA_LENGKAP]`, or `[NOMOR_TELEPON]`.
+
+## Supported Categories
+
+The system uses a combination of high-precision Regex and checksum validation (e.g., for NIK and NPWP) to protect the following data:
+
+| Category | Description |
+| :--- | :--- |
+| `NAMA_LENGKAP` | Full names, including formal Indonesian titles (Dr., Prof., Haji, etc.) |
+| `NIK` | National ID Number (16 digits) with region and date-of-birth validation. |
+| `NPWP` | Tax Identification Number (15 digits). |
+| `NOMOR_KK` | Family Card Number (16 digits). |
+| `NOMOR_TELEPON` | Indonesian mobile and landline numbers (including +62 prefix). |
+| `EMAIL` | Email addresses. |
+| `ALAMAT` | Physical addresses, including specific RT/RW formats. |
+| `DATA_KEUANGAN` | Bank account numbers, Credit Cards, and Rupiah currency amounts. |
+| `TANGGAL_LAHIR` | Dates of birth (numeric and Indonesian text formats). |
+| `NOMOR_PASPOR` | Indonesian Passport numbers (old and new formats). |
+| `PLAT_NOMOR` | Vehicle license plates (e.g., B 1234 ABC). |
+| `NOMOR_IJAZAH` | National Diploma/Ijazah numbers (15 digits). |
+| `SERTIFIKAT_TANAH` | Land ownership certificate numbers (14 digits). |
+| `REKAM_MEDIS` | Hospital medical record numbers. |
+| `ID_PELANGGAN_PLN` | PLN electricity customer IDs (11-12 digits). |
+| `STR_MEDIS` | Medical registration certificates for doctors/nurses. |
+| `AKTA_NIKAH` | Marriage certificate/book numbers. |
+
+## Controlling Guardrails
+
+Paid users can opt-out or force-enable Guardrails using the `X-Guard` header.
+
+| Value | Description |
+| :--- | :--- |
+| `on` | (Default) Enables PII redaction for the request. |
+| `off` | Disables PII redaction. Data will be sent raw to the provider. |
+| `disabled` | Same as `off`. |
+
+### Integration Examples
+
+<CodeGroup>
+
+```python OpenAI (Python)
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="your_nsk_key",
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.chat.completions.create(
+    model="claude-4.5-sonnet",
+    messages=[
+        {
+            "role": "user", 
+            "content": "My name is Budi Santoso, NIK 3201010101010001. Please repeat my data."
+        }
+    ],
+    # Control redaction per-request
+    extra_headers={
+        "X-Guard": "on"
+    }
+)
+
+print(response.choices[0].message.content)
+# Output: "Your name is [NAMA_LENGKAP], NIK [NIK]."
+```
+
+```javascript OpenAI (Node.js)
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "your_nsk_key",
+  baseURL: "https://api.neosantara.xyz/v1"
+});
+
+const response = await openai.chat.completions.create({
+  model: "claude-4.5-sonnet",
+  messages: [
+    {
+      role: "user", 
+      content: "My name is Budi Santoso, NIK 3201010101010001. Please repeat my data."
+    }
+  ],
+}, {
+  // Add extra headers
+  headers: {
+    "X-Guard": "on"
+  }
+});
+
+console.log(response.choices[0].message.content);
+```
+
+```python Anthropic (Python)
+import anthropic
+
+client = anthropic.Anthropic(
+    api_key="your_nsk_key",
+    base_url="https://api.neosantara.xyz/anthropic"
+)
+
+message = client.messages.create(
+    model="claude-4.5-sonnet",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": "My name is Budi Santoso, NIK 3201010101010001."
+        }
+    ],
+    # Add custom header
+    headers={
+        "X-Guard": "on"
+    }
+)
+
+print(message.content[0].text)
+```
+
+```javascript Anthropic (Node.js)
+import Anthropic from '@anthropic-ai/sdk';
+
+const client = new Anthropic({
+  apiKey: "your_nsk_key",
+  baseURL: 'https://api.neosantara.xyz/anthropic',
+});
+
+const message = await client.messages.create({
+  model: 'claude-4.5-sonnet',
+  max_tokens: 1024,
+  messages: [
+    {
+      role: 'user',
+      content: 'My name is Budi Santoso, NIK 3201010101010001.',
+    },
+  ],
+}, {
+  // Add custom header
+  headers: {
+    'X-Guard': 'on'
+  }
+});
+
+console.log(message.content[0].text);
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions 
+  -H "Authorization: Bearer your_nsk_key" 
+  -H "X-Guard: on" 
+  -H "Content-Type: application/json" 
+  -d '{
+    "model": "claude-4.5-sonnet",
+    "messages": [{"role": "user", "content": "Sensitive data here..."}]
+  }'
+```
+
+</CodeGroup>
