@@ -32,7 +32,7 @@ Some models support advanced tasks:
 
 <CodeGroup>
 
-```python Python
+```python OpenAI (Python)
 from openai import OpenAI
 import os
 
@@ -42,8 +42,8 @@ client = OpenAI(
 )
 
 response = client.images.generate(
-    model="neosantara-gen-2045",
-    prompt="A serene Indonesian rice paddy field at sunrise, cinematic lighting.",
+    model="imagen-4.0-fast",
+    prompt="A futuristic laboratory, high-tech, extremely detailed.",
     n=1,
     size="1024x1024",
     response_format="url"
@@ -52,7 +52,7 @@ response = client.images.generate(
 print(response.data[0].url)
 ```
 
-```javascript Node.js
+```javascript OpenAI (Node.js)
 import OpenAI from 'openai';
 
 const client = new OpenAI({
@@ -61,8 +61,8 @@ const client = new OpenAI({
 });
 
 const response = await client.images.generate({
-  model: "titan-image-g1",
-  prompt: "A majestic Komodo dragon basking in the sun on a rocky beach, realistic.",
+  model: "imagen-4.0-fast",
+  prompt: "A futuristic laboratory, high-tech, extremely detailed.",
   n: 1,
   size: "1024x1024",
 });
@@ -70,4 +70,82 @@ const response = await client.images.generate({
 console.log(response.data[0].url);
 ```
 
+</CodeGroup>
+
+---
+
+## Visual Showcase
+
+Explore real examples generated using the Neosantara API.
+
+### High-Speed Generation
+**Model**: `imagen-4.0-fast`
+
+<Frame caption="Prompt: 'A vibrant digital painting of a high-tech laboratory in Jakarta, neon highlights, futuristic design.'">
+  <img src="/images/showcase-imagen.png" alt="Imagen 4 Fast Showcase" />
+</Frame>
+
+<CodeGroup>
+```json Request
+{
+  "model": "imagen-4.0-fast",
+  "prompt": "A vibrant digital painting of a high-tech laboratory in Jakarta, neon highlights, futuristic design, extremely detailed.",
+  "size": "1024x1024"
+}
+```
+</CodeGroup>
+
+### Artistic & Fantasy
+**Model**: `stable-diffusion-xl-lightning`
+
+<Frame caption="Prompt: 'A majestic Indonesian temple in the clouds, ethereal lighting, high fantasy art style.'">
+  <img src="/images/showcase-artistic.png" alt="Artistic Showcase" />
+</Frame>
+
+<CodeGroup>
+```json Request
+{
+  "model": "stable-diffusion-xl-lightning",
+  "prompt": "A majestic Indonesian temple in the clouds, ethereal lighting, high fantasy art style, 8k.",
+  "size": "1024x1024"
+}
+```
+</CodeGroup>
+
+### Realistic Photography
+**Model**: `titan-image-g1`
+
+<Frame caption="Prompt: 'A realistic high-detail photograph of a Balinese traditional dancer performing at night.'">
+  <img src="/images/showcase-titan-base.png" alt="Realistic Showcase" />
+</Frame>
+
+<CodeGroup>
+```json Request
+{
+  "model": "titan-image-g1",
+  "prompt": "A realistic high-detail photograph of a Balinese traditional dancer performing at night, focused lighting.",
+  "size": "1024x1024"
+}
+```
+</CodeGroup>
+
+### Image-to-Image Transformation
+**Model**: `stable-diffusion-v1-5-img2img`
+
+Transform existing images into new styles while preserving composition.
+
+<CardGroup cols={2}>
+  <Card title="Original Image" img="/images/showcase-titan-base.png" />
+  <Card title="Sketch Transformation" img="/images/showcase-img2img-result.png" />
+</CardGroup>
+
+<CodeGroup>
+```json Request
+{
+  "model": "stable-diffusion-v1-5-img2img",
+  "image": "data:image/png;base64,...",
+  "prompt": "Sketch art style, hand-drawn charcoal lines, artistic, minimalist.",
+  "strength": 0.75
+}
+```
 </CodeGroup>

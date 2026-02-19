@@ -32,7 +32,7 @@ Beberapa model mendukung tugas tambahan:
 
 <CodeGroup>
 
-```python Python
+```python OpenAI (Python)
 from openai import OpenAI
 import os
 
@@ -42,8 +42,8 @@ client = OpenAI(
 )
 
 response = client.images.generate(
-    model="neosantara-gen-2045",
-    prompt="Sawah di Indonesia yang tenang saat matahari terbit, pencahayaan sinematik.",
+    model="imagen-4.0-fast",
+    prompt="Laboratorium futuristik, berteknologi tinggi, sangat mendetail.",
     n=1,
     size="1024x1024",
     response_format="url"
@@ -52,7 +52,7 @@ response = client.images.generate(
 print(response.data[0].url)
 ```
 
-```javascript Node.js
+```javascript OpenAI (Node.js)
 import OpenAI from 'openai';
 
 const client = new OpenAI({
@@ -61,8 +61,8 @@ const client = new OpenAI({
 });
 
 const response = await client.images.generate({
-  model: "titan-image-g1",
-  prompt: "Seekor komodo yang agung sedang berjemur di bawah sinar matahari di pantai berbatu, realistis.",
+  model: "imagen-4.0-fast",
+  prompt: "Laboratorium futuristik, berteknologi tinggi, sangat mendetail.",
   n: 1,
   size: "1024x1024",
 });
@@ -70,4 +70,82 @@ const response = await client.images.generate({
 console.log(response.data[0].url);
 ```
 
+</CodeGroup>
+
+---
+
+## Galeri Visual
+
+Lihat contoh nyata hasil generasi menggunakan Neosantara API.
+
+### Generasi Kecepatan Tinggi
+**Model**: `imagen-4.0-fast`
+
+<Frame caption="Prompt: 'Lukisan digital yang hidup tentang laboratorium berteknologi tinggi di Jakarta, sorotan neon, desain futuristik.'">
+  <img src="/images/showcase-imagen.png" alt="Showcase Imagen 4 Fast" />
+</Frame>
+
+<CodeGroup>
+```json Permintaan
+{
+  "model": "imagen-4.0-fast",
+  "prompt": "A vibrant digital painting of a high-tech laboratory in Jakarta, neon highlights, futuristic design, extremely detailed.",
+  "size": "1024x1024"
+}
+```
+</CodeGroup>
+
+### Artistik & Fantasi
+**Model**: `stable-diffusion-xl-lightning`
+
+<Frame caption="Prompt: 'Candi megah di atas awan, pencahayaan etereal, gaya seni fantasi tinggi.'">
+  <img src="/images/showcase-artistic.png" alt="Showcase Artistik" />
+</Frame>
+
+<CodeGroup>
+```json Permintaan
+{
+  "model": "stable-diffusion-xl-lightning",
+  "prompt": "A majestic Indonesian temple in the clouds, ethereal lighting, high fantasy art style, 8k.",
+  "size": "1024x1024"
+}
+```
+</CodeGroup>
+
+### Fotografi Realistis
+**Model**: `titan-image-g1`
+
+<Frame caption="Prompt: 'Foto realistis detail tinggi penari tradisional Bali saat malam hari.'">
+  <img src="/images/showcase-titan-base.png" alt="Showcase Realistis" />
+</Frame>
+
+<CodeGroup>
+```json Permintaan
+{
+  "model": "titan-image-g1",
+  "prompt": "A realistic high-detail photograph of a Balinese traditional dancer performing at night, focused lighting.",
+  "size": "1024x1024"
+}
+```
+</CodeGroup>
+
+### Transformasi Gambar (Img2Img)
+**Model**: `stable-diffusion-v1-5-img2img`
+
+Ubah gambar yang sudah ada ke gaya baru namun tetap mempertahankan komposisi aslinya.
+
+<CardGroup cols={2}>
+  <Card title="Gambar Asli" img="/images/showcase-titan-base.png" />
+  <Card title="Transformasi Sketsa" img="/images/showcase-img2img-result.png" />
+</CardGroup>
+
+<CodeGroup>
+```json Permintaan
+{
+  "model": "stable-diffusion-v1-5-img2img",
+  "image": "data:image/png;base64,...",
+  "prompt": "Sketch art style, hand-drawn charcoal lines, artistic, minimalist.",
+  "strength": 0.75
+}
+```
 </CodeGroup>
