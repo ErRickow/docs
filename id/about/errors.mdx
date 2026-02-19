@@ -1,30 +1,30 @@
 ---
-title: "Kesalahan"
-description: "Pahami cara menangani kesalahan dan memecahkan masalah dengan API Neosantara."
+title: "Error"
+description: "Pahami cara menangani error dan memecahkan masalah dengan API Neosantara."
 ---
 
 API Neosantara menggunakan kode status HTTP standar untuk menunjukkan keberhasilan atau kegagalan permintaan API. Secara umum:
 
 - **2xx**: Menunjukkan keberhasilan.
-- **4xx**: Menunjukkan kesalahan yang gagal karena informasi yang diberikan (misalnya, parameter wajib diabaikan, biaya gagal, dll.).
-- **5xx**: Menunjukkan kesalahan pada server Neosantara.
+- **4xx**: Menunjukkan error yang gagal karena informasi yang diberikan (misalnya, parameter wajib diabaikan, biaya gagal, dll.).
+- **5xx**: Menunjukkan error pada server Neosantara.
 
 ## Kode Status HTTP
 
-| Kode Status | Tipe Kesalahan | Deskripsi |
+| Kode Status | Tipe Error | Deskripsi |
 | :--- | :--- | :--- |
 | **400** | `invalid_request_error` | Permintaan tidak dapat diterima, sering kali karena parameter wajib yang hilang. |
 | **401** | `authentication_error` | Kunci API tidak valid yang diberikan. |
 | **403** | `permission_error` | Kunci API tidak memiliki izin untuk melakukan permintaan tersebut. |
 | **404** | `not_found_error` | Sumber daya yang diminta (misalnya, model, file, percakapan) tidak ada. |
-| **422** | `unprocessable_entity` | Permintaan terbentuk dengan baik tetapi tidak dapat diikuti karena kesalahan semantik. |
+| **422** | `unprocessable_entity` | Permintaan terbentuk dengan baik tetapi tidak dapat diikuti karena error semantik. |
 | **429** | `rate_limit_error` | Terlalu banyak permintaan yang masuk ke API terlalu cepat. |
-| **500** | `api_error` | Terjadi kesalahan internal di sisi Neosantara. |
+| **500** | `api_error` | Terjadi error internal di sisi Neosantara. |
 | **503** | `service_unavailable` | Server saat ini kelebihan beban atau sedang dalam pemeliharaan. |
 
-## Struktur Respons Kesalahan
+## Struktur Respons Error
 
-Kesalahan dikembalikan sebagai objek JSON dengan pesan dan kode kesalahan terperinci.
+Error dikembalikan sebagai objek JSON dengan pesan dan kode error terperinci.
 
 ```json icon="code"
 {
@@ -37,37 +37,37 @@ Kesalahan dikembalikan sebagai objek JSON dengan pesan dan kode kesalahan terper
 }
 ```
 
-## Kode Kesalahan Umum
+## Kode Error Umum
 
-Di bawah ini adalah kode kesalahan khusus yang mungkin Kamu temui di kolom `code` pada respons kesalahan, bersama dengan tindakan yang disarankan.
+Di bawah ini adalah kode error khusus yang mungkin kamu temui di kolom `code` pada respons error, bersama dengan tindakan yang disarankan.
 
-### Kesalahan Permintaan & Validasi
+### Error Permintaan & Validasi
 
 | Kode | Deskripsi | Tindakan yang Disarankan |
 | :--- | :--- | :--- |
-| `context_window_exceeded` | Total token (input + output) melebihi batas model. | Perpendek prompt Kamu atau beralih ke model dengan jendela konteks yang lebih besar. |
-| `model_not_found` | ID model yang ditentukan tidak ada atau Kamu tidak memiliki akses. | Periksa [Daftar Model](/api-reference/models/list-available-models) untuk ID yang valid. |
-| `missing_required_parameter` | Parameter wajib (misalnya, `messages`, `prompt`) hilang. | Tinjau referensi API untuk endpoint khusus yang Kamu panggil. |
-| `invalid_api_key` | Kunci API yang diberikan salah atau telah dicabut. | Verifikasi kunci API Kamu di [Dashboard](https://app.neosantara.xyz/dashboard) dan pastikan tidak ada spasi tambahan. |
+| `context_window_exceeded` | Total token (input + output) melebihi batas model. | Perpendek prompt kamu atau beralih ke model dengan jendela konteks yang lebih besar. |
+| `model_not_found` | ID model yang ditentukan tidak ada atau kamu tidak memiliki akses. | Periksa [Daftar Model](/api-reference/models/list-available-models) untuk ID yang valid. |
+| `missing_required_parameter` | Parameter wajib (misalnya, `messages`, `prompt`) hilang. | Tinjau referensi API untuk endpoint khusus yang kamu panggil. |
+| `invalid_api_key` | Kunci API yang diberikan salah atau telah dicabut. | Verifikasi kunci API kamu di [Dashboard](https://app.neosantara.xyz/dashboard) dan pastikan tidak ada spasi tambahan. |
 | `invalid_image_url` | URL gambar yang diberikan tidak dapat diakses atau diurai. | Pastikan URL dapat diakses secara publik dan mengarah ke format gambar yang valid (PNG, JPEG, WebP). |
 
-### Penagihan & Batas Kecepatan
+### Penagihan & Rate Limit
 
 | Kode | Deskripsi | Tindakan yang Disarankan |
 | :--- | :--- | :--- |
-| `insufficient_quota` | Kamu kehabisan kredit atau mencapai batas pengeluaran Kamu. | [Tambah kredit](https://app.neosantara.xyz/billing) ke akun Kamu atau tingkatkan paket Kamu. |
-| `rate_limit_exceeded` | Kamu mengirim permintaan terlalu cepat. | Terapkan exponential backoff dalam logika upaya ulang Kamu. Lihat [Batas Kecepatan](/id/about/rate-limits) untuk detailnya. |
+| `insufficient_quota` | kamu kehabisan kredit atau mencapai batas pengeluaran kamu. | [Tambah kredit](https://app.neosantara.xyz/billing) ke akun kamu atau tingkatkan paket kamu. |
+| `rate_limit_exceeded` | kamu mengirim permintaan terlalu cepat. | Terapkan exponential backoff dalam logika upaya ulang kamu. Lihat [Rate Limit](/id/about/rate-limits) untuk detailnya. |
 
-### Kesalahan Server & Generasi
+### Error Server & Generasi
 
 | Kode | Deskripsi | Tindakan yang Disarankan |
 | :--- | :--- | :--- |
 | `image_generation_failed` | Model gambar gagal menghasilkan konten (misalnya, filter keamanan). | Coba prompt yang berbeda. Jika terus berlanjut, hubungi dukungan. |
-| `server_error` | Terjadi kesalahan tak terduga di sisi kami. | Coba lagi permintaan setelah menunggu sebentar. Periksa [Halaman Status](https://status.neosantara.xyz) kami untuk gangguan. |
+| `server_error` | Terjadi error tak terduga di sisi kami. | Coba lagi permintaan setelah menunggu sebentar. Periksa [Halaman Status](https://status.neosantara.xyz) kami untuk gangguan. |
 
-## Menangani Batas Kecepatan
+## Menangani Rate Limit
 
-Saat Kamu mencapai batas kecepatan (429), API akan menyertakan header yang menunjukkan kapan Kamu dapat mencoba lagi.
+Saat kamu mencapai rate limit (429), API akan menyertakan header yang menunjukkan kapan kamu dapat mencoba lagi.
 
 ```bash icon="terminal"
 HTTP/1.1 429 Too Many Requests
@@ -78,7 +78,7 @@ X-Ratelimit-Reset-Requests: 1s
 
 **Praktik Terbaik:** Gunakan strategi exponential backoff. Jika permintaan Kamu gagal dengan 429, tunggu sebentar (misalnya, 1 detik), coba lagi, dan jika gagal lagi, lipat gandakan waktu tunggu (2 detik, 4 detik, dst.) hingga batas maksimum.
 
-## Menangani Kesalahan Secara Programatik
+## Menangani Error Secara Programatik
 
 <CodeGroup>
 
@@ -97,16 +97,16 @@ try:
         messages=[{"role": "user", "content": "Halo!"}]
     )
 except openai.APIError as e:
-    # Tangani kesalahan API di sini, misalnya coba lagi atau log
-    print(f"API OpenAI mengembalikan Kesalahan API: {e}")
+    # Tangani error API di sini, misalnya coba lagi atau log
+    print(f"API OpenAI mengembalikan Error API: {e}")
     pass
 except openai.APIConnectionError as e:
-    # Tangani kesalahan koneksi di sini
+    # Tangani error koneksi di sini
     print(f"Gagal terhubung ke API OpenAI: {e}")
     pass
 except openai.RateLimitError as e:
-    # Tangani kesalahan batas kecepatan (kami sarankan menggunakan exponential backoff)
-    print(f"Permintaan API OpenAI melebihi batas kecepatan: {e}")
+    # Tangani error rate limit (kami sarankan menggunakan exponential backoff)
+    print(f"Permintaan API OpenAI melebihi rate limit: {e}")
     pass
 ```
 
@@ -131,7 +131,7 @@ async function main() {
       console.error(error.code);    // misalnya model_not_found
       console.error(error.type);    // misalnya invalid_request_error
     } else {
-      // Kesalahan non-API
+      // Error non-API
       console.log(error);
     }
   }

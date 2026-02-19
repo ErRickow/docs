@@ -1,6 +1,6 @@
 ---
-title: "Batas Kecepatan"
-description: "Panduan komprehensif untuk batas kecepatan Neosantara (RPM, ITPM, OTPM). Pelajari cara perhitungan tier throughput dan cara mengelola lalu lintas permintaan API bervolume tinggi."
+title: "Rate Limit"
+description: "Panduan komprehensif untuk rate limit Neosantara (RPM, ITPM, OTPM). Pelajari cara perhitungan tier throughput dan cara mengelola lalu lintas permintaan API bervolume tinggi."
 ---
 
 Neosantara menerapkan batas throughput untuk memastikan stabilitas platform dan alokasi sumber daya yang adil. Sistem ini mengelola laju permintaan masuk dan pemrosesan token.
@@ -9,11 +9,11 @@ Untuk informasi tentang penagihan dan saldo kredit, silakan merujuk ke dokumenta
 
 ---
 
-## Batas Throughput (Kecepatan)
+## Throughput Limit (Rate Limit)
 
-Batas throughput membatasi laju operasi selama jendela waktu tertentu. Ini adalah batasan teknis yang dirancang untuk mencegah kelebihan beban sistem dan berbeda dari batas penagihan.
+Throughput limit membatasi laju operasi selama jendela waktu tertentu. Ini adalah batasan teknis yang dirancang untuk mencegah kelebihan beban sistem dan berbeda dari batas penagihan.
 
-Sistem menegakkan tiga jenis batas throughput:
+Sistem menegakkan tiga jenis throughput limit:
 
 * **RPM (Requests Per Minute):** Jumlah maksimum permintaan HTTP yang diizinkan per menit.
 * **ITPM (Input Tokens Per Minute):** Jumlah maksimum token input yang diproses per menit.
@@ -30,14 +30,14 @@ Sistem menegakkan tiga jenis batas throughput:
 | Enterprise | 4.000 | 500.000 | 125.000 |
 
 <Note>
-**Pembaruan Tier:** Tier throughput disesuaikan secara otomatis berdasarkan riwayat total deposit Kamu. Lihat [Kredit Token & Harga](/id/about/billing-pricing#throughput-tiers-speed-limits) untuk detailnya.
+**Pembaruan Tier:** Tier throughput disesuaikan secara otomatis berdasarkan riwayat total deposit kamu. Lihat [Kredit Token & Harga](/id/about/billing-pricing#throughput-tiers-speed-limits) untuk detailnya.
 </Note>
 
 ---
 
 ## Header Respons
 
-Respons API menyertakan header HTTP standar yang memberikan status waktu nyata dari penggunaan batas kecepatan klien. Klien harus memantau header ini untuk menghindari mencapai batas kecepatan.
+Respons API menyertakan header HTTP standar yang memberikan status waktu nyata dari penggunaan rate limit klien. Klien harus memantau header ini untuk menghindari mencapai rate limit.
 
 | Header | Deskripsi |
 | :--- | :--- |
@@ -54,11 +54,11 @@ Respons API menyertakan header HTTP standar yang memberikan status waktu nyata d
 
 ---
 
-## Penanganan Kesalahan
+## Penanganan Error
 
 ### 429 Too Many Requests
 
-Kesalahan ini menunjukkan bahwa salah satu **Batas Throughput** teknis (RPM, ITPM, atau OTPM) telah terlampaui. Respons menyertakan header `Retry-After` yang menentukan waktu tunggu dalam detik sebelum permintaan baru dapat dilakukan.
+Error ini menunjukkan bahwa salah satu **Throughput Limit** teknis (RPM, ITPM, atau OTPM) telah terlampaui. Respons menyertakan header `Retry-After` yang menentukan waktu tunggu dalam detik sebelum permintaan baru dapat dilakukan.
 
 ```json icon="code"
 {
