@@ -3,27 +3,17 @@ title: "Models Overview"
 description: "> Discover the range of state-of-the-art large language models provided by Neosantara."
 ---
 
+import { ModelGrid } from '/snippets/model-grid.jsx';
+
 Neosantara offers a curated selection of state-of-the-art models, ranging from our own Indonesian-optimized fine-tunes to the best open-source models from Meta, Google, Alibaba, and more.
 
 <Note>
   **Billing & Pricing:** For a detailed explanation of how credits work, pricing mechanics (Pay-As-You-Go), and throughput tiers, please refer to the [Token Credits & Pricing](/en/about/billing-pricing) documentation.
 </Note>
 
-## Featured Models
+## Model Gallery
 
-<CardGroup cols={2}>
-  <Card title="Nusantara-Base" icon="trophy" href="#text-reasoning-coding-models">
-    Our flagship model. Balanced performance for general tasks, optimized for Indonesian context.
-    * **ID**: `nusantara-base`
-    * **Context**: 64k
-  </Card>
-
-  <Card title="Garda-Beta-Mini" icon="bolt" href="#text-reasoning-coding-models">
-    Lightning fast and efficient. Best for high-volume tasks and long context handling.
-    * **ID**: `garda-beta-mini`
-    * **Context**: 131k
-  </Card>
-</CardGroup>
+<ModelGrid />
 
 ---
 
@@ -62,7 +52,7 @@ Below is the list of available text generation, reasoning, and coding models.
 | `grok-code-fast` | **Coding**. xAI's latest coding model. | 256k | $0.20 / \$1.50 (USD) |
 | `claude-3-haiku` | **Affordable**. Fast and efficient model by Anthropic. | 200k | $0.25 / \$1.25 (USD) |
 | `claude-3-sonnet` | **Balanced**. Intelligence meets speed for enterprise tasks. | 200k | $3.00 / \$15.00 (USD) |
-| `claude-4.5-sonnet` | **Gateway**. Access Anthropic via Vercel. | 200k | $3.00 / \$15.00 (USD) |
+| `claude-4.5-sonnet` | **Anthropic**. The latest flagship, balancing intelligence and vision. | 200k | $3.00 / \$15.00 (USD) |
 
 ## Image & Vision Models
 

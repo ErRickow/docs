@@ -3,27 +3,17 @@ title: "Tinjauan Model"
 description: "> Temukan berbagai model bahasa besar (LLM) mutakhir yang disediakan oleh Neosantara."
 ---
 
+import { ModelGrid } from '/snippets/model-grid.jsx';
+
 Neosantara menawarkan pilihan model canggih yang telah dikurasi, mulai dari model yang dioptimalkan untuk Bahasa Indonesia hingga model sumber terbuka terbaik dari Meta, Google, Alibaba, dan lainnya.
 
 <Note>
   **Penagihan & Harga:** Untuk penjelasan rinci tentang cara kerja kredit, mekanisme harga (Pay-As-You-Go), dan tingkatan throughput, silakan lihat dokumentasi [Kredit Token & Harga](/id/about/billing-pricing).
 </Note>
 
-## Model Unggulan
+## Galeri Model
 
-<CardGroup cols={2}>
-  <Card title="Nusantara-Base" icon="trophy" href="#text-reasoning-coding-models">
-    Model unggulan kami. Kinerja seimbang untuk tugas umum, dioptimalkan untuk konteks Indonesia.
-    * **ID**: `nusantara-base`
-    * **Konteks**: 64k
-  </Card>
-
-  <Card title="Garda-Beta-Mini" icon="bolt" href="#text-reasoning-coding-models">
-    Sangat cepat dan efisien. Terbaik untuk tugas bervolume tinggi dan penanganan konteks panjang.
-    * **ID**: `garda-beta-mini`
-    * **Konteks**: 131k
-  </Card>
-</CardGroup>
+<ModelGrid />
 
 ---
 
@@ -62,7 +52,7 @@ Di bawah ini adalah daftar model pembuatan teks, penalaran, dan pengodean yang t
 | `grok-code-fast` | **Pengodean**. Model pengodean terbaru xAI. | 256k | $0,20 / \$1,50 (USD) |
 | `claude-3-haiku` | **Terjangkau**. Model cepat dan efisien oleh Anthropic. | 200k | $0,25 / \$1,25 (USD) |
 | `claude-3-sonnet` | **Seimbang**. Kecerdasan bertemu kecepatan untuk tugas perusahaan. | 200k | $3,00 / \$15,00 (USD) |
-| `claude-4.5-sonnet` | **Gerbang**. Akses Anthropic melalui Vercel. | 200k | $3,00 / \$15,00 (USD) |
+| `claude-4.5-sonnet` | **Anthropic**. Flagship terbaru, menyeimbangkan kecerdasan dan visi. | 200k | $3,00 / \$15,00 (USD) |
 
 ## Model Gambar & Visi
 
@@ -99,13 +89,13 @@ Model yang dikhususkan untuk klasifikasi dan moderasi keamanan konten.
 
 ## Siap Membangun?
 
-Mulai integrasikan model-model ini ke dalam aplikasi Kamu hari ini.
+Mulai integrasikan model-model ini ke dalam aplikasi kamu hari ini.
 
 <CardGroup cols={2}>
   <Card title="Dapatkan Kunci API" icon="key" href="https://app.neosantara.xyz">
-    Dapatkan kunci API gratis Kamu dan mulai bereksperimen dengan kredit gratis di awal.
+    Dapatkan kunci API gratis kamu dan mulai bereksperimen dengan kredit gratis di awal.
   </Card>
   <Card title="Lihat Mulai Cepat" icon="rocket" href="/id/quickstart">
-    Ikuti panduan langkah demi langkah kami untuk membuat permintaan API pertama Kamu dalam hitungan menit.
+    Ikuti panduan langkah demi langkah kami untuk membuat permintaan API pertama kamu dalam hitungan menit.
   </Card>
 </CardGroup>
