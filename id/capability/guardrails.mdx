@@ -170,3 +170,23 @@ curl https://api.neosantara.xyz/v1/chat/completions
 ```
 
 </CodeGroup>
+
+## Integrasi OpenAI Guardrails
+
+Neosantara AI sepenuhnya kompatibel dengan [**openai-guardrails-js**](https://github.com/openai/openai-guardrails-js) dan library serupa lainnya. Dengan menggabungkan kedua alat ini, kamu mendapatkan **Double Guarding**: validasi sisi client untuk feedback instan dan perlindungan PII khusus Indonesia di sisi server dari Neosantara.
+
+Untuk mengintegrasikannya, kamu cukup mengarahkan `baseURL` ke Neosantara dan gunakan kunci `nsk_` kamu.
+
+```typescript
+import { GuardrailsOpenAI } from '@openai/guardrails';
+
+const guardrailsClient = await GuardrailsOpenAI.create(MY_CONFIG, {
+  baseURL: 'https://api.neosantara.xyz/v1/',
+  apiKey: 'nsk_your_api_key_here',
+});
+
+const response = await guardrailsClient.guardrails.chat.completions.create({
+  model: 'nusantara-base',
+  messages: [{ role: 'user', content: 'Halo, siapa namamu?' }],
+});
+```
