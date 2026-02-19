@@ -1,5 +1,5 @@
 ---
-title: "Retrieval-Augmented Generation (RAG)"
+title: "Retrieval-Augmented Generation"
 description: "Build a Knowledge-Aware AI using Neosantara Embeddings and Chat"
 ---
 
@@ -21,7 +21,7 @@ We will build a system that:
 
 ---
 
-## Step 1: Create Embeddings (Ingestion)
+## Step 1: Create Embeddings
 
 First, we need to turn your text data into numbers (vectors) so the AI can search it.
 
@@ -62,7 +62,7 @@ async function createKnowledgeBase() {
 }
 ```
 
-## Step 2: Search (Retrieval)
+## Step 2: Search
 
 When a user asks a question, we convert their question into a vector and find the closest matching documents using **Cosine Similarity**.
 
@@ -100,7 +100,7 @@ async function retrieveContext(query, vectorStore) {
 }
 ```
 
-## Step 3: Generate Answer (Generation)
+## Step 3: Generate Answer
 
 Finally, we pass the retrieved context to the LLM to generate a natural answer.
 
@@ -174,7 +174,7 @@ Without RAG, the model might hallucinate a fake refund policy or give generic ad
 
 ---
 
-## Integrating with Vector Databases (e.g., Pinecone)
+## Integrating with Vector Databases
 
 For production-ready RAG applications, you'll need a scalable way to store and retrieve your embeddings. **Vector databases** like Pinecone, Weaviate, Qdrant, or Postgres with `pgvector` are designed for this purpose.
 

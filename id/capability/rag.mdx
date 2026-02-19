@@ -1,15 +1,15 @@
 ---
-title: "Retrieval-Augmented Generation (RAG)"
+title: "Retrieval-Augmented Generation"
 description: "Bangun AI Sadar Pengetahuan menggunakan Neosantara Embeddings dan Chat"
 ---
 
-Panduan ini menunjukkan cara membangun aplikasi RAG "Dunia Nyata": **Asisten Dukungan Pelanggan** yang menjawab pertanyaan berdasarkan dokumentasi perusahaan Kamu, bukan hanya data pelatihannya.
+Panduan ini menunjukkan cara membangun aplikasi RAG "Dunia Nyata": **Asisten Dukungan Pelanggan** yang menjawab pertanyaan berdasarkan dokumentasi perusahaan kamu, bukan hanya data pelatihannya.
 
 ## Apa yang kita bangun
 
 Kita akan membangun sistem yang:
 
-1. **Membaca** dokumen dukungan Kamu.
+1. **Membaca** dokumen dukungan kamu.
 2. **Mengonversi** mereka menjadi vektor embedding menggunakan `nusa-embedding-0001`.
 3. **Mencari** info relevan saat pengguna mengajukan pertanyaan.
 4. **Menghasilkan** jawaban yang akurat menggunakan `nusantara-base` atau `garda-beta-mini`.
@@ -17,13 +17,13 @@ Kita akan membangun sistem yang:
 ## Prasyarat
 
 * Kunci API Neosantara.
-* Penyimpanan vektor sederhana (kita akan menggunakan contoh in-memory lokal untuk kesederhanaan, tetapi Kamu dapat menggunakan Pinecone, Supabase, atau Qdrant).
+* Penyimpanan vektor sederhana (kita akan menggunakan contoh in-memory lokal untuk kesederhanaan, tetapi kamu dapat menggunakan Pinecone, Supabase, atau Qdrant).
 
 ---
 
-## Langkah 1: Buat Embedding (Ingesti)
+## Langkah 1: Buat Embedding
 
-Pertama, kita perlu mengubah data teks Kamu menjadi angka (vektor) sehingga AI dapat mencarinya.
+Pertama, kita perlu mengubah data teks kamu menjadi angka (vektor) sehingga AI dapat mencarinya.
 
 ```javascript icon="js"
 import OpenAI from "openai";
@@ -33,10 +33,10 @@ const client = new OpenAI({
   apiKey: "KUNCI_API_NEOSANTARA_KAMU"
 });
 
-// "Basis Pengetahuan" Kamu
+// "Basis Pengetahuan" kamu
 const documents = [
-  "Untuk mereset kata sandi Kamu, buka Pengaturan > Keamanan > Reset Kata Sandi.",
-  "Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.",
+  "Untuk mereset kata sandi kamu, buka Pengaturan > Keamanan > Reset Kata Sandi.",
+  "Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian kamu.",
   "Jam dukungan adalah Senin sampai Jumat, pukul 09.00 hingga 17.00 WIB.",
   "Batas kecepatan API Neosantara untuk tier Gratis adalah 1000 RPM."
 ];
@@ -62,7 +62,7 @@ async function createKnowledgeBase() {
 }
 ```
 
-## Langkah 2: Cari (Pengambilan)
+## Langkah 2: Cari
 
 Saat pengguna mengajukan pertanyaan, kita mengonversi pertanyaan mereka menjadi vektor dan menemukan dokumen yang paling cocok menggunakan **Cosine Similarity**.
 
@@ -100,7 +100,7 @@ async function retrieveContext(query, vectorStore) {
 }
 ```
 
-## Langkah 3: Hasilkan Jawaban (Generasi)
+## Langkah 3: Hasilkan Jawaban
 
 Terakhir, kita meneruskan konteks yang diambil ke LLM untuk menghasilkan jawaban yang alami.
 
@@ -120,7 +120,7 @@ async function answerUserQuestion(question, vectorStore) {
     messages: [
       {
         role: "system",
-        content: "Kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan. Jika jawabannya tidak ada dalam konteks, katakan Kamu tidak tahu."
+        content: "Kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan. Jika jawabannya tidak ada dalam konteks, katakan kamu tidak tahu."
       },
       {
         role: "user",
@@ -157,9 +157,9 @@ main();
 ```text
 Pengguna bertanya: "Bagaimana cara mendapatkan pengembalian dana?"
 Menemukan konteks:
-Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.
+Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, silakan hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian kamu.
 ...
-Jawaban AI: Untuk mendapatkan pengembalian dana, harap hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu.
+Jawaban AI: Untuk mendapatkan pengembalian dana, harap hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian kamu.
 
 Pengguna bertanya: "Bagaimana cara membuat kue?"
 Menemukan konteks:
@@ -170,21 +170,21 @@ Jawaban AI: Saya tidak tahu. Saya hanya dapat membantu dengan pertanyaan dukunga
 
 ## Mengapa ini penting?
 
-Tanpa RAG, model mungkin berhalusinasi tentang kebijakan pengembalian dana palsu atau memberikan saran umum. Dengan RAG, ia mematuhi data **Kamu** secara ketat, memberikan informasi yang akurat dan dapat ditindaklanjuti.
+Tanpa RAG, model mungkin berhalusinasi tentang kebijakan pengembalian dana palsu atau memberikan saran umum. Dengan RAG, ia mematuhi data **kamu** secara ketat, memberikan informasi yang akurat dan dapat ditindaklanjuti.
 
 ---
 
-## Berintegrasi dengan Database Vektor (misalnya, Pinecone)
+## Berintegrasi dengan Database Vektor
 
-Untuk aplikasi RAG siap produksi, Kamu memerlukan cara yang skalabel untuk menyimpan dan mengambil embedding Kamu. **Database vektor** seperti Pinecone, Weaviate, Qdrant, atau Postgres dengan `pgvector` dirancang untuk tujuan ini.
+Untuk aplikasi RAG siap produksi, kamu memerlukan cara yang skalabel untuk menyimpan dan mengambil embedding kamu. **Database vektor** seperti Pinecone, Weaviate, Qdrant, atau Postgres dengan `pgvector` dirancang untuk tujuan ini.
 
-Alur inti RAG tetap sama, tetapi Langkah 1 (Buat Embedding) dan Langkah 2 (Cari) akan melibatkan interaksi dengan database vektor pilihan Kamu, alih-alih array in-memory lokal.
+Alur inti RAG tetap sama, tetapi Langkah 1 (Buat Embedding) dan Langkah 2 (Cari) akan melibatkan interaksi dengan database vektor pilihan kamu, alih-alih array in-memory lokal.
 
 ### Langkah Tingkat Tinggi untuk Integrasi Pinecone
 
 1. **Siapkan Indeks Pinecone**: Inisialisasi klien Pinecone dan buat indeks dengan `dimensi` yang sesuai (misalnya, 768 untuk `nusa-embedding-0001`).
-2. **Upsert Embedding**: Saat membuat basis pengetahuan Kamu, alih-alih memasukkannya ke `vectorStore`, Kamu akan melakukan `upsert` potongan dokumen Kamu dan embedding korespondensinya ke indeks Pinecone Kamu.
-3. **Kueri Pinecone**: Untuk pengambilan, embed pertanyaan pengguna lalu gunakan klien Pinecone untuk menanyakan indeks Kamu untuk top-k (misalnya, top 2) vektor yang paling mirip. Pinecone menangani perhitungan kesamaan untuk Kamu.
+2. **Upsert Embedding**: Saat membuat basis pengetahuan kamu, alih-alih memasukkannya ke `vectorStore`, kamu akan melakukan `upsert` potongan dokumen kamu dan embedding korespondensinya ke indeks Pinecone kamu.
+3. **Kueri Pinecone**: Untuk pengambilan, embed pertanyaan pengguna lalu gunakan klien Pinecone untuk menanyakan indeks kamu untuk top-k (misalnya, top 2) vektor yang paling mirip. Pinecone menangani perhitungan kesamaan untuk kamu.
 4. **Ambil Konteks Lengkap**: Dari hasil kueri Pinecone, ekstrak konten teks asli dari dokumen yang relevan untuk diteruskan ke LLM.
 
 ```javascript icon="js"
@@ -206,7 +206,7 @@ async function retrievePineconeContext(query) {
 }
 ```
 
-Dengan memanfaatkan database vektor yang kuat, aplikasi RAG Kamu dapat diskalakan ke jutaan dokumen sambil tetap mempertahankan pengambilan yang cepat dan akurat.
+Dengan memanfaatkan database vektor yang kuat, aplikasi RAG kamu dapat diskalakan ke jutaan dokumen sambil tetap mempertahankan pengambilan yang cepat dan akurat.
 
 Untuk contoh lengkap yang dapat dijalankan menggunakan ChromaDB, lihat panduan terperinci kami: [Bangun Aplikasi RAG dengan ChromaDB](/id/guides/rag-chromadb-example).
 Untuk berintegrasi dengan Cloudflare Vectorize, lihat: [Bangun Aplikasi RAG dengan Cloudflare Vectorize](/id/guides/rag-cloudflare-vectorize-example).
