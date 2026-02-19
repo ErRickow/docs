@@ -1,48 +1,34 @@
 ---
-title: "Generasi Gambar"
-description: "Hasilkan gambar berkualitas tinggi dari prompt teks menggunakan berbagai model AI seperti FLUX, Titan, dan Stable Diffusion."
+title: "Image Generation"
+description: "Hasilkan gambar berkualitas tinggi dari prompt teks menggunakan berbagai model AI."
 ---
 
-Generasi gambar memungkinkan Kamu untuk membuat konten visual unik langsung dari deskripsi tekstual (prompt). Kemampuan ini dapat digunakan untuk aplikasi kreatif, pembuatan konten, desain, dan banyak lagi.
+import { ModelCards } from '/snippets/model-cards.jsx';
+
+Neosantara API menyediakan endpoint terpadu untuk generasi gambar, yang sepenuhnya kompatibel dengan standar OpenAI.
+
+## Model yang Mendukung
+
+<ModelCards capability="image_generation" />
 
 ## Penggunaan
 
-Untuk menghasilkan gambar, kirim permintaan POST ke endpoint `/v1/images/generations`. Endpoint ini sepenuhnya kompatibel dengan standar Generasi Gambar OpenAI.
-
-### Endpoint
-
-`POST /v1/images/generations`
+Kirim permintaan `POST` ke endpoint `/v1/images/generations`.
 
 <Note>
-  Untuk deskripsi parameter terperinci dan untuk menguji API secara langsung, kunjungi [Referensi API](/api-reference/images/create-image-generation).
+  Lihat [Referensi API](/api-reference/images/create-image-generation) untuk detail parameter lengkap.
 </Note>
 
-## Kemampuan Tingkat Lanjut
+### Manipulasi Gambar Lanjut
 
-Beberapa model, seperti **Titan Image G1**, mendukung tugas manipulasi gambar tingkat lanjut:
-
-### Image-to-Image (Variasi)
-
-Hasilkan gambar baru berdasarkan gambar yang sudah ada. Berikan gambar asli dalam parameter `image` (sebagai string base64) dan `prompt` yang menjelaskan perubahan atau gaya yang diinginkan.
-
-### Inpainting & Outpainting
-
-*   **Inpainting**: Mengubah area tertentu dari sebuah gambar menggunakan `mask_image`.
-*   **Outpainting**: Memperluas gambar melampaui batas-batasnya dengan menyetel `outpainting_mode` ke `"DEFAULT"` atau `"PRECISE"`.
+Beberapa model mendukung tugas tambahan:
+*   **Variasi**: Berikan gambar dalam format base64 pada parameter `image`.
+*   **Inpainting**: Ubah area tertentu menggunakan `mask_image`.
+*   **Outpainting**: Perluas gambar melampaui batas aslinya menggunakan `outpainting_mode`.
 
 ---
 
-## Model Gambar yang Didukung
-
-| ID Model | Terbaik Untuk |
-| :--- | :--- |
-| `titan-image-g1` | Serbaguna, berkinerja tinggi, mendukung Inpainting/Outpainting |
-| `neosantara-gen-2045` | Hasil berkualitas tinggi, artistik, dan sinematik |
-| `stable-diffusion-v1-5-img2img` | Generasi gambar-ke-gambar yang efisien dan cepat |
-
----
-
-## Contoh Python dan JavaScript (SDK OpenAI)
+## Contoh
 
 <CodeGroup>
 
