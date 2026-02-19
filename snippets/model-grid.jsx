@@ -13,21 +13,21 @@ export const ModelGrid = () => {
         },
         {
           name: "Claude 4.5 Sonnet",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/anthropic-color.webp",
+          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/claude-color.webp",
           description: "Anthropic's latest flagship, balancing intelligence, speed, and vision capabilities.",
           link: "/models/claude-4.5-sonnet"
         },
         {
           name: "Nusantara Base",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/google-color.webp",
+          icon: "/logo/neosantara_logo.svg",
           description: "Optimized for Indonesian context, providing balanced performance and cost-efficiency.",
           link: "/models/nusantara-base"
         },
         {
-          name: "Archipelago 70B",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/meta-color.webp",
-          description: "High-performance Indonesian model with deep cultural awareness and linguistic precision.",
-          link: "/models/archipelago-70b"
+          name: "Gemini 3 Flash",
+          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/google-color.webp",
+          description: "Google most intelligent model built for speed, combining frontier intelligence with superior search and grounding",
+          link: "/models/gemini-3-flash"
         },
         {
           name: "Grok 4.1 Fast",
@@ -56,7 +56,7 @@ export const ModelGrid = () => {
         },
         {
           name: "Neosantara Gen 2045",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/flux-color.webp",
+          icon: "/logo/neosantara_logo.svg",
           description: "Cinematic and artistic Indonesian-themed generations with optimal speed.",
           link: "/models/neosantara-gen-2045"
         }
@@ -94,7 +94,7 @@ export const ModelGrid = () => {
         },
         {
           name: "Claude 4.5 Vision",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/anthropic-color.webp",
+          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/claude-color.webp",
           description: "Industry-leading visual analysis and chart interpretation.",
           link: "/en/capability/image-understanding"
         }
@@ -113,7 +113,7 @@ export const ModelGrid = () => {
         },
         {
           name: "OpenAI v3 Small",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/openai-color.webp",
+          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/openai.webp",
           description: "Highly efficient and cost-effective embedding for search and clustering.",
           link: "/models/text-embedding-3-small"
         }
@@ -126,7 +126,7 @@ export const ModelGrid = () => {
       items: [
         {
           name: "Whisper Large v3 Turbo",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/openai-color.webp",
+          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/openai.webp",
           description: "OpenAI's fastest speech recognition model with multilingual support.",
           link: "/models/whisper-large-v3-turbo"
         }
