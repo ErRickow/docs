@@ -37,7 +37,7 @@ export const ModelGrid = () => {
         },
         {
           name: "Kimi K2",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/moonshot-color.webp",
+          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/kimi-color.webp",
           description: "Agentic powerhouse with 1T parameters and native long-context tool use.",
           link: "/models/kimi-k2"
         }
@@ -75,7 +75,7 @@ export const ModelGrid = () => {
         },
         {
           name: "Kimi K2 Thinking",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/moonshot-color.webp",
+          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/kimi-color.webp",
           description: "Advanced reasoning model optimized for math and complex synthesis.",
           link: "/en/capability/reasoning"
         }

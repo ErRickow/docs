@@ -30,7 +30,7 @@ import Anthropic from '@anthropic-ai/sdk';
  
 const client = new Anthropic({
   apiKey: process.env.NAI_API_KEY,
-  baseURL: 'https://api.neosantara.xyz',
+  baseURL: 'https://api.neosantara.xyz/anthropic',
 });
  
 const message = await client.messages.create({
