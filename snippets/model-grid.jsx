@@ -107,7 +107,7 @@ export const ModelGrid = () => {
       items: [
         {
           name: "Nusa Embedding",
-          icon: "https://unpkg.com/@lobehub/icons-static-webp@latest/dark/openai-color.webp",
+          icon: "/logo/neosantara_logo.svg",
           description: "Optimized for Indonesian semantic search and RAG pipelines.",
           link: "/models/nusa-embedding-0001"
         },
