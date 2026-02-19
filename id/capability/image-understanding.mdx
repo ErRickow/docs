@@ -1,0 +1,156 @@
+---
+title: "Image Understanding (Vision)"
+description: "Analisis, deskripsikan, dan ekstrak informasi dari gambar menggunakan model AI multimodal."
+---
+
+Neosantara API mendukung kemampuan multimodal, yang memungkinkan kamu mengirimkan gambar bersama dengan prompt teks ke berbagai model AI. Fitur ini memungkinkan kamu untuk mendeskripsikan suasana, mengidentifikasi objek, membaca grafik, atau mengekstrak teks tulisan tangan.
+
+## Model yang Mendukung
+
+Model yang mendukung **Image Understanding** antara lain:
+
+*   **Google**: `gemini-3-flash-preview`, `gemini-3-pro-preview`
+*   **Anthropic**: `claude-4.5-sonnet`, `claude-4.5-opus`, `claude-4.5-haiku`, `claude-3-haiku`, `claude-3-sonnet`
+*   **Zhipu AI**: `glm-4.6`, `glm-4.6v-flash`, `glm-4.7`
+*   **Moonshot**: `kimi-k2:latest`, `kimi-k1`
+
+## Cara Penggunaan
+
+Untuk menggunakan kemampuan vision, kamu memberikan array `content` pada pesan user, yang mencakup bagian dengan tipe `image_url`.
+
+### Menggunakan URL Gambar
+
+Kamu bisa memberikan tautan gambar yang dapat diakses secara publik.
+
+<CodeGroup>
+
+```python OpenAI (Python)
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="YOUR_NSK_KEY",
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.chat.completions.create(
+    model="claude-4.5-sonnet",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": "Apa isi dari gambar ini?"},
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": "https://example.com/image.jpg",
+                    },
+                },
+            ],
+        }
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+```javascript OpenAI (Node.js)
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "YOUR_NSK_KEY",
+  baseURL: "https://api.neosantara.xyz/v1"
+});
+
+const response = await openai.chat.completions.create({
+  model: "claude-4.5-sonnet",
+  messages: [
+    {
+      role: "user",
+      content: [
+        { type: "text", text: "Apa isi dari gambar ini?" },
+        {
+          type: "image_url",
+          image_url: {
+            url: "https://example.com/image.jpg",
+          },
+        },
+      ],
+    },
+  ],
+});
+
+console.log(response.choices[0].message.content);
+```
+
+</CodeGroup>
+
+### Menggunakan Gambar Berformat Base64
+
+Untuk gambar lokal, kamu bisa mengubahnya ke format Base64 dan mengirimkannya menggunakan skema URL `data:`.
+
+<CodeGroup>
+
+```python Python
+import base64
+from openai import OpenAI
+
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
+
+base64_image = encode_image("jalur/ke/gambar/kamu.jpg")
+
+client = OpenAI(api_key="YOUR_NSK_KEY", base_url="https://api.neosantara.xyz/v1")
+
+response = client.chat.completions.create(
+    model="claude-4.5-sonnet",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": "Deskripsikan gambar lokal ini."},
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{base64_image}"
+                    }
+                }
+            ]
+        }
+    ]
+)
+```
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NSK_KEY" \
+  -d '{
+    "model": "claude-4.5-sonnet",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          { "type": "text", "text": "Ini apa ya?" },
+          { "type": "image_url", "image_url": { "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" } }
+        ]
+      }
+    ]
+  }'
+```
+
+</CodeGroup>
+
+## Format Gambar yang Didukung
+
+Neosantara API mendukung format gambar berikut:
+*   **JPEG** (`image/jpeg`)
+*   **PNG** (`image/png`)
+*   **WebP** (`image/webp`)
+*   **GIF** (`image/gif`) - Catatan: Beberapa model mungkin hanya menganalisis frame pertama.
+
+## Praktik Terbaik
+
+1.  **Ukuran Gambar**: Untuk hasil terbaik, gunakan gambar dengan ukuran di bawah 5MB. Gambar besar mungkin akan diubah ukurannya secara otomatis oleh penyedia layanan.
+2.  **Tingkat Detail**: Meskipun beberapa model mendukung parameter `detail` (`low`, `high`, `auto`), sebagian besar model mengoptimalkan ini secara otomatis.
+3.  **Beberapa Gambar Sekaligus**: Sebagian besar model multimodal mendukung pengiriman beberapa gambar dalam satu permintaan untuk perbandingan atau analisis berurutan.
