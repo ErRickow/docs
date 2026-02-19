@@ -3,16 +3,13 @@ title: "Image Understanding"
 description: "Analyze, describe, and extract information from images using multimodal AI models."
 ---
 
+import { ModelCards } from '/snippets/model-cards.jsx';
+
 Neosantara API supports multimodal capabilities, allowing you to send images along with your text prompts to various AI models. This enables use cases such as describing scenes, identifying objects, reading charts, or extracting handwritten text.
 
 ## Supported Models
 
-Models that support **Image Understanding** include:
-
-*   **Google**: `gemini-3-flash-preview`, `gemini-3-pro-preview`
-*   **Anthropic**: `claude-4.5-sonnet`, `claude-4.5-opus`, `claude-4.5-haiku`, `claude-3-haiku`, `claude-3-sonnet`
-*   **Zhipu AI**: `glm-4.6`, `glm-4.6v-flash`, `glm-4.7`
-*   **Moonshot**: `kimi-k2:latest`, `kimi-k1`
+<ModelCards capability="vision" />
 
 ## How to Use
 

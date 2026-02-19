@@ -1,13 +1,17 @@
 ---
-title: "Mulai Cepat Llama 3.3 Nemotron"
-description: "> Dapatkan panduan memulai integrasi Neosantara dengan Llama 3.3 Nemotron, model penalaran terbuka yang kuat."
+title: "Reasoning"
+description: "Selesaikan tugas kompleks dengan pemikiran langkah demi langkah menggunakan model AI canggih."
 ---
 
-Model penalaran bobot terbuka yang fleksibel ini dirancang untuk pengembang dan perusahaan yang membutuhkan transparansi dan kustomisasi sambil tetap mempertahankan kemampuan penalaran tingkat lanjut untuk tugas-tugas kompleks.
+import { ModelCards } from '/snippets/model-cards.jsx';
 
-Model Llama 3.3 Nemotron sangat mumpuni dalam pengodean, matematika, dan alur kerja agentik. Secara default, Neosantara mengoptimalkan kecepatan dan efisiensi biaya dengan menonaktifkan penalaran. Kamu dapat mengaktifkannya secara eksplisit saat diperlukan.
+Neosantara API mendukung berbagai model yang dirancang untuk penalaran mendalam, matematika, dan pemecahan masalah yang kompleks. Model-model ini dapat "berpikir" sebelum menjawab, membedah instruksi menjadi langkah-langkah logis.
 
----
+## Model yang Mendukung
+
+<ModelCards capability="reasoning" />
+
+## Memulai
 
 --
 
@@ -21,7 +25,7 @@ Secara default, model akan memberikan jawaban langsung tanpa proses berpikir unt
 
 #### **Mengaktifkan Penalaran**
 
-Untuk mengaktifkan penalaran langkah demi langkah, Kamu dapat menggunakan **parameter `thinking`** (Direkomendasikan untuk SDK Anthropic/OpenAI) atau menambahkan `/think` ke prompt sistem Kamu.
+Untuk mengaktifkan penalaran langkah demi langkah, kamu dapat menggunakan **parameter `thinking`** (Direkomendasikan untuk SDK Anthropic/OpenAI) atau menambahkan `/think` ke prompt sistem kamu.
 
 ```python icon="python"
 from openai import OpenAI
@@ -54,7 +58,7 @@ for chunk in stream:
 
 #### **Kontrol Manual**
 
-Kamu juga dapat mengontrol penalaran melalui instruksi prompt:
+kamu juga dapat mengontrol penalaran melalui instruksi prompt:
 - **Aktifkan**: Mulai prompt sistem dengan `/think`.
 - **Nonaktifkan (Default)**: Mulai prompt sistem dengan `/no_think`.
 
@@ -66,17 +70,17 @@ Neosantara menyediakan versi optimal dari model inti seperti `nusantara-base` da
 
 #### **Cara Kerjanya**
 
-Saat Kamu mengaktifkan penalaran untuk model-model ini (melalui parameter `thinking` atau `/think`), Neosantara secara otomatis menambahkan instruksi tingkat sistem (misalnya, *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaan Kamu. Ini memastikan model membedah masalah sebelum memberi Kamu jawaban akhir.
+Saat kamu mengaktifkan penalaran untuk model-model ini (melalui parameter `thinking` atau `/think`), Neosantara secara otomatis menambahkan instruksi tingkat sistem (misalnya, *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) ke permintaan kamu. Ini memastikan model membedah masalah sebelum memberi kamu jawaban akhir.
 
 ---
 
 ### Model Berpikir (Claude & Gemini)
 
-Untuk model yang mendukung penalaran asli, seperti **Claude 3.5 Sonnet** dan **Gemini 2.0 Flash**, Neosantara mendukung parameter `thinking`. Ini memungkinkan Kamu untuk mengalokasikan anggaran token tertentu untuk proses pemikiran internal model.
+Untuk model yang mendukung penalaran asli, seperti **Claude 3.5 Sonnet** and **Gemini 2.0 Flash**, Neosantara mendukung parameter `thinking`. Ini memungkinkan kamu untuk mengalokasikan anggaran token tertentu untuk proses pemikiran internal model.
 
 #### **Menggunakan Parameter `thinking`**
 
-Saat menggunakan API yang kompatibel dengan Anthropic, Kamu dapat memberikan objek `thinking`.
+Saat menggunakan API yang kompatibel dengan Anthropic, kamu dapat memberikan objek `thinking`.
 
 ```json icon="code"
 {
@@ -91,7 +95,7 @@ Saat menggunakan API yang kompatibel dengan Anthropic, Kamu dapat memberikan obj
 
 #### **Pemetaan Upaya Penalaran**
 
-Jika Kamu menggunakan API yang kompatibel dengan OpenAI, anggaran `thinking` secara otomatis dipetakan ke parameter `reasoning_effort` berdasarkan standar industri:
+Jika kamu menggunakan API yang kompatibel dengan OpenAI, anggaran `thinking` secara otomatis dipetakan ke parameter `reasoning_effort` berdasarkan standar industri:
 
 | `budget_tokens` | `reasoning_effort` |
 | :--- | :--- |
@@ -108,7 +112,7 @@ Untuk mendapatkan hasil terbaik dari Llama 3.3 Nemotron, perlakukan ia seperti p
 
 - **Kekuatan**: Unggul dalam penalaran terbuka, logika multi-langkah, dan masalah pengodean atau matematika yang kompleks.
 - **Hindari Over-prompting**: Mengatur setiap langkah secara mikro dapat membatasi kemampuan penalaran tingkat lanjut model. Berikan tujuannya, bukan jalan pastinya.
-- **Berikan Tujuan yang Jelas**: Pastikan prompt Kamu jelas dan tidak ambigu untuk mendapatkan respons yang paling akurat dan relevan.
+- **Berikan Tujuan yang Jelas**: Pastikan prompt kamu jelas dan tidak ambigu untuk mendapatkan respons yang paling akurat dan relevan.
 - **Gunakan Streaming**: Untuk kueri yang kompleks, proses penalaran dapat menghasilkan banyak teks. Melakukan streaming respons memberikan pengalaman pengguna yang jauh lebih baik.
 
 ---
