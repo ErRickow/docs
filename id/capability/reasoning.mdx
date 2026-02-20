@@ -31,47 +31,27 @@ Untuk model yang didukung, kamu dapat mengontrol "kedalaman" pemikiran menggunak
 | < 2.000 | `minimal` | Pemeriksaan logika cepat, ringkasan sederhana. |
 | 2.000 - 5.000 | `low` | Tugas pengodean dasar, instruksi multi-langkah. |
 | 5.000 - 10.000 | `medium` | Debugging kompleks, logika penulisan kreatif. |
-| > 10.000 | `high` | Pembuktian matematis, perencanaan arsitektur. |
+| > 10.000 | `high` | Bukti matematis, perencanaan arsitektur. |
+
+### Pelaporan Token
+Token penalaran dilacak secara terpisah dari jawaban akhir untuk memberikan transparansi yang lebih baik tentang penggunaan dan biaya.
+*   **Format OpenAI**: Dilaporkan di `usage.completion_tokens_details.reasoning_tokens`.
+*   **Responses API**: Dilaporkan di `usage.output_tokens_details.reasoning_tokens`.
+*   **Billing**: Token penalaran ditagih dengan tarif yang sama dengan token output standar untuk sebagian besar model.
 
 ---
 
 ## Mengaktifkan Penalaran
 
-Kamu dapat mengaktifkan penalaran menggunakan objek konfigurasi `thinking` atau pemicu prompt manual.
+kamu dapat mengaktifkan penalaran menggunakan objek konfigurasi `thinking` atau pemicu prompt manual.
 
-### Melalui Parameter API (Direkomendasikan)
+### Implementasi Lengkap
 
-<CodeGroup>
+Untuk contoh kode lengkap dan pemetaan parameter spesifik di berbagai SDK, silakan merujuk ke:
 
-```python OpenAI SDK
-response = client.chat.completions.create(
-    model="deepseek-r1",
-    messages=[{"role": "user", "content": "Selesaikan: 15 * 24 + 133"}],
-    extra_body={
-        "thinking": { "type": "enabled", "budget_tokens": 2048 }
-    }
-)
-
-# Akses penalaran secara terpisah
-print(response.choices[0].message.reasoning_content)
-print(response.choices[0].message.content)
-```
-
-```json JSON Payload
-{
-  "model": "claude-4.5-sonnet",
-  "messages": [...],
-  "thinking": {
-    "type": "enabled",
-    "budget_tokens": 4096
-  }
-}
-```
-
-</CodeGroup>
-
-### Melalui Pemicu Manual
-Kamu juga dapat memaksa model chat apa pun ke mode penalaran dengan memulai prompt sistem kamu dengan perintah **`/think`**. Untuk menonaktifkannya secara eksplisit, gunakan **`/no_think`**.
+*   **[Penalaran di Responses API](/id/sdk/responses-api/text-generation#model-penalaran)**: Bagaimana blok penalaran muncul dalam array output yang stateful.
+*   **[Penalaran di OpenAI Compatible API](/id/sdk/openai-compat/chat-completions)**: Menggunakan parameter `thinking` dengan SDK OpenAI.
+*   **[Penalaran di Anthropic Compatible API](/id/sdk/anthropic-compat/messages)**: Menggunakan objek `thinking` native dari Anthropic.
 
 ---
 

@@ -50,13 +50,23 @@ data: [DONE]
 ## Detail Teknis
 
 ### 1. HTTP Headers
-Untuk memastikan aliran yang stabil, Neosantara menyetel header berikut:
+Untuk memastikan aliran data yang stabil, Neosantara menetapkan header berikut:
 - `Content-Type: text/event-stream`: Mengidentifikasi koneksi sebagai aliran data jangka panjang.
 - `Cache-Control: no-cache`: Mencegah proxy perantara melakukan buffering data.
-- `Connection: keep-alive`: Menjaga koneksi TCP tetap aktif.
+- `Connection: keep-alive`: Menjaga koneksi TCP tetap terbuka.
 
 ### 2. Sinyal Berhenti (Stop Signal)
-Setelah generasi selesai, server akan mengirimkan pesan data final `[DONE]` atau event `response.completed`. Klien harus mendeteksi sinyal ini untuk menutup koneksi dan memfinalisasi status internal mereka.
+Setelah pembuatan selesai, server mengirimkan pesan data akhir `[DONE]` atau event `response.completed`. Klien harus mendeteksi sinyal ini untuk menutup koneksi dan memproses hasil akhirnya.
+
+---
+
+## Implementasi Lengkap
+
+Untuk contoh kode lengkap, parameter khusus SDK, dan praktik terbaik, silakan merujuk ke panduan integrasi berikut:
+
+*   **[Streaming via Responses API](/id/sdk/responses-api/streaming)**: Direkomendasikan untuk proyek baru.
+*   **[Streaming via OpenAI Compatible API](/id/sdk/openai-compat/chat-completions#streaming-chat-completion)**: Untuk pengguna SDK OpenAI.
+*   **[Streaming via Anthropic Compatible API](/id/sdk/anthropic-compat/messages#streaming-messages)**: Untuk pengguna SDK Anthropic.
 
 ---
 
