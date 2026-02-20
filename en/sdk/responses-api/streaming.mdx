@@ -91,3 +91,13 @@ The Responses API emits specific events during the generation process:
 <Note>
   When building custom parsers, always look for the `response.output_text.delta` type to capture the streaming text for your UI.
 </Note>
+
+---
+
+## Technical Context
+
+The Responses API uses a specialized streaming protocol designed for multimodal and reasoning-heavy applications.
+
+*   **SSE Headers**: The stream includes `Cache-Control: no-cache` and `Connection: keep-alive` to ensure real-time delivery without proxy buffering.
+*   **Reasoning Events**: Models with thinking capabilities emit `response.reasoning_summary_text.delta` events before the final answer.
+*   **Protocol Details**: For a deep dive into the underlying Server-Sent Events (SSE) structure, retry logic, and event mapping, see the [Streaming Capability](/en/capability/stream) page.

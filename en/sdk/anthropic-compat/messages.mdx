@@ -162,3 +162,11 @@ Streaming responses use [Server-Sent Events (SSE)](https://developer.mozilla.org
 *   `content_block_stop` - End of a content block
 *   `message_delta` - Final message metadata (stop reason, usage)
 *   `message_stop` - End of the message
+
+---
+
+## Technical Context
+
+The Anthropic Compatible endpoint supports advanced features like the `thinking` parameter for models like `deepseek-r1` and `nusantara-base`.
+
+For a complete guide on how Neosantara handles reasoning blocks and token reporting in the Anthropic format, see the **[Reasoning Capability](/en/capability/reasoning)** page.

@@ -98,4 +98,15 @@ The response includes the generated text in the `output` array, along with token
 *   **`output_text`**: A top-level string containing the full concatenated text response. Best for simple chat apps.
 *   **`output`**: An array of detailed message blocks. Use this if you need to access specific item IDs, reasoning content, or tool calls.
 
+---
+
+## Reasoning Models
+
+When using reasoning-capable models (like `deepseek-r1` or `nusantara-base` with thinking enabled), the `output` array will contain a `reasoning` block.
+
+*   **Extraction**: Neosantara automatically extracts chain-of-thought data into a structured item.
+*   **Usage**: Detailed token reporting for reasoning is included in the `usage.output_tokens_details` object.
+
+See the [Reasoning Capability](/en/capability/reasoning) guide for advanced configuration using the `thinking` parameter.
+
 Learn more about managing these responses over multiple turns in the [Conversation Management](/en/conversation-management) guide.

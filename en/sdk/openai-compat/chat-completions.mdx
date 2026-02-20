@@ -362,3 +362,18 @@ print('Assistant:', completion.choices[0].message.content)
 *   `tools` (array): Array of tool definitions for function calling.
 *   `tool_choice` (string or object): Controls which tools are called.
 *   `response_format` (object): Controls the format of the model's response (e.g., JSON mode).
+
+---
+
+## Technical Deep Dive
+
+While the Chat Completions endpoint is OpenAI-compatible, Neosantara adds several enhancements and technical optimizations under the hood.
+
+### Capability Guides
+For complete technical details on specific features, refer to the following capability pages:
+
+*   **[Streaming Protocol](/en/capability/stream)**: Learn about the underlying SSE structure and retry mechanisms.
+*   **[Reasoning & Thinking](/en/capability/reasoning)**: Detailed guide on the `thinking` parameter, native reasoning extraction, and usage reporting.
+*   **[Image & Vision](/en/capability/image-understanding)**: Understand SSRF protection, Base64 encoding, and multimodal normalization across providers.
+*   **[Structured Outputs](/en/capability/structured)**: Deep dive into JSON Mode, instruction injection, and automated markdown stripping.
+*   **[Premium Guardrails](/en/capability/guardrails)**: Technical details on automated PII redaction for Indonesian contexts.
