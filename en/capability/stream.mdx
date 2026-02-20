@@ -64,9 +64,17 @@ Once the generation is complete, the server sends a final `[DONE]` data message 
 
 For complete code examples, SDK-specific parameters, and best practices, please refer to the integration guides:
 
-*   **[Responses API Streaming](/en/sdk/responses-api/streaming)**: Recommended for new projects.
-*   **[OpenAI Compatible Streaming](/en/sdk/openai-compat/chat-completions#streaming-chat-completion)**: For OpenAI SDK users.
-*   **[Anthropic Compatible Streaming](/en/sdk/anthropic-compat/messages#streaming-messages)**: For Anthropic SDK users.
+<CardGroup cols={3}>
+  <Card title="Responses API" icon="bolt" href="/en/sdk/responses-api/streaming">
+    Semantic event-driven protocol recommended for new projects.
+  </Card>
+  <Card title="OpenAI Compatible" icon="openai" href="/en/sdk/openai-compat/chat-completions#streaming-chat-completion">
+    Classic chunk-based streaming for OpenAI SDK users.
+  </Card>
+  <Card title="Anthropic Compatible" icon="bolt" href="/en/sdk/anthropic-compat/messages#streaming-messages">
+    Native support for Anthropic message stream formats.
+  </Card>
+</CardGroup>
 
 ---
 

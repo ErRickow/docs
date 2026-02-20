@@ -174,9 +174,17 @@ To protect infrastructure and user data, all remote `image_url` requests undergo
 
 For complete code examples and specific content block structures across different SDKs, refer to:
 
-*   **[Responses API Vision](/en/sdk/responses-api/image-input)**: Using the `image` part type in the modern API.
-*   **[OpenAI Compatible Vision](/en/sdk/openai-compat/chat-completions#image-attachments)**: Standard `image_url` implementation for OpenAI SDK.
-*   **[Anthropic Compatible Vision](/en/sdk/anthropic-compat/file-attachments)**: Using Anthropic's image block format.
+<CardGroup cols={3}>
+  <Card title="Responses API" icon="bolt" href="/en/sdk/responses-api/image-input">
+    Using the `image` part type in the modern, stateful API.
+  </Card>
+  <Card title="OpenAI Compatible" icon="openai" href="/en/sdk/openai-compat/chat-completions#image-attachments">
+    Standard `image_url` implementation for the OpenAI SDK.
+  </Card>
+  <Card title="Anthropic Compatible" icon="bolt" href="/en/sdk/anthropic-compat/file-attachments">
+    Using the native Anthropic base64 image block format.
+  </Card>
+</CardGroup>
 
 ---
 

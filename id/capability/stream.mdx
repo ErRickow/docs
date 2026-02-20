@@ -64,9 +64,17 @@ Setelah pembuatan selesai, server mengirimkan pesan data akhir `[DONE]` atau eve
 
 Untuk contoh kode lengkap, parameter khusus SDK, dan praktik terbaik, silakan merujuk ke panduan integrasi berikut:
 
-*   **[Streaming via Responses API](/id/sdk/responses-api/streaming)**: Direkomendasikan untuk proyek baru.
-*   **[Streaming via OpenAI Compatible API](/id/sdk/openai-compat/chat-completions#streaming-chat-completion)**: Untuk pengguna SDK OpenAI.
-*   **[Streaming via Anthropic Compatible API](/id/sdk/anthropic-compat/messages#streaming-messages)**: Untuk pengguna SDK Anthropic.
+<CardGroup cols={3}>
+  <Card title="Responses API" icon="bolt" href="/id/sdk/responses-api/streaming">
+    Protokol berbasis event semantik yang direkomendasikan untuk proyek baru.
+  </Card>
+  <Card title="OpenAI Compatible" icon="openai" href="/id/sdk/openai-compat/chat-completions#streaming-chat-completion">
+    Streaming berbasis chunk klasik untuk pengguna SDK OpenAI.
+  </Card>
+  <Card title="Anthropic Compatible" icon="bolt" href="/id/sdk/anthropic-compat/messages#streaming-messages">
+    Dukungan native untuk format aliran pesan Anthropic.
+  </Card>
+</CardGroup>
 
 ---
 

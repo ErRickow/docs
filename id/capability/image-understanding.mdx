@@ -174,9 +174,17 @@ Untuk melindungi infrastruktur dan data pengguna, semua permintaan `image_url` e
 
 Untuk contoh kode lengkap dan struktur blok konten spesifik di berbagai SDK, silakan merujuk ke:
 
-*   **[Vision di Responses API](/id/sdk/responses-api/image-input)**: Menggunakan tipe part `image` di API modern.
-*   **[Vision di OpenAI Compatible API](/id/sdk/openai-compat/chat-completions#lampiran-gambar)**: Implementasi standar `image_url` untuk SDK OpenAI.
-*   **[Vision di Anthropic Compatible API](/id/sdk/anthropic-compat/file-attachments)**: Menggunakan format blok gambar dari Anthropic.
+<CardGroup cols={3}>
+  <Card title="Responses API" icon="bolt" href="/id/sdk/responses-api/image-input">
+    Menggunakan tipe part `image` di API modern yang stateful.
+  </Card>
+  <Card title="OpenAI Compatible" icon="openai" href="/id/sdk/openai-compat/chat-completions#lampiran-gambar">
+    Implementasi standar `image_url` untuk SDK OpenAI.
+  </Card>
+  <Card title="Anthropic Compatible" icon="bolt" href="/id/sdk/anthropic-compat/file-attachments">
+    Menggunakan format blok gambar base64 native dari Anthropic.
+  </Card>
+</CardGroup>
 
 ---
 

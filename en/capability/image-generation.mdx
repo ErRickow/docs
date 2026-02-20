@@ -57,8 +57,14 @@ When providing an `image_url` for variations or inpainting, Neosantara's **Secur
 
 For complete code examples and parameter details, please refer to the integration guides:
 
-*   **[OpenAI Compatible Image Generation](/en/sdk/openai-compat/image-generation)**: The primary endpoint for text-to-image tasks.
-*   **[Responses API (Asynchronous Mode)](/en/sdk/responses-api/index#parameters)**: Use for long-running generation tasks with `background: true`.
+<CardGroup cols={2}>
+  <Card title="OpenAI Compatible" icon="openai" href="/en/sdk/openai-compat/image-generation">
+    The primary synchronous endpoint for text-to-image tasks.
+  </Card>
+  <Card title="Responses API" icon="bolt" href="/en/sdk/responses-api/index#parameters">
+    Asynchronous generation via the `background: true` parameter.
+  </Card>
+</CardGroup>
 
 ---
 
