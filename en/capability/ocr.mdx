@@ -66,6 +66,16 @@ curl https://api.neosantara.xyz/v1/ocr \
 | `image_type` | `string` | No | `url` | Type of image input: `url` or `base64`. |
 | `return_image` | `boolean` | No | `false` | If `true`, returns a processed image with OCR bounding boxes (if supported by the model). |
 
+---
+
+## File Management
+
+For high-volume OCR tasks or if you need to reuse images across multiple sessions, we recommend using the **Files API** to upload your documents first.
+
+<Card title="Files API Overview" icon="file-import" href="/en/files-overview">
+  Learn how to upload and manage documents for OCR and batch processing.
+</Card>
+
 ## Response Format
 
 The API returns a JSON object containing the extracted text and metadata.

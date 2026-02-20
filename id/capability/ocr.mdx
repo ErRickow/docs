@@ -66,6 +66,16 @@ curl https://api.neosantara.xyz/v1/ocr \
 | `image_type` | `string` | Tidak | `url` | Jenis input gambar: `url` atau `base64`. |
 | `return_image` | `boolean` | Tidak | `false` | Jika `true`, mengembalikan gambar yang diproses dengan kotak pembatas OCR (jika didukung oleh model). |
 
+---
+
+## Manajemen File
+
+Untuk tugas OCR bervolume tinggi atau jika kamu perlu menggunakan kembali gambar di beberapa sesi, kami menyarankan penggunaan **API File** untuk mengunggah dokumen kamu terlebih dahulu.
+
+<Card title="Ikhtisar API File" icon="file-import" href="/id/files-overview">
+  Pelajari cara mengunggah dan mengelola dokumen untuk OCR dan pemrosesan batch.
+</Card>
+
 ## Format Respons
 
 API mengembalikan objek JSON yang berisi teks yang diekstrak dan metadata.
