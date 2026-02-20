@@ -45,7 +45,7 @@ Kamu dapat mengaktifkan penalaran menggunakan objek konfigurasi `thinking` atau 
 
 ```python OpenAI SDK
 response = client.chat.completions.create(
-    model="deepseek-chat-v3.1",
+    model="deepseek-r1",
     messages=[{"role": "user", "content": "Selesaikan: 15 * 24 + 133"}],
     extra_body={
         "thinking": { "type": "enabled", "budget_tokens": 2048 }

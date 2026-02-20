@@ -178,7 +178,7 @@
                     "group": "Global LLMs",
                     "pages": [
                       "models/claude-4.5-sonnet",
-                      "models/deepseek-chat-v3.1",
+                      "models/deepseek-r1",
                       "models/llama-3.3-70b-instruct",
                       "models/llama-3.3-70b-turbo",
                       "models/llama-3.3-nemotron-super-49b-v1.5",
@@ -450,7 +450,7 @@
                     "group": "LLM Global",
                     "pages": [
                       "models/claude-4.5-sonnet",
-                      "models/deepseek-chat-v3.1",
+                      "models/deepseek-r1",
                       "models/llama-3.3-70b-instruct",
                       "models/llama-3.3-70b-turbo",
                       "models/llama-3.3-nemotron-super-49b-v1.5",

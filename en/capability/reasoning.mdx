@@ -45,7 +45,7 @@ You can activate reasoning using the `thinking` configuration object or a manual
 
 ```python OpenAI SDK
 response = client.chat.completions.create(
-    model="deepseek-chat-v3.1",
+    model="deepseek-r1",
     messages=[{"role": "user", "content": "Solve: 15 * 24 + 133"}],
     extra_body={
         "thinking": { "type": "enabled", "budget_tokens": 2048 }

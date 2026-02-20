@@ -547,6 +547,30 @@ export const glm46PlusData = {
   inputOutput: { inputFormats: ["text", "image"], outputFormats: ["text"] }
 };
 
+export const deepseekR1Data = {
+  modelId: "deepseek-r1",
+  provider: "DeepSeek",
+  modelCardUrl: "https://www.deepseek.com",
+  contextLength: { freeTier: "128k tokens" },
+  maxOutput: { freeTier: "8192 tokens" },
+  speed: { value: "Medium", unit: "latency" },
+  rateLimits: [
+  { tier: "Free", requestsPerMin: "3", inputTokensPerMin: "5,000", outputTokensPerMin: "2,000" },
+  { tier: "Basic", requestsPerMin: "50", inputTokensPerMin: "20,000", outputTokensPerMin: "5,000" },
+  { tier: "Standard", requestsPerMin: "1,000", inputTokensPerMin: "100,000", outputTokensPerMin: "25,000" },
+  { tier: "Pro", requestsPerMin: "2,000", inputTokensPerMin: "200,000", outputTokensPerMin: "50,000" },
+  { tier: "Enterprise", requestsPerMin: "4,000", inputTokensPerMin: "500,000", outputTokensPerMin: "125,000" }
+],
+  tokenCredits: {
+  docsUrl: "en/about/billing-pricing",
+  freeBalance: "Promo Aktif"
+},
+  pricing: { inputPrice: "22477", outputPrice: "89910", currency: "IDR", inputUnit: "per 1M tokens", pricingUrl: "/en/about/billing-pricing" },
+  endpoints: ["Chat Completions"],
+  features: ["text_generation", "reasoning", "streaming"],
+  inputOutput: { inputFormats: ["text"], outputFormats: ["text"] }
+};
+
 export const deepseekChatV31Data = {
   modelId: "deepseek-chat-v3.1",
   modelCardUrl: "#",
