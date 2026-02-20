@@ -146,6 +146,30 @@ The Neosantara API supports the following image formats:
 *   **WebP** (`image/webp`)
 *   **GIF** (`image/gif`) - Note: Some models may only analyze the first frame.
 
+---
+
+## Technical Bridge
+
+Neosantara acts as a unified multimodal bridge, normalizing complex vision requests across diverse upstream protocols.
+
+### Normalization Logic
+When you send a multimodal message, Neosantara's **Multimodal Adapter** automatically transforms your request to match the specific requirements of the target provider:
+*   **Anthropic (Claude)**: Images are converted to base64 `document` or `image` blocks.
+*   **Google (Gemini)**: Images are processed as `inline_data` parts.
+*   **OpenAI Compatible**: Standard `image_url` format is preserved or proxied.
+
+### Security & SSRF Validation
+To protect infrastructure and user data, all remote `image_url` requests undergo a **Security Handshake**:
+1.  **DNS Resolution**: The target hostname is resolved to an IP address.
+2.  **Range Check**: Private IP ranges (e.g., `10.x.x.x`, `192.168.x.x`) and loopback addresses are strictly blocked.
+3.  **MIME Verification**: Neosantara performs a pre-flight `HEAD` request to verify the `Content-Type` before allowing the model to access the resource.
+
+### Privacy & Persistence
+*   **Ephemeral Processing**: Images sent via `image_url` or base64 are processed in-memory and are **never saved** to Neosantara's permanent storage.
+*   **Permanent Storage**: If you require images to persist across multiple sessions (e.g., for Batch API), use the [Files API](/en/sdk/openai-compat/rest-api) to upload and retrieve a `file_id`.
+
+---
+
 ## Best Practices
 
 1.  **Image Size**: For best results, use images smaller than 5MB. Large images may be automatically resized by the upstream provider.

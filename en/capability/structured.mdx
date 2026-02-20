@@ -94,3 +94,18 @@ console.log(data);
 *   **Be Specific**: Explicitly mention the keys you want in your JSON object.
 *   **Model Selection**: Use `claude-4.5-sonnet` or `qwen3-32b` for complex nested schemas.
 *   **Error Handling**: Always wrap your JSON parsing in a try-catch block to handle potential model hallucinations.
+
+---
+
+## Under the Hood
+
+Neosantara employs several strategies to ensure your structured data is parseable and accurate.
+
+### Instruction Injection
+For models that do not natively support JSON mode, Neosantara's **Standardizer** automatically appends system-level instructions (e.g., *"Respond ONLY with a valid JSON object"*) to the end of your prompt. This significantly increases consistency across older or smaller open-source models.
+
+### Markdown Stripping
+Language models often wrap JSON in markdown code blocks (e.g., \` \` \`json ... \` \` \`). Neosantara's backend includes an **Extraction Filter** that automatically detects and removes these backticks before returning the string to your application, preventing common `JSON.parse` errors.
+
+### Schema Enforcement
+While **JSON Mode** is a "soft constraint" (the model tries its best), the **Responses API** utilizes internal schema-validation logic. It cross-references the model's output against your provided JSON Schema and can even re-prompt the model if the first attempt fails validation (depending on the internal provider's retry logic).

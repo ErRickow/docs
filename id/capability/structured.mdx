@@ -91,6 +91,21 @@ console.log(data);
 
 ### Praktik Terbaik
 
-*   **Jadilah Spesifik**: Sebutkan secara eksplisit kunci yang Kamu inginkan dalam objek JSON Kamu.
+*   **Jadilah Spesifik**: Sebutkan secara eksplisit kunci yang kamu inginkan dalam objek JSON kamu.
 *   **Pemilihan Model**: Gunakan `claude-4.5-sonnet` atau `qwen3-32b` untuk skema bersarang yang kompleks.
-*   **Penanganan Kesalahan**: Selalu bungkus penguraian JSON Kamu dalam blok try-catch untuk menangani potensi halusinasi model.
+*   **Penanganan Error**: Selalu bungkus penguraian JSON kamu dalam blok try-catch untuk menangani potensi halusinasi model.
+
+---
+
+## Dibalik Layar
+
+Neosantara menggunakan beberapa strategi untuk memastikan data terstruktur kamu dapat diurai dengan akurat.
+
+### Injeksi Instruksi (Instruction Injection)
+Untuk model yang tidak mendukung mode JSON secara native, **Standardizer** Neosantara secara otomatis menambahkan instruksi tingkat sistem (misal: *"Berikan respons HANYA dalam objek JSON yang valid"*) di akhir prompt kamu. Hal ini secara signifikan meningkatkan konsistensi pada model sumber terbuka yang lebih lama atau lebih kecil.
+
+### Pembersihan Markdown (Markdown Stripping)
+Model bahasa sering kali membungkus JSON dalam blok kode markdown (misal: \` \` \`json ... \` \` \`). Backend Neosantara menyertakan **Extraction Filter** yang secara otomatis mendeteksi dan menghapus simbol backtick ini sebelum mengembalikan string ke aplikasi kamu, mencegah error `JSON.parse` yang umum terjadi.
+
+### Penegakan Skema (Schema Enforcement)
+Meskipun **Mode JSON** adalah "batasan lunak" (model mencoba yang terbaik), **API Responses** menggunakan logika validasi skema internal. Fitur ini melakukan pengecekan silang antara output model dengan JSON Schema yang kamu berikan dan bahkan dapat memberikan prompt ulang ke model jika percobaan pertama gagal dalam validasi (tergantung pada logika retry penyedia internal).
