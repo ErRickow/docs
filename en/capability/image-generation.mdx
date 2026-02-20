@@ -28,6 +28,31 @@ Some models support advanced tasks:
 
 ---
 
+## Technical Architecture
+
+Neosantara's image pipeline is built for reliability and security, supporting two primary processing modes.
+
+### Synchronous vs Asynchronous
+*   **Standard API (`/v1/images/generations`)**: Best for real-time applications. The request stays open until the image is generated.
+*   **Responses API (`/v1/responses`)**: Recommended for slow models or high-resolution batches. Set `background: true` to receive a `response_id` and poll for results, preventing HTTP timeouts.
+
+### Delivery & Caching
+All generated images are delivered via an **Ephemeral CDN**.
+1.  Images are temporarily stored in a high-speed Redis cache.
+2.  The API returns a signed, temporary URL (e.g., `https://api.neosantara.xyz/share/generated/...`).
+3.  **TTL (Time-to-Live)**: Links are valid for **5 minutes**. Users should download or re-host images if permanent storage is required.
+
+### Security (SSRF Protection)
+When providing an `image_url` for variations or inpainting, Neosantara's **Security Bridge** validates the URL:
+*   Resolves DNS to verify IP ranges.
+*   Blocks all private, loopback, and reserved network addresses to prevent Server-Side Request Forgery (SSRF).
+
+### Tier-Based Logic
+*   **Paid Tiers**: Receive original, high-fidelity images.
+*   **Free Tier**: Images are automatically processed through a **Watermark Engine** before delivery to comply with usage policies.
+
+---
+
 ## Examples
 
 <CodeGroup>
