@@ -1,289 +1,109 @@
 ---
-title: "Streaming Responses"
-description: "> Receive partial results in real-time as they are generated."
+title: "Streaming"
+description: "Enable real-time data flow using Server-Sent Events (SSE) for low-latency user experiences."
 ---
 
-Streaming allows you to receive partial responses from the API as they are generated, rather than waiting for the entire response to be completed. This can significantly improve the perceived latency and user experience, especially for longer generations.
+Streaming allows your application to process and display model outputs as they are being generated, significantly reducing perceived latency. Instead of waiting for the entire response (which could take seconds), your users see the "typing" effect in real-time.
 
-## How Streaming Works
+## Protocol Implementation
 
-The Nusantara AI API implements streaming using **Server-Sent Events (SSE)** when you set the `stream: true` parameter in your request. When a streaming request is made:
+Neosantara API utilizes **Server-Sent Events (SSE)** to stream data. When you set `stream: true`, the API keeps the connection open and pushes data chunks as they become available.
 
-1. **`Content-Type` Header**: The API sets the `Content-Type` header to `text/event-stream`.
-2. **Partial Data Chunks**: The server sends data in small chunks. Each chunk is an event with a specific type and data payload.
-3. **End of Stream Signal**: The stream is terminated by a final event, like `response.completed` or a `data: [DONE]` message, indicating that no further data will be sent.
+### The Two Streaming Modes
 
-This allows your client application to display or process the generated content incrementally.
-
-## Usage with SDKs
-
-You can enable streaming easily by setting `stream: true` in your request body. Below are examples for both of our main endpoints.
+Neosantara supports two distinct streaming protocols to provide both modern features and legacy compatibility.
 
 <Tabs>
-<Tab title="Responses API">
-The [`/v1/responses`](/api-reference/responses/create) endpoint uses a modern, **event-driven stream**. Each chunk is a typed event, allowing you to easily handle different parts of the response, such as text deltas or function call arguments.
+<Tab title="OpenResponses (Recommended)">
+The [`/v1/responses`](/en/sdk/responses-api/streaming) endpoint uses a semantic, event-driven protocol. It is designed for complex workflows involving reasoning and tool-calling.
 
-### Responses API Request Example
+#### Key Event Types
+- `response.created`: Initial connection established.
+- `response.output_item.added`: A new part of the response (text, reasoning, or tool call) has started.
+- `response.output_text.delta`: A snippet of the assistant's message content.
+- `response.reasoning_summary_text.delta`: A snippet of the model's internal thought process.
+- `response.completed`: The entire generation turn is finished.
 
-```json icon="code"
-{
-  "model": "nusantara-base",
-  "input": "Explain the concept of AI streaming in detail.",
-  "stream": true
-}
-````
-
-### Example Streaming Events
-
+#### Example Event Trace
 ```text
-event: response.created
-data: {"type":"response.created","response":{"id":"resp_abc123",...}}
-
-event: response.output_item.added
-data: {"type":"response.output_item.added","item":{"id":"msg_def456",...}}
+event: response.output_text.delta
+data: {"type":"response.output_text.delta","delta":"The capital of "}
 
 event: response.output_text.delta
-data: {"type":"response.output_text.delta","delta":"AI "}
-
-event: response.output_text.delta
-data: {"type":"response.output_text.delta","delta":"streaming "}
-
-... more delta events ...
-
-event: response.completed
-data: {"type":"response.completed","response":{...}}
+data: {"type":"response.output_text.delta","delta":"Indonesia is "}
 ```
-
-### Responses API Implementation Examples
-
-<CodeGroup>
-
-```python NAI.py icon="python" lines
-from openai import OpenAI
-
-# Initialize the client for Nusantara AI
-client = OpenAI(
-    api_key="<NAI_API_KEY>", 
-    base_url="https://api.neosantara.xyz/v1"
-)
-
-def stream_response(prompt: str, model: str = "nusantara-base"):
-    """Makes a streaming request to the Responses API."""
-    print(f"Streaming from /v1/responses for model: {model}")
-    print(f"Prompt: {prompt}\n")
-
-    try:
-        stream = client.responses.create(
-            model=model,
-            input=prompt,
-            stream=True,
-            max_tokens=2045
-        )
-
-        full_response_content = ""
-        print("AI Response: ", end="", flush=True)
-        for event in stream:
-            # Check for the event type containing text chunks
-            if event.type == 'response.output_text.delta':
-                content = event.delta
-                full_response_content += content
-                print(content, end="", flush=True)
-
-        print("\n\n--- Stream finished ---\n\n")
-        return full_response_content
-
-    except Exception as e:
-        print(f"\nAn error occurred: {e}")
-        return None
-
-if __name__ == "__main__":
-    user_prompt = "Tell me a short story about a mythical creature from Indonesian folklore."
-    streamed_text = stream_response(user_prompt)
-    if streamed_text:
-        print(f"\nTotal streamed content length: {len(streamed_text)} characters")
-```
-
-```javascript NAI.ts icon="square-js" lines
-import OpenAI from 'openai';
-
-// Initialize the client for Nusantara AI
-const client = new OpenAI({
-  apiKey: "<NAI_API_KEY>",
-  baseURL: "https://api.neosantara.xyz/v1",
-});
-
-async function streamResponse(prompt, model = "nusantara-base") {
-  console.log(`Streaming from /v1/responses for model: ${model}`);
-  console.log(`Prompt: ${prompt}\n`);
-
-  try {
-    const stream = await client.responses.create({
-      model: model,
-      input: prompt,
-      stream: true,
-      max_tokens: 2045,
-    });
-
-    let fullResponseContent = "";
-    process.stdout.write("AI Response: ");
-    for await (const event of stream) {
-      // Check for the event type containing text chunks
-      if (event.type === 'response.output_text.delta') {
-        const content = event.delta;
-        fullResponseContent += content;
-        process.stdout.write(content);
-      }
-    }
-
-    console.log("\n\n--- Stream finished ---");
-    return fullResponseContent;
-
-  } catch (error) {
-    console.error(`\nAn error occurred: ${error.message}`);
-    return null;
-  }
-}
-
-// Example usage
-(async () => {
-  const userPrompt = "Tell me a short story about a mythical creature from Indonesian folklore.";
-  const streamedText = await streamResponse(userPrompt);
-  if (streamedText) {
-    console.log(`\nTotal streamed content length: ${streamedText.length} characters`);
-  }
-})();
-```
-
-</CodeGroup>
 </Tab>
 
-<Tab title="Chat Completions API">
-The [`/v1/chat/completions`](/api-reference/chat) endpoint provides streaming for compatibility with existing OpenAI integrations. It sends a stream of `chat.completion.chunk` objects.
+<Tab title="OpenAI Compatible">
+The [`/v1/chat/completions`](/en/sdk/openai-compat/chat-completions) endpoint follows the classic OpenAI chunking format. It is best suited for existing integrations with tools like LangChain or AutoGPT.
 
-### Chat Completions Request Example
-
-```json icon="code"
-{
-  "model": "nusantara-base",
-  "messages": [
-    {
-      "role": "user",
-      "content": "Explain the concept of AI streaming in detail."
-    }
-  ],
-  "stream": true
-}
-```
-
-### Example Streaming Chunks
-
+#### Example Chunk Trace
 ```text
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"role":"assistant","content":""}}]}
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"AI "}}]}
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"streaming"}}]}
-... more data chunks ...
+data: {"id":"chatcmpl-123","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"Hello"}}]}
 data: [DONE]
 ```
+</Tab>
+</Tabs>
 
-### Chat Completions Implementation Examples
+---
+
+## Technical Details
+
+### 1. HTTP Headers
+To ensure a stable stream, Neosantara sets the following headers:
+- `Content-Type: text/event-stream`: Identifies the connection as a long-lived stream.
+- `Cache-Control: no-cache`: Prevents intermediary proxies from buffering data.
+- `Connection: keep-alive`: Maintains the TCP connection.
+
+### 2. The Stop Signal
+Once the generation is complete, the server sends a final `[DONE]` data message or a `response.completed` event. Clients must detect this signal to close the connection and finalize their internal state.
+
+---
+
+## Implementation Guide
 
 <CodeGroup>
 
-```python NAI.py icon="python" lines
+```python Responses API
 from openai import OpenAI
 
-# Initialize the client for Nusantara AI
-client = OpenAI(
-    api_key="<NAI_API_KEY>",
-    base_url="https://api.neosantara.xyz/v1"
+client = OpenAI(api_key="your_key", base_url="https://api.neosantara.xyz/v1")
+
+# The 'responses' endpoint provides rich event objects
+stream = client.responses.create(
+    model="nusantara-base",
+    input="Write a poem about Jakarta.",
+    stream=True
 )
 
-def stream_chat_completion(prompt: str, model: str = "nusantara-base"):
-    """Makes a streaming request to the Chat Completions API."""
-    print(f"Streaming from /v1/chat/completions for model: {model}")
-    print(f"Prompt: {prompt}\n")
-
-    try:
-        stream = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
-            stream=True,
-            max_tokens=500
-        )
-
-        full_response_content = ""
-        print("AI Response: ", end="", flush=True)
-        for chunk in stream:
-            content = chunk.choices[0].delta.content or ""
-            full_response_content += content
-            print(content, end="", flush=True)
-            
-        print("\n\n--- Stream finished ---")
-        return full_response_content
-
-    except Exception as e:
-        print(f"\nAn error occurred: {e}")
-        return None
-
-if __name__ == "__main__":
-    user_prompt = "Explain the concept of AI streaming in detail."
-    streamed_text = stream_chat_completion(user_prompt)
-    if streamed_text:
-        print(f"\nTotal streamed content length: {len(streamed_text)} characters")
+for event in stream:
+    if event.type == 'response.output_text.delta':
+        print(event.delta, end="", flush=True)
 ```
 
-```javascript NAI.ts icon="square-js" lines
-import OpenAI from 'openai';
+```javascript Chat Completions
+import OpenAI from "openai";
 
-// Initialize the client for Nusantara AI
-const client = new OpenAI({
-  apiKey: "<NAI_API_KEY>",
-  baseURL: "https://api.neosantara.xyz/v1",
+const openai = new OpenAI({
+  apiKey: "your_key",
+  baseURL: "https://api.neosantara.xyz/v1"
 });
 
-async function streamChatCompletion(prompt, model = "nusantara-base") {
-  console.log(`Streaming from /v1/chat/completions for model: ${model}`);
-  console.log(`Prompt: ${prompt}\n`);
+const stream = await openai.chat.completions.create({
+  model: "grok-4.1-fast",
+  messages: [{ role: "user", content: "Count to 10" }],
+  stream: true,
+});
 
-  try {
-    const stream = await client.chat.completions.create({
-      model: model,
-      messages: [
-        { role: "user", content: prompt }
-      ],
-      stream: true,
-      max_tokens: 500,
-    });
-
-    let fullResponseContent = "";
-    process.stdout.write("AI Response: ");
-    for await (const chunk of stream) {
-      const content = chunk.choices[0]?.delta?.content || "";
-      fullResponseContent += content;
-      process.stdout.write(content);
-    }
-
-    console.log("\n\n--- Stream finished ---");
-    return fullResponseContent;
-
-  } catch (error) {
-    console.error(`\nAn error occurred: ${error.message}`);
-    return null;
-  }
+for await (const chunk of stream) {
+  process.stdout.write(chunk.choices[0]?.delta?.content || "");
 }
-
-// Example usage
-(async () => {
-  const userPrompt = "Explain the concept of AI streaming in detail.";
-  const streamedText = await streamChatCompletion(userPrompt);
-  if (streamedText) {
-    console.log(`\nTotal streamed content length: ${streamedText.length} characters`);
-  }
-})();
 ```
 
 </CodeGroup>
-</Tab>
-</Tabs>
+
+## Best Practices
+
+1. **Avoid Buffering**: Ensure your application or proxy (like Nginx) doesn't buffer responses. Use `X-Accel-Buffering: no` if behind Nginx.
+2. **Handle Interruptions**: Network connections can drop. Always wrap your stream iteration in a `try/except` block to gracefully handle timeouts or resets.
+3. **UI Feedback**: Use the first few chunks to stop "loading" spinners and show the assistant's avatar to make the app feel faster.

@@ -1,133 +1,86 @@
 ---
 title: "Reasoning"
-description: "Solve complex tasks with step-by-step thinking using advanced reasoning models."
+description: "Leverage advanced cognitive capabilities with step-by-step chain-of-thought processing."
 ---
 
 import { ModelCards } from '/snippets/model-cards.jsx';
 
-Neosantara API supports various models designed for deep reasoning, mathematics, and complex problem-solving. These models can "think" before they answer, breaking down instructions into logical steps.
+Reasoning models are designed to "think" before they speak. Unlike standard chat models that predict the next token immediately, reasoning models generate an internal chain-of-thought to decompose complex instructions, verify facts, and correct their own logic before presenting a final answer.
 
-## Supported Models
+## The `reasoning_content` Field
 
-<ModelCards capability="reasoning" />
+Neosantara provides a unified interface for reasoning across all providers. Regardless of whether a model uses native blocks or specific tags (like `<think>`), Neosantara normalizes this output into a dedicated **`reasoning_content`** field in the API response.
 
-## Getting Started
+---
 
---
+## How It Works
 
-### How to Use the API
+Neosantara employs three distinct mechanisms to enable reasoning, depending on the model's capabilities.
 
-For reasoning models that produce longer, more detailed responses, we highly recommend streaming tokens to ensure the best user experience.
+### 1. Native Reasoning
+Models specifically trained for reasoning, such as **DeepSeek-R1**, **Claude 3.7**, and **Gemini 2.0 Flash Thinking**, utilize their built-in logic. Neosantara connects directly to these native "thinking" protocols to ensure the highest quality of thought.
 
-#### **Default Behavior (Reasoning Off)**
+### 2. Instruction Injection
+For standard models that don't have native reasoning (e.g., `nusantara-base`, `archipelago-70b`), Neosantara uses **Instruction Injection**. When reasoning is enabled, the system automatically prepends complex logical instructions to the system prompt, forcing the model to break down its process into steps.
 
-By default, the model will provide a direct answer without the thought process to save tokens and reduce latency.
+### 3. Reasoning Effort & Budgets
+For supported models, you can control the "depth" of thought using the `thinking` parameter.
 
-#### **Enabling Reasoning**
+| Budget (Tokens) | Effort Level | Use Case |
+| :--- | :--- | :--- |
+| < 2,000 | `minimal` | Quick logical checks, simple summaries. |
+| 2,000 - 5,000 | `low` | Basic coding tasks, multi-step instructions. |
+| 5,000 - 10,000 | `medium` | Complex debugging, creative writing logic. |
+| > 10,000 | `high` | Mathematical proofs, architectural planning. |
 
-To enable step-by-step reasoning, you can use the **`thinking` parameter** (Recommended for Anthropic/OpenAI SDKs) or add `/think` to your system prompt.
+---
 
-```python icon="python"
-from openai import OpenAI
+## Enabling Reasoning
 
-client = OpenAI(
-  base_url="https://api.neosantara.xyz/v1",
-  api_key="<NAI_API_KEY>"
+You can activate reasoning using the `thinking` configuration object or a manual prompt trigger.
+
+### Via API Parameter (Recommended)
+
+<CodeGroup>
+
+```python OpenAI SDK
+response = client.chat.completions.create(
+    model="deepseek-chat-v3.1",
+    messages=[{"role": "user", "content": "Solve: 15 * 24 + 133"}],
+    extra_body={
+        "thinking": { "type": "enabled", "budget_tokens": 2048 }
+    }
 )
 
-# Enabling reasoning via thinking parameter
-stream = client.chat.completions.create(
-  model="llama-3.3-nemotron-super-49b-v1.5",
-  messages=[{
-    "role": "user",
-    "content": "Solve this logic puzzle: If all roses are flowers and some flowers are red, can we conclude that some roses are red?",
-  }],
-  extra_body={
-    "thinking": {"type": "enabled", "budget_tokens": 2048}
-  },
-  temperature=0.7,
-  stream=True
-)
-
-for chunk in stream:
-  if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
-      print(f"[Thinking] {chunk.choices[0].delta.reasoning_content}", end="", flush=True)
-  if chunk.choices[0].delta.content:
-      print(chunk.choices[0].delta.content, end="", flush=True)
+# Access reasoning separately
+print(response.choices[0].message.reasoning_content)
+print(response.choices[0].message.content)
 ```
 
-#### **Manual Override**
-
-You can also control reasoning via prompt instructions:
-- **Enable**: Start system prompt with `/think`.
-- **Disable (Default)**: Start system prompt with `/no_think`.
-
----
-
-### Specialized Neosantara Models
-
-Neosantara provides optimized versions of core models like `nusantara-base` and `archipelago-70b` that are specifically tuned for reasoning. These models use an **Instruction Injection** mechanism to provide step-by-step thinking even on standard chat models.
-
-#### **How it Works**
-
-When you enable reasoning for these models (via `thinking` parameter or `/think`), Neosantara automatically appends a system-level instruction (e.g., *"Mohon jelaskan dengan pemikiran langkah demi langkah"*) to your request. This ensures the model breaks down the problem before giving you the final answer.
-
----
-
-### Thinking Models (Claude & Gemini)
-
-For models that support native reasoning, such as **Claude 3.5 Sonnet** and **Gemini 2.0 Flash**, Neosantara supports the `thinking` parameter. This allows you to allocate a specific token budget for the model's internal thought process.
-
-#### **Using the `thinking` Parameter**
-
-When using the Anthropic-compatible API, you can provide a `thinking` object.
-
-```json icon="code"
+```json JSON Payload
 {
-  "model": "claude-3-haiku",
+  "model": "claude-4.5-sonnet",
   "messages": [...],
   "thinking": {
     "type": "enabled",
-    "budget_tokens": 2048
+    "budget_tokens": 4096
   }
 }
 ```
 
-#### **Reasoning Effort Mapping**
+</CodeGroup>
 
-If you are using the OpenAI-compatible API, the `thinking` budget is automatically mapped to the `reasoning_effort` parameter based on industry standards:
-
-| `budget_tokens` | `reasoning_effort` |
-| :--- | :--- |
-| >= 10,000 | `high` |
-| >= 5,000 | `medium` |
-| >= 2,000 | `low` |
-| `< 2,000` | `minimal` |
+### Via Manual Trigger
+You can also force any chat model into reasoning mode by starting your system prompt with the **`/think`** command. To disable it explicitly, use **`/no_think`**.
 
 ---
 
-### Best Practices
+## Best Practices
 
-To get the best results from Llama 3.3 Nemotron, treat it like an expert problem-solver. Provide a clear, high-level objective and let the model determine the best steps to reach the solution.
+1. **Use Streaming**: Reasoning can generate thousands of internal tokens before the final answer appears. Use [Streaming](/en/capability/stream) to provide real-time visual feedback ("Thinking...") to your users.
+2. **Be Specific, Not Descriptive**: Give reasoning models clear objectives but avoid micromanaging their steps. Let the model determine the optimal path to the solution.
+3. **Budget Wisely**: More reasoning tokens increase latency and cost. Only allocate high budgets (>10k) for truly complex scientific or mathematical tasks.
 
-- **Strengths**: Excels at open-ended reasoning, multi-step logic, and complex coding or mathematical problems.
-- **Avoid Over-prompting**: Micromanaging each step can limit the model's advanced reasoning capabilities. Give it the goal, not the exact path.
-- **Provide Clear Objectives**: Ensure your prompt is clear and unambiguous to get the most accurate and relevant response.
-- **Use Streaming**: For complex queries, the reasoning process can generate a lot of text. Streaming the response provides a much better user experience.
+## Supported Models
 
----
-
-### Use Cases
-
-- **Code Generation & Analysis:** Analyze large codebases, suggest improvements, and generate complex code snippets.
-- **Strategic Planning:** Develop multi-stage plans, reasoning about optimal approaches and potential obstacles.
-- **Complex Document Analysis:** Process and summarize technical specifications, legal contracts, and research papers.
-- **Agentic Workflows:** Build sophisticated AI agents that can perform complex, multi-step tasks.
-- **Scientific Research:** Assist in hypothesis generation, experimental design, and data analysis.
-- **Advanced Problem Solving:** Handle ambiguous requirements by inferring unstated assumptions and providing logical solutions.
-
-## Next Steps
-
-- See [our embeddings capability](/en/capability/embeddings)
-- see [our image generation capability](/en/capability/image-generation)
-- see [our integration](/en/integrations)
+<ModelCards capability="reasoning" />
