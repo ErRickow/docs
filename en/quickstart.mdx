@@ -1,169 +1,124 @@
 ---
 title: "Quickstart"
-description: "Follow our step-by-step quickstart guide to set up your API keys, choose a model, and integrate Neosantara into your application in less than 5 minutes."
+description: "Set up your API keys, choose a model, and make your first call in less than 5 minutes."
 ---
 
 ## Getting Started
 
-Follow these steps to make your first API call to Neosantara. Our platform acts as a **unified gateway**, allowing you to access various SOTA models from different providers using a single API key and SDK.
+Neosantara acts as a **unified gateway**, allowing you to access various state-of-the-art models from different providers using a single API key and your choice of SDK.
 
 <Steps>
-  <Step title="Get API Key">
-    * Access [Neosantara App](https://app.neosantara.xyz/signup) to Register or Login.
-    * Access the [Billing Page](https://app.neosantara.xyz/billing) to top up your balance if needed.
-    * Create an API Key in the [API Keys](https://app.neosantara.xyz/api-keys) management page.
-    * Copy your API Key securely.
+  <Step title="Get your API Key">
+    1.  Sign up or Login at the [Neosantara App](https://app.neosantara.xyz).
+    2.  Go to the [Dashboard](https://app.neosantara.xyz/dashboard) to view your initial free credits.
+    3.  Create a new key in the [API Keys](https://app.neosantara.xyz/api-keys) section.
+    4.  Copy your key (it starts with `nsk_`).
 
     <CardGroup cols={2}>
-      <Card title="Neosantara Dashboard" icon="link" href="https://app.neosantara.xyz/dashboard">
-        Manage your account, billing, and usage statistics.
+      <Card title="Dashboard" icon="link" href="https://app.neosantara.xyz/dashboard">
+        Manage account, billing, and stats.
       </Card>
-
-      <Card title="API Keys Management" icon="key" href="https://app.neosantara.xyz/api-keys">
-        Create and manage your unique API access keys.
+      <Card title="API Keys" icon="key" href="https://app.neosantara.xyz/api-keys">
+        Manage your access credentials.
       </Card>
     </CardGroup>
   </Step>
 
   <Step title="Choose Your Model">
-    Access the world's best models through a single interface. Switch between providers by simply changing the `model` parameter. See [Models & Pricing](/en/about/billing-pricing) for the full list.
+    Access the world's best models through a single interface. Switch models by simply changing the `model` string. 
 
-    <CardGroup cols={2}>
-      <Card title="Global Flagships" icon="sparkles" href="/en/models-overview">
-        Access **Claude 4.5 Sonnet**, **Gemini 3 Flash**, and **Grok 4.1** via a single integration.
-      </Card>
+    *   **Flagship Reasoning**: `deepseek-r1`, `claude-4.5-sonnet`
+    *   **High-Speed Chat**: `gemini-3-flash`, `grok-4.1-fast-non-reasoning`
+    *   **Specialized**: `deepseek-ocr`, `neosantara-gen-2045` (Image Gen)
 
-      <Card title="Coding & Logic" icon="code" href="/en/models-overview">
-        High-performance reasoning with models optimized for coding tasks.
-      </Card>
-
-      <Card title="Multimodal & Vision" icon="eye" href="/en/capability/ocr">
-        Generate images with **Gen-2045** or extract text with **DeepSeek OCR**.
-      </Card>
-
-      <Card title="AI Coding Tools" icon="terminal" href="/en/guides/ai-coding-tools">
-        Configure with **Claude Code**, **Cursor**, **Windsurf**, and more.
-      </Card>
-    </CardGroup>
+    <Note>See the [Models Overview](/en/models-overview) for full pricing and technical specs.</Note>
   </Step>
 
-  <Step title="Choose Calling Method">
-    Neosantara is designed to be a multi-compatible gateway. Use the official SDK that fits your existing ecosystem.
+  <Step title="Pick Your SDK">
+    Neosantara is "triple-compatible." Use the SDK that fits your existing workflow.
 
-    <CardGroup cols={3}>
-      <Card title="OpenAI SDK" icon="openai" href="/en/sdk/openai-compat">
-        Drop-in replacement for any OpenAI-based application.
-      </Card>
-
-      <Card title="Anthropic SDK" icon="bolt" href="/en/sdk/anthropic-compat">
-        Native support for the Anthropic Messages API format.
-      </Card>
-
-      <Card title="API Reference" icon="book" href="/api-reference">
-        Complete documentation for direct REST API calls.
-      </Card>
-    </CardGroup>
+    | Protocol | Use Case | Base URL |
+    | :--- | :--- | :--- |
+    | **OpenResponses** | Stateful, modern apps | `https://api.neosantara.xyz/v1` |
+    | **OpenAI SDK** | Legacy compatibility | `https://api.neosantara.xyz/v1` |
+    | **Anthropic SDK** | native Claude users | `https://api.neosantara.xyz/anthropic` |
   </Step>
 
   <Step title="Make Your First Call">
-    Once you have your `API Key` and selected a model, you can start making requests. Here are examples using popular methods:
+    Once you have your `API Key`, you can start making requests.
 
     <Tabs>
-      <Tab title="Python SDK">
-        **Install SDK**
+      <Tab title="OpenResponses (Recommended)">
+        **Recommended for stateful, high-performance apps.**
 
-        <CodeGroup>
-        ```bash pip
-        pip install --upgrade openai
+        ```typescript
+        const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer YOUR_NSK_KEY'
+          },
+          body: JSON.stringify({
+            model: 'nusantara-base',
+            input: 'What is the capital of Indonesia?',
+            store: true
+          })
+        });
+        
+        const data = await response.json();
+        console.log(data.output_text);
         ```
-        </CodeGroup>
+      </Tab>
 
-        **Usage Example**
+      <Tab title="OpenAI SDK">
+        **Drop-in replacement for OpenAI integrations.**
 
-        ```python icon="python"
+        ```python
         from openai import OpenAI
-        import os
 
         client = OpenAI(
-            api_key="YOUR_NEOSANTARA_API_KEY",
+            api_key="YOUR_NSK_KEY",
             base_url="https://api.neosantara.xyz/v1"
         )
 
-        # You can use ANY model available on the platform here
-        # Choose any model available on the platform
-        response = client.responses.create(
-            model="nusantara-base",
-            input="Help me debug this React function that's not working correctly",
-            store=True
+        response = client.chat.completions.create(
+            model="deepseek-r1",
+            messages=[{"role": "user", "content": "1+1=?"}]
+        )
+        print(response.choices[0].message.content)
+        ```
+      </Tab>
+
+      <Tab title="Anthropic SDK">
+        **Native support for Anthropic Messages format.**
+
+        ```python
+        import anthropic
+
+        client = anthropic.Anthropic(
+            api_key="YOUR_NSK_KEY",
+            base_url="https://api.neosantara.xyz/anthropic"
         )
 
-        print(response.output_text)
-        ```
-      </Tab>
-
-      <Tab title="Node.js SDK">
-        **Install SDK**
-
-        <CodeGroup>
-        ```bash npm
-        npm install openai
-        ```
-        </CodeGroup>
-
-        **Usage Example**
-
-        ```javascript icon="js"
-        import OpenAI from "openai";
-
-        const client = new OpenAI({
-            apiKey: "YOUR_NEOSANTARA_API_KEY",
-            baseURL: "https://api.neosantara.xyz/v1"
-        });
-
-        async function main() {
-            const response = await client.responses.create({
-                model: "qwen3-32b",
-                input: "Help me debug this React function that's not working correctly",
-                store: true
-            });
-
-            console.log(response.output_text);
-        }
-
-        main();
-        ```
-      </Tab>
-
-      <Tab title="cURL">
-        **Usage Example**
-
-        ```bash icon="terminal"
-        curl https://api.neosantara.xyz/v1/responses \
-          -H "Content-Type: application/json" \
-          -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-          -d '{
-            "model": "nusantara-base",
-            "input": "Generate a Python function to validate email addresses",
-            "store": true
-          }'
+        message = client.messages.create(
+            model="claude-4.5-sonnet",
+            max_tokens=1024,
+            messages=[{"role": "user", "content": "Hello!"}]
+        )
+        print(message.content[0].text)
         ```
       </Tab>
     </Tabs>
   </Step>
 </Steps>
 
-### Explore More
+### Next Steps
 
-<CardGroup cols={3}>
-  <Card title="API Reference" icon="code" href="/api-reference">
-    Detailed endpoint specs.
+<CardGroup cols={2}>
+  <Card title="Streaming" icon="bolt" href="/en/capability/stream">
+    Learn how to handle real-time data flows.
   </Card>
-
-  <Card title="Guides" icon="map" href="/en/guides/ai-coding-tools">
-    Tutorials and best practices.
-  </Card>
-
-  <Card title="Integrations" icon="puzzle-piece" href="/en/integrations">
-    Frameworks and libraries.
+  <Card title="Reasoning" icon="brain" href="/en/capability/reasoning">
+    Configure chain-of-thought and thinking tokens.
   </Card>
 </CardGroup>

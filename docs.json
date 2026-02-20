@@ -74,7 +74,6 @@
                 "pages": [
                   "en/intro",
                   "en/quickstart",
-                  "en/about",
                   "en/use-these-docs",
                   {
                     "group": "SDKs & APIs",
@@ -346,7 +345,6 @@
                 "pages": [
                   "id/intro",
                   "id/quickstart",
-                  "id/about",
                   "id/use-these-docs",
                   {
                     "group": "SDKs & APIs",

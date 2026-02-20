@@ -1,169 +1,124 @@
 ---
-title: "Mulai Cepat"
-description: "Ikuti panduan mulai cepat langkah demi langkah kami untuk menyiapkan kunci API Kamu, memilih model, dan mengintegrasikan Neosantara ke dalam aplikasi Kamu dalam waktu kurang dari 5 menit."
+title: "Quickstart"
+description: "Siapkan kunci API kamu, pilih model, dan buat panggilan pertama kamu dalam kurang dari 5 menit."
 ---
 
-## Memulai
+## Langkah Pertama
 
-Ikuti langkah-langkah berikut untuk melakukan panggilan API pertama Kamu ke Neosantara. Platform kami bertindak sebagai **gateway terpadu**, yang memungkinkan Kamu mengakses berbagai model SOTA dari berbagai penyedia menggunakan satu kunci API dan SDK.
+Neosantara bertindak sebagai **gateway terpadu**, yang memungkinkan kamu mengakses berbagai model mutakhir dari penyedia berbeda menggunakan satu kunci API dan SDK pilihan kamu.
 
 <Steps>
-  <Step title="Dapatkan Kunci API">
-    * Akses [Aplikasi Neosantara](https://app.neosantara.xyz/signup) untuk Mendaftar atau Masuk.
-    * Akses [Halaman Penagihan](https://app.neosantara.xyz/billing) untuk top up saldo Kamu jika diperlukan.
-    * Buat Kunci API di halaman manajemen [Kunci API](https://app.neosantara.xyz/api-keys).
-    * Simpan Kunci API Kamu dengan aman.
+  <Step title="Dapatkan Kunci API kamu">
+    1.  Daftar atau Masuk di [Aplikasi Neosantara](https://app.neosantara.xyz).
+    2.  Buka [Dashboard](https://app.neosantara.xyz/dashboard) untuk melihat kredit gratis awal kamu.
+    3.  Buat kunci baru di bagian [API Keys](https://app.neosantara.xyz/api-keys).
+    4.  Salin kunci kamu (dimulai dengan `nsk_`).
 
     <CardGroup cols={2}>
-      <Card title="Dashboard Neosantara" icon="link" href="https://app.neosantara.xyz/dashboard">
-        Kelola akun, penagihan, dan statistik penggunaan Kamu.
+      <Card title="Dashboard" icon="link" href="https://app.neosantara.xyz/dashboard">
+        Kelola akun, tagihan, dan statistik.
       </Card>
-
-      <Card title="Manajemen Kunci API" icon="key" href="https://app.neosantara.xyz/api-keys">
-        Buat dan kelola kunci akses API unik Kamu.
-      </Card>
-    </CardGroup>
-  </Step>
-
-  <Step title="Pilih Model Kamu">
-    Akses model terbaik dunia melalui satu antarmuka. Beralih antar penyedia cukup dengan mengubah parameter `model`. Lihat [Model & Harga](/id/about/billing-pricing) untuk daftar lengkapnya.
-
-    <CardGroup cols={2}>
-      <Card title="Unggulan Global" icon="sparkles" href="/id/models-overview">
-        Akses **Claude 4.5 Sonnet**, **Gemini 3 Flash**, dan **Grok 4.1** melalui satu integrasi.
-      </Card>
-
-      <Card title="Pengodean & Logika" icon="code" href="/id/models-overview">
-        Penalaran berperforma tinggi dengan model yang dioptimalkan untuk tugas pengodean.
-      </Card>
-
-      <Card title="Multimodal & Visi" icon="eye" href="/id/capability/ocr">
-        Hasilkan gambar dengan **Gen-2045** atau ekstrak teks dengan **DeepSeek OCR**.
-      </Card>
-
-      <Card title="AI Coding Tools" icon="terminal" href="/id/guides/ai-coding-tools">
-        Konfigurasi dengan **Claude Code**, **Cursor**, **Windsurf**, dan lainnya.
+      <Card title="API Keys" icon="key" href="https://app.neosantara.xyz/api-keys">
+        Kelola kredensial akses kamu.
       </Card>
     </CardGroup>
   </Step>
 
-  <Step title="Pilih Metode Pemanggilan">
-    Neosantara dirancang untuk menjadi gateway multi-kompatibel. Gunakan SDK resmi yang sesuai dengan ekosistem Kamu yang sudah ada.
+  <Step title="Pilih Model kamu">
+    Akses model terbaik dunia melalui satu antarmuka. Ganti model hanya dengan mengubah string `model`.
 
-    <CardGroup cols={3}>
-      <Card title="SDK OpenAI" icon="openai" href="/id/sdk/openai-compat">
-        Pengganti drop-in untuk aplikasi berbasis OpenAI apa pun.
-      </Card>
+    *   **Unggulan Penalaran**: `deepseek-r1`, `claude-4.5-sonnet`
+    *   **Chat Kecepatan Tinggi**: `gemini-3-flash`, `grok-4.1-fast-non-reasoning`
+    *   **Spesialis**: `deepseek-ocr`, `neosantara-gen-2045` (Generasi Gambar)
 
-      <Card title="SDK Anthropic" icon="bolt" href="/id/sdk/anthropic-compat">
-        Dukungan asli untuk format API Anthropic Messages.
-      </Card>
-
-      <Card title="Referensi API" icon="book" href="/api-reference">
-        Dokumentasi lengkap untuk panggilan API REST langsung.
-      </Card>
-    </CardGroup>
+    <Note>Lihat [Ikhtisar Model](/id/models-overview) untuk harga lengkap dan spesifikasi teknis.</Note>
   </Step>
 
-  <Step title="Lakukan Panggilan Pertama Kamu">
-    Setelah Kamu memiliki `Kunci API` dan memilih model, Kamu dapat mulai membuat permintaan. Berikut adalah contoh menggunakan metode populer:
+  <Step title="Pilih SDK kamu">
+    Neosantara "triple-compatible." Gunakan SDK yang sesuai dengan alur kerja kamu saat ini.
+
+    | Protokol | Kasus Penggunaan | Base URL |
+    | :--- | :--- | :--- |
+    | **OpenResponses** | Aplikasi modern, stateful | `https://api.neosantara.xyz/v1` |
+    | **OpenAI SDK** | Kompatibilitas legacy | `https://api.neosantara.xyz/v1` |
+    | **Anthropic SDK** | Pengguna native Claude | `https://api.neosantara.xyz/anthropic` |
+  </Step>
+
+  <Step title="Buat Panggilan Pertama kamu">
+    Setelah kamu memiliki `API Key`, kamu dapat mulai membuat permintaan.
 
     <Tabs>
-      <Tab title="Python SDK">
-        **Instal SDK**
+      <Tab title="OpenResponses (Direkomendasikan)">
+        **Direkomendasikan untuk aplikasi berperforma tinggi dan stateful.**
 
-        <CodeGroup>
-        ```bash pip
-        pip install --upgrade openai
+        ```typescript
+        const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer KUNCI_NSK_KAMU'
+          },
+          body: JSON.stringify({
+            model: 'nusantara-base',
+            input: 'Apa ibu kota Indonesia?',
+            store: true
+          })
+        });
+        
+        const data = await response.json();
+        console.log(data.output_text);
         ```
-        </CodeGroup>
+      </Tab>
 
-        **Contoh Penggunaan**
+      <Tab title="OpenAI SDK">
+        **Pengganti langsung untuk integrasi OpenAI.**
 
-        ```python icon="python"
+        ```python
         from openai import OpenAI
-        import os
 
         client = OpenAI(
-            api_key="KUNCI_API_NEOSANTARA_KAMU",
+            api_key="KUNCI_NSK_KAMU",
             base_url="https://api.neosantara.xyz/v1"
         )
 
-        # Kamu dapat menggunakan model APAPUN yang tersedia di platform di sini
-        # Pilih model apa pun yang tersedia di platform
-        response = client.responses.create(
-            model="nusantara-base",
-            input="Bantu saya mendebug fungsi React ini yang tidak berfungsi dengan benar",
-            store=True
+        response = client.chat.completions.create(
+            model="deepseek-r1",
+            messages=[{"role": "user", "content": "1+1=?"}]
+        )
+        print(response.choices[0].message.content)
+        ```
+      </Tab>
+
+      <Tab title="Anthropic SDK">
+        **Dukungan native untuk format Anthropic Messages.**
+
+        ```python
+        import anthropic
+
+        client = anthropic.Anthropic(
+            api_key="KUNCI_NSK_KAMU",
+            base_url="https://api.neosantara.xyz/anthropic"
         )
 
-        print(response.output_text)
-        ```
-      </Tab>
-
-      <Tab title="Node.js SDK">
-        **Instal SDK**
-
-        <CodeGroup>
-        ```bash npm
-        npm install openai
-        ```
-        </CodeGroup>
-
-        **Contoh Penggunaan**
-
-        ```javascript icon="js"
-        import OpenAI from "openai";
-
-        const client = new OpenAI({
-            apiKey: "KUNCI_API_NEOSANTARA_KAMU",
-            baseURL: "https://api.neosantara.xyz/v1"
-        });
-
-        async function main() {
-            const response = await client.responses.create({
-                model: "qwen3-32b",
-                input: "Bantu saya mendebug fungsi React ini yang tidak berfungsi dengan benar",
-                store: true
-            });
-
-            console.log(response.output_text);
-        }
-
-        main();
-        ```
-      </Tab>
-
-      <Tab title="cURL">
-        **Contoh Penggunaan**
-
-        ```bash icon="terminal"
-        curl https://api.neosantara.xyz/v1/responses \
-          -H "Content-Type: application/json" \
-          -H "Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU" \
-          -d '{ \
-            "model": "nusantara-base", \
-            "input": "Hasilkan fungsi Python untuk memvalidasi alamat email", \
-            "store": true \
-          }'
+        message = client.messages.create(
+            model="claude-4.5-sonnet",
+            max_tokens=1024,
+            messages=[{"role": "user", "content": "Halo!"}]
+        )
+        print(message.content[0].text)
         ```
       </Tab>
     </Tabs>
   </Step>
 </Steps>
 
-### Jelajahi Lebih Lanjut
+### Langkah Selanjutnya
 
-<CardGroup cols={3}>
-  <Card title="Referensi API" icon="code" href="/api-reference">
-    Spesifikasi endpoint terperinci.
+<CardGroup cols={2}>
+  <Card title="Streaming" icon="bolt" href="/id/capability/stream">
+    Pelajari cara menangani aliran data waktu nyata.
   </Card>
-
-  <Card title="Panduan" icon="map" href="/id/guides/ai-coding-tools">
-    Tutorial dan praktik terbaik.
-  </Card>
-
-  <Card title="Integrasi" icon="puzzle-piece" href="/id/integrations">
-    Framework dan pustaka.
+  <Card title="Penalaran" icon="brain" href="/id/capability/reasoning">
+    Konfigurasi chain-of-thought dan token pemikiran.
   </Card>
 </CardGroup>
