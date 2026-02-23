@@ -48,6 +48,47 @@ API akan mengembalikan respons yang berisi `id`.
 }
 ```
 
+### Contoh SDK: Memulai Percakapan
+
+<CodeGroup>
+```javascript node
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz"
+});
+
+const startResponse = await client.responses.create({
+  model: "nusantara-base",
+  input: "Nama saya Alice. Saya seorang insinyur perangkat lunak.",
+  store: true,
+  max_output_tokens: 1024
+});
+
+console.log("ID percakapan:", startResponse.id);
+```
+
+```python Python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz"
+)
+
+start_response = client.responses.create(
+    model="nusantara-base",
+    input="Nama saya Alice. Saya seorang insinyur perangkat lunak.",
+    store=True,
+    max_output_tokens=1024
+)
+
+print("ID percakapan:", start_response.id)
+```
+</CodeGroup>
+
 ### 2. Melanjutkan Percakapan
 
 Untuk membalas, berikan input baru Kamu dan `previous_response_id` dari putaran terakhir. Kamu **tidak** perlu mengirim ulang "Nama saya Alice".
@@ -80,6 +121,32 @@ Model akan merespons dengan kesadaran konteks:
   ]
 }
 ```
+
+### Contoh SDK: Melanjutkan Percakapan
+
+<CodeGroup>
+```javascript node
+const followUpResponse = await client.responses.create({
+  model: "nusantara-base",
+  input: "Apa yang memungkinkan saya mengelola state di React?",
+  previous_response_id: startResponse.id,
+  max_output_tokens: 1024
+});
+
+console.log("Teks lanjutan:", followUpResponse.output[0].content[0].text);
+```
+
+```python Python
+follow_up_response = client.responses.create(
+    model="nusantara-base",
+    input="Apa yang memungkinkan saya mengelola state di React?",
+    previous_response_id=start_response.id,
+    max_output_tokens=1024
+)
+
+print("Teks lanjutan:", follow_up_response.output[0].content[0].text)
+```
+</CodeGroup>
 
 Perhatikan bahwa model mengingat nama Kamu ("Alice") tanpa Kamu mengirimkannya lagi.
 

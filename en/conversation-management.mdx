@@ -53,6 +53,47 @@ The API will return a response containing an `id`.
 }
 ```
 
+### SDK Examples: Starting a Conversation
+
+<CodeGroup>
+```javascript node
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz"
+});
+
+const startResponse = await client.responses.create({
+  model: "nusantara-base",
+  input: "My name is Alice. I am a software engineer.",
+  store: true,
+  max_output_tokens: 1024
+});
+
+console.log("Conversation ID:", startResponse.id);
+```
+
+```python Python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz"
+)
+
+start_response = client.responses.create(
+    model="nusantara-base",
+    input="My name is Alice. I am a software engineer.",
+    store=True,
+    max_output_tokens=1024
+)
+
+print("Conversation ID:", start_response.id)
+```
+</CodeGroup>
+
 ### 2. Continuing the Conversation
 
 To reply, provide your new input and the `previous_response_id` from the last turn. You do **not** need to resend "My name is Alice".
@@ -90,6 +131,32 @@ The model will respond with context awareness:
   ]
 }
 ```
+
+### SDK Examples: Continuing the Conversation
+
+<CodeGroup>
+```javascript node
+const followUpResponse = await client.responses.create({
+  model: "nusantara-base",
+  input: "What allows me to manage state in React?",
+  previous_response_id: startResponse.id,
+  max_output_tokens: 1024
+});
+
+console.log("Follow-up text:", followUpResponse.output[0].content[0].text);
+```
+
+```python Python
+follow_up_response = client.responses.create(
+    model="nusantara-base",
+    input="What allows me to manage state in React?",
+    previous_response_id=start_response.id,
+    max_output_tokens=1024
+)
+
+print("Follow-up text:", follow_up_response.output[0].content[0].text)
+```
+</CodeGroup>
 
 Notice it remembers your name ("Alice") without you sending it again.
 
