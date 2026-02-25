@@ -1,0 +1,79 @@
+---
+title: "Create video"
+openapi: "POST /v1/videos"
+---
+
+Create a new video generation job from a prompt and optional reference assets.
+
+### Request Body
+
+<ParamField body="prompt" type="string" required>
+  Text prompt that describes the video to generate.
+</ParamField>
+
+<ParamField body="model" type="string" default="luma-ray2-540p">
+  The video generation model to use. Currently supported: `luma-ray2-540p`, `luma-ray2-720p`.
+</ParamField>
+
+<ParamField body="input_reference" type="string">
+  Optional image URL reference that guides generation.
+</ParamField>
+
+<ParamField body="seconds" type="string" default="5">
+  Clip duration in seconds. Allowed values: "5", "9".
+</ParamField>
+
+<ParamField body="size" type="string" default="1280x720">
+  Output resolution formatted as width x height. 
+  Allowed values: "1280x720", "720x1280", "1024x1024", "480x854", "854x480".
+</ParamField>
+
+### Response
+
+The response is a JSON object with a unique id and an initial status such as `queued` or `in_progress`.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the video job.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Current lifecycle status of the video job (`queued`, `in_progress`, `completed`, `failed`).
+</ResponseField>
+
+---
+
+## Examples
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/videos \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "luma-ray2-540p",
+    "prompt": "A cinematic shot of a futuristic city at sunset.",
+    "size": "1280x720",
+    "seconds": "5"
+  }'
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+const video = await client.videos.create({
+  model: "luma-ray2-540p",
+  prompt: "A cinematic shot of a futuristic city at sunset.",
+  size: "1280x720",
+  seconds: "5"
+});
+
+console.log(video.id);
+```
+
+</CodeGroup>

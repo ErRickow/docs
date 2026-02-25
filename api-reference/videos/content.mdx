@@ -1,0 +1,39 @@
+---
+title: "Download video"
+openapi: "GET /v1/videos/{video_id}/content"
+---
+
+Download the generated video bytes or a derived preview asset. This endpoint returns a `302 Found` redirect to the actual file location.
+
+### Path Parameters
+
+<ParamField path="video_id" type="string" required>
+  The unique identifier of the video job.
+</ParamField>
+
+---
+
+## Examples
+
+<CodeGroup>
+
+```bash cURL
+curl -L https://api.neosantara.xyz/v1/videos/video_abc123/content \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  --output result.mp4
+```
+
+```javascript Node.js
+// Standard HTTP fetch example as OpenAI SDK usually handles higher level objects
+const response = await fetch("https://api.neosantara.xyz/v1/videos/video_abc123/content", {
+  headers: {
+    "Authorization": `Bearer ${process.env.NAI_API_KEY}`
+  }
+});
+
+const buffer = await response.arrayBuffer();
+// save buffer to file...
+```
+
+</CodeGroup>
+

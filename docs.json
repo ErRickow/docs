@@ -128,6 +128,7 @@
               {
                 "group": "Capabilities",
                 "pages": [
+                  "en/capability/video-generation",
                   "en/capability/image-generation",
                   "en/capability/audio-transcription",
                   "en/capability/embeddings",
@@ -293,6 +294,14 @@
                     "pages": ["POST /v1/ocr"]
                   },
                   {
+                    "group": "Videos",
+                    "pages": [
+                      "api-reference/videos/create",
+                      "api-reference/videos/get",
+                      "api-reference/videos/content"
+                    ]
+                  },
+                  {
                     "group": "Asynchronous",
                     "pages": [
                       {
@@ -399,6 +408,7 @@
               {
                 "group": "Kemampuan",
                 "pages": [
+                  "id/capability/video-generation",
                   "id/capability/embeddings",
                   "id/capability/image-generation",
                   "id/capability/audio-transcription",
@@ -562,6 +572,14 @@
                   {
                     "group": "Vision",
                     "pages": ["POST /v1/ocr"]
+                  },
+                  {
+                    "group": "Videos",
+                    "pages": [
+                      "api-reference/videos/create",
+                      "api-reference/videos/get",
+                      "api-reference/videos/content"
+                    ]
                   },
                   {
                     "group": "Asynchronous",

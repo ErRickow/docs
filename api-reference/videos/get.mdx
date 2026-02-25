@@ -1,0 +1,38 @@
+---
+title: "Get video status"
+openapi: "GET /v1/videos/{video_id}"
+---
+
+Fetch the latest metadata for a generated video. Typical states are `queued`, `in_progress`, `completed`, and `failed`.
+
+### Path Parameters
+
+<ParamField path="video_id" type="string" required>
+  The unique identifier of the video job.
+</ParamField>
+
+---
+
+## Examples
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/videos/video_abc123 \
+  -H "Authorization: Bearer $NAI_API_KEY"
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+const video = await client.videos.retrieve("video_abc123");
+console.log(video.status);
+```
+
+</CodeGroup>
+

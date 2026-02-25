@@ -1,0 +1,144 @@
+---
+title: "Video Generation"
+description: "> Create high-quality videos from text prompts or images using OpenAI Sora compatible API."
+---
+
+import { ModelCards } from '/snippets/model-cards.jsx';
+
+Neosantara provides a powerful, asynchronous video generation API. Our implementation is fully compatible with the OpenAI Sora specification, allowing you to use existing OpenAI SDKs to generate videos seamlessly.
+
+## Supported Models
+
+Currently, we support the Luma Ray v2 models via AWS Bedrock, optimized for different quality and speed requirements.
+
+<ModelCards capability="video_generation" />
+
+## How it Works
+
+Video generation is an **asynchronous process**. Unlike chat completions, generating a video can take anywhere from 2 to 5 minutes.
+
+1. **Create a Job**: Send a request to `/v1/videos`. You will receive a `job_id`.
+2. **Poll for Status**: Check the status of your job using `GET /v1/videos/{job_id}`.
+3. **Download Result**: Once the status is `completed`, download the final MP4 file via `GET /v1/videos/{job_id}/content`.
+
+## Usage (OpenAI SDK)
+
+You can use the official OpenAI SDK (v4+) to interact with Neosantara's video API.
+
+<CodeGroup>
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function generateVideo() {
+  // 1. Create the video job
+  const video = await client.videos.create({
+    model: "luma-ray2-540p",
+    prompt: "A cinematic shot of a futuristic Jakarta in 2050, drone view, neon lights.",
+    size: "1280x720",
+    seconds: "5"
+  });
+
+  console.log("Job Created:", video.id);
+
+  // 2. Poll for completion
+  let status = video.status;
+  while (status !== 'completed' && status !== 'failed') {
+    console.log("Processing...");
+    await new Promise(resolve => setTimeout(resolve, 30000));
+    
+    const job = await client.videos.retrieve(video.id);
+    status = job.status;
+  }
+
+  if (status === 'completed') {
+    console.log("Video is ready! Download at:");
+    console.log(`https://api.neosantara.xyz/v1/videos/${video.id}/content`);
+  }
+}
+
+generateVideo();
+```
+
+```python Python
+import os
+import time
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
+)
+
+# 1. Create the video job
+video = client.videos.create(
+    model="luma-ray2-540p",
+    prompt="A cute robot exploring a tropical forest, 4k, realistic.",
+    size="1280x720",
+    seconds="5"
+)
+
+print(f"Job Created: {video.id}")
+
+# 2. Poll for completion
+while True:
+    job = client.videos.retrieve(video.id)
+    print(f"Status: {job.status}")
+    
+    if job.status == "completed":
+        print(f"Success! URL: https://api.neosantara.xyz/v1/videos/{video.id}/content")
+        break
+    elif job.status == "failed":
+        print(f"Failed: {job.error}")
+        break
+        
+    time.sleep(30)
+```
+
+</CodeGroup>
+
+## Usage (cURL)
+
+<CodeGroup>
+
+```bash Create Video
+curl https://api.neosantara.xyz/v1/videos \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "luma-ray2-540p",
+    "prompt": "A simple cat walking, cinematic.",
+    "size": "854x480",
+    "seconds": "5"
+  }'
+```
+
+```bash Check Status
+curl https://api.neosantara.xyz/v1/videos/{job_id} \
+  -H "Authorization: Bearer $NAI_API_KEY"
+```
+
+```bash Download Content
+# This will return a 302 redirect to the actual video file
+curl -L https://api.neosantara.xyz/v1/videos/{job_id}/content \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  --output result.mp4
+```
+
+</CodeGroup>
+
+## Pricing
+
+Video generation is billed per second of the generated video duration.
+
+| Model | Price per Second |
+| :--- | :--- |
+| `luma-ray2-540p` | **$0.75** |
+| `luma-ray2-720p` | **$1.50** |
+
+*Note: Prices are in USD and will be converted to your local currency (IDR) at the current exchange rate.*

@@ -1,0 +1,144 @@
+---
+title: "Video Generation"
+description: "> Buat video berkualitas tinggi dari prompt teks atau gambar menggunakan API yang kompatibel dengan OpenAI Sora."
+---
+
+import { ModelCards } from '/snippets/model-cards.jsx';
+
+Neosantara menyediakan API pembuatan video asinkron yang canggih. Implementasi kami sepenuhnya kompatibel dengan spesifikasi OpenAI Sora, memungkinkan kamu untuk menggunakan SDK OpenAI yang sudah ada untuk membuat video dengan mudah.
+
+## Model yang Didukung
+
+Saat ini, kami mendukung model Luma Ray v2 melalui AWS Bedrock, yang dioptimalkan untuk berbagai kebutuhan kualitas dan kecepatan.
+
+<ModelCards capability="video_generation" />
+
+## Cara Kerja
+
+Pembuatan video adalah **proses asinkron**. Berbeda dengan penyelesaian chat (chat completions), pembuatan video dapat memakan waktu antara 2 hingga 5 menit.
+
+1. **Buat Job**: Kirim permintaan ke `/v1/videos`. Kamu akan menerima `job_id`.
+2. **Cek Status**: Periksa status job kamu menggunakan `GET /v1/videos/{job_id}`.
+3. **Unduh Hasil**: Setelah status menjadi `completed`, unduh file MP4 final melalui `GET /v1/videos/{job_id}/content`.
+
+## Penggunaan (OpenAI SDK)
+
+Kamu dapat menggunakan SDK resmi OpenAI (v4+) untuk berinteraksi dengan API video Neosantara.
+
+<CodeGroup>
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: "https://api.neosantara.xyz/v1",
+});
+
+async function generateVideo() {
+  // 1. Buat job video
+  const video = await client.videos.create({
+    model: "luma-ray2-540p",
+    prompt: "Pemandangan sinematik Jakarta futuristik tahun 2050, drone view, neon lights.",
+    size: "1280x720",
+    seconds: "5"
+  });
+
+  console.log("Job Dibuat:", video.id);
+
+  // 2. Poll untuk penyelesaian
+  let status = video.status;
+  while (status !== 'completed' && status !== 'failed') {
+    console.log("Sedang diproses...");
+    await new Promise(resolve => setTimeout(resolve, 30000));
+    
+    const job = await client.videos.retrieve(video.id);
+    status = job.status;
+  }
+
+  if (status === 'completed') {
+    console.log("Video siap! Unduh di:");
+    console.log(`https://api.neosantara.xyz/v1/videos/${video.id}/content`);
+  }
+}
+
+generateVideo();
+```
+
+```python Python
+import os
+import time
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=os.environ.get("NAI_API_KEY"),
+    base_url="https://api.neosantara.xyz/v1",
+)
+
+# 1. Buat job video
+video = client.videos.create(
+    model="luma-ray2-540p",
+    prompt="Robot lucu sedang menjelajahi hutan tropis, 4k, realistis.",
+    size="1280x720",
+    seconds="5"
+)
+
+print(f"Job Dibuat: {video.id}")
+
+# 2. Poll untuk penyelesaian
+while True:
+    job = client.videos.retrieve(video.id)
+    print(f"Status: {job.status}")
+    
+    if job.status == "completed":
+        print(f"Sukses! URL: https://api.neosantara.xyz/v1/videos/{video.id}/content")
+        break
+    elif job.status == "failed":
+        print(f"Gagal: {job.error}")
+        break
+        
+    time.sleep(30)
+```
+
+</CodeGroup>
+
+## Penggunaan (cURL)
+
+<CodeGroup>
+
+```bash Buat Video
+curl https://api.neosantara.xyz/v1/videos \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "luma-ray2-540p",
+    "prompt": "Kucing sederhana sedang berjalan, sinematik.",
+    "size": "854x480",
+    "seconds": "5"
+  }'
+```
+
+```bash Cek Status
+curl https://api.neosantara.xyz/v1/videos/{job_id} \
+  -H "Authorization: Bearer $NAI_API_KEY"
+```
+
+```bash Unduh Konten
+# Ini akan mengembalikan redirect 302 ke file video asli
+curl -L https://api.neosantara.xyz/v1/videos/{job_id}/content \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  --output hasil.mp4
+```
+
+</CodeGroup>
+
+## Harga
+
+Pembuatan video ditagih per detik dari durasi video yang dihasilkan.
+
+| Model | Harga per Detik |
+| :--- | :--- |
+| `luma-ray2-540p` | **$0.75** |
+| `luma-ray2-720p` | **$1.50** |
+
+*Catatan: Harga dalam USD dan akan dikonversi ke mata uang lokal (IDR) sesuai kurs yang berlaku.*
