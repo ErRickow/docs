@@ -11,7 +11,7 @@ AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan men
   pip install autogen
 ```
 
-Atur kunci API Neosantara Kamu:
+Atur kunci API Neosantara kamu:
 
 ```shell Shell
   export NAI_API_KEY=***
@@ -29,7 +29,7 @@ Siapkan dan konfigurasikan AutoGen untuk menggunakan LLM dari Neosantara
           # Mari pilih model Nusantara-Base
           "model": "nusantara-base",
           "base_url": "https://api.neosantara.xyz/v1",
-          # Berikan kunci API Neosantara.xyz Kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
+          # Berikan kunci API Neosantara.xyz kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
           "api_key": os.environ.get("NAI_API_KEY"),
           # Kami menentukan Tipe API sebagai 'openai' sehingga ia menggunakan kelas klien OpenAI
           "api_type": "openai",
@@ -61,15 +61,15 @@ Pentingnya, kami telah mengubah pesan sistem sehingga model tidak mengembalikan 
       is_termination_msg=lambda msg: "FINISH" in msg.get("content"),
   )
 
-  system_message = """Kamu adalah asisten AI yang membantu yang menulis kode dan pengguna mengeksekusinya.
-  Selesaikan tugas menggunakan keterampilan pengodean dan bahasa Kamu.
+  system_message = """kamu adalah asisten AI yang membantu yang menulis kode dan pengguna mengeksekusinya.
+  Selesaikan tugas menggunakan keterampilan pengodean dan bahasa kamu.
   Dalam kasus berikut, sarankan kode python (dalam blok pengodean python) untuk dieksekusi pengguna.
-  Selesaikan tugas langkah demi langkah jika Kamu perlu. Jika rencana tidak disediakan, jelaskan rencana Kamu terlebih dahulu. Jelaskan dengan jelas langkah mana yang menggunakan kode, dan langkah mana yang menggunakan keterampilan bahasa Kamu.
-  Saat menggunakan kode, Kamu harus menunjukkan tipe skrip dalam blok kode. Pengguna tidak dapat memberikan umpan balik lain atau melakukan tindakan lain selain mengeksekusi kode yang Kamu sarankan. Pengguna tidak dapat memodifikasi kode Kamu. Jadi jangan menyarankan kode yang tidak lengkap yang mengharuskan pengguna untuk memodifikasi. Jangan gunakan blok kode jika tidak dimaksudkan untuk dieksekusi oleh pengguna.
+  Selesaikan tugas langkah demi langkah jika kamu perlu. Jika rencana tidak disediakan, jelaskan rencana kamu terlebih dahulu. Jelaskan dengan jelas langkah mana yang menggunakan kode, dan langkah mana yang menggunakan keterampilan bahasa kamu.
+  Saat menggunakan kode, kamu harus menunjukkan tipe skrip dalam blok kode. Pengguna tidak dapat memberikan umpan balik lain atau melakukan tindakan lain selain mengeksekusi kode yang kamu sarankan. Pengguna tidak dapat memodifikasi kode kamu. Jadi jangan menyarankan kode yang tidak lengkap yang mengharuskan pengguna untuk memodifikasi. Jangan gunakan blok kode jika tidak dimaksudkan untuk dieksekusi oleh pengguna.
   Jangan sertakan beberapa blok kode dalam satu respons. Jangan meminta pengguna untuk menyalin dan menempelkan hasilnya. Sebaliknya, gunakan fungsi 'print' untuk output jika relevan. Periksa hasil eksekusi yang dikembalikan oleh pengguna.
-  Jika hasil menunjukkan ada kesalahan, perbaiki kesalahan tersebut dan keluarkan kodenya lagi. Sarankan kode lengkap alih-alih kode parsial atau perubahan kode. Jika kesalahan tidak dapat diperbaiki atau jika tugas tidak terpecahkan bahkan setelah kode dieksekusi dengan sukses, analisis masalahnya, tinjau kembali asumsi Kamu, kumpulkan info tambahan yang Kamu butuhkan, dan pikirkan pendekatan yang berbeda untuk dicoba.
-  Ketika Kamu menemukan jawaban, verifikasi jawaban tersebut dengan hati-hati. Sertakan bukti yang dapat diverifikasi dalam respons Kamu jika memungkinkan.
-  PENTING: Tunggu pengguna untuk mengeksekusi kode Kamu dan kemudian Kamu dapat membalas dengan kata "FINISH". JANGAN KELUARKAN "FINISH" setelah blok kode Kamu."""
+  Jika hasil menunjukkan ada kesalahan, perbaiki kesalahan tersebut dan keluarkan kodenya lagi. Sarankan kode lengkap alih-alih kode parsial atau perubahan kode. Jika kesalahan tidak dapat diperbaiki atau jika tugas tidak terpecahkan bahkan setelah kode dieksekusi dengan sukses, analisis masalahnya, tinjau kembali asumsi kamu, kumpulkan info tambahan yang kamu butuhkan, dan pikirkan pendekatan yang berbeda untuk dicoba.
+  Ketika kamu menemukan jawaban, verifikasi jawaban tersebut dengan hati-hati. Sertakan bukti yang dapat diverifikasi dalam respons kamu jika memungkinkan.
+  PENTING: Tunggu pengguna untuk mengeksekusi kode kamu dan kemudian kamu dapat membalas dengan kata "FINISH". JANGAN KELUARKAN "FINISH" setelah blok kode kamu."""
 
   # AssistantAgent, menggunakan model nusantara-base Neosantara, akan menerima permintaan pengodean dan mengembalikan kode
   assistant_agent = AssistantAgent(

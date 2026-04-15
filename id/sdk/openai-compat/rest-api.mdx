@@ -3,7 +3,7 @@ title: "Penggunaan API REST Langsung"
 description: "Buat permintaan HTTP langsung ke Gateway AI Neosantara menggunakan cURL, Fetch, atau klien HTTP lainnya."
 ---
 
-Jika Kamu lebih suka menggunakan API Gateway AI Neosantara secara langsung tanpa pustaka klien OpenAI, Kamu dapat membuat permintaan HTTP menggunakan klien HTTP standar apa pun. Ini berguna untuk lingkungan di mana menginstal SDK lengkap tidak ideal.
+Jika kamu lebih suka menggunakan API Gateway AI Neosantara secara langsung tanpa pustaka klien OpenAI, kamu dapat membuat permintaan HTTP menggunakan klien HTTP standar apa pun. Ini berguna untuk lingkungan di mana menginstal SDK lengkap tidak ideal.
 
 ### Daftar model
 
@@ -152,7 +152,7 @@ Kirim gambar untuk diproses menggunakan model multimodal.
 <CodeGroup>
 
 ```bash cURL
-# Pertama, konversi gambar Kamu ke base64
+# Pertama, konversi gambar kamu ke base64
 IMAGE_BASE64=$(base64 -w 0 ./gambar.png)
  
 curl -X POST "https://api.neosantara.xyz/v1/chat/completions" \

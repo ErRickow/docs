@@ -3,7 +3,7 @@ title: "Ikhtisar"
 description: "> Perluas kemampuan Neosantara dengan memungkinkannya berinteraksi dengan tool dan fungsi eksternal."
 ---
 
-Model Neosantara mampu berinteraksi dengan tool (juga dikenal sebagai fungsi), yang memungkinkan Kamu memperluas kemampuan AI untuk melakukan berbagai tugas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
+Model Neosantara mampu berinteraksi dengan tool (juga dikenal sebagai fungsi), yang memungkinkan kamu memperluas kemampuan AI untuk melakukan berbagai tugas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
 
 Berikut adalah contoh cara memberikan tool ke Neosantara menggunakan API Responses:
 
@@ -82,13 +82,13 @@ Berikut adalah contoh cara memberikan tool ke Neosantara menggunakan API Respons
 
 ## Cara Kerja Penggunaan Tool
 
-Fungsionalitas penggunaan tool Neosantara mengikuti pola umum, mirip dengan pemanggilan fungsi OpenAI, di mana Kamu memberikan deskripsi tentang tool yang tersedia kepada model, dan model memutuskan apakah dan bagaimana cara menggunakannya.
+Fungsionalitas penggunaan tool Neosantara mengikuti pola umum, mirip dengan pemanggilan fungsi OpenAI, di mana kamu memberikan deskripsi tentang tool yang tersedia kepada model, dan model memutuskan apakah dan bagaimana cara menggunakannya.
 
 Integrasikan tool sisi klien dengan Neosantara dalam langkah-langkah berikut:
 
 <Steps>
   <Step title="Berikan tool dan prompt pengguna ke Neosantara">
-    * Tentukan tool dengan nama, deskripsi, dan skema input (parameter) dalam permintaan API Kamu di dalam parameter `tools`.
+    * Tentukan tool dengan nama, deskripsi, dan skema input (parameter) dalam permintaan API kamu di dalam parameter `tools`.
     * Sertakan prompt pengguna yang mungkin memerlukan tool ini, misalnya, "Bagaimana cuaca di Jakarta?"
   </Step>
 
@@ -99,13 +99,13 @@ Integrasikan tool sisi klien dengan Neosantara dalam langkah-langkah berikut:
   </Step>
 
   <Step title="Jalankan tool dan kembalikan hasilnya">
-    * Aplikasi Kamu mengekstrak nama tool dan input dari respons `tool_calls` Neosantara.
-    * Aplikasi Kamu kemudian menjalankan kode tool yang sebenarnya di sistem Kamu.
+    * Aplikasi kamu mengekstrak nama tool dan input dari respons `tool_calls` Neosantara.
+    * Aplikasi kamu kemudian menjalankan kode tool yang sebenarnya di sistem kamu.
     * Kembalikan hasilnya ke model dalam pesan `user` baru dengan peran `tool`, yang berisi `tool_call_id` dan `content` dari output tool tersebut.
   </Step>
 
   <Step title="Neosantara menggunakan hasil tool untuk menyusun respons">
-    * Neosantara menganalisis hasil tool yang Kamu berikan untuk membuat respons bahasa alami akhirnya terhadap prompt pengguna yang asli.
+    * Neosantara menganalisis hasil tool yang kamu berikan untuk membuat respons bahasa alami akhirnya terhadap prompt pengguna yang asli.
   </Step>
 </Steps>
 
@@ -231,7 +231,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
     }
     ```
 
-    Kamu kemudian perlu menjalankan fungsi `get_weather` dengan input yang disediakan, dan mengembalikan hasilnya dalam pesan `user` yang baru:
+    kamu kemudian perlu menjalankan fungsi `get_weather` dengan input yang disediakan, dan mengembalikan hasilnya dalam pesan `user` yang baru:
 
     <CodeGroup>
       ```bash Shell
@@ -327,7 +327,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
           tool_args = json.loads(tool_call.function.arguments)
           tool_call_id = tool_call.id
 
-          # --- Jalankan tool Kamu di sini ---
+          # --- Jalankan tool kamu di sini ---
           # Untuk demonstrasi, hasil cuaca tiruan
           if tool_name == "get_weather":
               mock_weather_result = {"temperature": 28, "unit": "celsius", "description": "Cerah berawan"}
@@ -496,7 +496,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
               tool_args = json.loads(tool_call.function.arguments)
               tool_call_id = tool_call.id
 
-              # --- Jalankan tool Kamu di sini secara paralel ---
+              # --- Jalankan tool kamu di sini secara paralel ---
               if tool_name == "get_weather":
                   mock_result = {"temperature": 28, "unit": "celsius", "description": "Cerah berawan"}
               elif tool_name == "get_time":
@@ -541,7 +541,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
   <Accordion title="Informasi yang Kurang">
     Jika prompt pengguna tidak menyertakan informasi yang cukup untuk mengisi semua parameter yang diperlukan untuk sebuah tool, Neosantara dirancang untuk mengenali bahwa ada parameter yang kurang dan menanyakannya.
 
-    Misalnya, menggunakan tool `get_weather`, jika Kamu bertanya "Bagaimana cuacanya?" tanpa menentukan lokasi, model kemungkinan akan merespons dengan pertanyaan klarifikasi alih-alih melakukan panggilan tool.
+    Misalnya, menggunakan tool `get_weather`, jika kamu bertanya "Bagaimana cuacanya?" tanpa menentukan lokasi, model kemungkinan akan merespons dengan pertanyaan klarifikasi alih-alih melakukan panggilan tool.
 
     ```json icon="code"
     {
@@ -554,7 +554,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
           "index": 0,
           "message": {
             "role": "assistant",
-            "content": "Tentu, saya bisa memberi tahu cuacanya. Kota dan negara mana yang Kamu maksud?"
+            "content": "Tentu, saya bisa memberi tahu cuacanya. Kota dan negara mana yang kamu maksud?"
           },
           "finish_reason": "stop"
         }
@@ -710,21 +710,21 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
     1.  **Pengguna bertanya**: "Bagaimana cuaca di tempat saya berada?"
     2.  **AI merespons (Panggilan Tool 1)**: Memanggil `get_location_from_ip`.
-    3.  **Kode Kamu menjalankan tool**: Mendapatkan lokasi (misalnya, "Bandung, Jawa Barat").
-    4.  **Kode Kamu mengirimkan hasil ke AI**: Mengirimkan pesan `tool` dengan lokasi.
+    3.  **Kode kamu menjalankan tool**: Mendapatkan lokasi (misalnya, "Bandung, Jawa Barat").
+    4.  **Kode kamu mengirimkan hasil ke AI**: Mengirimkan pesan `tool` dengan lokasi.
     5.  **AI merespons (Panggilan Tool 2)**: Memanggil `get_weather` dengan "Bandung, Jawa Barat".
-    6.  **Kode Kamu menjalankan tool**: Mendapatkan data cuaca (misalnya, "25°C, Cerah").
-    7.  **Kode Kamu mengirimkan hasil ke AI**: Mengirimkan pesan `tool` dengan cuaca.
+    6.  **Kode kamu menjalankan tool**: Mendapatkan data cuaca (misalnya, "25°C, Cerah").
+    7.  **Kode kamu mengirimkan hasil ke AI**: Mengirimkan pesan `tool` dengan cuaca.
     8.  **AI merespons (Jawaban Akhir)**: "Cuaca di Bandung, Jawa Barat saat ini adalah 25°C dan cerah."
   </Accordion>
 
   <Accordion title="Mode JSON">
-    Kamu dapat menggunakan tool untuk menginstruksikan Neosantara agar menghasilkan output JSON yang mengikuti skema tertentu, meskipun Kamu tidak bermaksud mengeksekusi output tersebut melalui sebuah tool atau fungsi. Ini sering digunakan untuk ekstraksi atau pembuatan data terstruktur.
+    kamu dapat menggunakan tool untuk menginstruksikan Neosantara agar menghasilkan output JSON yang mengikuti skema tertentu, meskipun kamu tidak bermaksud mengeksekusi output tersebut melalui sebuah tool atau fungsi. Ini sering digunakan untuk ekstraksi atau pembuatan data terstruktur.
 
     Saat menggunakan tool dengan cara ini:
 
-    * Kamu biasanya menyediakan **satu** tool.
-    * Kamu harus menyetel `tool_choice` ke `{"type": "function", "function": {"name": "nama_tool_Kamu"}}` untuk menginstruksikan model secara eksplisit agar menggunakan tool tersebut.
+    * kamu biasanya menyediakan **satu** tool.
+    * kamu harus menyetel `tool_choice` ke `{"type": "function", "function": {"name": "nama_tool_kamu"}}` untuk menginstruksikan model secara eksplisit agar menggunakan tool tersebut.
     * Parameter `function` menentukan skema JSON persis yang harus dipatuhi oleh model.
 
     Berikut ini menggunakan tool `record_summary` untuk mendeskripsikan gambar dengan format JSON tertentu. Perhatikan bahwa ini memerlukan model dengan kemampuan visi (misalnya, `vision-emas-2045`).
@@ -905,13 +905,13 @@ Token tambahan dari penggunaan tool berasal dari:
 
 * Array `tools` dalam permintaan API (nama tool, deskripsi, dan skema parameter).
 * `tool_calls` yang dihasilkan oleh model dalam pesan asisten.
-* Pesan `tool` (berisi `tool_call_id` dan `content`) yang dikirim oleh aplikasi Kamu.
+* Pesan `tool` (berisi `tool_call_id` dan `content`) yang dikirim oleh aplikasi kamu.
 
-Jumlah token ini ditambahkan ke token input dan output normal Kamu untuk menghitung total biaya permintaan.
+Jumlah token ini ditambahkan ke token input dan output normal kamu untuk menghitung total biaya permintaan.
 
 Lihat [dokumentasi harga](https://app.neosantara.xyz/pricing) kami untuk harga per model dan tier penggunaan saat ini.
 
-Saat Kamu mengirimkan prompt penggunaan tool, sama seperti permintaan API lainnya, respons akan menampilkan jumlah token input dan output sebagai bagian dari metrik `usage` yang dilaporkan.
+Saat kamu mengirimkan prompt penggunaan tool, sama seperti permintaan API lainnya, respons akan menampilkan jumlah token input dan output sebagai bagian dari metrik `usage` yang dilaporkan.
 
 ***
 

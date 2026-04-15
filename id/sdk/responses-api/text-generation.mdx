@@ -3,11 +3,11 @@ title: "Generasi Teks"
 description: "Pelajari cara menghasilkan respons teks menggunakan API Responses yang stateful."
 ---
 
-Gunakan [API Responses](/id/sdk/responses-api) untuk menghasilkan respons teks berkualitas tinggi dari model AI. Tidak seperti API Chat Completions yang lama, API Responses memungkinkan Kamu untuk mengirimkan string sederhana atau objek pesan terstruktur sambil secara opsional mempertahankan status percakapan di server.
+Gunakan [API Responses](/id/sdk/responses-api) untuk menghasilkan respons teks berkualitas tinggi dari model AI. Tidak seperti API Chat Completions yang lama, API Responses memungkinkan kamu untuk mengirimkan string sederhana atau objek pesan terstruktur sambil secara opsional mempertahankan status percakapan di server.
 
 ### Permintaan Dasar
 
-Arahkan klien HTTP Kamu ke endpoint responses Neosantara.
+Arahkan klien HTTP kamu ke endpoint responses Neosantara.
 
 <CodeGroup>
 
@@ -96,6 +96,6 @@ Respons menyertakan teks yang dihasilkan dalam array `output`, bersama dengan in
 ### Mengakses Output
 
 *   **`output_text`**: String tingkat atas yang berisi respons teks lengkap yang digabungkan. Terbaik untuk aplikasi obrolan sederhana.
-*   **`output`**: Array blok pesan terperinci. Gunakan ini jika Kamu perlu mengakses ID item tertentu, konten penalaran, atau panggilan tool.
+*   **`output`**: Array blok pesan terperinci. Gunakan ini jika kamu perlu mengakses ID item tertentu, konten penalaran, atau panggilan tool.
 
 Pelajari lebih lanjut tentang mengelola respons ini selama beberapa turn dalam panduan [Manajemen Percakapan](/id/conversation-management).

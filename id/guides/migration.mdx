@@ -1,0 +1,112 @@
+---
+title: "Panduan Migrasi"
+description: "Beralih dari OpenAI atau Anthropic ke Neosantara dalam hitungan menit."
+---
+
+Neosantara dirancang untuk menjadi pengganti langsung bagi penyedia global. Jika kamu sudah memiliki aplikasi yang menggunakan SDK OpenAI atau Anthropic, migrasi ke Neosantara hanya memerlukan perubahan dua baris kode.
+
+## 1. Variabel Lingkungan (Environment Variables)
+
+Ganti variabel lingkungan standar kamu dengan padanan Neosantara.
+
+| Penyedia | Variabel Lama | Variabel Neosantara |
+| :--- | :--- | :--- |
+| **OpenAI** | `OPENAI_API_KEY` | `NEOSANTARA_API_KEY` |
+| **Anthropic** | `ANTHROPIC_API_KEY` | `NEOSANTARA_API_KEY` |
+
+## 2. Migrasi SDK OpenAI
+
+Untuk menggunakan Neosantara dengan SDK OpenAI resmi, cukup perbarui `base_url` dan `api_key`.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    # Ubah baris ini
+    base_url="https://api.neosantara.xyz/v1",
+    # Gunakan Kunci API Neosantara kamu
+    api_key=os.environ.get("NEOSANTARA_API_KEY")
+)
+
+# Penggunaan tetap sama persis
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Halo!"}]
+)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  # Ubah baris ini
+  baseURL: "https://api.neosantara.xyz/v1",
+  # Gunakan Kunci API Neosantara kamu
+  apiKey: process.env.NEOSANTARA_API_KEY
+});
+
+# Penggunaan tetap sama persis
+const completion = await openai.chat.completions.create({
+  model: "nusantara-base",
+  messages: [{ role: "user", content: "Halo!" }],
+});
+```
+</CodeGroup>
+
+## 3. Migrasi SDK Anthropic
+
+Neosantara menyediakan endpoint yang kompatibel dengan Anthropic yang bekerja mulus dengan SDK resmi `@anthropic-ai/sdk`.
+
+<CodeGroup>
+```python Python
+from anthropic import Anthropic
+import os
+
+client = Anthropic(
+    # Ubah baris ini ke endpoint kompatibel-Anthropic kami
+    base_url="https://api.neosantara.xyz/anthropic",
+    # Gunakan Kunci API Neosantara kamu
+    api_key=os.environ.get("NEOSANTARA_API_KEY")
+)
+
+# Buat pesan menggunakan sintaks yang sama
+message = client.messages.create(
+    model="claude-3-5-sonnet",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Halo!"}]
+)
+```
+
+```javascript Node.js
+import Anthropic from '@anthropic-ai/sdk';
+
+const anthropic = new Anthropic({
+  # Ubah baris ini
+  baseURL: "https://api.neosantara.xyz/anthropic",
+  # Gunakan Kunci API Neosantara kamu
+  apiKey: process.env.NEOSANTARA_API_KEY
+});
+
+const msg = await anthropic.messages.create({
+  model: "claude-3-5-sonnet",
+  max_tokens: 1024,
+  messages: [{ role: "user", content: "Halo!" }],
+});
+```
+</CodeGroup>
+
+## 4. Perbedaan Utama yang Perlu Dicatat
+
+Meskipun API kompatibel, ada beberapa fitur khusus platform yang perlu diingat:
+
+- **Nama Model**: Periksa [Ringkasan Model](/id/models-overview) untuk ID model yang tersedia.
+- **Penagihan**: Neosantara menggunakan model **Pay-As-You-Go** yang terlokalisasi dalam IDR (Rupiah). Pastikan saldo kamu terisi melalui [Dashboard](https://app.neosantara.xyz).
+- **Model Reasoning**: Untuk model seperti DeepSeek-R1, kami mendukung field `reasoning_content` yang terpadu dalam respons.
+
+## 5. Alat Migrasi Otomatis
+
+Jika kamu menggunakan **Cursor**, **Cline**, atau **Claude Code**, cukup ubah "API Base URL" di pengaturan menjadi `https://api.neosantara.xyz/v1` dan tempelkan Kunci API Neosantara kamu.
+
+Pelajari lebih lanjut di panduan [Alat Coding AI](/id/guides/ai-coding-tools) kami.

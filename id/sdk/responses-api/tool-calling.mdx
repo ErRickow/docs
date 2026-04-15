@@ -3,11 +3,11 @@ title: "Tool Calling"
 description: "Berikan model akses ke fungsi eksternal menggunakan API Responses."
 ---
 
-[API Responses](/id/sdk/responses-api) mendukung pemanggilan tool native, yang memungkinkan model berinteraksi dengan sistem dan fungsi eksternal. Kamu mendefinisikan tool menggunakan skema JSON, dan model mengembalikan data terstruktur saat menentukan bahwa tool diperlukan.
+[API Responses](/id/sdk/responses-api) mendukung pemanggilan tool native, yang memungkinkan model berinteraksi dengan sistem dan fungsi eksternal. kamu mendefinisikan tool menggunakan skema JSON, dan model mengembalikan data terstruktur saat menentukan bahwa tool diperlukan.
 
 ### Contoh Permintaan
 
-Tentukan tool Kamu dalam array `tools` dan atur perilaku `tool_choice`.
+Tentukan tool kamu dalam array `tools` dan atur perilaku `tool_choice`.
 
 <CodeGroup>
 
@@ -81,16 +81,16 @@ Saat model memutuskan untuk menggunakan tool, respons menyertakan item `function
 
 ### Menjalankan Tool
 
-Setelah menerima `function_call`, aplikasi Kamu harus:
+Setelah menerima `function_call`, aplikasi kamu harus:
 1.  Mengurai `arguments` (string JSON).
-2.  Menjalankan fungsi yang sesuai dalam basis kode Kamu.
+2.  Menjalankan fungsi yang sesuai dalam basis kode kamu.
 3.  Mengirimkan hasilnya kembali menggunakan alur [Manajemen Percakapan](/id/conversation-management).
 
 ---
 
 ## Opsi Pilihan Tool (Tool Choice)
 
-Kamu dapat mengontrol bagaimana model berinteraksi dengan tool menggunakan parameter `tool_choice`:
+kamu dapat mengontrol bagaimana model berinteraksi dengan tool menggunakan parameter `tool_choice`:
 
 *   **`auto`** (default): Model memutuskan apakah akan memanggil tool berdasarkan konteks percakapan.
 *   **`required`**: Model dipaksa untuk memanggil setidaknya satu tool.

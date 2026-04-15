@@ -3,11 +3,11 @@ title: "Input Gambar"
 description: "Kirim gambar bersama teks untuk model berkemampuan visi menggunakan API Responses."
 ---
 
-[API Responses](/id/sdk/responses-api) mendukung input multimodal, yang memungkinkan Kamu mengirimkan gambar bersama teks untuk dianalisis oleh model berkemampuan visi. Ini sangat ideal untuk membangun aplikasi pencarian visual, OCR, atau deskripsi gambar.
+[API Responses](/id/sdk/responses-api) mendukung input multimodal, yang memungkinkan kamu mengirimkan gambar bersama teks untuk dianalisis oleh model berkemampuan visi. Ini sangat ideal untuk membangun aplikasi pencarian visual, OCR, atau deskripsi gambar.
 
 ### Contoh Permintaan
 
-Sertakan objek `image_url` dalam array konten pesan Kamu. Kamu dapat memberikan URL publik atau URI data berkode base64.
+Sertakan objek `image_url` dalam array konten pesan kamu. kamu dapat memberikan URL publik atau URI data berkode base64.
 
 <CodeGroup>
 
@@ -51,7 +51,7 @@ console.log(result.output_text);
 
 ## Gambar berkode base64
 
-Untuk file lokal atau data sensitif privasi, Kamu dapat memberikan gambar sebagai string berkode base64:
+Untuk file lokal atau data sensitif privasi, kamu dapat memberikan gambar sebagai string berkode base64:
 
 ```json
 {
@@ -74,5 +74,5 @@ Parameter `detail` mengontrol fidelitas yang digunakan untuk analisis gambar:
 *   **`high`**: Mempertahankan lebih banyak detail untuk tugas-tugas kompleks seperti OCR atau mengidentifikasi objek kecil.
 
 <Info>
-  **Tips Pro**: Gunakan detail `low` jika Kamu hanya memerlukan deskripsi umum gambar untuk menghemat biaya pemrosesan.
+  **Tips Pro**: Gunakan detail `low` jika kamu hanya memerlukan deskripsi umum gambar untuk menghemat biaya pemrosesan.
 </Info>

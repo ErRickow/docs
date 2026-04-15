@@ -13,13 +13,13 @@ Panduan ini menjelaskan cara menggunakan **Neosantara** dan **SDK E2B Code Inter
 
 ## Prasyarat
 
-Untuk memulai, pastikan Kamu memiliki hal-hal berikut:
+Untuk memulai, pastikan kamu memiliki hal-hal berikut:
 
 <Info>
   Daftar di [Neosantara](https://app.neosantara.xyz/api-keys) untuk menerima **kredit awal gratis**. Tidak diperlukan kartu kredit.
 </Info>
 
-<Card icon="key" href="https://e2b.dev/docs" title="Dapatkan Kunci API E2B Kamu" horizontal>
+<Card icon="key" href="https://e2b.dev/docs" title="Dapatkan Kunci API E2B kamu" horizontal>
   Dapatkan kunci API dari [E2B](https://e2b.dev/docs) untuk menggunakan Code Interpreter.
 </Card>
 
@@ -48,7 +48,7 @@ Untuk detail tambahan tentang metode yang tersedia, lihat [dokumentasi E2B](http
 
 <Steps>
   <Step title="Buat Skrip Python">
-    Buat file baru, misalnya `index.py`, untuk menampung kode Kamu. Pastikan file tersebut memiliki ekstensi `.py`.
+    Buat file baru, misalnya `index.py`, untuk menampung kode kamu. Pastikan file tersebut memiliki ekstensi `.py`.
 
     <Note>
     Nama skrip dapat disesuaikan (misalnya, `index.py` atau `my_script.py`), tetapi harus berupa file `.py` yang valid.
@@ -56,7 +56,7 @@ Untuk detail tambahan tentang metode yang tersedia, lihat [dokumentasi E2B](http
   </Step>
 
   <Step title="Konfigurasikan Variabel Lingkungan">
-    Buat file `.env` di direktori proyek Kamu untuk menyimpan kunci API Kamu:
+    Buat file `.env` di direktori proyek kamu untuk menyimpan kunci API kamu:
 
     ```env
     NAI_API_KEY=kunci_api_neosantara_kamu
@@ -118,7 +118,7 @@ E2B_API_KEY = os.getenv("E2B_API_KEY")
 MODEL_NAME = 'nusantara-base'
 
 # Prompt sistem untuk LLM
-SYSTEM_PROMPT = """Kamu adalah seorang ilmuwan data Python. Kamu diberikan tugas untuk diselesaikan dan Kamu menjalankan kode Python untuk menyelesaikannya.
+SYSTEM_PROMPT = """kamu adalah seorang ilmuwan data Python. kamu diberikan tugas untuk diselesaikan dan kamu menjalankan kode Python untuk menyelesaikannya.
 
 Information about the csv dataset:
 - It's in the `/home/user/data.csv` file
@@ -223,7 +223,7 @@ first_result
 
 ## Menjalankan Kode
 
-1. **Pastikan kumpulan data** (`data.csv`) berada di direktori yang sama dengan skrip Kamu.
+1. **Pastikan kumpulan data** (`data.csv`) berada di direktori yang sama dengan skrip kamu.
 2. **Jalankan skrip** menggunakan:
 
    ```bash icon="terminal"
@@ -253,9 +253,9 @@ Tugas contoh tersebut menghasilkan plot sebar dengan garis regresi linier yang m
 
 ## Pemecahan Masalah
 
-- **Masalah Kunci API**: Pastikan kunci API Neosantara dan E2B Kamu valid dan disetel dengan benar di file `.env`.
+- **Masalah Kunci API**: Pastikan kunci API Neosantara dan E2B kamu valid dan disetel dengan benar di file `.env`.
 - **Kumpulan Data Tidak Ditemukan**: Verifikasi bahwa `data.csv` ada di direktori skrip.
 - **Kesalahan Eksekusi Kode**: Periksa konsol untuk pesan kesalahan dari sandbox (`[KESALAHAN Code Interpreter]`).
-- **Kode Python Hilang**: Jika respons LLM tidak memiliki blok kode Python, pastikan prompt Kamu jelas dan spesifik.
+- **Kode Python Hilang**: Jika respons LLM tidak memiliki blok kode Python, pastikan prompt kamu jelas dan spesifik.
 
 Untuk bantuan lebih lanjut, lihat [dokumentasi E2B](https://e2b.dev/docs) atau [dukungan Neosantara](https://www.neosantara.xyz/contact).

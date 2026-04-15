@@ -17,13 +17,13 @@ Saat ini, kami mendukung model Luma Ray v2 melalui AWS Bedrock, yang dioptimalka
 
 Pembuatan video adalah **proses asinkron**. Berbeda dengan penyelesaian chat (chat completions), pembuatan video dapat memakan waktu antara 2 hingga 5 menit.
 
-1. **Buat Job**: Kirim permintaan ke `/v1/videos`. Kamu akan menerima `job_id`.
+1. **Buat Job**: Kirim permintaan ke `/v1/videos`. kamu akan menerima `job_id`.
 2. **Cek Status**: Periksa status job kamu menggunakan `GET /v1/videos/{job_id}`.
 3. **Unduh Hasil**: Setelah status menjadi `completed`, unduh file MP4 final melalui `GET /v1/videos/{job_id}/content`.
 
 ## Penggunaan (OpenAI SDK)
 
-Kamu dapat menggunakan SDK resmi OpenAI (v4+) untuk berinteraksi dengan API video Neosantara.
+kamu dapat menggunakan SDK resmi OpenAI (v4+) untuk berinteraksi dengan API video Neosantara.
 
 <CodeGroup>
 

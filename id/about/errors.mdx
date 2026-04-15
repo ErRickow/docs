@@ -76,7 +76,7 @@ X-Ratelimit-Remaining-Requests: 0
 X-Ratelimit-Reset-Requests: 1s
 ```
 
-**Praktik Terbaik:** Gunakan strategi exponential backoff. Jika permintaan Kamu gagal dengan 429, tunggu sebentar (misalnya, 1 detik), coba lagi, dan jika gagal lagi, lipat gandakan waktu tunggu (2 detik, 4 detik, dst.) hingga batas maksimum.
+**Praktik Terbaik:** Gunakan strategi exponential backoff. Jika permintaan kamu gagal dengan 429, tunggu sebentar (misalnya, 1 detik), coba lagi, dan jika gagal lagi, lipat gandakan waktu tunggu (2 detik, 4 detik, dst.) hingga batas maksimum.
 
 ## Menangani Error Secara Programatik
 

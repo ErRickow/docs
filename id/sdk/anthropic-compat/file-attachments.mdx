@@ -1,13 +1,13 @@
 ---
 title: "File Attachments"
-description: "Kirim gambar dan dokumen PDF sebagai bagian dari permintaan pesan Kamu menggunakan format Anthropic."
+description: "Kirim gambar dan dokumen PDF sebagai bagian dari permintaan pesan kamu menggunakan format Anthropic."
 ---
 
-Neosantara AI mendukung pengiriman gambar dan dokumen PDF sebagai bagian dari permintaan pesan Kamu melalui API yang kompatibel dengan Anthropic. Hal ini memungkinkan Kamu untuk membangun aplikasi multimodal yang dapat "melihat" gambar dan "membaca" dokumen.
+Neosantara AI mendukung pengiriman gambar dan dokumen PDF sebagai bagian dari permintaan pesan kamu melalui API yang kompatibel dengan Anthropic. Hal ini memungkinkan kamu untuk membangun aplikasi multimodal yang dapat "melihat" gambar dan "membaca" dokumen.
 
 ### Contoh permintaan
 
-Arahkan SDK Anthropic ke API Neosantara dan berikan file Kamu sebagai string berkode base64.
+Arahkan SDK Anthropic ke API Neosantara dan berikan file kamu sebagai string berkode base64.
 
 <CodeGroup>
 
@@ -124,5 +124,5 @@ print('Respons:', message.content[0].text)
 *   **Dokumen**: `application/pdf`
 
 <Info>
-  **Kompatibilitas Model**: Pastikan Kamu menggunakan model multimodal (seperti `claude-4.5-sonnet`, `nusantara-base`, atau `kimi-k2`) saat mengirim lampiran file.
+  **Kompatibilitas Model**: Pastikan kamu menggunakan model multimodal (seperti `claude-4.5-sonnet`, `nusantara-base`, atau `kimi-k2`) saat mengirim lampiran file.
 </Info>

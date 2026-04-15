@@ -74,6 +74,7 @@
                 "pages": [
                   "en/intro",
                   "en/quickstart",
+                  "en/guides/migration",
                   "en/use-these-docs",
                   {
                     "group": "SDKs & APIs",
@@ -166,11 +167,6 @@
                     "group": "Kimi Series",
                     "pages": [
                       "models/kimi-k2",
-                      "models/kimi-k2-latest",
-                      "models/kimi-k2-search",
-                      "models/kimi-k2-research",
-                      "models/kimi-k2-math",
-                      "models/kimi-k2-silent",
                       "models/kimi-k1"
                     ]
                   },
@@ -179,8 +175,6 @@
                     "pages": [
                       "models/claude-4.5-sonnet",
                       "models/deepseek-r1",
-                      "models/llama-3.3-70b-instruct",
-                      "models/llama-3.3-70b-turbo",
                       "models/llama-3.3-nemotron-super-49b-v1.5",
                       "models/gemini-3-flash",
                       "models/grok-4.1-fast-non-reasoning",
@@ -267,31 +261,45 @@
                 "pages": [
                   {
                     "group": "Responses",
-                    "pages": ["POST /v1/responses"]
+                    "pages": [
+                      "POST /v1/responses"
+                    ]
                   },
                   {
                     "group": "Chat",
-                    "pages": ["POST /v1/chat/completions"]
+                    "pages": [
+                      "POST /v1/chat/completions"
+                    ]
                   },
                   {
                     "group": "Anthropic",
-                    "pages": ["POST /anthropic/v1/messages"]
+                    "pages": [
+                      "POST /anthropic/v1/messages"
+                    ]
                   },
                   {
                     "group": "Images",
-                    "pages": ["POST /v1/images/generations"]
+                    "pages": [
+                      "POST /v1/images/generations"
+                    ]
                   },
                   {
                     "group": "Audio",
-                    "pages": ["POST /v1/audio/transcriptions"]
+                    "pages": [
+                      "POST /v1/audio/transcriptions"
+                    ]
                   },
                   {
                     "group": "Embeddings",
-                    "pages": ["POST /v1/embeddings"]
+                    "pages": [
+                      "POST /v1/embeddings"
+                    ]
                   },
                   {
                     "group": "Vision",
-                    "pages": ["POST /v1/ocr"]
+                    "pages": [
+                      "POST /v1/ocr"
+                    ]
                   },
                   {
                     "group": "Videos",
@@ -354,6 +362,7 @@
                 "pages": [
                   "id/intro",
                   "id/quickstart",
+                  "id/guides/migration",
                   "id/use-these-docs",
                   {
                     "group": "SDKs & APIs",
@@ -446,11 +455,6 @@
                     "group": "Seri Kimi",
                     "pages": [
                       "models/kimi-k2",
-                      "models/kimi-k2-latest",
-                      "models/kimi-k2-search",
-                      "models/kimi-k2-research",
-                      "models/kimi-k2-math",
-                      "models/kimi-k2-silent",
                       "models/kimi-k1"
                     ]
                   },
@@ -459,8 +463,6 @@
                     "pages": [
                       "models/claude-4.5-sonnet",
                       "models/deepseek-r1",
-                      "models/llama-3.3-70b-instruct",
-                      "models/llama-3.3-70b-turbo",
                       "models/llama-3.3-nemotron-super-49b-v1.5",
                       "models/gemini-3-flash",
                       "models/grok-4.1-fast-non-reasoning",
@@ -547,31 +549,45 @@
                 "pages": [
                   {
                     "group": "Responses",
-                    "pages": ["POST /v1/responses"]
+                    "pages": [
+                      "POST /v1/responses"
+                    ]
                   },
                   {
                     "group": "Chat",
-                    "pages": ["POST /v1/chat/completions"]
+                    "pages": [
+                      "POST /v1/chat/completions"
+                    ]
                   },
                   {
                     "group": "Anthropic",
-                    "pages": ["POST /anthropic/v1/messages"]
+                    "pages": [
+                      "POST /anthropic/v1/messages"
+                    ]
                   },
                   {
                     "group": "Images",
-                    "pages": ["POST /v1/images/generations"]
+                    "pages": [
+                      "POST /v1/images/generations"
+                    ]
                   },
                   {
                     "group": "Audio",
-                    "pages": ["POST /v1/audio/transcriptions"]
+                    "pages": [
+                      "POST /v1/audio/transcriptions"
+                    ]
                   },
                   {
                     "group": "Embeddings",
-                    "pages": ["POST /v1/embeddings"]
+                    "pages": [
+                      "POST /v1/embeddings"
+                    ]
                   },
                   {
                     "group": "Vision",
-                    "pages": ["POST /v1/ocr"]
+                    "pages": [
+                      "POST /v1/ocr"
+                    ]
                   },
                   {
                     "group": "Videos",

@@ -5,7 +5,7 @@ description: "Unggah, kelola, dan atur file untuk pemrosesan batch, asisten, dan
 
 ## Pendahuluan
 
-API File memungkinkan Kamu untuk mengunggah dan mengelola file yang dapat digunakan dengan berbagai fitur seperti pemrosesan batch, asisten, dan fine-tuning model. File disimpan dengan aman dan dapat diakses melalui API REST yang sederhana.
+API File memungkinkan kamu untuk mengunggah dan mengelola file yang dapat digunakan dengan berbagai fitur seperti pemrosesan batch, asisten, dan fine-tuning model. File disimpan dengan aman dan dapat diakses melalui API REST yang sederhana.
 
 ### Fitur Utama
 
@@ -74,7 +74,7 @@ API File memungkinkan Kamu untuk mengunggah dan mengelola file yang dapat diguna
     href="/api-reference/files/list"
     color="#f59e0b"
   >
-    Dapatkan daftar semua file yang telah Kamu unggah dengan opsi pemfilteran
+    Dapatkan daftar semua file yang telah kamu unggah dengan opsi pemfilteran
   </Card>
 </CardGroup>
 
@@ -89,7 +89,7 @@ curl https://api.neosantara.xyz/v1/files \
   -F file="@batch_requests.jsonl"
 ```
 
-### 2. Daftar File Kamu
+### 2. Daftar File kamu
 
 ```bash icon="terminal"
 curl https://api.neosantara.xyz/v1/files \
@@ -114,7 +114,7 @@ curl https://api.neosantara.xyz/v1/files/file-abc123/content \
 
 ### Format JSONL untuk Pemrosesan Batch
 
-Saat mengunggah file dengan `purpose="batch"`, pastikan file JSONL Kamu mengikuti format ini:
+Saat mengunggah file dengan `purpose="batch"`, pastikan file JSONL kamu mengikuti format ini:
 
 ```json example.jsonl
 {"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Halo!"}]}}
@@ -136,7 +136,7 @@ File yang diunggah untuk pemrosesan batch harus dalam format JSONL yang valid. S
 
 <AccordionGroup>
   <Accordion title="Atur File dengan Metadata" icon="folder-tree">
-    Meskipun API File tidak secara langsung mendukung metadata khusus, gunakan nama file yang deskriptif untuk mengatur file Kamu secara efektif. Pertimbangkan untuk memberi awalan pada nama file dengan nama proyek atau tanggal.
+    Meskipun API File tidak secara langsung mendukung metadata khusus, gunakan nama file yang deskriptif untuk mengatur file kamu secara efektif. Pertimbangkan untuk memberi awalan pada nama file dengan nama proyek atau tanggal.
   </Accordion>
   
   <Accordion title="Pantau Masa Berlaku File" icon="clock">
@@ -144,23 +144,23 @@ File yang diunggah untuk pemrosesan batch harus dalam format JSONL yang valid. S
   </Accordion>
   
   <Accordion title="Validasi Sebelum Unggah" icon="check-circle">
-    Untuk file pemrosesan batch, validasi format JSONL Kamu secara lokal sebelum mengunggah untuk menghindari kesalahan validasi.
+    Untuk file pemrosesan batch, validasi format JSONL kamu secara lokal sebelum mengunggah untuk menghindari kesalahan validasi.
   </Accordion>
   
   <Accordion title="Bersihkan File Lama" icon="broom">
-    Hapus file yang tidak lagi Kamu butuhkan secara rutin agar akun Kamu tetap teratur dan menghindari batas penyimpanan.
+    Hapus file yang tidak lagi kamu butuhkan secara rutin agar akun kamu tetap teratur dan menghindari batas penyimpanan.
   </Accordion>
 </AccordionGroup>
 
 ## Penanganan Kesalahan
 
-Kesalahan umum yang mungkin Kamu temui:
+Kesalahan umum yang mungkin kamu temui:
 
 | Kode Kesalahan | Deskripsi | Solusi |
 | :--- | :--- | :--- |
-| `missing_file` | Parameter file tidak disediakan | Pastikan Kamu mengirimkan file dalam permintaan |
+| `missing_file` | Parameter file tidak disediakan | Pastikan kamu mengirimkan file dalam permintaan |
 | `invalid_purpose` | Nilai tujuan tidak valid | Gunakan salah satu dari: `batch`, `assistants`, atau `fine-tune` |
 | `file_too_large` | File melebihi batas 100MB | Bagi file besar atau kompres kontennya |
-| `invalid_file_format` | Validasi JSONL gagal | Periksa format JSONL Kamu untuk kesalahan sintaksis |
+| `invalid_file_format` | Validasi JSONL gagal | Periksa format JSONL kamu untuk kesalahan sintaksis |
 | `file_not_found` | File tidak ada | Verifikasi bahwa file_id sudah benar |
 | `file_expired` | File telah kedaluwarsa | Unggah ulang file jika diperlukan |

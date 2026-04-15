@@ -3,7 +3,7 @@ title: "Agno"
 description: "> Menggunakan Agno dengan Neosantara."
 ---
 
-Agno adalah library sumber terbuka untuk membuat agen multimodal. Agno mendukung interaksi dengan teks, gambar, audio, dan video sambil tetap bersifat agnostik model, memungkinkan Kamu menggunakan model apa pun di perpustakaan Neosantara dengan integrasi kami.
+Agno adalah library sumber terbuka untuk membuat agen multimodal. Agno mendukung interaksi dengan teks, gambar, audio, dan video sambil tetap bersifat agnostik model, memungkinkan kamu menggunakan model apa pun di perpustakaan Neosantara dengan integrasi asli kami.
 
 ## Instal Perpustakaan
 
@@ -13,28 +13,23 @@ pip install -U agno ddgs -q
 
 ## Autentikasi
 
-Setel variabel lingkungan `NAI_API_KEY` Kamu.
+Setel variabel lingkungan `NEOSANTARA_API_KEY` kamu.
 
 ```shell
-export NAI_API_KEY=***
+export NEOSANTARA_API_KEY=***
 ```
 
 ## Contoh
 
-Di bawah ini adalah agen sederhana dengan akses ke pencarian web.
+Di bawah ini adalah agen sederhana menggunakan integrasi asli Neosantara dengan akses ke pencarian web.
 
 ```python icon="python"
-import os
 from agno.agent import Agent
-from agno.models.openai.like import OpenAILike
+from agno.models.neosantara import Neosantara
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 agent = Agent(
-    model=OpenAILike(
-        id="nusantara-base",
-        api_key=os.environ.get("NAI_API_KEY"),
-        base_url="https://api.neosantara.xyz/v1"
-    ),
+    model=Neosantara(id="nusantara-base"),
     tools=[DuckDuckGoTools()],
     markdown=True
 )

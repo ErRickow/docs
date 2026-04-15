@@ -3,9 +3,9 @@ title: "Streaming"
 description: "Pelajari cara menggunakan Server-Sent Events (SSE) untuk menerima pembaruan waktu nyata dari API Responses."
 ---
 
-[API Responses](/id/sdk/responses-api) mendukung streaming, yang memungkinkan Kamu menerima token saat dihasilkan alih-alih menunggu seluruh penyelesaian selesai. Ini memberikan pengalaman pengguna yang jauh lebih baik untuk aplikasi obrolan.
+[API Responses](/id/sdk/responses-api) mendukung streaming, yang memungkinkan kamu menerima token saat dihasilkan alih-alih menunggu seluruh penyelesaian selesai. Ini memberikan pengalaman pengguna yang jauh lebih baik untuk aplikasi obrolan.
 
-Untuk mengaktifkan streaming, setel **`stream: true`** di bodi permintaan Kamu. Responsnya akan berupa stream Server-Sent Events (SSE).
+Untuk mengaktifkan streaming, setel **`stream: true`** di bodi permintaan kamu. Responsnya akan berupa stream Server-Sent Events (SSE).
 
 ### Contoh Permintaan
 
@@ -89,5 +89,5 @@ API Responses memancarkan event tertentu selama proses pembuatan:
 | `response.completed` | Event terakhir yang berisi objek respons lengkap dan statistik penggunaan. |
 
 <Note>
-  Saat membangun parser kustom, selalu cari tipe `response.output_text.delta` untuk menangkap teks streaming untuk UI Kamu.
+  Saat membangun parser kustom, selalu cari tipe `response.output_text.delta` untuk menangkap teks streaming untuk UI kamu.
 </Note>

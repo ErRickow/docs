@@ -3,7 +3,7 @@ title: "Agno"
 description: "> Using Agno with Neosantara."
 ---
 
-Agno is an open-source library for creating multimodal agents. It supports interactions with text, images, audio, and video while remaining model-agnostic, allowing you to use any model in the Neosantara library with our integration.
+Agno is an open-source library for creating multimodal agents. It supports interactions with text, images, audio, and video while remaining model-agnostic, allowing you to use any model in the Neosantara library with our native integration.
 
 ## Install Libraries
 
@@ -13,28 +13,23 @@ pip install -U agno ddgs -q
 
 ## Authentication
 
-Set your `NAI_API_KEY` environment variable.
+Set your `NEOSANTARA_API_KEY` environment variable.
 
 ```shell
-export NAI_API_KEY=***
+export NEOSANTARA_API_KEY=***
 ```
 
 ## Example
 
-Below is a simple agent with access to web search.
+Below is a simple agent using the native Neosantara integration with access to web search.
 
 ```python icon="python"
-import os
 from agno.agent import Agent
-from agno.models.openai.like import OpenAILike
+from agno.models.neosantara import Neosantara
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 agent = Agent(
-    model=OpenAILike(
-        id="nusantara-base",
-        api_key=os.environ.get("NAI_API_KEY"),
-        base_url="https://api.neosantara.xyz/v1"
-    ),
+    model=Neosantara(id="nusantara-base"),
     tools=[DuckDuckGoTools()],
     markdown=True
 )

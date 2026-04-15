@@ -7,13 +7,13 @@ Embedding adalah representasi numerik dari teks yang menangkap makna semantik. M
 
 ## Cara Kerja Embedding
 
-Saat Kamu mengirimkan teks ke endpoint embedding, model AI yang mendasarinya memproses teks tersebut dan mengeluarkan daftar angka titik mengambang (*floating-point*) atau sebuah vektor. Teks dengan makna yang serupa akan memiliki vektor yang secara numerik "lebih dekat" satu sama lain dalam ruang berdimensi tinggi.
+Saat kamu mengirimkan teks ke endpoint embedding, model AI yang mendasarinya memproses teks tersebut dan mengeluarkan daftar angka titik mengambang (*floating-point*) atau sebuah vektor. Teks dengan makna yang serupa akan memiliki vektor yang secara numerik "lebih dekat" satu sama lain dalam ruang berdimensi tinggi.
 
 API Neosantara menyediakan endpoint `/v1/embeddings` untuk menghasilkan vektor-vektor ini.
 
 ## Penggunaan
 
-Untuk menghasilkan embedding, kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks Kamu.
+Untuk menghasilkan embedding, kirim permintaan POST ke endpoint `/v1/embeddings` dengan input teks kamu.
 
 ### Endpoint
 
@@ -70,7 +70,7 @@ API Neosantara mendukung berbagai model embedding, sering kali menggunakan fallb
 
 ## Contoh Python dan JavaScript (dengan SDK OpenAI)
 
-Kamu dapat menghasilkan embedding menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API Neosantara.
+kamu dapat menghasilkan embedding menggunakan SDK OpenAI dengan mengonfigurasi `base_url` agar mengarah ke API Neosantara.
 
 <CodeGroup>
 
@@ -78,8 +78,8 @@ Kamu dapat menghasilkan embedding menggunakan SDK OpenAI dengan mengonfigurasi `
 import os
 from openai import OpenAI
 
-# Inisialisasi klien OpenAI dengan kunci API Kamu
-# Ganti variabel lingkungan dengan kunci API Neosantara Kamu jika diperlukan
+# Inisialisasi klien OpenAI dengan kunci API kamu
+# Ganti variabel lingkungan dengan kunci API Neosantara kamu jika diperlukan
 client = OpenAI(
     api_key=os.environ.get("NAI_API_KEY"),
     base_url="https://api.neosantara.xyz/v1",
@@ -130,8 +130,8 @@ if __name__ == "__main__":
 // Instal pustaka Node.js OpenAI: npm install openai
 import OpenAI from 'openai';
 
-// Inisialisasi klien OpenAI dengan kunci API Kamu
-// Ganti "KUNCI_API_NEOSANTARA_KAMU" dengan Kunci API Neosantara Kamu yang sebenarnya
+// Inisialisasi klien OpenAI dengan kunci API kamu
+// Ganti "KUNCI_API_NEOSANTARA_KAMU" dengan Kunci API Neosantara kamu yang sebenarnya
 const client = new OpenAI({
   apiKey: "KUNCI_API_NEOSANTARA_KAMU",
   baseURL: "https://api.neosantara.xyz/v1",

@@ -7,7 +7,7 @@ Neosantara mendukung pemanggilan fungsi yang kompatibel dengan OpenAI (tool call
 
 ### Panggilan tool dasar
 
-Tentukan tool Kamu dan arahkan SDK OpenAI ke Neosantara.
+Tentukan tool kamu dan arahkan SDK OpenAI ke Neosantara.
 
 <CodeGroup>
 
@@ -116,7 +116,7 @@ print('Panggilan tool:', completion.choices[0].message.tool_calls)
 
 ### Mengontrol pemilihan tool
 
-Secara default, `tool_choice` diatur ke `'auto'`, yang memungkinkan model memutuskan kapan harus menggunakan tool. Kamu juga dapat:
+Secara default, `tool_choice` diatur ke `'auto'`, yang memungkinkan model memutuskan kapan harus menggunakan tool. kamu juga dapat:
 
 *   Mengaturnya ke `'none'` untuk menonaktifkan panggilan tool.
 *   Memaksa tool tertentu dengan: `tool_choice: { type: 'function', function: { name: 'nama_fungsi_kamu' } }`.

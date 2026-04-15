@@ -1,9 +1,9 @@
 ---
 title: "API Kompatibel Anthropic"
-description: "Neosantara AI menyediakan endpoint API yang kompatibel dengan Anthropic, memungkinkan Kamu menggunakan SDK Anthropic resmi dan alat seperti Claude Code."
+description: "Neosantara AI menyediakan endpoint API yang kompatibel dengan Anthropic, memungkinkan kamu menggunakan SDK Anthropic resmi dan alat seperti Claude Code."
 ---
 
-[AI Gateway Neosantara](/id/intro) menyediakan endpoint API yang kompatibel dengan Anthropic, sehingga Kamu dapat menggunakan SDK Anthropic dan alat seperti [Claude Code](https://www.claude.com/product/claude-code) melalui gateway terpadu hanya dengan perubahan URL.
+[AI Gateway Neosantara](/id/intro) menyediakan endpoint API yang kompatibel dengan Anthropic, sehingga kamu dapat menggunakan SDK Anthropic dan alat seperti [Claude Code](https://www.claude.com/product/claude-code) melalui gateway terpadu hanya dengan perubahan URL.
 
 API yang kompatibel dengan Anthropic mengimplementasikan spesifikasi yang sama dengan [API Messages Anthropic](https://docs.anthropic.com/en/api/messages).
 
@@ -16,15 +16,15 @@ API yang kompatibel dengan Anthropic tersedia di URL dasar berikut:
 `https://api.neosantara.xyz/anthropic`
 
 <Warning>
-  Pastikan Kamu menggunakan URL dasar `/anthropic` saat mengonfigurasi SDK Anthropic. Menggunakan root `/v1` akan menyebabkan ketidakcocokan skema.
+  Pastikan kamu menggunakan URL dasar `/anthropic` saat mengonfigurasi SDK Anthropic. Menggunakan root `/v1` akan menyebabkan ketidakcocokan skema.
 </Warning>
 
 ## Autentikasi
 
 API yang kompatibel dengan Anthropic mendukung metode autentikasi yang sama dengan API Neosantara utama:
 
-*   **Kunci API**: Gunakan kunci API Neosantara Kamu dengan header `x-api-key` atau header `Authorization: Bearer <token>`.
-*   **Header Anthropic**: Kamu juga dapat menggunakan header `x-api-key` standar yang diharapkan oleh SDK Anthropic.
+*   **Kunci API**: Gunakan kunci API Neosantara kamu dengan header `x-api-key` atau header `Authorization: Bearer <token>`.
+*   **Header Anthropic**: kamu juga dapat menggunakan header `x-api-key` standar yang diharapkan oleh SDK Anthropic.
 
 ## Endpoint yang didukung
 
@@ -38,10 +38,10 @@ Untuk fitur lanjutan, lihat:
 
 ## Mengonfigurasi Claude Code
 
-[Claude Code](https://code.claude.com/docs) adalah alat pengodean agentik milik Anthropic. Kamu dapat mengonfigurasinya untuk menggunakan AI Gateway Neosantara, yang memungkinkan Kamu untuk:
+[Claude Code](https://code.claude.com/docs) adalah alat pengodean agentik milik Anthropic. kamu dapat mengonfigurasinya untuk menggunakan AI Gateway Neosantara, yang memungkinkan kamu untuk:
 
 *   Merutekan permintaan melalui model regional berkinerja tinggi.
-*   Memantau lalu lintas dan pengeluaran dalam [ikhtisar penggunaan](/id/about/billing-pricing) Kamu.
+*   Memantau lalu lintas dan pengeluaran dalam [ikhtisar penggunaan](/id/about/billing-pricing) kamu.
 *   Menggunakan model seperti `claude-4.5-sonnet` atau `grok-code-fast` untuk tugas pengodean.
 
 1.  ### Konfigurasi variabel lingkungan
@@ -51,20 +51,20 @@ Untuk fitur lanjutan, lihat:
     | Variabel | Nilai |
     | --- | --- |
     | `ANTHROPIC_BASE_URL` | `https://api.neosantara.xyz/anthropic` |
-    | `ANTHROPIC_AUTH_TOKEN` | Kunci API Neosantara Kamu |
+    | `ANTHROPIC_AUTH_TOKEN` | Kunci API Neosantara kamu |
     | `ANTHROPIC_API_KEY` | `""` (string kosong) |
     
     Menetapkan `ANTHROPIC_API_KEY` ke string kosong itu penting. Claude Code memeriksa variabel ini terlebih dahulu, dan jika ditetapkan ke nilai yang tidak kosong, ia akan menggunakannya alih-alih `ANTHROPIC_AUTH_TOKEN`.
     
     #### Opsi 1: Alias shell (paling sederhana)
     
-    Tambahkan alias ini ke `~/.zshrc` (atau `~/.bashrc`) Kamu:
+    Tambahkan alias ini ke `~/.zshrc` (atau `~/.bashrc`) kamu:
     
     ```bash
     alias claude-nai='ANTHROPIC_BASE_URL="https://api.neosantara.xyz/anthropic" ANTHROPIC_AUTH_TOKEN="kunci-api-kamu-di-sini" ANTHROPIC_API_KEY="" claude'
     ```
     
-    Kemudian muat ulang shell Kamu:
+    Kemudian muat ulang shell kamu:
     
     ```bash
     source ~/.zshrc
@@ -84,7 +84,7 @@ Untuk fitur lanjutan, lihat:
     claude "$@"
     ```
     
-    Buat skrip tersebut dapat dieksekusi dan pastikan `~/bin` ada di PATH Kamu:
+    Buat skrip tersebut dapat dieksekusi dan pastikan `~/bin` ada di PATH kamu:
     
     ```bash
     mkdir -p ~/bin
@@ -104,7 +104,7 @@ Untuk fitur lanjutan, lihat:
 
 ## Integrasi dengan SDK Anthropic
 
-Arahkan klien Kamu ke URL dasar AI Neosantara dan gunakan [kunci API Kamu](/id/authentication) untuk autentikasi.
+Arahkan klien kamu ke URL dasar AI Neosantara dan gunakan [kunci API kamu](/id/authentication) untuk autentikasi.
 
 <CodeGroup>
 

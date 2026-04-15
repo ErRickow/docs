@@ -3,17 +3,17 @@ title: "Manajemen Percakapan"
 description: "Pelajari cara mengelola percakapan stateful menggunakan API Responses"
 ---
 
-Salah satu fitur paling kuat dari [API Responses](/api-reference/responses/create) adalah **Manajemen Percakapan** bawaan. Berbeda dengan API Chat Completions tradisional di mana Kamu harus mengirimkan seluruh riwayat pesan dengan setiap permintaan, API Responses memungkinkan Kamu untuk mempertahankan status percakapan di server.
+Salah satu fitur paling kuat dari [API Responses](/api-reference/responses/create) adalah **Manajemen Percakapan** bawaan. Berbeda dengan API Chat Completions tradisional di mana kamu harus mengirimkan seluruh riwayat pesan dengan setiap permintaan, API Responses memungkinkan kamu untuk mempertahankan status percakapan di server.
 
 ## Mengapa Percakapan Stateful?
 
-* **Mengurangi Latensi & Biaya**: Kamu tidak perlu mengunggah ulang ribuan token riwayat untuk setiap putaran baru.
-* **Logika Klien yang Lebih Sederhana**: Tidak perlu mengelola array `messages` yang kompleks dalam status aplikasi Kamu.
+* **Mengurangi Latensi & Biaya**: kamu tidak perlu mengunggah ulang ribuan token riwayat untuk setiap putaran baru.
+* **Logika Klien yang Lebih Sederhana**: Tidak perlu mengelola array `messages` yang kompleks dalam status aplikasi kamu.
 * **Kontinuitas Konteks**: Memastikan model "mengingat" panggilan tool sebelumnya, langkah penalaran, dan konteks secara otomatis.
 
 ## Cara Kerjanya
 
-Sistem melacak utas percakapan menggunakan **ID Respons**. Setiap kali Kamu menghasilkan respons dengan `store: true` (default), sistem menyimpan input dan output. Untuk melanjutkan percakapan, Kamu cukup meneruskan ID dari respons terakhir yang Kamu terima.
+Sistem melacak utas percakapan menggunakan **ID Respons**. Setiap kali kamu menghasilkan respons dengan `store: true` (default), sistem menyimpan input dan output. Untuk melanjutkan percakapan, kamu cukup meneruskan ID dari respons terakhir yang kamu terima.
 
 ### 1. Memulai Percakapan
 
@@ -40,7 +40,7 @@ API akan mengembalikan respons yang berisi `id`.
       "content": [
         {
           "type": "output_text",
-          "text": "Halo Alice! Senang bertemu dengan Kamu. Bagaimana saya bisa membantu Kamu dengan tugas rekayasa perangkat lunak Kamu hari ini?"
+          "text": "Halo Alice! Senang bertemu dengan kamu. Bagaimana saya bisa membantu kamu dengan tugas rekayasa perangkat lunak kamu hari ini?"
         }
       ]
     }
@@ -91,7 +91,7 @@ print("ID percakapan:", start_response.id)
 
 ### 2. Melanjutkan Percakapan
 
-Untuk membalas, berikan input baru Kamu dan `previous_response_id` dari putaran terakhir. Kamu **tidak** perlu mengirim ulang "Nama saya Alice".
+Untuk membalas, berikan input baru kamu dan `previous_response_id` dari putaran terakhir. kamu **tidak** perlu mengirim ulang "Nama saya Alice".
 
 ```bash Permintaan
 curl https://api.neosantara.xyz/v1/responses \
@@ -114,7 +114,7 @@ Model akan merespons dengan kesadaran konteks:
       "content": [
         {
           "type": "output_text",
-          "text": "Di React, Kamu dapat mengelola state menggunakan hook seperti `useState` dan `useReducer` untuk status lokal, Alice."
+          "text": "Di React, kamu dapat mengelola state menggunakan hook seperti `useState` dan `useReducer` untuk status lokal, Alice."
         }
       ]
     }
@@ -148,18 +148,18 @@ print("Teks lanjutan:", follow_up_response.output[0].content[0].text)
 ```
 </CodeGroup>
 
-Perhatikan bahwa model mengingat nama Kamu ("Alice") tanpa Kamu mengirimkannya lagi.
+Perhatikan bahwa model mengingat nama kamu ("Alice") tanpa kamu mengirimkannya lagi.
 
 ## Mengelola Jendela Konteks
 
 Meskipun server mengelola riwayat, model yang mendasarinya tetap memiliki [batas jendela konteks](/id/models-overview).
 
 * **Pemotongan Otomatis**: Neosantara mencoba mengelola konteks secara cerdas.
-* **Kontrol Manual**: Kamu dapat menggunakan parameter `truncation` ("auto" atau "disabled") untuk mengontrol perilaku saat riwayat melebihi batas model.
+* **Kontrol Manual**: kamu dapat menggunakan parameter `truncation` ("auto" atau "disabled") untuk mengontrol perilaku saat riwayat melebihi batas model.
 
 ## Percakapan Bercabang
 
-Kamu dapat membuat "cabang" dalam percakapan dengan merujuk ke `previous_response_id` yang lebih lama.
+kamu dapat membuat "cabang" dalam percakapan dengan merujuk ke `previous_response_id` yang lebih lama.
 
 <Steps>
   <Step title="Putaran 1">
@@ -177,7 +177,7 @@ Ini menciptakan dua pohon percakapan terpisah yang bercabang dari akar yang sama
 
 ## Mode Stateless (Privasi & ZDR)
 
-Jika Kamu memiliki persyaratan Zero Data Retention (ZDR) yang ketat atau sekadar tidak ingin menyimpan riwayat, setel `store: false`.
+Jika kamu memiliki persyaratan Zero Data Retention (ZDR) yang ketat atau sekadar tidak ingin menyimpan riwayat, setel `store: false`.
 
 ```json icon="code"
 {
@@ -191,12 +191,12 @@ Jika Kamu memiliki persyaratan Zero Data Retention (ZDR) yang ketat atau sekadar
 **Implikasi dari `store: false`:**
 
 * Percakapan **tidak** disimpan ke database.
-* Kamu **tidak dapat** menggunakan `previous_response_id` untuk melanjutkan percakapan ini nanti.
+* kamu **tidak dapat** menggunakan `previous_response_id` untuk melanjutkan percakapan ini nanti.
 * ID respons tidak dapat direferensikan.
 
 ## Metadata & Pelabelan
 
-Kamu dapat melampirkan metadata ke respons apa pun untuk membantu mengatur percakapan Kamu. Ini berguna untuk memfilter atau mengidentifikasi sesi di dasbor Kamu.
+kamu dapat melampirkan metadata ke respons apa pun untuk membantu mengatur percakapan kamu. Ini berguna untuk memfilter atau mengidentifikasi sesi di dasbor kamu.
 
 ```json icon="code"
 {

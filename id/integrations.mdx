@@ -5,11 +5,11 @@ description: "Neosantara terintegrasi dengan berbagai framework dan alat AI komu
 
 # Integrasi Framework
 
-[AI Gateway](/id/intro) Neosantara terintegrasi dengan berbagai framework dan alat AI komunitas yang populer, memungkinkan Kamu membangun aplikasi AI yang kuat sambil memanfaatkan fitur-fitur Gateway seperti [pelacakan penggunaan](/id/about/billing-pricing) dan [akses API terpadu](/id/models-overview).
+[AI Gateway](/id/intro) Neosantara terintegrasi dengan berbagai framework dan alat AI komunitas yang populer, memungkinkan kamu membangun aplikasi AI yang kuat sambil memanfaatkan fitur-fitur Gateway seperti [pelacakan penggunaan](/id/about/billing-pricing) dan [akses API terpadu](/id/models-overview).
 
 ### [Ikhtisar integrasi](#integration-overview)
 
-Kamu dapat mengintegrasikan AI Gateway dengan framework populer dalam beberapa cara:
+kamu dapat mengintegrasikan AI Gateway dengan framework populer dalam beberapa cara:
 
 *   **Lapisan Kompatibilitas OpenAI**: Gunakan [endpoint kompatibel OpenAI](/id/sdk/openai-compat) milik AI Gateway untuk menghubungkan framework apa pun yang mendukung OpenAI.
 *   **Dukungan Native**: Integrasi langsung melalui pengaturan penyedia tertentu atau dukungan resmi.
@@ -147,7 +147,7 @@ research_agent = Agent(
     llm = llm,
     role="Research Analyst",
     goal="Temukan dan ringkas informasi tentang topik tertentu",
-    backstory="Kamu adalah peneliti berpengalaman dengan perhatian terhadap detail",
+    backstory="kamu adalah peneliti berpengalaman dengan perhatian terhadap detail",
     verbose=True  # Aktifkan logging untuk debugging
 )
 
@@ -241,15 +241,15 @@ from arcadepy import Arcade
 from openai import OpenAI
 
 # Set variabel lingkungan
-os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Ganti dengan kunci API Neosantara Kamu
-os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Ganti dengan kunci API Arcade Kamu
+os.environ["NAI_API_KEY"] = "XXXXXXXXXXXXX"  # Ganti dengan kunci API Neosantara kamu
+os.environ["ARCADE_API_KEY"] = "arc_XXXXXXXXXXX"    # Ganti dengan kunci API Arcade kamu
 
 # Inisialisasi klien
 nai_client = OpenAI(api_key=os.getenv("NAI_API_KEY"), base_url="https://api.neosantara.xyz/v1")
 arcade_client = Arcade()  # Secara otomatis menemukan variabel env ARCADE_API_KEY
 
-# Siapkan ID pengguna (email Kamu)
-USER_ID = "<Kamu@gmail.com>"  # Ganti dengan email Kamu
+# Siapkan ID pengguna (email kamu)
+USER_ID = "<kamu@gmail.com>"  # Ganti dengan email kamu
 
 # Otorisasi akses Gmail
 auth_response = arcade_client.tools.authorize(
@@ -268,7 +268,7 @@ print("Otorisasi selesai!")
 
 ## DSPy
 
-*DSPy adalah framework yang memungkinkan Kamu membangun sistem AI modular dengan kode alih-alih prompt yang dibuat secara manual*
+*DSPy adalah framework yang memungkinkan kamu membangun sistem AI modular dengan kode alih-alih prompt yang dibuat secara manual*
 
 Instal `dspy`
 
@@ -333,7 +333,7 @@ config_list = [
         # Mari pilih model Nusantara-Base
         "model": "nusantara-base",
         "base_url": "https://api.neosantara.xyz/v1",
-        # Berikan kunci API Neosantara.xyz Kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
+        # Berikan kunci API Neosantara.xyz kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
         "api_key": os.environ.get("NAI_API_KEY"),
         # Kami menentukan Tipe API sebagai 'openai' sehingga menggunakan kelas klien OpenAI
         "api_type": "openai",
@@ -356,8 +356,8 @@ user_proxy_agent = UserProxyAgent(
     is_termination_msg=lambda msg: "FINISH" in msg.get("content"),
 )
 
-system_message = """Kamu adalah asisten AI yang membantu menulis kode dan pengguna mengeksekusinya.
-Selesaikan tugas menggunakan keterampilan pengodean dan bahasa Kamu.
+system_message = """kamu adalah asisten AI yang membantu menulis kode dan pengguna mengeksekusinya.
+Selesaikan tugas menggunakan keterampilan pengodean dan bahasa kamu.
 """
 
 # AssistantAgent, menggunakan model nusantara-base Neosantara, akan mengambil permintaan pengodean dan mengembalikan kode
@@ -390,16 +390,11 @@ Bangun agen pencarian dan jawaban
 
 ```python icon="python"
 from agno.agent import Agent
-from agno.models.openai.like import OpenAILike
+from agno.models.neosantara import Neosantara
 from agno.tools.duckduckgo import DuckDuckGoTools
-import os
 
 agent = Agent(
-    model=OpenAILike(
-        id="nusantara-base",
-        api_key=os.environ.get("NAI_API_KEY"),
-        base_url="https://api.neosantara.xyz/v1"
-    ),
+    model=Neosantara(id="nusantara-base"),
     tools=[DuckDuckGoTools()],
     markdown=True
 )

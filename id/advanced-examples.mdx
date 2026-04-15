@@ -8,24 +8,24 @@ Panduan ini mencakup pola tingkat produksi untuk menggunakan API Neosantara di b
 ## Keamanan & Manajemen Kunci
 
 <Warning>
-**Jangan pernah melakukan hard-code pada kunci API** atau mengeksposnya dalam kode sisi klien (browser, aplikasi seluler). Siapa pun yang memiliki akses ke kunci Kamu dapat menggunakan kredit Kamu.
+**Jangan pernah melakukan hard-code pada kunci API** atau mengeksposnya dalam kode sisi klien (browser, aplikasi seluler). Siapa pun yang memiliki akses ke kunci kamu dapat menggunakan kredit kamu.
 </Warning>
 
 ### Praktik Terbaik
 
-- **Hanya Sisi Server**: Selalu panggil API Neosantara dari backend Kamu. Jika Kamu harus menggunakannya di frontend, buat endpoint proxy di server Kamu.
+- **Hanya Sisi Server**: Selalu panggil API Neosantara dari backend kamu. Jika kamu harus menggunakannya di frontend, buat endpoint proxy di server kamu.
 - **Variabel Lingkungan**: Gunakan file `.env` dan `process.env` (Node) atau `os.getenv` (Python) untuk menyimpan kunci.
-- **Rotasi Kunci**: Putar kunci API Kamu secara berkala melalui [Dashboard Neosantara](https://app.neosantara.xyz).
+- **Rotasi Kunci**: Putar kunci API kamu secara berkala melalui [Dashboard Neosantara](https://app.neosantara.xyz).
 
 ## Observabilitas & Debugging
 
-Setiap permintaan ke Neosantara mengembalikan `request_id` di header atau bodi respons. Selalu log ID ini bersama dengan log aplikasi Kamu.
+Setiap permintaan ke Neosantara mengembalikan `request_id` di header atau bodi respons. Selalu log ID ini bersama dengan log aplikasi kamu.
 
 ```javascript icon="js"
 const response = await fetch("https://api.neosantara.xyz/v1/chat/completions", { ... });
 const requestId = response.headers.get("x-request-id");
 console.log(`Neosantara Request ID: ${requestId}`);
-// Log ini ke sistem pemantauan Kamu (Sentry, Datadog, dll.)
+// Log ini ke sistem pemantauan kamu (Sentry, Datadog, dll.)
 ```
 
 ## Permintaan Batch & Paralel

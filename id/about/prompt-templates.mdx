@@ -3,7 +3,7 @@ title: "Template Prompt"
 description: "Buat dan gunakan kembali prompt dinamis dengan variabel, khusus didedikasikan untuk API Responses."
 ---
 
-Template prompt memungkinkan Kamu menyimpan dan mengelola instruksi kompleks di platform Neosantara. Alih-alih mengirimkan prompt yang panjang di setiap panggilan API, Kamu cukup mereferensikan ID template dan memasukkan variabel secara dinamis.
+Template prompt memungkinkan kamu menyimpan dan mengelola instruksi kompleks di platform Neosantara. Alih-alih mengirimkan prompt yang panjang di setiap panggilan API, kamu cukup mereferensikan ID template dan memasukkan variabel secara dinamis.
 
 <Warning>
   **Khusus API Responses**: Template prompt adalah fitur khusus dari endpoint `/v1/responses`. Fitur ini **tidak** didukung oleh endpoint legacy `/v1/chat/completions`.
@@ -11,17 +11,17 @@ Template prompt memungkinkan Kamu menyimpan dan mengelola instruksi kompleks di 
 
 ## Membuat Template
 
-Kamu dapat mengelola template Kamu langsung dari dashboard:
+kamu dapat mengelola template kamu langsung dari dashboard:
 
-1.  Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** Kamu.
+1.  Buka **[Dashboard](https://app.neosantara.xyz/dashboard)** kamu.
 2.  Pilih bagian **"Prompt Templates"**.
-3.  Tentukan **ID** Kamu (misalnya, `analisis-hukum`) dan **Konten**.
+3.  Tentukan **ID** kamu (misalnya, `analisis-hukum`) dan **Konten**.
 4.  Gunakan sintaks `{{nama_variabel}}` untuk placeholder dinamis.
 
 **Contoh Konten:**
 
 ```text
-Kamu adalah seorang ahli hukum. Analisis dokumen berikut: {{teks_dokumen}}. 
+kamu adalah seorang ahli hukum. Analisis dokumen berikut: {{teks_dokumen}}. 
 Fokuslah secara khusus pada {{area_fokus}}.
 ```
 
@@ -29,7 +29,7 @@ Fokuslah secara khusus pada {{area_fokus}}.
 
 ## Menggunakan Template dengan OpenAI SDK
 
-API Responses Neosantara kompatibel dengan struktur SDK OpenAI terbaru. Kamu dapat menggunakan namespace `responses` untuk memanggil template Kamu.
+API Responses Neosantara kompatibel dengan struktur SDK OpenAI terbaru. kamu dapat menggunakan namespace `responses` untuk memanggil template kamu.
 
 <CodeGroup>
 

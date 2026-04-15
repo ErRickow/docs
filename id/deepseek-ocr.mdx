@@ -5,7 +5,7 @@ description: "Mulai gunakan DeepSeek OCR di API Neosantara"
 
 ## Pengenalan Karakter Optik (OCR)
 
-API DeepSeek OCR memungkinkan Kamu untuk mengekstrak teks dari gambar dengan akurasi tinggi. Model OCR yang kuat ini dapat memproses gambar dari URL atau data berkode base64, menjadikannya ideal untuk pemrosesan dokumen, pemindaian tanda terima, ekstraksi KTP, dan tugas pengenalan teks lainnya.
+API DeepSeek OCR memungkinkan kamu untuk mengekstrak teks dari gambar dengan akurasi tinggi. Model OCR yang kuat ini dapat memproses gambar dari URL atau data berkode base64, menjadikannya ideal untuk pemrosesan dokumen, pemindaian tanda terima, ekstraksi KTP, dan tugas pengenalan teks lainnya.
 
 ## Fitur Utama
 
@@ -23,14 +23,14 @@ POST https://api.neosantara.xyz/v1/ocr
 
 ## Autentikasi
 
-Sertakan kunci API Kamu di header permintaan:
+Sertakan kunci API kamu di header permintaan:
 
 ```http
 Authorization: Bearer KUNCI_API_NEOSANTARA_KAMU
 ```
 
 <Warning>
-  **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin mengalami penundaan 10-15 detik karena inisialisasi cold start. Permintaan berikutnya akan diproses jauh lebih cepat (2-5 detik). Jika Kamu menerima kesalahan batas waktu pada permintaan pertama Kamu, harap coba lagi setelah beberapa detik.
+  **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin mengalami penundaan 10-15 detik karena inisialisasi cold start. Permintaan berikutnya akan diproses jauh lebih cepat (2-5 detik). Jika kamu menerima kesalahan batas waktu pada permintaan pertama kamu, harap coba lagi setelah beberapa detik.
 </Warning>
 
 ## Parameter Permintaan
@@ -68,7 +68,7 @@ API mengembalikan respons JSON dalam format yang kompatibel dengan OpenAI dengan
   "choices": [
     {
       "index": 0,
-      "text": "Teks yang dikenali dari gambar Kamu...",
+      "text": "Teks yang dikenali dari gambar kamu...",
       "finish_reason": "stop"
     }
   ],
@@ -101,7 +101,7 @@ Ingin mencoba API OCR segera? Gunakan URL gambar uji ini untuk mengekstrak teks 
 **URL Gambar Uji**: `https://res.cloudinary.com/dcwnn9c0u/image/upload/v1762880072/gh1nwfzslf4glu2cde9z.jpg`
 
 <Tip>
-  Gambar contoh ini adalah tanda terima dari Mandiri BNI. Kamu dapat menggunakannya untuk menguji API tanpa memerlukan gambar Kamu sendiri. Hasil yang diharapkan: info merchant, detail transaksi, jumlah, dan tanggal/waktu.
+  Gambar contoh ini adalah tanda terima dari Mandiri BNI. kamu dapat menggunakannya untuk menguji API tanpa memerlukan gambar kamu sendiri. Hasil yang diharapkan: info merchant, detail transaksi, jumlah, dan tanggal/waktu.
 </Tip>
 
 ### Tes Cepat dengan Curl
@@ -119,7 +119,7 @@ curl -X POST https://api.neosantara.xyz/v1/ocr \
 ```
 
 <Note>
-  Ingat: Permintaan pertama mungkin memakan waktu 10-15 detik karena cold start. Jika Kamu mendapatkan batas waktu, tunggu beberapa detik dan coba lagi.
+  Ingat: Permintaan pertama mungkin memakan waktu 10-15 detik karena cold start. Jika kamu mendapatkan batas waktu, tunggu beberapa detik dan coba lagi.
 </Note>
 
 ## Contoh Kode
@@ -481,7 +481,7 @@ API mengembalikan respons kesalahan terstruktur untuk permintaan yang tidak vali
 API DeepSeek OCR menggunakan harga berbasis token:
 
 - **Per Pemrosesan Gambar**: Setara dengan 100 token (sekitar 50 token)
-- **Biaya Token**: Dikenakan biaya sesuai dengan tingkat harga Neosantara Kamu
+- **Biaya Token**: Dikenakan biaya sesuai dengan tingkat harga Neosantara kamu
 
 Penggunaan token dilaporkan dalam kolom `usage` di respons.
 
@@ -491,20 +491,20 @@ Penggunaan token dilaporkan dalam kolom `usage` di respons.
 
 ## Praktik Terbaik
 
-1. **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin memakan waktu 10-15 detik karena inisialisasi cold start. Permintaan berikutnya akan jauh lebih cepat (2-5 detik). Jika Kamu mengalami batas waktu pada permintaan pertama, coba lagi setelah beberapa detik.
+1. **Latensi Permintaan Pertama**: Permintaan OCR pertama mungkin memakan waktu 10-15 detik karena inisialisasi cold start. Permintaan berikutnya akan jauh lebih cepat (2-5 detik). Jika kamu mengalami batas waktu pada permintaan pertama, coba lagi setelah beberapa detik.
 2. **Kualitas Gambar**: Gunakan gambar yang jelas dan beresolusi tinggi untuk hasil terbaik
 3. **Format Gambar**: Format yang didukung meliputi JPEG, PNG, dan format gambar umum lainnya
 4. **Aksesibilitas URL**: Pastikan URL gambar dapat diakses secara publik saat menggunakan `image_type: "url"`
 5. **Ukuran Base64**: Perhatikan ukuran gambar berkode base64 untuk gambar besar
-6. **Penanganan Kesalahan**: Selalu terapkan penanganan kesalahan yang tepat dalam aplikasi Kamu, termasuk logika upaya ulang untuk kesalahan batas waktu
-7. **Batas Kecepatan**: Hormati batas kecepatan API sesuai dengan tingkat layanan Kamu
+6. **Penanganan Kesalahan**: Selalu terapkan penanganan kesalahan yang tepat dalam aplikasi kamu, termasuk logika upaya ulang untuk kesalahan batas waktu
+7. **Batas Kecepatan**: Hormati batas kecepatan API sesuai dengan tingkat layanan kamu
 
 ## Batas Kecepatan
 
-Batas kecepatan bervariasi berdasarkan tingkat langganan Neosantara Kamu. Periksa batas tingkat layanan Kamu di [dasbor](https://app.neosantara.xyz/billing).
+Batas kecepatan bervariasi berdasarkan tingkat langganan Neosantara kamu. Periksa batas tingkat layanan kamu di [dasbor](https://app.neosantara.xyz/billing).
 
 <Tip>
-  Tingkatkan tingkat layanan Kamu untuk batas kecepatan yang lebih tinggi dan fitur tambahan. Hubungi [support@neosantara.xyz](mailto:support@neosantara.xyz) untuk solusi perusahaan.
+  Tingkatkan tingkat layanan kamu untuk batas kecepatan yang lebih tinggi dan fitur tambahan. Hubungi [support@neosantara.xyz](mailto:support@neosantara.xyz) untuk solusi perusahaan.
 </Tip>
 
 ## Dukungan

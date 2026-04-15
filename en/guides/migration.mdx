@@ -1,0 +1,112 @@
+---
+title: "Migration Guide"
+description: "Switch from OpenAI or Anthropic to Neosantara in minutes."
+---
+
+Neosantara is designed to be a drop-in replacement for global providers. If you already have an application using OpenAI or Anthropic SDKs, migrating to Neosantara only requires changing two lines of code.
+
+## 1. Environment Variables
+
+Replace your standard environment variables with the Neosantara equivalent.
+
+| Provider | Old Variable | Neosantara Variable |
+| :--- | :--- | :--- |
+| **OpenAI** | `OPENAI_API_KEY` | `NEOSANTARA_API_KEY` |
+| **Anthropic** | `ANTHROPIC_API_KEY` | `NEOSANTARA_API_KEY` |
+
+## 2. OpenAI SDK Migration
+
+To use Neosantara with the official OpenAI SDK, simply update the `base_url` and `api_key`.
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    # Change this line
+    base_url="https://api.neosantara.xyz/v1",
+    # Use your Neosantara API Key
+    api_key=os.environ.get("NEOSANTARA_API_KEY")
+)
+
+# Usage remains exactly the same
+response = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+```
+
+```javascript Node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  // Change this line
+  baseURL: "https://api.neosantara.xyz/v1",
+  // Use your Neosantara API Key
+  apiKey: process.env.NEOSANTARA_API_KEY
+});
+
+// Usage remains exactly the same
+const completion = await openai.chat.completions.create({
+  model: "nusantara-base",
+  messages: [{ role: "user", content: "Hello!" }],
+});
+```
+</CodeGroup>
+
+## 3. Anthropic SDK Migration
+
+Neosantara provides an Anthropic-compatible endpoint that works seamlessly with the official `@anthropic-ai/sdk`.
+
+<CodeGroup>
+```python Python
+from anthropic import Anthropic
+import os
+
+client = Anthropic(
+    # Change this line to our Anthropic-compatible endpoint
+    base_url="https://api.neosantara.xyz/anthropic",
+    # Use your Neosantara API Key
+    api_key=os.environ.get("NEOSANTARA_API_KEY")
+)
+
+# Create a message using the same syntax
+message = client.messages.create(
+    model="claude-3-5-sonnet",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+```
+
+```javascript Node.js
+import Anthropic from '@anthropic-ai/sdk';
+
+const anthropic = new Anthropic({
+  // Change this line
+  baseURL: "https://api.neosantara.xyz/anthropic",
+  // Use your Neosantara API Key
+  apiKey: process.env.NEOSANTARA_API_KEY
+});
+
+const msg = await anthropic.messages.create({
+  model: "claude-3-5-sonnet",
+  max_tokens: 1024,
+  messages: [{ role: "user", content: "Hello!" }],
+});
+```
+</CodeGroup>
+
+## 4. Key Differences to Note
+
+While the API is compatible, there are a few platform-specific features to keep in mind:
+
+- **Model Names**: Check our [Models Overview](/en/models-overview) for available model IDs.
+- **Billing**: Neosantara uses a localized **Pay-As-You-Go** model in IDR (Rupiah). Ensure your balance is topped up via the [Dashboard](https://app.neosantara.xyz).
+- **Reasoning Models**: For models like DeepSeek-R1, we support a unified `reasoning_content` field in the response.
+
+## 5. Automated Migration Tools
+
+If you are using **Cursor**, **Cline**, or **Claude Code**, simply change the "API Base URL" in the settings to `https://api.neosantara.xyz/v1` and paste your Neosantara API Key.
+
+Learn more in our [AI Coding Tools](/en/guides/ai-coding-tools) guide.

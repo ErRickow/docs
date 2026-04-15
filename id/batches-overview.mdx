@@ -5,10 +5,10 @@ description: "Proses beberapa permintaan API secara asinkron dengan penghematan 
 
 ## Pendahuluan
 
-API Batch memungkinkan Kamu memproses permintaan API dalam jumlah besar secara asinkron dengan biaya setengah dari panggilan API standar. Sangat cocok untuk operasi massal, pipa pemrosesan data, dan pekerjaan semalam yang tidak memerlukan respons segera.
+API Batch memungkinkan kamu memproses permintaan API dalam jumlah besar secara asinkron dengan biaya setengah dari panggilan API standar. Sangat cocok untuk operasi massal, pipa pemrosesan data, dan pekerjaan semalam yang tidak memerlukan respons segera.
 
 <Card icon="sparkles" title="Hemat 50% dengan Pemrosesan Batch" color="#16a34a">
-API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API sinkron standar. Proses ribuan permintaan secara efisien saat Kamu tidur!
+API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API sinkron standar. Proses ribuan permintaan secara efisien saat kamu tidur!
 </Card>
 
 ### Manfaat Utama
@@ -22,7 +22,7 @@ API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API
 
 ### Cara Kerjanya
 
-1. **Unggah** file JSONL yang berisi permintaan Kamu
+1. **Unggah** file JSONL yang berisi permintaan kamu
 2. **Buat** pekerjaan batch yang mereferensikan file yang diunggah
 3. **Pantau** kemajuan saat permintaan diproses secara asinkron
 4. **Unduh** hasil dari file output setelah selesai
@@ -60,7 +60,7 @@ API Batch menawarkan **penghematan biaya 50%** dibandingkan dengan panggilan API
     href="/api-reference/batches/list"
     color="#f59e0b"
   >
-    Lihat semua pekerjaan batch Kamu dengan pemfilteran dan paginasi
+    Lihat semua pekerjaan batch kamu dengan pemfilteran dan paginasi
   </Card>
 </CardGroup>
 
@@ -88,9 +88,9 @@ Pemrosesan batch tersedia untuk endpoint berikut:
 
 ## Mulai Cepat
 
-### Langkah 1: Siapkan File Input Kamu
+### Langkah 1: Siapkan File Input kamu
 
-Buat file JSONL dengan permintaan Kamu:
+Buat file JSONL dengan permintaan kamu:
 
 ```json icon="code"
 {"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Terjemahkan ke bahasa Indonesia: Hello"}], "max_tokens": 100}}
@@ -210,11 +210,11 @@ graph LR
 
 <AccordionGroup>
   <Accordion title="Optimalkan Ukuran Batch" icon="gauge-high">
-    Seimbangkan antara ukuran batch dan waktu penyelesaian. Batch yang lebih besar (1000+ permintaan) memaksimalkan penghematan biaya, sementara batch yang lebih kecil selesai lebih cepat. Pertimbangkan persyaratan kasus penggunaan Kamu.
+    Seimbangkan antara ukuran batch dan waktu penyelesaian. Batch yang lebih besar (1000+ permintaan) memaksimalkan penghematan biaya, sementara batch yang lebih kecil selesai lebih cepat. Pertimbangkan persyaratan kasus penggunaan kamu.
   </Accordion>
   
   <Accordion title="Gunakan ID Kustom Secara Efektif" icon="hashtag">
-    Tetapkan nilai `custom_id` yang bermakna untuk setiap permintaan. Ini membantu Kamu memetakan kembali hasil ke data asli Kamu saat memproses file output.
+    Tetapkan nilai `custom_id` yang bermakna untuk setiap permintaan. Ini membantu kamu memetakan kembali hasil ke data asli kamu saat memproses file output.
   </Accordion>
   
   <Accordion title="Tangani Kegagalan Parsial" icon="triangle-exclamation">
@@ -222,7 +222,7 @@ graph LR
   </Accordion>
   
   <Accordion title="Pantau Batas Bersamaan" icon="chart-line">
-    Tetap berada dalam batas batch bersamaan tier Kamu. Antrekan batch tambahan untuk dimulai setelah batch yang ada selesai.
+    Tetap berada dalam batas batch bersamaan tier kamu. Antrekan batch tambahan untuk dimulai setelah batch yang ada selesai.
   </Accordion>
   
   <Accordion title="Tetapkan Timeout yang Sesuai" icon="clock">
@@ -230,7 +230,7 @@ graph LR
   </Accordion>
   
   <Accordion title="Validasi Format Input" icon="check">
-    Pastikan file JSONL Kamu diformat dengan benar sebelum membuat batch. Format yang tidak valid akan menyebabkan kegagalan segera selama validasi.
+    Pastikan file JSONL kamu diformat dengan benar sebelum membuat batch. Format yang tidak valid akan menyebabkan kegagalan segera selama validasi.
   </Accordion>
 </AccordionGroup>
 
@@ -296,7 +296,7 @@ Kesalahan batch umum dan solusinya:
 
 Pemrosesan batch memiliki batas kecepatan yang berbeda dari panggilan API standar:
 
-- **Pekerjaan Bersamaan**: Berdasarkan tier Kamu (lihat tabel di atas)
+- **Pekerjaan Bersamaan**: Berdasarkan tier kamu (lihat tabel di atas)
 - **Permintaan per Batch**: Tidak ada batas keras, tetapi disarankan maksimal 10.000 untuk performa optimal
 - **Ukuran File**: Maksimum 100MB per file input
 - **Waktu Pemrosesan**: Semua batch selesai dalam waktu 24 jam

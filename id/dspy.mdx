@@ -3,7 +3,7 @@ title: "DSPy"
 description: "> Menggunakan DSPy dengan Neosantara."
 ---
 
-DSPy adalah framework untuk memprogram model bahasa alih-alih mengkamulkan prompt statis. Ini memungkinkan Kamu membangun sistem AI modular dengan kode alih-alih prompt buatan tangan, dan menawarkan metode untuk mengoptimalkan sistem ini secara otomatis.
+DSPy adalah framework untuk memprogram model bahasa alih-alih mengkamulkan prompt statis. Ini memungkinkan kamu membangun sistem AI modular dengan kode alih-alih prompt buatan tangan, dan menawarkan metode untuk mengoptimalkan sistem ini secara otomatis.
 
 Fitur
 
@@ -18,7 +18,7 @@ Fitur
 pip install -U dspy -q
 ```
 
-Atur kunci API Neosantara Kamu:
+Atur kunci API Neosantara kamu:
 
 ```shell
 export NAI_API_KEY=***
@@ -37,7 +37,7 @@ lm = dspy.LM('openai/nusantara-base',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")
 
-# Sekarang Kamu dapat memanggil LLM secara langsung sebagai berikut
+# Sekarang kamu dapat memanggil LLM secara langsung sebagai berikut
 lm("Say this is a test!", temperature=0.7)  # => ['Ini adalah sebuah tes.']
 lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['Ini adalah sebuah tes.']
 ```

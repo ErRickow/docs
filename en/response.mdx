@@ -164,7 +164,7 @@ Here's how you would migrate from Chat Completions to Responses:
 ```python icon="code" lines
 # Before: Chat Completions approach
 import openai # [!code --]
-client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code --]
+client = openai.OpenAI(base_url="https://api.neosantara.xyz/v1") # [!code --]
 
 messages = [{"role": "user", "content": "Hello, how are you?"}] # [!code --]
 completion = client.chat.completions.create( # [!code --]
@@ -175,7 +175,7 @@ ai_response = completion.choices[0].message.content # [!code --]
 
 # After: Responses approach
 import openai # [!code ++]
-client = openai.OpenAI(base_url="https://api.neosantara.ai/v1") # [!code ++]
+client = openai.OpenAI(base_url="https://api.neosantara.xyz/v1") # [!code ++]
 
 response = client.responses.create( # [!code ++]
     model="claude-4.5-sonnet", # [!code ++]

@@ -390,16 +390,11 @@ Build a search and answer agent
 
 ```python icon="python"
 from agno.agent import Agent
-from agno.models.openai.like import OpenAILike
+from agno.models.neosantara import Neosantara
 from agno.tools.duckduckgo import DuckDuckGoTools
-import os
 
 agent = Agent(
-    model=OpenAILike(
-        id="nusantara-base",
-        api_key=os.environ.get("NAI_API_KEY"),
-        base_url="https://api.neosantara.xyz/v1"
-    ),
+    model=Neosantara(id="nusantara-base"),
     tools=[DuckDuckGoTools()],
     markdown=True
 )

@@ -3,38 +3,38 @@ title: "RAG dengan Contoh ChromaDB"
 description: "Bangun aplikasi Retrieval-Augmented Generation (RAG) menggunakan Neosantara dan ChromaDB."
 ---
 
-Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang lengkap menggunakan Neosantara untuk embedding dan panggilan model bahasa besar (LLM), yang terintegrasi dengan [ChromaDB](https://www.trychroma.com/) sebagai basis data vektor Kamu.
+Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang lengkap menggunakan Neosantara untuk embedding dan panggilan model bahasa besar (LLM), yang terintegrasi dengan [ChromaDB](https://www.trychroma.com/) sebagai basis data vektor kamu.
 
 ## Ikhtisar
 
-Kamu akan belajar untuk:
+kamu akan belajar untuk:
 
-1. Menyiapkan klien API Neosantara Kamu.
+1. Menyiapkan klien API Neosantara kamu.
 2. Menginstal dan menginisialisasi ChromaDB.
-3. Menggunakan model embedding Neosantara (`nusa-embedding-0001`) untuk melakukan vektorisasi pada dokumen Kamu.
+3. Menggunakan model embedding Neosantara (`nusa-embedding-0001`) untuk melakukan vektorisasi pada dokumen kamu.
 4. Menyimpan embedding ini di ChromaDB.
 5. Mengambil dokumen yang relevan dari ChromaDB berdasarkan kueri pengguna.
 6. Menggunakan model obrolan Neosantara (`nusantara-base`) untuk menghasilkan jawaban yang berdasar menggunakan konteks yang diambil.
 
 ## Penyiapan
 
-Pertama, pastikan Kamu telah menginstal Python. Kemudian, instal pustaka yang diperlukan:
+Pertama, pastikan kamu telah menginstal Python. Kemudian, instal pustaka yang diperlukan:
 
 ```bash icon="terminal"
 pip install -U openai chromadb numpy pandas
 ```
 
-### Konfigurasikan Kunci API Neosantara Kamu
+### Konfigurasikan Kunci API Neosantara kamu
 
-Kamu memerlukan Kunci API Neosantara. Jika Kamu belum memilikinya, dapatkan dari [Dashboard Neosantara](https://app.neosantara.xyz/dashboard) Kamu.
+kamu memerlukan Kunci API Neosantara. Jika kamu belum memilikinya, dapatkan dari [Dashboard Neosantara](https://app.neosantara.xyz/dashboard) kamu.
 
-Setel kunci API dan URL dasar Neosantara Kamu sebagai variabel lingkungan atau langsung di skrip Kamu:
+Setel kunci API dan URL dasar Neosantara kamu sebagai variabel lingkungan atau langsung di skrip kamu:
 
 ```python icon="python"
 import os
 from openai import OpenAI
 
-# Konfigurasikan kunci API Neosantara dan URL dasar Kamu
+# Konfigurasikan kunci API Neosantara dan URL dasar kamu
 NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "KUNCI_API_NEOSANTARA_KAMU_DI_SINI")
 NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
 
@@ -51,11 +51,11 @@ CHAT_MODEL = "nusantara-base"
 
 ## Membuat Basis Data Embedding dengan ChromaDB
 
-ChromaDB adalah basis data vektor ringan yang berjalan secara lokal (atau dapat diskalakan). Kamu akan membuat koleksi Chroma dan mengisinya dengan embedding dokumen Kamu.
+ChromaDB adalah basis data vektor ringan yang berjalan secara lokal (atau dapat diskalakan). kamu akan membuat koleksi Chroma dan mengisinya dengan embedding dokumen kamu.
 
 ### Fungsi Embedding Kustom untuk ChromaDB
 
-ChromaDB memungkinkan Kamu mendefinisikan fungsi embedding kustom. Kita akan membungkus panggilan API embedding Neosantara di dalam fungsi ini.
+ChromaDB memungkinkan kamu mendefinisikan fungsi embedding kustom. Kita akan membungkus panggilan API embedding Neosantara di dalam fungsi ini.
 
 ```python icon="python"
 import chromadb
@@ -75,14 +75,14 @@ class NeosantaraEmbeddingFunction(EmbeddingFunction):
     return [d.embedding for d in response.data]
 ```
 
-### Data Kamu
+### Data kamu
 
-Berikut adalah sekumpulan kecil dokumen yang akan Kamu gunakan untuk membuat basis data embedding. Dalam aplikasi nyata, dokumen-dokumen ini akan berasal dari basis pengetahuan, wiki internal, dll.
+Berikut adalah sekumpulan kecil dokumen yang akan kamu gunakan untuk membuat basis data embedding. Dalam aplikasi nyata, dokumen-dokumen ini akan berasal dari basis pengetahuan, wiki internal, dll.
 
 ```python icon="python"
 DOCUMENT1 = """
-  Mengoperasikan Sistem Kontrol Iklim Googlecar Kamu memiliki sistem
-  kontrol iklim yang memungkinkan Kamu menyesuaikan suhu dan aliran udara
+  Mengoperasikan Sistem Kontrol Iklim Googlecar kamu memiliki sistem
+  kontrol iklim yang memungkinkan kamu menyesuaikan suhu dan aliran udara
   di dalam mobil. Untuk mengoperasikan sistem kontrol iklim, gunakan tombol
   dan kenop yang terletak di konsol tengah. Suhu: Kenop suhu mengontrol
   suhu di dalam mobil. Putar kenop searah jarum jam untuk menaikkan
@@ -93,7 +93,7 @@ DOCUMENT1 = """
   Kenop kecepatan kipas mengontrol kecepatan kipas. Putar kenop searah jarum jam
   untuk meningkatkan kecepatan kipas atau berlawanan arah jarum jam untuk
   mengurangi kecepatan kipas.
-  Mode: Tombol mode memungkinkan Kamu memilih mode yang diinginkan. Mode yang
+  Mode: Tombol mode memungkinkan kamu memilih mode yang diinginkan. Mode yang
   tersedia adalah: Otomatis: Mobil akan secara otomatis menyesuaikan suhu dan
   aliran udara untuk menjaga tingkat kenyamanan.
   Dingin: Mobil akan meniupkan udara dingin ke dalam mobil.
@@ -101,20 +101,20 @@ DOCUMENT1 = """
   Defrost: Mobil akan meniupkan udara hangat ke kaca depan untuk menghilangkan embun.
 "
 DOCUMENT2 = """
-  Googlecar Kamu memiliki layar sentuh besar yang menyediakan akses ke
+  Googlecar kamu memiliki layar sentuh besar yang menyediakan akses ke
   berbagai fitur, termasuk navigasi, hiburan, dan kontrol iklim. Untuk
   menggunakan layar sentuh, cukup sentuh ikon yang diinginkan. Misalnya,
-  Kamu dapat menyentuh ikon "Navigasi" untuk mendapatkan petunjuk arah ke
-  tujuan Kamu atau menyentuh ikon "Musik" untuk memutar lagu favorit Kamu.
+  kamu dapat menyentuh ikon "Navigasi" untuk mendapatkan petunjuk arah ke
+  tujuan kamu atau menyentuh ikon "Musik" untuk memutar lagu favorit kamu.
 "
 DOCUMENT3 = """
-  Berpindah Gigi Googlecar Kamu memiliki transmisi otomatis. Untuk berpindah
+  Berpindah Gigi Googlecar kamu memiliki transmisi otomatis. Untuk berpindah
   gigi, cukup gerakkan tuas pemindah ke posisi yang diinginkan.
-  Parkir: Posisi ini digunakan saat Kamu parkir. Roda terkunci dan mobil tidak
+  Parkir: Posisi ini digunakan saat kamu parkir. Roda terkunci dan mobil tidak
   dapat bergerak.
   Mundur: Posisi ini digunakan untuk mundur.
-  Netral: Posisi ini digunakan saat Kamu berhenti di lampu merah atau di tengah kemacetan.
-  Mobil tidak masuk gigi dan tidak akan bergerak kecuali Kamu menginjak pedal gas.
+  Netral: Posisi ini digunakan saat kamu berhenti di lampu merah atau di tengah kemacetan.
+  Mobil tidak masuk gigi dan tidak akan bergerak kecuali kamu menginjak pedal gas.
   Jalan: Posisi ini digunakan untuk melaju ke depan.
   Rendah: Posisi ini digunakan untuk berkendara di salju atau kondisi licin lainnya.
 "
@@ -124,7 +124,7 @@ documents = [DOCUMENT1, DOCUMENT2, DOCUMENT3]
 
 ### Membuat dan Mengisi ChromaDB
 
-Sekarang, buat klien ChromaDB, tentukan koleksi, dan tambahkan dokumen Kamu ke dalamnya menggunakan fungsi embedding kustom.
+Sekarang, buat klien ChromaDB, tentukan koleksi, dan tambahkan dokumen kamu ke dalamnya menggunakan fungsi embedding kustom.
 
 ```python icon="python"
 def create_chroma_db(documents, name):
@@ -163,7 +163,7 @@ def create_chroma_db(documents, name):
 
 ## Mendapatkan Dokumen yang Relevan (Pengambilan)
 
-Setelah ChromaDB terisi, Kamu sekarang dapat menanyakannya untuk menemukan dokumen yang relevan dengan pertanyaan pengguna.
+Setelah ChromaDB terisi, kamu sekarang dapat menanyakannya untuk menemukan dokumen yang relevan dengan pertanyaan pengguna.
 
 ```python icon="python"
 def get_relevant_passage(query, db):
@@ -190,14 +190,14 @@ def make_prompt(query, relevant_passage):
   processed_passage = relevant_passage.replace("\n", " ")
   
   prompt = textwrap.dedent(f"""
-    Kamu adalah bot yang membantu dan informatif yang menjawab pertanyaan menggunakan
+    kamu adalah bot yang membantu dan informatif yang menjawab pertanyaan menggunakan
     teks dari bagian referensi yang disertakan di bawah ini.
     Pastikan untuk merespons dengan kalimat lengkap, komprehensif,
     termasuk semua informasi latar belakang yang relevan. 
-    Namun, Kamu sedang berbicara dengan audiens non-teknis, jadi pastikan untuk
+    Namun, kamu sedang berbicara dengan audiens non-teknis, jadi pastikan untuk
     menjelaskan konsep-konsep rumit dan menggunakan nada yang ramah
     serta santai. Jika bagian referensi tidak relevan dengan jawabannya, 
-    Kamu dapat mengabaikannya dan mengatakan "Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan."
+    kamu dapat mengabaikannya dan mengatakan "Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan."
 
     PERTANYAAN: '{query}'
     BAGIAN REFERENSI: '{processed_passage}'
@@ -232,7 +232,7 @@ Mari kita satukan semuanya dan uji dengan beberapa kueri:
 if __name__ == "__main__":
   # Pastikan Kunci API dan URL Dasar telah disetel di lingkungan atau ganti "KUNCI_API_NEOSANTARA_KAMU_DI_SINI"
   if "KUNCI_API_NEOSANTARA_KAMU_DI_SINI" in NEOSANTARA_API_KEY:
-      print("⚠️ Harap setel variabel lingkungan NEOSANTARA_API_KEY Kamu atau ganti 'KUNCI_API_NEOSANTARA_KAMU_DI_SINI' dalam skrip.")
+      print("⚠️ Harap setel variabel lingkungan NEOSANTARA_API_KEY kamu atau ganti 'KUNCI_API_NEOSANTARA_KAMU_DI_SINI' dalam skrip.")
   
   print("Menginisialisasi ChromaDB dan mengisi dengan embedding dokumen...")
   vector_db = create_chroma_db(documents, "neosantara-car-manual-db")
@@ -264,16 +264,16 @@ Menginisialisasi ChromaDB dan mengisi dengan embedding dokumen...
 ChromaDB siap.
 
 Kueri Pengguna: Bagaimana cara mengatur suhu di dalam mobil?
-Bagian yang Diambil:   Mengoperasikan Sistem Kontrol Iklim Googlecar Kamu memiliki sistem kontrol
+Bagian yang Diambil:   Mengoperasikan Sistem Kontrol Iklim Googlecar kamu memiliki sistem kontrol
   iklim yang memungkinkan... 
-Respons AI: Untuk menyesuaikan suhu di Googlecar Kamu, Kamu akan menggunakan kenop suhu yang terletak di konsol tengah. Memutar kenop searah jarum jam akan menaikkan suhu, sedangkan memutarnya berlawanan arah jarum jam akan menurunkannya.
+Respons AI: Untuk menyesuaikan suhu di Googlecar kamu, kamu akan menggunakan kenop suhu yang terletak di konsol tengah. Memutar kenop searah jarum jam akan menaikkan suhu, sedangkan memutarnya berlawanan arah jarum jam akan menurunkannya.
 
 Kueri Pengguna: Bagaimana cara membuat kopi di Google car?
 Bagian yang Diambil: Informasi relevan tidak ditemukan....
 Respons AI: Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan.
 
 Kueri Pengguna: Ceritakan tentang layar sentuhnya.
-Bagian yang Diambil:   Googlecar Kamu memiliki layar sentuh besar yang menyediakan akses ke
+Bagian yang Diambil:   Googlecar kamu memiliki layar sentuh besar yang menyediakan akses ke
   berbagai fitur, termasuk naviga... 
-Respons AI: Googlecar Kamu dilengkapi dengan layar sentuh besar yang memberikan akses mudah ke berbagai fitur seperti navigasi, hiburan, dan sistem kontrol iklim. Untuk menggunakannya, Kamu cukup menyentuh ikon fitur yang Kamu inginkan. Misalnya, menyentuh ikon "Navigasi" akan membantu Kamu mendapatkan petunjuk arah, sementara ikon "Musik" memungkinkan Kamu memutar lagu favorit Kamu.
+Respons AI: Googlecar kamu dilengkapi dengan layar sentuh besar yang memberikan akses mudah ke berbagai fitur seperti navigasi, hiburan, dan sistem kontrol iklim. Untuk menggunakannya, kamu cukup menyentuh ikon fitur yang kamu inginkan. Misalnya, menyentuh ikon "Navigasi" akan membantu kamu mendapatkan petunjuk arah, sementara ikon "Musik" memungkinkan kamu memutar lagu favorit kamu.
 ```
