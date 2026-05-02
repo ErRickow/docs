@@ -1,0 +1,95 @@
+---
+title: 'Customer Chat Support'
+description: 'Pelajari cara menyematkan dan menyesuaikan Neosantara Customer Chat Support widget di situs web Anda.'
+---
+
+Neosantara Customer Chat Support widget adalah alat yang kuat, dapat disesuaikan, dan mudah disematkan yang memungkinkan Anda memberikan dukungan pelanggan bertenaga AI, bantuan penjualan, atau layanan informasi langsung di situs web Anda. Widget ini mendukung konfigurasi modular, unggahan dokumen, dan Basis Pengetahuan (RAG) pribadi.
+
+## Cara Membuat Widget Support
+
+Ikuti langkah-langkh berikut untuk membuat dan mengonfigurasi widget Customer Chat Support Anda:
+
+1.  **Akses Dashboard**: Login ke [Dashboard Neosantara](https://app.neosantara.xyz/dashboard).
+2.  **Buka Menu Integration**: Klik **Integration** di sidebar, lalu pilih **Widget Chat**.
+3.  **Buat Widget Baru**: Klik tombol **"Create Widget"** untuk membuka konfigurator.
+4.  **Konfigurasi Pengaturan**:
+    *   **General**: Tentukan nama widget, pilih model AI, dan masukkan **Domain yang Diizinkan** (misal: `situsanda.com`). Anda bisa menggunakan **Template** (Customer Service, Sales, dll.) untuk mengisi **System Prompt** secara otomatis.
+    *   **Appearance**: Sesuaikan warna, pilih gaya tata letak (`modern-round` atau `classic-sharp`), dan atur posisi widget di layar.
+    *   **Features**: Aktifkan fitur **Unggahan File** atau atur **Penundaan Proaktif** untuk menyapa pengguna secara otomatis.
+    *   **Knowledge**: Setelah menyimpan widget untuk pertama kalinya, Anda dapat mengunggah file PDF atau teks ke **Knowledge Base** agar AI memiliki konteks khusus tentang bisnis Anda.
+5.  **Simpan dan Sematkan**: Klik **Create** (atau **Save**). Setelah tersimpan, klik tombol **"Get Code"** pada kartu widget Anda untuk menyalin kode sematan (snippet).
+
+## Mulai Cepat
+
+Untuk memulai, Anda hanya perlu menyematkan satu tag `<script>` ke dalam HTML situs web Anda, biasanya sebelum tag penutup `</body>`.
+
+```html
+<!-- Neosantara Customer Chat Support -->
+<script
+  src="https://api.neosantara.xyz/widget.js"
+  data-widget-id="ID_WIDGET_ANDA"
+  async
+></script>
+```
+
+Ganti `ID_WIDGET_ANDA` dengan ID yang disediakan di [Dashboard Neosantara](https://app.neosantara.xyz/dashboard/integration/widget).
+
+## Konfigurasi
+
+Anda dapat menyesuaikan hampir setiap aspek widget melalui Dashboard Neosantara. Berikut adalah kategori konfigurasi yang tersedia:
+
+### Tampilan (Appearance)
+Sesuaikan tampilan widget agar sesuai dengan identitas merek Anda.
+
+| Pengaturan | Deskripsi |
+| :--- | :--- |
+| **Warna Tema** | Warna utama yang digunakan untuk tombol, header, dan aksen. |
+| **URL Logo** | Tampilkan logo merek Anda di bagian atas jendela obrolan. |
+| **Gaya Tata Letak** | Pilih antara `modern-round`, `classic-square`, atau `compact`. |
+| **Gaya Peluncur** | Pilih tampilan tombol widget (`icon` atau `text`). |
+| **Penempatan** | Posisikan widget di `bottom-right` (default) atau `bottom-left`. |
+| **Offset** | Sesuaikan posisi menggunakan `Offset X` dan `Offset Y` (dalam piksel). |
+
+### Perilaku (Behavior)
+Kontrol bagaimana dan di mana widget berinteraksi dengan pengguna Anda.
+
+| Pengaturan | Deskripsi |
+| :--- | :--- |
+| **Pesan Awal** | Pesan pertama yang dikirim oleh AI saat pengguna membuka widget. |
+| **Penundaan Proaktif** | Tampilkan gelembung salam secara otomatis setelah penundaan yang ditentukan (dalam milidetik). |
+| **Domain yang Diizinkan** | Daftar putih domain tempat widget diizinkan untuk dimuat. |
+| **URL yang Disembunyikan** | Pola regex untuk URL di mana widget harus disembunyikan (misalnya, `/checkout/*`). |
+
+### AI & Basis Pengetahuan (Knowledge Base)
+Konfigurasikan "otak" dari agen AI Anda.
+
+- **Pemilihan Model**: Pilih dari berbagai model seperti `Nusantara Base` untuk kecepatan atau `Archipelago 70B` untuk tugas penalaran tinggi.
+- **System Prompt**: Tentukan kepribadian, nada, dan batasan agen AI Anda.
+- **Basis Pengetahuan (RAG)**: Unggah file PDF, TXT, atau DOCX untuk memberi AI Anda pengetahuan khusus tentang bisnis Anda. Informasi yang relevan akan secara otomatis diambil dan dimasukkan ke dalam konteks AI.
+
+### Fitur Lanjutan
+- **Unggahan File**: Izinkan pengguna mengunggah dokumen atau gambar langsung dalam obrolan. Anda dapat menetapkan `Batas Ukuran Unggahan` (default 25MB).
+- **Hapus Watermark**: Pengguna tier Pro dan Bisnis dapat menghapus branding "Powered by Neosantara".
+
+## Detail Teknis
+
+### Isolasi Shadow DOM
+Widget menggunakan **Shadow DOM** untuk memastikan bahwa gayanya tidak berbenturan dengan CSS situs web Anda yang sudah ada. Widget ini berada di bawah elemen dengan ID `#nusa-widget-root`.
+
+### Penagihan Pay-As-You-Go
+Penggunaan widget (token Obrolan dan embedding Basis Pengetahuan) ditagih langsung ke saldo **Pay-As-You-Go (PAYG)** proyek Anda.
+- **Obrolan**: Ditagih berdasarkan token yang digunakan dalam percakapan.
+- **Basis Pengetahuan**: Biaya satu kali dikenakan untuk embedding dokumen saat diunggah.
+
+## Pemecahan Masalah
+
+### Widget tidak muncul?
+1. Periksa apakah `data-widget-id` sudah benar.
+2. Verifikasi bahwa domain Anda saat ini ada dalam daftar **Domain yang Diizinkan**.
+3. Periksa konsol browser untuk kesalahan "Neosantara: data-widget-id is missing" atau "Config not found".
+4. Pastikan Anda tidak menyembunyikan URL saat ini dalam konfigurasi.
+
+### Unggahan gagal?
+- Pastikan `Allow Uploads` diaktifkan dalam konfigurasi Anda.
+- Periksa apakah tier langganan Anda mendukung unggahan file.
+- Verifikasi ukuran file berada dalam batas yang dikonfigurasi.

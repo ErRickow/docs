@@ -213,6 +213,7 @@
                 "pages": [
                   "en/agent-overview",
                   "en/integrations",
+                  "en/widget",
                   "en/using-neosantara-with-vercels-ai-sdk",
                   {
                     "group": "Frameworks",
@@ -501,6 +502,10 @@
                 "pages": [
                   "id/agent-overview",
                   "id/integrations",
+                  {
+                    "label": "Customer Chat Support",
+                    "page": "id/widget"
+                  },
                   "id/using-neosantara-with-vercels-ai-sdk",
                   {
                     "group": "Framework",

@@ -1,0 +1,95 @@
+---
+title: 'Customer Chat Support'
+description: 'Learn how to embed and customize the Neosantara Customer Chat Support widget on your website.'
+---
+
+The Neosantara Customer Chat Support widget is a powerful, customizable, and easy-to-embed tool that allows you to provide AI-powered customer support, sales assistance, or information services directly on your website. It supports modular configuration, document uploads, and a private Knowledge Base (RAG).
+
+## Creating a Support Widget
+
+Follow these steps to create and configure your Customer Chat Support widget:
+
+1.  **Access the Dashboard**: Log in to the [Neosantara Dashboard](https://app.neosantara.xyz/dashboard).
+2.  **Navigate to Integration**: Click on **Integration** in the sidebar, then select **Chat Widget**.
+3.  **Create New Widget**: Click the **"Create Widget"** button to open the configurator.
+4.  **Configure Settings**:
+    *   **General**: Set your widget's name, choose an AI model, and list your **Allowed Domains** (e.g., `example.com`). You can use a **Template** (Customer Service, Sales, etc.) to quickly pre-fill the **System Prompt**.
+    *   **Appearance**: Customize colors, choose a layout (`modern-round` or `classic-sharp`), and set the widget's placement on your screen.
+    *   **Features**: Enable **File Uploads** or set a **Proactive Delay** to greet users automatically.
+    *   **Knowledge**: Once you've saved your widget for the first time, you can upload PDFs or text files to the **Knowledge Base** to give your AI specific context about your business.
+5.  **Save and Embed**: Click **Create** (or **Save**). Once saved, click the **"Get Code"** button on your widget's card to copy the embed snippet.
+
+## Quick Start
+
+To get started, you just need to embed a single `<script>` tag into your website's HTML, typically before the closing `</body>` tag.
+
+```html
+<!-- Neosantara Customer Chat Support -->
+<script
+  src="https://api.neosantara.xyz/widget.js"
+  data-widget-id="YOUR_WIDGET_ID"
+  async
+></script>
+```
+
+Replace `YOUR_WIDGET_ID` with the ID provided in your [Neosantara Dashboard](https://app.neosantara.xyz/dashboard/integration/widget).
+
+## Configuration
+
+You can customize almost every aspect of the widget through the Neosantara Dashboard. Below are the available configuration categories:
+
+### Appearance
+Customize how the widget looks to match your brand's identity.
+
+| Setting | Description |
+| :--- | :--- |
+| **Theme Color** | The primary color used for buttons, headers, and accents. |
+| **Logo URL** | Display your brand logo at the top of the chat window. |
+| **Layout Style** | Choose between `modern-round`, `classic-square`, or `compact`. |
+| **Launcher Style** | Choose how the widget button looks (`icon` or `text`). |
+| **Placement** | Position the widget at `bottom-right` (default) or `bottom-left`. |
+| **Offsets** | Fine-tune the position using `Offset X` and `Offset Y` (in pixels). |
+
+### Behavior
+Control how and where the widget interacts with your users.
+
+| Setting | Description |
+| :--- | :--- |
+| **Initial Message** | The first message sent by the AI when a user opens the widget. |
+| **Proactive Delay** | Automatically show a greeting bubble after a set delay (in milliseconds). |
+| **Allowed Domains** | A whitelist of domains where the widget is permitted to load. |
+| **Suppressed URLs** | Regex patterns for URLs where the widget should be hidden (e.g., `/checkout/*`). |
+
+### AI & Knowledge Base
+Configure the "brain" of your AI agent.
+
+- **Model Selection**: Choose from various models like `Nusantara Base` for speed or `Archipelago 70B` for high-reasoning tasks.
+- **System Prompt**: Define the personality, tone, and constraints of your AI agent.
+- **Knowledge Base (RAG)**: Upload PDF, TXT, or DOCX files to give your AI specific knowledge about your business. Matches are automatically retrieved and injected into the AI's context.
+
+### Advanced Features
+- **File Uploads**: Allow users to upload documents or images directly in the chat. You can set an `Upload Size Limit` (default 25MB).
+- **Remove Watermark**: Pro and Business tier users can remove the "Powered by Neosantara" branding.
+
+## Technical Details
+
+### Shadow DOM Isolation
+The widget uses **Shadow DOM** to ensure that its styles do not conflict with your website's existing CSS. It lives under an element with the ID `#nusa-widget-root`.
+
+### Pay-As-You-Go Billing
+Usage for the widget (Chat tokens and Knowledge Base embeddings) is billed directly to your project's **Pay-As-You-Go (PAYG)** balance.
+- **Chat**: Billed based on the tokens used in the conversation.
+- **Knowledge Base**: A one-time fee is charged for embedding documents when they are uploaded.
+
+## Troubleshooting
+
+### Widget not appearing?
+1. Check if the `data-widget-id` is correct.
+2. Verify that your current domain is in the **Allowed Domains** list.
+3. Check the browser console for any "Neosantara: data-widget-id is missing" or "Config not found" errors.
+4. Ensure you haven't suppressed the current URL in the configuration.
+
+### Uploads failing?
+- Ensure `Allow Uploads` is enabled in your configuration.
+- Check if your subscription tier supports file uploads.
+- Verify the file size is within the configured limit.

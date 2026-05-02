@@ -164,6 +164,1146 @@ export const gardaBetaMiniData = {
   }
 };
 
+export const gemini25FlashData = {
+  "modelId": "gemini-2.5-flash",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "66k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "5253",
+    "outputPrice": "43779",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gemma327bItData = {
+  "modelId": "gemma-3-27b-it",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "33k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "200",
+    "outputPrice": "1500",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gemini3ProPreviewData = {
+  "modelId": "gemini-3-pro-preview",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "40000",
+    "outputPrice": "120000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gemini3FlashPreviewData = {
+  "modelId": "gemini-3-flash-preview",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1000k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "1600",
+    "outputPrice": "6400",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "function_calling",
+    "json_mode",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gemini31ProPreviewData = {
+  "modelId": "gemini-3.1-pro-preview",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "40000",
+    "outputPrice": "120000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gemini31FlashLitePreviewData = {
+  "modelId": "gemini-3.1-flash-lite-preview",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1000k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "1600",
+    "outputPrice": "6400",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gemini3FlashData = {
+  "modelId": "gemini-3-flash",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1000k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0.5",
+    "outputPrice": "3",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode",
+    "vision"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gpt5NanoData = {
+  "modelId": "gpt-5-nano",
+  "provider": "OpenAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "810",
+    "outputPrice": "6485",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode",
+    "reasoning",
+    "vision",
+    "file_input",
+    "implicit_caching"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const textEmbedding3SmallData = {
+  "modelId": "text-embedding-3-small",
+  "provider": "OpenAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "8k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0.02",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "embeddings"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK2Data = {
+  "modelId": "kimi-k2",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "131k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "16642",
+    "outputPrice": "49929",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const claude45SonnetData = {
+  "modelId": "claude-4.5-sonnet",
+  "provider": "Anthropic",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "200k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "3",
+    "outputPrice": "15",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode",
+    "vision"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const claude45OpusData = {
+  "modelId": "claude-4.5-opus",
+  "provider": "Anthropic",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "200k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "5",
+    "outputPrice": "25",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode",
+    "vision"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const claude45HaikuData = {
+  "modelId": "claude-4.5-haiku",
+  "provider": "Anthropic",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "200k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "1",
+    "outputPrice": "5",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode",
+    "vision"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const imagen40FastData = {
+  "modelId": "imagen-4.0-fast",
+  "provider": "Vercel",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "N/A"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "image_generation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const grokCodeFastData = {
+  "modelId": "grok-code-fast",
+  "provider": "xAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "256k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0.2",
+    "outputPrice": "1.5",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const grok41FastNonReasoningData = {
+  "modelId": "grok-4.1-fast-non-reasoning",
+  "provider": "xAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "2000k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0.3",
+    "outputPrice": "0.72",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const glm47FlashData = {
+  "modelId": "glm-4.7-flash",
+  "provider": "zAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1000k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const longcatFlashThinkingData = {
+  "modelId": "longcat-flash-thinking",
+  "provider": "Vercel",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "33k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "reasoning",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const devstral2Data = {
+  "modelId": "devstral-2",
+  "provider": "Vercel",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const llama318bWseData = {
+  "modelId": "llama-3.1-8b-wse",
+  "provider": "Meta",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "100",
+    "outputPrice": "100",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const qwen3235bWseData = {
+  "modelId": "qwen3-235b-wse",
+  "provider": "Alibaba Cloud",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "1800",
+    "outputPrice": "1800",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
 export const seaLionV427bItData = {
   "modelId": "sea-lion-v4-27b-it",
   "provider": "AI Singapore",
@@ -259,6 +1399,1562 @@ export const sahabatAiLlamaV4Data = {
   "features": [
     "text_generation",
     "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const mistralNemotronData = {
+  "modelId": "mistral-nemotron",
+  "provider": "NVIDIA",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "4560",
+    "outputPrice": "31991",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const granite38bInstructData = {
+  "modelId": "granite-3-8b-instruct",
+  "provider": "IBM",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "2880",
+    "outputPrice": "11520",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const llama33NemotronSuper49bV15Data = {
+  "modelId": "llama-3.3-nemotron-super-49b-v1.5",
+  "provider": "NVIDIA",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "132k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "4560",
+    "outputPrice": "31991",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const minimaxM25Data = {
+  "modelId": "minimax-m2.5",
+  "provider": "NVIDIA",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "205k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "4560",
+    "outputPrice": "31991",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const step35FlashData = {
+  "modelId": "step-3.5-flash",
+  "provider": "NVIDIA",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "256k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "3000",
+    "outputPrice": "9000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode",
+    "reasoning",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const hermes2ProMistral7bData = {
+  "modelId": "hermes-2-pro-mistral-7b",
+  "provider": "Mistral AI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "24k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "450",
+    "outputPrice": "1200",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gemma29bItData = {
+  "modelId": "gemma2-9b-it",
+  "provider": "Google",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "8k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "200",
+    "outputPrice": "1000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const qwen332bData = {
+  "modelId": "qwen3-32b",
+  "provider": "Alibaba Cloud",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "131k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "4828",
+    "outputPrice": "9823",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const gptOss20bData = {
+  "modelId": "gpt-oss-20b",
+  "provider": "OpenAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "131k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "400",
+    "outputPrice": "1600",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const llama3211bData = {
+  "modelId": "llama-3.2-11b",
+  "provider": "Meta",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "8k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "100",
+    "outputPrice": "400",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const apriel16ThinkerData = {
+  "modelId": "apriel-1.6-thinker",
+  "provider": "Together AI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "33k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "3000",
+    "outputPrice": "9000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "json_mode",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const neosantaraGen2045Data = {
+  "modelId": "neosantara-gen-2045",
+  "provider": "Neosantara",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "N/A"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "image_generation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const sdxlLightningData = {
+  "modelId": "sdxl-lightning",
+  "provider": "Stability AI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "N/A"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "image_generation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const stableDiffusionV15Img2imgData = {
+  "modelId": "stable-diffusion-v1-5-img2img",
+  "provider": "Stability AI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "N/A"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "image_generation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const llamaGuard38bData = {
+  "modelId": "llama-guard-3-8b",
+  "provider": "Meta",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "131k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "7680",
+    "outputPrice": "480",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const nvEmbedV1Data = {
+  "modelId": "nv-embed-v1",
+  "provider": "NVIDIA",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "33k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "150",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "embeddings"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK2LatestData = {
+  "modelId": "kimi-k2:latest",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "16642",
+    "outputPrice": "49929",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "file_interpretation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK2SearchData = {
+  "modelId": "kimi-k2:search",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "16642",
+    "outputPrice": "49929",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "file_interpretation",
+    "web_search"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK2ResearchData = {
+  "modelId": "kimi-k2:research",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "16642",
+    "outputPrice": "49929",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "file_interpretation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK1Data = {
+  "modelId": "kimi-k1",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "16642",
+    "outputPrice": "49929",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "file_interpretation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK2MathData = {
+  "modelId": "kimi-k2:math",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "16642",
+    "outputPrice": "49929",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "file_interpretation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK2SilentData = {
+  "modelId": "kimi-k2:silent",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "16642",
+    "outputPrice": "49929",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "file_interpretation"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const glm46Data = {
+  "modelId": "glm-4.6",
+  "provider": "zAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "10000",
+    "outputPrice": "30000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const glm46PlusData = {
+  "modelId": "glm-4.6-plus",
+  "provider": "zAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "10000",
+    "outputPrice": "30000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const glm46vFlashData = {
+  "modelId": "glm-4.6v-flash",
+  "provider": "zAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "250",
+    "outputPrice": "750",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "video_understanding",
+    "file_interpretation",
+    "function_calling",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const glm45FlashData = {
+  "modelId": "glm-4.5-flash",
+  "provider": "zAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "250",
+    "outputPrice": "750",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const glm47Data = {
+  "modelId": "glm-4.7",
+  "provider": "zAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "10000",
+    "outputPrice": "30000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const kimiK2ThinkingData = {
+  "modelId": "kimi-k2-thinking",
+  "provider": "Moonshot",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "128k tokens"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "20000",
+    "outputPrice": "60000",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  }
+};
+
+export const whisperLargeV3TurboData = {
+  "modelId": "whisper-large-v3-turbo",
+  "provider": "OpenAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "N/A"
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0",
+    "outputPrice": "0",
+    "currency": "IDR",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Chat Completions"
+  ],
+  "features": [
+    "audio_transcription"
   ],
   "inputOutput": {
     "inputFormats": [
@@ -882,705 +3578,6 @@ export const llama3211bVisionData = {
   }
 };
 
-export const gemma327bItData = {
-  "modelId": "gemma-3-27b-it",
-  "provider": "Google",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "33k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "200",
-    "outputPrice": "1500",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const granite38bInstructData = {
-  "modelId": "granite-3-8b-instruct",
-  "provider": "IBM",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "2880",
-    "outputPrice": "11520",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "json_mode",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const gpt5NanoData = {
-  "modelId": "gpt-5-nano",
-  "provider": "OpenAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "810",
-    "outputPrice": "6485",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode",
-    "reasoning",
-    "vision",
-    "file_input",
-    "implicit_caching"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const llama33NemotronSuper49bV15Data = {
-  "modelId": "llama-3.3-nemotron-super-49b-v1.5",
-  "provider": "NVIDIA",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "132k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "4560",
-    "outputPrice": "31991",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const hermes2ProMistral7bData = {
-  "modelId": "hermes-2-pro-mistral-7b",
-  "provider": "Mistral AI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "24k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "450",
-    "outputPrice": "1200",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const gemma29bItData = {
-  "modelId": "gemma2-9b-it",
-  "provider": "Google",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "8k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "200",
-    "outputPrice": "1000",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const qwen332bData = {
-  "modelId": "qwen3-32b",
-  "provider": "Alibaba Cloud",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "131k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "4828",
-    "outputPrice": "9823",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "json_mode",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const gptOss20bData = {
-  "modelId": "gpt-oss-20b",
-  "provider": "OpenAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "131k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "400",
-    "outputPrice": "1600",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "json_mode",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const llama3211bData = {
-  "modelId": "llama-3.2-11b",
-  "provider": "Meta",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "8k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "100",
-    "outputPrice": "400",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const apriel16ThinkerData = {
-  "modelId": "apriel-1.6-thinker",
-  "provider": "together-ai",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "33k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "3000",
-    "outputPrice": "9000",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode",
-    "reasoning"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const neosantaraGen2045Data = {
-  "modelId": "neosantara-gen-2045",
-  "provider": "Neosantara",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "N/A"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "image_generation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const sdxlLightningData = {
-  "modelId": "sdxl-lightning",
-  "provider": "Cloudflare",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "N/A"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "image_generation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const stableDiffusionV15Img2imgData = {
-  "modelId": "stable-diffusion-v1-5-img2img",
-  "provider": "Cloudflare",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "N/A"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "image_generation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
 export const titanImageG1Data = {
   "modelId": "titan-image-g1",
   "provider": "Amazon",
@@ -1635,7 +3632,7 @@ export const titanImageG1Data = {
 
 export const lumaRay2720pData = {
   "modelId": "luma-ray2-720p",
-  "provider": "bedrock-video",
+  "provider": "Bedrock-video",
   "modelCardUrl": "#",
   "contextLength": {
     "freeTier": "N/A"
@@ -1687,7 +3684,7 @@ export const lumaRay2720pData = {
 
 export const lumaRay2540pData = {
   "modelId": "luma-ray2-540p",
-  "provider": "bedrock-video",
+  "provider": "Bedrock-video",
   "modelCardUrl": "#",
   "contextLength": {
     "freeTier": "N/A"
@@ -1791,58 +3788,6 @@ export const deepseekR1Data = {
   }
 };
 
-export const llamaGuard38bData = {
-  "modelId": "llama-guard-3-8b",
-  "provider": "Meta",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "131k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "7680",
-    "outputPrice": "480",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
 export const nusaEmbedding0001Data = {
   "modelId": "nusa-embedding-0001",
   "provider": "Neosantara",
@@ -1925,7 +3870,7 @@ export const geminiEmbedding001Data = {
     "freeBalance": "Promo Aktif"
   },
   "pricing": {
-    "inputPrice": "0",
+    "inputPrice": "0.15",
     "outputPrice": "0",
     "currency": "IDR",
     "inputUnit": "per 1M tokens",
@@ -1936,1412 +3881,6 @@ export const geminiEmbedding001Data = {
   ],
   "features": [
     "embeddings"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const textEmbedding3SmallData = {
-  "modelId": "text-embedding-3-small",
-  "provider": "OpenAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "8k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0.02",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "embeddings"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK2Data = {
-  "modelId": "kimi-k2",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "131k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "16642",
-    "outputPrice": "49929",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK2LatestData = {
-  "modelId": "kimi-k2:latest",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "16642",
-    "outputPrice": "49929",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "file_interpretation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK2SearchData = {
-  "modelId": "kimi-k2:search",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "16642",
-    "outputPrice": "49929",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "file_interpretation",
-    "web_search"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK2ResearchData = {
-  "modelId": "kimi-k2:research",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "16642",
-    "outputPrice": "49929",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "file_interpretation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK1Data = {
-  "modelId": "kimi-k1",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "16642",
-    "outputPrice": "49929",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "file_interpretation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK2MathData = {
-  "modelId": "kimi-k2:math",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "16642",
-    "outputPrice": "49929",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "file_interpretation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK2SilentData = {
-  "modelId": "kimi-k2:silent",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "16642",
-    "outputPrice": "49929",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "file_interpretation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const glm46Data = {
-  "modelId": "glm-4.6",
-  "provider": "zAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "10000",
-    "outputPrice": "30000",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "reasoning"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const glm46PlusData = {
-  "modelId": "glm-4.6-plus",
-  "provider": "zAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "10000",
-    "outputPrice": "30000",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "reasoning"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const glm46vFlashData = {
-  "modelId": "glm-4.6v-flash",
-  "provider": "zAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "250",
-    "outputPrice": "750",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "video_understanding",
-    "file_interpretation",
-    "function_calling",
-    "reasoning"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const glm45FlashData = {
-  "modelId": "glm-4.5-flash",
-  "provider": "zAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "250",
-    "outputPrice": "750",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const gemini3ProPreviewData = {
-  "modelId": "gemini-3-pro-preview",
-  "provider": "Google",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "40000",
-    "outputPrice": "120000",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const gemini3FlashPreviewData = {
-  "modelId": "gemini-3-flash-preview",
-  "provider": "Google",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "1000k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "1600",
-    "outputPrice": "6400",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "function_calling",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const glm47Data = {
-  "modelId": "glm-4.7",
-  "provider": "zAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "10000",
-    "outputPrice": "30000",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const kimiK2ThinkingData = {
-  "modelId": "kimi-k2-thinking",
-  "provider": "Moonshot",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "20000",
-    "outputPrice": "60000",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "vision",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const claude45SonnetData = {
-  "modelId": "claude-4.5-sonnet",
-  "provider": "Anthropic",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "200k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "3",
-    "outputPrice": "15",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode",
-    "vision"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const claude45OpusData = {
-  "modelId": "claude-4.5-opus",
-  "provider": "Anthropic",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "200k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "5",
-    "outputPrice": "25",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode",
-    "vision"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const claude45HaikuData = {
-  "modelId": "claude-4.5-haiku",
-  "provider": "Anthropic",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "200k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "1",
-    "outputPrice": "5",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode",
-    "vision"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const imagen40FastData = {
-  "modelId": "imagen-4.0-fast",
-  "provider": "Google",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "N/A"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "image_generation"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const gemini3FlashData = {
-  "modelId": "gemini-3-flash",
-  "provider": "Google",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "1000k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0.5",
-    "outputPrice": "3",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode",
-    "vision"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const grokCodeFastData = {
-  "modelId": "grok-code-fast",
-  "provider": "xAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "256k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0.2",
-    "outputPrice": "1.5",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const grok41FastNonReasoningData = {
-  "modelId": "grok-4.1-fast-non-reasoning",
-  "provider": "xAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "2000k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0.3",
-    "outputPrice": "0.72",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const glm47FlashData = {
-  "modelId": "glm-4.7-flash",
-  "provider": "zAI",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "1000k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const longcatFlashThinkingData = {
-  "modelId": "longcat-flash-thinking",
-  "provider": "Vercel",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "33k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "reasoning",
-    "function_calling",
-    "json_mode"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const devstral2Data = {
-  "modelId": "devstral-2",
-  "provider": "Vercel",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "128k tokens"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "text_generation",
-    "function_calling"
   ],
   "inputOutput": {
     "inputFormats": [
@@ -3447,58 +3986,6 @@ export const glmOcrData = {
   ],
   "features": [
     "ocr"
-  ],
-  "inputOutput": {
-    "inputFormats": [
-      "text"
-    ],
-    "outputFormats": [
-      "text"
-    ]
-  }
-};
-
-export const whisperLargeV3TurboData = {
-  "modelId": "whisper-large-v3-turbo",
-  "provider": "Groq",
-  "modelCardUrl": "#",
-  "contextLength": {
-    "freeTier": "N/A"
-  },
-  "speed": {
-    "value": "Fast",
-    "unit": "latency"
-  },
-  "rateLimits": [
-    {
-      "tier": "Free",
-      "requestsPerMin": "3",
-      "inputTokensPerMin": "5,000",
-      "outputTokensPerMin": "2,000"
-    },
-    {
-      "tier": "Basic",
-      "requestsPerMin": "50",
-      "inputTokensPerMin": "20,000",
-      "outputTokensPerMin": "5,000"
-    }
-  ],
-  "tokenCredits": {
-    "docsUrl": "en/about/billing-pricing",
-    "freeBalance": "Promo Aktif"
-  },
-  "pricing": {
-    "inputPrice": "0",
-    "outputPrice": "0",
-    "currency": "IDR",
-    "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
-  },
-  "endpoints": [
-    "Chat Completions"
-  ],
-  "features": [
-    "audio_transcription"
   ],
   "inputOutput": {
     "inputFormats": [

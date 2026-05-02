@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Neosantara AI API",
-    "description": "OpenAI-compatible LLM Gateway with unified interface for multiple providers.",
+    "description": "OpenAI-compatible LLM Gateway",
     "version": "1.0.0"
   },
   "servers": [
@@ -18,68 +18,6 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
-    },
-    "schemas": {
-      "Video": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the video job."
-          },
-          "object": {
-            "type": "string",
-            "const": "video"
-          },
-          "created_at": {
-            "type": "number",
-            "description": "Unix timestamp (seconds) for when the job was created."
-          },
-          "completed_at": {
-            "type": "number",
-            "nullable": true,
-            "description": "Unix timestamp (seconds) for when the job completed, if finished."
-          },
-          "status": {
-            "type": "string",
-            "enum": ["queued", "in_progress", "completed", "failed"],
-            "description": "Current lifecycle status of the video job."
-          },
-          "model": {
-            "type": "string",
-            "description": "The video generation model that produced the job."
-          },
-          "progress": {
-            "type": "number",
-            "description": "Approximate completion percentage for the generation task."
-          },
-          "prompt": {
-            "type": "string",
-            "description": "The prompt that was used to generate the video."
-          },
-          "seconds": {
-            "type": "string",
-            "description": "Duration of the generated clip in seconds."
-          },
-          "size": {
-            "type": "string",
-            "description": "The resolution of the generated video."
-          },
-          "error": {
-            "type": "object",
-            "nullable": true,
-            "properties": {
-              "code": {
-                "type": "string"
-              },
-              "message": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "required": ["id", "object", "created_at", "status", "model", "prompt"]
-      }
     }
   },
   "security": [
@@ -88,6 +26,377 @@
     }
   ],
   "paths": {
+    "/v1/api/v1/stats/public/exchange-rate": {
+      "get": {
+        "operationId": "getApiV1StatsPublicExchangeRate",
+        "tags": [
+          "Public"
+        ],
+        "summary": "Get exchange rate",
+        "description": "Retrieve the current USD to IDR exchange rate used for billing.",
+        "responses": {
+          "200": {
+            "description": "Exchange rate data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "base_currency": {
+                          "type": "string"
+                        },
+                        "target_currency": {
+                          "type": "string"
+                        },
+                        "rate": {
+                          "type": "number"
+                        },
+                        "last_updated": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "base_currency",
+                        "target_currency",
+                        "rate",
+                        "last_updated"
+                      ]
+                    },
+                    "error": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/api/v1/stats/models": {
+      "get": {
+        "operationId": "getApiV1StatsModels",
+        "tags": [
+          "Models"
+        ],
+        "summary": "List models",
+        "description": "Get an enriched list of all available models with pricing and capabilities.",
+        "responses": {
+          "200": {
+            "description": "List of models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "list"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "object": {
+                            "type": "string",
+                            "const": "model"
+                          },
+                          "created": {
+                            "type": "number"
+                          },
+                          "owned_by": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "context_window": {
+                            "type": "number"
+                          },
+                          "max_output_tokens": {
+                            "type": "number"
+                          },
+                          "pricing": {},
+                          "capabilities": {}
+                        },
+                        "required": [
+                          "id",
+                          "object",
+                          "created",
+                          "owned_by",
+                          "description",
+                          "context_window",
+                          "max_output_tokens"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/api/v1/utils/cost-estimate": {
+      "post": {
+        "operationId": "postApiV1UtilsCostEstimate",
+        "tags": [
+          "Utilities"
+        ],
+        "summary": "Estimate cost",
+        "description": "Calculate the estimated cost based on token counts and model pricing.",
+        "responses": {
+          "200": {
+            "description": "Cost estimate result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "string"
+                    },
+                    "estimated_cost": {
+                      "type": "number"
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "pricing_rates": {}
+                  },
+                  "required": [
+                    "model",
+                    "estimated_cost",
+                    "currency"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/mcp/keys": {
+      "post": {
+        "operationId": "postV1McpKeys",
+        "tags": [
+          "MCP"
+        ],
+        "summary": "Create MCP key",
+        "description": "Creates an MCP-restricted API key bound to the authenticated user and optional project.",
+        "responses": {
+          "201": {
+            "description": "MCP key created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "api_key": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "tier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "api_key",
+                        "name",
+                        "tier"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/mcp/audit-web": {
+      "post": {
+        "operationId": "postV1McpAuditWeb",
+        "tags": [
+          "MCP"
+        ],
+        "summary": "Run web audit for MCP",
+        "description": "Forwards web audit request to managed audit runner (E2B handled by backend infrastructure).",
+        "responses": {
+          "200": {
+            "description": "Audit result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/mcp/summarize-audit": {
+      "post": {
+        "operationId": "postV1McpSummarizeAudit",
+        "tags": [
+          "MCP"
+        ],
+        "summary": "Summarize audit report for MCP",
+        "description": "Generates concise findings from a structured audit object using MCP-allowlisted models.",
+        "responses": {
+          "200": {
+            "description": "Audit summary generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "mcp_audit_summary"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "usage": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "model",
+                    "summary"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/public/exchange-rate": {
+      "get": {
+        "operationId": "getV1PublicExchangeRate",
+        "tags": [
+          "Public"
+        ],
+        "summary": "Get exchange rate",
+        "description": "Retrieve the current USD to IDR exchange rate used for billing.",
+        "responses": {
+          "200": {
+            "description": "Exchange rate data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "base_currency": {
+                          "type": "string"
+                        },
+                        "target_currency": {
+                          "type": "string"
+                        },
+                        "rate": {
+                          "type": "number"
+                        },
+                        "last_updated": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "base_currency",
+                        "target_currency",
+                        "rate",
+                        "last_updated"
+                      ]
+                    },
+                    "error": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/models": {
       "get": {
         "operationId": "getV1Models",
@@ -204,38 +513,45 @@
         ],
         "summary": "Transcription",
         "description": "Transcribes audio into the input language.",
-        "responses": {
-          "200": {
-            "description": "Successful transcription",
+        "request": {
+          "body": {
             "content": {
-              "application/json": {
+              "multipart/form-data": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "text": {
-                      "type": "string"
-                    }
-                  }
+                  "_def": {
+                    "unknownKeys": "strip",
+                    "catchall": {
+                      "_def": {
+                        "typeName": "ZodNever"
+                      },
+                      "~standard": {
+                        "version": 1,
+                        "vendor": "zod"
+                      }
+                    },
+                    "typeName": "ZodObject"
+                  },
+                  "~standard": {
+                    "version": 1,
+                    "vendor": "zod"
+                  },
+                  "_cached": null
                 }
               }
             }
           }
         },
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Python SDK",
-            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\naudio_file = open('speech.mp3', 'rb')\ntranscription = client.audio.transcriptions.create(\n    model='whisper-large-v3-turbo',\n    file=audio_file\n)\nprint(transcription.text)"
+        "responses": {
+          "200": {
+            "description": "Successful transcription"
           },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "security": [
           {
-            "lang": "javascript",
-            "label": "Node.js SDK",
-            "source": "import fs from 'fs';\nimport OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst transcription = await client.audio.transcriptions.create({\n  file: fs.createReadStream('speech.mp3'),\n  model: 'whisper-large-v3-turbo',\n});\nconsole.log(transcription.text);"
-          },
-          {
-            "lang": "bash",
-            "label": "cURL",
-            "source": "curl https://api.neosantara.xyz/v1/audio/transcriptions \\\n  -H 'Authorization: Bearer YOUR_NEOSANTARA_API_KEY' \\\n  -F 'file=@speech.mp3' \\\n  -F 'model=whisper-large-v3-turbo'"
+            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -286,9 +602,21 @@
             }
           }
         },
-        "security": [
+        "x-codeSamples": [
           {
-            "bearerAuth": []
+            "lang": "python",
+            "label": "Python SDK",
+            "source": "from openai import OpenAI\n\nclient = OpenAI(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/v1'\n)\n\naudio_file = open('speech.mp3', 'rb')\ntranscription = client.audio.transcriptions.create(\n    model='whisper-large-v3-turbo',\n    file=audio_file\n)\nprint(transcription.text)"
+          },
+          {
+            "lang": "javascript",
+            "label": "Node.js SDK",
+            "source": "import fs from 'fs';\nimport OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst transcription = await client.audio.transcriptions.create({\n  file: fs.createReadStream('speech.mp3'),\n  model: 'whisper-large-v3-turbo',\n});\nconsole.log(transcription.text);"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "curl https://api.neosantara.xyz/v1/audio/transcriptions \\\n  -H 'Authorization: Bearer YOUR_NEOSANTARA_API_KEY' \\\n  -F 'file=@speech.mp3' \\\n  -F 'model=whisper-large-v3-turbo'"
           }
         ]
       }
@@ -390,6 +718,9 @@
                   "mask_image": {
                     "type": "string"
                   },
+                  "mask_prompt": {
+                    "type": "string"
+                  },
                   "outpainting_mode": {
                     "type": "string",
                     "enum": [
@@ -402,6 +733,11 @@
                   },
                   "style": {
                     "type": "string"
+                  },
+                  "strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
                   }
                 },
                 "required": [
@@ -412,6 +748,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -422,142 +763,6 @@
             "lang": "javascript",
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.images.generate({\n  model: 'neosantara-gen-2045',\n  prompt: 'Pemandangan alam Indonesia yang indah',\n  n: 1,\n  size: '1024x1024',\n});\nconsole.log(response.data[0].url);"
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/videos": {
-      "post": {
-        "operationId": "postV1Videos",
-        "tags": [
-          "Videos"
-        ],
-        "summary": "Create video",
-        "description": "Create a new video generation job from a prompt and optional reference assets.",
-        "responses": {
-          "202": {
-            "description": "Successful response (Job Queued)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Video"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "prompt": {
-                    "type": "string",
-                    "description": "Text prompt that describes the video to generate."
-                  },
-                  "model": {
-                    "type": "string",
-                    "description": "The video generation model to use.",
-                    "default": "luma-ray2-540p"
-                  },
-                  "input_reference": {
-                    "type": "string",
-                    "description": "Optional image reference that guides generation."
-                  },
-                  "seconds": {
-                    "type": "string",
-                    "enum": ["5", "9"],
-                    "default": "5",
-                    "description": "Clip duration in seconds."
-                  },
-                  "size": {
-                    "type": "string",
-                    "enum": ["1280x720", "720x1280", "1024x1024", "480x854", "854x480"],
-                    "default": "1280x720",
-                    "description": "Output resolution formatted as width x height."
-                  }
-                },
-                "required": ["prompt", "model"]
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/videos/{video_id}": {
-      "get": {
-        "operationId": "getV1VideoStatus",
-        "tags": [
-          "Videos"
-        ],
-        "summary": "Get video status",
-        "description": "Fetch the latest metadata for a generated video.",
-        "parameters": [
-          {
-            "name": "video_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Video"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/videos/{video_id}/content": {
-      "get": {
-        "operationId": "getV1VideoContent",
-        "tags": [
-          "Videos"
-        ],
-        "summary": "Download video",
-        "description": "Download the generated video bytes or a derived preview asset.",
-        "parameters": [
-          {
-            "name": "video_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "302": {
-            "description": "Redirect to actual video file"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
           }
         ]
       }
@@ -677,50 +882,64 @@
                                     "properties": {
                                       "type": {
                                         "type": "string",
-                                        "const": "text"
+                                        "enum": [
+                                          "text",
+                                          "input_text"
+                                        ]
                                       },
                                       "text": {
                                         "type": "string"
                                       }
                                     },
                                     "required": [
-                                      "type",
-                                      "text"
-                                    ]
+                                      "type"
+                                    ],
+                                    "additionalProperties": true
                                   },
                                   {
                                     "type": "object",
                                     "properties": {
                                       "type": {
                                         "type": "string",
-                                        "const": "image_url"
+                                        "enum": [
+                                          "image_url",
+                                          "input_image"
+                                        ]
                                       },
                                       "image_url": {
-                                        "type": "object",
-                                        "properties": {
-                                          "url": {
-                                            "type": "string",
-                                            "format": "uri"
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
                                           },
-                                          "detail": {
-                                            "type": "string",
-                                            "enum": [
-                                              "auto",
-                                              "low",
-                                              "high"
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "url": {
+                                                "type": "string"
+                                              },
+                                              "detail": {
+                                                "type": "string",
+                                                "enum": [
+                                                  "auto",
+                                                  "low",
+                                                  "high"
+                                                ],
+                                                "default": "auto"
+                                              }
+                                            },
+                                            "required": [
+                                              "url"
                                             ],
-                                            "default": "auto"
+                                            "additionalProperties": true
                                           }
-                                        },
-                                        "required": [
-                                          "url"
                                         ]
                                       }
                                     },
                                     "required": [
                                       "type",
                                       "image_url"
-                                    ]
+                                    ],
+                                    "additionalProperties": true
                                   },
                                   {
                                     "type": "object",
@@ -729,12 +948,26 @@
                                         "type": "string",
                                         "const": "file"
                                       },
+                                      "file": {
+                                        "type": "object",
+                                        "properties": {
+                                          "file_id": {
+                                            "type": "string"
+                                          },
+                                          "file_data": {
+                                            "type": "string"
+                                          },
+                                          "filename": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "additionalProperties": true
+                                      },
                                       "file_url": {
                                         "type": "object",
                                         "properties": {
                                           "url": {
-                                            "type": "string",
-                                            "format": "uri"
+                                            "type": "string"
                                           },
                                           "detail": {
                                             "type": "string",
@@ -748,29 +981,14 @@
                                         },
                                         "required": [
                                           "url"
-                                        ]
+                                        ],
+                                        "additionalProperties": true
                                       }
                                     },
                                     "required": [
-                                      "type",
-                                      "file_url"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "type": "string",
-                                        "const": "input_text"
-                                      },
-                                      "text": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "type",
-                                      "text"
-                                    ]
+                                      "type"
+                                    ],
+                                    "additionalProperties": true
                                   }
                                 ]
                               }
@@ -794,9 +1012,12 @@
                               "id": {
                                 "type": "string"
                               },
+                              "index": {
+                                "type": "number"
+                              },
                               "type": {
                                 "type": "string",
-                                "const": "function"
+                                "default": "function"
                               },
                               "function": {
                                 "type": "object",
@@ -811,20 +1032,21 @@
                                 "required": [
                                   "name",
                                   "arguments"
-                                ]
+                                ],
+                                "additionalProperties": true
                               }
                             },
                             "required": [
-                              "id",
-                              "type",
                               "function"
-                            ]
+                            ],
+                            "additionalProperties": true
                           }
                         }
                       },
                       "required": [
                         "role"
-                      ]
+                      ],
+                      "additionalProperties": true
                     },
                     "minItems": 1
                   },
@@ -866,6 +1088,10 @@
                     "type": "integer",
                     "exclusiveMinimum": 0
                   },
+                  "max_completion_tokens": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
                   "max_output_tokens": {
                     "type": "integer",
                     "exclusiveMinimum": 0
@@ -882,6 +1108,9 @@
                     "properties": {
                       "include_usage": {
                         "type": "boolean"
+                      },
+                      "include_obfuscation": {
+                        "type": "boolean"
                       }
                     }
                   },
@@ -896,6 +1125,110 @@
                     "minimum": -2,
                     "maximum": 2,
                     "default": 0
+                  },
+                  "modalities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "audio"
+                      ]
+                    }
+                  },
+                  "audio": {
+                    "type": "object",
+                    "properties": {
+                      "voice": {
+                        "type": "string"
+                      },
+                      "format": {
+                        "type": "string",
+                        "enum": [
+                          "wav",
+                          "mp3",
+                          "flac",
+                          "opus",
+                          "pcm16"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "voice",
+                      "format"
+                    ]
+                  },
+                  "prediction": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "content"
+                      },
+                      "content": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {}
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "content"
+                    ]
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "store": {
+                    "type": "boolean"
+                  },
+                  "prompt_cache_key": {
+                    "type": "string"
+                  },
+                  "prompt_cache_retention": {
+                    "type": "string",
+                    "enum": [
+                      "in-memory",
+                      "24h"
+                    ]
+                  },
+                  "reasoning_effort": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "minimal",
+                      "low",
+                      "medium",
+                      "high",
+                      "xhigh"
+                    ]
+                  },
+                  "verbosity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "service_tier": {
+                    "type": "string",
+                    "enum": [
+                      "auto",
+                      "default",
+                      "flex",
+                      "priority",
+                      "scale"
+                    ]
                   },
                   "response_format": {
                     "type": "object",
@@ -937,17 +1270,28 @@
                                 "parameters": {
                                   "type": "object",
                                   "additionalProperties": {}
+                                },
+                                "strict": {
+                                  "type": "boolean"
+                                },
+                                "requires_confirmation": {
+                                  "type": "boolean"
+                                },
+                                "external_execution": {
+                                  "type": "boolean"
                                 }
                               },
                               "required": [
                                 "name"
-                              ]
+                              ],
+                              "additionalProperties": true
                             }
                           },
                           "required": [
                             "type",
                             "function"
-                          ]
+                          ],
+                          "additionalProperties": true
                         },
                         {
                           "type": "object",
@@ -958,7 +1302,8 @@
                                 "web_search",
                                 "bash",
                                 "computer",
-                                "text_editor_20241022"
+                                "text_editor_20241022",
+                                "file_generation"
                               ]
                             },
                             "function": {
@@ -973,11 +1318,21 @@
                                 "parameters": {
                                   "type": "object",
                                   "additionalProperties": {}
+                                },
+                                "strict": {
+                                  "type": "boolean"
+                                },
+                                "requires_confirmation": {
+                                  "type": "boolean"
+                                },
+                                "external_execution": {
+                                  "type": "boolean"
                                 }
                               },
                               "required": [
                                 "name"
-                              ]
+                              ],
+                              "additionalProperties": true
                             },
                             "name": {
                               "type": "string"
@@ -994,7 +1349,8 @@
                           },
                           "required": [
                             "type"
-                          ]
+                          ],
+                          "additionalProperties": true
                         },
                         {
                           "type": "object",
@@ -1008,11 +1364,21 @@
                             "parameters": {
                               "type": "object",
                               "additionalProperties": {}
+                            },
+                            "strict": {
+                              "type": "boolean"
+                            },
+                            "requires_confirmation": {
+                              "type": "boolean"
+                            },
+                            "external_execution": {
+                              "type": "boolean"
                             }
                           },
                           "required": [
                             "name"
-                          ]
+                          ],
+                          "additionalProperties": true
                         }
                       ]
                     }
@@ -1031,11 +1397,21 @@
                         "parameters": {
                           "type": "object",
                           "additionalProperties": {}
+                        },
+                        "strict": {
+                          "type": "boolean"
+                        },
+                        "requires_confirmation": {
+                          "type": "boolean"
+                        },
+                        "external_execution": {
+                          "type": "boolean"
                         }
                       },
                       "required": [
                         "name"
-                      ]
+                      ],
+                      "additionalProperties": true
                     }
                   },
                   "tool_choice": {
@@ -1071,12 +1447,57 @@
                           "type",
                           "function"
                         ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "allowed_tools"
+                          },
+                          "tools": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "function"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "name"
+                              ]
+                            }
+                          },
+                          "mode": {
+                            "type": "string",
+                            "enum": [
+                              "none",
+                              "auto",
+                              "required"
+                            ],
+                            "default": "auto"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "tools"
+                        ]
                       }
                     ]
                   },
                   "parallel_tool_calls": {
                     "type": "boolean",
                     "default": true
+                  },
+                  "max_tool_calls": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
                   },
                   "reasoning": {
                     "type": "object",
@@ -1126,11 +1547,17 @@
                 "required": [
                   "model",
                   "messages"
-                ]
+                ],
+                "additionalProperties": true
               }
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -1141,11 +1568,6 @@
             "lang": "javascript",
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.chat.completions.create({\n  model: 'gemini-3-flash',\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(response.choices[0].message.content);"
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
           }
         ]
       }
@@ -1197,6 +1619,159 @@
             }
           }
         },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "default": "nusantara-base"
+                  },
+                  "prompt": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  },
+                  "max_tokens": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "default": 1
+                  },
+                  "top_p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 1
+                  },
+                  "n": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 128,
+                    "default": 1
+                  },
+                  "stream": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "logprobs": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 5
+                  },
+                  "stop": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "prompt"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/videos": {
+      "post": {
+        "operationId": "postV1Videos",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  "input_reference": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri"
+                  },
+                  "size": {
+                    "type": "string",
+                    "enum": [
+                      "1280x720",
+                      "720x1280",
+                      "1024x1024",
+                      "480x854",
+                      "854x480"
+                    ],
+                    "default": "1280x720"
+                  },
+                  "seconds": {
+                    "type": "string",
+                    "enum": [
+                      "5",
+                      "9"
+                    ],
+                    "default": "5"
+                  },
+                  "video_style": {
+                    "type": "string"
+                  },
+                  "emotional_atmosphere": {
+                    "type": "string"
+                  },
+                  "mirror_mode": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "model",
+                  "prompt"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
         "security": [
           {
             "bearerAuth": []
@@ -1218,6 +1793,46 @@
           },
           "400": {
             "description": "Invalid image or model"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "default": "deepseek-ocr"
+                  },
+                  "image": {
+                    "type": "string"
+                  },
+                  "image_type": {
+                    "type": "string",
+                    "enum": [
+                      "url",
+                      "base64"
+                    ],
+                    "default": "url"
+                  },
+                  "return_image": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "prompt": {
+                    "type": "string"
+                  },
+                  "async": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "image"
+                ]
+              }
+            }
           }
         },
         "security": [
@@ -1267,7 +1882,458 @@
                     },
                     "output": {
                       "type": "array",
-                      "items": {}
+                      "items": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "redacted_thinking"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "data": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "data"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "reasoning"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "summary": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "const": "summary_text"
+                                    },
+                                    "text": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "type",
+                                    "text"
+                                  ]
+                                }
+                              },
+                              "content": {
+                                "type": "array",
+                                "items": {}
+                              },
+                              "encrypted_content": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "message"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "in_progress",
+                                  "completed",
+                                  "failed"
+                                ]
+                              },
+                              "role": {
+                                "type": "string"
+                              },
+                              "content": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "const": "output_text"
+                                        },
+                                        "text": {
+                                          "type": "string"
+                                        },
+                                        "annotations": {
+                                          "type": "array",
+                                          "items": {}
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "text"
+                                      ]
+                                    },
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "const": "input_text"
+                                        },
+                                        "text": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "text"
+                                      ]
+                                    },
+                                    {}
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "role",
+                              "content"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "function_call"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "call_id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "arguments": {
+                                "type": "string"
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "in_progress",
+                                  "completed",
+                                  "incomplete"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "call_id",
+                              "name",
+                              "arguments"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "function_call_output"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "call_id": {
+                                "type": "string"
+                              },
+                              "output": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "array",
+                                    "items": {}
+                                  }
+                                ]
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "in_progress",
+                                  "completed",
+                                  "incomplete"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "call_id"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "compaction"
+                              },
+                              "id": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "encrypted_content": {
+                                "type": "string"
+                              },
+                              "created_by": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "encrypted_content"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "mcp_list_tools"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "server_label": {
+                                "type": "string"
+                              },
+                              "tools": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    },
+                                    "input_schema": {
+                                      "type": "object",
+                                      "additionalProperties": {}
+                                    }
+                                  },
+                                  "required": [
+                                    "name",
+                                    "input_schema"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "server_label",
+                              "tools"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "mcp_approval_request"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "server_label": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "arguments": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "server_label",
+                              "name",
+                              "arguments"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "mcp_approval_response"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "approval_request_id": {
+                                "type": "string"
+                              },
+                              "approve": {
+                                "type": "boolean"
+                              },
+                              "reason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "approval_request_id",
+                              "approve"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "code_interpreter"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "code_interpreter": {
+                                "type": "object",
+                                "properties": {
+                                  "input": {
+                                    "type": "string"
+                                  },
+                                  "sandbox_id": {
+                                    "type": "string"
+                                  },
+                                  "outputs": {
+                                    "type": "array",
+                                    "items": {
+                                      "oneOf": [
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "const": "logs"
+                                            },
+                                            "logs": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "type",
+                                            "logs"
+                                          ]
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "const": "image"
+                                            },
+                                            "image": {
+                                              "type": "object",
+                                              "properties": {
+                                                "file_id": {
+                                                  "type": "string"
+                                                },
+                                                "base64": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "required": [
+                                            "type",
+                                            "image"
+                                          ]
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "const": "result"
+                                            },
+                                            "result": {}
+                                          },
+                                          "required": [
+                                            "type"
+                                          ]
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "type": {
+                                              "type": "string",
+                                              "const": "error"
+                                            },
+                                            "name": {
+                                              "type": "string"
+                                            },
+                                            "value": {
+                                              "type": "string"
+                                            },
+                                            "traceback": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "type",
+                                            "name",
+                                            "value"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "input",
+                                  "outputs"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id",
+                              "code_interpreter"
+                            ]
+                          }
+                        ]
+                      }
                     },
                     "usage": {
                       "type": "null"
@@ -1302,13 +2368,15 @@
                 "type": "object",
                 "properties": {
                   "model": {
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "input": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "minLength": 1
+                        "type": "string"
                       },
                       {
                         "type": "array",
@@ -1319,18 +2387,15 @@
                               "properties": {
                                 "type": {
                                   "type": "string",
-                                  "enum": [
-                                    "input_text",
-                                    "text"
-                                  ]
+                                  "const": "item_reference"
                                 },
-                                "text": {
+                                "id": {
                                   "type": "string"
                                 }
                               },
                               "required": [
                                 "type",
-                                "text"
+                                "id"
                               ]
                             },
                             {
@@ -1338,246 +2403,18 @@
                               "properties": {
                                 "type": {
                                   "type": "string",
-                                  "const": "function_call"
+                                  "const": "message",
+                                  "default": "message"
                                 },
-                                "call_id": {
-                                  "type": "string"
-                                },
-                                "name": {
-                                  "type": "string"
-                                },
-                                "arguments": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "type",
-                                "call_id",
-                                "name",
-                                "arguments"
-                              ]
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "const": "function_call_output"
-                                },
-                                "call_id": {
-                                  "type": "string"
-                                },
-                                "output": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "type",
-                                "call_id"
-                              ]
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "const": "message"
-                                },
-                                "message": {
-                                  "type": "object",
-                                  "properties": {
-                                    "role": {
-                                      "type": "string",
-                                      "enum": [
-                                        "system",
-                                        "developer",
-                                        "user",
-                                        "assistant",
-                                        "tool",
-                                        "function"
-                                      ]
-                                    },
-                                    "content": {
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "type": {
-                                                    "type": "string",
-                                                    "const": "text"
-                                                  },
-                                                  "text": {
-                                                    "type": "string"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "type",
-                                                  "text"
-                                                ]
-                                              },
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "type": {
-                                                    "type": "string",
-                                                    "const": "image_url"
-                                                  },
-                                                  "image_url": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "url": {
-                                                        "type": "string",
-                                                        "format": "uri"
-                                                      },
-                                                      "detail": {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "auto",
-                                                          "low",
-                                                          "high"
-                                                        ],
-                                                        "default": "auto"
-                                                      }
-                                                    },
-                                                    "required": [
-                                                      "url"
-                                                    ]
-                                                  }
-                                                },
-                                                "required": [
-                                                  "type",
-                                                  "image_url"
-                                                ]
-                                              },
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "type": {
-                                                    "type": "string",
-                                                    "const": "file"
-                                                  },
-                                                  "file_url": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "url": {
-                                                        "type": "string",
-                                                        "format": "uri"
-                                                      },
-                                                      "detail": {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "auto",
-                                                          "low",
-                                                          "high"
-                                                        ],
-                                                        "default": "auto"
-                                                      }
-                                                    },
-                                                    "required": [
-                                                      "url"
-                                                    ]
-                                                  }
-                                                },
-                                                "required": [
-                                                  "type",
-                                                  "file_url"
-                                                ]
-                                              },
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "type": {
-                                                    "type": "string",
-                                                    "const": "input_text"
-                                                  },
-                                                  "text": {
-                                                    "type": "string"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "type",
-                                                  "text"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        },
-                                        {
-                                          "type": "null"
-                                        }
-                                      ]
-                                    },
-                                    "name": {
-                                      "type": "string"
-                                    },
-                                    "tool_call_id": {
-                                      "type": "string"
-                                    },
-                                    "tool_calls": {
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "id": {
-                                            "type": "string"
-                                          },
-                                          "type": {
-                                            "type": "string",
-                                            "const": "function"
-                                          },
-                                          "function": {
-                                            "type": "object",
-                                            "properties": {
-                                              "name": {
-                                                "type": "string"
-                                              },
-                                              "arguments": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "name",
-                                              "arguments"
-                                            ]
-                                          }
-                                        },
-                                        "required": [
-                                          "id",
-                                          "type",
-                                          "function"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  "required": [
-                                    "role"
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "type",
-                                "message"
-                              ]
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
                                 "role": {
                                   "type": "string",
-                                  "enum": [
-                                    "system",
-                                    "developer",
-                                    "user",
-                                    "assistant",
-                                    "tool",
-                                    "function"
+                                  "const": "user",
+                                  "default": "user"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
                                   ]
                                 },
                                 "content": {
@@ -1594,90 +2431,6 @@
                                             "properties": {
                                               "type": {
                                                 "type": "string",
-                                                "const": "text"
-                                              },
-                                              "text": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "type",
-                                              "text"
-                                            ]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "type": {
-                                                "type": "string",
-                                                "const": "image_url"
-                                              },
-                                              "image_url": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "url": {
-                                                    "type": "string",
-                                                    "format": "uri"
-                                                  },
-                                                  "detail": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "auto",
-                                                      "low",
-                                                      "high"
-                                                    ],
-                                                    "default": "auto"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "url"
-                                                ]
-                                              }
-                                            },
-                                            "required": [
-                                              "type",
-                                              "image_url"
-                                            ]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "type": {
-                                                "type": "string",
-                                                "const": "file"
-                                              },
-                                              "file_url": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "url": {
-                                                    "type": "string",
-                                                    "format": "uri"
-                                                  },
-                                                  "detail": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "auto",
-                                                      "low",
-                                                      "high"
-                                                    ],
-                                                    "default": "auto"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "url"
-                                                ]
-                                              }
-                                            },
-                                            "required": [
-                                              "type",
-                                              "file_url"
-                                            ]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "type": {
-                                                "type": "string",
                                                 "const": "input_text"
                                               },
                                               "text": {
@@ -1688,59 +2441,396 @@
                                               "type",
                                               "text"
                                             ]
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "input_image"
+                                              },
+                                              "image_url": {
+                                                "type": "string"
+                                              },
+                                              "file_id": {
+                                                "type": "string"
+                                              },
+                                              "detail": {
+                                                "type": "string",
+                                                "enum": [
+                                                  "auto",
+                                                  "low",
+                                                  "high"
+                                                ],
+                                                "default": "auto"
+                                              },
+                                              "fidelity": {
+                                                "type": "string",
+                                                "enum": [
+                                                  "auto",
+                                                  "low",
+                                                  "high"
+                                                ],
+                                                "default": "auto"
+                                              }
+                                            },
+                                            "required": [
+                                              "type"
+                                            ]
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "input_file"
+                                              },
+                                              "file_id": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "type",
+                                              "file_id"
+                                            ]
                                           }
                                         ]
                                       }
-                                    },
-                                    {
-                                      "type": "null"
                                     }
                                   ]
+                                },
+                                "status": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "content"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "message",
+                                  "default": "message"
+                                },
+                                "role": {
+                                  "type": "string",
+                                  "const": "assistant",
+                                  "default": "assistant"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "content": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "anyOf": [
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "output_text"
+                                              },
+                                              "text": {
+                                                "type": "string"
+                                              },
+                                              "annotations": {
+                                                "type": "array",
+                                                "items": {}
+                                              }
+                                            },
+                                            "required": [
+                                              "type",
+                                              "text"
+                                            ]
+                                          },
+                                          {}
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "status": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "enum": [
+                                    "in_progress",
+                                    "completed",
+                                    "failed",
+                                    null
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "content"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "message",
+                                  "default": "message"
+                                },
+                                "role": {
+                                  "type": "string",
+                                  "const": "system",
+                                  "default": "system"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "content": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {}
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "content"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "message",
+                                  "default": "message"
+                                },
+                                "role": {
+                                  "type": "string",
+                                  "const": "developer",
+                                  "default": "developer"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "content": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {}
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "content"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "reasoning"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "summary": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "content": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "encrypted_content": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "summary"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "compaction"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "encrypted_content": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "encrypted_content"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "mcp_approval_request"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "server_label": {
+                                  "type": "string"
                                 },
                                 "name": {
                                   "type": "string"
                                 },
-                                "tool_call_id": {
+                                "arguments": {
                                   "type": "string"
-                                },
-                                "tool_calls": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "id": {
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "type": "string",
-                                        "const": "function"
-                                      },
-                                      "function": {
-                                        "type": "object",
-                                        "properties": {
-                                          "name": {
-                                            "type": "string"
-                                          },
-                                          "arguments": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "name",
-                                          "arguments"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "id",
-                                      "type",
-                                      "function"
-                                    ]
-                                  }
                                 }
                               },
                               "required": [
-                                "role"
+                                "type",
+                                "server_label",
+                                "name",
+                                "arguments"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "mcp_approval_response"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "approval_request_id": {
+                                  "type": "string"
+                                },
+                                "approve": {
+                                  "type": "boolean"
+                                },
+                                "reason": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "approval_request_id",
+                                "approve"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "function_call"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "call_id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "arguments": {
+                                  "type": "string"
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "enum": [
+                                    "in_progress",
+                                    "completed",
+                                    "failed"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "call_id",
+                                "name",
+                                "arguments"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "const": "function_call_output"
+                                },
+                                "id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "call_id": {
+                                  "type": "string"
+                                },
+                                "output": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "array",
+                                      "items": {}
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "call_id"
                               ]
                             },
                             {
@@ -1756,111 +2846,30 @@
                               "additionalProperties": true
                             }
                           ]
-                        },
-                        "minItems": 1
-                      }
-                    ]
-                  },
-                  "prompt": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
+                        }
                       },
-                      "version": {
-                        "type": "string"
-                      },
-                      "variables": {
-                        "type": "object",
-                        "additionalProperties": {}
+                      {
+                        "type": "null"
                       }
-                    },
-                    "required": [
-                      "id"
                     ]
                   },
                   "previous_response_id": {
-                    "type": "string"
-                  },
-                  "instructions": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string"
-                            },
-                            "content": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "type",
-                            "content"
-                          ]
-                        }
-                      }
+                    "type": [
+                      "string",
+                      "null"
                     ]
                   },
-                  "temperature": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 2,
-                    "default": 0.7
-                  },
-                  "top_p": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 1,
-                    "default": 1
-                  },
-                  "max_tokens": {
-                    "type": "integer",
-                    "exclusiveMinimum": 0
-                  },
-                  "max_output_tokens": {
-                    "type": "integer",
-                    "exclusiveMinimum": 0
-                  },
-                  "stream": {
-                    "type": "boolean",
-                    "default": false
-                  },
-                  "background": {
-                    "type": "boolean",
-                    "default": false
-                  },
-                  "service_tier": {
-                    "type": "string",
-                    "enum": [
-                      "auto",
-                      "default",
-                      "flex",
-                      "priority"
-                    ],
-                    "default": "auto"
-                  },
-                  "stream_options": {
-                    "type": [
-                      "object",
-                      "null"
-                    ],
-                    "properties": {
-                      "include_obfuscation": {
-                        "type": "boolean"
-                      },
-                      "include_usage": {
-                        "type": "boolean"
-                      }
+                  "include": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
                     }
                   },
                   "tools": {
-                    "type": "array",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
                     "items": {
                       "anyOf": [
                         {
@@ -1896,61 +2905,22 @@
                           "properties": {
                             "type": {
                               "type": "string",
-                              "const": "custom"
+                              "const": "computer-preview"
                             },
-                            "name": {
-                              "type": "string"
+                            "display_width": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0
                             },
-                            "description": {
-                              "type": "string"
+                            "display_height": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0
                             },
-                            "format": {
-                              "anyOf": [
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "string",
-                                      "const": "text"
-                                    }
-                                  },
-                                  "required": [
-                                    "type"
-                                  ]
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "string",
-                                      "const": "grammar"
-                                    },
-                                    "definition": {
-                                      "type": "string"
-                                    },
-                                    "syntax": {
-                                      "type": "string",
-                                      "enum": [
-                                        "lark",
-                                        "regex"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "type",
-                                    "definition",
-                                    "syntax"
-                                  ]
-                                }
-                              ],
-                              "default": {
-                                "type": "text"
-                              }
-                            }
+                            "environment": {}
                           },
                           "required": [
                             "type",
-                            "name"
+                            "display_width",
+                            "display_height"
                           ]
                         },
                         {
@@ -1958,7 +2928,7 @@
                           "properties": {
                             "type": {
                               "type": "string",
-                              "const": "local_shell"
+                              "const": "apply_patch"
                             }
                           },
                           "required": [
@@ -1970,8 +2940,53 @@
                           "properties": {
                             "type": {
                               "type": "string",
-                              "const": "shell"
-                            }
+                              "const": "mcp"
+                            },
+                            "server_label": {
+                              "type": "string"
+                            },
+                            "server_url": {
+                              "type": "string"
+                            },
+                            "server_description": {
+                              "type": "string"
+                            },
+                            "headers": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            },
+                            "allowed_tools": {
+                              "anyOf": [
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                {}
+                              ]
+                            },
+                            "require_approval": {}
+                          },
+                          "required": [
+                            "type",
+                            "server_label"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "image_generation"
+                            },
+                            "model": {},
+                            "quality": {},
+                            "size": {},
+                            "output_format": {},
+                            "action": {}
                           },
                           "required": [
                             "type"
@@ -1987,7 +3002,8 @@
                           },
                           "required": [
                             "type"
-                          ]
+                          ],
+                          "additionalProperties": true
                         },
                         {
                           "type": "object",
@@ -1999,7 +3015,8 @@
                           },
                           "required": [
                             "type"
-                          ]
+                          ],
+                          "additionalProperties": true
                         },
                         {
                           "type": "object",
@@ -2007,41 +3024,23 @@
                             "type": {
                               "type": "string",
                               "const": "code_interpreter"
+                            },
+                            "env_vars": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            },
+                            "timeout_ms": {
+                              "type": "number",
+                              "default": 60000
+                            },
+                            "sandbox_id": {
+                              "type": "string"
                             }
                           },
                           "required": [
                             "type"
-                          ]
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "const": "function",
-                              "default": "function"
-                            },
-                            "function": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                },
-                                "description": {
-                                  "type": "string"
-                                },
-                                "parameters": {
-                                  "type": "object",
-                                  "additionalProperties": {}
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "function"
                           ]
                         },
                         {
@@ -2055,164 +3054,25 @@
                             "type"
                           ],
                           "additionalProperties": true
-                        },
-                        {
-                          "anyOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "const": "function"
-                                },
-                                "function": {
-                                  "type": "object",
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    },
-                                    "description": {
-                                      "type": "string"
-                                    },
-                                    "parameters": {
-                                      "type": "object",
-                                      "additionalProperties": {}
-                                    }
-                                  },
-                                  "required": [
-                                    "name"
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "type",
-                                "function"
-                              ]
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "enum": [
-                                    "web_search",
-                                    "bash",
-                                    "computer",
-                                    "text_editor_20241022"
-                                  ]
-                                },
-                                "function": {
-                                  "type": "object",
-                                  "properties": {
-                                    "name": {
-                                      "type": "string"
-                                    },
-                                    "description": {
-                                      "type": "string"
-                                    },
-                                    "parameters": {
-                                      "type": "object",
-                                      "additionalProperties": {}
-                                    }
-                                  },
-                                  "required": [
-                                    "name"
-                                  ]
-                                },
-                                "name": {
-                                  "type": "string"
-                                },
-                                "display_height_px": {
-                                  "type": "number"
-                                },
-                                "display_width_px": {
-                                  "type": "number"
-                                },
-                                "display_number": {
-                                  "type": "number"
-                                }
-                              },
-                              "required": [
-                                "type"
-                              ]
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                },
-                                "description": {
-                                  "type": "string"
-                                },
-                                "parameters": {
-                                  "type": "object",
-                                  "additionalProperties": {}
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ]
-                            }
-                          ]
                         }
                       ]
                     }
                   },
                   "tool_choice": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "enum": [
-                          "none",
-                          "auto",
-                          "required"
-                        ]
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string",
-                            "const": "function"
-                          },
-                          "function": {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "name"
-                            ]
-                          }
-                        },
-                        "required": [
-                          "type",
-                          "function"
-                        ]
-                      }
-                    ]
+                    "type": "null"
                   },
-                  "parallel_tool_calls": {
-                    "type": "boolean",
-                    "default": true
-                  },
-                  "truncation": {
-                    "type": "string",
-                    "enum": [
-                      "auto",
-                      "disabled"
+                  "metadata": {
+                    "type": [
+                      "object",
+                      "null"
                     ],
-                    "default": "auto"
-                  },
-                  "store": {
-                    "type": "boolean",
-                    "default": true
+                    "additionalProperties": {}
                   },
                   "text": {
-                    "type": "object",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
                     "properties": {
                       "format": {
                         "type": "object",
@@ -2232,27 +3092,158 @@
                       }
                     }
                   },
-                  "metadata": {
-                    "type": "object",
-                    "additionalProperties": {}
+                  "temperature": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "top_p": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "presence_penalty": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "frequency_penalty": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "parallel_tool_calls": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "stream": {
+                    "type": "boolean"
+                  },
+                  "stream_options": {
+                    "type": "null"
+                  },
+                  "background": {
+                    "type": "boolean"
+                  },
+                  "max_output_tokens": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "exclusiveMinimum": 0
+                  },
+                  "max_tool_calls": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "exclusiveMinimum": 0
+                  },
+                  "reasoning": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "effort": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "enum": [
+                          "none",
+                          "low",
+                          "medium",
+                          "high",
+                          "xhigh",
+                          null
+                        ]
+                      },
+                      "summary": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "enum": [
+                          "auto",
+                          "concise",
+                          "detailed",
+                          null
+                        ]
+                      },
+                      "encrypted_content": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": true
                   },
                   "user": {
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "safety_identifier": {
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "prompt_cache_key": {
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "prompt_cache_retention": {
+                    "type": "null"
+                  },
+                  "truncation": {
+                    "type": "string",
+                    "enum": [
+                      "auto",
+                      "disabled"
+                    ]
+                  },
+                  "instructions": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "store": {
+                    "type": "boolean"
+                  },
+                  "service_tier": {},
+                  "top_logprobs": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "conversation": {
+                    "type": "null"
                   }
                 },
-                "required": [
-                  "model"
-                ]
+                "additionalProperties": true
               }
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2263,11 +3254,6 @@
             "lang": "javascript",
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.responses.create({\n  model: 'claude-4.5-sonnet',\n  input: 'Halo, apa kabar?',\n  instructions: 'Jawab dengan gaya santai.',\n  store: true\n});\nconsole.log(response.output_text);"
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
           }
         ]
       }
@@ -2541,7 +3527,7 @@
                             {
                               "type": "array",
                               "items": {
-                                "anyOf": [
+                                "oneOf": [
                                   {
                                     "type": "object",
                                     "properties": {
@@ -2551,6 +3537,111 @@
                                       },
                                       "text": {
                                         "type": "string"
+                                      },
+                                      "citations": {
+                                        "type": "array",
+                                        "items": {
+                                          "oneOf": [
+                                            {
+                                              "type": "object",
+                                              "properties": {
+                                                "type": {
+                                                  "type": "string",
+                                                  "const": "web_search_result_location"
+                                                },
+                                                "cited_text": {
+                                                  "type": "string"
+                                                },
+                                                "url": {
+                                                  "type": "string"
+                                                },
+                                                "title": {
+                                                  "type": "string"
+                                                },
+                                                "encrypted_index": {
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "type",
+                                                "cited_text",
+                                                "url",
+                                                "title",
+                                                "encrypted_index"
+                                              ]
+                                            },
+                                            {
+                                              "type": "object",
+                                              "properties": {
+                                                "type": {
+                                                  "type": "string",
+                                                  "const": "page_location"
+                                                },
+                                                "cited_text": {
+                                                  "type": "string"
+                                                },
+                                                "document_index": {
+                                                  "type": "number"
+                                                },
+                                                "document_title": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "start_page_number": {
+                                                  "type": "number"
+                                                },
+                                                "end_page_number": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "type",
+                                                "cited_text",
+                                                "document_index",
+                                                "document_title",
+                                                "start_page_number",
+                                                "end_page_number"
+                                              ]
+                                            },
+                                            {
+                                              "type": "object",
+                                              "properties": {
+                                                "type": {
+                                                  "type": "string",
+                                                  "const": "char_location"
+                                                },
+                                                "cited_text": {
+                                                  "type": "string"
+                                                },
+                                                "document_index": {
+                                                  "type": "number"
+                                                },
+                                                "document_title": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "start_char_index": {
+                                                  "type": "number"
+                                                },
+                                                "end_char_index": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "type",
+                                                "cited_text",
+                                                "document_index",
+                                                "document_title",
+                                                "start_char_index",
+                                                "end_char_index"
+                                              ]
+                                            }
+                                          ]
+                                        }
                                       }
                                     },
                                     "required": [
@@ -2596,6 +3687,66 @@
                                     "properties": {
                                       "type": {
                                         "type": "string",
+                                        "const": "document"
+                                      },
+                                      "source": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string",
+                                                "const": "base64"
+                                              },
+                                              {
+                                                "type": "string",
+                                                "const": "url"
+                                              }
+                                            ]
+                                          },
+                                          "media_type": {
+                                            "type": "string"
+                                          },
+                                          "data": {
+                                            "type": "string"
+                                          },
+                                          "url": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "type",
+                                          "media_type"
+                                        ]
+                                      },
+                                      "title": {
+                                        "type": "string"
+                                      },
+                                      "context": {
+                                        "type": "string"
+                                      },
+                                      "citations": {
+                                        "type": "object",
+                                        "properties": {
+                                          "enabled": {
+                                            "type": "boolean"
+                                          }
+                                        },
+                                        "required": [
+                                          "enabled"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "source"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
                                         "const": "tool_use"
                                       },
                                       "id": {
@@ -2604,16 +3755,71 @@
                                       "name": {
                                         "type": "string"
                                       },
+                                      "input": {},
+                                      "caller": {
+                                        "anyOf": [
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "code_execution_20250825"
+                                              },
+                                              "tool_id": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "type",
+                                              "tool_id"
+                                            ]
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "const": "direct"
+                                              }
+                                            },
+                                            "required": [
+                                              "type"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "name"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "server_tool_use"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
                                       "input": {
-                                        "type": "object",
+                                        "type": [
+                                          "object",
+                                          "null"
+                                        ],
                                         "additionalProperties": {}
                                       }
                                     },
                                     "required": [
                                       "type",
                                       "id",
-                                      "name",
-                                      "input"
+                                      "name"
                                     ]
                                   },
                                   {
@@ -2650,30 +3856,227 @@
                                     "type": "object",
                                     "properties": {
                                       "type": {
+                                        "type": "string",
+                                        "const": "thinking"
+                                      },
+                                      "thinking": {
                                         "type": "string"
                                       },
-                                      "text": {
+                                      "signature": {
                                         "type": "string"
-                                      },
-                                      "source": {},
-                                      "image_url": {},
-                                      "cache_control": {
-                                        "type": "object",
-                                        "properties": {
-                                          "type": {
-                                            "type": "string",
-                                            "const": "ephemeral"
-                                          }
-                                        },
-                                        "required": [
-                                          "type"
-                                        ]
                                       }
                                     },
                                     "required": [
-                                      "type"
-                                    ],
-                                    "additionalProperties": true
+                                      "type",
+                                      "thinking",
+                                      "signature"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "redacted_thinking"
+                                      },
+                                      "data": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "data"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "compaction"
+                                      },
+                                      "content": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "content"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "mcp_tool_use"
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "input": {},
+                                      "server_name": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "id",
+                                      "name",
+                                      "server_name"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "mcp_tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "is_error": {
+                                        "type": "boolean"
+                                      },
+                                      "content": {
+                                        "type": "array",
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "object",
+                                              "properties": {
+                                                "type": {
+                                                  "type": "string",
+                                                  "const": "text"
+                                                },
+                                                "text": {
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "type",
+                                                "text"
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id",
+                                      "is_error",
+                                      "content"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "code_execution_tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {}
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "bash_code_execution_tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {}
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "text_editor_code_execution_tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {}
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "tool_search_tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {}
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "web_fetch_tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {}
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "web_search_tool_result"
+                                      },
+                                      "tool_use_id": {
+                                        "type": "string"
+                                      },
+                                      "content": {}
+                                    },
+                                    "required": [
+                                      "type",
+                                      "tool_use_id"
+                                    ]
                                   }
                                 ]
                               }
@@ -2699,34 +4102,7 @@
                       },
                       {
                         "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "const": "text"
-                            },
-                            "text": {
-                              "type": "string"
-                            },
-                            "cache_control": {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "const": "ephemeral"
-                                }
-                              },
-                              "required": [
-                                "type"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "type",
-                            "text"
-                          ]
-                        }
+                        "items": {}
                       }
                     ]
                   },
@@ -2754,7 +4130,10 @@
                       "type": "string"
                     }
                   },
-                  "metadata": {},
+                  "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  },
                   "tools": {
                     "type": "array",
                     "items": {}
@@ -2767,7 +4146,8 @@
                         "type": "string",
                         "enum": [
                           "enabled",
-                          "disabled"
+                          "disabled",
+                          "adaptive"
                         ]
                       },
                       "budget_tokens": {
@@ -2777,6 +4157,34 @@
                     },
                     "required": [
                       "type"
+                    ]
+                  },
+                  "effort": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high",
+                      "max"
+                    ]
+                  },
+                  "speed": {
+                    "type": "string",
+                    "enum": [
+                      "fast",
+                      "standard"
+                    ]
+                  },
+                  "context_management": {
+                    "type": "object",
+                    "properties": {
+                      "edits": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    },
+                    "required": [
+                      "edits"
                     ]
                   }
                 },
@@ -2789,6 +4197,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -2799,11 +4212,6 @@
             "lang": "javascript",
             "label": "Node.js SDK",
             "source": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/anthropic'\n});\n\nconst message = await client.messages.create({\n  model: 'archipelago-70b',\n  max_tokens: 1024,\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(message.content[0].text);"
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
           }
         ]
       }
@@ -2848,170 +4256,7 @@
                   },
                   "messages": {
                     "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "role": {
-                          "type": "string",
-                          "enum": [
-                            "user",
-                            "assistant"
-                          ]
-                        },
-                        "content": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "array",
-                              "items": {
-                                "anyOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "type": "string",
-                                        "const": "text"
-                                      },
-                                      "text": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "type",
-                                      "text"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "type": "string",
-                                        "const": "image"
-                                      },
-                                      "source": {
-                                        "type": "object",
-                                        "properties": {
-                                          "type": {
-                                            "type": "string",
-                                            "const": "base64"
-                                          },
-                                          "media_type": {
-                                            "type": "string"
-                                          },
-                                          "data": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "type",
-                                          "media_type",
-                                          "data"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "type",
-                                      "source"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "type": "string",
-                                        "const": "tool_use"
-                                      },
-                                      "id": {
-                                        "type": "string"
-                                      },
-                                      "name": {
-                                        "type": "string"
-                                      },
-                                      "input": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      }
-                                    },
-                                    "required": [
-                                      "type",
-                                      "id",
-                                      "name",
-                                      "input"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "type": "string",
-                                        "const": "tool_result"
-                                      },
-                                      "tool_use_id": {
-                                        "type": "string"
-                                      },
-                                      "content": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string"
-                                          },
-                                          {
-                                            "type": "array",
-                                            "items": {}
-                                          }
-                                        ]
-                                      },
-                                      "is_error": {
-                                        "type": "boolean"
-                                      }
-                                    },
-                                    "required": [
-                                      "type",
-                                      "tool_use_id"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "type": "string"
-                                      },
-                                      "text": {
-                                        "type": "string"
-                                      },
-                                      "source": {},
-                                      "image_url": {},
-                                      "cache_control": {
-                                        "type": "object",
-                                        "properties": {
-                                          "type": {
-                                            "type": "string",
-                                            "const": "ephemeral"
-                                          }
-                                        },
-                                        "required": [
-                                          "type"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "type"
-                                    ],
-                                    "additionalProperties": true
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      "required": [
-                        "role",
-                        "content"
-                      ]
-                    },
-                    "minItems": 1
+                    "items": {}
                   },
                   "system": {
                     "anyOf": [
@@ -3020,34 +4265,7 @@
                       },
                       {
                         "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "const": "text"
-                            },
-                            "text": {
-                              "type": "string"
-                            },
-                            "cache_control": {
-                              "type": "object",
-                              "properties": {
-                                "type": {
-                                  "type": "string",
-                                  "const": "ephemeral"
-                                }
-                              },
-                              "required": [
-                                "type"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "type",
-                            "text"
-                          ]
-                        }
+                        "items": {}
                       }
                     ]
                   },
@@ -3055,30 +4273,56 @@
                     "type": "array",
                     "items": {}
                   },
-                  "thinking": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "enabled",
-                          "disabled"
-                        ]
-                      },
-                      "budget_tokens": {
-                        "type": "integer",
-                        "minimum": 1024
-                      }
-                    },
-                    "required": [
-                      "type"
-                    ]
-                  }
+                  "thinking": {}
                 },
                 "required": [
                   "model",
                   "messages"
                 ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/openrouter/models": {
+      "get": {
+        "operationId": "getV1OpenrouterModels",
+        "tags": [
+          "Models"
+        ],
+        "summary": "List models (OpenRouter format)",
+        "description": "Lists models in the specific metadata format required by OpenRouter providers.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "_def": {
+                    "unknownKeys": "strip",
+                    "catchall": {
+                      "_def": {
+                        "typeName": "ZodNever"
+                      },
+                      "~standard": {
+                        "version": 1,
+                        "vendor": "zod"
+                      }
+                    },
+                    "typeName": "ZodObject"
+                  },
+                  "~standard": {
+                    "version": 1,
+                    "vendor": "zod"
+                  },
+                  "_cached": null
+                }
               }
             }
           }
@@ -3210,6 +4454,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "x-codeSamples": [
           {
             "lang": "python",
@@ -3220,11 +4469,6 @@
             "lang": "javascript",
             "label": "Node.js SDK",
             "source": "import OpenAI from 'openai';\n\nconst client = new OpenAI({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/v1'\n});\n\nconst response = await client.embeddings.create({\n  model: 'nusa-embedding-0001',\n  input: 'Kecerdasan Buatan adalah masa depan.',\n});\nconsole.log(response.data[0].embedding);"
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
           }
         ]
       }
@@ -3240,6 +4484,37 @@
         "responses": {
           "200": {
             "description": "Successful moderation"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "input": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  },
+                  "model": {
+                    "type": "string",
+                    "default": "text-moderation-latest"
+                  }
+                },
+                "required": [
+                  "input"
+                ]
+              }
+            }
           }
         },
         "security": [
@@ -3822,22 +5097,6 @@
             "required": true
           }
         ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/": {
-      "get": {
-        "operationId": "getIndex",
-        "tags": [
-          "System"
-        ],
-        "summary": "Root Redirect",
-        "description": "Redirects to main website.",
-        "responses": {},
         "security": [
           {
             "bearerAuth": []
