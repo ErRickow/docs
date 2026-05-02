@@ -3,9 +3,9 @@
   "theme": "aspen",
   "name": "Neosantara",
   "colors": {
-    "primary": "#A04000",
-    "light": "#F39C12",
-    "dark": "#D35400"
+    "primary": "#E68000",
+    "light": "#FFA000",
+    "dark": "#995200"
   },
   "fonts": {
     "heading": {
