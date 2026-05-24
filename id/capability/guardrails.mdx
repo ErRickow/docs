@@ -7,11 +7,11 @@ description: "Lindungi data sensitif pengguna secara otomatis dengan fitur redak
   Fitur ini tersedia bagi kamu yang menggunakan paket **Basic ke atas**.
 </Info>
 
-Neosantara API menyediakan fitur **Guardrails** otomatis untuk membantu kamu melindungi data pribadi agar sesuai dengan aturan hukum di Indonesia ([**UU PDP No. 27/2022**](https://pdp.kominfo.go.id/)). Fitur ini secara otomatis mendeteksi dan menyensor informasi sensitif dari pesan kamu sebelum dikirimkan ke pihak penyedia AI (seperti OpenAI, Anthropic, atau Grok).
+Neosantara API menyediakan fitur **Guardrails** untuk membantu kamu melindungi data pribadi agar sesuai dengan aturan hukum di Indonesia ([**UU PDP No. 27/2022**](https://pdp.kominfo.go.id/)). Saat diaktifkan pada sebuah request, fitur ini mendeteksi dan menyensor informasi sensitif dari pesan kamu sebelum dikirimkan ke pihak penyedia AI (seperti OpenAI, Anthropic, atau Grok).
 
 ## Cara Kerja
 
-*   **Perlindungan Otomatis**: Jika kamu menggunakan paket Basic ke atas, fitur ini sudah langsung aktif secara otomatis di setiap permintaan tanpa perlu pengaturan tambahan.
+*   **Perlindungan Per Request**: Jika kamu menggunakan paket Basic ke atas, Guardrails bisa dinyalakan per request dengan header `X-Guard: on`.
 *   **Khusus Konteks Indonesia**: Berbeda dengan alat sensor biasa, Guardrails Neosantara sudah diatur khusus untuk mengenali identitas khas Indonesia seperti NIK, NPWP, hingga format alamat rumah yang mendetail.
 *   **Penggantian Data (Placeholder)**: Data sensitif kamu bakal diganti dengan label deskriptif, contohnya: `[NIK]`, `[NAMA_LENGKAP]`, atau `[NOMOR_TELEPON]`. Jadi, model AI tetap paham konteks kalimatnya tapi tidak tahu data aslinya.
 
@@ -41,12 +41,12 @@ Sistem kami secara cerdas mengecek kecocokan pola data dan validitas nomor ident
 
 ## Cara Mengontrol Guardrails
 
-Secara default, fitur ini **selalu aktif** untuk menjaga keamananmu. Namun, jika kamu yakin data yang kamu kirim aman dan ingin model AI menerima data aslinya (tanpa disensor), kamu bisa mengaturnya lewat header `X-Guard`.
+Secara default, fitur ini tidak melakukan redaksi server-side. Jika kamu ingin menyensor PII untuk request tertentu, aktifkan lewat header `X-Guard`.
 
 | Nilai | Deskripsi |
 | :--- | :--- |
-| `on` | (Default) Menyalakan fitur sensor PII untuk permintaan ini. |
-| `off` | Mematikan fitur sensor. Data kamu bakal dikirim apa adanya. |
+| `on` | Menyalakan fitur sensor PII untuk permintaan ini. |
+| `off` | Membiarkan fitur sensor tetap mati. Data kamu bakal dikirim apa adanya. |
 | `disabled` | Sama dengan `off`. |
 
 ### Contoh Integrasi

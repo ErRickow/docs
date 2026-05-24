@@ -7,11 +7,11 @@ description: "Automatically protect sensitive user data with Indonesian-specific
   This feature is available for users on the **Basic tier and above**.
 </Info>
 
-Neosantara API provides built-in **Guardrails** to help you comply with Indonesian data privacy laws ([**UU PDP No. 27/2022**](https://pdp.kominfo.go.id/)). This feature automatically detects and redacts sensitive Personally Identifiable Information (PII) from your prompts before they are sent to the upstream AI providers (like OpenAI, Anthropic, or Grok).
+Neosantara API provides built-in **Guardrails** to help you comply with Indonesian data privacy laws ([**UU PDP No. 27/2022**](https://pdp.kominfo.go.id/)). When enabled for a request, this feature detects and redacts sensitive Personally Identifiable Information (PII) from your prompts before they are sent to the upstream AI providers (like OpenAI, Anthropic, or Grok).
 
 ## How It Works
 
-*   **Automatic Protection**: For users on the Basic tier and above, Guardrails are enabled by default for every request without any additional configuration.
+*   **Request-Level Protection**: For users on the Basic tier and above, Guardrails can be enabled per request with the `X-Guard: on` header.
 *   **Indonesian Context**: Unlike generic redaction tools, Neosantara's Guardrails are specifically tuned for Indonesian identifiers like NIK, NPWP, and formal address structures.
 *   **Placeholders**: Sensitive data is replaced with descriptive placeholders like `[NIK]`, `[NAMA_LENGKAP]`, or `[NOMOR_TELEPON]`.
 
@@ -41,12 +41,12 @@ The system uses a combination of high-precision Regex and checksum validation (e
 
 ## Controlling Guardrails
 
-Paid users can opt-out or force-enable Guardrails using the `X-Guard` header.
+Paid users can enable Guardrails using the `X-Guard` header. Requests without this header are sent without server-side PII redaction.
 
 | Value | Description |
 | :--- | :--- |
-| `on` | (Default) Enables PII redaction for the request. |
-| `off` | Disables PII redaction. Data will be sent raw to the provider. |
+| `on` | Enables PII redaction for the request. |
+| `off` | Leaves PII redaction disabled. Data will be sent raw to the provider. |
 | `disabled` | Same as `off`. |
 
 ### Integration Examples
