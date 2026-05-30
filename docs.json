@@ -333,6 +333,12 @@
                           "GET /v1/files/{file_id}/content",
                           "DELETE /v1/files/{file_id}"
                         ]
+                      },
+                      {
+                        "group": "Webhooks",
+                        "pages": [
+                          "en/webhooks-overview"
+                        ]
                       }
                     ]
                   },
@@ -627,6 +633,12 @@
                           "GET /v1/files/{file_id}",
                           "GET /v1/files/{file_id}/content",
                           "DELETE /v1/files/{file_id}"
+                        ]
+                      },
+                      {
+                        "group": "Webhook",
+                        "pages": [
+                          "id/webhooks-overview"
                         ]
                       }
                     ]

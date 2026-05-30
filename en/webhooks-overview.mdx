@@ -1,0 +1,138 @@
+---
+title: "Webhooks"
+description: "Receive real-time notifications when asynchronous jobs complete, fail, or are cancelled"
+---
+
+## Introduction
+
+Webhooks let Neosantara notify your server the moment an asynchronous job changes state, instead of repeatedly polling for status. Register an endpoint URL once, subscribe to the events you care about, and Neosantara delivers a signed HTTP `POST` whenever those events occur.
+
+<Card icon="bolt" title="Stop polling, start listening" color="#E68000">
+Background responses, batch jobs, and video generation all run asynchronously. Webhooks tell you when they finish — no polling loop required.
+</Card>
+
+### How It Works
+
+1. **Register** an endpoint URL in the [dashboard](https://app.neosantara.xyz/webhooks) and choose the events to subscribe to.
+2. **Save** the signing secret shown once at creation time.
+3. **Receive** a signed `POST` request at your URL whenever a subscribed event occurs.
+4. **Verify** the signature, respond `2xx` quickly, and process the event.
+
+## Supported Events
+
+<CardGroup cols={3}>
+  <Card title="Background Responses" icon="message-bot">
+    `response.completed`
+
+    `response.failed`
+
+    `response.cancelled`
+  </Card>
+  <Card title="Batches" icon="layer-group">
+    `batch.completed`
+
+    `batch.failed`
+
+    `batch.cancelled`
+  </Card>
+  <Card title="Videos" icon="clapperboard">
+    `video.completed`
+
+    `video.failed`
+  </Card>
+</CardGroup>
+
+## Payload Format
+
+Every delivery is a `POST` with a JSON body following the [Standard Webhooks](https://www.standardwebhooks.com) specification:
+
+```json icon="code"
+{
+  "object": "event",
+  "id": "evt_4f8c1a2b3d4e5f60718293a4b5c6d7e8",
+  "type": "response.completed",
+  "created_at": 1750287018,
+  "data": { "id": "resp_abc123" }
+}
+```
+
+For `*.failed` events, `data` includes a sanitized error message:
+
+```json icon="code"
+{
+  "object": "event",
+  "id": "evt_91a2b3c4d5e6f70819203a4b5c6d7e8f",
+  "type": "batch.failed",
+  "created_at": 1750287114,
+  "data": {
+    "id": "batch_xyz789",
+    "error": { "message": "Service is currently unavailable." }
+  }
+}
+```
+
+<Note>
+Error messages in webhook payloads are sanitized — internal and upstream provider details are never exposed, matching the behavior of standard API responses.
+</Note>
+
+### Headers
+
+Each request includes signature headers used for verification:
+
+| Header | Description |
+|---|---|
+| `webhook-id` | Unique event identifier. Use it as an idempotency key to deduplicate. |
+| `webhook-timestamp` | Unix timestamp (seconds) when the event was signed. |
+| `webhook-signature` | HMAC signature of the payload. |
+
+## Verifying Signatures
+
+Because anyone could send a request to your public URL, you should verify that each request actually came from Neosantara. Use the per-endpoint signing secret with any [Standard Webhooks](https://www.standardwebhooks.com) library.
+
+```javascript icon="js"
+import { Webhook } from "standardwebhooks"
+
+// The secret shown once when you created the webhook (starts with "whsec_")
+const wh = new Webhook(process.env.NEOSANTARA_WEBHOOK_SECRET)
+
+// Express example — verify using the RAW request body
+app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
+  try {
+    const event = wh.verify(req.body, {
+      "webhook-id": req.header("webhook-id"),
+      "webhook-timestamp": req.header("webhook-timestamp"),
+      "webhook-signature": req.header("webhook-signature"),
+    })
+
+    // Signature valid — handle the event
+    if (event.type === "response.completed") {
+      // fetch the full result, enqueue work, etc.
+    }
+
+    res.status(200).send()
+  } catch {
+    res.status(400).send("Invalid signature")
+  }
+})
+```
+
+<Warning>
+Verify the signature against the **raw** request body, before any JSON parsing or middleware reformats it. Parsing first will change the bytes and break verification.
+</Warning>
+
+## Delivery & Retries
+
+- Respond with a `2xx` status code within a few seconds. Offload heavy processing to a background worker so you can acknowledge quickly.
+- Non-`2xx` responses and timeouts are retried with exponential backoff.
+- `3xx` redirects are treated as failures — register the final destination URL directly.
+- Duplicate deliveries are possible; use the `webhook-id` header to deduplicate.
+
+## Security
+
+- Endpoint URLs must be publicly reachable over `http`/`https`. Loopback, private, and link-local addresses are rejected to prevent SSRF.
+- The signing secret is shown only once at creation. If you lose it, delete the webhook and create a new one.
+- Always verify signatures before acting on an event.
+
+## Managing Webhooks
+
+Create, view, test, and delete webhooks from the [Webhooks page](https://app.neosantara.xyz/webhooks) in your dashboard. Use **Send test** to deliver a sample `webhook.test` event and confirm your endpoint is reachable.

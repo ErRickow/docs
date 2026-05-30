@@ -1,0 +1,138 @@
+---
+title: "Webhook"
+description: "Terima notifikasi real-time saat job asinkron selesai, gagal, atau dibatalkan"
+---
+
+## Pengantar
+
+Webhook memungkinkan Neosantara memberi tahu server kamu begitu sebuah job asinkron berubah status, tanpa perlu polling status berulang kali. Daftarkan URL endpoint sekali, pilih event yang kamu butuhkan, lalu Neosantara mengirim `POST` HTTP bertanda tangan setiap event tersebut terjadi.
+
+<Card icon="bolt" title="Berhenti polling, mulai mendengarkan" color="#E68000">
+Background response, batch job, dan video generation semuanya berjalan asinkron. Webhook memberi tahu kamu saat selesai — tanpa loop polling.
+</Card>
+
+### Cara Kerja
+
+1. **Daftarkan** URL endpoint di [dashboard](https://app.neosantara.xyz/webhooks) dan pilih event yang ingin di-subscribe.
+2. **Simpan** signing secret yang hanya ditampilkan sekali saat pembuatan.
+3. **Terima** request `POST` bertanda tangan di URL kamu setiap event yang di-subscribe terjadi.
+4. **Verifikasi** signature, balas `2xx` dengan cepat, lalu proses event-nya.
+
+## Event yang Didukung
+
+<CardGroup cols={3}>
+  <Card title="Background Responses" icon="message-bot">
+    `response.completed`
+
+    `response.failed`
+
+    `response.cancelled`
+  </Card>
+  <Card title="Batch" icon="layer-group">
+    `batch.completed`
+
+    `batch.failed`
+
+    `batch.cancelled`
+  </Card>
+  <Card title="Video" icon="clapperboard">
+    `video.completed`
+
+    `video.failed`
+  </Card>
+</CardGroup>
+
+## Format Payload
+
+Setiap pengiriman adalah `POST` dengan body JSON yang mengikuti spesifikasi [Standard Webhooks](https://www.standardwebhooks.com):
+
+```json icon="code"
+{
+  "object": "event",
+  "id": "evt_4f8c1a2b3d4e5f60718293a4b5c6d7e8",
+  "type": "response.completed",
+  "created_at": 1750287018,
+  "data": { "id": "resp_abc123" }
+}
+```
+
+Untuk event `*.failed`, `data` menyertakan pesan error yang sudah disanitasi:
+
+```json icon="code"
+{
+  "object": "event",
+  "id": "evt_91a2b3c4d5e6f70819203a4b5c6d7e8f",
+  "type": "batch.failed",
+  "created_at": 1750287114,
+  "data": {
+    "id": "batch_xyz789",
+    "error": { "message": "Service is currently unavailable." }
+  }
+}
+```
+
+<Note>
+Pesan error pada payload webhook sudah disanitasi — detail internal dan provider upstream tidak pernah diekspos, sama seperti perilaku respons API biasa.
+</Note>
+
+### Header
+
+Setiap request menyertakan header signature untuk verifikasi:
+
+| Header | Deskripsi |
+|---|---|
+| `webhook-id` | Identifier unik event. Gunakan sebagai idempotency key untuk deduplikasi. |
+| `webhook-timestamp` | Unix timestamp (detik) saat event ditandatangani. |
+| `webhook-signature` | Signature HMAC dari payload. |
+
+## Verifikasi Signature
+
+Karena siapa pun bisa mengirim request ke URL publik kamu, sebaiknya verifikasi bahwa setiap request benar-benar berasal dari Neosantara. Gunakan signing secret per-endpoint dengan library [Standard Webhooks](https://www.standardwebhooks.com) apa pun.
+
+```javascript icon="js"
+import { Webhook } from "standardwebhooks"
+
+// Secret yang ditampilkan sekali saat membuat webhook (diawali "whsec_")
+const wh = new Webhook(process.env.NEOSANTARA_WEBHOOK_SECRET)
+
+// Contoh Express — verifikasi memakai body request MENTAH
+app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
+  try {
+    const event = wh.verify(req.body, {
+      "webhook-id": req.header("webhook-id"),
+      "webhook-timestamp": req.header("webhook-timestamp"),
+      "webhook-signature": req.header("webhook-signature"),
+    })
+
+    // Signature valid — tangani event
+    if (event.type === "response.completed") {
+      // ambil hasil lengkap, antrekan pekerjaan, dll.
+    }
+
+    res.status(200).send()
+  } catch {
+    res.status(400).send("Invalid signature")
+  }
+})
+```
+
+<Warning>
+Verifikasi signature terhadap body request **mentah**, sebelum parsing JSON atau middleware mengubah formatnya. Parsing lebih dulu akan mengubah byte dan membuat verifikasi gagal.
+</Warning>
+
+## Pengiriman & Retry
+
+- Balas dengan status `2xx` dalam beberapa detik. Pindahkan proses berat ke background worker agar bisa segera mengonfirmasi.
+- Respons non-`2xx` dan timeout akan di-retry dengan exponential backoff.
+- Redirect `3xx` dianggap kegagalan — daftarkan URL tujuan akhir secara langsung.
+- Pengiriman duplikat mungkin terjadi; gunakan header `webhook-id` untuk deduplikasi.
+
+## Keamanan
+
+- URL endpoint harus dapat diakses publik via `http`/`https`. Alamat loopback, privat, dan link-local ditolak untuk mencegah SSRF.
+- Signing secret hanya ditampilkan sekali saat pembuatan. Jika hilang, hapus webhook dan buat yang baru.
+- Selalu verifikasi signature sebelum bertindak atas sebuah event.
+
+## Mengelola Webhook
+
+Buat, lihat, tes, dan hapus webhook dari [halaman Webhooks](https://app.neosantara.xyz/webhooks) di dashboard. Gunakan **Kirim tes** untuk mengirim contoh event `webhook.test` dan memastikan endpoint kamu dapat dijangkau.
