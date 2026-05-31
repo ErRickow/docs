@@ -1,0 +1,149 @@
+---
+title: "Pembuatan Gambar"
+description: "Buat dan edit gambar di dalam API Responses menggunakan tool image_generation."
+---
+
+[API Responses](/id/sdk/responses-api) dapat membuat gambar langsung melalui tool bawaan `image_generation`. Lampirkan tool-nya, jelaskan gambar di `input`, dan respons akan menyertakan item output `image_generation_call` dengan hasil berkode base64.
+
+<Note>
+  Untuk alur sederhana "prompt masuk, gambar keluar", [Images API](/id/capability/image-generation) (`/v1/images/generations`) adalah jalur paling langsung. Gunakan tool Responses ketika pembuatan gambar menjadi satu langkah dalam alur multimodal atau agentik yang lebih besar, atau saat kamu butuh pengeditan multi-giliran.
+</Note>
+
+## Membuat gambar
+
+Tambahkan `{ "type": "image_generation" }` ke array `tools`. Gambar base64 dikembalikan di field `result` pada item output `image_generation_call`.
+
+<CodeGroup>
+
+```typescript image-generation.ts
+const apiKey = process.env.NAI_API_KEY;
+
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'gpt-image-2',
+    input: 'Buat gambar panda merah di dahan bambu',
+    tools: [{ type: 'image_generation' }],
+  }),
+});
+
+const result = await response.json();
+const image = result.output.find((o) => o.type === 'image_generation_call');
+
+if (image) {
+  const fs = await import('fs');
+  fs.writeFileSync('panda-merah.png', Buffer.from(image.result, 'base64'));
+}
+```
+
+```python image_generation.py
+import base64, requests, os
+
+response = requests.post(
+    "https://api.neosantara.xyz/v1/responses",
+    headers={"Authorization": f"Bearer {os.environ['NAI_API_KEY']}"},
+    json={
+        "model": "gpt-image-2",
+        "input": "Buat gambar panda merah di dahan bambu",
+        "tools": [{"type": "image_generation"}],
+    },
+).json()
+
+for item in response["output"]:
+    if item["type"] == "image_generation_call":
+        with open("panda-merah.png", "wb") as f:
+            f.write(base64.b64decode(item["result"]))
+```
+
+</CodeGroup>
+
+### Item output
+
+```json
+{
+  "type": "image_generation_call",
+  "id": "ig_abc123",
+  "status": "completed",
+  "result": "<gambar berkode base64>",
+  "revised_prompt": "Seekor panda merah yang menggemaskan bertengger di dahan bambu..."
+}
+```
+
+## Opsi tool
+
+Atur output pada definisi tool:
+
+| Opsi | Deskripsi |
+| --- | --- |
+| `model` | Model gambar yang dipakai (default `gpt-image-2`). Semua model berkemampuan gambar didukung, tidak hanya GPT Image. |
+| `size` | Dimensi gambar, mis. `1024x1024`, `1024x1536`. |
+| `quality` | `low`, `medium`, atau `high`. Kualitas lebih tinggi butuh waktu lebih lama. |
+
+```json
+{
+  "type": "image_generation",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "quality": "medium"
+}
+```
+
+<Info>
+  `quality` lebih tinggi menambah latensi. `gpt-image-2` default ke `medium` agar permintaan tetap dalam batas waktu gateway. Gunakan `low` untuk hasil tercepat.
+</Info>
+
+## Pengeditan multi-giliran
+
+Sempurnakan gambar yang sudah dibuat antar giliran. Rujuk giliran sebelumnya dengan `previous_response_id`, lalu jelaskan perubahannya di `input`. Gateway akan mengambil gambar sebelumnya dan mengeditnya.
+
+<CodeGroup>
+
+```typescript multi-turn.ts
+const apiKey = process.env.NAI_API_KEY;
+
+// Giliran 1: buat
+const first = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+  body: JSON.stringify({
+    model: 'gpt-image-2',
+    input: 'Gambar lingkaran merah di latar putih',
+    tools: [{ type: 'image_generation' }],
+  }),
+}).then((r) => r.json());
+
+// Giliran 2: edit gambar sebelumnya
+const second = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+  body: JSON.stringify({
+    model: 'gpt-image-2',
+    previous_response_id: first.id,
+    input: 'Sekarang ubah lingkarannya jadi biru',
+    tools: [{ type: 'image_generation' }],
+  }),
+}).then((r) => r.json());
+```
+
+</CodeGroup>
+
+Kamu juga bisa merujuk gambar tertentu dengan memberikan id `image_generation_call`-nya di array `input`:
+
+```json
+{
+  "model": "gpt-image-2",
+  "input": [
+    { "role": "user", "content": [{ "type": "input_text", "text": "Buat jadi realistis" }] },
+    { "type": "image_generation_call", "id": "ig_abc123" }
+  ],
+  "tools": [{ "type": "image_generation" }]
+}
+```
+
+<Note>
+  Gambar yang dibuat disimpan selama **1 jam** untuk mendukung rantai pengeditan. Setelah itu, mulai pembuatan baru.
+</Note>

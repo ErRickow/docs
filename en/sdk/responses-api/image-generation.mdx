@@ -1,0 +1,149 @@
+---
+title: "Image Generation"
+description: "Generate and edit images inside the Responses API using the image_generation tool."
+---
+
+The [Responses API](/en/sdk/responses-api) can generate images directly through the built-in `image_generation` tool. Attach the tool, describe the image in your `input`, and the response includes an `image_generation_call` output item with a base64-encoded result.
+
+<Note>
+  For a simple "prompt in, image out" flow, the [Images API](/en/capability/image-generation) (`/v1/images/generations`) is the most direct path. Use the Responses tool when image generation is one step inside a larger multimodal or agentic flow, or when you want multi-turn editing.
+</Note>
+
+## Generate an image
+
+Add `{ "type": "image_generation" }` to the `tools` array. The base64 image is returned in the `result` field of the `image_generation_call` output item.
+
+<CodeGroup>
+
+```typescript image-generation.ts
+const apiKey = process.env.NAI_API_KEY;
+
+const response = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'gpt-image-2',
+    input: 'Generate an image of a red panda on a bamboo branch',
+    tools: [{ type: 'image_generation' }],
+  }),
+});
+
+const result = await response.json();
+const image = result.output.find((o) => o.type === 'image_generation_call');
+
+if (image) {
+  const fs = await import('fs');
+  fs.writeFileSync('red-panda.png', Buffer.from(image.result, 'base64'));
+}
+```
+
+```python image_generation.py
+import base64, requests, os
+
+response = requests.post(
+    "https://api.neosantara.xyz/v1/responses",
+    headers={"Authorization": f"Bearer {os.environ['NAI_API_KEY']}"},
+    json={
+        "model": "gpt-image-2",
+        "input": "Generate an image of a red panda on a bamboo branch",
+        "tools": [{"type": "image_generation"}],
+    },
+).json()
+
+for item in response["output"]:
+    if item["type"] == "image_generation_call":
+        with open("red-panda.png", "wb") as f:
+            f.write(base64.b64decode(item["result"]))
+```
+
+</CodeGroup>
+
+### Output item
+
+```json
+{
+  "type": "image_generation_call",
+  "id": "ig_abc123",
+  "status": "completed",
+  "result": "<base64-encoded image>",
+  "revised_prompt": "A charming red panda perched on a bamboo branch..."
+}
+```
+
+## Tool options
+
+Configure output on the tool definition:
+
+| Option | Description |
+| --- | --- |
+| `model` | Image model to use (defaults to `gpt-image-2`). Any image-capable model is supported, not just GPT Image. |
+| `size` | Image dimensions, e.g. `1024x1024`, `1024x1536`. |
+| `quality` | `low`, `medium`, or `high`. Higher quality takes longer. |
+
+```json
+{
+  "type": "image_generation",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "quality": "medium"
+}
+```
+
+<Info>
+  Higher `quality` increases latency. `gpt-image-2` defaults to `medium` to keep requests within the gateway timeout. Use `low` for the fastest results.
+</Info>
+
+## Multi-turn editing
+
+Refine a generated image across turns. Reference the previous turn with `previous_response_id`, then describe the change in your `input`. The gateway retrieves the prior image and edits it.
+
+<CodeGroup>
+
+```typescript multi-turn.ts
+const apiKey = process.env.NAI_API_KEY;
+
+// Turn 1: generate
+const first = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+  body: JSON.stringify({
+    model: 'gpt-image-2',
+    input: 'Draw a red circle on a white background',
+    tools: [{ type: 'image_generation' }],
+  }),
+}).then((r) => r.json());
+
+// Turn 2: edit the previous image
+const second = await fetch('https://api.neosantara.xyz/v1/responses', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+  body: JSON.stringify({
+    model: 'gpt-image-2',
+    previous_response_id: first.id,
+    input: 'Now make the circle blue',
+    tools: [{ type: 'image_generation' }],
+  }),
+}).then((r) => r.json());
+```
+
+</CodeGroup>
+
+You can also reference a specific image by passing its `image_generation_call` id in the `input` array:
+
+```json
+{
+  "model": "gpt-image-2",
+  "input": [
+    { "role": "user", "content": [{ "type": "input_text", "text": "Make it realistic" }] },
+    { "type": "image_generation_call", "id": "ig_abc123" }
+  ],
+  "tools": [{ "type": "image_generation" }]
+}
+```
+
+<Note>
+  Generated images are retained for **1 hour** to support editing chains. After that, start a new generation.
+</Note>

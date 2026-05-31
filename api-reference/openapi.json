@@ -1488,6 +1488,47 @@
                         {
                           "type": "object",
                           "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "mcp"
+                            },
+                            "server_url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "server_label": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "authorization_token": {
+                              "type": "string"
+                            },
+                            "headers": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            },
+                            "allowed_tools": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "require_approval": {}
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "additionalProperties": true
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
                             "name": {
                               "type": "string"
                             },
@@ -1542,6 +1583,40 @@
                         }
                       },
                       "required": [
+                        "name"
+                      ],
+                      "additionalProperties": true
+                    }
+                  },
+                  "mcp_servers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "url"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "authorization_token": {
+                          "type": "string"
+                        },
+                        "allowed_tools": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "url",
                         "name"
                       ],
                       "additionalProperties": true
@@ -2633,6 +2708,47 @@
                         {
                           "type": "object",
                           "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "mcp"
+                            },
+                            "server_url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "url": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "server_label": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "authorization_token": {
+                              "type": "string"
+                            },
+                            "headers": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            },
+                            "allowed_tools": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "require_approval": {}
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "additionalProperties": true
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
                             "name": {
                               "type": "string"
                             },
@@ -2687,6 +2803,40 @@
                         }
                       },
                       "required": [
+                        "name"
+                      ],
+                      "additionalProperties": true
+                    }
+                  },
+                  "mcp_servers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "url"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "authorization_token": {
+                          "type": "string"
+                        },
+                        "allowed_tools": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "url",
                         "name"
                       ],
                       "additionalProperties": true
@@ -4126,6 +4276,37 @@
                               "id",
                               "code_interpreter"
                             ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "image_generation_call"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "status": {
+                                "type": "string"
+                              },
+                              "result": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "revised_prompt": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "id"
+                            ]
                           }
                         ]
                       }
@@ -4879,6 +5060,12 @@
                             "server_description": {
                               "type": "string"
                             },
+                            "authorization": {
+                              "type": "string"
+                            },
+                            "authorization_token": {
+                              "type": "string"
+                            },
                             "headers": {
                               "type": "object",
                               "additionalProperties": {
@@ -4988,6 +5175,40 @@
                   },
                   "tool_choice": {
                     "type": "null"
+                  },
+                  "mcp_servers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "url"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "authorization_token": {
+                          "type": "string"
+                        },
+                        "allowed_tools": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "name"
+                      ],
+                      "additionalProperties": true
+                    }
                   },
                   "metadata": {
                     "type": [
@@ -6321,6 +6542,40 @@
                     "items": {}
                   },
                   "tool_choice": {},
+                  "mcp_servers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "url"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "authorization_token": {
+                          "type": "string"
+                        },
+                        "allowed_tools": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "name"
+                      ],
+                      "additionalProperties": true
+                    }
+                  },
                   "thinking": {
                     "type": "object",
                     "properties": {
