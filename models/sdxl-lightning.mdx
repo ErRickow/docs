@@ -1,0 +1,18 @@
+---
+title: "SDXL Lightning"
+description: "SDXL-Lightning is the most affordable image generation model on Neosantara. It generates high-quality 1024px images in just 4 steps."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { sdxlLightningData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...sdxlLightningData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"sdxl-lightning","prompt":"Pemandangan alam Indonesia yang indah"}'
+```

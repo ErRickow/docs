@@ -1,6 +1,6 @@
 ---
 title: "Code Interpreter"
-description: "> Pelajari cara menggunakan Neosantara dan E2B Code Interpreter"
+description: "Pelajari cara menggunakan Neosantara dan E2B Code Interpreter"
 ---
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1r5I11nX5_W6xBKUX-0uPF4S6yjRImVu8?usp=sharing)
@@ -68,8 +68,8 @@ Untuk detail tambahan tentang metode yang tersedia, lihat [dokumentasi E2B](http
 
   <Step title="Pilih Model">
     Pilih model pembuatan kode dari Neosantara. Opsi yang tersedia meliputi:
-    - `nusantara-base` (default)
-    - `archipelago-70b`
+    - `garda-core` (default)
+    - `archipelago-core-70b`
     - `Llama-3.3-Nemotron-Super-49B`
 
     Lihat daftar lengkap model di [Model Neosantara](https://www.neosantara.xyz/models).
@@ -115,7 +115,7 @@ NAI_API_KEY = os.getenv("NAI_API_KEY")
 E2B_API_KEY = os.getenv("E2B_API_KEY")
 
 # Pemilihan model
-MODEL_NAME = 'nusantara-base'
+MODEL_NAME = 'garda-core'
 
 # Prompt sistem untuk LLM
 SYSTEM_PROMPT = """kamu adalah seorang ilmuwan data Python. kamu diberikan tugas untuk diselesaikan dan kamu menjalankan kode Python untuk menyelesaikannya.

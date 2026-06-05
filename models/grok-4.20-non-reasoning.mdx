@@ -1,0 +1,18 @@
+---
+title: "Grok 4 20 Non Reasoning"
+description: "Grok 4.20 Non-Reasoning variant for fast tool-calling and low-latency workflows."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { grok420NonReasoningData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...grok420NonReasoningData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"grok-4.20-non-reasoning","input":"Hello!"}'
+```

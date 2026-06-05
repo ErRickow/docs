@@ -1,0 +1,18 @@
+---
+title: "Deepseek v4 Pro"
+description: "Flagship Mixture-of-Experts (MoE) model with 1.6T total parameters and Engram architecture. Leads benchmarks in Math, STEM, and complex software engineering with a 1M context window."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { deepseekV4ProData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...deepseekV4ProData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"deepseek-v4-pro","input":"Hello!"}'
+```

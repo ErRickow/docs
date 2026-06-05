@@ -89,7 +89,7 @@ client = OpenAI(api_key="kunci_kamu", base_url="https://api.neosantara.xyz/v1")
 
 # Endpoint 'responses' memberikan objek event yang kaya informasi
 stream = client.responses.create(
-    model="nusantara-base",
+    model="garda-core",
     input="Tulis puisi tentang Jakarta.",
     stream=True
 )

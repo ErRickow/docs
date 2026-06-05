@@ -1,6 +1,6 @@
 ---
 title: "LangChain"
-description: "> Using LangChain with Neosantara."
+description: "Using LangChain with Neosantara."
 ---
 
 LangChain is a framework for developing applications powered by large language models (LLMs). It provides a standard interface for chains, many integrations with other tools, and end-to-end chains for common applications.
@@ -32,7 +32,7 @@ from langchain_openai import ChatOpenAI
 import os
 
 llm = ChatOpenAI(
-    model="nusantara-base",
+    model="garda-core",
     api_key=os.environ.get("NAI_API_KEY"),
     base_url="https://api.neosantara.xyz/v1",
 )
@@ -59,7 +59,7 @@ npm install @langchain/openai
 import { ChatOpenAI } from "@langchain/openai";
 
 const model = new ChatOpenAI({
-  model: "nusantara-base",
+  model: "garda-core",
   apiKey: process.env.NAI_API_KEY,
   baseURL: "https://api.neosantara.xyz/v1",
 });

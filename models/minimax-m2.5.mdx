@@ -1,0 +1,18 @@
+---
+title: "Minimax M2 5"
+description: "MiniMax-M2.5 is a high-performance multimodal model from MiniMax, optimized for complex reasoning and high-quality dialogue."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { minimaxM25Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...minimaxM25Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"minimax-m2.5","input":"Hello!"}'
+```

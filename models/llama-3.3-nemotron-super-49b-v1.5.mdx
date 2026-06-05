@@ -1,6 +1,6 @@
 ---
-title: "Llama 3.3 Nemotron Super 49B"
-description: "General purpose reasoning and chat model intended for English and coding, with support for major European and Asian languages."
+title: "Llama 3 3 Nemotron Super 49b v1 5"
+description: "General purpose reasoning and chat model intended to be used in English and coding languages. Other non-English languages (German, French, Italian, Portuguese, Hindi, Spanish, and Thai) are also supported."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
@@ -10,51 +10,9 @@ import { llama33NemotronSuper49bV15Data } from '/snippets/model-data.jsx';
 
 ## Quick Integration
 
-<CodeGroup>
 ```bash cURL
-curl https://api.neosantara.xyz/v1/chat/completions \
+curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{
-    "model": "llama-3.3-nemotron-super-49b-v1.5",
-    "messages": [
-      { "role": "user", "content": "Hello!" }
-    ]
-  }'
+  -d '{"model":"llama-3.3-nemotron-super-49b-v1.5","input":"Hello!"}'
 ```
-
-```python Python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.neosantara.xyz/v1",
-    api_key="YOUR_NEOSANTARA_API_KEY"
-)
-
-response = client.chat.completions.create(
-    model="llama-3.3-nemotron-super-49b-v1.5",
-    messages=[
-        {"role": "user", "content": "Hello!"}
-    ]
-)
-
-print(response.choices[0].message.content)
-```
-
-```javascript Node.js
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "YOUR_NEOSANTARA_API_KEY"
-});
-
-const completion = await openai.chat.completions.create({
-  messages: [{ role: "user", content: "Hello!" }],
-  model: "llama-3.3-nemotron-super-49b-v1.5",
-});
-
-console.log(completion.choices[0].message.content);
-```
-
-</CodeGroup>

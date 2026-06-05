@@ -1,0 +1,18 @@
+---
+title: "Whisper Large v3"
+description: "Whisper Large v3 is OpenAI's state-of-the-art speech recognition model, providing high accuracy across diverse audio conditions and multilingual support."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { whisperLargeV3Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...whisperLargeV3Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/audio/transcriptions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"whisper-large-v3","input":"Hello!"}'
+```

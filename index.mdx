@@ -1,132 +1,177 @@
 ---
-title: "Neosantara AI Documentation"
+title: "Neosantara Documentation"
 sidebarTitle: "Home"
-description: "Neosantara: The unified AI gateway for Indonesia. Connect to Claude, OpenAI, and regional LLMs with a single API key, optimized for agentic workflows."
+description: "Documentation for Neosantara models, APIs, keys, usage, and framework integrations."
 mode: "custom"
 ---
 
-<div className="relative w-full home-page">
-  {/* Hero Section */}
-  <div className="px-4 pt-20 pb-16 lg:pt-32 lg:pb-28 max-w-5xl mx-auto text-center">
-    <h1 className="text-4xl sm:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-8">
-      Connect Once. <br /> 
-      <span className="text-primary italic sm:bg-clip-text sm:text-transparent sm:bg-gradient-to-r sm:from-primary sm:to-orange-400 py-1">Scale Everywhere.</span>
-    </h1>
-    <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mb-12">
-      Access the world's most powerful models through one unified API. 
-      Optimized for speed, reliability, and agentic workflows.
-    </p>
-    
-    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a
-        href="https://app.neosantara.xyz"
-        className="flex items-center justify-center text-lg font-bold rounded-2xl py-4 px-12 shadow-xl bg-primary text-white hover:bg-primary/90 transition-all transform hover:-translate-y-1 w-full sm:w-auto"
-      >
-        Start Building Free
-      </a>
-      <a
-        href="/en/quickstart"
-        className="flex items-center justify-center text-lg font-bold rounded-2xl py-4 px-12 shadow-sm bg-white dark:bg-white/5 text-gray-900 dark:text-white ring-1 ring-gray-200 dark:ring-white/10 hover:bg-gray-50 dark:hover:bg-white/10 transition-all w-full sm:w-auto"
-      >
-        Quickstart
-        <Icon icon="arrow-right" className="ml-2" />
-      </a>
-    </div>
-  </div>
-
-  <div className="max-w-6xl mx-auto px-6 pb-24">
-    {/* Core Actions */}
-    <CardGroup cols={3}>
-      <Card title="Models & Pricing" icon="layer-group" href="/en/models-overview">
-        Browse regional LLMs and global models with the latest rates.
-      </Card>
-      
-      <Card title="API Reference" icon="code" href="/en/api-introduction">
-        Explore endpoints for Chat, Responses, Images, and OCR.
-      </Card>
-
-      <Card title="Frameworks" icon="rocket" href="/en/integrations">
-        Native support for Agno, LangChain, and Vercel AI SDK.
-      </Card>
-    </CardGroup>
-
-    {/* Fast Integration Snippet */}
-    <div className="mt-24">
-      <div className="flex items-center justify-center gap-2 mb-8">
-        <div className="h-px w-12 bg-gray-200 dark:bg-gray-800" />
-        <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400">Developer Experience</h2>
-        <div className="h-px w-12 bg-gray-200 dark:bg-gray-800" />
-      </div>
-      
-      <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-black shadow-2xl">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800 bg-gray-900/50">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/40" />
-              <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/40" />
-            </div>
-            <span className="ml-4 text-xs font-mono text-gray-500">Example</span>
-          </div>
+<div className="neo-home home-page">
+  <div className="neo-home-shell">
+    <section className="neo-doc-hero">
+      <div className="neo-doc-hero-copy">
+        <div className="neo-eyebrow">
+          <Icon icon="book-open" size={14} />
+          Developer documentation
         </div>
-        
-        <div className="p-2">
+
+        <h1 className="neo-doc-title">
+          Build with Neosantara.
+        </h1>
+
+        <p className="neo-doc-lead">
+          Find the model you need, call it through OpenAI-compatible endpoints, and use framework integrations when your app needs agents, tools, or provider-agnostic switching.
+        </p>
+
+        <div className="neo-actions">
+          <a href="/en/quickstart" className="neo-button neo-button-primary">
+            Start quickstart
+            <Icon icon="arrow-right" size={16} />
+          </a>
+          <a href="/en/models-overview" className="neo-button neo-button-secondary">
+            Browse models
+            <Icon icon="layers-3" size={16} />
+          </a>
+        </div>
+      </div>
+
+      <div className="neo-doc-map" aria-label="Documentation map">
+        <div className="neo-map-header">
+          <span>Start here</span>
+          <Icon icon="route" size={16} />
+        </div>
+
+        <a href="/en/quickstart" className="neo-map-row">
+          <span>01</span>
+          <div>
+            <strong>Quickstart</strong>
+            <p>Create a key and make your first request.</p>
+          </div>
+        </a>
+
+        <a href="/en/models-overview" className="neo-map-row">
+          <span>02</span>
+          <div>
+            <strong>Models</strong>
+            <p>Compare live models, capabilities, and pricing.</p>
+          </div>
+        </a>
+
+        <a href="/api-reference/models/list-available-models" className="neo-map-row">
+          <span>03</span>
+          <div>
+            <strong>API reference</strong>
+            <p>Use generated endpoint docs from the backend spec.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section className="neo-section">
+      <div className="neo-section-head">
+        <p>Choose a path</p>
+        <h2>Use Neosantara from the surface that fits your app.</h2>
+      </div>
+
+      <div className="neo-path-grid">
+        <a href="/en/quickstart" className="neo-path-card">
+          <Icon icon="terminal" size={18} />
+          <h3>OpenAI-compatible API</h3>
+          <p>Use `/v1/chat/completions`, `/v1/responses`, embeddings, images, audio, files, and more with familiar client patterns.</p>
+        </a>
+
+        <a href="/en/integrations" className="neo-path-card">
+          <Icon icon="blocks" size={18} />
+          <h3>Framework integrations</h3>
+          <p>Connect through native and provider adapters when you want agents, tools, orchestration, or one interface across providers.</p>
+        </a>
+
+        <a href="/en/about/rate-limits" className="neo-path-card">
+          <Icon icon="gauge" size={18} />
+          <h3>Usage and limits</h3>
+          <p>Understand request limits, model costs, token accounting, and how usage behaves across tiers.</p>
+        </a>
+
+        <a href="/en/api-introduction" className="neo-path-card">
+          <Icon icon="braces" size={18} />
+          <h3>Endpoint reference</h3>
+          <p>Jump into generated request schemas, parameters, response bodies, and playground examples.</p>
+        </a>
+      </div>
+    </section>
+
+    <section className="neo-section neo-spotlight-section">
+      <div className="neo-section-head">
+        <p>Integration spotlight</p>
+        <h2>Native paths are available when you need them.</h2>
+      </div>
+
+      <div className="neo-spotlight-grid">
+        <a href="/en/agno" className="neo-spotlight-card">
+          <div>
+            <span>Agents</span>
+            <h3>Agno native</h3>
+          </div>
+          <p>Use `agno.models.neosantara.Neosantara` for multimodal agents, streaming, tools, and model switching.</p>
+          <strong>Open Agno guide -></strong>
+        </a>
+
+        <a href="/en/any-llm" className="neo-spotlight-card">
+          <div>
+            <span>Provider layer</span>
+            <h3>Any-LLM native</h3>
+          </div>
+          <p>Use provider id `neosantara` with `NEOSANTARA_API_KEY` for chat completions, Responses, images, and batch workflows.</p>
+          <strong>Open Any-LLM guide -></strong>
+        </a>
+      </div>
+    </section>
+
+    <section className="neo-section neo-example-section">
+      <div className="neo-section-head">
+        <p>First request</p>
+        <h2>Start from the API, then move into the framework you prefer.</h2>
+      </div>
+
+      <div className="neo-code-frame neo-readable-code">
+        <div className="neo-code-card">
+          <div className="neo-code-title-row">
+            <div>
+              <p>OpenAI-compatible request</p>
+              <h2>Call a model with your API key.</h2>
+            </div>
+            <Icon icon="send" />
+          </div>
+
           <CodeGroup>
+            ```bash cURL
+            curl https://api.neosantara.xyz/v1/responses \
+              -H "Authorization: Bearer $NEOSANTARA_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "model": "gemini-3.5-flash",
+                "input": "Halo Neosantara"
+              }'
+            ```
+
             ```python Python
+            import os
             from openai import OpenAI
 
             client = OpenAI(
+                api_key=os.environ["NEOSANTARA_API_KEY"],
                 base_url="https://api.neosantara.xyz/v1",
-                api_key="YOUR_API_KEY"
             )
 
-            # Use the modern Responses API
             response = client.responses.create(
-                model="nusantara-base",
-                input="Halo, siapa kamu?"
+                model="gemini-3.5-flash",
+                input="Halo Neosantara",
             )
 
             print(response.output_text)
             ```
-            
-            ```javascript Node.js
-            import OpenAI from 'openai';
-
-            const client = new OpenAI({
-              baseURL: 'https://api.neosantara.xyz/v1',
-              apiKey: 'YOUR_API_KEY'
-            });
-
-            // Use the modern Responses API
-            const response = await client.responses.create({
-              model: 'nusantara-base',
-              input: 'Halo!'
-            });
-
-            console.log(response.output_text);
-            ```
           </CodeGroup>
         </div>
       </div>
-    </div>
-
-    {/* Capabilities Section */}
-    <div className="mt-24">
-      <h2 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">Advanced Capabilities</h2>
-      <CardGroup cols={4}>
-        <Card title="Image Gen" icon="image" href="/en/capability/image-generation" horizontal />
-        <Card title="Reasoning" icon="brain" href="/en/capability/reasoning" horizontal />
-        <Card title="OCR" icon="eye" href="/en/capability/ocr" horizontal />
-        <Card title="Embeddings" icon="database" href="/en/capability/embeddings" horizontal />
-      </CardGroup>
-    </div>
-
-    {/* Footer Links */}
-    <div className="mt-32 pt-12 border-t border-gray-100 dark:border-gray-800 flex flex-wrap gap-8 justify-center">
-      <a href="https://app.neosantara.xyz" className="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Dashboard</a>
-      <a href="/en/about/billing-pricing" className="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Pricing</a>
-      <a href="/en/about/rate-limits" className="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Limits</a>
-      <a href="mailto:support@neosantara.xyz" className="text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
-    </div>
+    </section>
   </div>
 </div>

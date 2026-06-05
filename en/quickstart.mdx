@@ -28,7 +28,7 @@ Neosantara acts as a **unified gateway**, allowing you to access various state-o
     Access the world's best models through a single interface. Switch models by simply changing the `model` string. 
 
     *   **Flagship Reasoning**: `deepseek-r1`, `claude-4.5-sonnet`
-    *   **High-Speed Chat**: `gemini-3-flash`, `grok-4.1-fast-non-reasoning`
+    *   **High-Speed Chat**: `gemini-3.5-flash`, `grok-4.1-fast-non-reasoning`
     *   **Specialized**: `deepseek-ocr`, `neosantara-gen-2045` (Image Gen)
 
     <Note>See the [Models Overview](/en/models-overview) for full pricing and technical specs.</Note>
@@ -59,7 +59,7 @@ Neosantara acts as a **unified gateway**, allowing you to access various state-o
             'Authorization': 'Bearer YOUR_NSK_KEY'
           },
           body: JSON.stringify({
-            model: 'nusantara-base',
+            model: 'gemini-3.5-flash',
             input: 'What is the capital of Indonesia?',
             store: true
           })

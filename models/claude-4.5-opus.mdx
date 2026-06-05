@@ -1,0 +1,18 @@
+---
+title: "Claude 4 5 Opus"
+description: "Claude 4.5 Opus is Anthropic's most powerful model, designed for highly complex tasks, deep reasoning, and creative endeavors with a massive context window."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claude45OpusData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claude45OpusData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-4.5-opus","input":"Hello!"}'
+```

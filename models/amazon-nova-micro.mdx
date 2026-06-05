@@ -1,0 +1,18 @@
+---
+title: "Amazon Nova Micro"
+description: "Amazon Nova Micro is the most affordable model with 300K context. Great for text generation and function calling."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { amazonNovaMicroData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...amazonNovaMicroData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"amazon-nova-micro","input":"Hello!"}'
+```

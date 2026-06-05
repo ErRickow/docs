@@ -16,7 +16,7 @@ You will learn to:
 3. Use Neosantara's embedding model (`nusa-embedding-0001`) to vectorize your documents.
 4. Store these embeddings in Cloudflare Vectorize using NDJSON format.
 5. Retrieve relevant documents from Vectorize based on a user query.
-6. Use Neosantara's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
+6. Use Neosantara's chat model (`garda-core`) to generate a grounded answer using the retrieved context.
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ neosantara_client = OpenAI(
 )
 
 EMBEDDING_MODEL = "nusa-embedding-0001"
-CHAT_MODEL = "nusantara-base" # Or "garda-beta-mini" for larger context
+CHAT_MODEL = "garda-core" # Or "garda-agentic-mini" for larger context
 
 # --- Cloudflare Vectorize Configuration ---
 CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN", "YOUR_CLOUDFLARE_API_TOKEN")

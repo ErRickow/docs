@@ -1,153 +1,70 @@
 ---
 title: "Penagihan & Harga"
-description: "Rincian lengkap struktur penagihan Neosantara, termasuk tarif pay-as-you-go untuk LLM, harga pembuatan gambar, dan pembaruan tingkatan throughput otomatis."
+description: "Pahami billing pay-as-you-go Neosantara, kredit, diskon batch, dan tier throughput."
 ---
 
-## Sistem Pay-As-You-Go
-
-Neosantara menggunakan sistem penagihan **Pay-As-You-Go**. Biaya dihitung berdasarkan penggunaan riil (token atau gambar) tanpa biaya langganan bulanan wajib. Volume tunduk pada dana yang tersedia dan batas throughput tingkat akun (RPM/TPM).
-
-### Memulai
-
-1. **Registrasi:** Buat akun baru di platform.
-2. **Verifikasi Email:** Verifikasi email kamu untuk mendapatkan **Kredit Saldo Awal gratis**.
-3. **Akses API:** Akses diberikan segera setelah verifikasi, dengan penggunaan yang didebit dari saldo kredit kamu.
-
----
-
-## Struktur Harga
-
-Biaya dihitung per permintaan berdasarkan model spesifik yang dipilih. Meskipun sebagian besar tarif ditampilkan dalam **IDR (Rupiah)**, beberapa model tetap dihargai dalam **USD**. Biaya USD dikonversi ke IDR pada saat penagihan berdasarkan kurs nilai tukar saat ini.
-
-### Batch Processing
-
-API Batch menawarkan pemrosesan asinkron untuk permintaan volume tinggi dengan tarif yang dikurangi. Ini cocok untuk tugas-tugas yang tidak memerlukan respons segera, seperti pemrosesan data massal.
-
-| Jenis Penggunaan | Penyesuaian Tarif |
-| :--- | :--- |
-| Batch Input | **50% dari** harga input standar |
-| Batch Output | **50% dari** harga output standar |
+Neosantara memakai billing pay-as-you-go. Biaya request dipotong dari saldo kredit berdasarkan model yang dipilih, jenis request, dan unit penggunaan seperti token, gambar yang dibuat, durasi audio, atau durasi video.
 
 <Note>
-Diskon diterapkan secara otomatis untuk permintaan yang dikirim ke endpoint `/v1/batches`.
+  Harga per model bersumber dari katalog model live. Buka [Ikhtisar Model](/id/models-overview) atau halaman model generated untuk melihat unit harga terbaru.
 </Note>
 
-### Tabel Harga Model
+## Memulai
 
-| Model | Input /1M | Output /1M | Cache Read /1M |
-| :--- | :--- | :--- | :--- |
-| `nusantara-base` | **Rp 300** | **Rp 1.500** | N/A |
-| `sahabat-ai-llama-v4` | Rp 150 | Rp 600 | N/A |
-| `archipelago-70b` | Rp 4,710 | Rp 36.543 | N/A |
-| `garda-beta-mini` | Rp 2,500 | Rp 10.499 | N/A |
-| `sea-lion-v4-27b-it` | Rp 350 | Rp 560 | N/A |
-| `amazon-nova-micro` | $0.035 | $0.14 | N/A |
-| `mistral-small-latest` | $0.15 | $0.60 | N/A |
-| `mistral-large-latest` | $0.50 | $1.50 | N/A |
-| `claude-3-5-sonnet` | $3.00 | $15.00 | $0.30 |
-| `claude-3-5-haiku` | $1.00 | $5.00 | $0.10 |
-| `claude-3-7-sonnet` | $3.00 | $15.00 | $0.30 |
-| `claude-4.5-sonnet` | $3.00 | $15.00 | $0.30 |
-| `claude-4.5-opus` | $5.00 | $25.00 | $0.50 |
-| `claude-4.5-haiku` | $1.00 | $5.00 | $0.10 |
-| `amazon-nova-lite` | $0.06 | $0.24 | N/A |
-| `amazon-nova-pro` | $0.80 | $3.20 | N/A |
-| `llama-3-2-11b-vision` | $0.16 | $0.16 | N/A |
-| `gemma-3-27b-it` | Rp 200 | Rp 1.500 | N/A |
-| `granite-3-8b-instruct` | Rp 2,880 | Rp 11,520 | N/A |
-| `gpt-5-nano` | Rp 810 | Rp 6,485 | N/A |
-| `llama-3.3-nemotron-super-49b-v1.5` | Rp 4,560 | Rp 31,991 | N/A |
-| `hermes-2-pro-mistral-7b` | Rp 450 | Rp 1,200 | N/A |
-| `gemma2-9b-it` | Rp 200 | Rp 1,000 | N/A |
-| `qwen3-32b` | Rp 4,828 | Rp 9,823 | N/A |
-| `gpt-oss-20b` | Rp 400 | Rp 1,600 | N/A |
-| `llama-3.2-11b` | Rp 100 | Rp 400 | N/A |
-| `apriel-1.6-thinker` | Rp 3,000 | Rp 9,000 | N/A |
-| `kimi-k2` | Rp 16.642 | Rp 49.929 | N/A |
-| `deepseek-r1` | $1.35 | $5.40 | N/A |
-| `kimi-k2:latest` | Rp 16.642 | Rp 49.929 | N/A |
-| `kimi-k2:search` | Rp 16.642 | Rp 49,929 | N/A |
-| `kimi-k2:research` | Rp 16.642 | Rp 49,929 | N/A |
-| `kimi-k1` | Rp 16.642 | Rp 49,929 | N/A |
-| `kimi-k2:math` | Rp 16.642 | Rp 49,929 | N/A |
-| `kimi-k2:silent` | Rp 16.642 | Rp 49,929 | N/A |
-| `glm-4.6` | Rp 10,000 | Rp 30,000 | N/A |
-| `glm-4.6-plus` | Rp 10,000 | Rp 30,000 | N/A |
-| `glm-4.6v-flash` | Rp 250 | Rp 750 | N/A |
-| `glm-4.5-flash` | Rp 250 | Rp 750 | N/A |
-| `gemini-3-pro-preview` | Rp 40,000 | Rp 120,000 | N/A |
-| `gemini-3-flash-preview` | Rp 1,600 | Rp 6,400 | N/A |
-| `glm-4.7` | Rp 10,000 | Rp 30,000 | N/A |
-| `kimi-k2-thinking` | Rp 20,000 | Rp 60,000 | N/A |
-| `gemini-3-flash` | $0.50 | $3.00 | $0.10 |
-| `grok-code-fast` | $0.20 | $1.50 | $0.05 |
-| `grok-4.1-fast-non-reasoning` | $0.30 | $0.72 | $0.10 |
-| `llama-guard-3-8b` | Rp 7,680 | Rp 480 | N/A |
+1. Buat akun di [aplikasi Neosantara](https://app.neosantara.xyz).
+2. Verifikasi email untuk menerima benefit kredit akun baru saat tersedia.
+3. Buat API key dari [API Keys](https://app.neosantara.xyz/api-keys).
+4. Pantau saldo dan penggunaan dari [halaman Usage](https://app.neosantara.xyz/usage).
+
+## Cara billing bekerja
+
+| Jenis penggunaan | Unit billing | Tempat mengecek |
+| --- | --- | --- |
+| Text, chat, reasoning, tools | Token input dan output | Halaman model generated dan metadata usage di response |
+| Embeddings | Token input | [Model embeddings](/models/nusa-embedding-0001) |
+| Image generation | Ukuran gambar atau unit generasi | Halaman model image generated |
+| Audio transcription | Durasi audio | Halaman model audio generated |
+| Video generation | Durasi atau unit provider | Halaman model video generated |
+
+Sebagian model memakai harga IDR, sementara model yang mengikuti harga provider dapat ditampilkan dalam USD dan dikonversi saat billing.
+
+## Diskon batch
+
+Batch API dirancang untuk pekerjaan asynchronous volume tinggi yang tidak membutuhkan response langsung.
+
+| Jenis penggunaan | Penyesuaian harga |
+| --- | --- |
+| Batch input | 50% dari harga input standar |
+| Batch output | 50% dari harga output standar |
 
 <Note>
-**Cache Read:** Untuk model yang mendukung caching, token input yang dibaca dari cache ditagih dengan tarif 'Cache Read'. Jika 'N/A', tarif input standar berlaku.
+  Diskon diterapkan otomatis untuk request yang dikirim melalui `/v1/batches`.
 </Note>
 
-### Pembuatan Gambar
+## Cache read
 
-| Model | Resolusi | Harga per Gambar |
-| :--- | :--- | :--- |
-| `neosantara-gen-2045` | 1024x1024 | **Rp 1.500** |
-| `neosantara-gen-2045` | 512x512 | Rp 800 |
-| `neosantara-gen-2045` | 256x256 | Rp 400 |
-| `sdxl-lightning` | 1024x1024 | Rp 200 |
-| `sdxl-lightning` | 512x512 | Rp 120 |
-| `sdxl-lightning` | 256x256 | Rp 60 |
-| `stable-diffusion-v1-5-img2img` | 1024x1024 | Rp 200 |
-| `titan-image-g1` | 1024x1024 | $0.01 |
-| `titan-image-g1` | ≤ 512px | $0.008 |
-| `imagen-4.0-fast` | 1024x1024 | $0.02 |
-| `deepseek-ocr` | N/A | Rp 100 |
+Untuk model yang mendukung prompt caching, input yang dibaca dari cache dapat ditagih dengan harga cache-read terpisah. Jika halaman model tidak mencantumkan harga cache-read, harga input standar berlaku.
 
-### Model Audio
+## Penggunaan tools
 
-| Model | Resolusi / Unit | Harga |
-| :--- | :--- | :--- |
-| `whisper-large-v3-turbo` | per Jam | **$0.04** |
-| `whisper-large-v3-turbo` | per Detik | $0.000012 |
+Definisi tool, panggilan tool, dan hasil tool ditagih sebagai token input dan output normal untuk model yang dipilih. Neosantara tidak menambahkan biaya orkestrasi terpisah untuk tool calling.
 
-### Penggunaan Tools
+## Tier throughput
 
-Penggunaan tools ditagih berdasarkan token yang dikonsumsi oleh definisi tools, panggilan, dan hasil. Ini dihitung sebagai token input dan output standar yang terkait dengan model yang dipilih. Tidak ada biaya orkestrasi terpisah yang diterapkan.
+Batas throughput mengikuti tier akun. Upgrade tier diterapkan otomatis berdasarkan riwayat total deposit.
 
----
+| Tier | Min. deposit kumulatif | RPM | ITPM | OTPM |
+| --- | --- | --- | --- | --- |
+| Free | Rp 0 | 3 | 15.000 | 2.000 |
+| Basic | Rp 85.000 | 50 | 50.000 | 10.000 |
+| Standard | Rp 670.000 | 1.000 | 450.000 | 90.000 |
+| Pro | Rp 3.350.000 | 2.000 | 1.000.000 | 200.000 |
+| Enterprise | Rp 6.700.000 | 4.000 | 4.000.000 | 800.000 |
 
-## Tingkatan Throughput (Batas Kecepatan)
+Lihat [Rate Limits](/id/about/rate-limits) untuk header response, retry behavior, dan penanganan limit.
 
-**Batas Throughput** (RPM/TPM) ditentukan oleh Tier akun. Tingkat Tier disesuaikan secara otomatis berdasarkan **Total Deposit Seumur Hidup**.
+## Pengelolaan saldo
 
-| Tier | Min. Deposit Kumulatif | RPM | ITPM | OTPM |
-| :--- | :--- | :--- | :--- | :--- |
-| **Free** | Rp 0 | 3 | 15.000 | 2.000 |
-| **Basic** | **Rp 85.000** | 50 | 50.000 | 10.000 |
-| **Standard** | **Rp 670.000** | 1,000 | 450.000 | 90.000 |
-| **Pro** | **Rp 3.350.000** | 2,000 | 1.000.000 | 200.000 |
-| **Enterprise** | **Rp 6.700.000** | 4,000 | 4.000.000 | 800.000 |
+Saldo dan penggunaan saat ini tersedia di dashboard. Response API juga menyertakan metadata usage dan billing saat didukung.
 
-<Note>
-**Pembaruan Tier:** Pembaruan tier terjadi secara otomatis setelah riwayat total deposit akun mencapai ambang batas yang ditentukan.
-</Note>
-
----
-
-## Pengelolaan Saldo
-
-### Memeriksa Saldo
-
-**Saldo Kredit** saat ini dan penggunaan dapat dipantau melalui:
-
-1. **Dashboard:** [Halaman Penggunaan](https://app.neosantara.xyz/usage).
-2. **Metadata API:** Objek `_metadata` yang disertakan dalam setiap respons API.
-
-### Menambah Dana
-
-Saldo dapat ditambahkan melalui metode berikut:
-
-1. Navigasi ke [Halaman Penagihan](https://app.neosantara.xyz/billing).
-2. Pilih "Top Up Saldo".
-3. Selesaikan pembayaran melalui QRIS, GoPay, OVO, atau Transfer Bank.
+Untuk menambah saldo, buka [halaman Billing](https://app.neosantara.xyz/billing), pilih **Top Up Balance**, lalu selesaikan pembayaran melalui metode yang tersedia.

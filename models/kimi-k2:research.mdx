@@ -1,0 +1,18 @@
+---
+title: "Kimi K2 Research"
+description: "DEPRECATED - Use kimi-k2-thinking or kimi-k2.5 instead."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { kimiK2ResearchData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...kimiK2ResearchData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"kimi-k2:research","input":"Hello!"}'
+```

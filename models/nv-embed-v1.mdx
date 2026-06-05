@@ -1,0 +1,18 @@
+---
+title: "Nv Embed v1"
+description: "NVIDIA NV-Embed-v1 is a state-of-the-art generalist embedding model that excels in retrieval, classification, clustering, and semantic similarity tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { nvEmbedV1Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...nvEmbedV1Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/embeddings \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"nv-embed-v1","input":"Kecerdasan Buatan adalah masa depan."}'
+```

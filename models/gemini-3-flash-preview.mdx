@@ -1,0 +1,18 @@
+---
+title: "Gemini 3 Flash Preview"
+description: "Next-generation high-performance model from Google."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemini3FlashPreviewData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemini3FlashPreviewData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gemini-3-flash-preview","input":"Hello!"}'
+```

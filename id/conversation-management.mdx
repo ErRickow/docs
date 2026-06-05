@@ -23,7 +23,7 @@ Untuk memulai percakapan baru, cukup buat permintaan. Pastikan `store` disetel k
 curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "model": "nusantara-base", "input": "Nama saya Alice. Saya seorang insinyur perangkat lunak.", "store": true, "max_output_tokens": 1024 }'
+  -d '{ "model": "garda-core", "input": "Nama saya Alice. Saya seorang insinyur perangkat lunak.", "store": true, "max_output_tokens": 1024 }'
 ```
 
 API akan mengembalikan respons yang berisi `id`.
@@ -31,7 +31,7 @@ API akan mengembalikan respons yang berisi `id`.
 ```json Respons
 {
   "id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
-  "model": "nusantara-base",
+  "model": "garda-core",
   "status": "completed",
   "output": [
     {
@@ -60,7 +60,7 @@ const client = new OpenAI({
 });
 
 const startResponse = await client.responses.create({
-  model: "nusantara-base",
+  model: "garda-core",
   input: "Nama saya Alice. Saya seorang insinyur perangkat lunak.",
   store: true,
   max_output_tokens: 1024
@@ -79,7 +79,7 @@ client = OpenAI(
 )
 
 start_response = client.responses.create(
-    model="nusantara-base",
+    model="garda-core",
     input="Nama saya Alice. Saya seorang insinyur perangkat lunak.",
     store=True,
     max_output_tokens=1024
@@ -97,7 +97,7 @@ Untuk membalas, berikan input baru kamu dan `previous_response_id` dari putaran 
 curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{ "model": "nusantara-base", "input": "Apa yang memungkinkan saya mengelola state di React?", "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b", "max_output_tokens": 1024 }'
+  -d '{ "model": "garda-core", "input": "Apa yang memungkinkan saya mengelola state di React?", "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b", "max_output_tokens": 1024 }'
 ```
 
 Model akan merespons dengan kesadaran konteks:
@@ -105,7 +105,7 @@ Model akan merespons dengan kesadaran konteks:
 ```json Respons
 {
   "id": "resp_78dd...id_baru...",
-  "model": "nusantara-base",
+  "model": "garda-core",
   "status": "completed",
   "output": [
     {
@@ -127,7 +127,7 @@ Model akan merespons dengan kesadaran konteks:
 <CodeGroup>
 ```javascript node
 const followUpResponse = await client.responses.create({
-  model: "nusantara-base",
+  model: "garda-core",
   input: "Apa yang memungkinkan saya mengelola state di React?",
   previous_response_id: startResponse.id,
   max_output_tokens: 1024
@@ -138,7 +138,7 @@ console.log("Teks lanjutan:", followUpResponse.output[0].content[0].text);
 
 ```python Python
 follow_up_response = client.responses.create(
-    model="nusantara-base",
+    model="garda-core",
     input="Apa yang memungkinkan saya mengelola state di React?",
     previous_response_id=start_response.id,
     max_output_tokens=1024
@@ -181,7 +181,7 @@ Jika kamu memiliki persyaratan Zero Data Retention (ZDR) yang ketat atau sekadar
 
 ```json icon="code"
 {
-  "model": "nusantara-base",
+  "model": "garda-core",
   "input": "Proses data sensitif ini...",
   "store": false,
   "max_output_tokens": 1024
@@ -200,7 +200,7 @@ kamu dapat melampirkan metadata ke respons apa pun untuk membantu mengatur perca
 
 ```json icon="code"
 {
-  "model": "nusantara-base",
+  "model": "garda-core",
   "input": "Tiket dukungan #1234",
   "metadata": {
     "session_id": "session_user_5678",

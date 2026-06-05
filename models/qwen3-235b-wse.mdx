@@ -1,0 +1,18 @@
+---
+title: "Qwen3 235b WSE"
+description: "Qwen 3 235B on Wafer-Scale Engine. High-intelligence model with massive parameter count and hardware-accelerated inference speed."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3235bWseData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3235bWseData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3-235b-wse","input":"Hello!"}'
+```

@@ -1,0 +1,18 @@
+---
+title: "Longcat Flash Thinking"
+description: "Meituan Longcat Flash Thinking model, optimized for reasoning and long context."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { longcatFlashThinkingData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...longcatFlashThinkingData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"longcat-flash-thinking","input":"Hello!"}'
+```

@@ -1,6 +1,6 @@
 ---
 title: "AutoGen"
-description: "> Menggunakan AutoGen(AG2) dengan Neosantara."
+description: "Menggunakan AutoGen(AG2) dengan Neosantara."
 ---
 
 AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan mengorkestrasi agen AI. Framework ini berfokus pada memungkinkan banyak agen untuk bekerja sama dalam menyelesaikan tugas-tugas kompleks. Framework ini mendukung berbagai model bahasa dari Toge, integrasi alat, serta alur kerja otonom dan human-in-the-loop.
@@ -27,7 +27,7 @@ Siapkan dan konfigurasikan AutoGen untuk menggunakan LLM dari Neosantara
   config_list = [
       {
           # Mari pilih model Nusantara-Base
-          "model": "nusantara-base",
+          "model": "garda-core",
           "base_url": "https://api.neosantara.xyz/v1",
           # Berikan kunci API Neosantara.xyz kamu di sini atau masukkan ke dalam variabel lingkungan NAI_API_KEY.
           "api_key": os.environ.get("NAI_API_KEY"),
@@ -71,7 +71,7 @@ Pentingnya, kami telah mengubah pesan sistem sehingga model tidak mengembalikan 
   Ketika kamu menemukan jawaban, verifikasi jawaban tersebut dengan hati-hati. Sertakan bukti yang dapat diverifikasi dalam respons kamu jika memungkinkan.
   PENTING: Tunggu pengguna untuk mengeksekusi kode kamu dan kemudian kamu dapat membalas dengan kata "FINISH". JANGAN KELUARKAN "FINISH" setelah blok kode kamu."""
 
-  # AssistantAgent, menggunakan model nusantara-base Neosantara, akan menerima permintaan pengodean dan mengembalikan kode
+  # AssistantAgent, menggunakan model garda-core Neosantara, akan menerima permintaan pengodean dan mengembalikan kode
   assistant_agent = AssistantAgent(
       name="Neosantara-Assistant",
       system_message=system_message,

@@ -1,0 +1,18 @@
+---
+title: "Mistral Small Latest"
+description: "Mistral Small is a fast, cost-effective model for text generation and function calling. Ideal for simple chat and code assistance."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { mistralSmallLatestData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...mistralSmallLatestData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"mistral-small-latest","input":"Hello!"}'
+```

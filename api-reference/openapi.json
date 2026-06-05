@@ -3126,7 +3126,7 @@
                 "properties": {
                   "model": {
                     "type": "string",
-                    "default": "nusantara-base"
+                    "default": "garda-core"
                   },
                   "prompt": {
                     "anyOf": [
@@ -5098,10 +5098,87 @@
                               "const": "image_generation"
                             },
                             "model": {},
-                            "quality": {},
-                            "size": {},
-                            "output_format": {},
-                            "action": {}
+                            "quality": {
+                              "type": "string",
+                              "enum": [
+                                "low",
+                                "medium",
+                                "high",
+                                "auto"
+                              ]
+                            },
+                            "size": {
+                              "type": "string",
+                              "enum": [
+                                "1024x1024",
+                                "1024x1536",
+                                "1536x1024",
+                                "auto"
+                              ]
+                            },
+                            "output_format": {
+                              "type": "string",
+                              "enum": [
+                                "png",
+                                "webp",
+                                "jpeg"
+                              ]
+                            },
+                            "output_compression": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "moderation": {
+                              "type": "string",
+                              "enum": [
+                                "auto",
+                                "low"
+                              ]
+                            },
+                            "background": {
+                              "type": "string",
+                              "enum": [
+                                "transparent",
+                                "opaque",
+                                "auto"
+                              ]
+                            },
+                            "input_fidelity": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "enum": [
+                                "high",
+                                "low",
+                                null
+                              ]
+                            },
+                            "input_image_mask": {
+                              "type": "object",
+                              "properties": {
+                                "image_url": {
+                                  "type": "string"
+                                },
+                                "file_id": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "partial_images": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 3
+                            },
+                            "action": {
+                              "type": "string",
+                              "enum": [
+                                "auto",
+                                "generate",
+                                "edit"
+                              ]
+                            }
                           },
                           "required": [
                             "type"
@@ -6643,12 +6720,12 @@
           {
             "lang": "python",
             "label": "Python SDK",
-            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='archipelago-70b',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
+            "source": "import anthropic\n\nclient = anthropic.Anthropic(\n    api_key='YOUR_NEOSANTARA_API_KEY',\n    base_url='https://api.neosantara.xyz/anthropic'\n)\n\nmessage = client.messages.create(\n    model='archipelago-core-70b',\n    max_tokens=1024,\n    messages=[{'role': 'user', 'content': 'Halo, apa kabar?'}]\n)\nprint(message.content[0].text)"
           },
           {
             "lang": "javascript",
             "label": "Node.js SDK",
-            "source": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/anthropic'\n});\n\nconst message = await client.messages.create({\n  model: 'archipelago-70b',\n  max_tokens: 1024,\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(message.content[0].text);"
+            "source": "import Anthropic from '@anthropic-ai/sdk';\n\nconst client = new Anthropic({\n  apiKey: 'YOUR_NEOSANTARA_API_KEY',\n  baseURL: 'https://api.neosantara.xyz/anthropic'\n});\n\nconst message = await client.messages.create({\n  model: 'archipelago-core-70b',\n  max_tokens: 1024,\n  messages: [{ role: 'user', content: 'Halo, apa kabar?' }],\n});\nconsole.log(message.content[0].text);"
           }
         ]
       }

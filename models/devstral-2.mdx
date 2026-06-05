@@ -1,0 +1,18 @@
+---
+title: "Devstral 2"
+description: "Devstral 2 model, optimized for developers."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { devstral2Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...devstral2Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"devstral-2","input":"Hello!"}'
+```

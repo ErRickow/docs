@@ -12,7 +12,7 @@ Kita akan membangun sistem yang:
 1. **Membaca** dokumen dukungan kamu.
 2. **Mengonversi** mereka menjadi vektor embedding menggunakan `nusa-embedding-0001`.
 3. **Mencari** info relevan saat pengguna mengajukan pertanyaan.
-4. **Menghasilkan** jawaban yang akurat menggunakan `nusantara-base` atau `garda-beta-mini`.
+4. **Menghasilkan** jawaban yang akurat menggunakan `garda-core` atau `garda-agentic-mini`.
 
 ## Prasyarat
 
@@ -116,7 +116,7 @@ async function answerUserQuestion(question, vectorStore) {
 
   // Hasilkan jawaban
   const response = await client.chat.completions.create({
-    model: "nusantara-base", // Model tujuan umum
+    model: "garda-core", // Model tujuan umum
     messages: [
       {
         role: "system",

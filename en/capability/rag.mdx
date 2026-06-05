@@ -12,7 +12,7 @@ We will build a system that:
 1. **Reads** your support documents.
 2. **Converts** them into vector embeddings using `nusa-embedding-0001`.
 3. **Searches** for relevant info when a user asks a question.
-4. **Generates** an accurate answer using `nusantara-base` or `garda-beta-mini`.
+4. **Generates** an accurate answer using `garda-core` or `garda-agentic-mini`.
 
 ## Prerequisites
 
@@ -116,7 +116,7 @@ async function answerUserQuestion(question, vectorStore) {
 
   // Generate answer
   const response = await client.chat.completions.create({
-    model: "nusantara-base", // General purpose model
+    model: "garda-core", // General purpose model
     messages: [
       {
         role: "system",

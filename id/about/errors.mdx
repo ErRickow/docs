@@ -93,7 +93,7 @@ client = OpenAI(
 
 try:
     response = client.chat.completions.create(
-        model="nusantara-base",
+        model="garda-core",
         messages=[{"role": "user", "content": "Halo!"}]
     )
 except openai.APIError as e:
@@ -122,7 +122,7 @@ async function main() {
   try {
     const completion = await openai.chat.completions.create({
       messages: [{ role: 'user', content: 'Halo!' }],
-      model: 'nusantara-base',
+      model: 'garda-core',
     });
   } catch (error) {
     if (error instanceof OpenAI.APIError) {

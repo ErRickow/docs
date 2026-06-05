@@ -15,10 +15,10 @@ Neosantara API mencakup berbagai kemampuan AI, yang memungkinkan kamu untuk:
 
 <CardGroup cols={2}>
   <Card title="Generasi Teks" icon="message-bot">
-    Hasilkan teks, kode, dan konten kreatif yang menyerupai manusia menggunakan LLM canggih kami seperti `nusantara-base`.
+    Hasilkan teks, kode, dan konten kreatif yang menyerupai manusia menggunakan LLM canggih kami seperti `garda-core`.
   </Card>
   <Card title="Visi & Multimodal" icon="eye">
-    Analisis dan pahami gambar, dokumen, dan data visual dengan model seperti `nusantara-base` atau `kimi-k2`.
+    Analisis dan pahami gambar, dokumen, dan data visual dengan model seperti `garda-core` atau `kimi-k2`.
   </Card>
   <Card title="Generasi Gambar" icon="image">
     Buat visual yang menakjubkan dari prompt teks menggunakan model generasi mutakhir kami.
@@ -57,7 +57,7 @@ curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <KUNCI_API_KAMU>" \
   -d '{
-    "model": "nusantara-base",
+    "model": "garda-core",
     "messages": [
       {"role": "user", "content": "Halo, apa kabar?"}
     ]
@@ -73,7 +73,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="nusantara-base",
+    model="garda-core",
     messages=[
         {"role": "user", "content": "Halo, apa kabar?"}
     ]
@@ -92,7 +92,7 @@ const openai = new OpenAI({
 
 const completion = await openai.chat.completions.create({
   messages: [{ role: "user", content: "Halo, apa kabar?" }],
-  model: "nusantara-base",
+  model: "garda-core",
 });
 
 console.log(completion.choices[0].message.content);

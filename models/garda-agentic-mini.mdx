@@ -1,0 +1,18 @@
+---
+title: "Garda Agentic Mini"
+description: "Fast and efficient Groq Compound system optimized for Indonesian language workflows with built-in web search, code execution, and structured output support"
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gardaAgenticMiniData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gardaAgenticMiniData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"garda-agentic-mini","input":"Hello!"}'
+```

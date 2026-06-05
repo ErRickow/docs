@@ -1,0 +1,18 @@
+---
+title: "Amazon Nova Pro"
+description: "Amazon Nova Pro is a high-capability multimodal model with the best balance of speed and intelligence for complex reasoning, vision, and video analysis."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { amazonNovaProData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...amazonNovaProData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"amazon-nova-pro","input":"Hello!"}'
+```

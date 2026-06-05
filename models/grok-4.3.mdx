@@ -1,0 +1,18 @@
+---
+title: "Grok 4 3"
+description: "Grok 4.3 is a large-context xAI model for reasoning and tool-enabled workflows."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { grok43Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...grok43Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"grok-4.3","input":"Hello!"}'
+```

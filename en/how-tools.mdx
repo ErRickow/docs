@@ -1,11 +1,11 @@
 ---
 title: "How to Implement Tool Use"
-description: "> A guide to integrating and utilizing tools with Neosantara models for enhanced capabilities."
+description: "A guide to integrating and utilizing tools with Neosantara models for enhanced capabilities."
 ---
 
 ## Choosing a Model
 
-Generally, models with `function_calling` capabilities are suitable for tool use. For complex tools and ambiguous queries, models like `nusantara-base`, `gpt-4o-mini`, `gemini-1.5-pro`, or `command-r-plus` are recommended as they handle tool selection and parameter inference more robustly.
+Generally, models with `function_calling` capabilities are suitable for tool use. For complex tools and ambiguous queries, models like `garda-core`, `gpt-4o-mini`, `gemini-1.5-pro`, or `command-r-plus` are recommended as they handle tool selection and parameter inference more robustly.
 
 For more straightforward tools, models like `bahasa-llm` or `gemini-1.5-flash` can be effective.
 
@@ -162,7 +162,7 @@ Neosantara's response for tool use will have a `finish_reason` of `tool_calls` a
     "id": "chatcmpl-...",
     "object": "chat.completion",
     "created": 1701234567,
-    "model": "nusantara-base",
+    "model": "garda-core",
     "choices": [
       {
         "index": 0,

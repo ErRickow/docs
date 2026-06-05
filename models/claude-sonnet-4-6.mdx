@@ -1,0 +1,18 @@
+---
+title: "Claude Sonnet 4 6"
+description: "Anthropic Claude Sonnet 4.6 is the most capable Sonnet model, upgraded for coding, computer use, long-context reasoning, agent planning, knowledge work, and design."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claudeSonnet46Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claudeSonnet46Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-sonnet-4-6","input":"Hello!"}'
+```

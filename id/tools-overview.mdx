@@ -1,6 +1,6 @@
 ---
 title: "Ikhtisar"
-description: "> Perluas kemampuan Neosantara dengan memungkinkannya berinteraksi dengan tool dan fungsi eksternal."
+description: "Perluas kemampuan Neosantara dengan memungkinkannya berinteraksi dengan tool dan fungsi eksternal."
 ---
 
 Model Neosantara mampu berinteraksi dengan tool (juga dikenal sebagai fungsi), yang memungkinkan kamu memperluas kemampuan AI untuk melakukan berbagai tugas, seperti mengambil data waktu nyata, melakukan perhitungan, atau berinteraksi dengan sistem eksternal.
@@ -13,7 +13,7 @@ Berikut adalah contoh cara memberikan tool ke Neosantara menggunakan API Respons
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $NEOSANTARA_API_KEY" \
     -d '{
-      "model": "nusantara-base",
+      "model": "garda-core",
       "input": "Bagaimana cuaca di Jakarta?",
       "tools": [
         {
@@ -52,7 +52,7 @@ Berikut adalah contoh cara memberikan tool ke Neosantara menggunakan API Respons
   )
 
   response = client.chat.completions.create(
-      model="nusantara-base",
+      model="garda-core",
       max_tokens=1024,
       tools=[
           {
@@ -125,7 +125,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
         --header "Content-Type: application/json" \
         --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
         --data '{ 
-          "model": "nusantara-base",
+          "model": "garda-core",
           "max_tokens": 1024,
           "tools": [{
             "type": "function",
@@ -156,7 +156,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
       client = OpenAI(api_key="KUNCI_API_NEOSANTARA_KAMU", base_url="https://api.neosantara.xyz/v1")
 
       response = client.chat.completions.create(
-          model="nusantara-base",
+          model="garda-core",
           max_tokens=1024,
           tools=[
               {
@@ -196,7 +196,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
       "id": "chatcmpl-…",
       "object": "chat.completion",
       "created": 1701234567,
-      "model": "nusantara-base",
+      "model": "garda-core",
       "choices": [
         {
           "index": 0,
@@ -239,7 +239,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
         --header "Content-Type: application/json" \
         --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
         --data '{ 
-          "model": "nusantara-base",
+          "model": "garda-core",
           "max_tokens": 1024,
           "tools": [
               {
@@ -298,7 +298,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
       # Panggilan pertama untuk mendapatkan tool_call
       response1 = client.chat.completions.create(
-          model="nusantara-base",
+          model="garda-core",
           max_tokens=1024,
           tools=[
               {
@@ -337,7 +337,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
           # Panggilan kedua untuk memberikan hasil tool kembali ke model
           response2 = client.chat.completions.create(
-              model="nusantara-base",
+              model="garda-core",
               max_tokens=1024,
               tools=[
                   {
@@ -373,7 +373,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
       "id": "chatcmpl-…",
       "object": "chat.completion",
       "created": 1701234567,
-      "model": "nusantara-base",
+      "model": "garda-core",
       "choices": [
         {
           "index": 0,
@@ -408,7 +408,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
         --header "Content-Type: application/json" \
         --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
         --data '{ 
-          "model": "nusantara-base",
+          "model": "garda-core",
           "max_tokens": 1024,
           "tools": [{
               "type": "function",
@@ -451,7 +451,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
       # Panggilan pertama untuk mendapatkan tool_calls paralel
       response1 = client.chat.completions.create(
-          model="nusantara-base",
+          model="garda-core",
           max_tokens=1024,
           tools=[
               {
@@ -524,7 +524,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
           # Panggilan kedua untuk mendapatkan respons akhir
           response2 = client.chat.completions.create(
-              model="nusantara-base",
+              model="garda-core",
               max_tokens=1024,
               tools=[
                   # Definisikan ulang tool untuk panggilan kedua
@@ -548,7 +548,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
       "id": "chatcmpl-…",
       "object": "chat.completion",
       "created": 1701234567,
-      "model": "nusantara-base",
+      "model": "garda-core",
       "choices": [
         {
           "index": 0,
@@ -585,7 +585,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
         --header "Content-Type: application/json" \
         --header "Authorization: Bearer $NEOSANTARA_API_KEY" \
         --data '{ 
-          "model": "nusantara-base",
+          "model": "garda-core",
           "max_tokens": 1024,
           "tools": [
             {
@@ -634,7 +634,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
       # Panggilan pertama untuk mendapatkan tool_calls bagi get_location_from_ip
       response1 = client.chat.completions.create(
-          model="nusantara-base",
+          model="garda-core",
           max_tokens=1024,
           tools=[
               { "type": "function", "function": { "name": "get_location_from_ip", "description": "...", "parameters": { "type": "object", "properties": {} } } },
@@ -658,7 +658,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
           # Panggilan kedua: berikan hasil lokasi dan tanyakan cuaca
           response2 = client.chat.completions.create(
-              model="nusantara-base",
+              model="garda-core",
               max_tokens=1024,
               tools=[
                   { "type": "function", "function": { "name": "get_location_from_ip", "description": "...", "parameters": { "type": "object", "properties": {} } } },
@@ -688,7 +688,7 @@ Berikut adalah beberapa contoh kode yang mendemonstrasikan berbagai pola dan tek
 
               # Panggilan ketiga: berikan hasil cuaca dan dapatkan respons akhir
               response3 = client.chat.completions.create(
-                  model="nusantara-base",
+                  model="garda-core",
                   max_tokens=1024,
                   tools=[
                       { "type": "function", "function": { "name": "get_location_from_ip", "description": "...", "parameters": { "type": "object", "properties": {} } } },

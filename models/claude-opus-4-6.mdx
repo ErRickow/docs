@@ -1,0 +1,18 @@
+---
+title: "Claude Opus 4 6"
+description: "Anthropic Claude Opus 4.6 is a hybrid reasoning model for frontier coding, AI agents, complex enterprise workflows, and high-stakes reasoning."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claudeOpus46Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claudeOpus46Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-opus-4-6","input":"Hello!"}'
+```

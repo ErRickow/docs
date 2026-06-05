@@ -24,7 +24,7 @@ curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "nusantara-base",
+    "model": "garda-core",
     "input": "My name is Alice. I am a software engineer.",
     "store": true,
     "max_output_tokens": 1024
@@ -36,7 +36,7 @@ The API will return a response containing an `id`.
 ```json Response
 {
   "id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
-  "model": "nusantara-base",
+  "model": "garda-core",
   "status": "completed",
   "output": [
     {
@@ -65,7 +65,7 @@ const client = new OpenAI({
 });
 
 const startResponse = await client.responses.create({
-  model: "nusantara-base",
+  model: "garda-core",
   input: "My name is Alice. I am a software engineer.",
   store: true,
   max_output_tokens: 1024
@@ -84,7 +84,7 @@ client = OpenAI(
 )
 
 start_response = client.responses.create(
-    model="nusantara-base",
+    model="garda-core",
     input="My name is Alice. I am a software engineer.",
     store=True,
     max_output_tokens=1024
@@ -103,7 +103,7 @@ curl https://api.neosantara.xyz/v1/responses \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "nusantara-base",
+    "model": "garda-core",
     "input": "What allows me to manage state in React?",
     "previous_response_id": "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b",
     "max_output_tokens": 1024
@@ -115,7 +115,7 @@ The model will respond with context awareness:
 ```json Response
 {
   "id": "resp_78dd...new_id...",
-  "model": "nusantara-base",
+  "model": "garda-core",
   "status": "completed",
   "output": [
     {
@@ -137,7 +137,7 @@ The model will respond with context awareness:
 <CodeGroup>
 ```javascript node
 const followUpResponse = await client.responses.create({
-  model: "nusantara-base",
+  model: "garda-core",
   input: "What allows me to manage state in React?",
   previous_response_id: startResponse.id,
   max_output_tokens: 1024
@@ -148,7 +148,7 @@ console.log("Follow-up text:", followUpResponse.output[0].content[0].text);
 
 ```python Python
 follow_up_response = client.responses.create(
-    model="nusantara-base",
+    model="garda-core",
     input="What allows me to manage state in React?",
     previous_response_id=start_response.id,
     max_output_tokens=1024
@@ -191,7 +191,7 @@ If you have strict Zero Data Retention (ZDR) requirements or simply don't want t
 
 ```json icon="code"
 {
-  "model": "nusantara-base",
+  "model": "garda-core",
   "input": "Process this sensitive data...",
   "store": false,
   "max_output_tokens": 1024
@@ -210,7 +210,7 @@ You can attach metadata to any response to help organize your conversations. Thi
 
 ```json icon="code"
 {
-  "model": "nusantara-base",
+  "model": "garda-core",
   "input": "Support ticket #1234",
   "metadata": {
     "session_id": "session_user_5678",

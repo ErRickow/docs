@@ -1,6 +1,6 @@
 ---
 title: "DSPy"
-description: "> Menggunakan DSPy dengan Neosantara."
+description: "Menggunakan DSPy dengan Neosantara."
 ---
 
 DSPy adalah framework untuk memprogram model bahasa alih-alih mengkamulkan prompt statis. Ini memungkinkan kamu membangun sistem AI modular dengan kode alih-alih prompt buatan tangan, dan menawarkan metode untuk mengoptimalkan sistem ini secara otomatis.
@@ -33,7 +33,7 @@ import os
 import dspy
 
 # Konfigurasikan dspy dengan LLM dari Neosantara
-lm = dspy.LM('openai/nusantara-base',
+lm = dspy.LM('openai/garda-core',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")
 
@@ -50,7 +50,7 @@ import os
 import dspy
 
 # Konfigurasikan dspy dengan LLM dari Neosantara
-lm = dspy.LM('openai/archipelago-70b',
+lm = dspy.LM('openai/archipelago-core-70b',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")
 

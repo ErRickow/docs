@@ -14,7 +14,7 @@ You will learn to:
 3. Use Neosantara's embedding model (`nusa-embedding-0001`) to vectorize your documents.
 4. Store these embeddings in ChromaDB.
 5. Retrieve relevant documents from ChromaDB based on a user query.
-6. Use Neosantara's chat model (`nusantara-base`) to generate a grounded answer using the retrieved context.
+6. Use Neosantara's chat model (`garda-core`) to generate a grounded answer using the retrieved context.
 
 ## Setup
 
@@ -46,7 +46,7 @@ client = OpenAI(
 
 # Define models to be used
 EMBEDDING_MODEL = "nusa-embedding-0001"
-CHAT_MODEL = "nusantara-base"
+CHAT_MODEL = "garda-core"
 ```
 
 ## Creating the Embedding Database with ChromaDB

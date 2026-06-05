@@ -1,0 +1,18 @@
+---
+title: "Llama 3 2 11b Vision"
+description: "Llama 3.2 11B is Meta’s small-sized multimodal model, optimized for high efficiency, low latency, and strong performance in visual reasoning and tool use."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { llama3211bVisionData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...llama3211bVisionData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"llama-3-2-11b-vision","input":"Hello!"}'
+```

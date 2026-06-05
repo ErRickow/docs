@@ -1,0 +1,18 @@
+---
+title: "Claude 3 5 Haiku"
+description: "DEPRECATED - Claude 3.5 Haiku has been superseded by Claude Haiku 4.5."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claude35HaikuData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claude35HaikuData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-3-5-haiku","input":"Hello!"}'
+```

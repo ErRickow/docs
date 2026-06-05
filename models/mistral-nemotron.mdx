@@ -1,0 +1,18 @@
+---
+title: "Mistral Nemotron"
+description: "Mistral Nemotron is a powerful general-purpose assistant model from Mistral AI, optimized for high-quality reasoning and dialogue."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { mistralNemotronData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...mistralNemotronData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"mistral-nemotron","input":"Hello!"}'
+```

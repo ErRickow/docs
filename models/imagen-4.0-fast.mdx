@@ -1,0 +1,18 @@
+---
+title: "Imagen 4 0 Fast"
+description: "Google Imagen 4 Fast. High-speed, high-quality image generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { imagen40FastData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...imagen40FastData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"imagen-4.0-fast","prompt":"Pemandangan alam Indonesia yang indah"}'
+```

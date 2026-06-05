@@ -1,6 +1,6 @@
 ---
 title: "Grok Code Fast"
-description: "xAI latest coding model that offers fast agentic coding with a 256K context window."
+description: "Deprecated alias for xai/grok-code-fast-1. Migrated to Grok 4.3."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
@@ -10,51 +10,9 @@ import { grokCodeFastData } from '/snippets/model-data.jsx';
 
 ## Quick Integration
 
-<CodeGroup>
 ```bash cURL
-curl https://api.neosantara.xyz/v1/chat/completions \
+curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{
-    "model": "grok-code-fast",
-    "messages": [
-      { "role": "user", "content": "Hello!" }
-    ]
-  }'
+  -d '{"model":"grok-code-fast","input":"Hello!"}'
 ```
-
-```python Python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.neosantara.xyz/v1",
-    api_key="YOUR_NEOSANTARA_API_KEY"
-)
-
-response = client.chat.completions.create(
-    model="grok-code-fast",
-    messages=[
-        {"role": "user", "content": "Hello!"}
-    ]
-)
-
-print(response.choices[0].message.content)
-```
-
-```javascript Node.js
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "YOUR_NEOSANTARA_API_KEY"
-});
-
-const completion = await openai.chat.completions.create({
-  messages: [{ role: "user", content: "Hello!" }],
-  model: "grok-code-fast",
-});
-
-console.log(completion.choices[0].message.content);
-```
-
-</CodeGroup>

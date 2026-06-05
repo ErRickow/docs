@@ -49,8 +49,8 @@ async def main():
     async with httpx.AsyncClient() as session:
         tasks = []
         prompts = [
-            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]},
-            {"model": "nusantara-base", "messages": [{"role": "user", "content": "Ceritakan sebuah cerita"}]}
+            {"model": "garda-core", "messages": [{"role": "user", "content": "Halo"}]},
+            {"model": "garda-core", "messages": [{"role": "user", "content": "Ceritakan sebuah cerita"}]}
         ]
         for p in prompts:
             payload = p
@@ -76,8 +76,8 @@ const postChatCompletion = async (payload) => {
 
 async function main() {
   const prompts = [
-    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Halo' }] },
-    { model: 'nusantara-base', messages: [{ role: 'user', content: 'Ceritakan sebuah cerita' }] }
+    { model: 'garda-core', messages: [{ role: 'user', content: 'Halo' }] },
+    { model: 'garda-core', messages: [{ role: 'user', content: 'Ceritakan sebuah cerita' }] }
   ]
   const results = await Promise.all(prompts.map(p => postChatCompletion(p)))
   console.log(results)

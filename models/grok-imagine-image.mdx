@@ -1,0 +1,18 @@
+---
+title: "Grok Imagine Image"
+description: "xAI Grok Imagine Image model for high-quality image generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { grokImagineImageData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...grokImagineImageData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"grok-imagine-image","prompt":"Pemandangan alam Indonesia yang indah"}'
+```

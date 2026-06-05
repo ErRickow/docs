@@ -39,7 +39,7 @@ Neosantara API uses standard HTTP status codes. This page documents common error
 ```python icon="python"
 import requests
 headers = {"Authorization": "Bearer YOUR_NEOSANTARA_API_KEY"}
-payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]}
+payload = {"model": "garda-core", "messages": [{"role": "user", "content": "Hello"}]}
 resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
 ```
 
@@ -47,7 +47,7 @@ resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payl
 
 ```js
 const payload = {
-  model: "nusantara-base",
+  model: "garda-core",
   messages: [{ role: "user", content: "Hello" }]
 };
 

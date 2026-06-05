@@ -1,6 +1,6 @@
 ---
 title: "Quickstart: Using Vercel AI SDK With Neosantara"
-description: "> This guide will walk you through how to use Neosantara models with the Vercel AI SDK."
+description: "This guide will walk you through how to use Neosantara models with the Vercel AI SDK."
 ---
 
 The Vercel AI SDK is a powerful Typescript library designed to help developers build AI-powered applications. Using Neosantara and the Vercel AI SDK, you can easily integrate AI into your TypeScript, React, or Next.js project. In this tutorial, we'll look into how easy it is to use Neosantara's models and the Vercel AI SDK.
@@ -17,7 +17,7 @@ npm i ai @ai-sdk/openai-compatible
 yarn add ai @ai-sdk/openai-compatible
 ```
 
-2. Instantiate the Neosantara client and call the `generateText` function with nusantara-base to generate some text.
+2. Instantiate the Neosantara client and call the `generateText` function with garda-core to generate some text.
 
 ```javascript icon="js"
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -30,7 +30,7 @@ const neosantara = createOpenAICompatible({
 });
 
 const { text } = await generateText({
-  model: neosantara('nusantara-base'),
+  model: neosantara('garda-core'),
   prompt: 'Write a story about cat want a whiskas',
 });
 
@@ -71,7 +71,7 @@ const neosantara = createOpenAICompatible({
 
 async function main() {
   const result = await streamText({
-    model: neosantara("nusantara-base"),
+    model: neosantara("garda-core"),
     prompt: "Invent a new holiday and describe its traditions.",
   });
 

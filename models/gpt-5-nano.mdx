@@ -1,0 +1,18 @@
+---
+title: "GPT 5 Nano"
+description: "GPT-5 nano is a high throughput model that excels at simple instruction or classification tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gpt5NanoData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gpt5NanoData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gpt-5-nano","input":"Hello!"}'
+```

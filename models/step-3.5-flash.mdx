@@ -1,0 +1,18 @@
+---
+title: "Step 3 5 Flash"
+description: "Step 3.5 Flash is a frontier-level agentic MoE model with a 256K context window, engineered for elite reasoning, coding, and complex software engineering tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { step35FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...step35FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"step-3.5-flash","input":"Hello!"}'
+```

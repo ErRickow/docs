@@ -21,7 +21,7 @@ Neosantara menggunakan tiga mekanisme berbeda untuk mengaktifkan penalaran, terg
 Model yang dilatih khusus untuk penalaran, seperti **DeepSeek-R1**, **Claude 3.7**, dan **Gemini 2.0 Flash Thinking**, menggunakan logika bawaan mereka. Neosantara terhubung langsung ke protokol "berpikir" native ini untuk memastikan kualitas pemikiran tertinggi.
 
 ### 2. Injeksi Instruksi (Instruction Injection)
-Untuk model standar yang tidak memiliki penalaran native (misalnya, `nusantara-base`, `archipelago-70b`), Neosantara menggunakan **Injeksi Instruksi**. Saat penalaran diaktifkan, sistem secara otomatis menambahkan instruksi logika kompleks ke prompt sistem, memaksa model untuk membedah prosesnya ke dalam beberapa langkah.
+Untuk model standar yang tidak memiliki penalaran native (misalnya, `garda-core`, `archipelago-core-70b`), Neosantara menggunakan **Injeksi Instruksi**. Saat penalaran diaktifkan, sistem secara otomatis menambahkan instruksi logika kompleks ke prompt sistem, memaksa model untuk membedah prosesnya ke dalam beberapa langkah.
 
 ### 3. Anggaran & Upaya Penalaran
 Untuk model yang didukung, kamu dapat mengontrol "kedalaman" pemikiran menggunakan parameter `thinking`.

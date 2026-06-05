@@ -1,5 +1,6 @@
 ---
 title: "Create Chat Completion"
+description: "Reference for POST /v1/chat/completions."
 api: 'POST /v1/chat/completions' 
 playground: 'simple' 
 authMethod: 'bearer'
@@ -10,7 +11,7 @@ Start with **Free Initial Credits** on our Pay-As-You-Go Plan. **No credit card 
 </Card>
 
 <ParamField path="model" type="string" required>
-ID of the model to use (e.g., `garda-beta-mini`, `nusantara-base`). See [`/v1/models`](/api-reference/models/list-available-models).
+ID of the model to use (e.g., `garda-agentic-mini`, `garda-core`). See [`/v1/models`](/api-reference/models/list-available-models).
 </ParamField>
 
 <ParamField path="messages" type="array" required>
@@ -61,7 +62,7 @@ Controls which (if any) tool is called by the model. Can be `none`, `auto`, `req
 </ParamField>
 
 <ParamField path="reasoning" type="object">
-  Enable reasoning capabilities for supported models (e.g., `nusantara-base`, `garda-beta-mini`).
+  Enable reasoning capabilities for supported models (e.g., `garda-core`, `garda-agentic-mini`).
   <Expandable title="properties">
     <ParamField path="enabled" type="boolean" default="false">
       Whether to enable reasoning for the request.
@@ -94,7 +95,7 @@ Must be one of `text`, `json_object`, or `json_schema`.
 </ParamField>
 
 <ParamField path="user" type="string">
-A unique identifier representing your end-user, which can help Neosantara AI to monitor and detect abuse.
+A unique identifier representing your end-user, which can help Neosantara monitor and detect abuse.
 </ParamField>
 
 ## Returns
@@ -171,7 +172,7 @@ Number of tokens in the prompt.
   "id": "chatcmpl-123",
   "object": "chat.completion",
   "created": 1677652288,
-  "model": "nusantara-base",
+  "model": "garda-core",
   "choices": [
     {
       "index": 0,

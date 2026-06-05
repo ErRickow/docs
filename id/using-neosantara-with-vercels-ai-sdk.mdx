@@ -1,6 +1,6 @@
 ---
 title: "Mulai Cepat: Menggunakan Vercel AI SDK dengan Neosantara"
-description: "> Panduan ini akan memandu kamu tentang cara menggunakan model Neosantara dengan Vercel AI SDK."
+description: "Panduan ini akan memandu kamu tentang cara menggunakan model Neosantara dengan Vercel AI SDK."
 ---
 
 Vercel AI SDK adalah pustaka Typescript yang kuat yang dirancang untuk membantu pengembang membangun aplikasi bertenaga AI. Dengan menggunakan Neosantara dan Vercel AI SDK, kamu dapat dengan mudah mengintegrasikan AI ke dalam proyek TypeScript, React, atau Next.js kamu. Dalam tutorial ini, kita akan melihat betapa mudahnya menggunakan model Neosantara dan Vercel AI SDK.
@@ -17,7 +17,7 @@ npm i ai @ai-sdk/openai-compatible
 yarn add ai @ai-sdk/openai-compatible
 ```
 
-2. Buat instans klien Neosantara dan panggil fungsi `generateText` dengan nusantara-base untuk menghasilkan beberapa teks.
+2. Buat instans klien Neosantara dan panggil fungsi `generateText` dengan garda-core untuk menghasilkan beberapa teks.
 
 ```javascript icon="js"
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -30,7 +30,7 @@ const neosantara = createOpenAICompatible({
 });
 
 const { text } = await generateText({
-  model: neosantara('nusantara-base'),
+  model: neosantara('garda-core'),
   prompt: 'Tulis cerita tentang kucing yang menginginkan whiskas',
 });
 
@@ -71,7 +71,7 @@ const neosantara = createOpenAICompatible({
 
 async function main() {
   const result = await streamText({
-    model: neosantara("nusantara-base"),
+    model: neosantara("garda-core"),
     prompt: "Buat hari libur baru dan jelaskan tradisinya.",
   });
 

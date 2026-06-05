@@ -44,6 +44,7 @@ Always use the modern parameter names for the OpenAI SDK (Python and Node.js):
 
 - **`docs.json`**: This is the source of truth for navigation. When adding pages, ensure they are registered here for both languages.
 - **`openapi.json`**: This file is generated from the backend. Do not edit it manually in the `docs` repo; instead, trigger the build in the `nusantaraai` repo.
+- **Model reference pages**: Files under `models/`, `snippets/model-data.jsx`, and the Models navigation in `docs.json` are generated from the live `GET /v1/models` response by `scripts/sync-model-docs.js`. Do not hand-edit generated model metadata; fix the live backend model data, then rerun the sync.
 
 ## Working relationship
 

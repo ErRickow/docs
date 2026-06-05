@@ -1,0 +1,18 @@
+---
+title: "Amazon Nova Lite"
+description: "Amazon Nova Lite is a very fast, low-cost multimodal model that is ideal for processing images, videos, and text with a 300,000-token context window."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { amazonNovaLiteData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...amazonNovaLiteData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"amazon-nova-lite","input":"Hello!"}'
+```

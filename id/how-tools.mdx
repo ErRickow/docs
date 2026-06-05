@@ -1,11 +1,11 @@
 ---
 title: "Cara Mengimplementasikan Penggunaan Tool"
-description: "> Panduan untuk mengintegrasikan dan memanfaatkan tool dengan model Neosantara untuk kemampuan yang ditingkatkan."
+description: "Panduan untuk mengintegrasikan dan memanfaatkan tool dengan model Neosantara untuk kemampuan yang ditingkatkan."
 ---
 
 ## Memilih Model
 
-Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan tool. Untuk tool yang kompleks dan kueri yang ambigu, model seperti `nusantara-base`, `gpt-4o-mini`, `gemini-1.5-pro`, atau `command-r-plus` direkomendasikan karena mereka menangani pemilihan tool dan inferensi parameter dengan lebih kuat.
+Umumnya, model dengan kemampuan `function_calling` cocok untuk penggunaan tool. Untuk tool yang kompleks dan kueri yang ambigu, model seperti `garda-core`, `gpt-4o-mini`, `gemini-1.5-pro`, atau `command-r-plus` direkomendasikan karena mereka menangani pemilihan tool dan inferensi parameter dengan lebih kuat.
 
 Untuk tool yang lebih sederhana, model seperti `bahasa-llm` atau `gemini-1.5-flash` bisa efektif.
 
@@ -162,7 +162,7 @@ Respons Neosantara untuk penggunaan tool akan memiliki `finish_reason` berupa `t
     "id": "chatcmpl-...",
     "object": "chat.completion",
     "created": 1701234567,
-    "model": "nusantara-base",
+    "model": "garda-core",
     "choices": [
       {
         "index": 0,

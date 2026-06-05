@@ -15,7 +15,7 @@ The Neosantara API covers a wide range of AI capabilities, enabling you to:
 
 <CardGroup cols={2}>
   <Card title="Text Generation" icon="message-bot">
-    Generate human-like text, code, and creative content using our advanced LLMs like `nusantara-base`.
+    Generate human-like text, code, and creative content using our advanced LLMs like `garda-core`.
   </Card>
   <Card title="Vision & Multimodal" icon="eye">
     Analyze and understand images, documents, and visual data with models like `neosantara-base` or `kimi-k2`.
@@ -57,7 +57,7 @@ curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
   -d '{
-    "model": "nusantara-base",
+    "model": "garda-core",
     "messages": [
       {"role": "user", "content": "Halo, apa kabar?"}
     ]
@@ -73,7 +73,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="nusantara-base",
+    model="garda-core",
     messages=[
         {"role": "user", "content": "Halo, apa kabar?"}
     ]
@@ -92,7 +92,7 @@ const openai = new OpenAI({
 
 const completion = await openai.chat.completions.create({
   messages: [{ role: "user", content: "Halo, apa kabar?" }],
-  model: "nusantara-base",
+  model: "garda-core",
 });
 
 console.log(completion.choices[0].message.content);

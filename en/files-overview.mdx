@@ -117,8 +117,8 @@ curl https://api.neosantara.xyz/v1/files/file-abc123/content \
 When uploading files with `purpose="batch"`, ensure your JSONL file follows this format:
 
 ```json example.jsonl
-{"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Hello!"}]}}
-{"custom_id": "request-2", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "How are you?"}]}}
+{"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-agentic-mini", "messages": [{"role": "user", "content": "Hello!"}]}}
+{"custom_id": "request-2", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-agentic-mini", "messages": [{"role": "user", "content": "How are you?"}]}}
 ```
 
 Each line must be a valid JSON object with:

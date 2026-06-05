@@ -1,0 +1,18 @@
+---
+title: "Claude 4 5 Haiku"
+description: "Claude 4.5 Haiku on AWS Bedrock. Fast, cost-efficient model for agentic workloads with strong coding and reasoning performance."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claude45HaikuData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claude45HaikuData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-4-5-haiku","input":"Hello!"}'
+```

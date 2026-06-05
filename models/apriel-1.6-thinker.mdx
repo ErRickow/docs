@@ -1,0 +1,18 @@
+---
+title: "Apriel 1 6 Thinker"
+description: "Apriel 1.6 15B Thinker: A high-performance model from ServiceNow optimized for reasoning and complex tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { apriel16ThinkerData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...apriel16ThinkerData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"apriel-1.6-thinker","input":"Hello!"}'
+```

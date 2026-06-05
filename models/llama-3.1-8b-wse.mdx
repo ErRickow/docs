@@ -1,0 +1,18 @@
+---
+title: "Llama 3 1 8b WSE"
+description: "Llama 3.1 8B optimized for Wafer-Scale Engine. Provides ultra-high speed inference (2,000+ tokens/s) for real-time applications."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { llama318bWseData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...llama318bWseData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"llama-3.1-8b-wse","input":"Hello!"}'
+```

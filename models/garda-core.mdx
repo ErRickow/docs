@@ -1,0 +1,18 @@
+---
+title: "Garda Core"
+description: "Base model for general tasks with balanced performance, cost and speed"
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gardaCoreData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gardaCoreData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"garda-core","input":"Hello!"}'
+```

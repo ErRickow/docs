@@ -1,6 +1,6 @@
 ---
-title: "GLM 4.7"
-description: "Advanced multimodal reasoning model with enhanced performance."
+title: "GLM 4 7"
+description: "Latest generation GLM model with improved reasoning and coding."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
@@ -8,6 +8,11 @@ import { glm47Data } from '/snippets/model-data.jsx';
 
 <ModelInfo {...glm47Data} />
 
-## Overview
+## Quick Integration
 
-GLM 4.7 provides superior performance in coding and mathematical reasoning. It is available to users on Basic tier and above.
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"glm-4.7","input":"Hello!"}'
+```

@@ -1,0 +1,18 @@
+---
+title: "Claude 3 5 Sonnet v2"
+description: "DEPRECATED - Claude 3.5 Sonnet v2 has been superseded. Use claude-4-5-haiku instead."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claude35SonnetV2Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claude35SonnetV2Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-3-5-sonnet-v2","input":"Hello!"}'
+```

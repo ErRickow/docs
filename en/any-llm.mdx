@@ -1,0 +1,163 @@
+---
+title: "Any-LLM"
+description: "Use Neosantara as a native Any-LLM provider for provider-agnostic Python apps."
+---
+
+Any-LLM gives Python applications one interface for multiple LLM providers. Neosantara is available as a native provider with provider id `neosantara`, so you do not need to build a custom OpenAI-compatible adapter or hard-code Neosantara-specific client setup throughout your app.
+
+Use this integration when you want to keep your application provider-agnostic, route requests through Neosantara, and still work with OpenAI-style response objects.
+
+## Install
+
+Install Any-LLM with the Neosantara provider extra.
+
+```bash icon="terminal"
+pip install "any-llm-sdk[neosantara]"
+```
+
+## Authentication
+
+Set your Neosantara API key before running the app.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+Any-LLM uses `https://api.neosantara.xyz/v1` by default. If you need to point a test environment or private gateway at another compatible endpoint, set `NEOSANTARA_API_BASE`.
+
+```bash icon="terminal"
+export NEOSANTARA_API_BASE="https://api.neosantara.xyz/v1"
+```
+
+## Choose the Native Provider
+
+Use `provider="neosantara"` for one-off calls, or create a reusable provider client with `AnyLLM.create("neosantara")` when your app will make several requests through the same provider.
+
+```python icon="python"
+from any_llm import AnyLLM
+
+llm = AnyLLM.create("neosantara")
+
+response = llm.completion(
+    model="gemini-3.5-flash",
+    messages=[
+        {
+            "role": "user",
+            "content": "Explain Neosantara in one sentence.",
+        }
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+## One-Off Completion
+
+Use `completion()` directly for scripts, jobs, and small utilities.
+
+```python icon="python"
+from any_llm import completion
+
+response = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Halo!"}],
+)
+
+print(response.choices[0].message.content)
+```
+
+## Streaming
+
+For interactive CLIs and chat UIs, request streaming chunks from the same native provider.
+
+```python icon="python"
+from any_llm import completion
+
+stream = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Write a short launch checklist."}],
+    stream=True,
+)
+
+for chunk in stream:
+    delta = chunk.choices[0].delta.content or ""
+    print(delta, end="")
+```
+
+## Tool Calling
+
+Pass standard OpenAI-style tool definitions through Any-LLM. Neosantara will route the request to a model that supports tool calling.
+
+```python icon="python"
+from any_llm import completion
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_order_status",
+            "description": "Look up the delivery status for an order.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "order_id": {
+                        "type": "string",
+                        "description": "The customer order ID.",
+                    }
+                },
+                "required": ["order_id"],
+            },
+        },
+    }
+]
+
+response = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Where is order ID INV-2045?"}],
+    tools=tools,
+    tool_choice="auto",
+)
+
+print(response.choices[0].message.tool_calls)
+```
+
+## Provider Parameters
+
+You can pass common generation parameters through the native provider.
+
+```python icon="python"
+from any_llm import completion
+
+response = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Give me three product tagline options."}],
+    temperature=0.4,
+    max_tokens=300,
+)
+
+print(response.choices[0].message.content)
+```
+
+Use [Models Overview](/en/models-overview) to choose a model by capability. For example, use a text or reasoning model for chat workflows, an image model for image generation workflows, and an embedding model for retrieval pipelines.
+
+## When to Use Any-LLM
+
+| Use case | Why Any-LLM helps |
+| --- | --- |
+| Multi-provider apps | Keep one Python interface while switching providers by provider id. |
+| Provider fallback | Keep Neosantara and other providers behind the same call shape. |
+| Existing OpenAI-shaped code | Work with familiar `messages`, `choices`, `tool_calls`, and streaming chunks. |
+| Internal platform code | Centralize provider selection instead of spreading client setup across services. |
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Authentication fails | Confirm `NEOSANTARA_API_KEY` is set and starts with `nsk_`. |
+| Requests go to the wrong host | Check `NEOSANTARA_API_BASE`; remove it to use the default Neosantara endpoint. |
+| A model does not support a feature | Open the generated model page from [Models Overview](/en/models-overview) and verify its capabilities. |
+| Tool calls are empty | Use a model with tool-calling support and pass `tool_choice="auto"` or a specific tool choice. |

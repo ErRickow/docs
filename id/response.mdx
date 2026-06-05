@@ -1,6 +1,6 @@
 ---
 title: "Responses vs. Chat Completions"
-description: "> Memahami perbedaan praktis saat menggunakan SDK OpenAI dengan endpoint kami."
+description: "Memahami perbedaan praktis saat menggunakan SDK OpenAI dengan endpoint kami."
 ---
 
 Saat kamu menggunakan SDK resmi OpenAI seperti [`openai-python`](https://pypi.org/project/openai/) atau [`openai-node`](https://www.npmjs.com/package/openai) dengan `base_url` Neosantara, perpustakaan tersebut memetakan metodenya ke endpoint API kami. Meskipun [`v1/responses`](/api-reference/responses/create) dan [`v1/chat/completions`](/api-reference/chat/completions/create) keduanya dapat melakukan percakapan, cara kamu berinteraksi dengan mereka melalui SDK pada dasarnya berbeda.
@@ -135,12 +135,12 @@ response2 = client.responses.create(
 ```python icon="code" lines
 # Manajemen riwayat manual (Chat Completions)
 messages = [{"role": "user", "content": "Apa ibu kota Indonesia?"}] # [!code --]
-completion = client.chat.completions.create(model="nusantara-base", messages=messages) # [!code --]
+completion = client.chat.completions.create(model="garda-core", messages=messages) # [!code --]
 
 # Tambahkan riwayat secara manual untuk turn berikutnya # [!code --]
 messages.append(completion.choices[0].message) # [!code --]
 messages.append({"role": "user", "content": "Berapa jumlah penduduknya?"}) # [!code --]
-next_completion = client.chat.completions.create(model="nusantara-base", messages=messages) # [!code --]
+next_completion = client.chat.completions.create(model="garda-core", messages=messages) # [!code --]
 
 # Manajemen status otomatis (Responses) # [!code ++]
 response1 = client.responses.create( # [!code ++]

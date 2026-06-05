@@ -50,14 +50,14 @@ export const ModelCards = ({ capability }) => {
     <div className="mt-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {displayedModels.map(model => (
-          <div key={model.name} className="group border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50/50 dark:bg-white/5 hover:border-orange-500/50 transition-all duration-200 flex flex-col">
+          <div key={model.name} className="neo-model-card group border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50/50 dark:bg-white/5 transition-all duration-200 flex flex-col">
             <div className="flex justify-between items-start gap-2 mb-2">
               <div className="flex flex-col gap-1 overflow-hidden">
                 <div className="flex items-center gap-2">
                   <h4 className="text-base font-bold m-0 leading-tight truncate">{model.name}</h4>
                   <button 
                     onClick={() => handleCopy(model.name)}
-                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors text-gray-400 hover:text-orange-500"
+                    className="neo-icon-action p-1 rounded transition-colors text-gray-400"
                     title="Copy Model ID"
                   >
                     {copiedId === model.name ? (
@@ -89,7 +89,7 @@ export const ModelCards = ({ capability }) => {
         <div className="flex justify-center mt-6">
           <button 
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-orange-500 transition-colors py-2 px-4 border border-gray-200 dark:border-gray-800 rounded-full bg-gray-50/50 dark:bg-white/5"
+            className="neo-secondary-action text-xs font-bold uppercase tracking-widest text-gray-500 transition-colors py-2 px-4 border border-gray-200 dark:border-gray-800 rounded-full bg-gray-50/50 dark:bg-white/5"
           >
             {isExpanded ? 'Show Less' : `Show All (${models.length})`}
           </button>

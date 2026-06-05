@@ -39,7 +39,7 @@ API Neosantara menggunakan kode status HTTP standar. Halaman ini mendokumentasik
 ```python icon="python"
 import requests
 headers = {"Authorization": "Bearer KUNCI_API_NEOSANTARA_KAMU"}
-payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Halo"}]}
+payload = {"model": "garda-core", "messages": [{"role": "user", "content": "Halo"}]}
 resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
 ```
 
@@ -47,7 +47,7 @@ resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payl
 
 ```js
 const payload = {
-  model: "nusantara-base",
+  model: "garda-core",
   messages: [{ role: "user", content: "Halo" }]
 };
 

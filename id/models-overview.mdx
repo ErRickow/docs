@@ -1,129 +1,62 @@
 ---
 title: "Ikhtisar Model"
-description: "> Temukan berbagai model bahasa besar canggih yang disediakan oleh Neosantara."
+description: "Jelajahi model Neosantara yang disinkronkan dari katalog live, termasuk kapabilitas, tautan harga, dan halaman detail model."
 ---
 
 import { ModelGrid } from '/snippets/model-grid.jsx';
 
-Neosantara menawarkan pilihan model mutakhir yang dikurasi, mulai dari model fine-tune kami sendiri yang dioptimalkan untuk bahasa Indonesia hingga model sumber terbuka terbaik dari Meta, Google, Alibaba, dan banyak lagi.
+Dokumentasi model Neosantara dibuat dari katalog live `/v1/models`. Gunakan halaman ini sebagai titik awal, lalu buka halaman detail model untuk melihat kapabilitas, batas konteks, unit harga, endpoint, dan batasan yang diketahui.
 
 <Note>
-  **Penagihan & Harga:** Untuk penjelasan mendetail tentang cara kerja kredit, mekanisme harga (Pay-As-You-Go), dan tingkatan throughput, silakan merujuk ke dokumentasi [Kredit Token & Harga](/id/about/billing-pricing).
+  Ketersediaan model dapat berubah saat provider memperbarui katalog. Untuk mekanisme penagihan, kredit, dan tier throughput, lihat [Billing & Pricing](/id/about/billing-pricing) dan [Rate Limits](/id/about/rate-limits).
 </Note>
 
-## Galeri Model
+## Galeri model
 
 <ModelGrid />
 
----
-
-## Model Teks, Penalaran & Coding
-
-Di bawah ini adalah daftar model pembuatan teks, penalaran, dan coding yang tersedia.
-
-| ID Model | Deskripsi | Konteks | Harga (Input/Output) |
-| :--- | :--- | :--- | :--- |
-| `nusantara-base` | **Flagship**. Serbaguna, berkemampuan visi, seimbang. | 64k | Rp 300 / 1.500 |
-| `sahabat-ai-llama-v4` | **Regional**. Dioptimalkan untuk ekosistem Indonesia. | 32k | Rp 150 / 600 |
-| `archipelago-70b` | **Budaya Mendalam**. Llama-3.3 70B di-fine-tune untuk nuansa budaya. | 24k | Rp 4.710 / 36.543 |
-| `garda-beta-mini` | **Tercepat**. Efisiensi tinggi, konteks masif, dan pencarian web. | 131k | Rp 2.500 / 10.499 |
-| `sea-lion-v4-27b-it` | **Regional**. Khusus untuk bahasa Asia Tenggara. | 128k | Rp 350 / 560 |
-| `deepseek-r1` | **Penalaran**. Kecerdasan berkualitas tinggi dengan chain-of-thought. | 128k | $1.35 / $5.40 (USD) |
-| `kimi-k2` | **MoE**. 1T params (MoE) dioptimalkan untuk tugas agentic. | 131k | Rp 16.642 / 49.929 |
-| `kimi-k2:latest` | **MoE**. Model Kimi K2 standar terbaru. | 128k | Rp 16.642 / 49.929 |
-| `kimi-k2:search` | **Pencarian**. Kimi K2 dengan kemampuan pencarian online. | 128k | Rp 16.642 / 49.929 |
-| `kimi-k2:research` | **Riset**. Dioptimalkan untuk tugas riset mendalam. | 128k | Rp 16.642 / 49.929 |
-| `kimi-k2:math` | **Matematika**. Dioptimalkan untuk logika matematika kompleks. | 128k | Rp 16.642 / 49.929 |
-| `kimi-k2:silent` | **Silent**. Jawaban langsung tanpa log proses pencarian. | 128k | Rp 16.642 / 49.929 |
-| `kimi-k1` | **Legacy**. Model Kimi generasi pertama. | 128k | Rp 16.642 / 49.929 |
-| `llama-3.3-nemotron-super-49b-v1.5` | **Super**. Model 49B dengan penalaran luar biasa. | 132k | Rp 4.560 / 31.991 |
-| `glm-4.6` | **Z.ai**. Benchmark coding dan agent SOTA. | 128k | Rp 10.000 / 30.000 |
-| `glm-4.6-plus` | **Z.ai**. Konteks coding yang lebih kuat. | 128k | Rp 10.000 / 30.000 |
-| `glm-4.6v-flash` | **Cepat**. Model multimodal ringan dari Z.ai. | 128k | Rp 250 / 750 |
-| `glm-4.5-flash` | **Cepat**. Model flash efisien dari Z.ai. | 128k | Rp 250 / 750 |
-| `grok-4.1-fast-non-reasoning` | **Konteks Masif**. Model tool-calling terbaik xAI. | 2M | $0.30 / $0.72 (USD) |
-| `grok-4-fast` | **Konteks Masif**. Model multimodal xAI terbaru. | 2M | Rp 3.333 / 8.333 |
-| `llama-3.3-70b-turbo` | **Turbo**. Versi optimasi dari Llama 70B. | 8k | Rp 300 / 1.200 |
-| `gemma-3-27b-it` | **Baru**. Model terbuka terbaru dari Google. | 32k | Rp 200 / 1.500 |
-| `gemma2-9b-it` | **Efisien**. Kualitas tinggi untuk ukurannya. | 8k | Rp 200 / 1.000 |
-| `llama-3.2-11b` | **Ringan**. Model ringan yang efisien. | 8k | Rp 100 / 400 |
-| `granite-3-8b-instruct` | **Enterprise**. Model kelas enterprise dari IBM. | 128k | Rp 2.880 / 11.520 |
-| `gpt-oss-20b` | **Latensi Rendah**. Model open-weight ukuran sedang. | 131k | Rp 400 / 1.600 |
-| `gpt-5-nano` | **Efisien**. Chat dan penalaran dengan biaya optimal. | 128k | Rp 810 / 6.485 |
-| `gemini-3-pro-preview` | **Pro**. Model performa tinggi generasi berikutnya. | 128k | Rp 40.000 / 120.000 |
-| `gemini-3-flash-preview` | **Flash**. Model cepat dan efisien generasi berikutnya. | 1M | Rp 1.600 / 6.400 |
-| `gemini-3-flash` | **Cepat**. Model paling cerdas Google untuk kecepatan. | 1M | $0.50 / $3.00 (USD) |
-| `qwen3-32b` | **Qwen 3**. Penalaran SOTA dan dukungan multibahasa. | 131k | Rp 4.828 / 9.823 |
-| `qwen3-coder` | **Coding**. Spesialis MoE 480B. | 262k | Rp 3.333 / 8.333 |
-| `apriel-1.6-thinker` | **Penalaran**. Model performa tinggi dari ServiceNow. | 32k | Rp 3.000 / 9.000 |
-| `grok-code-fast` | **Coding**. Model coding terbaru xAI. | 256k | $0.20 / $1.50 (USD) |
-| `claude-3-5-sonnet` | **Seimbang**. Kecerdasan bertemu kecepatan untuk tugas bisnis. | 200k | $3.00 / $15.00 (USD) |
-| `claude-3-5-haiku` | **Terjangkau**. Model cepat dan efisien dari Anthropic. | 200k | $1.00 / $5.00 (USD) |
-| `claude-3-7-sonnet` | **Canggih**. Model paling canggih dan cerdas dari Anthropic. | 200k | $3.00 / $15.00 (USD) |
-| `claude-4.5-sonnet` | **Flagship**. Flagship terbaru, menyeimbangkan kecerdasan dan visi. | 200k | $3.00 / $15.00 (USD) |
-| `claude-4.5-opus` | **Kuat**. Model Anthropic terkuat untuk tugas kompleks. | 200k | $5.00 / $25.00 (USD) |
-| `claude-4.5-haiku` | **Tercepat**. Model paling hemat biaya di keluarga 4.5. | 200k | $1.00 / $5.00 (USD) |
-| `amazon-nova-micro` | **Terjangkau**. Model paling hemat biaya dari Amazon. | 300k | $0.035 / $0.14 (USD) |
-| `amazon-nova-lite` | **Multimodal**. Model multimodal cepat dan murah. | 300k | $0.06 / $0.24 (USD) |
-| `amazon-nova-pro` | **Pro**. Model multimodal berkemampuan tinggi. | 300k | $0.80 / $3.20 (USD) |
-| `mistral-small-latest` | **Efisien**. Model Mistral cepat dan hemat biaya. | 128k | $0.15 / $0.60 (USD) |
-| `mistral-large-latest` | **Kuat**. Model kuat untuk penalaran kompleks. | 128k | $0.50 / $1.50 (USD) |
-
-## Model Gambar & Visi
-
-Model yang khusus untuk pembuatan gambar dan pengenalan karakter optik (OCR).
-
-| ID Model | Deskripsi | Harga |
-| :--- | :--- | :--- |
-| `titan-image-g1` | **Titan**. Pembuatan SOTA dengan Inpainting/Outpainting. | 1024px: $0.010<br/>512px: $0.008 |
-| `neosantara-gen-2045` | **Gambar**. Pembuatan berkecepatan tinggi dan berkualitas tinggi. | 1024px: Rp 1.500<br/>512px: Rp 800<br/>256px: Rp 400 |
-| `sdxl-lightning` | **Terjangkau**. Pembuatan 1024px cepat dalam 4 langkah. | 1024px: Rp 200<br/>512px: Rp 120<br/>256px: Rp 60 |
-| `stable-diffusion-v1-5-img2img` | **Edit**. Hasilkan gambar baru dari gambar input. | 1024px: Rp 200<br/>512px: Rp 120<br/>256px: Rp 60 |
-| `imagen-4.0-fast` | **Google**. Pembuatan berkecepatan tinggi dan berkualitas tinggi. | 1024px: $0.02 |
-| `deepseek-ocr` | **Visi**. Ekstraksi teks dengan akurasi tinggi. | Rp 100 / gambar |
-
-## Model Pembuatan Video
-
-Model asinkron untuk menghasilkan klip video berkualitas tinggi dari teks atau gambar.
-
-| ID Model | Deskripsi | Harga |
-| :--- | :--- | :--- |
-| `luma-ray2-540p` | **Luma Ray 2**. Video definisi standar yang efisien (24fps). | $0.75 / detik |
-| `luma-ray2-720p` | **Luma Ray 2**. Pembuatan video HD berkualitas tinggi (24fps). | $1.50 / detik |
-
-## Embeddings
-
-Model untuk menghasilkan penyematan teks, berguna untuk pencarian, pengelompokan, dan aplikasi RAG.
-
-| ID Model | Deskripsi | Harga |
-| :--- | :--- | :--- |
-| `nusa-embedding-0001` | **Embedding**. Penyematan teks untuk pencarian dan RAG. | Rp 100 / 1M |
-| `gemini-embedding-001` | **Embedding**. Model embedding Gemini. | Gratis |
-| `text-embedding-3-small` | **OpenAI**. Embedding yang efisien dan hemat biaya. | $0.02 / 1M |
-
-## Moderasi & Keamanan
-
-Model yang khusus untuk klasifikasi keamanan konten dan moderasi.
-
-| ID Model | Deskripsi | Konteks | Harga (Input/Output) |
-| :--- | :--- | :--- | :--- |
-| `llama-guard-3-8b` | **Moderasi**. Llama Guard 3 dari Meta untuk klasifikasi keamanan konten. | 131k | Rp 7.680 / 480 |
-
----
-
-<Note>
-  **Catatan Harga:** "Rp" menunjukkan Rupiah Indonesia. "USD" menunjukkan Dolar AS. Harga adalah per 1 Juta token kecuali dinyatakan lain.
-</Note>
-
-## Siap Membangun?
-
-Mulai integrasikan model ini ke dalam aplikasi kamu hari ini.
+## Cara memilih
 
 <CardGroup cols={2}>
-  <Card title="Dapatkan Kunci API" icon="key" href="https://app.neosantara.xyz">
-    Dapatkan kunci API gratis kamu dan mulai bereksperimen dengan kredit awal gratis.
+  <Card title="Chat umum dan tools" icon="message-circle" href="/models/garda-core">
+    Mulai dari `garda-core` untuk chat OpenAI-compatible, Responses, JSON mode, tool use, dan workflow vision-capable.
   </Card>
-  <Card title="Lihat Quickstart" icon="rocket" href="/id/quickstart">
-    Ikuti panduan langkah demi langkah kami untuk membuat permintaan API pertama kamu dalam hitungan menit.
+
+  <Card title="Workflow agentic" icon="sparkles" href="/models/garda-agentic-mini">
+    Gunakan `garda-agentic-mini` saat membutuhkan model Neosantara yang ringkas untuk workflow agent.
+  </Card>
+
+  <Card title="Reasoning" icon="brain" href="/models/deepseek-r1">
+    Gunakan model reasoning seperti `deepseek-r1` saat task membutuhkan thinking eksplisit atau planning kompleks.
+  </Card>
+
+  <Card title="Embeddings" icon="database" href="/models/nusa-embedding-0001">
+    Gunakan `nusa-embedding-0001` untuk vector search, retrieval, rekomendasi, dan clustering.
+  </Card>
+
+  <Card title="Image generation" icon="image" href="/models/neosantara-gen-2045">
+    Gunakan `neosantara-gen-2045` untuk generasi gambar melalui endpoint Images.
+  </Card>
+
+  <Card title="OCR" icon="scan-text" href="/models/deepseek-ocr">
+    Gunakan `deepseek-ocr` untuk ekstraksi teks dari dokumen dan gambar.
+  </Card>
+</CardGroup>
+
+## Akses API
+
+Semua halaman model generated menautkan endpoint yang didukung. Untuk skema request dan response, gunakan API reference yang dibuat dari backend:
+
+<CardGroup cols={3}>
+  <Card title="List models" icon="list" href="/api-reference/models/list-available-models">
+    Ambil katalog model live dari `/v1/models`.
+  </Card>
+
+  <Card title="Responses API" icon="bolt" href="/api-reference/responses/create">
+    Gunakan endpoint modern dan stateful untuk workflow text dan agent baru.
+  </Card>
+
+  <Card title="Chat completions" icon="messages-square" href="/api-reference/chat/completions/create">
+    Gunakan chat OpenAI-compatible untuk integrasi SDK yang sudah ada.
   </Card>
 </CardGroup>

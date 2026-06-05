@@ -117,8 +117,8 @@ curl https://api.neosantara.xyz/v1/files/file-abc123/content \
 Saat mengunggah file dengan `purpose="batch"`, pastikan file JSONL kamu mengikuti format ini:
 
 ```json example.jsonl
-{"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Halo!"}]}}
-{"custom_id": "request-2", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-beta-mini", "messages": [{"role": "user", "content": "Apa kabar?"}]}}
+{"custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-agentic-mini", "messages": [{"role": "user", "content": "Halo!"}]}}
+{"custom_id": "request-2", "method": "POST", "url": "/v1/chat/completions", "body": {"model": "garda-agentic-mini", "messages": [{"role": "user", "content": "Apa kabar?"}]}}
 ```
 
 Setiap baris harus berupa objek JSON yang valid dengan:

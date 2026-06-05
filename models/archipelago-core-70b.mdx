@@ -1,0 +1,18 @@
+---
+title: "Archipelago Core 70b"
+description: "Specialized model for Indonesian language content with cultural context awareness"
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { archipelagoCore70bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...archipelagoCore70bData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"archipelago-core-70b","input":"Hello!"}'
+```

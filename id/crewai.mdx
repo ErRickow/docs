@@ -1,6 +1,6 @@
 ---
 title: "CrewAI"
-description: "> Menggunakan CrewAI dengan Neosantara."
+description: "Menggunakan CrewAI dengan Neosantara."
 ---
 
 CrewAI adalah framework tingkat produksi sumber terbuka untuk mengorkestrasi sistem agen AI. Ini memungkinkan banyak agen AI untuk berkolaborasi secara efektif dengan mengasumsikan peran dan bekerja menuju tujuan bersama. Framework ini mendukung otomatisasi sederhana dan aplikasi kompleks yang memerlukan perilaku agen yang terkoordinasi.
@@ -23,7 +23,7 @@ export NAI_API_KEY=***
 import os
 from crewai import LLM, Task, Agent, Crew
 
-llm = LLM(model="openai/nusantara-base",
+llm = LLM(model="openai/garda-core",
           api_key=os.environ.get("NAI_API_KEY"),
           base_url="https://api.neosantara.xyz/v1"
         )

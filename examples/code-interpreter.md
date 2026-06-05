@@ -265,4 +265,4 @@ run()
 
 ### Here You Go
 
-Congratulations 🎉  You are Done Integrate Code Interpreter With [E2B](https://e2b.dev) and [Neosantara AI](https://neosantara.xyz)
+Congratulations 🎉  You are Done Integrate Code Interpreter With [E2B](https://e2b.dev) and [Neosantara](https://neosantara.xyz)

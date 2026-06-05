@@ -35,9 +35,14 @@ export const ModelInfo = ({
   );
 
   const endpointUrls = {
+    "Audio Transcriptions": "/v1/audio/transcriptions",
     Responses: "/v1/responses",
     "Chat Completions": "/v1/chat/completions",
     Completions: "/v1/completions",
+    Embeddings: "/v1/embeddings",
+    Images: "/v1/images/generations",
+    OCR: "/v1/ocr",
+    Videos: "/v1/videos",
     Models: "/v1/models"
   };
 
@@ -151,7 +156,7 @@ export const ModelInfo = ({
               <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-3 leading-relaxed">
                 Get <span className="font-semibold text-zinc-900 dark:text-white">{freeBalance}</span> free credits upon email verification.
               </p>
-              <a href={docsUrl} className="text-xs font-semibold text-zinc-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 flex items-center gap-1 transition-colors">
+              <a href={docsUrl} className="neo-action-link text-xs font-semibold text-zinc-900 dark:text-white flex items-center gap-1 transition-colors">
                 View Pricing <Icon icon="arrow-right" size={12} />
               </a>
             </div>

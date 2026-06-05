@@ -24,7 +24,7 @@ Python
 ```python icon="python"
 import requests
 headers = {"Authorization": "Bearer YOUR_NEOSANTARA_API_KEY"}
-payload = {"model": "nusantara-base", "messages": [{"role": "user", "content": "Hello"}]}
+payload = {"model": "garda-core", "messages": [{"role": "user", "content": "Hello"}]}
 resp = requests.post("https://api.neosantara.xyz/v1/chat/completions", json=payload, headers=headers)
 ```
 
@@ -32,7 +32,7 @@ JavaScript
 
 ```js
 const payload = {
-  model: "nusantara-base",
+  model: "garda-core",
   messages: [{ role: "user", content: "Hello" }]
 };
 

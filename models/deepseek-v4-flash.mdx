@@ -1,0 +1,18 @@
+---
+title: "Deepseek v4 Flash"
+description: "Ultra-fast Mixture-of-Experts (MoE) reasoning model with 284B total parameters and 1M context window. Optimized for high-volume pipelines and real-time agentic workflows."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { deepseekV4FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...deepseekV4FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"deepseek-v4-flash","input":"Hello!"}'
+```

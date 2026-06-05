@@ -1,0 +1,18 @@
+---
+title: "Mistral Large Latest"
+description: "Mistral Large is a powerful model for complex reasoning, coding, and content generation. Best performance among Mistral family."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { mistralLargeLatestData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...mistralLargeLatestData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"mistral-large-latest","input":"Hello!"}'
+```

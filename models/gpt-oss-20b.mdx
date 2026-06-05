@@ -1,5 +1,5 @@
 ---
-title: "GPT OSS 20B"
+title: "GPT Oss 20b"
 description: "Medium-sized open-weight model for low latency"
 ---
 
@@ -10,51 +10,9 @@ import { gptOss20bData } from '/snippets/model-data.jsx';
 
 ## Quick Integration
 
-<CodeGroup>
 ```bash cURL
-curl https://api.neosantara.xyz/v1/chat/completions \
+curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{
-    "model": "gpt-oss-20b",
-    "messages": [
-      { "role": "user", "content": "Hello!" }
-    ]
-  }'
+  -d '{"model":"gpt-oss-20b","input":"Hello!"}'
 ```
-
-```python Python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.neosantara.xyz/v1",
-    api_key="YOUR_NEOSANTARA_API_KEY"
-)
-
-response = client.chat.completions.create(
-    model="gpt-oss-20b",
-    messages=[
-        {"role": "user", "content": "Hello!"}
-    ]
-)
-
-print(response.choices[0].message.content)
-```
-
-```javascript Node.js
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "YOUR_NEOSANTARA_API_KEY"
-});
-
-const completion = await openai.chat.completions.create({
-  messages: [{ role: "user", content: "Hello!" }],
-  model: "gpt-oss-20b",
-});
-
-console.log(completion.choices[0].message.content);
-```
-
-</CodeGroup>

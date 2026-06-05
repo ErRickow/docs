@@ -1,0 +1,163 @@
+---
+title: "Any-LLM"
+description: "Gunakan Neosantara sebagai provider native Any-LLM untuk aplikasi Python provider-agnostic."
+---
+
+Any-LLM memberi aplikasi Python satu interface untuk banyak provider LLM. Neosantara tersedia sebagai provider native dengan provider id `neosantara`, jadi Kamu tidak perlu membuat adapter OpenAI-compatible custom atau menyebarkan konfigurasi client Neosantara di banyak bagian aplikasi.
+
+Gunakan integrasi ini saat Kamu ingin menjaga aplikasi tetap provider-agnostic, merutekan request melalui Neosantara, dan tetap memakai bentuk response yang familiar seperti OpenAI.
+
+## Instal
+
+Instal Any-LLM dengan extra provider Neosantara.
+
+```bash icon="terminal"
+pip install "any-llm-sdk[neosantara]"
+```
+
+## Autentikasi
+
+Setel API key Neosantara sebelum menjalankan aplikasi.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+Any-LLM memakai `https://api.neosantara.xyz/v1` secara default. Jika Kamu perlu mengarahkan environment testing atau gateway privat ke endpoint kompatibel lain, setel `NEOSANTARA_API_BASE`.
+
+```bash icon="terminal"
+export NEOSANTARA_API_BASE="https://api.neosantara.xyz/v1"
+```
+
+## Pilih Provider Native
+
+Gunakan `provider="neosantara"` untuk panggilan sekali jalan, atau buat provider client reusable dengan `AnyLLM.create("neosantara")` saat aplikasi Kamu akan membuat beberapa request melalui provider yang sama.
+
+```python icon="python"
+from any_llm import AnyLLM
+
+llm = AnyLLM.create("neosantara")
+
+response = llm.completion(
+    model="gemini-3.5-flash",
+    messages=[
+        {
+            "role": "user",
+            "content": "Jelaskan Neosantara dalam satu kalimat.",
+        }
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+## Completion Sekali Jalan
+
+Gunakan `completion()` langsung untuk script, job, dan utility kecil.
+
+```python icon="python"
+from any_llm import completion
+
+response = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Halo!"}],
+)
+
+print(response.choices[0].message.content)
+```
+
+## Streaming
+
+Untuk CLI interaktif dan UI chat, minta streaming chunk dari provider native yang sama.
+
+```python icon="python"
+from any_llm import completion
+
+stream = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Buat checklist peluncuran singkat."}],
+    stream=True,
+)
+
+for chunk in stream:
+    delta = chunk.choices[0].delta.content or ""
+    print(delta, end="")
+```
+
+## Tool Calling
+
+Kirim definisi tool standar bergaya OpenAI melalui Any-LLM. Neosantara akan merutekan request ke model yang mendukung tool calling.
+
+```python icon="python"
+from any_llm import completion
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_order_status",
+            "description": "Cek status pengiriman untuk sebuah pesanan.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "order_id": {
+                        "type": "string",
+                        "description": "ID pesanan pelanggan.",
+                    }
+                },
+                "required": ["order_id"],
+            },
+        },
+    }
+]
+
+response = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Di mana pesanan ID INV-2045?"}],
+    tools=tools,
+    tool_choice="auto",
+)
+
+print(response.choices[0].message.tool_calls)
+```
+
+## Parameter Provider
+
+Kamu dapat meneruskan parameter generasi umum melalui provider native.
+
+```python icon="python"
+from any_llm import completion
+
+response = completion(
+    provider="neosantara",
+    model="gemini-3.5-flash",
+    messages=[{"role": "user", "content": "Berikan tiga opsi tagline produk."}],
+    temperature=0.4,
+    max_tokens=300,
+)
+
+print(response.choices[0].message.content)
+```
+
+Gunakan [Models Overview](/id/models-overview) untuk memilih model berdasarkan capability. Misalnya, pakai model teks atau reasoning untuk workflow chat, model image untuk workflow image generation, dan model embedding untuk pipeline retrieval.
+
+## Kapan Menggunakan Any-LLM
+
+| Use case | Alasan Any-LLM membantu |
+| --- | --- |
+| Aplikasi multi-provider | Pertahankan satu interface Python sambil mengganti provider melalui provider id. |
+| Provider fallback | Simpan Neosantara dan provider lain di balik bentuk panggilan yang sama. |
+| Codebase bergaya OpenAI | Tetap memakai `messages`, `choices`, `tool_calls`, dan streaming chunk yang familiar. |
+| Platform internal | Pusatkan pemilihan provider tanpa menyebarkan setup client ke banyak service. |
+
+## Troubleshooting
+
+| Gejala | Cek |
+| --- | --- |
+| Autentikasi gagal | Pastikan `NEOSANTARA_API_KEY` sudah disetel dan diawali `nsk_`. |
+| Request masuk ke host yang salah | Cek `NEOSANTARA_API_BASE`; hapus variabel ini untuk memakai endpoint default Neosantara. |
+| Model tidak mendukung fitur tertentu | Buka halaman model dari [Models Overview](/id/models-overview) dan verifikasi capability-nya. |
+| Tool calls kosong | Gunakan model dengan dukungan tool calling dan kirim `tool_choice="auto"` atau pilihan tool tertentu. |

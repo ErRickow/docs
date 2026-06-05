@@ -12,7 +12,7 @@ Neosantara is the easiest way to start building agents and applications powered 
         Neosantara provides an OpenAI-compatible API, making it seamless to swap providers and avoid vendor lock-in.
     </Card>
     <Card title="Regional Optimization" icon="earth-asia" href="/en/models-overview">
-        Our models like `nusantara-base` and `archipelago-70b` are specifically fine-tuned for Indonesian culture and nuance.
+        Our models like `garda-core` and `archipelago-core-70b` are specifically fine-tuned for Indonesian culture and nuance.
     </Card>
 </CardGroup>
 
@@ -48,7 +48,7 @@ from langchain_openai import ChatOpenAI
 import os
 
 llm = ChatOpenAI(
-    model="nusantara-base",
+    model="garda-core",
     api_key=os.environ.get("NAI_API_KEY"),
     base_url="https://api.neosantara.xyz/v1",
 )

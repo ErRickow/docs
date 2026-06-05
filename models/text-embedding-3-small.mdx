@@ -1,0 +1,18 @@
+---
+title: "Text Embedding 3 Small"
+description: "OpenAI Text Embedding 3 Small. Highly efficient and cost-effective embedding model for search, clustering, and classification tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { textEmbedding3SmallData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...textEmbedding3SmallData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/embeddings \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"text-embedding-3-small","input":"Kecerdasan Buatan adalah masa depan."}'
+```

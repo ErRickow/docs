@@ -1,0 +1,18 @@
+---
+title: "Luma Ray2 720p"
+description: "Luma Ray2 (720p, 24fps) - High-quality video generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { lumaRay2720pData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...lumaRay2720pData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/videos \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"luma-ray2-720p","prompt":"A cinematic shot of Jakarta at sunrise"}'
+```

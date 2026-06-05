@@ -16,7 +16,7 @@ kamu akan mempelajari cara:
 3. Menggunakan model embedding Neosantara (`nusa-embedding-0001`) untuk melakukan vektorisasi pada dokumen kamu.
 4. Menyimpan embedding ini di Cloudflare Vectorize menggunakan format NDJSON.
 5. Mengambil dokumen yang relevan dari Vectorize berdasarkan kueri pengguna.
-6. Menggunakan model obrolan Neosantara (`nusantara-base`) untuk menghasilkan jawaban yang berdasar menggunakan konteks yang diambil.
+6. Menggunakan model obrolan Neosantara (`garda-core`) untuk menghasilkan jawaban yang berdasar menggunakan konteks yang diambil.
 
 ## Prasyarat
 
@@ -50,7 +50,7 @@ neosantara_client = OpenAI(
 )
 
 EMBEDDING_MODEL = "nusa-embedding-0001"
-CHAT_MODEL = "nusantara-base" # Atau "garda-beta-mini" untuk konteks yang lebih besar
+CHAT_MODEL = "garda-core" # Atau "garda-agentic-mini" untuk konteks yang lebih besar
 
 # --- Konfigurasi Cloudflare Vectorize ---
 CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN", "TOKEN_API_CLOUDFLARE_KAMU")

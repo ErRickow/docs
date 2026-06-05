@@ -1,0 +1,18 @@
+---
+title: "Kimi K2 5"
+description: "Kimi K2.5 is Moonshot AI's native multimodal model with vision, reasoning, and agentic capabilities."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { kimiK25Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...kimiK25Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"kimi-k2.5","input":"Hello!"}'
+```

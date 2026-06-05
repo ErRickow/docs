@@ -1,27 +1,68 @@
 ---
 title: "Agno"
-description: "> Using Agno with Neosantara."
+description: "Build Agno agents with the native Neosantara model provider."
 ---
 
-Agno is an open-source library for creating multimodal agents. It supports interactions with text, images, audio, and video while remaining model-agnostic, allowing you to use any model in the Neosantara library with our native integration.
+Agno is an open-source framework for building agents, teams, and multimodal AI applications. Neosantara is available as a native Agno model provider through `agno.models.neosantara.Neosantara`, so you can use Neosantara models directly inside Agno agents without wiring a custom OpenAI-compatible model.
 
-## Install Libraries
+Use this integration when you want Agno's agent runtime, tools, streaming responses, memory, or team workflows while routing model calls through Neosantara.
+
+## Install
+
+Install Agno and any tools you plan to use. The example below includes DuckDuckGo search.
 
 ```bash icon="terminal"
-pip install -U agno ddgs -q
+pip install -U agno ddgs
 ```
 
 ## Authentication
 
-Set your `NEOSANTARA_API_KEY` environment variable.
+Set your Neosantara API key.
 
-```shell
-export NEOSANTARA_API_KEY=***
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
 ```
 
-## Example
+The native provider uses `https://api.neosantara.xyz/v1` by default. You can also pass `api_key` or `base_url` directly to `Neosantara(...)` when you need an explicit runtime configuration.
 
-Below is a simple agent using the native Neosantara integration with access to web search.
+## Basic Agent
+
+Create an Agno `Agent` and pass a native Neosantara model instance.
+
+```python icon="python"
+from agno.agent import Agent
+from agno.models.neosantara import Neosantara
+
+agent = Agent(
+    model=Neosantara(id="claude-opus-4-6"),
+    markdown=True,
+)
+
+agent.print_response("Explain what an AI gateway does in two sentences.")
+```
+
+## Streaming Response
+
+Use `stream=True` for terminal assistants, dashboards, and chat interfaces where incremental output matters.
+
+```python icon="python"
+from agno.agent import Agent
+from agno.models.neosantara import Neosantara
+
+agent = Agent(
+    model=Neosantara(id="claude-opus-4-6"),
+    markdown=True,
+)
+
+agent.print_response(
+    "Create a concise incident-response checklist for an API outage.",
+    stream=True,
+)
+```
+
+## Tool-Using Agent
+
+Agno tools work with the native Neosantara model class. Use a model that supports tool calling, then attach tools to the agent.
 
 ```python icon="python"
 from agno.agent import Agent
@@ -29,40 +70,79 @@ from agno.models.neosantara import Neosantara
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 agent = Agent(
-    model=Neosantara(id="nusantara-base"),
+    model=Neosantara(id="claude-opus-4-6"),
     tools=[DuckDuckGoTools()],
-    markdown=True
+    instructions=[
+        "Search only when the answer needs current information.",
+        "Cite the most relevant source names in the final answer.",
+    ],
+    markdown=True,
 )
-agent.print_response("What's happening in Indonesia?", stream=True)
+
+agent.print_response("What changed in the Indonesian AI ecosystem recently?", stream=True)
 ```
 
-<Accordion title="See output.">
-  The output will return an string for answer below:
+## Configure Model Parameters
 
-```bash icon="terminal"
-▰▰▰▰▰▰▰▰ Thinking...
-┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                                                                 ┃
-┃ What's happening in Indonesia?                                                                                  ┃
-┃                                                                                                                 ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-┏━ Tool Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                                                                 ┃
-┃ • duckduckgo_news(query=Indonesia)                                                                              ┃
-┃                                                                                                                 ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-┏━ Response (6.3s) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                                                                 ┃
-┃ Saat ini, Indonesia mengalami gelombang protes nasional terkait kesulitan ekonomi dan tunjangan anggota         ┃
-┃ parlemen. Protes ini telah menyebabkan bentrokan kekerasan dan menimbulkan kekhawatiran tentang respons aparat  ┃
-┃ keamanan yang keras. Beberapa pihak melihat situasi ini sebagai ujian besar bagi pemerintahan Presiden Prabowo  ┃
-┃ Subianto dan mengingatkan pada masa-masa kelam dalam sejarah negara itu.                                        ┃
-┃                                                                                                                 ┃
-┃ Di sisi lain, Presiden Prabowo Subianto juga telah bertemu dengan Presiden Tiongkok Xi Jinping di Beijing untuk ┃
-┃ membahas kerja sama dalam proyek infrastruktur besar, termasuk pembangunan tanggul laut dan kereta api cepat.   ┃
-┃                                                                                                                 ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-WARNING:ddgs.engines.yahoo_news:Error post-processing results: IndexError('list index out of range')
+The native provider accepts the Neosantara model id and common OpenAI-compatible model parameters supported by Agno.
+
+```python icon="python"
+from agno.agent import Agent
+from agno.models.neosantara import Neosantara
+
+model = Neosantara(
+    id="claude-opus-4-6",
+    temperature=0.2,
+    max_tokens=500,
+)
+
+agent = Agent(
+    model=model,
+    markdown=True,
+)
+
+agent.print_response("Draft a support reply for a failed payment.")
 ```
 
-</Accordion>
+For private deployments or test gateways, pass an explicit base URL.
+
+```python icon="python"
+from agno.models.neosantara import Neosantara
+
+model = Neosantara(
+    id="claude-opus-4-6",
+    api_key="nsk_...",
+    base_url="https://api.neosantara.xyz/v1",
+)
+```
+
+## Model Selection
+
+Choose the model based on the agent's job:
+
+| Agent task | Suggested model type |
+| --- | --- |
+| General chat and support | Text model such as `claude-opus-4-6` |
+| Tool-heavy workflows | Tool-calling model with stable function-call support |
+| Reasoning and planning | Reasoning-capable model from [Models Overview](/en/models-overview) |
+| Vision or multimodal analysis | Model page with image input support |
+
+Open [Models Overview](/en/models-overview) to confirm context window, endpoints, pricing units, and capability flags before featuring a model in production docs or examples.
+
+## When to Use Agno
+
+| Use case | Why Agno helps |
+| --- | --- |
+| Agent apps | Built-in `Agent` runtime, instructions, tools, and streaming. |
+| Tool workflows | Attach search, database, API, or custom tools around the native model. |
+| Multimodal prototypes | Use Agno's model-agnostic agent structure while selecting capable Neosantara models. |
+| Multi-agent systems | Move from one agent to teams and workflows without replacing the model provider. |
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Missing API key | Set `NEOSANTARA_API_KEY` or pass `api_key` to `Neosantara(...)`. |
+| Tool calls do not run | Confirm the model supports tool calling and that the tool package is installed. |
+| The agent cannot access current information | Add a search tool such as `DuckDuckGoTools()` and set clear search instructions. |
+| Unexpected model behavior | Check the generated model page for capabilities, context limits, and known limitations. |

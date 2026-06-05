@@ -21,7 +21,7 @@ Neosantara employs three distinct mechanisms to enable reasoning, depending on t
 Models specifically trained for reasoning, such as **DeepSeek-R1**, **Claude 3.7**, and **Gemini 2.0 Flash Thinking**, utilize their built-in logic. Neosantara connects directly to these native "thinking" protocols to ensure the highest quality of thought.
 
 ### 2. Instruction Injection
-For standard models that don't have native reasoning (e.g., `nusantara-base`, `archipelago-70b`), Neosantara uses **Instruction Injection**. When reasoning is enabled, the system automatically prepends complex logical instructions to the system prompt, forcing the model to break down its process into steps.
+For standard models that don't have native reasoning (e.g., `garda-core`, `archipelago-core-70b`), Neosantara uses **Instruction Injection**. When reasoning is enabled, the system automatically prepends complex logical instructions to the system prompt, forcing the model to break down its process into steps.
 
 ### 3. Reasoning Effort & Budgets
 For supported models, you can control the "depth" of thought using the `thinking` parameter.

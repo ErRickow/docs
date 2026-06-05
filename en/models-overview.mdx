@@ -1,128 +1,62 @@
 ---
 title: "Models Overview"
-description: "> Discover the range of state-of-the-art large language models provided by Neosantara."
+description: "Browse live-synced Neosantara models, capabilities, pricing links, and generated model detail pages."
 ---
 
 import { ModelGrid } from '/snippets/model-grid.jsx';
 
-Neosantara offers a curated selection of state-of-the-art models, ranging from our own Indonesian-optimized fine-tunes to the best open-source models from Meta, Google, Alibaba, and more.
+Neosantara model documentation is generated from the live `/v1/models` catalog. Use this page as the starting point, then open a model detail page for capability flags, context limits, pricing units, endpoints, and known limitations.
 
 <Note>
-  **Billing & Pricing:** For a detailed explanation of how credits work, pricing mechanics (Pay-As-You-Go), and throughput tiers, please refer to the [Token Credits & Pricing](/en/about/billing-pricing) documentation.
+  Model availability can change as providers update their catalog. For billing mechanics, credit behavior, and throughput tiers, see [Billing & Pricing](/en/about/billing-pricing) and [Rate Limits](/en/about/rate-limits).
 </Note>
 
-## Model Gallery
+## Model gallery
 
 <ModelGrid />
 
----
-
-## Text, Reasoning & Coding Models
-
-Below is the list of available text generation, reasoning, and coding models.
-
-| Model ID | Description | Context | Pricing (Input/Output) |
-| :--- | :--- | :--- | :--- |
-| `nusantara-base` | **Flagship**. General purpose, vision-capable, balanced. | 64k | Rp 300 / 1,500 |
-| `sahabat-ai-llama-v4` | **Regional**. Fine-tuned for Indonesian ecosystem. | 32k | Rp 150 / 600 |
-| `archipelago-70b` | **Deep Culture**. Llama-3.3 70B fine-tuned for cultural nuance. | 24k | Rp 4,710 / 36,543 |
-| `garda-beta-mini` | **Fastest**. High efficiency, massive context, and web search. | 131k | Rp 2,500 / 10,499 |
-| `sea-lion-v4-27b-it` | **Regional**. Specialized for Southeast Asian languages. | 128k | Rp 350 / 560 |
-| `deepseek-r1` | **Reasoning**. High-quality intelligence with chain-of-thought. | 128k | $1.35 / $5.40 (USD) |
-| `kimi-k2` | **MoE**. 1T params (MoE) optimized for agentic tasks. | 131k | Rp 16,642 / 49,929 |
-| `kimi-k2:latest` | **MoE**. The latest standard Kimi K2 model. | 128k | Rp 16,642 / 49,929 |
-| `kimi-k2:search` | **Search**. Kimi K2 with online search capability. | 128k | Rp 16,642 / 49,929 |
-| `kimi-k2:research` | **Research**. Optimized for deep research tasks. | 128k | Rp 16,642 / 49,929 |
-| `kimi-k2:math` | **Math**. Optimized for complex mathematical logic. | 128k | Rp 16,642 / 49,929 |
-| `kimi-k2:silent` | **Silent**. Direct answers without search process logs. | 128k | Rp 16,642 / 49,929 |
-| `kimi-k1` | **Legacy**. The first generation Kimi model. | 128k | Rp 16,642 / 49,929 |
-| `llama-3.3-nemotron-super-49b-v1.5` | **Super**. 49B model with exceptional reasoning. | 132k | Rp 4,560 / 31,991 |
-| `glm-4.6` | **Z.ai**. SOTA coding and agent benchmarks. | 128k | Rp 10,000 / 30,000 |
-| `glm-4.6-plus` | **Z.ai**. More powerful coding context. | 128k | Rp 10,000 / 30,000 |
-| `glm-4.6v-flash` | **Speed**. Lightweight multimodal model from Z.ai. | 128k | Rp 250 / 750 |
-| `glm-4.5-flash` | **Speed**. Efficient flash model from Z.ai. | 128k | Rp 250 / 750 |
-| `grok-4.1-fast-non-reasoning` | **Massive Context**. xAI's best tool-calling model. | 2M | $0.30 / $0.72 (USD) |
-| `grok-4-fast` | **Massive Context**. Latest multimodal xAI model. | 2M | Rp 3,333 / 8,333 |
-| `llama-3.3-70b-turbo` | **Turbo**. Optimized version of Llama 70B. | 8k | Rp 300 / 1,200 |
-| `gemma-3-27b-it` | **New**. Google's latest open model. | 32k | Rp 200 / 1,500 |
-| `gemma2-9b-it` | **Efficient**. High quality for its size. | 8k | Rp 200 / 1,000 |
-| `llama-3.2-11b` | **Light**. Efficient lightweight model. | 8k | Rp 100 / 400 |
-| `granite-3-8b-instruct` | **Enterprise**. IBM's enterprise-grade model. | 128k | Rp 2,880 / 11,520 |
-| `gpt-oss-20b` | **Low Latency**. Medium-sized open-weight model. | 131k | Rp 400 / 1,600 |
-| `gpt-5-nano` | **Efficient**. Cost-optimized chat and reasoning. | 128k | Rp 810 / 6,485 |
-| `gemini-3-pro-preview` | **Pro**. Next-generation high-performance model. | 128k | Rp 40,000 / 120,000 |
-| `gemini-3-flash-preview` | **Flash**. Next-generation fast and efficient model. | 1M | Rp 1,600 / 6,400 |
-| `gemini-3-flash` | **Speed**. Google's most intelligent model built for speed. | 1M | $0.50 / $3.00 (USD) |
-| `qwen3-32b` | **Qwen 3**. SOTA reasoning and multilingual support. | 131k | Rp 4,828 / 9,823 |
-| `qwen3-coder` | **Coding**. 480B MoE specialist. | 262k | Rp 3,333 / 8,333 |
-| `apriel-1.6-thinker` | **Reasoning**. High-performance model from ServiceNow. | 32k | Rp 3,000 / 9,000 |
-| `grok-code-fast` | **Coding**. xAI's latest coding model. | 256k | $0.20 / $1.50 (USD) |
-| `claude-3-5-sonnet` | **Balanced**. Intelligence meets speed for enterprise tasks. | 200k | $3.00 / $15.00 (USD) |
-| `claude-3-5-haiku` | **Affordable**. Fast and efficient model by Anthropic. | 200k | $1.00 / $5.00 (USD) |
-| `claude-3-7-sonnet` | **Advanced**. Anthropic's most advanced and intelligent model. | 200k | $3.00 / $15.00 (USD) |
-| `claude-4.5-sonnet` | **Flagship**. The latest旗舰, balancing intelligence and vision. | 200k | $3.00 / $15.00 (USD) |
-| `claude-4.5-opus` | **Powerful**. Anthropic's most powerful model for complex tasks. | 200k | $5.00 / $25.00 (USD) |
-| `claude-4.5-haiku` | **Fastest**. Most cost-effective model in the 4.5 family. | 200k | $1.00 / $5.00 (USD) |
-| `amazon-nova-micro` | **Affordable**. Amazon's most cost-effective model. | 300k | $0.035 / $0.14 (USD) |
-| `amazon-nova-lite` | **Multimodal**. Fast, low-cost multimodal model. | 300k | $0.06 / $0.24 (USD) |
-| `amazon-nova-pro` | **Pro**. High-capability multimodal model. | 300k | $0.80 / $3.20 (USD) |
-| `mistral-small-latest` | **Efficient**. Fast, cost-effective Mistral model. | 128k | $0.15 / $0.60 (USD) |
-| `mistral-large-latest` | **Powerful**. Powerful model for complex reasoning. | 128k | $0.50 / $1.50 (USD) |
-## Image & Vision Models
-
-Models specialized for image generation and optical character recognition (OCR).
-
-| Model ID | Description | Pricing |
-| :--- | :--- | :--- |
-| `titan-image-g1` | **Titan**. SOTA generation with Inpainting/Outpainting. | 1024px: $0.010<br/>512px: $0.008 |
-| `neosantara-gen-2045` | **Image**. High-speed, high-quality generation. | 1024px: Rp 1,500<br/>512px: Rp 800<br/>256px: Rp 400 |
-| `sdxl-lightning` | **Affordable**. Fast 1024px generation in 4 steps. | 1024px: Rp 200<br/>512px: Rp 120<br/>256px: Rp 60 |
-| `stable-diffusion-v1-5-img2img` | **Edit**. Generate new image from input image. | 1024px: Rp 200<br/>512px: Rp 120<br/>256px: Rp 60 |
-| `imagen-4.0-fast` | **Google**. High-speed, high-quality generation. | 1024px: $0.02 |
-| `deepseek-ocr` | **Vision**. High-accuracy text extraction. | Rp 100 / image |
-
-## Video Generation Models
-
-Asynchronous models for generating high-quality video clips from text or images.
-
-| Model ID | Description | Pricing |
-| :--- | :--- | :--- |
-| `luma-ray2-540p` | **Luma Ray 2**. Efficient standard definition video (24fps). | $0.75 / second |
-| `luma-ray2-720p` | **Luma Ray 2**. High-quality HD video generation (24fps). | $1.50 / second |
-
-## Embeddings
-
-Models for generating text embeddings, useful for search, clustering, and RAG applications.
-
-| Model ID | Description | Pricing |
-| :--- | :--- | :--- |
-| `nusa-embedding-0001` | **Embedding**. Text embedding for search and RAG. | Rp 100 / 1M |
-| `gemini-embedding-001` | **Embedding**. Gemini embedding model. | Free |
-| `text-embedding-3-small` | **OpenAI**. Efficient and cost-effective embedding. | $0.02 / 1M |
-
-## Moderation & Safety
-
-Models specialized for content safety classification and moderation.
-
-| Model ID | Description | Context | Pricing (Input/Output) |
-| :--- | :--- | :--- | :--- |
-| `llama-guard-3-8b` | **Moderation**. Meta's Llama Guard 3 for content safety classification. | 131k | Rp 7,680 / 480 |
-
----
-
-<Note>
-  **Pricing Note:** "Rp" indicates Indonesian Rupiah. "USD" indicates US Dollars. Prices are per 1 Million tokens unless otherwise stated.
-</Note>
-
-## Ready to Build?
-
-Start integrating these models into your application today.
+## How to choose
 
 <CardGroup cols={2}>
-  <Card title="Get API Key" icon="key" href="https://app.neosantara.xyz">
-    Get your free API key and start experimenting with free initial credits.
+  <Card title="General chat and tools" icon="message-circle" href="/models/garda-core">
+    Start with `garda-core` for OpenAI-compatible chat, Responses, JSON mode, tool use, and vision-capable workflows.
   </Card>
-  <Card title="View Quickstart" icon="rocket" href="/en/quickstart">
-    Follow our step-by-step guide to make your first API request in minutes.
+
+  <Card title="Agentic workflows" icon="sparkles" href="/models/garda-agentic-mini">
+    Use `garda-agentic-mini` when you want a Neosantara model tuned for compact agent workflows.
+  </Card>
+
+  <Card title="Reasoning" icon="brain" href="/models/deepseek-r1">
+    Use a reasoning model such as `deepseek-r1` when the task benefits from explicit thinking or complex planning.
+  </Card>
+
+  <Card title="Embeddings" icon="database" href="/models/nusa-embedding-0001">
+    Use `nusa-embedding-0001` for vector search, retrieval, recommendations, and clustering.
+  </Card>
+
+  <Card title="Image generation" icon="image" href="/models/neosantara-gen-2045">
+    Use `neosantara-gen-2045` for image generation through the Images endpoint.
+  </Card>
+
+  <Card title="OCR" icon="scan-text" href="/models/deepseek-ocr">
+    Use `deepseek-ocr` for document and image text extraction workflows.
+  </Card>
+</CardGroup>
+
+## API access
+
+All generated model pages link back to supported endpoints. For request and response schemas, use the backend-generated API reference:
+
+<CardGroup cols={3}>
+  <Card title="List models" icon="list" href="/api-reference/models/list-available-models">
+    Fetch the live model catalog from `/v1/models`.
+  </Card>
+
+  <Card title="Responses API" icon="bolt" href="/api-reference/responses/create">
+    Use the modern stateful endpoint for new text and agent workflows.
+  </Card>
+
+  <Card title="Chat completions" icon="messages-square" href="/api-reference/chat/completions/create">
+    Use OpenAI-compatible chat for existing SDK integrations.
   </Card>
 </CardGroup>

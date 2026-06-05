@@ -18,10 +18,10 @@ export const ModelGrid = () => {
           link: "/models/claude-4.5-sonnet"
         },
         {
-          name: "Nusantara Base",
+          name: "Garda Core",
           icon: "/logo/neosantara_logo.svg",
-          description: "Optimized for Indonesian context, providing balanced performance and cost-efficiency.",
-          link: "/models/nusantara-base"
+          description: "Base model for general tasks with balanced performance, cost and speed.",
+          link: "/models/garda-core"
         },
         {
           name: "Gemini 3 Flash",
@@ -154,7 +154,7 @@ export const ModelGrid = () => {
           <a
             href={group.link}
             key={index}
-            className="rounded-xl bg-white dark:bg-[#13171B] border border-[#d9e1ec] dark:border-gray-700 overflow-hidden px-4 py-3 flex flex-row gap-0 justify-between no-underline hover:border-orange-500/50 transition-all duration-200"
+            className="neo-model-card rounded-xl bg-white dark:bg-[#13171B] border border-[#d9e1ec] dark:border-gray-700 overflow-hidden px-4 py-3 flex flex-row gap-0 justify-between no-underline transition-all duration-200"
             style={getGridStyle(index)}
           >
             <div className={"flex items-start flex-col " + (group.hasViewAll ? "justify-between" : "justify-center")}>

@@ -1,6 +1,6 @@
 ---
 title: "Code Interpreter"
-description: "> Learn how using Neosantara And E2B Code Interpreter"
+description: "Learn how using Neosantara And E2B Code Interpreter"
 ---
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1r5I11nX5_W6xBKUX-0uPF4S6yjRImVu8?usp=sharing)
@@ -68,8 +68,8 @@ For additional details on available methods, refer to the [E2B documentation](ht
 
   <Step title="Select a Model">
     Choose a code generation model from Neosantara. Available options include:
-    - `nusantara-base` (default)
-    - `archipelago-70b`
+    - `garda-core` (default)
+    - `archipelago-core-70b`
     - `Llama-3.3-Nemotron-Super-49B`
 
     See the full list of models at [Neosantara Models](https://www.neosantara.xyz/models).
@@ -115,7 +115,7 @@ NAI_API_KEY = os.getenv("NAI_API_KEY")
 E2B_API_KEY = os.getenv("E2B_API_KEY")
 
 # Model selection
-MODEL_NAME = 'nusantara-base'  # Alternatives: 'archipelago-70b', 'Llama-3.3-Nemotron-Super-49B'
+MODEL_NAME = 'garda-core'  # Alternatives: 'archipelago-core-70b', 'Llama-3.3-Nemotron-Super-49B'
 
 # System prompt for the LLM
 SYSTEM_PROMPT = """You're a Python data scientist. You are given tasks to complete and you run Python code to solve them.

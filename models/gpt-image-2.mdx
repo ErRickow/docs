@@ -1,0 +1,18 @@
+---
+title: "GPT Image 2"
+description: "GPT Image 2. Advanced image generation and editing model by OpenAI."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gptImage2Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gptImage2Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gpt-image-2","prompt":"Pemandangan alam Indonesia yang indah"}'
+```

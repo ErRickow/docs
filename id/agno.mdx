@@ -1,27 +1,68 @@
 ---
 title: "Agno"
-description: "> Menggunakan Agno dengan Neosantara."
+description: "Bangun agent Agno dengan provider model native Neosantara."
 ---
 
-Agno adalah library sumber terbuka untuk membuat agen multimodal. Agno mendukung interaksi dengan teks, gambar, audio, dan video sambil tetap bersifat agnostik model, memungkinkan kamu menggunakan model apa pun di perpustakaan Neosantara dengan integrasi asli kami.
+Agno adalah framework sumber terbuka untuk membangun agent, team, dan aplikasi AI multimodal. Neosantara tersedia sebagai provider model native Agno melalui `agno.models.neosantara.Neosantara`, sehingga Kamu dapat memakai model Neosantara langsung di dalam Agno tanpa membuat model OpenAI-compatible custom.
 
-## Instal Perpustakaan
+Gunakan integrasi ini saat Kamu ingin memakai runtime agent Agno, tools, streaming response, memory, atau workflow team sambil merutekan panggilan model melalui Neosantara.
+
+## Instal
+
+Instal Agno dan tool yang ingin Kamu pakai. Contoh di bawah menyertakan DuckDuckGo search.
 
 ```bash icon="terminal"
-pip install -U agno ddgs -q
+pip install -U agno ddgs
 ```
 
 ## Autentikasi
 
-Setel variabel lingkungan `NEOSANTARA_API_KEY` kamu.
+Setel API key Neosantara Kamu.
 
-```shell
-export NEOSANTARA_API_KEY=***
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
 ```
 
-## Contoh
+Provider native memakai `https://api.neosantara.xyz/v1` secara default. Kamu juga dapat meneruskan `api_key` atau `base_url` langsung ke `Neosantara(...)` saat membutuhkan konfigurasi runtime eksplisit.
 
-Di bawah ini adalah agen sederhana menggunakan integrasi asli Neosantara dengan akses ke pencarian web.
+## Agent Dasar
+
+Buat `Agent` Agno dan kirim instance model native Neosantara.
+
+```python icon="python"
+from agno.agent import Agent
+from agno.models.neosantara import Neosantara
+
+agent = Agent(
+    model=Neosantara(id="claude-opus-4-6"),
+    markdown=True,
+)
+
+agent.print_response("Jelaskan fungsi AI gateway dalam dua kalimat.")
+```
+
+## Streaming Response
+
+Gunakan `stream=True` untuk assistant terminal, dashboard, dan UI chat yang membutuhkan output bertahap.
+
+```python icon="python"
+from agno.agent import Agent
+from agno.models.neosantara import Neosantara
+
+agent = Agent(
+    model=Neosantara(id="claude-opus-4-6"),
+    markdown=True,
+)
+
+agent.print_response(
+    "Buat checklist respons insiden singkat untuk outage API.",
+    stream=True,
+)
+```
+
+## Agent dengan Tools
+
+Tools Agno bekerja dengan class model native Neosantara. Gunakan model yang mendukung tool calling, lalu pasang tools ke agent.
 
 ```python icon="python"
 from agno.agent import Agent
@@ -29,40 +70,79 @@ from agno.models.neosantara import Neosantara
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 agent = Agent(
-    model=Neosantara(id="nusantara-base"),
+    model=Neosantara(id="claude-opus-4-6"),
     tools=[DuckDuckGoTools()],
-    markdown=True
+    instructions=[
+        "Cari di web hanya saat jawaban membutuhkan informasi terbaru.",
+        "Sebutkan nama sumber paling relevan di jawaban akhir.",
+    ],
+    markdown=True,
 )
-agent.print_response("Apa yang sedang terjadi di Indonesia?", stream=True)
+
+agent.print_response("Apa perubahan terbaru di ekosistem AI Indonesia?", stream=True)
 ```
 
-<Accordion title="Lihat output.">
-  Output akan mengembalikan string untuk jawaban di bawah ini:
+## Konfigurasi Parameter Model
 
-```bash icon="terminal"
-▰▰▰▰▰▰▰▰ Thinking...
-┏━ Message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                                                                 ┃
-┃ Apa yang sedang terjadi di Indonesia?                                                                           ┃
-┃                                                                                                                 ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-┏━ Tool Calls ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                                                                 ┃
-┃ • duckduckgo_news(query=Indonesia)                                                                              ┃
-┃                                                                                                                 ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-┏━ Response (6.3s) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                                                                 ┃
-┃ Saat ini, Indonesia mengalami gelombang protes nasional terkait kesulitan ekonomi dan tunjangan anggota         ┃
-┃ parlemen. Protes ini telah menyebabkan bentrokan kekerasan dan menimbulkan kekhawatiran tentang respons aparat  ┃
-┃ keamanan yang keras. Beberapa pihak melihat situasi ini sebagai ujian besar bagi pemerintahan Presiden Prabowo  ┃
-┃ Subianto dan mengingatkan pada masa-masa kelam dalam sejarah negara itu.                                        ┃
-┃                                                                                                                 ┃
-┃ Di sisi lain, Presiden Prabowo Subianto juga telah bertemu dengan Presiden Tiongkok Xi Jinping di Beijing untuk ┃
-┃ membahas kerja sama dalam proyek infrastruktur besar, termasuk pembangunan tanggul laut dan kereta api cepat.   ┃
-┃                                                                                                                 ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-WARNING:ddgs.engines.yahoo_news:Error post-processing results: IndexError('list index out of range')
+Provider native menerima model id Neosantara dan parameter model OpenAI-compatible umum yang didukung Agno.
+
+```python icon="python"
+from agno.agent import Agent
+from agno.models.neosantara import Neosantara
+
+model = Neosantara(
+    id="claude-opus-4-6",
+    temperature=0.2,
+    max_tokens=500,
+)
+
+agent = Agent(
+    model=model,
+    markdown=True,
+)
+
+agent.print_response("Buat draft balasan support untuk pembayaran gagal.")
 ```
 
-</Accordion>
+Untuk deployment privat atau gateway testing, teruskan base URL eksplisit.
+
+```python icon="python"
+from agno.models.neosantara import Neosantara
+
+model = Neosantara(
+    id="claude-opus-4-6",
+    api_key="nsk_...",
+    base_url="https://api.neosantara.xyz/v1",
+)
+```
+
+## Pemilihan Model
+
+Pilih model berdasarkan tugas agent:
+
+| Tugas agent | Tipe model yang disarankan |
+| --- | --- |
+| Chat umum dan support | Model teks seperti `claude-opus-4-6` |
+| Workflow berat tools | Model tool-calling dengan dukungan function call stabil |
+| Reasoning dan planning | Model reasoning dari [Models Overview](/id/models-overview) |
+| Analisis vision atau multimodal | Halaman model dengan dukungan input image |
+
+Buka [Models Overview](/id/models-overview) untuk mengonfirmasi context window, endpoint, unit harga, dan capability flags sebelum menampilkan model di dokumentasi atau contoh production.
+
+## Kapan Menggunakan Agno
+
+| Use case | Alasan Agno membantu |
+| --- | --- |
+| Aplikasi agent | Runtime `Agent`, instructions, tools, dan streaming sudah tersedia. |
+| Workflow tools | Pasang search, database, API, atau custom tools di sekitar model native. |
+| Prototype multimodal | Pakai struktur agent Agno yang model-agnostic sambil memilih model Neosantara yang sesuai. |
+| Sistem multi-agent | Bergerak dari satu agent ke team dan workflow tanpa mengganti provider model. |
+
+## Troubleshooting
+
+| Gejala | Cek |
+| --- | --- |
+| API key tidak ditemukan | Setel `NEOSANTARA_API_KEY` atau teruskan `api_key` ke `Neosantara(...)`. |
+| Tool calls tidak berjalan | Pastikan model mendukung tool calling dan paket tool sudah terinstal. |
+| Agent tidak bisa mengakses informasi terbaru | Tambahkan search tool seperti `DuckDuckGoTools()` dan berikan instruksi pencarian yang jelas. |
+| Perilaku model tidak sesuai ekspektasi | Cek halaman model generated untuk capability, context limit, dan known limitations. |

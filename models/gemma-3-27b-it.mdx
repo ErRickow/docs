@@ -1,5 +1,5 @@
 ---
-title: "Gemma 3 27B Instruct"
+title: "Gemma 3 27b It"
 description: "Lightweight, state-of the art, open model built from the same technology that powers Gemini models."
 ---
 
@@ -10,51 +10,9 @@ import { gemma327bItData } from '/snippets/model-data.jsx';
 
 ## Quick Integration
 
-<CodeGroup>
 ```bash cURL
-curl https://api.neosantara.xyz/v1/chat/completions \
+curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{
-    "model": "gemma-3-27b-it",
-    "messages": [
-      { "role": "user", "content": "Hello!" }
-    ]
-  }'
+  -d '{"model":"gemma-3-27b-it","input":"Hello!"}'
 ```
-
-```python Python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.neosantara.xyz/v1",
-    api_key="YOUR_NEOSANTARA_API_KEY"
-)
-
-response = client.chat.completions.create(
-    model="gemma-3-27b-it",
-    messages=[
-        {"role": "user", "content": "Hello!"}
-    ]
-)
-
-print(response.choices[0].message.content)
-```
-
-```javascript Node.js
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  baseURL: "https://api.neosantara.xyz/v1",
-  apiKey: "YOUR_NEOSANTARA_API_KEY"
-});
-
-const completion = await openai.chat.completions.create({
-  messages: [{ role: "user", content: "Hello!" }],
-  model: "gemma-3-27b-it",
-});
-
-console.log(completion.choices[0].message.content);
-```
-
-</CodeGroup>

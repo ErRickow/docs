@@ -32,7 +32,7 @@ client = OpenAI(
 
 # Usage remains exactly the same
 response = client.chat.completions.create(
-    model="nusantara-base",
+    model="garda-core",
     messages=[{"role": "user", "content": "Hello!"}]
 )
 ```
@@ -49,7 +49,7 @@ const openai = new OpenAI({
 
 // Usage remains exactly the same
 const completion = await openai.chat.completions.create({
-  model: "nusantara-base",
+  model: "garda-core",
   messages: [{ role: "user", content: "Hello!" }],
 });
 ```

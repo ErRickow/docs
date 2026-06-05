@@ -3,19 +3,22 @@
   "theme": "aspen",
   "name": "Neosantara",
   "colors": {
-    "primary": "#E68000",
-    "light": "#FFA000",
-    "dark": "#995200"
+    "primary": "#8A4300",
+    "light": "#FF8C1A",
+    "dark": "#CC6600"
   },
   "fonts": {
     "heading": {
-      "family": "Manrope",
-      "weight": 600
+      "family": "IBM Plex Mono",
+      "weight": 400
     },
     "body": {
       "family": "IBM Plex Sans",
       "weight": 400
     }
+  },
+  "icons": {
+    "library": "fontawesome"
   },
   "favicon": "/favicon.ico",
   "styling": {
@@ -53,7 +56,7 @@
       },
       {
         "view": "Chat Completions API (Legacy)",
-        "icon": "message-circle-dots",
+        "icon": "comment-dots",
         "id": "chat"
       }
     ],
@@ -71,56 +74,67 @@
             "pages": [
               {
                 "group": "Getting Started",
+                "icon": "book-open",
                 "pages": [
                   "en/intro",
+                  "en/about",
                   "en/quickstart",
                   "en/guides/migration",
-                  "en/use-these-docs",
-                  {
-                    "group": "SDKs & APIs",
-                    "pages": [
-                      "en/sdk/index",
-                      {
-                        "group": "OpenResponses API",
-                        "pages": [
-                          "en/sdk/responses-api/index",
-                          "en/sdk/responses-api/text-generation",
-                          "en/sdk/responses-api/streaming",
-                          "en/sdk/responses-api/image-input",
-                          "en/sdk/responses-api/image-generation",
-                          "en/sdk/responses-api/tool-calling"
-                        ]
-                      },
-                      {
-                        "group": "OpenAI Compatible",
-                        "pages": [
-                          "en/sdk/openai-compat/index",
-                          "en/sdk/openai-compat/chat-completions",
-                          "en/sdk/openai-compat/tool-calls",
-                          "en/sdk/openai-compat/structured-outputs",
-                          "en/sdk/openai-compat/image-generation",
-                          "en/sdk/openai-compat/embeddings",
-                          "en/sdk/openai-compat/advanced",
-                          "en/sdk/openai-compat/rest-api"
-                        ]
-                      },
-                      {
-                        "group": "Anthropic Compatible",
-                        "pages": [
-                          "en/sdk/anthropic-compat/index",
-                          "en/sdk/anthropic-compat/messages",
-                          "en/sdk/anthropic-compat/tool-calls",
-                          "en/sdk/anthropic-compat/advanced",
-                          "en/sdk/anthropic-compat/file-attachments"
-                        ]
-                      },
-                      "en/sdk/python/index"
-                    ]
-                  }
+                  "en/use-these-docs"
                 ]
               },
               {
+                "group": "SDKs & APIs",
+                "icon": "code",
+                "pages": [
+                  "en/sdk/index",
+                  {
+                    "group": "OpenResponses API",
+                    "icon": "bolt",
+                    "pages": [
+                      "en/sdk/responses-api/index",
+                      "en/sdk/responses-api/text-generation",
+                      "en/sdk/responses-api/streaming",
+                      "en/sdk/responses-api/image-input",
+                      "en/sdk/responses-api/image-generation",
+                      "en/sdk/responses-api/tool-calling"
+                    ],
+                    "expanded": false
+                  },
+                  {
+                    "group": "OpenAI Compatible",
+                    "icon": "comment",
+                    "pages": [
+                      "en/sdk/openai-compat/index",
+                      "en/sdk/openai-compat/chat-completions",
+                      "en/sdk/openai-compat/tool-calls",
+                      "en/sdk/openai-compat/structured-outputs",
+                      "en/sdk/openai-compat/image-generation",
+                      "en/sdk/openai-compat/embeddings",
+                      "en/sdk/openai-compat/advanced",
+                      "en/sdk/openai-compat/rest-api"
+                    ],
+                    "expanded": false
+                  },
+                  {
+                    "group": "Anthropic Compatible",
+                    "icon": "hand",
+                    "pages": [
+                      "en/sdk/anthropic-compat/index",
+                      "en/sdk/anthropic-compat/messages",
+                      "en/sdk/anthropic-compat/tool-calls",
+                      "en/sdk/anthropic-compat/advanced",
+                      "en/sdk/anthropic-compat/file-attachments"
+                    ],
+                    "expanded": false
+                  },
+                  "en/sdk/python/index"
+                ],
+                "expanded": false
+              },
+              {
                 "group": "Core Concepts",
+                "icon": "compass",
                 "pages": [
                   "en/advanced-examples",
                   "en/error-handling",
@@ -129,6 +143,7 @@
               },
               {
                 "group": "Capabilities",
+                "icon": "grip",
                 "pages": [
                   "en/capability/video-generation",
                   "en/capability/image-generation",
@@ -140,9 +155,12 @@
                   "en/capability/reasoning",
                   "en/capability/stream",
                   "en/capability/structured",
+                  "en/tools-overview",
+                  "en/how-tools",
                   "en/response",
                   "en/about/prompt-templates"
-                ]
+                ],
+                "expanded": false
               }
             ]
           },
@@ -152,53 +170,260 @@
             "pages": [
               {
                 "group": "Models & Pricing",
+                "icon": "dollar-sign",
+                "expanded": false,
                 "pages": [
                   "en/models-overview",
                   {
-                    "group": "Neosantara Flagship",
+                    "group": "Active Models",
+                    "icon": "star",
+                    "expanded": false,
                     "pages": [
-                      "models/nusantara-base",
-                      "models/archipelago-70b",
-                      "models/garda-beta-mini",
-                      "models/sea-lion-v4-27b-it",
-                      "models/neosantara-gen-2045"
+                      {
+                        "group": "Neosantara",
+                        "expanded": false,
+                        "pages": [
+                          "models/archipelago-core-70b",
+                          "models/garda-agentic-mini",
+                          "models/garda-core",
+                          "models/neosantara-gen-2045",
+                          "models/nusa-embedding-0001"
+                        ]
+                      },
+                      {
+                        "group": "Google",
+                        "expanded": false,
+                        "pages": [
+                          "models/gemini-2.5-flash",
+                          "models/gemini-3-flash",
+                          "models/gemini-3-flash-preview",
+                          "models/gemini-3-pro-preview",
+                          "models/gemini-3.1-flash-lite-preview",
+                          "models/gemini-3.1-pro-preview",
+                          "models/gemini-3.5-flash",
+                          "models/gemini-embedding-001",
+                          "models/gemma-3-27b-it",
+                          "models/gemma2-9b-it",
+                          "models/imagen-4.0-fast"
+                        ]
+                      },
+                      {
+                        "group": "Anthropic",
+                        "expanded": false,
+                        "pages": [
+                          "models/claude-4-5-haiku",
+                          "models/claude-4.5-opus",
+                          "models/claude-4.5-sonnet",
+                          "models/claude-opus-4-6",
+                          "models/claude-sonnet-4-6"
+                        ]
+                      },
+                      {
+                        "group": "OpenAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/gpt-5-nano",
+                          "models/gpt-5.4-nano",
+                          "models/gpt-image-2",
+                          "models/gpt-oss-20b",
+                          "models/text-embedding-3-small",
+                          "models/whisper-large-v3",
+                          "models/whisper-large-v3-turbo"
+                        ]
+                      },
+                      {
+                        "group": "xAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/grok-4.1-fast-non-reasoning",
+                          "models/grok-4.1-fast-reasoning",
+                          "models/grok-imagine-image"
+                        ]
+                      },
+                      {
+                        "group": "Moonshot",
+                        "expanded": false,
+                        "pages": [
+                          "models/kimi-k2-thinking",
+                          "models/kimi-k2.5"
+                        ]
+                      },
+                      {
+                        "group": "zAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/glm-4.5-flash",
+                          "models/glm-4.6",
+                          "models/glm-4.6-plus",
+                          "models/glm-4.6v-flash",
+                          "models/glm-4.7",
+                          "models/glm-4.7-flash",
+                          "models/glm-ocr"
+                        ]
+                      },
+                      {
+                        "group": "DeepSeek",
+                        "expanded": false,
+                        "pages": [
+                          "models/deepseek-ocr",
+                          "models/deepseek-r1",
+                          "models/deepseek-v4-flash",
+                          "models/deepseek-v4-pro"
+                        ]
+                      },
+                      {
+                        "group": "Amazon",
+                        "expanded": false,
+                        "pages": [
+                          "models/amazon-nova-lite",
+                          "models/amazon-nova-micro",
+                          "models/amazon-nova-pro",
+                          "models/titan-image-g1"
+                        ]
+                      },
+                      {
+                        "group": "Bedrock Video",
+                        "expanded": false,
+                        "pages": [
+                          "models/luma-ray2-540p",
+                          "models/luma-ray2-720p"
+                        ]
+                      },
+                      {
+                        "group": "Mistral AI",
+                        "expanded": false,
+                        "pages": [
+                          "models/devstral-2",
+                          "models/hermes-2-pro-mistral-7b",
+                          "models/mistral-large-latest",
+                          "models/mistral-small-latest",
+                          "models/mistral-voxtral-mini"
+                        ]
+                      },
+                      {
+                        "group": "Meta",
+                        "expanded": false,
+                        "pages": [
+                          "models/llama-3-2-11b-vision",
+                          "models/llama-3.2-11b",
+                          "models/llama-guard-3-8b",
+                          "models/sahabat-ai-llama-v4"
+                        ]
+                      },
+                      {
+                        "group": "Alibaba Cloud",
+                        "expanded": false,
+                        "pages": [
+                          "models/qwen3-32b"
+                        ]
+                      },
+                      {
+                        "group": "NVIDIA",
+                        "expanded": false,
+                        "pages": [
+                          "models/llama-3.3-nemotron-super-49b-v1.5",
+                          "models/mistral-nemotron"
+                        ]
+                      },
+                      {
+                        "group": "IBM",
+                        "expanded": false,
+                        "pages": [
+                          "models/granite-3-8b-instruct"
+                        ]
+                      },
+                      {
+                        "group": "Stability AI",
+                        "expanded": false,
+                        "pages": [
+                          "models/sdxl-lightning",
+                          "models/stable-diffusion-v1-5-img2img"
+                        ]
+                      },
+                      {
+                        "group": "AI Singapore",
+                        "expanded": false,
+                        "pages": [
+                          "models/sea-lion-v4-27b-it"
+                        ]
+                      },
+                      {
+                        "group": "ServiceNow AI",
+                        "expanded": false,
+                        "pages": [
+                          "models/apriel-1.6-thinker"
+                        ]
+                      },
+                      {
+                        "group": "Meituan",
+                        "expanded": false,
+                        "pages": [
+                          "models/longcat-flash-thinking"
+                        ]
+                      },
+                      {
+                        "group": "Other",
+                        "expanded": false,
+                        "pages": [
+                          "models/minimax-m2.5",
+                          "models/nv-embed-v1",
+                          "models/step-3.5-flash"
+                        ]
+                      }
                     ]
                   },
                   {
-                    "group": "Kimi Series",
+                    "group": "Deprecated Models",
+                    "icon": "clock",
+                    "expanded": false,
                     "pages": [
-                      "models/kimi-k2",
-                      "models/kimi-k1"
-                    ]
-                  },
-                  {
-                    "group": "Global LLMs",
-                    "pages": [
-                      "models/claude-4.5-sonnet",
-                      "models/deepseek-r1",
-                      "models/llama-3.3-nemotron-super-49b-v1.5",
-                      "models/gemini-3-flash",
-                      "models/grok-4.1-fast-non-reasoning",
-                      "models/gemma-3-27b-it",
-                      "models/gemma2-9b-it",
-                      "models/llama-3.2-11b",
-                      "models/granite-3-8b-instruct",
-                      "models/glm-4.6",
-                      "models/glm-4.6-plus",
-                      "models/gpt-oss-20b"
-                    ]
-                  },
-                  {
-                    "group": "Coding & Specialized",
-                    "pages": [
-                      "models/qwen3-32b",
-                      "models/grok-code-fast",
-                      "models/whisper-large-v3-turbo",
-                      "models/deepseek-ocr",
-                      "models/glm-ocr",
-                      "models/llama-guard-3-8b",
-                      "models/nusa-embedding-0001",
-                      "models/gemini-embedding-001"
+                      {
+                        "group": "Anthropic",
+                        "expanded": false,
+                        "pages": [
+                          "models/claude-3-5-haiku",
+                          "models/claude-3-5-sonnet",
+                          "models/claude-3-5-sonnet-v2",
+                          "models/claude-3-7-sonnet",
+                          "models/claude-3-haiku"
+                        ]
+                      },
+                      {
+                        "group": "xAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/grok-4.20-non-reasoning",
+                          "models/grok-4.3",
+                          "models/grok-code-fast"
+                        ]
+                      },
+                      {
+                        "group": "Moonshot",
+                        "expanded": false,
+                        "pages": [
+                          "models/kimi-k1",
+                          "models/kimi-k2",
+                          "models/kimi-k2:latest",
+                          "models/kimi-k2:math",
+                          "models/kimi-k2:research",
+                          "models/kimi-k2:search",
+                          "models/kimi-k2:silent"
+                        ]
+                      },
+                      {
+                        "group": "Meta",
+                        "expanded": false,
+                        "pages": [
+                          "models/llama-3.1-8b-wse"
+                        ]
+                      },
+                      {
+                        "group": "Alibaba Cloud",
+                        "expanded": false,
+                        "pages": [
+                          "models/qwen3-235b-wse"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -211,6 +436,7 @@
             "pages": [
               {
                 "group": "Integrations",
+                "icon": "puzzle-piece",
                 "pages": [
                   "en/agent-overview",
                   "en/integrations",
@@ -218,19 +444,24 @@
                   "en/using-neosantara-with-vercels-ai-sdk",
                   {
                     "group": "Frameworks",
+                    "icon": "cube",
                     "pages": [
                       "en/langchain",
                       "en/crewai",
                       "en/dspy",
                       "en/pydantic-ai",
                       "en/agno",
+                      "en/any-llm",
                       "en/autogen"
-                    ]
+                    ],
+                    "expanded": false
                   }
-                ]
+                ],
+                "expanded": false
               },
               {
                 "group": "Tutorials",
+                "icon": "graduation-cap",
                 "pages": [
                   "en/guides/ai-coding-tools",
                   "en/capability/rag",
@@ -238,8 +469,10 @@
                   "en/guides/rag-cloudflare-vectorize-example",
                   "en/deepseek-ocr",
                   "en/glm-ocr",
-                  "en/llama-index"
-                ]
+                  "en/llama-index",
+                  "en/e2b"
+                ],
+                "expanded": false
               }
             ]
           },
@@ -249,6 +482,7 @@
             "pages": [
               {
                 "group": "API Usage",
+                "icon": "book-open",
                 "pages": [
                   "en/api-introduction",
                   "en/about/billing-pricing",
@@ -259,52 +493,61 @@
               },
               {
                 "group": "Endpoints",
+                "icon": "code",
                 "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
                     "group": "Responses",
+                    "icon": "bolt",
                     "pages": [
                       "POST /v1/responses"
                     ]
                   },
                   {
                     "group": "Chat",
+                    "icon": "comment",
                     "pages": [
                       "POST /v1/chat/completions"
                     ]
                   },
                   {
                     "group": "Anthropic",
+                    "icon": "hand",
                     "pages": [
                       "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Images",
+                    "icon": "image",
                     "pages": [
                       "POST /v1/images/generations"
                     ]
                   },
                   {
                     "group": "Audio",
+                    "icon": "microphone",
                     "pages": [
                       "POST /v1/audio/transcriptions"
                     ]
                   },
                   {
                     "group": "Embeddings",
+                    "icon": "database",
                     "pages": [
                       "POST /v1/embeddings"
                     ]
                   },
                   {
                     "group": "Vision",
+                    "icon": "eye",
                     "pages": [
                       "POST /v1/ocr"
                     ]
                   },
                   {
                     "group": "Videos",
+                    "icon": "video",
                     "pages": [
                       "api-reference/videos/create",
                       "api-reference/videos/get",
@@ -313,19 +556,23 @@
                   },
                   {
                     "group": "Asynchronous",
+                    "icon": "arrows-rotate",
                     "pages": [
                       {
                         "group": "Batches",
+                        "icon": "rows",
                         "pages": [
                           "en/batches-overview",
                           "POST /v1/batches",
                           "GET /v1/batches/{batch_id}",
                           "GET /v1/batches",
                           "POST /v1/batches/{batch_id}/cancel"
-                        ]
+                        ],
+                        "expanded": false
                       },
                       {
                         "group": "Files",
+                        "icon": "file",
                         "pages": [
                           "en/files-overview",
                           "POST /v1/files",
@@ -333,18 +580,22 @@
                           "GET /v1/files/{file_id}",
                           "GET /v1/files/{file_id}/content",
                           "DELETE /v1/files/{file_id}"
-                        ]
+                        ],
+                        "expanded": false
                       },
                       {
                         "group": "Webhooks",
+                        "icon": "link",
                         "pages": [
                           "en/webhooks-overview"
                         ]
                       }
-                    ]
+                    ],
+                    "expanded": false
                   },
                   {
                     "group": "Management",
+                    "icon": "gear",
                     "pages": [
                       "GET /v1/models",
                       "GET /v1/models/{modelId}",
@@ -352,7 +603,8 @@
                       "en/check-api-key-status"
                     ]
                   }
-                ]
+                ],
+                "expanded": false
               }
             ]
           }
@@ -370,56 +622,67 @@
             "pages": [
               {
                 "group": "Langkah Pertama",
+                "icon": "book-open",
                 "pages": [
                   "id/intro",
+                  "id/about",
                   "id/quickstart",
                   "id/guides/migration",
-                  "id/use-these-docs",
-                  {
-                    "group": "SDKs & APIs",
-                    "pages": [
-                      "id/sdk/index",
-                      {
-                        "group": "OpenResponses API",
-                        "pages": [
-                          "id/sdk/responses-api/index",
-                          "id/sdk/responses-api/text-generation",
-                          "id/sdk/responses-api/streaming",
-                          "id/sdk/responses-api/image-input",
-                          "id/sdk/responses-api/image-generation",
-                          "id/sdk/responses-api/tool-calling"
-                        ]
-                      },
-                      {
-                        "group": "OpenAI Compatible",
-                        "pages": [
-                          "id/sdk/openai-compat/index",
-                          "id/sdk/openai-compat/chat-completions",
-                          "id/sdk/openai-compat/tool-calls",
-                          "id/sdk/openai-compat/structured-outputs",
-                          "id/sdk/openai-compat/image-generation",
-                          "id/sdk/openai-compat/embeddings",
-                          "id/sdk/openai-compat/advanced",
-                          "id/sdk/openai-compat/rest-api"
-                        ]
-                      },
-                      {
-                        "group": "Anthropic Compatible",
-                        "pages": [
-                          "id/sdk/anthropic-compat/index",
-                          "id/sdk/anthropic-compat/messages",
-                          "id/sdk/anthropic-compat/tool-calls",
-                          "id/sdk/anthropic-compat/advanced",
-                          "id/sdk/anthropic-compat/file-attachments"
-                        ]
-                      },
-                      "id/sdk/python/index"
-                    ]
-                  }
+                  "id/use-these-docs"
                 ]
               },
               {
+                "group": "SDKs & APIs",
+                "icon": "code",
+                "pages": [
+                  "id/sdk/index",
+                  {
+                    "group": "OpenResponses API",
+                    "icon": "bolt",
+                    "pages": [
+                      "id/sdk/responses-api/index",
+                      "id/sdk/responses-api/text-generation",
+                      "id/sdk/responses-api/streaming",
+                      "id/sdk/responses-api/image-input",
+                      "id/sdk/responses-api/image-generation",
+                      "id/sdk/responses-api/tool-calling"
+                    ],
+                    "expanded": false
+                  },
+                  {
+                    "group": "OpenAI Compatible",
+                    "icon": "comment",
+                    "pages": [
+                      "id/sdk/openai-compat/index",
+                      "id/sdk/openai-compat/chat-completions",
+                      "id/sdk/openai-compat/tool-calls",
+                      "id/sdk/openai-compat/structured-outputs",
+                      "id/sdk/openai-compat/image-generation",
+                      "id/sdk/openai-compat/embeddings",
+                      "id/sdk/openai-compat/advanced",
+                      "id/sdk/openai-compat/rest-api"
+                    ],
+                    "expanded": false
+                  },
+                  {
+                    "group": "Anthropic Compatible",
+                    "icon": "hand",
+                    "pages": [
+                      "id/sdk/anthropic-compat/index",
+                      "id/sdk/anthropic-compat/messages",
+                      "id/sdk/anthropic-compat/tool-calls",
+                      "id/sdk/anthropic-compat/advanced",
+                      "id/sdk/anthropic-compat/file-attachments"
+                    ],
+                    "expanded": false
+                  },
+                  "id/sdk/python/index"
+                ],
+                "expanded": false
+              },
+              {
                 "group": "Konsep Inti",
+                "icon": "compass",
                 "pages": [
                   "id/advanced-examples",
                   "id/error-handling",
@@ -428,6 +691,7 @@
               },
               {
                 "group": "Kemampuan",
+                "icon": "grip",
                 "pages": [
                   "id/capability/video-generation",
                   "id/capability/embeddings",
@@ -438,10 +702,13 @@
                   "id/capability/guardrails",
                   "id/capability/stream",
                   "id/capability/structured",
+                  "id/tools-overview",
+                  "id/how-tools",
                   "id/capability/reasoning",
                   "id/response",
                   "id/about/prompt-templates"
-                ]
+                ],
+                "expanded": false
               }
             ]
           },
@@ -451,53 +718,260 @@
             "pages": [
               {
                 "group": "Model & Harga",
+                "icon": "dollar-sign",
+                "expanded": false,
                 "pages": [
                   "id/models-overview",
                   {
-                    "group": "Flagship Neosantara",
+                    "group": "Model Aktif",
+                    "icon": "star",
+                    "expanded": false,
                     "pages": [
-                      "models/nusantara-base",
-                      "models/archipelago-70b",
-                      "models/garda-beta-mini",
-                      "models/sea-lion-v4-27b-it",
-                      "models/neosantara-gen-2045"
+                      {
+                        "group": "Neosantara",
+                        "expanded": false,
+                        "pages": [
+                          "models/archipelago-core-70b",
+                          "models/garda-agentic-mini",
+                          "models/garda-core",
+                          "models/neosantara-gen-2045",
+                          "models/nusa-embedding-0001"
+                        ]
+                      },
+                      {
+                        "group": "Google",
+                        "expanded": false,
+                        "pages": [
+                          "models/gemini-2.5-flash",
+                          "models/gemini-3-flash",
+                          "models/gemini-3-flash-preview",
+                          "models/gemini-3-pro-preview",
+                          "models/gemini-3.1-flash-lite-preview",
+                          "models/gemini-3.1-pro-preview",
+                          "models/gemini-3.5-flash",
+                          "models/gemini-embedding-001",
+                          "models/gemma-3-27b-it",
+                          "models/gemma2-9b-it",
+                          "models/imagen-4.0-fast"
+                        ]
+                      },
+                      {
+                        "group": "Anthropic",
+                        "expanded": false,
+                        "pages": [
+                          "models/claude-4-5-haiku",
+                          "models/claude-4.5-opus",
+                          "models/claude-4.5-sonnet",
+                          "models/claude-opus-4-6",
+                          "models/claude-sonnet-4-6"
+                        ]
+                      },
+                      {
+                        "group": "OpenAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/gpt-5-nano",
+                          "models/gpt-5.4-nano",
+                          "models/gpt-image-2",
+                          "models/gpt-oss-20b",
+                          "models/text-embedding-3-small",
+                          "models/whisper-large-v3",
+                          "models/whisper-large-v3-turbo"
+                        ]
+                      },
+                      {
+                        "group": "xAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/grok-4.1-fast-non-reasoning",
+                          "models/grok-4.1-fast-reasoning",
+                          "models/grok-imagine-image"
+                        ]
+                      },
+                      {
+                        "group": "Moonshot",
+                        "expanded": false,
+                        "pages": [
+                          "models/kimi-k2-thinking",
+                          "models/kimi-k2.5"
+                        ]
+                      },
+                      {
+                        "group": "zAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/glm-4.5-flash",
+                          "models/glm-4.6",
+                          "models/glm-4.6-plus",
+                          "models/glm-4.6v-flash",
+                          "models/glm-4.7",
+                          "models/glm-4.7-flash",
+                          "models/glm-ocr"
+                        ]
+                      },
+                      {
+                        "group": "DeepSeek",
+                        "expanded": false,
+                        "pages": [
+                          "models/deepseek-ocr",
+                          "models/deepseek-r1",
+                          "models/deepseek-v4-flash",
+                          "models/deepseek-v4-pro"
+                        ]
+                      },
+                      {
+                        "group": "Amazon",
+                        "expanded": false,
+                        "pages": [
+                          "models/amazon-nova-lite",
+                          "models/amazon-nova-micro",
+                          "models/amazon-nova-pro",
+                          "models/titan-image-g1"
+                        ]
+                      },
+                      {
+                        "group": "Video Bedrock",
+                        "expanded": false,
+                        "pages": [
+                          "models/luma-ray2-540p",
+                          "models/luma-ray2-720p"
+                        ]
+                      },
+                      {
+                        "group": "Mistral AI",
+                        "expanded": false,
+                        "pages": [
+                          "models/devstral-2",
+                          "models/hermes-2-pro-mistral-7b",
+                          "models/mistral-large-latest",
+                          "models/mistral-small-latest",
+                          "models/mistral-voxtral-mini"
+                        ]
+                      },
+                      {
+                        "group": "Meta",
+                        "expanded": false,
+                        "pages": [
+                          "models/llama-3-2-11b-vision",
+                          "models/llama-3.2-11b",
+                          "models/llama-guard-3-8b",
+                          "models/sahabat-ai-llama-v4"
+                        ]
+                      },
+                      {
+                        "group": "Alibaba Cloud",
+                        "expanded": false,
+                        "pages": [
+                          "models/qwen3-32b"
+                        ]
+                      },
+                      {
+                        "group": "NVIDIA",
+                        "expanded": false,
+                        "pages": [
+                          "models/llama-3.3-nemotron-super-49b-v1.5",
+                          "models/mistral-nemotron"
+                        ]
+                      },
+                      {
+                        "group": "IBM",
+                        "expanded": false,
+                        "pages": [
+                          "models/granite-3-8b-instruct"
+                        ]
+                      },
+                      {
+                        "group": "Stability AI",
+                        "expanded": false,
+                        "pages": [
+                          "models/sdxl-lightning",
+                          "models/stable-diffusion-v1-5-img2img"
+                        ]
+                      },
+                      {
+                        "group": "AI Singapore",
+                        "expanded": false,
+                        "pages": [
+                          "models/sea-lion-v4-27b-it"
+                        ]
+                      },
+                      {
+                        "group": "ServiceNow AI",
+                        "expanded": false,
+                        "pages": [
+                          "models/apriel-1.6-thinker"
+                        ]
+                      },
+                      {
+                        "group": "Meituan",
+                        "expanded": false,
+                        "pages": [
+                          "models/longcat-flash-thinking"
+                        ]
+                      },
+                      {
+                        "group": "Lainnya",
+                        "expanded": false,
+                        "pages": [
+                          "models/minimax-m2.5",
+                          "models/nv-embed-v1",
+                          "models/step-3.5-flash"
+                        ]
+                      }
                     ]
                   },
                   {
-                    "group": "Seri Kimi",
+                    "group": "Model Deprecated",
+                    "icon": "clock",
+                    "expanded": false,
                     "pages": [
-                      "models/kimi-k2",
-                      "models/kimi-k1"
-                    ]
-                  },
-                  {
-                    "group": "LLM Global",
-                    "pages": [
-                      "models/claude-4.5-sonnet",
-                      "models/deepseek-r1",
-                      "models/llama-3.3-nemotron-super-49b-v1.5",
-                      "models/gemini-3-flash",
-                      "models/grok-4.1-fast-non-reasoning",
-                      "models/gemma-3-27b-it",
-                      "models/gemma2-9b-it",
-                      "models/llama-3.2-11b",
-                      "models/granite-3-8b-instruct",
-                      "models/glm-4.6",
-                      "models/glm-4.6-plus",
-                      "models/gpt-oss-20b"
-                    ]
-                  },
-                  {
-                    "group": "Coding & Spesialis",
-                    "pages": [
-                      "models/qwen3-32b",
-                      "models/grok-code-fast",
-                      "models/whisper-large-v3-turbo",
-                      "models/deepseek-ocr",
-                      "models/glm-ocr",
-                      "models/llama-guard-3-8b",
-                      "models/nusa-embedding-0001",
-                      "models/gemini-embedding-001"
+                      {
+                        "group": "Anthropic",
+                        "expanded": false,
+                        "pages": [
+                          "models/claude-3-5-haiku",
+                          "models/claude-3-5-sonnet",
+                          "models/claude-3-5-sonnet-v2",
+                          "models/claude-3-7-sonnet",
+                          "models/claude-3-haiku"
+                        ]
+                      },
+                      {
+                        "group": "xAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/grok-4.20-non-reasoning",
+                          "models/grok-4.3",
+                          "models/grok-code-fast"
+                        ]
+                      },
+                      {
+                        "group": "Moonshot",
+                        "expanded": false,
+                        "pages": [
+                          "models/kimi-k1",
+                          "models/kimi-k2",
+                          "models/kimi-k2:latest",
+                          "models/kimi-k2:math",
+                          "models/kimi-k2:research",
+                          "models/kimi-k2:search",
+                          "models/kimi-k2:silent"
+                        ]
+                      },
+                      {
+                        "group": "Meta",
+                        "expanded": false,
+                        "pages": [
+                          "models/llama-3.1-8b-wse"
+                        ]
+                      },
+                      {
+                        "group": "Alibaba Cloud",
+                        "expanded": false,
+                        "pages": [
+                          "models/qwen3-235b-wse"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -510,6 +984,7 @@
             "pages": [
               {
                 "group": "Integrasi",
+                "icon": "puzzle-piece",
                 "pages": [
                   "id/agent-overview",
                   "id/integrations",
@@ -520,19 +995,24 @@
                   "id/using-neosantara-with-vercels-ai-sdk",
                   {
                     "group": "Framework",
+                    "icon": "cube",
                     "pages": [
                       "id/langchain",
                       "id/crewai",
                       "id/dspy",
                       "id/pydantic-ai",
                       "id/agno",
+                      "id/any-llm",
                       "id/autogen"
-                    ]
+                    ],
+                    "expanded": false
                   }
-                ]
+                ],
+                "expanded": false
               },
               {
                 "group": "Tutorial",
+                "icon": "graduation-cap",
                 "pages": [
                   "id/guides/ai-coding-tools",
                   "id/capability/rag",
@@ -540,8 +1020,10 @@
                   "id/guides/rag-cloudflare-vectorize-example",
                   "id/deepseek-ocr",
                   "id/glm-ocr",
-                  "id/llama-index"
-                ]
+                  "id/llama-index",
+                  "id/e2b"
+                ],
+                "expanded": false
               }
             ]
           },
@@ -551,6 +1033,7 @@
             "pages": [
               {
                 "group": "Penggunaan API",
+                "icon": "book-open",
                 "pages": [
                   "id/api-introduction",
                   "id/about/billing-pricing",
@@ -561,52 +1044,61 @@
               },
               {
                 "group": "Referensi API",
+                "icon": "code",
                 "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
                     "group": "Responses",
+                    "icon": "bolt",
                     "pages": [
                       "POST /v1/responses"
                     ]
                   },
                   {
                     "group": "Chat",
+                    "icon": "comment",
                     "pages": [
                       "POST /v1/chat/completions"
                     ]
                   },
                   {
                     "group": "Anthropic",
+                    "icon": "hand",
                     "pages": [
                       "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Images",
+                    "icon": "image",
                     "pages": [
                       "POST /v1/images/generations"
                     ]
                   },
                   {
                     "group": "Audio",
+                    "icon": "microphone",
                     "pages": [
                       "POST /v1/audio/transcriptions"
                     ]
                   },
                   {
                     "group": "Embeddings",
+                    "icon": "database",
                     "pages": [
                       "POST /v1/embeddings"
                     ]
                   },
                   {
                     "group": "Vision",
+                    "icon": "eye",
                     "pages": [
                       "POST /v1/ocr"
                     ]
                   },
                   {
                     "group": "Videos",
+                    "icon": "video",
                     "pages": [
                       "api-reference/videos/create",
                       "api-reference/videos/get",
@@ -615,19 +1107,23 @@
                   },
                   {
                     "group": "Asynchronous",
+                    "icon": "arrows-rotate",
                     "pages": [
                       {
                         "group": "Batch",
+                        "icon": "rows",
                         "pages": [
                           "id/batches-overview",
                           "POST /v1/batches",
                           "GET /v1/batches/{batch_id}",
                           "GET /v1/batches",
                           "POST /v1/batches/{batch_id}/cancel"
-                        ]
+                        ],
+                        "expanded": false
                       },
                       {
                         "group": "File",
+                        "icon": "file",
                         "pages": [
                           "id/files-overview",
                           "POST /v1/files",
@@ -635,18 +1131,22 @@
                           "GET /v1/files/{file_id}",
                           "GET /v1/files/{file_id}/content",
                           "DELETE /v1/files/{file_id}"
-                        ]
+                        ],
+                        "expanded": false
                       },
                       {
                         "group": "Webhook",
+                        "icon": "link",
                         "pages": [
                           "id/webhooks-overview"
                         ]
                       }
-                    ]
+                    ],
+                    "expanded": false
                   },
                   {
                     "group": "Manajemen",
+                    "icon": "gear",
                     "pages": [
                       "GET /v1/models",
                       "GET /v1/models/{modelId}",
@@ -654,7 +1154,8 @@
                       "id/check-api-key-status"
                     ]
                   }
-                ]
+                ],
+                "expanded": false
               }
             ]
           }

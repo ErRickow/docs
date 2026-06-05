@@ -1,5 +1,6 @@
 ---
 title: "Create a Message"
+description: "Reference for POST /v1/messages."
 api: 'POST /v1/messages'
 playground: 'simple'
 ---
@@ -11,7 +12,7 @@ playground: 'simple'
 <ParamField path="model" type="string" required>
   The model ID to use for the request.
   
-  **Example:** `"garda-beta-mini"`, `"nusantara-base"`
+  **Example:** `"garda-agentic-mini"`, `"garda-core"`
 </ParamField>
 
 <ParamField path="messages" type="array[object]" required>
@@ -241,7 +242,7 @@ playground: 'simple'
   "id": "msg_01XYZ...",
   "type": "message",
   "role": "assistant",
-  "model": "nusantara-base",
+  "model": "garda-core",
   "content": [
     {
       "type": "text",
