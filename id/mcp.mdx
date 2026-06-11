@@ -113,6 +113,69 @@ Untuk menghubungkan tool Neosantara ke aplikasi Claude Desktop:
   </Step>
 </Steps>
 
+### Alat CLI dan Agen Terminal
+
+Kamu juga bisa mengintegrasikan server MCP Neosantara dengan asisten koding berbasis CLI dan agen terminal.
+
+#### Gemini CLI
+
+Untuk menambahkan Neosantara sebagai server MCP di Gemini CLI, jalankan perintah berikut:
+
+```bash
+gemini mcp add neosantara https://api.neosantara.xyz/v1/mcp -t http -H "x-api-key: KEY_NSK_MCP_KAMU"
+```
+
+Untuk memverifikasi koneksi, kamu bisa melihat daftar server MCP yang terkonfigurasi:
+
+```bash
+gemini mcp list
+```
+
+#### Claude Code
+
+Untuk menambahkan Neosantara sebagai server MCP di Claude Code, jalankan perintah add dengan flag transport HTTP:
+
+```bash
+claude mcp add --transport http neosantara https://api.neosantara.xyz/v1/mcp --header "x-api-key: KEY_NSK_MCP_KAMU"
+```
+
+Untuk melihat status koneksi, tampilkan daftar server MCP yang aktif:
+
+```bash
+claude mcp list
+```
+
+#### Codex CLI
+
+Untuk menambahkan Neosantara sebagai server MCP di Codex, gunakan perintah add dan tentukan key kamu:
+
+```bash
+codex mcp add neosantara --url https://api.neosantara.xyz/v1/mcp --bearer-token-env-var NAI_MCP_KEY
+```
+
+Pastikan kamu sudah meng-export environment variable `NAI_MCP_KEY` yang berisi key MCP Neosantara kamu pada konfigurasi shell.
+
+#### Kiro CLI
+
+Untuk menghubungkan Neosantara ke Kiro CLI, buka file konfigurasi kamu:
+
+* **Jalur**: `~/.kiro/settings/mcp.json`
+
+Tambahkan konfigurasi Neosantara di bawah objek `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "neosantara": {
+      "url": "https://api.neosantara.xyz/v1/mcp",
+      "headers": {
+        "x-api-key": "KEY_NSK_MCP_KAMU"
+      }
+    }
+  }
+}
+```
+
 ---
 
 ## 4. Menguji Koneksi MCP Kamu
