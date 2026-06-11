@@ -182,9 +182,29 @@ Tambahkan konfigurasi Neosantara di bawah objek `mcpServers`:
 
 Setelah dikonfigurasi, kamu dapat menguji apakah asisten koding kamu sudah memiliki akses ke Neosantara dengan memberikan prompt berikut:
 
-* *"Tampilkan model-model Neosantara yang tersedia menggunakan tool MCP."*
-* *"Buat gambar apel merah di atas meja kayu."*
-* *"Berapa context length dari garda-core?"*
+<Prompt 
+  description="Minta asisten menampilkan daftar model melalui MCP"
+  icon="list"
+  actions={["copy"]}
+>
+  Tampilkan model-model Neosantara yang tersedia menggunakan tool MCP.
+</Prompt>
+
+<Prompt 
+  description="Minta asisten men-generate gambar melalui MCP"
+  icon="image"
+  actions={["copy"]}
+>
+  Buat gambar apel merah di atas meja kayu.
+</Prompt>
+
+<Prompt 
+  description="Minta asisten mencari spesifikasi model"
+  icon="circle-info"
+  actions={["copy"]}
+>
+  Berapa context length dari garda-core?
+</Prompt>
 
 ---
 

@@ -182,9 +182,29 @@ Add the Neosantara configuration under the `mcpServers` object:
 
 Once configured, you can test if your coding assistant has access to Neosantara by asking the following prompts:
 
-* *"List the available Neosantara models using the MCP tools."*
-* *"Create an image of a red apple on a wooden table."*
-* *"What is the context length of garda-core?"*
+<Prompt 
+  description="Ask the assistant to list models via MCP"
+  icon="list"
+  actions={["copy"]}
+>
+  List the available Neosantara models using the MCP tools.
+</Prompt>
+
+<Prompt 
+  description="Ask the assistant to generate an image via MCP"
+  icon="image"
+  actions={["copy"]}
+>
+  Create an image of a red apple on a wooden table.
+</Prompt>
+
+<Prompt 
+  description="Ask the assistant about a model's specifications"
+  icon="circle-info"
+  actions={["copy"]}
+>
+  What is the context length of garda-core?
+</Prompt>
 
 ---
 
