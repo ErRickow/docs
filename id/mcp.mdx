@@ -1,0 +1,103 @@
+---
+title: "Model Context Protocol (MCP)"
+description: "Hubungkan tool Neosantara secara langsung ke coding assistant AI lokal Anda seperti Cursor, VS Code, dan Claude Desktop."
+---
+
+**Model Context Protocol (MCP)** adalah standar terbuka yang memungkinkan asisten AI untuk mengakses tool dan sumber data lokal maupun remote secara aman. Neosantara menyediakan server MCP bawaan (out-of-the-box) yang berjalan langsung pada API gateway-nya.
+
+Dengan menghubungkan lingkungan koding lokal Anda ke server MCP Neosantara, Anda dapat mengizinkan tool seperti Cursor atau Claude Desktop untuk memanggil model Neosantara, men-generate gambar, menemukan model yang tersedia, dan mengakses kemampuan agentic secara langsung dari IDE atau chat client Anda.
+
+---
+
+## 1. Buat API Key Khusus MCP
+
+Untuk mengakses server MCP, Anda memerlukan API key khusus MCP. Key Neosantara standar tidak dapat digunakan untuk mengautentikasi endpoint MCP.
+
+1. Buka Dashboard Neosantara di halaman [app.neosantara.xyz/api-keys](https://app.neosantara.xyz/api-keys).
+2. Klik tombol **Buat Key** (atau **Buat MCP Key**).
+3. Pilih tier langganan yang Anda inginkan (misalnya: Free, Basic, Pro).
+4. Simpan key yang dihasilkan dengan aman. Key Anda akan memiliki awalan `nsk_mcp_` (contoh: `nsk_mcp_70bd8e4d...`).
+
+<Warning>
+  API Key MCP hanya ditampilkan satu kali saat pertama kali dibuat. Simpan dengan aman dan jangan bagikan kepada siapa pun.
+</Warning>
+
+---
+
+## 2. Tool yang Didukung
+
+Setelah terhubung, server MCP Neosantara menyediakan tool-tool berikut untuk asisten AI Anda:
+
+| Nama Tool | Deskripsi |
+| --- | --- |
+| `chat` | Men-generate teks respon menggunakan Responses API Neosantara (mendukung payload kaya seperti tools, code interpreter, reasoning, dan instruksi sistem). |
+| `list-models` | Menampilkan model bahasa aktif yang tersedia di Neosantara beserta detail kemampuan, context window, dan harganya. |
+| `generate-image` | Men-generate gambar berkualitas tinggi dari deskripsi teks (prompt). |
+| `list-image-models` | Menampilkan model generator gambar yang tersedia (seperti Google Imagen 4.0, Stability AI SDXL). |
+
+---
+
+## 3. Konfigurasi & Integrasi
+
+Server MCP Neosantara menggunakan protokol transport **SSE (Server-Sent Events)**. Ini memungkinkan Anda terhubung langsung melalui URL tanpa perlu mengunduh script executable lokal.
+
+* **URL Endpoint**: `https://api.neosantara.xyz/v1/mcp`
+* **Header Otorisasi**: `x-api-key`
+
+### Cursor IDE
+
+Untuk menghubungkan tool Neosantara ke Cursor:
+
+1. Buka **Cursor Settings** (`Ctrl + ,` atau `Cmd + ,`).
+2. Masuk ke menu **Features** > **MCP**.
+3. Klik tombol **+ Add New MCP Server**.
+4. Konfigurasikan pengaturan sebagai berikut:
+   - **Name**: `neosantara`
+   - **Type**: `SSE`
+   - **URL**: `https://api.neosantara.xyz/v1/mcp`
+5. Klik **+ Add Header** untuk menambahkan header autentikasi:
+   - **Header Name**: `x-api-key`
+   - **Header Value**: `API_KEY_NSK_MCP_ANDA`
+6. Klik **Save**. Status server akan berubah menjadi hijau dan menunjukkan 4 tool aktif.
+
+### Claude Desktop
+
+Untuk menghubungkan tool Neosantara ke aplikasi Claude Desktop:
+
+1. Buka file konfigurasi Claude Desktop Anda:
+   - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+2. Tambahkan `neosantara` ke daftar `mcpServers` menggunakan konfigurasi SSE berikut:
+
+```json
+{
+  "mcpServers": {
+    "neosantara": {
+      "url": "https://api.neosantara.xyz/v1/mcp",
+      "headers": {
+        "x-api-key": "API_KEY_NSK_MCP_ANDA"
+      }
+    }
+  }
+}
+```
+
+3. Restart aplikasi Claude Desktop. Anda akan melihat ikon palu baru di input chat yang menandakan tool aktif.
+
+---
+
+## 4. Menguji Koneksi MCP Anda
+
+Setelah dikonfigurasi, Anda dapat menguji apakah asisten koding Anda sudah memiliki akses ke Neosantara dengan memberikan prompt berikut:
+
+* *"Tampilkan model-model Neosantara yang tersedia menggunakan tool MCP."*
+* *"Buat gambar apel merah di atas meja kayu."*
+* *"Berapa context length dari garda-core?"*
+
+---
+
+## 5. Batas Penggunaan
+
+Endpoint MCP memiliki batas throughput (RPM) dan kuota request harian terpisah yang diberlakukan berdasarkan tier langganan akun Anda (misalnya, key Free mendapatkan 20 RPM dan 500 request harian).
+
+Untuk rincian dan detail kuota lengkap per tier, silakan merujuk ke halaman dokumentasi utama [Rate Limit](/id/about/rate-limits#batas-api-mcp).

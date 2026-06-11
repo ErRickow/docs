@@ -33,6 +33,22 @@ Sistem menegakkan tiga jenis throughput limit:
 **Pembaruan Tier:** Tier throughput disesuaikan secara otomatis berdasarkan riwayat total deposit kamu. Lihat [Kredit Token & Harga](/id/about/billing-pricing#throughput-tiers-speed-limits) untuk detailnya.
 </Note>
 
+### Batas API MCP
+
+Untuk endpoint di bawah `/v1/mcp`, batas throughput dan batas harian terpisah berlaku berdasarkan tier throughput akun:
+
+| Tier | RPM | Batas Request Harian |
+| :--- | :--- | :--- |
+| Free | 20 | 500 |
+| Basic | 40 | 1.500 |
+| Standard | 60 | 3.000 |
+| Pro | 120 | 8.000 |
+| Enterprise | 240 | 20.000 |
+
+<Note>
+  Batas MCP diberlakukan per API key. Selain itu, batas agregat tingkat pengguna di seluruh key MCP aktif Anda juga diterapkan untuk menjaga stabilitas platform.
+</Note>
+
 ---
 
 ## Header Respons

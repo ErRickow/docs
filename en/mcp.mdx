@@ -1,0 +1,103 @@
+---
+title: "Model Context Protocol (MCP)"
+description: "Connect Neosantara's powerful tools directly to your local AI coding assistants such as Cursor, VS Code, and Claude Desktop."
+---
+
+The **Model Context Protocol (MCP)** is an open standard that enables AI assistants to securely access local or remote tools and data sources. Neosantara provides a native, out-of-the-box MCP server running directly on its API gateway. 
+
+By connecting your local coding environment to the Neosantara MCP server, you can allow tools like Cursor or Claude Desktop to call Neosantara models, generate images, discover available models, and access rich agentic capabilities directly from your IDE or chat client.
+
+---
+
+## 1. Create an MCP API Key
+
+To access the MCP server, you need a dedicated MCP API key. Standard Neosantara keys cannot be used to authenticate MCP endpoints.
+
+1. Navigate to the Neosantara Dashboard at [app.neosantara.xyz/api-keys](https://app.neosantara.xyz/api-keys).
+2. Click on **Create Key** or **Create MCP Key**.
+3. Choose your desired subscription tier (e.g., Free, Basic, Pro).
+4. Save the generated key securely. Your key will have the prefix `nsk_mcp_` (for example, `nsk_mcp_70bd8e4d...`).
+
+<Warning>
+  MCP API keys are shown only once upon creation. Keep it secure and do not share it.
+</Warning>
+
+---
+
+## 2. Supported Tools
+
+Once connected, the Neosantara MCP server exposes the following tools to your AI assistant:
+
+| Tool Name | Description |
+| --- | --- |
+| `chat` | Generate text completions and model responses using Neosantara's Responses API (supports rich payloads, tools, and system instructions). |
+| `list-models` | Discovers active language models available on Neosantara with details on capabilities, context windows, and pricing. |
+| `generate-image` | Generates high-quality images from text descriptions. |
+| `list-image-models` | Lists available image generation models (e.g., Google Imagen 4.0, Stability AI SDXL). |
+
+---
+
+## 3. Configuration & Integration
+
+Neosantara’s MCP server uses the **SSE (Server-Sent Events)** transport protocol. This allows you to connect directly via a URL without downloading any local executable scripts.
+
+* **Endpoint URL**: `https://api.neosantara.xyz/v1/mcp`
+* **Authorization Header**: `x-api-key`
+
+### Cursor IDE
+
+To connect Neosantara tools to Cursor:
+
+1. Open **Cursor Settings** (`Ctrl + ,` or `Cmd + ,`).
+2. Go to **Features** > **MCP**.
+3. Click on **+ Add New MCP Server**.
+4. Configure the settings as follows:
+   - **Name**: `neosantara`
+   - **Type**: `SSE`
+   - **URL**: `https://api.neosantara.xyz/v1/mcp`
+5. Click **+ Add Header** to add the authentication header:
+   - **Header Name**: `x-api-key`
+   - **Header Value**: `YOUR_NSK_MCP_KEY`
+6. Click **Save**. The server status should turn green and show 4 tools active.
+
+### Claude Desktop
+
+To connect Neosantara tools to the Claude Desktop application:
+
+1. Open your Claude Desktop configuration file:
+   - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+2. Add `neosantara` to the `mcpServers` list using the SSE configuration:
+
+```json
+{
+  "mcpServers": {
+    "neosantara": {
+      "url": "https://api.neosantara.xyz/v1/mcp",
+      "headers": {
+        "x-api-key": "YOUR_NSK_MCP_KEY"
+      }
+    }
+  }
+}
+```
+
+3. Restart the Claude Desktop app. You should see a new hammer icon in the chat input representing active tools.
+
+---
+
+## 4. Testing Your MCP Connection
+
+Once configured, you can test if your coding assistant has access to Neosantara by asking the following prompts:
+
+* *"List the available Neosantara models using the MCP tools."*
+* *"Create an image of a red apple on a wooden table."*
+* *"What is the context length of garda-core?"*
+
+---
+
+## 5. Rate Limits
+
+MCP endpoints have separate throughput limits (RPM) and daily request quotas that are enforced based on your account's subscription tier (e.g., Free keys get 20 RPM and 500 daily requests).
+
+For the complete tier-by-tier quota breakdown and details, please refer to the main [Rate Limits](/en/about/rate-limits#mcp-api-limits) documentation page.

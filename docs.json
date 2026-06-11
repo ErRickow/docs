@@ -442,6 +442,7 @@
                   "en/integrations",
                   "en/widget",
                   "en/using-neosantara-with-vercels-ai-sdk",
+                  "en/mcp",
                   {
                     "group": "Frameworks",
                     "icon": "cube",
@@ -993,6 +994,7 @@
                     "page": "id/widget"
                   },
                   "id/using-neosantara-with-vercels-ai-sdk",
+                  "id/mcp",
                   {
                     "group": "Framework",
                     "icon": "cube",

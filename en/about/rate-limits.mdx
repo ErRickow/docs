@@ -33,6 +33,22 @@ The system enforces three types of throughput limits:
 **Tier Upgrades:** Throughput tiers are automatically adjusted based on your total deposit history. See [Token Credits & Pricing](/en/about/billing-pricing#throughput-tiers-speed-limits) for details.
 </Note>
 
+### MCP API Limits
+
+For endpoints under `/v1/mcp`, separate throughput and daily limits apply based on the account's throughput tier:
+
+| Tier | RPM | Daily Request Limit |
+| :--- | :--- | :--- |
+| Free | 20 | 500 |
+| Basic | 40 | 1,500 |
+| Standard | 60 | 3,000 |
+| Pro | 120 | 8,000 |
+| Enterprise | 240 | 20,000 |
+
+<Note>
+  MCP limits are enforced per API key. Additionally, user-level aggregate limits across all of your active MCP keys are applied to ensure platform stability.
+</Note>
+
 ---
 
 ## Response Headers
