@@ -19,6 +19,21 @@ API yang kompatibel dengan OpenAI mendukung autentikasi token Bearer standar:
 
 *   **Kunci API**: Gunakan kunci API Neosantara kamu dengan header `Authorization: Bearer <token>`.
 
+## App Attribution Opsional
+
+Jika kamu ingin identity aplikasi publik yang stabil di ranking Neosantara, kirim header opsional berikut pada request OpenAI-compatible:
+
+*   `X-Neosantara-App-Url`
+*   `X-Neosantara-App-Name`
+*   `X-Neosantara-App-Description`
+
+Minimum yang direkomendasikan:
+
+*   `X-Neosantara-App-Url` untuk identity utama
+*   `X-Neosantara-App-Name` untuk nama tampilan
+
+Lihat [Autentikasi](/id/authentication#header-app-attribution-opsional) untuk aturan normalisasi dan perilaku review.
+
 ## Endpoint yang didukung
 
 Neosantara mendukung endpoint kompatibel OpenAI berikut:
@@ -41,6 +56,10 @@ import OpenAI from 'openai';
 const client = new OpenAI({
   apiKey: process.env.NAI_API_KEY,
   baseURL: 'https://api.neosantara.xyz/v1',
+  defaultHeaders: {
+    'X-Neosantara-App-Url': 'https://contoh.ai',
+    'X-Neosantara-App-Name': 'Contoh AI',
+  },
 });
  
 const completion = await client.chat.completions.create({
@@ -55,7 +74,11 @@ from openai import OpenAI
  
 client = OpenAI(
     api_key=os.getenv('NAI_API_KEY'),
-    base_url='https://api.neosantara.xyz/v1'
+    base_url='https://api.neosantara.xyz/v1',
+    default_headers={
+        'X-Neosantara-App-Url': 'https://contoh.ai',
+        'X-Neosantara-App-Name': 'Contoh AI'
+    }
 )
  
 completion = client.chat.completions.create(

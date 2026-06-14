@@ -17,6 +17,39 @@ Neosantara API supports standard authentication methods across endpoints.
 - Or provide API key via header like `x-api-key: <KEY>` depending on client library.
 - For browser-based apps, use a secure backend to proxy requests and keep keys secret.
 
+## Optional App Attribution Headers
+
+If you want your application to appear consistently in Neosantara's public app rankings, send the following optional headers on AI requests:
+
+- `X-Neosantara-App-Url`
+- `X-Neosantara-App-Name`
+- `X-Neosantara-App-Description`
+
+How they work:
+
+- `X-Neosantara-App-Url`
+  - Primary app identity for attribution.
+  - Use your public app URL or product homepage.
+  - Only `http` and `https` are accepted.
+  - Identity is normalized to the origin, so path, query, and fragment are ignored for ranking identity.
+
+- `X-Neosantara-App-Name`
+  - Human-readable app name.
+  - Used as the fallback identity when `X-Neosantara-App-Url` is missing.
+
+- `X-Neosantara-App-Description`
+  - Short public app description.
+  - Can appear in the public app profile.
+  - Never used as the primary identity key.
+
+Identity priority:
+
+1. `X-Neosantara-App-Url`
+2. `X-Neosantara-App-Name`
+3. no attribution if both are absent
+
+If a profile changes too aggressively, Neosantara may keep the current accepted public profile and mark the new one as a pending candidate for admin review.
+
 ## Examples
 
 Python
@@ -38,7 +71,13 @@ const payload = {
 
 const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer YOUR_NEOSANTARA_API_KEY' },
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_NEOSANTARA_API_KEY',
+    'X-Neosantara-App-Url': 'https://example.ai',
+    'X-Neosantara-App-Name': 'Example AI',
+    'X-Neosantara-App-Description': 'AI copilot for sales and support'
+  },
   body: JSON.stringify(payload)
 })
 ```

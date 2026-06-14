@@ -47,6 +47,12 @@ Neosantara bertindak sebagai **gateway terpadu**, yang memungkinkan kamu mengaks
   <Step title="Buat Panggilan Pertama kamu">
     Setelah kamu memiliki `API Key`, kamu dapat mulai membuat permintaan.
 
+    <Tip>
+      Ingin produk kamu muncul konsisten di ranking aplikasi publik Neosantara? Kirim
+      `X-Neosantara-App-Url`, `X-Neosantara-App-Name`, dan opsional
+      `X-Neosantara-App-Description`. Lihat [Autentikasi](/id/authentication#header-app-attribution-opsional).
+    </Tip>
+
     <Tabs>
       <Tab title="OpenResponses (Direkomendasikan)">
         **Direkomendasikan untuk aplikasi berperforma tinggi dan stateful.**
@@ -56,7 +62,9 @@ Neosantara bertindak sebagai **gateway terpadu**, yang memungkinkan kamu mengaks
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer KUNCI_NSK_KAMU'
+            'Authorization': 'Bearer KUNCI_NSK_KAMU',
+            'X-Neosantara-App-Url': 'https://contoh.ai',
+            'X-Neosantara-App-Name': 'Contoh AI'
           },
           body: JSON.stringify({
             model: 'gemini-3.5-flash',
@@ -78,7 +86,11 @@ Neosantara bertindak sebagai **gateway terpadu**, yang memungkinkan kamu mengaks
 
         client = OpenAI(
             api_key="KUNCI_NSK_KAMU",
-            base_url="https://api.neosantara.xyz/v1"
+            base_url="https://api.neosantara.xyz/v1",
+            default_headers={
+                "X-Neosantara-App-Url": "https://contoh.ai",
+                "X-Neosantara-App-Name": "Contoh AI"
+            }
         )
 
         response = client.chat.completions.create(

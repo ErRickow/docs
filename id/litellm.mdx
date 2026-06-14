@@ -1,0 +1,159 @@
+---
+title: "LiteLLM"
+description: "Gunakan Neosantara sebagai provider native LiteLLM untuk chat completions, request Responses API, dan workflow multi-provider."
+---
+
+LiteLLM memberi Kamu satu interface client untuk banyak provider LLM di aplikasi Python, gateway, dan runtime agent. Neosantara tersedia sebagai provider native LiteLLM dengan prefix `neosantara/`, jadi Kamu dapat merutekan request melalui Neosantara tanpa harus memasang base URL OpenAI-compatible custom di setiap panggilan.
+
+Jika Kamu masih baru dengan LiteLLM, mulai dari [dokumentasi resmi LiteLLM](https://docs.litellm.ai/docs/) lalu gunakan halaman ini untuk setup khusus Neosantara.
+
+Gunakan integrasi ini saat Kamu ingin memakai provider routing, pola retry, kompatibilitas proxy, atau orkestrasi multi-provider dari LiteLLM sambil tetap menjadikan Neosantara sebagai salah satu backend native.
+
+## Instal
+
+Instal LiteLLM di virtual environment atau environment aplikasi Kamu.
+
+```bash icon="terminal"
+pip install -U litellm
+```
+
+## Autentikasi
+
+Setel API key Neosantara sebelum membuat request.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+LiteLLM mengarahkan Neosantara ke `https://api.neosantara.xyz/v1` secara default. Untuk mengarahkan LiteLLM ke gateway Neosantara kompatibel lain, setel `NEOSANTARA_API_BASE`.
+
+```bash icon="terminal"
+export NEOSANTARA_API_BASE="https://api.neosantara.xyz/v1"
+```
+
+## Chat Completion Dasar
+
+Gunakan prefix model `neosantara/` dengan helper `completion()` dari LiteLLM.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+export NEOSANTARA_API_BASE="https://api.neosantara.xyz/v1"
+```
+
+```python icon="python"
+from litellm import completion
+
+response = completion(
+    model="neosantara/gemini-3.5-flash",
+    messages=[
+        {
+            "role": "user",
+            "content": "Jelaskan fungsi Neosantara dalam satu kalimat.",
+        }
+    ],
+    max_tokens=120,
+)
+
+print(response.choices[0].message.content)
+```
+
+## Responses API
+
+LiteLLM juga mendukung Neosantara melalui surface Responses API.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+```python icon="python"
+from litellm import responses
+
+response = responses(
+    model="neosantara/gemini-3.5-flash",
+    input="Balas dengan checklist peluncuran singkat.",
+    max_completion_tokens=200,
+)
+
+print(response.output[0].content[0].text)
+```
+
+Gunakan jalur ini saat aplikasi Kamu sudah dibangun di atas request bergaya Responses, atau saat Kamu ingin tetap dekat dengan workflow modern `/v1/responses` milik Neosantara.
+
+## Tool Calling
+
+Tool call Neosantara bisa berjalan melalui LiteLLM, tetapi Kamu perlu mengizinkan parameter tool bergaya OpenAI ini secara eksplisit di request.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+```python icon="python"
+from litellm import completion
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_order_status",
+            "description": "Cek status pengiriman untuk sebuah pesanan.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "order_id": {
+                        "type": "string",
+                        "description": "ID pesanan pelanggan.",
+                    }
+                },
+                "required": ["order_id"],
+            },
+        },
+    }
+]
+
+response = completion(
+    model="neosantara/gemini-3.5-flash",
+    messages=[
+        {
+            "role": "user",
+            "content": "Cek pesanan ID INV-2045.",
+        }
+    ],
+    tools=tools,
+    tool_choice="auto",
+    allowed_openai_params=["tools", "tool_choice"],
+    max_tokens=200,
+)
+
+print(response.choices[0].message.tool_calls)
+```
+
+Tanpa `allowed_openai_params=["tools", "tool_choice"]`, LiteLLM akan menolak parameter tersebut untuk `neosantara` sebelum request dikirim.
+
+## Pemilihan Model
+
+Gunakan [Models Overview](/id/models-overview) untuk memilih model Neosantara di balik prefix LiteLLM:
+
+| Workflow | Tipe model yang disarankan |
+| --- | --- |
+| Chat umum dan support | Model teks cepat seperti `gemini-3.5-flash` |
+| Tugas reasoning yang lebih panjang | Model reasoning dari [Models Overview](/id/models-overview) |
+| Workflow berbasis tool | Halaman model yang mencantumkan dukungan tool calling |
+| Generasi gambar atau vision | Cek dulu halaman model generated untuk endpoint dan capability yang sesuai |
+
+## Kapan Menggunakan LiteLLM
+
+| Use case | Alasan LiteLLM membantu |
+| --- | --- |
+| Routing multi-provider | Simpan Neosantara dan provider lain di balik satu interface client. |
+| Aplikasi LiteLLM yang sudah ada | Tambahkan Neosantara dengan mengganti model string, tanpa menulis ulang client code. |
+| Layer gateway atau proxy | Pakai ulang orkestrasi request LiteLLM sambil mengarahkan traffic tertentu ke Neosantara. |
+| Aplikasi yang Responses-first | Panggil chat completions dan `/v1/responses` dari paket LiteLLM yang sama. |
+
+## Troubleshooting
+
+| Gejala | Cek |
+| --- | --- |
+| Autentikasi gagal | Pastikan `NEOSANTARA_API_KEY` sudah disetel dan diawali `nsk_`. |
+| Request masuk ke host yang salah | Cek `NEOSANTARA_API_BASE`; hapus variabel ini untuk memakai endpoint default Neosantara. |
+| LiteLLM menolak `tools` atau `tool_choice` | Tambahkan `allowed_openai_params=["tools", "tool_choice"]` pada request. |
+| Model tidak mendukung fitur yang Kamu butuhkan | Buka halaman model generated dari [Models Overview](/id/models-overview) dan verifikasi capability-nya terlebih dahulu. |

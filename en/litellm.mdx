@@ -1,0 +1,159 @@
+---
+title: "LiteLLM"
+description: "Use Neosantara as a native LiteLLM provider for chat completions, Responses API calls, and routed multi-provider workflows."
+---
+
+LiteLLM gives you one client interface for many LLM providers across Python apps, gateways, and agent runtimes. Neosantara is available as a native LiteLLM provider with the prefix `neosantara/`, so you can route requests through Neosantara without wiring a custom OpenAI-compatible base URL for every call.
+
+If you are new to LiteLLM itself, start with the official [LiteLLM documentation](https://docs.litellm.ai/docs/) and then use this page for the Neosantara-specific setup.
+
+Use this integration when you want LiteLLM's provider routing, retry patterns, proxy compatibility, or mixed-provider orchestration while keeping Neosantara as one of the native backends.
+
+## Install
+
+Install LiteLLM in a virtual environment or your application environment.
+
+```bash icon="terminal"
+pip install -U litellm
+```
+
+## Authentication
+
+Set your Neosantara API key before making requests.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+LiteLLM resolves Neosantara to `https://api.neosantara.xyz/v1` by default. To point LiteLLM at another compatible Neosantara gateway, set `NEOSANTARA_API_BASE`.
+
+```bash icon="terminal"
+export NEOSANTARA_API_BASE="https://api.neosantara.xyz/v1"
+```
+
+## Basic Chat Completion
+
+Use the `neosantara/` model prefix with LiteLLM's `completion()` helper.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+export NEOSANTARA_API_BASE="https://api.neosantara.xyz/v1"
+```
+
+```python icon="python"
+from litellm import completion
+
+response = completion(
+    model="neosantara/gemini-3.5-flash",
+    messages=[
+        {
+            "role": "user",
+            "content": "Explain what Neosantara does in one sentence.",
+        }
+    ],
+    max_tokens=120,
+)
+
+print(response.choices[0].message.content)
+```
+
+## Responses API
+
+LiteLLM also supports Neosantara through the Responses API surface.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+```python icon="python"
+from litellm import responses
+
+response = responses(
+    model="neosantara/gemini-3.5-flash",
+    input="Reply with a short launch checklist.",
+    max_completion_tokens=200,
+)
+
+print(response.output[0].content[0].text)
+```
+
+Use this path when your application is already built around Responses-style requests, or when you want to stay close to Neosantara's modern `/v1/responses` workflow.
+
+## Tool Calling
+
+Neosantara tool calls work through LiteLLM, but you need to explicitly allow the OpenAI-style tool parameters for this provider on the request.
+
+```bash icon="terminal"
+export NEOSANTARA_API_KEY="nsk_..."
+```
+
+```python icon="python"
+from litellm import completion
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_order_status",
+            "description": "Look up the delivery status for an order.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "order_id": {
+                        "type": "string",
+                        "description": "The customer order ID.",
+                    }
+                },
+                "required": ["order_id"],
+            },
+        },
+    }
+]
+
+response = completion(
+    model="neosantara/gemini-3.5-flash",
+    messages=[
+        {
+            "role": "user",
+            "content": "Check order ID INV-2045.",
+        }
+    ],
+    tools=tools,
+    tool_choice="auto",
+    allowed_openai_params=["tools", "tool_choice"],
+    max_tokens=200,
+)
+
+print(response.choices[0].message.tool_calls)
+```
+
+Without `allowed_openai_params=["tools", "tool_choice"]`, LiteLLM rejects those parameters for `neosantara` before the request is sent.
+
+## Model Selection
+
+Use [Models Overview](/en/models-overview) to choose the Neosantara model behind the LiteLLM prefix:
+
+| Workflow | Suggested model type |
+| --- | --- |
+| General chat and support | Fast text model such as `gemini-3.5-flash` |
+| Longer reasoning tasks | A reasoning-capable model from [Models Overview](/en/models-overview) |
+| Tool-driven workflows | A model page that lists tool-calling support |
+| Image generation or vision | Use the generated model page to confirm the endpoint and capability first |
+
+## When to Use LiteLLM
+
+| Use case | Why LiteLLM helps |
+| --- | --- |
+| Multi-provider routing | Keep Neosantara and other providers behind one client interface. |
+| Existing LiteLLM apps | Add Neosantara by changing the model string instead of rewriting client code. |
+| Gateway or proxy layers | Reuse LiteLLM request orchestration while pointing selected traffic at Neosantara. |
+| Responses-first apps | Call both chat completions and `/v1/responses` from the same LiteLLM package. |
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Authentication fails | Confirm `NEOSANTARA_API_KEY` is set and starts with `nsk_`. |
+| Requests go to the wrong host | Check `NEOSANTARA_API_BASE`; remove it to use the default Neosantara endpoint. |
+| LiteLLM rejects `tools` or `tool_choice` | Add `allowed_openai_params=["tools", "tool_choice"]` on the request. |
+| A model does not support the feature you want | Open the generated model page from [Models Overview](/en/models-overview) and verify its capabilities first. |

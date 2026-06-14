@@ -17,6 +17,39 @@ API Neosantara mendukung metode autentikasi standar di seluruh endpoint.
 - Atau berikan kunci API melalui header seperti `x-api-key: <KUNCI>` tergantung pada pustaka klien.
 - Untuk aplikasi berbasis browser, gunakan backend yang aman untuk memproksi permintaan dan menjaga kerahasiaan kunci.
 
+## Header App Attribution Opsional
+
+Jika kamu ingin aplikasi kamu muncul konsisten di ranking aplikasi publik Neosantara, kirim header opsional berikut pada request AI:
+
+- `X-Neosantara-App-Url`
+- `X-Neosantara-App-Name`
+- `X-Neosantara-App-Description`
+
+Cara kerjanya:
+
+- `X-Neosantara-App-Url`
+  - identity utama untuk attribution.
+  - gunakan URL publik aplikasi atau homepage produk.
+  - hanya `http` dan `https` yang diterima.
+  - identity dinormalisasi ke origin, jadi path, query, dan fragment tidak dipakai sebagai identity ranking.
+
+- `X-Neosantara-App-Name`
+  - nama tampilan aplikasi.
+  - dipakai sebagai fallback identity jika `X-Neosantara-App-Url` tidak dikirim.
+
+- `X-Neosantara-App-Description`
+  - deskripsi singkat aplikasi.
+  - boleh tampil di profil publik aplikasi.
+  - tidak pernah dipakai sebagai identity utama.
+
+Prioritas identity:
+
+1. `X-Neosantara-App-Url`
+2. `X-Neosantara-App-Name`
+3. tidak ada attribution jika keduanya kosong
+
+Jika profil berubah terlalu drastis, Neosantara bisa tetap memakai profil publik accepted yang lama dan menandai perubahan baru sebagai kandidat review admin.
+
 ## Contoh
 
 Python
@@ -38,7 +71,13 @@ const payload = {
 
 const res = await fetch("https://api.neosantara.xyz/v1/chat/completions", {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer KUNCI_API_NEOSANTARA_KAMU' },
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer KUNCI_API_NEOSANTARA_KAMU',
+    'X-Neosantara-App-Url': 'https://contoh.ai',
+    'X-Neosantara-App-Name': 'Contoh AI',
+    'X-Neosantara-App-Description': 'AI copilot untuk sales dan support'
+  },
   body: JSON.stringify(payload)
 })
 ```

@@ -19,6 +19,21 @@ The OpenAI-compatible API supports standard Bearer token authentication:
 
 *   **API key**: Use your Neosantara API key with the `Authorization: Bearer <token>` header.
 
+## Optional App Attribution
+
+If you want a stable public app identity in Neosantara rankings, send these optional headers on your OpenAI-compatible requests:
+
+*   `X-Neosantara-App-Url`
+*   `X-Neosantara-App-Name`
+*   `X-Neosantara-App-Description`
+
+Recommended minimum:
+
+*   `X-Neosantara-App-Url` for primary identity
+*   `X-Neosantara-App-Name` for display name
+
+See [Authentication](/en/authentication#optional-app-attribution-headers) for normalization and review behavior.
+
 ## Supported endpoints
 
 Neosantara supports the following OpenAI-compatible endpoints:
@@ -41,6 +56,10 @@ import OpenAI from 'openai';
 const client = new OpenAI({
   apiKey: process.env.NAI_API_KEY,
   baseURL: 'https://api.neosantara.xyz/v1',
+  defaultHeaders: {
+    'X-Neosantara-App-Url': 'https://example.ai',
+    'X-Neosantara-App-Name': 'Example AI',
+  },
 });
  
 const completion = await client.chat.completions.create({
@@ -55,7 +74,11 @@ from openai import OpenAI
  
 client = OpenAI(
     api_key=os.getenv('NAI_API_KEY'),
-    base_url='https://api.neosantara.xyz/v1'
+    base_url='https://api.neosantara.xyz/v1',
+    default_headers={
+        'X-Neosantara-App-Url': 'https://example.ai',
+        'X-Neosantara-App-Name': 'Example AI'
+    }
 )
  
 completion = client.chat.completions.create(

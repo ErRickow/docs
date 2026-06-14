@@ -452,6 +452,7 @@
                       "en/dspy",
                       "en/pydantic-ai",
                       "en/agno",
+                      "en/litellm",
                       "en/any-llm",
                       "en/autogen"
                     ],
@@ -1004,6 +1005,7 @@
                       "id/dspy",
                       "id/pydantic-ai",
                       "id/agno",
+                      "id/litellm",
                       "id/any-llm",
                       "id/autogen"
                     ],
