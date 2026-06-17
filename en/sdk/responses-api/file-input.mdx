@@ -1,0 +1,391 @@
+---
+title: "File Input"
+description: "Send documents, PDFs, and other files alongside text using the Responses API, Chat Completions API, and Anthropic-compatible API."
+---
+
+The [Responses API](/en/sdk/responses-api) supports file inputs beyond images. You can attach PDFs, text documents, and other files for models to analyze via three methods: pre-uploaded `file_id`, inline `file_data` (base64), or a public `file_url`.
+
+---
+
+## Upload a File
+
+First, upload your file using the `/v1/files` endpoint with `purpose=user_data`:
+
+<CodeGroup>
+
+```bash curl
+curl https://api.neosantara.xyz/v1/files \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -F purpose="user_data" \
+  -F file="@document.pdf"
+```
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz'
+});
+
+const file = await client.files.create({
+  purpose: 'user_data',
+  file: fs.createReadStream('document.pdf')
+});
+console.log(file.id); // file-abc123
+```
+
+```python Python (OpenAI SDK)
+from openai import OpenAI
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+file = client.files.create(
+    purpose="user_data",
+    file=open("document.pdf", "rb")
+)
+print(file.id)  # file-abc123
+```
+
+</CodeGroup>
+
+---
+
+## Responses API (`/v1/responses`)
+
+### Using `input_file` with `file_id`
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz',
+});
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_file', file_id: 'file-abc123' },
+        { type: 'input_text', text: 'Summarize this document.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```python Python (OpenAI SDK)
+from openai import OpenAI
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.responses.create(
+    model="nusantara-base",
+    input=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "input_file", "file_id": "file-abc123"},
+                {"type": "input_text", "text": "Summarize this document."},
+            ],
+        }
+    ],
+)
+print(response.output_text)
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_file", "file_id": "file-abc123" },
+        { "type": "input_text", "text": "Summarize this document." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+### Using `input_file` with inline `file_data`
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz',
+});
+
+const fileContent = Buffer.from('Hello, this is a test file.').toString('base64');
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_file', file_data: fileContent, filename: 'hello.txt' },
+        { type: 'input_text', text: 'Read this file.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        {
+          "type": "input_file",
+          "file_data": "SGVsbG8sIHRoaXMgaXMgYSB0ZXN0IGZpbGUu",
+          "filename": "hello.txt"
+        },
+        { "type": "input_text", "text": "Read this file." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+### Using `input_file` with a public URL
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz',
+});
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_file', file_url: 'https://example.com/document.pdf' },
+        { type: 'input_text', text: 'Summarize this document.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_file", "file_url": "https://example.com/document.pdf" },
+        { "type": "input_text", "text": "Summarize this document." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+### Using `input_image` with `file_id`
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz',
+});
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_image', file_id: 'file-abc123', detail: 'auto' },
+        { type: 'input_text', text: 'Describe this image.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_image", "file_id": "file-abc123", "detail": "auto" },
+        { "type": "input_text", "text": "Describe this image." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Chat Completions API (`/v1/chat/completions`)
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz',
+});
+
+const chat = await client.chat.completions.create({
+  model: 'nusantara-base',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        { type: 'file', file: { file_id: 'file-abc123' } },
+        { type: 'text', text: 'What does this file contain?' },
+      ],
+    },
+  ],
+});
+console.log(chat.choices[0].message.content);
+```
+
+```python Python (OpenAI SDK)
+from openai import OpenAI
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+chat = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "file", "file": {"file_id": "file-abc123"}},
+                {"type": "text", "text": "What does this file contain?"},
+            ],
+        }
+    ],
+)
+print(chat.choices[0].message.content)
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [{
+      "role": "user",
+      "content": [
+        { "type": "file", "file": { "file_id": "file-abc123" } },
+        { "type": "text", "text": "What does this file contain?" }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Anthropic-compatible API (`/anthropic/v1/messages`)
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic/',
+});
+
+const fileContent = Buffer.from('Hello, this is a test file.').toString('base64');
+
+const response = await client.chat.completions.create({
+  model: 'nusantara-base',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        {
+          type: 'document',
+          source: { type: 'base64', media_type: 'text/plain', data: fileContent },
+        },
+        { type: 'text', text: 'What does this file contain?' },
+      ],
+    },
+  ],
+});
+console.log(response.choices[0].message.content);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/anthropic/v1/messages \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: $NAI_API_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "nusantara-base",
+    "max_tokens": 1024,
+    "messages": [{
+      "role": "user",
+      "content": [
+        {
+          "type": "document",
+          "source": {
+            "type": "base64",
+            "media_type": "text/plain",
+            "data": "SGVsbG8sIHRoaXMgaXMgYSB0ZXN0IGZpbGUu"
+          }
+        },
+        { "type": "text", "text": "What does this file contain?" }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+<Note>
+  File upload size is limited to 100 MB.  Use `https://api.neosantara.xyz/anthropic/` for the Anthropic-compatible endpoint.
+</Note>

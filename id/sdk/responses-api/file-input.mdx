@@ -1,0 +1,391 @@
+---
+title: "Input File"
+description: "Kirim dokumen, PDF, dan file lain bersama teks menggunakan API Responses, Chat Completions, dan API kompatibel Anthropic."
+---
+
+[API Responses](/id/sdk/responses-api) mendukung input file selain gambar. Kamu dapat melampirkan PDF, dokumen teks, dan file lain untuk dianalisis model melalui tiga metode: `file_id` yang sudah diunggah, `file_data` inline (base64), atau `file_url` publik.
+
+---
+
+## Unggah File
+
+Unggah file kamu menggunakan endpoint `/v1/files` dengan `purpose=user_data`:
+
+<CodeGroup>
+
+```bash curl
+curl https://api.neosantara.xyz/v1/files \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -F purpose="user_data" \
+  -F file="@document.pdf"
+```
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1'
+});
+
+const file = await client.files.create({
+  purpose: 'user_data',
+  file: fs.createReadStream('document.pdf')
+});
+console.log(file.id); // file-abc123
+```
+
+```python Python (OpenAI SDK)
+from openai import OpenAI
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+file = client.files.create(
+    purpose="user_data",
+    file=open("document.pdf", "rb")
+)
+print(file.id)  # file-abc123
+```
+
+</CodeGroup>
+
+---
+
+## API Responses (`/v1/responses`)
+
+### Menggunakan `input_file` dengan `file_id`
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_file', file_id: 'file-abc123' },
+        { type: 'input_text', text: 'Ringkas dokumen ini.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```python Python (OpenAI SDK)
+from openai import OpenAI
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+response = client.responses.create(
+    model="nusantara-base",
+    input=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "input_file", "file_id": "file-abc123"},
+                {"type": "input_text", "text": "Ringkas dokumen ini."},
+            ],
+        }
+    ],
+)
+print(response.output_text)
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_file", "file_id": "file-abc123" },
+        { "type": "input_text", "text": "Ringkas dokumen ini." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+### Menggunakan `input_file` dengan `file_data` inline
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const fileContent = Buffer.from('Halo, ini adalah file tes.').toString('base64');
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_file', file_data: fileContent, filename: 'halo.txt' },
+        { type: 'input_text', text: 'Baca file ini.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        {
+          "type": "input_file",
+          "file_data": "SGVsbG8sIHRoaXMgaXMgYSB0ZXN0IGZpbGUu",
+          "filename": "halo.txt"
+        },
+        { "type": "input_text", "text": "Baca file ini." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+### Menggunakan `input_file` dengan URL publik
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_file', file_url: 'https://example.com/document.pdf' },
+        { type: 'input_text', text: 'Ringkas dokumen ini.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_file", "file_url": "https://example.com/document.pdf" },
+        { "type": "input_text", "text": "Ringkas dokumen ini." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+### Menggunakan `input_image` dengan `file_id`
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const response = await client.responses.create({
+  model: 'nusantara-base',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_image', file_id: 'file-abc123', detail: 'auto' },
+        { type: 'input_text', text: 'Jelaskan gambar ini.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_image", "file_id": "file-abc123", "detail": "auto" },
+        { "type": "input_text", "text": "Jelaskan gambar ini." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## API Chat Completions (`/v1/chat/completions`)
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const chat = await client.chat.completions.create({
+  model: 'nusantara-base',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        { type: 'file', file: { file_id: 'file-abc123' } },
+        { type: 'text', text: 'Apa isi file ini?' },
+      ],
+    },
+  ],
+});
+console.log(chat.choices[0].message.content);
+```
+
+```python Python (OpenAI SDK)
+from openai import OpenAI
+client = OpenAI(
+    api_key=os.environ["NAI_API_KEY"],
+    base_url="https://api.neosantara.xyz/v1"
+)
+
+chat = client.chat.completions.create(
+    model="nusantara-base",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "file", "file": {"file_id": "file-abc123"}},
+                {"type": "text", "text": "Apa isi file ini?"},
+            ],
+        }
+    ],
+)
+print(chat.choices[0].message.content)
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "nusantara-base",
+    "messages": [{
+      "role": "user",
+      "content": [
+        { "type": "file", "file": { "file_id": "file-abc123" } },
+        { "type": "text", "text": "Apa isi file ini?" }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## API kompatibel Anthropic (`/anthropic/v1/messages`)
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/anthropic/',
+});
+
+const fileContent = Buffer.from('Halo, ini adalah file tes.').toString('base64');
+
+const response = await client.chat.completions.create({
+  model: 'nusantara-base',
+  messages: [
+    {
+      role: 'user',
+      content: [
+        {
+          type: 'document',
+          source: { type: 'base64', media_type: 'text/plain', data: fileContent },
+        },
+        { type: 'text', text: 'Apa isi file ini?' },
+      ],
+    },
+  ],
+});
+console.log(response.choices[0].message.content);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/anthropic/v1/messages \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: $NAI_API_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "nusantara-base",
+    "max_tokens": 1024,
+    "messages": [{
+      "role": "user",
+      "content": [
+        {
+          "type": "document",
+          "source": {
+            "type": "base64",
+            "media_type": "text/plain",
+            "data": "SGVsbG8sIHRoaXMgaXMgYSB0ZXN0IGZpbGUu"
+          }
+        },
+        { "type": "text", "text": "Apa isi file ini?" }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
+
+<Note>
+  Ukuran unggahan file dibatasi hingga 100 MB.  Gunakan `https://api.neosantara.xyz/anthropic/` untuk endpoint kompatibel Anthropic.
+</Note>

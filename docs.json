@@ -96,6 +96,7 @@
                       "en/sdk/responses-api/text-generation",
                       "en/sdk/responses-api/streaming",
                       "en/sdk/responses-api/image-input",
+                      "en/sdk/responses-api/file-input",
                       "en/sdk/responses-api/image-generation",
                       "en/sdk/responses-api/tool-calling"
                     ],
@@ -646,6 +647,7 @@
                       "id/sdk/responses-api/text-generation",
                       "id/sdk/responses-api/streaming",
                       "id/sdk/responses-api/image-input",
+                      "id/sdk/responses-api/file-input",
                       "id/sdk/responses-api/image-generation",
                       "id/sdk/responses-api/tool-calling"
                     ],
