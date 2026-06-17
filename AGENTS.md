@@ -30,7 +30,7 @@ Always use the modern parameter names for the OpenAI SDK (Python and Node.js):
 - Highlight the benefits of state management (`previous_response_id`) and automatic context handling.
 
 ### 3. Model Identifiers
-- Always use correct model identifiers: e.g., `"nusantara-base"`, `"archipelago-70b"`, `"garda-beta-mini"`, `"neosantara-gen-2045"`.
+- Always use correct model identifiers: e.g., `"claude-opus-4-6"`, `"archipelago-70b"`, `"garda-beta-mini"`, `"neosantara-gen-2045"`.
 - Verify the existence of a model in `Nusantara/models/index.js` and ensure it is marked as `listed: true` before featuring it in public pricing or guides.
 
 ## Technical Writing & MDX Safety

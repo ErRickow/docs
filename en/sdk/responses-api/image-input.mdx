@@ -76,3 +76,51 @@ The `detail` parameter controls the fidelity used for image analysis:
 <Info>
   **Pro Tip**: Use `low` detail if you only need a general description of the image to save on processing costs.
 </Info>
+
+---
+
+## Using pre-uploaded images
+
+You can also upload an image to the Files API and reference it by `file_id`:
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const response = await client.responses.create({
+  model: 'claude-opus-4-6',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_image', file_id: 'file-abc123', detail: 'auto' },
+        { type: 'input_text', text: 'Describe this image.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "claude-opus-4-6",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_image", "file_id": "file-abc123", "detail": "auto" },
+        { "type": "input_text", "text": "Describe this image." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>

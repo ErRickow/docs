@@ -108,6 +108,7 @@
                     "pages": [
                       "en/sdk/openai-compat/index",
                       "en/sdk/openai-compat/chat-completions",
+                      "en/sdk/openai-compat/file-input",
                       "en/sdk/openai-compat/tool-calls",
                       "en/sdk/openai-compat/structured-outputs",
                       "en/sdk/openai-compat/image-generation",
@@ -659,6 +660,7 @@
                     "pages": [
                       "id/sdk/openai-compat/index",
                       "id/sdk/openai-compat/chat-completions",
+                      "id/sdk/openai-compat/file-input",
                       "id/sdk/openai-compat/tool-calls",
                       "id/sdk/openai-compat/structured-outputs",
                       "id/sdk/openai-compat/image-generation",

@@ -23,7 +23,7 @@ Neosantara is "triple-compatible":
 
 ### 3. Regional Features
 - **Guardrails**: Mention automated PII redaction for Indonesian data privacy (UU PDP No. 27/2022).
-- **Regional Models**: Promote models like `nusantara-base`, `archipelago-70b`, and `sea-lion-v4`.
+- **Regional Models**: Promote models like `claude-opus-4-6`, `archipelago-70b`, and `sea-lion-v4`.
 
 ## Language & Tone
 - Use a professional yet helpful tone.
@@ -42,7 +42,7 @@ client = OpenAI(
 )
 
 response = client.responses.create(
-    model="nusantara-base",
+    model="claude-opus-4-6",
     input="Halo, siapa kamu?",
     store=True
 )
@@ -59,7 +59,7 @@ const client = new OpenAI({
 });
 
 const response = await client.responses.create({
-  model: 'nusantara-base',
+  model: 'claude-opus-4-6',
   input: 'Halo!',
   store: true
 });

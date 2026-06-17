@@ -57,7 +57,7 @@ You can choose any [model\'s Neosantara](/en/models-overview)
 ```python
 // Choose the model
 
-const MODEL_NAME = 'nusantara-base'
+const MODEL_NAME = 'claude-opus-4-6'
 // const MODEL_NAME = 'archipelago-7b'
 // const MODEL_NAME = 'bahasa-llm'
 // const MODEL_NAME = 'gemini-2.0-flash' // external models

@@ -1,15 +1,15 @@
 ---
-title: "File Input"
-description: "Send documents, PDFs, and other files alongside text using the Responses API."
+title: "Input File"
+description: "Kirim dokumen dan file bersama teks di Chat Completions menggunakan OpenAI SDK."
 ---
 
-The [Responses API](/en/sdk/responses-api) supports file inputs beyond images. You can attach PDFs, text documents, and other files for models to analyze via three methods: pre-uploaded `file_id`, inline `file_data` (base64), or a public `file_url`.
+[API Chat Completions](/id/sdk/openai-compat/chat-completions) mendukung input file melalui OpenAI SDK. Kamu dapat melampirkan dokumen, gambar, dan file lain menggunakan `file.file_id` (unggah), `file.file_data` inline (base64), atau `file.file_url` (URL publik).
 
 ---
 
-## Upload a File
+## Unggah File
 
-First, upload your file using the `/v1/files` endpoint with `purpose=user_data`:
+Unggah file kamu menggunakan endpoint `/v1/files` dengan `purpose=user_data`:
 
 <CodeGroup>
 
@@ -53,7 +53,7 @@ print(file.id)  # file-abc123
 
 ---
 
-## Using `input_file` with `file_id`
+## Menggunakan `file.file_id` (Unggah)
 
 <CodeGroup>
 
@@ -64,19 +64,19 @@ const client = new OpenAI({
   baseURL: 'https://api.neosantara.xyz/v1',
 });
 
-const response = await client.responses.create({
+const chat = await client.chat.completions.create({
   model: 'claude-opus-4-6',
-  input: [
+  messages: [
     {
       role: 'user',
       content: [
-        { type: 'input_file', file_id: 'file-abc123' },
-        { type: 'input_text', text: 'Summarize this document.' },
+        { type: 'file', file: { file_id: 'file-abc123' } },
+        { type: 'text', text: 'Apa isi file ini?' },
       ],
     },
   ],
 });
-console.log(response.output_text);
+console.log(chat.choices[0].message.content);
 ```
 
 ```python Python (OpenAI SDK)
@@ -86,32 +86,32 @@ client = OpenAI(
     base_url="https://api.neosantara.xyz/v1"
 )
 
-response = client.responses.create(
+chat = client.chat.completions.create(
     model="claude-opus-4-6",
-    input=[
+    messages=[
         {
             "role": "user",
             "content": [
-                {"type": "input_file", "file_id": "file-abc123"},
-                {"type": "input_text", "text": "Summarize this document."},
+                {"type": "file", "file": {"file_id": "file-abc123"}},
+                {"type": "text", "text": "Apa isi file ini?"},
             ],
         }
     ],
 )
-print(response.output_text)
+print(chat.choices[0].message.content)
 ```
 
 ```bash curl
-curl https://api.neosantara.xyz/v1/responses \
+curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -d '{
     "model": "claude-opus-4-6",
-    "input": [{
+    "messages": [{
       "role": "user",
       "content": [
-        { "type": "input_file", "file_id": "file-abc123" },
-        { "type": "input_text", "text": "Summarize this document." }
+        { "type": "file", "file": { "file_id": "file-abc123" } },
+        { "type": "text", "text": "Apa isi file ini?" }
       ]
     }]
   }'
@@ -121,7 +121,7 @@ curl https://api.neosantara.xyz/v1/responses \
 
 ---
 
-## Using `input_file` with inline `file_data`
+## Menggunakan `file.file_data` (Base64 Inline)
 
 <CodeGroup>
 
@@ -132,38 +132,34 @@ const client = new OpenAI({
   baseURL: 'https://api.neosantara.xyz/v1',
 });
 
-const fileContent = Buffer.from('Hello, this is a test file.').toString('base64');
+const fileContent = Buffer.from('Halo, ini adalah file tes.').toString('base64');
 
-const response = await client.responses.create({
+const chat = await client.chat.completions.create({
   model: 'claude-opus-4-6',
-  input: [
+  messages: [
     {
       role: 'user',
       content: [
-        { type: 'input_file', file_data: fileContent, filename: 'hello.txt' },
-        { type: 'input_text', text: 'Read this file.' },
+        { type: 'file', file: { file_data: fileContent, filename: 'halo.txt' } },
+        { type: 'text', text: 'Baca file ini.' },
       ],
     },
   ],
 });
-console.log(response.output_text);
+console.log(chat.choices[0].message.content);
 ```
 
 ```bash curl
-curl https://api.neosantara.xyz/v1/responses \
+curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -d '{
     "model": "claude-opus-4-6",
-    "input": [{
+    "messages": [{
       "role": "user",
       "content": [
-        {
-          "type": "input_file",
-          "file_data": "SGVsbG8sIHRoaXMgaXMgYSB0ZXN0IGZpbGUu",
-          "filename": "hello.txt"
-        },
-        { "type": "input_text", "text": "Read this file." }
+        { "type": "file", "file": { "file_data": "SGFsbywgaW5pIGFkYWxhaCBmaWxlIHRlcy4=", "filename": "halo.txt" } },
+        { "type": "text", "text": "Baca file ini." }
       ]
     }]
   }'
@@ -173,7 +169,7 @@ curl https://api.neosantara.xyz/v1/responses \
 
 ---
 
-## Using `input_file` with a public URL
+## Menggunakan `file.file_url` (URL Publik)
 
 <CodeGroup>
 
@@ -184,32 +180,32 @@ const client = new OpenAI({
   baseURL: 'https://api.neosantara.xyz/v1',
 });
 
-const response = await client.responses.create({
+const chat = await client.chat.completions.create({
   model: 'claude-opus-4-6',
-  input: [
+  messages: [
     {
       role: 'user',
       content: [
-        { type: 'input_file', file_url: 'https://example.com/document.pdf' },
-        { type: 'input_text', text: 'Summarize this document.' },
+        { type: 'file', file_url: { url: 'https://example.com/document.pdf' } },
+        { type: 'text', text: 'Ringkas dokumen ini.' },
       ],
     },
   ],
 });
-console.log(response.output_text);
+console.log(chat.choices[0].message.content);
 ```
 
 ```bash curl
-curl https://api.neosantara.xyz/v1/responses \
+curl https://api.neosantara.xyz/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $NAI_API_KEY" \
   -d '{
     "model": "claude-opus-4-6",
-    "input": [{
+    "messages": [{
       "role": "user",
       "content": [
-        { "type": "input_file", "file_url": "https://example.com/document.pdf" },
-        { "type": "input_text", "text": "Summarize this document." }
+        { "type": "file", "file_url": { "url": "https://example.com/document.pdf" } },
+        { "type": "text", "text": "Ringkas dokumen ini." }
       ]
     }]
   }'
@@ -218,5 +214,5 @@ curl https://api.neosantara.xyz/v1/responses \
 </CodeGroup>
 
 <Note>
-  File upload size is limited to 100 MB. For input via `input_image`, see [Image Input](/en/sdk/responses-api/image-input). For Chat Completions file input, see [File Input](/en/sdk/openai-compat/file-input). For the Anthropic-compatible endpoint, see [File Attachments](/en/sdk/anthropic-compat/file-attachments).
+  Ukuran unggahan file dibatasi hingga 100 MB. Untuk API Responses, lihat [Input File](/id/sdk/responses-api/file-input). Untuk endpoint kompatibel Anthropic, lihat [Lampiran File](/id/sdk/anthropic-compat/file-attachments).
 </Note>

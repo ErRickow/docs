@@ -76,3 +76,51 @@ Parameter `detail` mengontrol fidelitas yang digunakan untuk analisis gambar:
 <Info>
   **Tips Pro**: Gunakan detail `low` jika kamu hanya memerlukan deskripsi umum gambar untuk menghemat biaya pemrosesan.
 </Info>
+
+---
+
+## Menggunakan gambar yang sudah diunggah
+
+Kamu juga dapat mengunggah gambar ke API Files dan mereferensikannya dengan `file_id`:
+
+<CodeGroup>
+
+```typescript Node.js (OpenAI SDK)
+import OpenAI from 'openai';
+const client = new OpenAI({
+  apiKey: process.env.NAI_API_KEY,
+  baseURL: 'https://api.neosantara.xyz/v1',
+});
+
+const response = await client.responses.create({
+  model: 'claude-opus-4-6',
+  input: [
+    {
+      role: 'user',
+      content: [
+        { type: 'input_image', file_id: 'file-abc123', detail: 'auto' },
+        { type: 'input_text', text: 'Jelaskan gambar ini.' },
+      ],
+    },
+  ],
+});
+console.log(response.output_text);
+```
+
+```bash curl
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $NAI_API_KEY" \
+  -d '{
+    "model": "claude-opus-4-6",
+    "input": [{
+      "role": "user",
+      "content": [
+        { "type": "input_image", "file_id": "file-abc123", "detail": "auto" },
+        { "type": "input_text", "text": "Jelaskan gambar ini." }
+      ]
+    }]
+  }'
+```
+
+</CodeGroup>
