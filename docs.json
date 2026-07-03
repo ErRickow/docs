@@ -181,6 +181,13 @@
                   "en/coding-plan/tool-integration",
                   "en/coding-plan/switching-models"
                 ]
+              },
+              {
+                "group": "Learning Resources",
+                "pages": [
+                  "en/coding-plan/best-practice",
+                  "en/coding-plan/memory-mechanism"
+                ]
               }
             ]
           },
@@ -729,6 +736,13 @@
                   "id/coding-plan/jelma",
                   "id/coding-plan/tool-integration",
                   "id/coding-plan/switching-models"
+                ]
+              },
+              {
+                "group": "Sumber Belajar",
+                "pages": [
+                  "id/coding-plan/best-practice",
+                  "id/coding-plan/memory-mechanism"
                 ]
               }
             ]
