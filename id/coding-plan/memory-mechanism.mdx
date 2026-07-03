@@ -1,0 +1,157 @@
+---
+title: "Mekanisme Memori"
+description: "Cara coding agent menyimpan konteks lintas tugas dan sesi — jenis memori, pola retrieve-assemble-update, memori berlapis, dan troubleshooting."
+---
+
+Memori memungkinkan coding agent menyimpan konteks lintas tugas dan sesi, mengurangi input berulang dan meningkatkan efisiensi. Dengan desain memori yang baik, agent terus memahami struktur proyek, konvensi engineering, dan preferensi Kamu, lalu memakainya ulang di pekerjaan berikutnya. Memori biasanya diatur berlapis seperti sesi, proyek, dan memori jangka panjang.
+
+## Kenapa Coding Agent Butuh Memori
+
+Model bahasa tidak menyimpan state antar panggilan dengan sendirinya. Mereka tidak bisa mengingat konteks proyek lintas sesi, mengakumulasi pengalaman, atau konsisten menyesuaikan preferensimu. Sistem agent mengatasinya dengan **memori eksternal**. Loop tipikalnya:
+
+```text
+Input user
+   ↓
+Pengambilan memori
+   ↓
+Perakitan konteks
+   ↓
+Reasoning model
+   ↓
+Aksi / tool call
+   ↓
+Pembaruan memori
+```
+
+Agent mengambil memori relevan sebelum tugas dan memperbaruinya setelah selesai — pola umum di sistem agent modern.
+
+## Arsitektur Memori
+
+Secara garis besar:
+
+```text
+Memori jangka pendek
+    └ konteks sesi
+
+Memori jangka panjang
+    ├ memori semantik
+    ├ memori episodik
+    └ memori prosedural
+```
+
+## Jenis Memori Inti
+
+<AccordionGroup>
+  <Accordion title="Memori sesi">
+    Konteks yang terikat tugas saat ini — riwayat percakapan, output tool terbaru, rencana saat ini, dan file dalam cakupan. Biasanya ada di context window model.
+  </Accordion>
+  <Accordion title="Memori proyek">
+    Informasi jangka panjang tentang seluruh codebase — arsitektur, standar kode, alur build, perintah umum. Biasanya ditulis ke file `.md` dan dimuat di awal sesi.
+  </Accordion>
+  <Accordion title="Memori semantik">
+    Pengetahuan faktual dan materi referensi — dokumentasi API, aturan bahasa, basis pengetahuan. Sering diimplementasikan dengan retrieval-augmented generation (RAG): embed query, cari di vector store, ambil dokumen, lalu reasoning.
+  </Accordion>
+  <Accordion title="Memori episodik">
+    Catatan pengalaman masa lalu — cara bug sebelumnya diperbaiki, akar penyebab kegagalan build, strategi debugging yang berhasil. Membantu agent belajar dari pekerjaan sebelumnya.
+  </Accordion>
+  <Accordion title="Memori prosedural">
+    Alur langkah demi langkah untuk menyelesaikan tugas — mis. rutinitas debugging: baca error log, cari file, tulis patch, jalankan test. Dipakai di prompt engineering, template workflow, dan policy.
+  </Accordion>
+</AccordionGroup>
+
+## Pola Memori Standar
+
+<Steps>
+  <Step title="Pengambilan memori">
+    Sebelum tugas, agent mengambil memori proyek, entri basis pengetahuan, dan pengalaman relevan, lalu menyuntikkannya ke working context.
+  </Step>
+  <Step title="Perakitan konteks">
+    Memori yang diambil dirakit jadi konteks lengkap dan diteruskan ke model.
+  </Step>
+  <Step title="Pembaruan memori">
+    Setelah tugas, agent memutuskan apakah menulis memori baru — aturan yang baru ditemukan, pengalaman debugging, atau preferensi.
+  </Step>
+</Steps>
+
+## Memakai Memori dengan Benar
+
+Memori yang efektif itu **berlapis, terkontrol, bisa diambil, dan bisa diperbarui**. Alih-alih berharap model "mengingat semuanya", buat pola jelas tentang apa yang disimpan di mana.
+
+### Pisahkan memori instruksi dari memori pembelajaran
+
+- **Memori instruksi** ditulis manusia untuk memberi tahu agent cara bekerja — standar kode, konvensi direktori, perintah build/test, penamaan, aturan commit, aturan keamanan.
+- **Memori pembelajaran** terakumulasi seiring waktu dari koreksi, preferensi, percobaan yang gagal, dan kebiasaanmu.
+
+Mencampurnya membuat perilaku melenceng. Tulis **aturan dan batasan** ke memori instruksi (stabil, dapat diprediksi), dan **pengalaman serta preferensi** ke memori pembelajaran (membaik seiring waktu). Memisahkannya mencegah catatan pengalaman mencemari aturan inti.
+
+### Manajemen memori berlapis
+
+| Lapisan | Cakupan | Contoh |
+|---------|---------|--------|
+| Organisasi | semua developer/proyek | keamanan & kepatuhan, standar review, direktori terbatas, batasan dependensi/lisensi |
+| Proyek | dibagi tim, version-controlled | arsitektur, konvensi direktori, perintah build/test, penamaan, workflow |
+| User | personal, lintas proyek | gaya favorit, urutan debugging, format output, shortcut |
+| Lokal | mesin ini, tidak di-commit | akun test, port lokal, endpoint mock, catatan spesifik mesin |
+| Role / agent | satu agent khusus | perintah test untuk testing agent, batas modul untuk refactoring agent |
+
+Memori organisasi adalah lapisan tata kelola prioritas tertinggi dan tidak boleh dilewati sembarangan. Memori proyek adalah lapisan bersama yang paling penting.
+
+### Muat file `.md` berdasarkan path
+
+Untuk repositori besar, pecah instruksi ke beberapa file Markdown fokus per topik (mis. `testing.md`, `api-design.md`, `security.md`) dan muat berdasarkan path hanya saat relevan. Tiga prinsip:
+
+- Batasi file memori utama untuk konteks bersama global.
+- Buat aturan khusus modular — satu topik per file.
+- Kalau aturan bisa dimuat lewat path, jangan muat global; bawa hanya saat dibutuhkan.
+
+Struktur memori bisa terlihat seperti ini:
+
+```text
+agent-memory/
+├── project.md            # Ringkasan proyek
+├── rules/
+│   ├── code-style.md     # Gaya kode
+│   ├── testing.md        # Konvensi testing
+│   ├── api-design.md     # Panduan desain API
+│   ├── security.md       # Persyaratan keamanan
+│   └── frontend/
+│       └── react.md      # Aturan khusus frontend
+└── local/
+    └── developer.local.md
+```
+
+### Tulis aturan memori sebagai instruksi konkret
+
+Pakai aturan spesifik dan bisa diverifikasi, bukan prinsip abstrak. Lebih baik:
+
+- Pakai indentasi 2 spasi di semua file TypeScript baru.
+- Jalankan `pnpm test` setelah mengubah logika bisnis.
+- Letakkan semua API handler di `src/api/handlers/`.
+- Jaga komponen halaman di bawah 300 baris; pecah yang lebih besar jadi hook atau komponen anak.
+
+Ketimbang pernyataan kabur seperti "jaga kode tetap bersih" atau "tulis test yang baik". Jaga file memori utama ringkas (idealnya di bawah ~200 baris) dan pakai heading serta list Markdown.
+
+### Pisahkan aturan bersama dari preferensi pribadi
+
+Definisikan cakupan dan pemilik tiap aturan: proyek (tim, version-controlled), organisasi (IT/DevOps pusat), user (individu), lokal (satu mesin), role (agent khusus). Pertanyaan pemandunya: **siapa yang memiliki, siapa yang berbagi, dan berlaku untuk siapa.** Batasan yang jelas mencegah aturan membengkak dan duplikasi.
+
+### Pakai ulang memori lewat import dan paket aturan
+
+Banyak aturan adalah konvensi bersama lintas repositori. Menulis ulang di tiap repo mengundang inkonsistensi. Bila tooling mendukung, import file aturan bersama atau tautkan direktori aturan bersama, dan bangun paket aturan yang bisa dipakai ulang (mis. aturan keamanan, aturan frontend, aturan testing). Tiap proyek mereferensikan hanya modul yang dibutuhkan, sehingga aturan dikelola terpusat dan diterapkan konsisten.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Agent tidak mengikuti file memori .md saya">
+    File `.md` adalah instruksi kontekstual, bukan konfigurasi yang dipaksakan. Agent berusaha mengikutinya tapi tidak bisa menjamin kepatuhan saat aturan kabur atau bertabrakan. Pastikan file termuat, berada di path/scope yang diizinkan, dan tidak ada dua file yang memberi instruksi bertentangan untuk perilaku yang sama.
+  </Accordion>
+  <Accordion title="Saya tidak tahu apa yang disimpan auto-memory">
+    Banyak agent menyimpan auto-memory latar sebagai file Markdown. Pakai perintah memori tool untuk melihat direktori memori, lalu baca, edit, atau hapus file itu langsung.
+  </Accordion>
+  <Accordion title="File memori saya terlalu besar">
+    File berukuran besar memakan context window, menurunkan kepatuhan, dan menambah konflik. Pecah konten detail ke beberapa file Markdown dan referensikan atau import, atau pindahkan aturan ke direktori `rules/` khusus.
+  </Accordion>
+  <Accordion title="Instruksi hilang setelah kompresi konteks">
+    Percakapan panjang dikompres. File memori biasanya dimuat ulang dari disk setelahnya, jadi hanya konten yang tertulis di file yang bertahan. Kalau aturan hilang setelah kompresi, aturan itu hanya ada di percakapan. Tulis instruksi jangka panjang ke file `.md`, jangan mengandalkan percakapan.
+  </Accordion>
+</AccordionGroup>
