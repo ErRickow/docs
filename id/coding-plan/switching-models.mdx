@@ -1,0 +1,101 @@
+---
+title: "Ganti Model"
+description: "Cara ganti model di coding tool saat pakai Neosantara Coding Plan."
+---
+
+Neosantara Coding Plan memberimu akses ke semua model di gateway. Kamu bisa ganti model kapan saja tanpa mengubah langganan.
+
+## Sebelum Mulai
+
+Pastikan kamu sudah punya:
+1. **Langganan Coding Plan aktif** dan coding key (`nsk_code_*`) yang valid.
+2. **Endpoint coding yang benar** di konfigurasi tool.
+3. Setup dasar yang berfungsi (test dulu dengan prompt sederhana).
+
+## Model Tersedia
+
+Semua model di gateway Neosantara tersedia lewat Coding Plan. Pilihan populer untuk coding:
+
+| Model | Cocok untuk | Multiplier kuota |
+|-------|-------------|-----------------|
+| `claude-4.5-sonnet` | Coding kompleks, refactoring | 2× (normal), 3× (under load) |
+| `claude-4.5-opus` | Reasoning mendalam, arsitektur | 2× (normal), 3× (under load) |
+| `gemini-3-flash` | Iterasi cepat, tugas rutin | 1× |
+| `glm-4.7-flash` | Coding harian hemat | 1× |
+| `deepseek-r1` | Tugas reasoning-heavy | 1× |
+| `qwen3-32b` | Dukungan multi-bahasa | 1× |
+
+<Tip>
+  Pakai model ringan (`gemini-3-flash`, `glm-4.7-flash`) untuk tugas rutin dan switch ke model premium hanya untuk reasoning kompleks — ini memaksimalkan kuotamu.
+</Tip>
+
+## Ganti Model di Claude Code
+
+### Metode 1: Update settings.json
+
+Edit `~/.claude/settings.json` dan ganti variabel model:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
+    "ANTHROPIC_MODEL": "deepseek-r1",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-4.5-opus",
+    "API_TIMEOUT_MS": "3600000"
+  }
+}
+```
+
+### Metode 2: Pakai perintah /model
+
+Di sesi Claude Code aktif, ketik:
+
+```
+/model claude-4.5-opus
+```
+
+Ini ganti model untuk sesi saat ini tanpa edit file konfigurasi.
+
+### Verifikasi
+
+Ketik `/status` di Claude Code untuk konfirmasi model aktif.
+
+## Ganti Model di Cline
+
+1. Buka pengaturan Cline di VS Code
+2. Di bagian **Model**, ganti nama model (mis. `gemini-3-flash`)
+3. Perubahan langsung berlaku untuk pesan baru
+
+## Ganti Model di Continue / OpenCode
+
+Update field `model` di konfigurasi:
+
+```
+Base URL: https://api.neosantara.xyz/coding/v1
+API Key:  nsk_code_KEY_KAMU
+Model:    gemini-3-flash
+```
+
+## Ganti Model di Cursor
+
+1. Settings → Models
+2. Ganti nama model di konfigurasi custom model
+3. Atau tambah beberapa entry model dan pilih di chat
+
+## Rekomendasi Model per Tugas
+
+| Tugas | Model Rekomendasi | Alasan |
+|-------|-------------------|--------|
+| Quick fix, linting | `gemini-3-flash` | Cepat, hemat (1× kuota) |
+| Implementasi fitur | `claude-4.5-sonnet` | Keseimbangan speed dan kualitas |
+| Refactoring kompleks | `claude-4.5-opus` | Kapabilitas reasoning mendalam |
+| Debugging dengan konteks | `deepseek-r1` | Kuat di tracing logic |
+| Code review | `qwen3-32b` | Bagus untuk penjelasan |
+| Boilerplate rutin | `glm-4.7-flash` | Cepat dan hemat |
+
+## Multiplier Kuota Berbasis Beban
+
+Multiplier model (1× ringan, 2× mid/flagship, hingga 3× untuk flagship under load) menentukan berapa kuota yang dipakai tiap prompt. Lihat [Kuota & Limit](/id/coding-plan/quota-and-limits#multiplier-model-berbasis-beban) untuk rinciannya.

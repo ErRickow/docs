@@ -1,0 +1,133 @@
+---
+title: "FAQ Coding Plan"
+description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan — kuota, billing, tool, dan troubleshooting."
+---
+
+## Detail Coding Plan
+
+<AccordionGroup>
+  <Accordion title="Berapa kuota yang disediakan paket ini?">
+    Tiap tier punya limit rolling 5 jam dan limit mingguan. Lihat tabel lengkap di [Kuota & Limit](/id/coding-plan/quota-and-limits#tier-paket). Tiap prompt biasanya memicu 15–20 panggilan model, jadi total bulanan efektif jauh melebihi harga API standar.
+  </Accordion>
+
+  <Accordion title="Kenapa kuota habis lebih cepat pakai model premium?">
+    Model premium (mis. Claude 4.5 Opus, `gemini-3-pro-preview`) memotong kuota hingga 3× saat model sedang under load. Saran kami:
+    - Pakai model ringan (Gemini 3 Flash, GLM-4.7 Flash) untuk tugas rutin.
+    - Simpan model premium untuk reasoning kompleks dan refactoring besar.
+  </Accordion>
+
+  <Accordion title="Apa yang dihitung sebagai 1 prompt?">
+    Satu giliran user di coding tool. Walaupun agent melakukan 15–20 panggilan model di balik layar (tool calls, reasoning steps), tetap dihitung 1 prompt.
+  </Accordion>
+
+  <Accordion title="Apa yang terjadi kalau kuota habis?">
+    Request di-**hard-stop** sampai jendela 5 jam atau mingguan berikutnya reset. Saldo tidak dipotong — tidak ada overage pay-as-you-go. Sistem tidak akan pernah memotong saldo PAYG-mu.
+  </Accordion>
+
+  <Accordion title="Tool apa saja yang didukung?">
+    Coding Plan bisa dipakai di tool apa pun yang mendukung format API OpenAI atau Anthropic:
+    - **Claude Code** (mode Anthropic)
+    - **Cline**, **Continue**, **OpenCode** (mode OpenAI)
+    - **Jelma** (coding agent bawaan Neosantara)
+
+    Semua tool yang didukung berbagi kuota yang sama di bawah langgananmu.
+  </Accordion>
+
+  <Accordion title="Model apa yang tersedia?">
+    Semua model di gateway Neosantara tersedia, sesuai daftar model yang diizinkan tier-mu. Termasuk Claude, Gemini, GPT, GLM, DeepSeek, dll.
+  </Accordion>
+</AccordionGroup>
+
+## Base URL & Konfigurasi
+
+<AccordionGroup>
+  <Accordion title="Kenapa muncul error '403 coding_key_requires_coding_endpoint'?">
+    Coding key (`nsk_code_*`) hanya bisa dipakai di base URL coding khusus:
+    - OpenAI-compatible: `https://api.neosantara.xyz/coding/v1`
+    - Anthropic-compatible: `https://api.neosantara.xyz/coding/anthropic`
+
+    Kalau kamu kirim coding key ke `/v1` atau `/anthropic` (endpoint PAYG), kamu akan dapat error ini. Update konfigurasi base URL di tool-mu.
+  </Accordion>
+
+  <Accordion title="Bisa pakai key PAYG biasa di /coding/v1?">
+    Key PAYG biasa yang dikirim ke `/coding/v1` diperlakukan sebagai request PAYG normal — tetap jalan, tapi memakai saldo PAYG dan **tidak** memakai kuota coding plan. Hanya coding key (`nsk_code_*`) yang menarik kuota coding plan, dan coding key hanya bisa dipakai di base URL coding.
+  </Accordion>
+
+  <Accordion title="Cara konfigurasi Claude Code?">
+    Edit `~/.claude/settings.json`:
+    ```json
+    {
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+        "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
+        "ANTHROPIC_MODEL": "claude-4.5-sonnet"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Cara konfigurasi Cline / Continue / OpenCode?">
+    Set di pengaturan tool:
+    ```
+    Base URL: https://api.neosantara.xyz/coding/v1
+    API Key:  nsk_code_KEY_KAMU
+    Model:    claude-4.5-sonnet
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Manajemen Langganan
+
+<AccordionGroup>
+  <Accordion title="Apakah Coding Plan diperpanjang otomatis?">
+    **Tidak.** Neosantara Coding Plan adalah invoice sekali bayar per periode. Kamu akan dapat email pengingat 3 hari sebelum berakhir dan bisa perpanjang dari [dashboard Coding Plan](https://app.neosantara.xyz/coding-plan).
+  </Accordion>
+
+  <Accordion title="Cara perpanjang?">
+    Buka [Coding Plan](https://app.neosantara.xyz/coding-plan) di dashboard, klik "Perpanjang Sekarang". Invoice Mayar baru akan dibuat.
+  </Accordion>
+
+  <Accordion title="Bisa refund?">
+    Langganan tidak bisa di-refund setelah invoice dibayar. Kami sarankan mulai dari tier Hemat untuk evaluasi sebelum upgrade.
+  </Accordion>
+
+  <Accordion title="Bisa upgrade di tengah periode?">
+    Bisa. Beli tier yang lebih tinggi — langsung aktif. Sisa nilai paket lama tidak di-pro-rate (anggap sebagai perpanjangan dini di tier lebih tinggi).
+  </Accordion>
+
+  <Accordion title="Apa yang terjadi kalau paket berakhir?">
+    Coding key-mu akan turun ke tier Free coding (kalau ada) atau jadi tidak aktif. Key dan saldo PAYG tidak terpengaruh.
+  </Accordion>
+</AccordionGroup>
+
+## Integrasi Jelma
+
+<AccordionGroup>
+  <Accordion title="Bisa pakai Coding Plan dengan Jelma?">
+    Bisa. Jelma adalah coding agent bawaan Neosantara. Buka [Jelma](https://app.neosantara.xyz/jelma) di dashboard, pilih coding agent, dan akan otomatis pakai coding key-mu — tanpa setup lokal.
+  </Accordion>
+
+  <Accordion title="Jelma pakai kuota yang sama?">
+    Ya. Jelma memakai kuota prompt yang sama seperti tool lain yang terhubung via coding key-mu.
+  </Accordion>
+</AccordionGroup>
+
+## Bantuan Teknis
+
+<AccordionGroup>
+  <Accordion title="Kenapa muncul 'Insufficient Balance' setelah beli Coding Plan?">
+    Biasanya karena kamu tidak mengarah ke endpoint coding yang benar. Pastikan:
+    1. Kamu pakai coding key (`nsk_code_*`), bukan key biasa.
+    2. Base URL-mu adalah `/coding/v1` atau `/coding/anthropic`, bukan `/v1`.
+    3. Model yang dipanggil ada di daftar yang diizinkan tier-mu.
+
+    Coding Plan tidak pernah memotong saldo PAYG. Kalau saldo terpotong, tool-mu routing ke endpoint yang salah.
+  </Accordion>
+
+  <Accordion title="Sudah langganan tapi key masih menunjukkan tier 'Free'">
+    Aktivasi plan terjadi setelah Mayar konfirmasi pembayaran. Kalau invoice menunjukkan SUCCESS tapi tier belum update:
+    1. Tunggu 1–2 menit untuk pemrosesan webhook.
+    2. Refresh halaman Coding Plan.
+    3. Kalau masih belum update, hubungi support@neosantara.xyz dengan invoice ID-mu.
+  </Accordion>
+</AccordionGroup>
