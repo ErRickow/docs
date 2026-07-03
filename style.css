@@ -737,7 +737,8 @@ article table th,
 }
 
 .neo-card-head h2,
-.neo-code-title-row h2 {
+.neo-code-title-row h2,
+.neo-code-title-row h3 {
   margin: 0.75rem 0 0;
   color: var(--neo-fg) !important;
   font-family: var(--neo-font-mono) !important;
@@ -773,7 +774,8 @@ article table th,
   padding: 1.5rem;
 }
 
-.neo-code-title-row h2 {
+.neo-code-title-row h2,
+.neo-code-title-row h3 {
   font-size: 1.25rem;
 }
 
@@ -849,7 +851,8 @@ article table th,
     flex-direction: column;
   }
 
-  .neo-code-title-row h2 {
+  .neo-code-title-row h2,
+  .neo-code-title-row h3 {
     font-size: 1.05rem;
   }
 

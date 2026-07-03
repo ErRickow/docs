@@ -56,11 +56,19 @@ mode: "custom"
           </div>
         </a>
 
-        <a href="/api-reference/models/list-available-models" className="neo-map-row">
+        <a href="/en/coding-plan/overview" className="neo-map-row">
           <span>03</span>
           <div>
+            <strong>Coding Plan</strong>
+            <p>Subscribe for prompt-based access in your coding agent.</p>
+          </div>
+        </a>
+
+        <a href="/api-reference/models/list-available-models" className="neo-map-row">
+          <span>04</span>
+          <div>
             <strong>API reference</strong>
-            <p>Use generated endpoint docs from the backend spec.</p>
+            <p>Browse endpoint schemas and try requests live.</p>
           </div>
         </a>
       </div>
@@ -69,20 +77,20 @@ mode: "custom"
     <section className="neo-section">
       <div className="neo-section-head">
         <p>Choose a path</p>
-        <h2>Use Neosantara from the surface that fits how you build.</h2>
+        <h2>Five ways to build with Neosantara.</h2>
       </div>
 
       <div className="neo-path-grid">
         <a href="/en/quickstart" className="neo-path-card">
           <Icon icon="terminal" size={18} />
-          <h3>OpenAI-compatible API</h3>
-          <p>Use `/v1/chat/completions`, `/v1/responses`, embeddings, images, audio, files, and more with familiar client patterns.</p>
+          <h3>Chat & multimodal API</h3>
+          <p>Send chat, embeddings, image, audio, and file requests with SDKs you already know.</p>
         </a>
 
         <a href="/en/coding-plan/overview" className="neo-path-card">
           <Icon icon="code-branch" size={18} />
           <h3>Coding Plan</h3>
-          <p>Flat-fee, prompt-based quota for AI coding agents like Claude Code, Cline, and Jelma — no per-token billing, no overage.</p>
+          <p>Flat-fee prompt quota for Claude Code, Cline, and Jelma — no per-token billing.</p>
         </a>
 
         <a href="/en/integrations" className="neo-path-card">
@@ -108,7 +116,7 @@ mode: "custom"
     <section className="neo-section neo-spotlight-section">
       <div className="neo-section-head">
         <p>Integration spotlight</p>
-        <h2>Native paths are available when you need them.</h2>
+        <h2>Two native integrations, ready to use.</h2>
       </div>
 
       <div className="neo-spotlight-grid">
@@ -118,7 +126,10 @@ mode: "custom"
             <h3>Agno native</h3>
           </div>
           <p>Use `agno.models.neosantara.Neosantara` for multimodal agents, streaming, tools, and model switching.</p>
-          <strong>Open Agno guide -></strong>
+          <strong>
+            Open Agno guide
+            <Icon icon="arrow-right" size={12} />
+          </strong>
         </a>
 
         <a href="/en/any-llm" className="neo-spotlight-card">
@@ -127,7 +138,10 @@ mode: "custom"
             <h3>Any-LLM native</h3>
           </div>
           <p>Use provider id `neosantara` with `NEOSANTARA_API_KEY` for chat completions, Responses, images, and batch workflows.</p>
-          <strong>Open Any-LLM guide -></strong>
+          <strong>
+            Open Any-LLM guide
+            <Icon icon="arrow-right" size={12} />
+          </strong>
         </a>
       </div>
     </section>
@@ -143,7 +157,7 @@ mode: "custom"
           <div className="neo-code-title-row">
             <div>
               <p>OpenAI-compatible request</p>
-              <h2>Call a model with your API key.</h2>
+              <h3>Call a model with your API key.</h3>
             </div>
             <Icon icon="send" />
           </div>
