@@ -1,0 +1,103 @@
+---
+title: "Best Practice"
+description: "A practical framework for working with coding agents — structuring tasks, planning, project rules, execution environment, skills, automation, and session management."
+---
+
+Modern coding agents do far more than autocomplete code: they read and navigate codebases, edit files, run commands, and complete multi-step tasks. Getting good results is less about clever prompts and more about how you structure the work around the agent. The practices below form a general framework that applies across tools.
+
+## 1. Treat Coding Agents as Collaborators, Not One-Off Assistants
+
+A common mistake is treating an agent like a question-and-answer box: ask, copy the answer, done. A coding agent is better understood as a configurable collaborator you refine over time — through project guidance, tool connections, and reusable workflows. Its value comes from the *combination* of model capability and the workflow you build around it, not the model alone.
+
+## 2. Structure Task Inputs: Context Beats Prompt Tricks
+
+In a real codebase, an effective task description usually has four parts:
+
+<CardGroup cols={2}>
+  <Card title="Goal">What to build or change — fix a bug, add an endpoint, refactor a module.</Card>
+  <Card title="Context">Relevant files, error messages, docs, or examples the agent should look at.</Card>
+  <Card title="Constraints">Engineering rules to follow — coding standards, architecture, security, dependency limits.</Card>
+  <Card title="Done when">How completion is judged — tests pass, behavior changes, the bug no longer reproduces.</Card>
+</CardGroup>
+
+Structured input reduces guesswork and makes changes easier to review.
+
+## 3. Plan Before Execution for Complex Tasks
+
+For anything non-trivial, asking the agent to write code immediately invites logic errors and rework. Have it **produce a plan first, then implement**: explore the codebase, identify the scope of changes, and confirm the approach before editing. Many agents offer a dedicated "plan" mode for exactly this.
+
+## 4. Capture Repeated Rules in Project-Level Configuration Files
+
+If you restate the same rules in every prompt, the workflow is inefficient and instructions drift. Move long-lived guidance into project-level configuration files the agent loads automatically:
+
+```text
+- Project directory structure
+- Build commands
+- Test workflow
+- Coding standards
+- PR submission process
+```
+
+The rule of thumb: **temporary instructions go in the prompt; long-lived rules go in project-level configuration files.**
+
+## 5. The Execution Environment Defines What the Agent Can Do
+
+Inconsistent results are often blamed on the model, but the cause is frequently an incomplete execution environment. Agents are expected to read/modify files, run build and test commands, call external tools, and use version control. When the environment is misconfigured, you see failures like:
+
+- can't locate the project directory
+- no permission to read or modify files
+- build or test commands fail
+- external tools or services are unreachable
+
+A coding agent depends on three kinds of context:
+
+| Context | What it covers |
+|---------|----------------|
+| Task Context | the prompt and input for the current task |
+| Project Context | repository structure and engineering rules |
+| Environment Context | tools, permissions, and execution environment |
+
+Environment Context determines **what the agent can do, and how far it can go**.
+
+## 6. Involve Coding Agents in the Full Development Loop
+
+A code change is rarely judged on generation alone — it must pass tests, meet standards, and survive review. Bring the agent into the whole loop:
+
+<Steps>
+  <Step title="Implement">Modify or add code per the task.</Step>
+  <Step title="Write/update tests">Add coverage for new behavior or the bug being fixed.</Step>
+  <Step title="Run the test suite">Verify the changes behave as expected.</Step>
+  <Step title="Run checks">Lint, format, and type-check to meet engineering standards.</Step>
+  <Step title="Review the diff">Inspect for regressions and unintended changes.</Step>
+</Steps>
+
+This shifts the agent from a code *generator* to an execution node in the development loop.
+
+## 7. Extend Agent Context with MCP
+
+Much of the context an agent needs lives outside the repo — issue trackers, CI status, database schemas, API docs. Copy-pasting it by hand doesn't scale. The **Model Context Protocol (MCP)** provides a standard way to connect external tools so the agent can retrieve real-time context directly. This expands the agent's context boundary from a repository-level executor to a collaborator that operates within your engineering environment.
+
+## 8. Capture Repeated Workflows as Skills
+
+Some tasks recur constantly — PR review, log analysis, release notes, standard debugging. Describing them from scratch each time is wasteful and inconsistent. Package them as **skills**: structured, reusable workflow templates the agent applies the same way every time.
+
+> If a prompt pattern or task flow is used repeatedly, it should probably be captured as a skill.
+
+## 9. Automate Stable Workflows
+
+Once a skill runs reliably, automate it. Many workflows are repetitive or time-based — commit summaries, investigating failed CI runs, scanning logs, weekly reports. A skill defines *how* a workflow runs; automation defines *when* it runs and how it continues over time. This turns the agent from an interactive tool into a continuous assistant.
+
+## 10. Manage Agent Sessions Deliberately
+
+A session is a working context that accumulates the task objective, relevant code, changes made, and intermediate reasoning. Left unmanaged, unrelated tasks pile up and degrade reasoning quality. Practical habits:
+
+- **One session per task** — keep the working context focused.
+- **Avoid overly long sessions** — summarize or compress when history grows.
+- **Branch explorations get their own session** — don't pile new investigations onto the original.
+- **Periodically compress history** — reduce pressure on the context window.
+
+Session management is a form of context management: a clear session keeps reasoning coherent across multi-step tasks.
+
+## Conclusion
+
+The effectiveness of a coding agent comes from the workflow you build around it: clear task context, planning, captured project rules, a solid execution environment, connected tools, reusable skills, automation, and deliberate session management. Together these turn a code-generation tool into a collaborator across the full development lifecycle.
