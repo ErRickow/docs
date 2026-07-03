@@ -1,3 +1,15 @@
+// ponytail: module-level cache so multiple <ModelCards> mounts on one page
+// share a single fetch instead of duplicating the network call. Ceiling: cache
+// never invalidates/expires for the page's lifetime -- fine since pricing data
+// doesn't change mid-session; a hard refresh re-fetches.
+let pricingDataPromise = null;
+function getPricingData() {
+  if (!pricingDataPromise) {
+    pricingDataPromise = fetch('https://api.neosantara.xyz/v1/public/pricing').then(res => res.json());
+  }
+  return pricingDataPromise;
+}
+
 export const ModelCards = ({ capability }) => {
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -5,8 +17,7 @@ export const ModelCards = ({ capability }) => {
   const [copiedId, setCopiedId] = useState(null);
 
   useEffect(() => {
-    fetch('https://api.neosantara.xyz/v1/public/pricing')
-      .then(res => res.json())
+    getPricingData()
       .then(json => {
         if (json.data) {
           // Filter model berdasarkan capability yang diminta
@@ -19,6 +30,7 @@ export const ModelCards = ({ capability }) => {
       })
       .catch(err => {
         console.error('Failed to fetch pricing:', err);
+        pricingDataPromise = null; // allow retry on next mount instead of caching the failure forever
         setLoading(false);
       });
   }, [capability]);
