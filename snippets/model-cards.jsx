@@ -30,7 +30,7 @@ export const ModelCards = ({ capability }) => {
   };
 
   if (loading) return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6" role="status" aria-label="Loading models" aria-busy="true">
       {[1, 2, 3, 4, 5, 6].map(i => (
         <div key={i} className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50/50 dark:bg-white/5 animate-pulse h-32"></div>
       ))}
@@ -58,12 +58,12 @@ export const ModelCards = ({ capability }) => {
                   <button 
                     onClick={() => handleCopy(model.name)}
                     className="neo-icon-action p-1 rounded transition-colors text-gray-400"
-                    title="Copy Model ID"
+                    aria-label="Copy Model ID"
                   >
                     {copiedId === model.name ? (
-                      <svg className="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+                      <svg className="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
                     ) : (
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                     )}
                   </button>
                 </div>
@@ -90,6 +90,7 @@ export const ModelCards = ({ capability }) => {
           <button 
             onClick={() => setIsExpanded(!isExpanded)}
             className="neo-secondary-action text-xs font-bold uppercase tracking-widest text-gray-500 transition-colors py-2 px-4 border border-gray-200 dark:border-gray-800 rounded-full bg-gray-50/50 dark:bg-white/5"
+            aria-expanded={isExpanded}
           >
             {isExpanded ? 'Show Less' : `Show All (${models.length})`}
           </button>
