@@ -798,7 +798,10 @@ article table th,
     font-size: 1.06rem;
   }
 
-  .neo-path-grid,
+  .neo-path-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .neo-link-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -823,7 +826,7 @@ article table th,
   }
 
   .neo-path-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
