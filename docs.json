@@ -1300,7 +1300,7 @@
   },
   "head": [
     "<link rel=\"stylesheet\" href=\"/style.css\">",
-    "<script src=\"/language-toggle.js\"></script>"
+    "<script defer src=\"/language-toggle.js\"></script>"
   ],
   "thumbnails": {
     "appearance": "dark"
