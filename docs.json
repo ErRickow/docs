@@ -74,7 +74,6 @@
             "pages": [
               {
                 "group": "Getting Started",
-                "icon": "book-open",
                 "pages": [
                   "en/intro",
                   "en/about",
@@ -85,12 +84,10 @@
               },
               {
                 "group": "SDKs & APIs",
-                "icon": "code",
                 "pages": [
                   "en/sdk/index",
                   {
                     "group": "OpenResponses API",
-                    "icon": "bolt",
                     "pages": [
                       "en/sdk/responses-api/index",
                       "en/sdk/responses-api/text-generation",
@@ -104,7 +101,6 @@
                   },
                   {
                     "group": "OpenAI Compatible",
-                    "icon": "comment",
                     "pages": [
                       "en/sdk/openai-compat/index",
                       "en/sdk/openai-compat/chat-completions",
@@ -120,7 +116,6 @@
                   },
                   {
                     "group": "Anthropic Compatible",
-                    "icon": "hand",
                     "pages": [
                       "en/sdk/anthropic-compat/index",
                       "en/sdk/anthropic-compat/messages",
@@ -136,7 +131,6 @@
               },
               {
                 "group": "Core Concepts",
-                "icon": "compass",
                 "pages": [
                   "en/advanced-examples",
                   "en/error-handling",
@@ -145,7 +139,6 @@
               },
               {
                 "group": "Capabilities",
-                "icon": "grip",
                 "pages": [
                   "en/capability/video-generation",
                   "en/capability/image-generation",
@@ -167,18 +160,41 @@
             ]
           },
           {
+            "tab": "Coding Plan",
+            "icon": "terminal",
+            "pages": [
+              {
+                "group": "Coding Plan",
+                "pages": [
+                  "en/coding-plan/learning-path",
+                  "en/coding-plan/overview",
+                  "en/coding-plan/quota-and-limits",
+                  "en/coding-plan/usage-policy",
+                  "en/coding-plan/faq"
+                ]
+              },
+              {
+                "group": "Guide",
+                "pages": [
+                  "en/coding-plan/quick-start",
+                  "en/coding-plan/jelma",
+                  "en/coding-plan/tool-integration",
+                  "en/coding-plan/switching-models"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Models",
             "icon": "layer-group",
             "pages": [
               {
                 "group": "Models & Pricing",
-                "icon": "dollar-sign",
                 "expanded": false,
                 "pages": [
                   "en/models-overview",
                   {
                     "group": "Active Models",
-                    "icon": "star",
                     "expanded": false,
                     "pages": [
                       {
@@ -376,7 +392,6 @@
                   },
                   {
                     "group": "Deprecated Models",
-                    "icon": "clock",
                     "expanded": false,
                     "pages": [
                       {
@@ -438,7 +453,6 @@
             "pages": [
               {
                 "group": "Integrations",
-                "icon": "puzzle-piece",
                 "pages": [
                   "en/agent-overview",
                   "en/integrations",
@@ -447,7 +461,6 @@
                   "en/mcp",
                   {
                     "group": "Frameworks",
-                    "icon": "cube",
                     "pages": [
                       "en/langchain",
                       "en/crewai",
@@ -465,7 +478,6 @@
               },
               {
                 "group": "Tutorials",
-                "icon": "graduation-cap",
                 "pages": [
                   "en/guides/ai-coding-tools",
                   "en/capability/rag",
@@ -486,7 +498,6 @@
             "pages": [
               {
                 "group": "API Usage",
-                "icon": "book-open",
                 "pages": [
                   "en/api-introduction",
                   "en/about/billing-pricing",
@@ -497,61 +508,52 @@
               },
               {
                 "group": "Endpoints",
-                "icon": "code",
                 "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
                     "group": "Responses",
-                    "icon": "bolt",
                     "pages": [
                       "POST /v1/responses"
                     ]
                   },
                   {
                     "group": "Chat",
-                    "icon": "comment",
                     "pages": [
                       "POST /v1/chat/completions"
                     ]
                   },
                   {
                     "group": "Anthropic",
-                    "icon": "hand",
                     "pages": [
                       "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Images",
-                    "icon": "image",
                     "pages": [
                       "POST /v1/images/generations"
                     ]
                   },
                   {
                     "group": "Audio",
-                    "icon": "microphone",
                     "pages": [
                       "POST /v1/audio/transcriptions"
                     ]
                   },
                   {
                     "group": "Embeddings",
-                    "icon": "database",
                     "pages": [
                       "POST /v1/embeddings"
                     ]
                   },
                   {
                     "group": "Vision",
-                    "icon": "eye",
                     "pages": [
                       "POST /v1/ocr"
                     ]
                   },
                   {
                     "group": "Videos",
-                    "icon": "video",
                     "pages": [
                       "api-reference/videos/create",
                       "api-reference/videos/get",
@@ -560,11 +562,9 @@
                   },
                   {
                     "group": "Asynchronous",
-                    "icon": "arrows-rotate",
                     "pages": [
                       {
                         "group": "Batches",
-                        "icon": "rows",
                         "pages": [
                           "en/batches-overview",
                           "POST /v1/batches",
@@ -576,7 +576,6 @@
                       },
                       {
                         "group": "Files",
-                        "icon": "file",
                         "pages": [
                           "en/files-overview",
                           "POST /v1/files",
@@ -589,7 +588,6 @@
                       },
                       {
                         "group": "Webhooks",
-                        "icon": "link",
                         "pages": [
                           "en/webhooks-overview"
                         ]
@@ -599,7 +597,6 @@
                   },
                   {
                     "group": "Management",
-                    "icon": "gear",
                     "pages": [
                       "GET /v1/models",
                       "GET /v1/models/{modelId}",
@@ -626,7 +623,6 @@
             "pages": [
               {
                 "group": "Langkah Pertama",
-                "icon": "book-open",
                 "pages": [
                   "id/intro",
                   "id/about",
@@ -637,12 +633,10 @@
               },
               {
                 "group": "SDKs & APIs",
-                "icon": "code",
                 "pages": [
                   "id/sdk/index",
                   {
                     "group": "OpenResponses API",
-                    "icon": "bolt",
                     "pages": [
                       "id/sdk/responses-api/index",
                       "id/sdk/responses-api/text-generation",
@@ -656,7 +650,6 @@
                   },
                   {
                     "group": "OpenAI Compatible",
-                    "icon": "comment",
                     "pages": [
                       "id/sdk/openai-compat/index",
                       "id/sdk/openai-compat/chat-completions",
@@ -672,7 +665,6 @@
                   },
                   {
                     "group": "Anthropic Compatible",
-                    "icon": "hand",
                     "pages": [
                       "id/sdk/anthropic-compat/index",
                       "id/sdk/anthropic-compat/messages",
@@ -688,7 +680,6 @@
               },
               {
                 "group": "Konsep Inti",
-                "icon": "compass",
                 "pages": [
                   "id/advanced-examples",
                   "id/error-handling",
@@ -697,7 +688,6 @@
               },
               {
                 "group": "Kemampuan",
-                "icon": "grip",
                 "pages": [
                   "id/capability/video-generation",
                   "id/capability/embeddings",
@@ -719,18 +709,41 @@
             ]
           },
           {
+            "tab": "Coding Plan",
+            "icon": "terminal",
+            "pages": [
+              {
+                "group": "Coding Plan",
+                "pages": [
+                  "id/coding-plan/learning-path",
+                  "id/coding-plan/overview",
+                  "id/coding-plan/quota-and-limits",
+                  "id/coding-plan/usage-policy",
+                  "id/coding-plan/faq"
+                ]
+              },
+              {
+                "group": "Panduan",
+                "pages": [
+                  "id/coding-plan/quick-start",
+                  "id/coding-plan/jelma",
+                  "id/coding-plan/tool-integration",
+                  "id/coding-plan/switching-models"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Model",
             "icon": "layer-group",
             "pages": [
               {
                 "group": "Model & Harga",
-                "icon": "dollar-sign",
                 "expanded": false,
                 "pages": [
                   "id/models-overview",
                   {
                     "group": "Model Aktif",
-                    "icon": "star",
                     "expanded": false,
                     "pages": [
                       {
@@ -928,7 +941,6 @@
                   },
                   {
                     "group": "Model Deprecated",
-                    "icon": "clock",
                     "expanded": false,
                     "pages": [
                       {
@@ -990,7 +1002,6 @@
             "pages": [
               {
                 "group": "Integrasi",
-                "icon": "puzzle-piece",
                 "pages": [
                   "id/agent-overview",
                   "id/integrations",
@@ -1002,7 +1013,6 @@
                   "id/mcp",
                   {
                     "group": "Framework",
-                    "icon": "cube",
                     "pages": [
                       "id/langchain",
                       "id/crewai",
@@ -1020,7 +1030,6 @@
               },
               {
                 "group": "Tutorial",
-                "icon": "graduation-cap",
                 "pages": [
                   "id/guides/ai-coding-tools",
                   "id/capability/rag",
@@ -1041,7 +1050,6 @@
             "pages": [
               {
                 "group": "Penggunaan API",
-                "icon": "book-open",
                 "pages": [
                   "id/api-introduction",
                   "id/about/billing-pricing",
@@ -1052,61 +1060,52 @@
               },
               {
                 "group": "Referensi API",
-                "icon": "code",
                 "openapi": "api-reference/openapi.json",
                 "pages": [
                   {
                     "group": "Responses",
-                    "icon": "bolt",
                     "pages": [
                       "POST /v1/responses"
                     ]
                   },
                   {
                     "group": "Chat",
-                    "icon": "comment",
                     "pages": [
                       "POST /v1/chat/completions"
                     ]
                   },
                   {
                     "group": "Anthropic",
-                    "icon": "hand",
                     "pages": [
                       "POST /anthropic/v1/messages"
                     ]
                   },
                   {
                     "group": "Images",
-                    "icon": "image",
                     "pages": [
                       "POST /v1/images/generations"
                     ]
                   },
                   {
                     "group": "Audio",
-                    "icon": "microphone",
                     "pages": [
                       "POST /v1/audio/transcriptions"
                     ]
                   },
                   {
                     "group": "Embeddings",
-                    "icon": "database",
                     "pages": [
                       "POST /v1/embeddings"
                     ]
                   },
                   {
                     "group": "Vision",
-                    "icon": "eye",
                     "pages": [
                       "POST /v1/ocr"
                     ]
                   },
                   {
                     "group": "Videos",
-                    "icon": "video",
                     "pages": [
                       "api-reference/videos/create",
                       "api-reference/videos/get",
@@ -1115,11 +1114,9 @@
                   },
                   {
                     "group": "Asynchronous",
-                    "icon": "arrows-rotate",
                     "pages": [
                       {
                         "group": "Batch",
-                        "icon": "rows",
                         "pages": [
                           "id/batches-overview",
                           "POST /v1/batches",
@@ -1131,7 +1128,6 @@
                       },
                       {
                         "group": "File",
-                        "icon": "file",
                         "pages": [
                           "id/files-overview",
                           "POST /v1/files",
@@ -1144,7 +1140,6 @@
                       },
                       {
                         "group": "Webhook",
-                        "icon": "link",
                         "pages": [
                           "id/webhooks-overview"
                         ]
@@ -1154,7 +1149,6 @@
                   },
                   {
                     "group": "Manajemen",
-                    "icon": "gear",
                     "pages": [
                       "GET /v1/models",
                       "GET /v1/models/{modelId}",
