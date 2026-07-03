@@ -1,0 +1,65 @@
+---
+title: "Quota & Limits"
+description: "How the Neosantara Coding Plan quota works — prompts, 5-hour and weekly windows, tier limits, and load-based model multipliers."
+---
+
+This is the canonical reference for how quota is measured and consumed on the [Coding Plan](/en/coding-plan/overview).
+
+## What Counts as 1 Prompt
+
+Quota is **prompt-based, not token-based**. One prompt = **one user turn** in your coding tool — no matter how many model calls the agent makes under the hood.
+
+<Info>
+  A single "fix this bug" turn may trigger ~15–20 model calls internally (reasoning steps, tool calls, file reads). That entire turn still counts as **1 prompt**.
+</Info>
+
+**Worked example:** You ask your agent to *"refactor this module and update the tests."* The agent reads 6 files, runs the test suite twice, and makes 18 model calls to complete the task. Your quota decreases by **1 prompt** (times the model multiplier — see below).
+
+## Quota Windows
+
+| Window | Behavior |
+|--------|----------|
+| **5-hour rolling** | Resets automatically 5 hours after use begins. |
+| **Weekly** | Resets 7 days from your subscription start. |
+
+- **No overage.** When a window's quota is exhausted, requests are hard-stopped until it resets.
+- **No balance deduction.** The Coding Plan never charges your PAYG balance.
+
+## Plan Tiers
+
+| Tier | 5-Hour Limit | Weekly Limit | Price |
+|------|--------------|--------------|-------|
+| Coding Hemat | ~80 prompts | ~400 prompts | Rp 149.000/mo |
+| Coding Reguler | ~400 prompts | ~2.000 prompts | Rp 499.000/mo |
+| Coding Eksklusif | ~1.600 prompts | ~8.000 prompts | Rp 1.290.000/mo |
+
+<Info>
+  Actual available usage varies with project complexity and model choice.
+</Info>
+
+## Load-Based Model Multipliers
+
+Each prompt consumes quota equal to its model's multiplier. Flagship models cost more when the upstream is **under load**. Load is detected **dynamically per model** from its live capacity-error rate over a rolling window — it is **not** a fixed time-of-day schedule.
+
+| Condition | Flagship models | Mid-tier models | Lightweight models |
+|-----------|-----------------|-----------------|--------------------|
+| Normal | 2× | 2× | 1× |
+| Under load | 3× | 2× | 1× |
+
+<Note>
+  Only flagship-band models switch between 2× and 3×. Mid-tier stays at 2× and lightweight stays at 1× regardless of load. "Under load" is derived from each model's live upstream capacity, not a wall-clock window.
+</Note>
+
+## Tips to Conserve Quota
+
+<Tip>
+  Use lightweight models (`gemini-3-flash`, `glm-4.7-flash`) for routine tasks — they stay at 1×. Reserve flagship models (`claude-4.5-sonnet`, `claude-4.5-opus`) for complex reasoning and large refactors.
+</Tip>
+
+- Batch related changes into a single turn where practical — fewer turns, fewer prompts.
+- Switch models per task instead of running everything on a flagship. See [Switching Models](/en/coding-plan/switching-models).
+
+## Related
+
+- [Switching Models](/en/coding-plan/switching-models) — pick the right model per task.
+- [Usage Policy](/en/coding-plan/usage-policy) — rate-limit enforcement and fair use.
