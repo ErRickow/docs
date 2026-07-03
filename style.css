@@ -394,10 +394,6 @@ article table th,
   text-align: center;
 }
 
-#pagination {
-  display: none;
-}
-
 .home-page ~ :is(.callout, [data-callout-type]) {
   display: none !important;
 }
