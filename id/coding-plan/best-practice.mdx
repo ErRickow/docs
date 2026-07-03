@@ -1,0 +1,103 @@
+---
+title: "Best Practice"
+description: "Kerangka praktis untuk bekerja dengan coding agent — menyusun tugas, perencanaan, aturan proyek, environment eksekusi, skill, otomatisasi, dan manajemen sesi."
+---
+
+Coding agent modern jauh lebih dari sekadar autocomplete: mereka membaca dan menavigasi codebase, mengedit file, menjalankan perintah, dan menyelesaikan tugas multi-langkah. Hasil yang bagus lebih ditentukan oleh cara Kamu menyusun pekerjaan di sekitar agent daripada trik prompt. Praktik di bawah ini adalah kerangka umum yang berlaku lintas tool.
+
+## 1. Perlakukan Coding Agent sebagai Kolaborator, Bukan Asisten Sekali Pakai
+
+Kesalahan umum adalah memperlakukan agent seperti kotak tanya-jawab: tanya, salin jawaban, selesai. Coding agent lebih tepat dipahami sebagai kolaborator yang bisa Kamu konfigurasi dan sempurnakan seiring waktu — lewat panduan proyek, koneksi tool, dan workflow yang bisa dipakai ulang. Nilainya datang dari *kombinasi* kapabilitas model dan workflow yang Kamu bangun di sekitarnya, bukan model saja.
+
+## 2. Susun Input Tugas: Konteks Mengalahkan Trik Prompt
+
+Di codebase nyata, deskripsi tugas yang efektif biasanya punya empat bagian:
+
+<CardGroup cols={2}>
+  <Card title="Goal">Apa yang dibuat atau diubah — perbaiki bug, tambah endpoint, refactor modul.</Card>
+  <Card title="Konteks">File terkait, pesan error, dokumentasi, atau contoh yang perlu dilihat agent.</Card>
+  <Card title="Constraint">Aturan engineering yang harus diikuti — standar kode, arsitektur, keamanan, batasan dependensi.</Card>
+  <Card title="Done when">Cara menilai selesai — test lulus, perilaku berubah, bug tidak muncul lagi.</Card>
+</CardGroup>
+
+Input terstruktur mengurangi tebak-tebakan dan membuat perubahan lebih mudah di-review.
+
+## 3. Rencanakan Sebelum Eksekusi untuk Tugas Kompleks
+
+Untuk tugas non-trivial, meminta agent langsung menulis kode mengundang error logika dan pekerjaan ulang. Minta agent **membuat rencana dulu, baru implementasi**: jelajahi codebase, identifikasi cakupan perubahan, dan konfirmasi pendekatannya sebelum mengedit. Banyak agent menyediakan mode "plan" khusus untuk ini.
+
+## 4. Simpan Aturan Berulang di File Konfigurasi Tingkat Proyek
+
+Kalau Kamu mengulang aturan yang sama di tiap prompt, workflow jadi tidak efisien dan instruksi mudah melenceng. Pindahkan panduan jangka panjang ke file konfigurasi tingkat proyek yang dimuat agent otomatis:
+
+```text
+- Struktur direktori proyek
+- Perintah build
+- Alur test
+- Standar kode
+- Proses submit PR
+```
+
+Patokannya: **instruksi sementara di prompt; aturan jangka panjang di file konfigurasi proyek.**
+
+## 5. Environment Eksekusi Menentukan Apa yang Bisa Dilakukan Agent
+
+Hasil yang tidak konsisten sering disalahkan ke model, padahal penyebabnya kerap environment eksekusi yang tidak lengkap. Agent diharapkan membaca/mengubah file, menjalankan perintah build dan test, memanggil tool eksternal, dan memakai version control. Saat environment salah konfigurasi, muncul kegagalan seperti:
+
+- tidak menemukan direktori proyek
+- tidak punya izin membaca atau mengubah file
+- perintah build atau test gagal
+- tool atau layanan eksternal tidak terjangkau
+
+Coding agent bergantung pada tiga jenis konteks:
+
+| Konteks | Cakupan |
+|---------|---------|
+| Task Context | prompt dan input untuk tugas saat ini |
+| Project Context | struktur repositori dan aturan engineering |
+| Environment Context | tool, izin, dan environment eksekusi |
+
+Environment Context menentukan **apa yang bisa dilakukan agent, dan seberapa jauh**.
+
+## 6. Libatkan Coding Agent di Seluruh Development Loop
+
+Sebuah perubahan kode jarang dinilai dari hasil generasi saja — ia harus lulus test, memenuhi standar, dan melewati review. Libatkan agent di seluruh loop:
+
+<Steps>
+  <Step title="Implementasi">Ubah atau tambah kode sesuai tugas.</Step>
+  <Step title="Tulis/update test">Tambah cakupan untuk perilaku baru atau bug yang diperbaiki.</Step>
+  <Step title="Jalankan test suite">Verifikasi perubahan berperilaku sesuai harapan.</Step>
+  <Step title="Jalankan pemeriksaan">Lint, format, dan type-check agar memenuhi standar engineering.</Step>
+  <Step title="Review diff">Periksa regresi dan perubahan tak disengaja.</Step>
+</Steps>
+
+Ini menggeser agent dari *generator* kode menjadi simpul eksekusi dalam development loop.
+
+## 7. Perluas Konteks Agent dengan MCP
+
+Banyak konteks yang dibutuhkan agent ada di luar repo — issue tracker, status CI, skema database, dokumentasi API. Menyalin-tempel manual tidak scalable. **Model Context Protocol (MCP)** menyediakan cara standar untuk menghubungkan tool eksternal sehingga agent bisa mengambil konteks real-time langsung. Ini memperluas batas konteks agent dari eksekutor tingkat repositori menjadi kolaborator yang beroperasi di dalam environment engineering-mu.
+
+## 8. Tangkap Workflow Berulang sebagai Skill
+
+Beberapa tugas muncul terus-menerus — review PR, analisis log, catatan rilis, debugging standar. Menjelaskannya dari nol tiap kali itu boros dan tidak konsisten. Kemas jadi **skill**: template workflow terstruktur yang bisa dipakai ulang dan diterapkan agent dengan cara yang sama setiap kali.
+
+> Kalau sebuah pola prompt atau alur tugas dipakai berulang, sebaiknya jadikan skill.
+
+## 9. Otomatiskan Workflow yang Stabil
+
+Setelah sebuah skill berjalan andal, otomatiskan. Banyak workflow bersifat repetitif atau berbasis waktu — ringkasan commit, investigasi CI yang gagal, memindai log, laporan mingguan. Skill mendefinisikan *bagaimana* workflow berjalan; otomatisasi mendefinisikan *kapan* ia berjalan dan bagaimana berlanjut seiring waktu. Ini mengubah agent dari tool interaktif menjadi asisten berkelanjutan.
+
+## 10. Kelola Sesi Agent secara Sengaja
+
+Sebuah sesi adalah working context yang mengumpulkan tujuan tugas, kode terkait, perubahan yang dibuat, dan reasoning perantara. Tanpa pengelolaan, tugas tak terkait menumpuk dan menurunkan kualitas reasoning. Kebiasaan praktis:
+
+- **Satu sesi per tugas** — jaga working context tetap fokus.
+- **Hindari sesi terlalu panjang** — ringkas atau kompres saat riwayat membengkak.
+- **Eksplorasi cabang pakai sesi sendiri** — jangan menumpuk investigasi baru ke sesi asli.
+- **Kompres riwayat berkala** — kurangi tekanan pada context window.
+
+Manajemen sesi adalah bentuk manajemen konteks: sesi yang jelas menjaga reasoning tetap koheren di tugas multi-langkah.
+
+## Kesimpulan
+
+Efektivitas coding agent datang dari workflow yang Kamu bangun di sekitarnya: konteks tugas yang jelas, perencanaan, aturan proyek yang tersimpan, environment eksekusi yang solid, tool yang terhubung, skill yang bisa dipakai ulang, otomatisasi, dan manajemen sesi yang sengaja. Bersama-sama, semua ini mengubah tool generasi kode menjadi kolaborator di seluruh siklus pengembangan.
