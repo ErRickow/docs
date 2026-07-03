@@ -1,0 +1,90 @@
+---
+title: "Overview"
+description: "Flat-fee subscription built for AI coding agents. Prompt-based quota, no overage, no auto-renew."
+---
+
+The **Neosantara Coding Plan** is a subscription designed specifically for AI-powered coding workflows. It works with coding tools like **Neo Code**, **Claude Code**, **Cline**, and **OpenCode**.
+
+<Note>
+  The Coding Plan uses **dedicated base URLs** (`/coding/v1` and `/coding/anthropic`). Coding keys (`nsk_code_*`) **cannot** be used on the regular PAYG endpoints (`/v1`, `/anthropic`) — they are rejected with `403`. A regular PAYG key sent to a coding base URL is simply treated as a normal PAYG request and does **not** consume coding-plan quota.
+</Note>
+
+## How It Works
+
+| Concept | Detail |
+|---------|--------|
+| **1 prompt** | 1 user turn in your coding tool — may trigger ~15–20 model calls under the hood (agent loop) |
+| **Quota windows** | 5-hour rolling + weekly. Resets automatically. |
+| **Overage** | None. Requests are hard-stopped until the window resets. |
+| **Auto-renew** | No. You receive a reminder 3 days before expiry and can renew from the dashboard. |
+
+## Dedicated Base URLs
+
+Coding keys (`nsk_code_*`) only work on the coding base paths:
+
+| Protocol | Base URL |
+|----------|----------|
+| OpenAI-compatible | `https://api.neosantara.xyz/coding/v1` |
+| Anthropic-compatible | `https://api.neosantara.xyz/coding/anthropic` |
+
+<Warning>
+  Coding keys sent to the regular `/v1` or `/anthropic` endpoints will receive a `403 coding_key_requires_coding_endpoint` error.
+</Warning>
+
+## Quick Start
+
+<Steps>
+  <Step title="Create a Coding Key">
+    Go to [Coding Plan](https://app.neosantara.xyz/coding-plan) or [API Keys](https://app.neosantara.xyz/api-keys) and create a key with the `[CODE]` prefix.
+  </Step>
+  <Step title="Subscribe to a Plan">
+    Choose a tier (Hemat / Reguler / Eksklusif) and complete the Mayar invoice payment.
+  </Step>
+  <Step title="Configure Your Tool">
+    Point your coding agent at the coding base URL with your coding key.
+
+    **Claude Code** (`~/.claude/settings.json`):
+    ```json
+    {
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+        "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY_HERE",
+        "ANTHROPIC_MODEL": "claude-4.5-sonnet"
+      }
+    }
+    ```
+
+    **Cline / Continue / OpenCode** (OpenAI mode):
+    ```
+    Base URL: https://api.neosantara.xyz/coding/v1
+    API Key:  nsk_code_YOUR_KEY_HERE
+    Model:    claude-4.5-sonnet
+    ```
+  </Step>
+  <Step title="Or Use Jelma">
+    Open [Jelma](https://app.neosantara.xyz/jelma) in your dashboard to spawn a Neosantara coding agent directly — no local setup needed.
+  </Step>
+</Steps>
+
+## Quota & Limits
+
+Quota is prompt-based: **1 prompt = 1 user turn**, regardless of how many model calls the agent makes internally. There is no overage — when a window's quota runs out, requests are blocked until it resets.
+
+See [Quota & Limits](/en/coding-plan/quota-and-limits) for the full tier pricing table, 5-hour/weekly windows, and load-based model multipliers.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Does the Coding Plan auto-renew?">
+    No. It's a one-time invoice per period. You'll get an email reminder 3 days before expiry.
+  </Accordion>
+  <Accordion title="What happens when quota runs out?">
+    Requests are blocked (hard-stop) until the next 5-hour or weekly window resets. No balance is charged.
+  </Accordion>
+  <Accordion title="Can I use my coding key on regular /v1 endpoints?">
+    No. Coding keys only work on `/coding/v1` and `/coding/anthropic`. Regular PAYG keys work on `/v1` and `/anthropic`.
+  </Accordion>
+  <Accordion title="Which models are available?">
+    All models available on the Neosantara gateway, subject to your tier's allowed-model list.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,101 @@
+---
+title: "Switching Models"
+description: "How to switch between models in your coding tool when using the Neosantara Coding Plan."
+---
+
+The Neosantara Coding Plan gives you access to all models on the gateway. You can switch models at any time without changing your subscription.
+
+## Before You Start
+
+Make sure you have:
+1. An **active Coding Plan subscription** and a valid coding key (`nsk_code_*`).
+2. The **correct coding endpoint** configured in your tool.
+3. A working basic setup (test with a simple prompt first).
+
+## Available Models
+
+All models on the Neosantara gateway are available through the Coding Plan. Popular choices for coding:
+
+| Model | Best for | Quota multiplier |
+|-------|----------|-----------------|
+| `claude-4.5-sonnet` | Complex coding, refactoring | 2× (normal), 3× (under load) |
+| `claude-4.5-opus` | Deep reasoning, architecture | 2× (normal), 3× (under load) |
+| `gemini-3-flash` | Fast iteration, routine tasks | 1× |
+| `glm-4.7-flash` | Budget-friendly daily coding | 1× |
+| `deepseek-r1` | Reasoning-heavy tasks | 1× |
+| `qwen3-32b` | Multi-language support | 1× |
+
+<Tip>
+  Use lightweight models (`gemini-3-flash`, `glm-4.7-flash`) for routine tasks and switch to premium models only for complex reasoning — this maximizes your quota.
+</Tip>
+
+## Switching Models in Claude Code
+
+### Method 1: Update settings.json
+
+Edit `~/.claude/settings.json` and change the model environment variables:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
+    "ANTHROPIC_MODEL": "deepseek-r1",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-4.5-opus",
+    "API_TIMEOUT_MS": "3600000"
+  }
+}
+```
+
+### Method 2: Use /model command
+
+In an active Claude Code session, type:
+
+```
+/model claude-4.5-opus
+```
+
+This switches the model for the current session without editing config files.
+
+### Verify the switch
+
+Type `/status` in Claude Code to confirm the active model.
+
+## Switching Models in Cline
+
+1. Open Cline settings in VS Code
+2. Under **Model**, change the model name (e.g. `gemini-3-flash`)
+3. The change takes effect immediately for new messages
+
+## Switching Models in Continue / OpenCode
+
+Update the `model` field in your configuration:
+
+```
+Base URL: https://api.neosantara.xyz/coding/v1
+API Key:  nsk_code_YOUR_KEY
+Model:    gemini-3-flash
+```
+
+## Switching Models in Cursor
+
+1. Settings → Models
+2. Change the model name in your custom model configuration
+3. Or add multiple model entries and select between them in the chat
+
+## Model Recommendations by Task
+
+| Task | Recommended Model | Why |
+|------|-------------------|-----|
+| Quick fixes, linting | `gemini-3-flash` | Fast, cheap (1× quota) |
+| Feature implementation | `claude-4.5-sonnet` | Best balance of speed and quality |
+| Complex refactoring | `claude-4.5-opus` | Deep reasoning capability |
+| Debugging with context | `deepseek-r1` | Strong at tracing logic |
+| Code review | `qwen3-32b` | Good at explanations |
+| Routine boilerplate | `glm-4.7-flash` | Fast and free-tier friendly |
+
+## Load-Based Quota Multipliers
+
+Model multipliers (1× lightweight, 2× mid/flagship, up to 3× for flagship under load) determine how much quota each prompt costs. See [Quota & Limits](/en/coding-plan/quota-and-limits#load-based-model-multipliers) for the full breakdown.
