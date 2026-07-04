@@ -31,34 +31,7 @@ my-coder → claude-4.5-sonnet (utama)
 
 ## Mengelola Routes
 
-### Via Dashboard
-
 Buka [Coding Plan](https://app.neosantara.xyz/coding-plan) di dashboard. Bagian **Model Routes** memungkinkan Kamu membuat, mengedit, dan menghapus route secara visual.
-
-### Via API
-
-**List routes:**
-```bash bash
-curl https://api.neosantara.xyz/v1/coding/model-routes \
-  -H "Authorization: Bearer nsk_code_KEY_KAMU"
-```
-
-**Buat/update route:**
-```bash bash
-curl -X POST https://api.neosantara.xyz/v1/coding/model-routes \
-  -H "Authorization: Bearer nsk_code_KEY_KAMU" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "virtual_name": "my-coder",
-    "model_chain": ["claude-4.5-sonnet", "gemini-3-flash"]
-  }'
-```
-
-**Hapus route:**
-```bash bash
-curl -X DELETE https://api.neosantara.xyz/v1/coding/model-routes/ROUTE_ID \
-  -H "Authorization: Bearer nsk_code_KEY_KAMU"
-```
 
 ## Aturan
 

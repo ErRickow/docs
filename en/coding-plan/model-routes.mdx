@@ -31,34 +31,7 @@ my-coder → claude-4.5-sonnet (primary)
 
 ## Managing Routes
 
-### Via Dashboard
-
 Open [Coding Plan](https://app.neosantara.xyz/coding-plan) in your dashboard. The **Model Routes** section lets you create, edit, and delete routes visually.
-
-### Via API
-
-**List routes:**
-```bash bash
-curl https://api.neosantara.xyz/v1/coding/model-routes \
-  -H "Authorization: Bearer nsk_code_YOUR_KEY"
-```
-
-**Create/update a route:**
-```bash bash
-curl -X POST https://api.neosantara.xyz/v1/coding/model-routes \
-  -H "Authorization: Bearer nsk_code_YOUR_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "virtual_name": "my-coder",
-    "model_chain": ["claude-4.5-sonnet", "gemini-3-flash"]
-  }'
-```
-
-**Delete a route:**
-```bash bash
-curl -X DELETE https://api.neosantara.xyz/v1/coding/model-routes/ROUTE_ID \
-  -H "Authorization: Bearer nsk_code_YOUR_KEY"
-```
 
 ## Rules
 
