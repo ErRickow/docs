@@ -1,0 +1,154 @@
+---
+title: "Best Practices"
+description: "Tips for getting the most out of Jelma — model selection, quota management, security, and workflow optimization."
+---
+
+## Model Selection
+
+### Use Model Routes for consistency
+
+Create a [Model Route](/en/coding-plan/model-routes) instead of hardcoding model names. This gives you:
+- **Automatic failover** — if your primary model is rate-limited, the next model in the chain takes over
+- **Easy switching** — change the chain in the dashboard without touching agent config
+- **Consistent naming** — use `my-coder` everywhere, resolve to different models per task
+
+```bash
+# Same command, model resolved by your route config
+jelma claude local --model my-coder
+jelma codex hetzner --model my-coder
+```
+
+### Match model to task complexity
+
+| Task | Recommended approach |
+|------|---------------------|
+| Simple fixes, formatting | Light model (DeepSeek Flash, GLM Flash) |
+| Multi-file refactoring | `garda-core` or premium model |
+| Complex reasoning | Premium model in first position of route chain |
+| Routine CI tasks | Cheapest model to save quota |
+
+### Save quota with lightweight models
+
+Coding Plan quota is consumed per prompt, but premium models may cost 2–3× during peak hours. Use light models for routine tasks:
+
+```bash
+jelma codex local --model deepseek-v4-flash  # Fast + cheap
+```
+
+## Security
+
+### Never commit credentials
+
+Jelma stores credentials in `~/.config/jelma/`. Never commit this directory. If you use `--config` files, exclude them from git:
+
+```bash
+echo "*.jelma-config.json" >> .gitignore
+```
+
+### Use environment variables for CI/CD
+
+```bash
+NEOSANTARA_API_KEY="$SECRET" \
+HCLOUD_TOKEN="$HCLOUD_SECRET" \
+jelma claude hetzner --headless --output json --prompt "Run tests"
+```
+
+### Clean up cloud resources
+
+Always delete VMs when done:
+```bash
+jelma status          # Check what's running
+jelma delete          # Interactive cleanup
+jelma status --prune  # Remove stale entries from history
+```
+
+## Workflow Tips
+
+### Use `--fast` for iterative development
+
+When spinning up agents repeatedly (testing configs, debugging), `--fast` saves minutes per launch:
+
+```bash
+jelma claude hetzner --fast --prompt "Fix the failing test"
+```
+
+### Headless mode for automation
+
+Integrate Jelma into scripts and CI pipelines:
+
+```bash
+result=$(jelma claude local \
+  --headless \
+  --output json \
+  --prompt "Analyze this codebase and list all TODOs")
+
+echo "$result" | jq '.output'
+```
+
+### Use `jelma fix` instead of re-provisioning
+
+If an agent's config got corrupted or credentials expired, don't delete and recreate:
+
+```bash
+jelma fix  # Re-injects credentials, re-runs agent setup
+```
+
+### Persistent preferences
+
+Set per-agent model defaults in `~/.config/spawn/preferences.json`:
+
+```json
+{
+  "models": {
+    "claude": "my-coder",
+    "codex": "garda-core",
+    "openclaw": "garda-core"
+  }
+}
+```
+
+Now `jelma claude local` always uses `my-coder` without `--model`.
+
+## Cloud-Specific Tips
+
+### Hetzner (cheapest)
+
+Best price/performance for development. Use `--zone` to pick a nearby datacenter:
+
+```bash
+jelma claude hetzner --zone fsn1  # Falkenstein, Germany
+jelma claude hetzner --zone sin1  # Singapore
+```
+
+### Local (fastest iteration)
+
+No provisioning delay. Use for rapid iteration:
+
+```bash
+jelma claude local --prompt "Fix this bug"
+jelma last  # Instant rerun with same config
+```
+
+### Recursive for complex tasks
+
+Let the agent spawn child agents for parallel subtasks:
+
+```bash
+jelma claude hetzner --beta recursive --prompt "Refactor the entire auth module"
+```
+
+The parent agent can use `jelma` inside the VM to spawn helpers.
+
+## Anti-Patterns
+
+<Warning>
+  Avoid these common mistakes:
+</Warning>
+
+| Don't | Do instead |
+|-------|-----------|
+| Leave VMs running overnight | `jelma delete` when done |
+| Hardcode model names in scripts | Use Model Routes or `preferences.json` |
+| Use premium models for everything | Match model to task complexity |
+| Skip `--dry-run` on expensive clouds | Always preview first on unfamiliar setups |
+| Store API keys in config files | Use environment variables |

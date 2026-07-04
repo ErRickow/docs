@@ -72,9 +72,14 @@ description: "Frequently asked questions about the Neosantara Coding Plan — qu
       "env": {
         "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
         "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
-        "ANTHROPIC_MODEL": "claude-4.5-sonnet"
+        "ANTHROPIC_MODEL": "garda-core"
       }
     }
+    ```
+
+    Or use Jelma (no manual config needed):
+    ```bash
+    jelma claude local
     ```
   </Accordion>
 
@@ -83,7 +88,12 @@ description: "Frequently asked questions about the Neosantara Coding Plan — qu
     ```
     Base URL: https://api.neosantara.xyz/coding/v1
     API Key:  nsk_code_YOUR_KEY
-    Model:    claude-4.5-sonnet
+    Model:    garda-core
+    ```
+
+    Or use Jelma:
+    ```bash
+    jelma opencode local
     ```
   </Accordion>
 </AccordionGroup>
@@ -121,6 +131,19 @@ description: "Frequently asked questions about the Neosantara Coding Plan — qu
 
   <Accordion title="Does Jelma consume the same quota?">
     Yes. Jelma uses the same prompt-based quota as any other tool connected via your coding key.
+  </Accordion>
+
+  <Accordion title="How do I use a custom Model Route with Jelma?">
+    Use the `--model` flag with your virtual model name:
+    ```bash
+    jelma claude local --model my-coder
+    jelma codex hetzner --model my-coder
+    ```
+    Jelma sets the virtual name on all model slots, so the gateway resolves every request (main, background, fast) through your failover chain. See [Model Routes](/en/coding-plan/model-routes) for setup.
+  </Accordion>
+
+  <Accordion title="What is garda-core?">
+    `garda-core` is the default model Jelma uses for Coding Plan users. It's a virtual model name that the Neosantara gateway resolves to the best available model on your tier. You can override it with `--model` or by setting a custom [Model Route](/en/coding-plan/model-routes) in your dashboard.
   </Accordion>
 </AccordionGroup>
 

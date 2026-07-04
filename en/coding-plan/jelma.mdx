@@ -83,7 +83,12 @@ Prefer the terminal? Install the Jelma CLI and let it prompt you for anything it
 </Steps>
 
 <Tip>
-  In Coding Plan mode, Jelma defaults the agent to `claude-4.5-sonnet` on the coding endpoints. You can switch models anytime — see [Switching Models](/en/coding-plan/switching-models).
+  In Coding Plan mode, Jelma defaults the agent to `garda-core` on the coding endpoints. Override with `--model` to use a [Model Route](/en/coding-plan/model-routes) or any model available on your plan:
+
+  ```bash
+  jelma claude local --model josjis   # Use your custom route "josjis"
+  jelma codex local --model deepseek-v4-flash
+  ```
 </Tip>
 
 ## Supported coding agents

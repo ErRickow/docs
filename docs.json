@@ -138,6 +138,16 @@
                 ]
               },
               {
+                "group": "Jelma",
+                "pages": [
+                  "en/guides/jelma/overview",
+                  "en/guides/jelma/usage",
+                  "en/guides/jelma/reference",
+                  "en/guides/jelma/faq",
+                  "en/guides/jelma/best-practices"
+                ]
+              },
+              {
                 "group": "Capabilities",
                 "pages": [
                   "en/capability/video-generation",
@@ -713,6 +723,16 @@
                   "id/about/prompt-templates"
                 ],
                 "expanded": false
+              },
+              {
+                "group": "Jelma",
+                "pages": [
+                  "id/guides/jelma/overview",
+                  "id/guides/jelma/usage",
+                  "id/guides/jelma/reference",
+                  "id/guides/jelma/faq",
+                  "id/guides/jelma/best-practices"
+                ]
               }
             ]
           },

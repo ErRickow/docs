@@ -3,7 +3,7 @@ title: "Switching Models"
 description: "How to switch between models in your coding tool when using the Neosantara Coding Plan."
 ---
 
-The Neosantara Coding Plan gives you access to all models on the gateway. You can switch models at any time without changing your subscription.
+The Neosantara Coding Plan gives you access to models on the gateway based on your tier. You can switch models at any time without changing your subscription.
 
 ## Before You Start
 
@@ -12,39 +12,56 @@ Make sure you have:
 2. The **correct coding endpoint** configured in your tool.
 3. A working basic setup (test with a simple prompt first).
 
-## Available Models
+## Check Available Models
 
-All models on the Neosantara gateway are available through the Coding Plan. Popular choices for coding:
+Available models depend on your tier and can change at any time. Check your current allowed models:
 
-| Model | Best for | Quota multiplier |
-|-------|----------|-----------------|
-| `claude-4.5-sonnet` | Complex coding, refactoring | 2× (normal), 3× (under load) |
-| `claude-4.5-opus` | Deep reasoning, architecture | 2× (normal), 3× (under load) |
-| `gemini-3-flash` | Fast iteration, routine tasks | 1× |
-| `glm-4.7-flash` | Budget-friendly daily coding | 1× |
-| `deepseek-r1` | Reasoning-heavy tasks | 1× |
-| `qwen3-32b` | Multi-language support | 1× |
+**From the dashboard:**
+Open [Coding Plan](https://app.neosantara.xyz/coding-plan) → the "Overview" tab shows your allowed models.
 
-<Tip>
-  Use lightweight models (`gemini-3-flash`, `glm-4.7-flash`) for routine tasks and switch to premium models only for complex reasoning — this maximizes your quota.
-</Tip>
+**From the CLI:**
+```bash
+jelma models
+```
+
+**From the API:**
+```bash
+curl https://api.neosantara.xyz/coding/v1/models \
+  -H "Authorization: Bearer nsk_code_YOUR_KEY"
+```
+
+<Note>
+  An empty allowed-models list means **all models** on the gateway are available. Higher tiers unlock more models, including frontier models with higher quota multipliers.
+</Note>
 
 ## Switching Models in Claude Code
 
 ### Method 1: Update settings.json
 
-Edit `~/.claude/settings.json` and change the model environment variables:
+Edit `~/.claude/settings.json` and change the model:
 
 ```json
 {
   "env": {
     "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
-    "ANTHROPIC_MODEL": "deepseek-r1",
-    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-4.5-opus",
-    "API_TIMEOUT_MS": "3600000"
+    "ANTHROPIC_MODEL": "garda-core"
+  }
+}
+```
+
+Claude Code uses multiple model slots. Override all of them to ensure every request routes through your chosen model (or your [Model Route](/en/coding-plan/model-routes)):
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
+    "ANTHROPIC_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "garda-core",
+    "ANTHROPIC_SMALL_FAST_MODEL": "garda-core"
   }
 }
 ```
@@ -54,10 +71,18 @@ Edit `~/.claude/settings.json` and change the model environment variables:
 In an active Claude Code session, type:
 
 ```
-/model claude-4.5-opus
+/model deepseek-v4-flash
 ```
 
 This switches the model for the current session without editing config files.
+
+### Method 3: Use Jelma
+
+Jelma sets all model slots automatically:
+
+```bash
+jelma claude local --model deepseek-v4-flash
+```
 
 ### Verify the switch
 
@@ -66,7 +91,7 @@ Type `/status` in Claude Code to confirm the active model.
 ## Switching Models in Cline
 
 1. Open Cline settings in VS Code
-2. Under **Model**, change the model name (e.g. `gemini-3-flash`)
+2. Under **Model**, change the model name
 3. The change takes effect immediately for new messages
 
 ## Switching Models in Continue / OpenCode
@@ -76,7 +101,20 @@ Update the `model` field in your configuration:
 ```
 Base URL: https://api.neosantara.xyz/coding/v1
 API Key:  nsk_code_YOUR_KEY
-Model:    gemini-3-flash
+Model:    deepseek-v4-flash
+```
+
+## Switching Models in Codex CLI
+
+Edit `~/.codex/config.toml`:
+
+```toml
+model = "deepseek-v4-flash"
+```
+
+Or use Jelma:
+```bash
+jelma codex local --model deepseek-v4-flash
 ```
 
 ## Switching Models in Cursor
@@ -85,17 +123,28 @@ Model:    gemini-3-flash
 2. Change the model name in your custom model configuration
 3. Or add multiple model entries and select between them in the chat
 
-## Model Recommendations by Task
+## Using Model Routes (Recommended)
 
-| Task | Recommended Model | Why |
-|------|-------------------|-----|
-| Quick fixes, linting | `gemini-3-flash` | Fast, cheap (1× quota) |
-| Feature implementation | `claude-4.5-sonnet` | Best balance of speed and quality |
-| Complex refactoring | `claude-4.5-opus` | Deep reasoning capability |
-| Debugging with context | `deepseek-r1` | Strong at tracing logic |
-| Code review | `qwen3-32b` | Good at explanations |
-| Routine boilerplate | `glm-4.7-flash` | Fast and free-tier friendly |
+Instead of switching model names manually, create a [Model Route](/en/coding-plan/model-routes) — a virtual alias that resolves to a chain of models with automatic failover:
 
-## Load-Based Quota Multipliers
+```bash
+# Set up once in the dashboard, then use everywhere:
+jelma claude local --model my-coder
+```
 
-Model multipliers (1× lightweight, 2× mid/flagship, up to 3× for flagship under load) determine how much quota each prompt costs. See [Quota & Limits](/en/coding-plan/quota-and-limits#load-based-model-multipliers) for the full breakdown.
+Benefits:
+- **No config changes needed** when you want to switch — just update the route in the dashboard
+- **Automatic failover** if the primary model is unavailable
+- **Consistent name** across all tools and machines
+
+## Quota Considerations
+
+- **Lightweight models** (1× multiplier) — best for routine tasks, preserves quota
+- **Mid-tier models** (2× multiplier) — good balance of quality and cost
+- **Frontier models** (up to 3× under load) — use selectively for complex tasks
+
+The exact multiplier depends on current gateway load. Check [Quota & Limits](/en/coding-plan/quota-and-limits) for details.
+
+<Tip>
+  Use lightweight models for quick fixes and code generation. Switch to premium models only for complex reasoning, architecture decisions, or multi-file refactoring. This strategy can 2–3× your effective quota.
+</Tip>

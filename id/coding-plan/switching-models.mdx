@@ -1,63 +1,88 @@
 ---
 title: "Ganti Model"
-description: "Cara ganti model di coding tool saat pakai Neosantara Coding Plan."
+description: "Cara ganti model di coding tool saat memakai Neosantara Coding Plan."
 ---
 
-Neosantara Coding Plan memberimu akses ke semua model di gateway. Kamu bisa ganti model kapan saja tanpa mengubah langganan.
+Neosantara Coding Plan memberimu akses ke model di gateway sesuai tier-mu. Kamu bisa ganti model kapan saja tanpa mengubah langganan.
 
 ## Sebelum Mulai
 
-Pastikan kamu sudah punya:
-1. **Langganan Coding Plan aktif** dan coding key (`nsk_code_*`) yang valid.
-2. **Endpoint coding yang benar** di konfigurasi tool.
-3. Setup dasar yang berfungsi (test dulu dengan prompt sederhana).
+Pastikan kamu punya:
+1. **Langganan Coding Plan aktif** dan coding key yang valid (`nsk_code_*`).
+2. **Coding endpoint yang benar** sudah dikonfigurasi di tool-mu.
+3. Setup dasar yang berfungsi (tes dulu dengan prompt sederhana).
 
-## Model Tersedia
+## Cek Model yang Tersedia
 
-Semua model di gateway Neosantara tersedia lewat Coding Plan. Pilihan populer untuk coding:
+Model yang tersedia tergantung tier-mu dan bisa berubah kapan saja. Cek model yang diizinkan saat ini:
 
-| Model | Cocok untuk | Multiplier kuota |
-|-------|-------------|-----------------|
-| `claude-4.5-sonnet` | Coding kompleks, refactoring | 2× (normal), 3× (under load) |
-| `claude-4.5-opus` | Reasoning mendalam, arsitektur | 2× (normal), 3× (under load) |
-| `gemini-3-flash` | Iterasi cepat, tugas rutin | 1× |
-| `glm-4.7-flash` | Coding harian hemat | 1× |
-| `deepseek-r1` | Tugas reasoning-heavy | 1× |
-| `qwen3-32b` | Dukungan multi-bahasa | 1× |
+**Dari dashboard:**
+Buka [Coding Plan](https://app.neosantara.xyz/coding-plan) → tab "Overview" menampilkan model yang diizinkan.
 
-<Tip>
-  Pakai model ringan (`gemini-3-flash`, `glm-4.7-flash`) untuk tugas rutin dan switch ke model premium hanya untuk reasoning kompleks — ini memaksimalkan kuotamu.
-</Tip>
+**Dari CLI:**
+```bash
+jelma models
+```
+
+**Dari API:**
+```bash
+curl https://api.neosantara.xyz/coding/v1/models \
+  -H "Authorization: Bearer nsk_code_KEY_KAMU"
+```
+
+<Note>
+  Daftar model kosong berarti **semua model** di gateway tersedia. Tier lebih tinggi membuka lebih banyak model, termasuk model frontier dengan multiplier kuota lebih tinggi.
+</Note>
 
 ## Ganti Model di Claude Code
 
 ### Metode 1: Update settings.json
 
-Edit `~/.claude/settings.json` dan ganti variabel model:
+Edit `~/.claude/settings.json` dan ganti modelnya:
 
 ```json
 {
   "env": {
     "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
-    "ANTHROPIC_MODEL": "deepseek-r1",
-    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-4.5-opus",
-    "API_TIMEOUT_MS": "3600000"
+    "ANTHROPIC_MODEL": "garda-core"
+  }
+}
+```
+
+Claude Code memakai beberapa slot model. Override semua agar setiap request melewati model pilihanmu (atau [Model Route](/id/coding-plan/model-routes)-mu):
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
+    "ANTHROPIC_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "garda-core",
+    "ANTHROPIC_SMALL_FAST_MODEL": "garda-core"
   }
 }
 ```
 
 ### Metode 2: Pakai perintah /model
 
-Di sesi Claude Code aktif, ketik:
+Di sesi Claude Code yang aktif, ketik:
 
 ```
-/model claude-4.5-opus
+/model deepseek-v4-flash
 ```
 
-Ini ganti model untuk sesi saat ini tanpa edit file konfigurasi.
+Ini mengganti model untuk sesi saat ini tanpa mengedit file config.
+
+### Metode 3: Pakai Jelma
+
+Jelma men-set semua slot model otomatis:
+
+```bash
+jelma claude local --model deepseek-v4-flash
+```
 
 ### Verifikasi
 
@@ -66,36 +91,60 @@ Ketik `/status` di Claude Code untuk konfirmasi model aktif.
 ## Ganti Model di Cline
 
 1. Buka pengaturan Cline di VS Code
-2. Di bagian **Model**, ganti nama model (mis. `gemini-3-flash`)
+2. Di bagian **Model**, ganti nama model
 3. Perubahan langsung berlaku untuk pesan baru
 
 ## Ganti Model di Continue / OpenCode
 
-Update field `model` di konfigurasi:
+Update field `model` di konfigurasimu:
 
 ```
 Base URL: https://api.neosantara.xyz/coding/v1
 API Key:  nsk_code_KEY_KAMU
-Model:    gemini-3-flash
+Model:    deepseek-v4-flash
+```
+
+## Ganti Model di Codex CLI
+
+Edit `~/.codex/config.toml`:
+
+```toml
+model = "deepseek-v4-flash"
+```
+
+Atau pakai Jelma:
+```bash
+jelma codex local --model deepseek-v4-flash
 ```
 
 ## Ganti Model di Cursor
 
 1. Settings → Models
-2. Ganti nama model di konfigurasi custom model
+2. Ganti nama model di konfigurasi custom model-mu
 3. Atau tambah beberapa entry model dan pilih di chat
 
-## Rekomendasi Model per Tugas
+## Pakai Model Routes (Direkomendasikan)
 
-| Tugas | Model Rekomendasi | Alasan |
-|-------|-------------------|--------|
-| Quick fix, linting | `gemini-3-flash` | Cepat, hemat (1× kuota) |
-| Implementasi fitur | `claude-4.5-sonnet` | Keseimbangan speed dan kualitas |
-| Refactoring kompleks | `claude-4.5-opus` | Kapabilitas reasoning mendalam |
-| Debugging dengan konteks | `deepseek-r1` | Kuat di tracing logic |
-| Code review | `qwen3-32b` | Bagus untuk penjelasan |
-| Boilerplate rutin | `glm-4.7-flash` | Cepat dan hemat |
+Daripada mengganti nama model secara manual, buat [Model Route](/id/coding-plan/model-routes) — alias virtual yang resolve ke chain model dengan failover otomatis:
 
-## Multiplier Kuota Berbasis Beban
+```bash
+# Setup sekali di dashboard, lalu pakai di mana-mana:
+jelma claude local --model my-coder
+```
 
-Multiplier model (1× ringan, 2× mid/flagship, hingga 3× untuk flagship under load) menentukan berapa kuota yang dipakai tiap prompt. Lihat [Kuota & Limit](/id/coding-plan/quota-and-limits#multiplier-model-berbasis-beban) untuk rinciannya.
+Keuntungan:
+- **Tanpa ganti config** saat mau switch — cukup update route di dashboard
+- **Failover otomatis** jika model utama tidak tersedia
+- **Nama konsisten** di semua tool dan mesin
+
+## Pertimbangan Kuota
+
+- **Model ringan** (multiplier 1×) — terbaik untuk task rutin, hemat kuota
+- **Model mid-tier** (multiplier 2×) — balance kualitas dan biaya
+- **Model frontier** (hingga 3× saat under load) — pakai selektif untuk task kompleks
+
+Multiplier pastinya tergantung load gateway saat itu. Cek [Kuota & Limit](/id/coding-plan/quota-and-limits) untuk detail.
+
+<Tip>
+  Pakai model ringan untuk quick fix dan code generation. Switch ke model premium hanya untuk reasoning kompleks, keputusan arsitektur, atau refactoring multi-file. Strategi ini bisa 2–3× kuota efektifmu.
+</Tip>

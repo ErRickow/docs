@@ -83,7 +83,12 @@ Lebih suka terminal? Instal Jelma CLI dan biarkan ia menanyakan apa pun yang dib
 </Steps>
 
 <Tip>
-  Di mode Coding Plan, Jelma memakai default `claude-4.5-sonnet` di endpoint coding. Kamu bisa ganti model kapan saja — lihat [Ganti Model](/id/coding-plan/switching-models).
+  Di mode Coding Plan, Jelma memakai default `garda-core` di endpoint coding. Override dengan `--model` untuk memakai [Model Route](/id/coding-plan/model-routes) atau model lain yang tersedia di plan-mu:
+
+  ```bash
+  jelma claude local --model josjis   # Pakai custom route "josjis"
+  jelma codex local --model deepseek-v4-flash
+  ```
 </Tip>
 
 ## Coding agent yang didukung

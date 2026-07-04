@@ -72,9 +72,14 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
       "env": {
         "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
         "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
-        "ANTHROPIC_MODEL": "claude-4.5-sonnet"
+        "ANTHROPIC_MODEL": "garda-core"
       }
     }
+    ```
+
+    Atau pakai Jelma (tanpa config manual):
+    ```bash
+    jelma claude local
     ```
   </Accordion>
 
@@ -83,7 +88,12 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
     ```
     Base URL: https://api.neosantara.xyz/coding/v1
     API Key:  nsk_code_KEY_KAMU
-    Model:    claude-4.5-sonnet
+    Model:    garda-core
+    ```
+
+    Atau pakai Jelma:
+    ```bash
+    jelma opencode local
     ```
   </Accordion>
 </AccordionGroup>
@@ -121,6 +131,19 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
 
   <Accordion title="Jelma pakai kuota yang sama?">
     Ya. Jelma memakai kuota prompt yang sama seperti tool lain yang terhubung via coding key-mu.
+  </Accordion>
+
+  <Accordion title="Cara pakai Model Route kustom di Jelma?">
+    Pakai flag `--model` dengan nama virtual model-mu:
+    ```bash
+    jelma claude local --model my-coder
+    jelma codex hetzner --model my-coder
+    ```
+    Jelma men-set nama virtual ke semua slot model, jadi gateway me-resolve setiap request (utama, background, fast) melalui failover chain-mu. Lihat [Model Routes](/id/coding-plan/model-routes) untuk setup.
+  </Accordion>
+
+  <Accordion title="Apa itu garda-core?">
+    `garda-core` adalah model default yang dipakai Jelma untuk user Coding Plan. Ini adalah nama model virtual yang di-resolve gateway Neosantara ke model terbaik yang tersedia di tier-mu. Kamu bisa override dengan `--model` atau dengan mengatur [Model Route](/id/coding-plan/model-routes) kustom di dashboard.
   </Accordion>
 </AccordionGroup>
 

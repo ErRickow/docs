@@ -1,0 +1,140 @@
+---
+title: "FAQ"
+description: "Pertanyaan yang sering ditanyakan tentang Jelma — instalasi, agent, billing, dan troubleshooting."
+---
+
+## Instalasi
+
+<AccordionGroup>
+  <Accordion title="Apa syarat sistemnya?">
+    - **bun >= 1.2.0** (installer mengurus ini)
+    - macOS, Linux, atau Windows (WSL2 atau PowerShell)
+    - Koneksi internet untuk download agent
+  </Accordion>
+
+  <Accordion title="Cara update Jelma?">
+    ```bash
+    jelma update
+    ```
+    Atau install ulang:
+    ```bash
+    curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+    ```
+  </Accordion>
+
+  <Accordion title="Di mana Jelma menyimpan data?">
+    - **Config**: `~/.config/jelma/` (kredensial, preferensi)
+    - **History**: `~/.config/jelma/history.json`
+    - **Config agent**: Ditulis ke lokasi standar per agent (`~/.claude/settings.json`, `~/.codex/config.toml`, dll.)
+  </Accordion>
+
+  <Accordion title="Cara uninstall?">
+    ```bash
+    jelma uninstall
+    ```
+    Ini menghapus binary CLI dan opsional membersihkan `~/.config/jelma`.
+  </Accordion>
+</AccordionGroup>
+
+## Agent & Cloud
+
+<AccordionGroup>
+  <Accordion title="Agent mana yang sebaiknya dipakai?">
+    - **Claude Code** — Kapabilitas agentic terbaik secara keseluruhan, kuat di task multi-file kompleks
+    - **Codex CLI** — Cepat, ringan, bagus untuk fix cepat
+    - **OpenClaw** — Terbaik untuk task yang butuh browser (web scraping, testing)
+    - **OpenCode** — Alternatif open-source, bagus untuk task sederhana
+    - **Hermes** — Orientasi riset, reasoning kuat
+    - **Pi** — Minimal dan cepat untuk task kecil
+  </Accordion>
+
+  <Accordion title="Bisa pakai Jelma tanpa cloud?">
+    Bisa. Pilih `local` sebagai target cloud:
+    ```bash
+    jelma claude local
+    ```
+    Ini menjalankan agent langsung di mesinmu tanpa provisioning cloud.
+  </Accordion>
+
+  <Accordion title="Resource cloud apa yang dibuat Jelma?">
+    Satu VM (ukuran terkecil yang tersedia secara default). Jelma mem-provisioning, mengonfigurasi, dan memberimu akses SSH. Kamu bertanggung jawab menghapusnya:
+    ```bash
+    jelma delete
+    ```
+  </Accordion>
+
+  <Accordion title="Cara pakai model kustom?">
+    Pakai `--model` dengan model apa pun yang tersedia di plan-mu:
+    ```bash
+    jelma claude local --model deepseek-v4-flash
+    ```
+    User Coding Plan bisa membuat [Model Routes](/id/coding-plan/model-routes) untuk nama virtual dengan failover:
+    ```bash
+    jelma claude local --model my-coder
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Billing
+
+<AccordionGroup>
+  <Accordion title="Bagaimana billing-nya?">
+    Jelma mendukung dua mode:
+    - **PAYG**: API key biasa, ditagih per token dari saldo
+    - **Coding Plan**: Coding key (`nsk_code_*`), ditagih dari kuota prompt
+
+    Jelma mendeteksi tipe key-mu dan routing ke endpoint yang benar secara otomatis.
+  </Accordion>
+
+  <Accordion title="Apakah menjalankan Jelma ada biaya selain model usage?">
+    CLI Jelma sendiri gratis. Model usage ditagih melalui akun Neosantara-mu. Resource cloud (VM) ditagih oleh provider cloud sesuai tarif standar mereka.
+  </Accordion>
+
+  <Accordion title="Apa itu garda-core?">
+    `garda-core` adalah model eksperimental Neosantara dengan context window 1M token. Ini model default yang dipakai Jelma. User Coding Plan bisa override dengan `--model` atau mengonfigurasi [Model Route](/id/coding-plan/model-routes) yang me-resolve `garda-core` ke failover chain kustom.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Agent gagal install di VM cloud">
+    Penyebab umum:
+    1. **Timeout jaringan** — Coba lagi; mirror paket bisa lambat
+    2. **Kredensial kurang** — Pastikan kredensial cloud sudah di-set
+    3. **Masalah region** — Coba `--zone` dengan region berbeda
+
+    Pakai `--dry-run` untuk preview apa yang Jelma akan lakukan sebelum provisioning.
+  </Accordion>
+
+  <Accordion title="Error 'Model not found'">
+    Model-mu tidak tersedia di plan-mu. Cek model yang tersedia:
+    ```bash
+    jelma models
+    ```
+    Untuk user Coding Plan, pastikan model ada di daftar yang diizinkan tier-mu.
+  </Accordion>
+
+  <Accordion title="Claude Code langsung exit di mode headless">
+    Kamu harus kasih `--prompt` saat pakai `--headless`:
+    ```bash
+    # Salah — Claude langsung exit
+    jelma claude gcp --headless --output json
+
+    # Benar
+    jelma claude gcp --headless --output json --prompt "Fix linter errors"
+    ```
+  </Accordion>
+
+  <Accordion title="Error 'coding_key_requires_coding_endpoint'">
+    Coding key-mu (`nsk_code_*`) mengarah ke endpoint PAYG. Ini seharusnya tidak terjadi dengan Jelma (auto-route), tapi kalau pakai config manual pastikan base URL adalah `/coding/v1` atau `/coding/anthropic`.
+  </Accordion>
+
+  <Accordion title="Cara dapat bantuan?">
+    ```bash
+    jelma help
+    jelma feedback "jelaskan masalahmu"
+    ```
+    Atau buka issue: [github.com/neosantara-xyz/jelma/issues](https://github.com/neosantara-xyz/jelma/issues)
+  </Accordion>
+</AccordionGroup>

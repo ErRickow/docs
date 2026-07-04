@@ -1,0 +1,140 @@
+---
+title: "FAQ"
+description: "Frequently asked questions about Jelma — installation, agents, billing, and troubleshooting."
+---
+
+## Installation
+
+<AccordionGroup>
+  <Accordion title="What are the system requirements?">
+    - **bun >= 1.2.0** (installer handles this)
+    - macOS, Linux, or Windows (WSL2 or PowerShell)
+    - Internet connection for agent downloads
+  </Accordion>
+
+  <Accordion title="How do I update Jelma?">
+    ```bash
+    jelma update
+    ```
+    Or reinstall:
+    ```bash
+    curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+    ```
+  </Accordion>
+
+  <Accordion title="Where does Jelma store data?">
+    - **Config**: `~/.config/jelma/` (credentials, preferences)
+    - **History**: `~/.config/jelma/history.json`
+    - **Agent configs**: Written to standard locations per agent (`~/.claude/settings.json`, `~/.codex/config.toml`, etc.)
+  </Accordion>
+
+  <Accordion title="How do I uninstall?">
+    ```bash
+    jelma uninstall
+    ```
+    This removes the CLI binary and optionally clears `~/.config/jelma`.
+  </Accordion>
+</AccordionGroup>
+
+## Agents & Clouds
+
+<AccordionGroup>
+  <Accordion title="Which agent should I use?">
+    - **Claude Code** — Best overall agentic capability, strong at complex multi-file tasks
+    - **Codex CLI** — Fast, lightweight, great for quick fixes
+    - **OpenClaw** — Best for browser-heavy tasks (web scraping, testing)
+    - **OpenCode** — Open-source alternative, good for simple tasks
+    - **Hermes** — Research-oriented, strong reasoning
+    - **Pi** — Minimal and fast for small tasks
+  </Accordion>
+
+  <Accordion title="Can I use Jelma without a cloud?">
+    Yes. Choose `local` as the cloud target:
+    ```bash
+    jelma claude local
+    ```
+    This runs the agent directly on your machine with no cloud provisioning.
+  </Accordion>
+
+  <Accordion title="What cloud resources does Jelma create?">
+    A single VM (smallest available size by default). Jelma provisions, configures, and gives you SSH access. You're responsible for deleting it:
+    ```bash
+    jelma delete
+    ```
+  </Accordion>
+
+  <Accordion title="How do I use a custom model?">
+    Use `--model` with any model available on your plan:
+    ```bash
+    jelma claude local --model deepseek-v4-flash
+    ```
+    Coding Plan users can create [Model Routes](/en/coding-plan/model-routes) for virtual names with failover:
+    ```bash
+    jelma claude local --model my-coder
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Billing
+
+<AccordionGroup>
+  <Accordion title="How does billing work?">
+    Jelma supports two modes:
+    - **PAYG**: Regular API key, billed per token from your balance
+    - **Coding Plan**: Coding key (`nsk_code_*`), billed by prompt quota
+
+    Jelma detects your key type and routes to the correct endpoint automatically.
+  </Accordion>
+
+  <Accordion title="Does running Jelma cost anything beyond the model usage?">
+    The Jelma CLI itself is free. Model usage is billed through your Neosantara account. Cloud resources (VMs) are billed by the cloud provider at their standard rates.
+  </Accordion>
+
+  <Accordion title="What is garda-core?">
+    `garda-core` is Neosantara's experimental model with a 1M token context window. It's the default model Jelma uses. Coding Plan users can override it with `--model` or configure a [Model Route](/en/coding-plan/model-routes) that resolves `garda-core` to a custom failover chain.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Agent fails to install on the cloud VM">
+    Common causes:
+    1. **Network timeout** — Retry; package mirrors can be slow
+    2. **Missing credentials** — Ensure cloud credentials are set
+    3. **Region issues** — Try `--zone` with a different region
+
+    Use `--dry-run` to preview what Jelma will do before provisioning.
+  </Accordion>
+
+  <Accordion title="'Model not found' error">
+    Your model isn't available on your plan. Check available models:
+    ```bash
+    jelma models
+    ```
+    For Coding Plan users, ensure the model is in your tier's allowed list.
+  </Accordion>
+
+  <Accordion title="Claude Code exits immediately in headless mode">
+    You must provide `--prompt` when using `--headless`:
+    ```bash
+    # Wrong — Claude exits immediately
+    jelma claude gcp --headless --output json
+
+    # Right
+    jelma claude gcp --headless --output json --prompt "Fix linter errors"
+    ```
+  </Accordion>
+
+  <Accordion title="'coding_key_requires_coding_endpoint' error">
+    Your coding key (`nsk_code_*`) is hitting the PAYG endpoint. This shouldn't happen with Jelma (it auto-routes), but if using manual config ensure base URL is `/coding/v1` or `/coding/anthropic`.
+  </Accordion>
+
+  <Accordion title="How do I get help?">
+    ```bash
+    jelma help
+    jelma feedback "describe your issue"
+    ```
+    Or open an issue: [github.com/neosantara-xyz/jelma/issues](https://github.com/neosantara-xyz/jelma/issues)
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,129 @@
+---
+title: "Referensi Command"
+description: "Referensi lengkap semua command dan flag Jelma CLI."
+---
+
+## Command
+
+| Command | Deskripsi |
+|---------|-----------|
+| `jelma` | Picker interaktif agent + cloud |
+| `jelma <agent> <cloud>` | Luncurkan agent di cloud langsung |
+| `jelma <agent>` | Tampilkan cloud yang tersedia untuk agent |
+| `jelma <cloud>` | Tampilkan agent yang tersedia untuk cloud |
+| `jelma matrix` | Matriks kompatibilitas agent × cloud |
+| `jelma agents` | List semua agent dengan deskripsi |
+| `jelma clouds` | List semua provider cloud |
+| `jelma models` | List model yang tersedia untuk tipe key-mu |
+| `jelma list` | Telusuri instance sebelumnya |
+| `jelma tree` | Tampilkan spawn tree rekursif |
+| `jelma last` | Jalankan ulang instance terakhir |
+| `jelma delete` | Hapus server cloud secara interaktif |
+| `jelma status` | Tampilkan status live server cloud |
+| `jelma fix` | Jalankan ulang setup agent di VM yang ada |
+| `jelma link <ip>` | Daftarkan VM yang ada berdasarkan IP |
+| `jelma update` | Cek update CLI |
+| `jelma uninstall` | Uninstall Jelma CLI |
+| `jelma feedback "msg"` | Kirim feedback |
+| `jelma help` | Tampilkan bantuan |
+| `jelma version` | Tampilkan versi |
+
+## Flag Peluncuran
+
+| Flag | Singkat | Deskripsi |
+|------|---------|-----------|
+| `--prompt "text"` | `-p` | Prompt non-interaktif |
+| `--prompt-file <path>` | `-f` | Prompt dari file |
+| `--model <id>` | `-m` | Override model (mis. `garda-core`, `my-route`) |
+| `--headless` | | Provisioning lalu exit (tanpa sesi interaktif) |
+| `--output json` | | Output JSON di stdout (butuh `--headless`) |
+| `--dry-run` | | Preview tanpa provisioning |
+| `--zone <zone>` | | Set region/zone |
+| `--size <type>` | | Set ukuran/tipe instance |
+| `--config <file>` | | Load opsi dari JSON config |
+| `--steps <list>` | | Setup steps dipisah koma |
+| `--custom` | | Tampilkan picker ukuran/region interaktif |
+| `--fast` | | Aktifkan semua optimisasi kecepatan |
+| `--beta <feature>` | | Aktifkan fitur beta spesifik (bisa diulang) |
+| `--name <name>` | | Set nama instance kustom |
+
+## Flag List / Delete / Status
+
+| Flag | Singkat | Deskripsi |
+|------|---------|-----------|
+| `-a <agent>` | | Filter berdasarkan agent |
+| `-c <cloud>` | | Filter berdasarkan cloud |
+| `--flat` | | List datar (nonaktifkan tree view) |
+| `--json` | | Output sebagai JSON |
+| `--clear` | | Hapus semua history |
+| `--prune` | | Hapus server yang gone dari history |
+| `--name <name>` | | Target berdasarkan nama (untuk delete) |
+| `--yes` | | Lewati konfirmasi (untuk delete) |
+| `--cascade` | | Hapus VM dan semua child-nya |
+
+## Environment Variable
+
+| Variable | Deskripsi |
+|----------|-----------|
+| `NEOSANTARA_API_KEY` | API key Neosantara (PAYG atau coding) |
+| `JELMA_NO_COLOR` | Nonaktifkan output berwarna |
+| `JELMA_NO_UNICODE` | Nonaktifkan karakter Unicode |
+| `JELMA_NO_UPDATE_CHECK` | Lewati cek auto-update |
+| `JELMA_PARENT_ID` | ID instance parent (mode rekursif) |
+| `JELMA_DEPTH` | Kedalaman rekursi (mode rekursif) |
+
+## Setup Steps
+
+Kontrol setup opsional dengan `--steps`:
+
+```bash
+jelma openclaw gcp --steps github,browser
+jelma claude gcp --steps ""  # Lewati semua step opsional
+```
+
+| Step | Agent | Deskripsi |
+|------|-------|-----------|
+| `github` | Semua | GitHub CLI + git identity |
+| `reuse-api-key` | Semua | Pakai ulang key Neosantara yang tersimpan |
+| `browser` | OpenClaw | Browser Chrome (~400 MB) |
+| `telegram` | OpenClaw | Integrasi bot Telegram |
+| `whatsapp` | OpenClaw | Linking WhatsApp (QR interaktif) |
+
+## Identifier Agent
+
+Gunakan nama-nama ini sebagai `<agent>`:
+
+| ID | Agent |
+|----|-------|
+| `claude` | Claude Code |
+| `codex` | Codex CLI |
+| `openclaw` | OpenClaw |
+| `opencode` | OpenCode |
+| `kilocode` | Kilo Code |
+| `hermes` | Hermes |
+| `junie` | Junie |
+| `cursor` | Cursor CLI |
+| `pi` | Pi |
+
+## Identifier Cloud
+
+Gunakan nama-nama ini sebagai `<cloud>`:
+
+| ID | Cloud |
+|----|-------|
+| `local` | Mesinmu sendiri |
+| `aws` | AWS Lightsail |
+| `gcp` | Google Cloud Compute Engine |
+| `hetzner` | Hetzner Cloud |
+| `digitalocean` | DigitalOcean |
+| `daytona` | Daytona |
+| `e2b` | E2B |
+| `sprite` | Sprite |
+
+## Exit Code
+
+| Code | Arti |
+|------|------|
+| `0` | Sukses |
+| `1` | Error umum (provisioning gagal, agent crash) |
+| `130` | Interupsi user (Ctrl+C) |

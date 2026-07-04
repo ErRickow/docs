@@ -44,6 +44,14 @@ Open [Coding Plan](https://app.neosantara.xyz/coding-plan) in your dashboard. Th
 
 Once created, use the virtual name anywhere you'd specify a model:
 
+**Jelma CLI** (recommended — zero config):
+```bash
+jelma claude local --model my-coder
+jelma codex hetzner --model my-coder
+```
+
+Jelma passes the virtual name to both the agent's model flag and the settings file, so all model slots (main, background, fast) route through your chain.
+
 **Claude Code** (`~/.claude/settings.json`):
 ```json json
 {

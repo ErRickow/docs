@@ -1,0 +1,119 @@
+---
+title: "Tool Integration"
+description: "Supported coding tools and configuration guide for the Neosantara Coding Plan."
+---
+
+## Supported Tools
+
+The Neosantara Coding Plan works with any coding tool that supports the **OpenAI** or **Anthropic** API protocol. Below are officially tested tools:
+
+### Coding Agents
+
+<CardGroup cols={2}>
+  <Card title="Claude Code">
+    CLI-based coding agent by Anthropic. Uses Anthropic protocol.
+  </Card>
+  <Card title="Cline">
+    VS Code extension for AI-assisted coding. Uses OpenAI-compatible protocol.
+  </Card>
+  <Card title="Continue">
+    VS Code and JetBrains extension. Supports OpenAI-compatible.
+  </Card>
+  <Card title="OpenCode">
+    Terminal-based coding agent. Supports OpenAI-compatible.
+  </Card>
+  <Card title="Cursor">
+    AI-first code editor with custom model support.
+  </Card>
+  <Card title="Jelma">
+    Neosantara's built-in coding agent — no local setup needed.
+  </Card>
+</CardGroup>
+
+### General-purpose Agent Tools
+
+Any tool supporting the OpenAI Chat Completions or Anthropic Messages API can use the Coding Plan, including:
+- Roo Code, Kilo Code, Goose, Crush
+- Custom scripts using the OpenAI SDK or Anthropic SDK
+
+## Coding Endpoints
+
+| Protocol | Base URL | When to use |
+|----------|----------|-------------|
+| Anthropic Messages | `https://api.neosantara.xyz/coding/anthropic` | Claude Code, Goose, or any tool expecting Anthropic format |
+| OpenAI Chat Completions | `https://api.neosantara.xyz/coding/v1` | Cline, Continue, OpenCode, Cursor, and most other tools |
+
+<Warning>
+  **Important:** Coding keys (`nsk_code_*`) only work on these dedicated coding endpoints. Sending them to `/v1` or `/anthropic` (PAYG endpoints) returns `403`.
+</Warning>
+
+## Configuration Examples
+
+### Claude Code (Anthropic protocol)
+
+Edit `~/.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
+    "ANTHROPIC_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "API_TIMEOUT_MS": "3600000"
+  }
+}
+```
+
+<Note>
+  Clear any existing `ANTHROPIC_AUTH_TOKEN` or `ANTHROPIC_BASE_URL` environment variables before configuring, to avoid conflicts.
+</Note>
+
+### Cline (OpenAI-compatible protocol)
+
+1. Open VS Code → Extensions → Cline settings
+2. Select **API Provider**: `OpenAI Compatible`
+3. Fill in:
+   - **Base URL**: `https://api.neosantara.xyz/coding/v1`
+   - **API Key**: `nsk_code_YOUR_KEY`
+   - **Model**: `claude-4.5-sonnet` (or any model from your tier)
+4. Uncheck **Support Images** (not supported on coding endpoints)
+5. Set **Context Window Size** based on model (e.g. `200000` for most, `1000000` for Gemini)
+
+### Continue / OpenCode
+
+In your tool's configuration:
+
+```
+Base URL: https://api.neosantara.xyz/coding/v1
+API Key:  nsk_code_YOUR_KEY
+Model:    claude-4.5-sonnet
+```
+
+### Cursor
+
+1. Settings → Models → Add Custom Model
+2. **OpenAI Base URL**: `https://api.neosantara.xyz/coding/v1`
+3. **API Key**: `nsk_code_YOUR_KEY`
+4. **Model name**: `claude-4.5-sonnet`
+
+### Jelma (Zero Configuration)
+
+Open [Jelma](https://app.neosantara.xyz/jelma) in your Neosantara dashboard. Select a coding agent and start — it uses your coding key and the coding endpoint automatically.
+
+## Verifying Your Setup
+
+After configuring, test with a simple prompt:
+
+```
+What is 2 + 2? Reply with just the number.
+```
+
+If you get a response, your Coding Plan is active and correctly configured. If you get an error:
+
+| Error | Solution |
+|-------|----------|
+| `403 coding_key_requires_coding_endpoint` | You're using the wrong base URL. Switch to `/coding/v1` or `/coding/anthropic`. |
+| `401 Unauthorized` | Check your API key — it should start with `nsk_code_`. |
+| `429 rate_limit_exceeded` | Your 5-hour or weekly quota is exhausted. Wait for the window to reset. |
