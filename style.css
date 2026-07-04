@@ -394,10 +394,6 @@ article table th,
   text-align: center;
 }
 
-#pagination {
-  display: none;
-}
-
 .home-page ~ :is(.callout, [data-callout-type]) {
   display: none !important;
 }
@@ -741,7 +737,8 @@ article table th,
 }
 
 .neo-card-head h2,
-.neo-code-title-row h2 {
+.neo-code-title-row h2,
+.neo-code-title-row h3 {
   margin: 0.75rem 0 0;
   color: var(--neo-fg) !important;
   font-family: var(--neo-font-mono) !important;
@@ -777,7 +774,8 @@ article table th,
   padding: 1.5rem;
 }
 
-.neo-code-title-row h2 {
+.neo-code-title-row h2,
+.neo-code-title-row h3 {
   font-size: 1.25rem;
 }
 
@@ -802,7 +800,10 @@ article table th,
     font-size: 1.06rem;
   }
 
-  .neo-path-grid,
+  .neo-path-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .neo-link-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -827,7 +828,7 @@ article table th,
   }
 
   .neo-path-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -850,7 +851,8 @@ article table th,
     flex-direction: column;
   }
 
-  .neo-code-title-row h2 {
+  .neo-code-title-row h2,
+  .neo-code-title-row h3 {
     font-size: 1.05rem;
   }
 

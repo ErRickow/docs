@@ -1,0 +1,181 @@
+---
+title: "Usage"
+description: "Complete guide to using Jelma — install, launch agents, configure models, and manage cloud instances."
+---
+
+## Installation
+
+<Tabs>
+  <Tab title="macOS / Linux / WSL">
+    ```bash
+    curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+    ```
+  </Tab>
+  <Tab title="Windows PowerShell">
+    ```powershell
+    irm https://cli.neosantara.xyz/install.ps1 | iex
+    ```
+  </Tab>
+</Tabs>
+
+Requires **bun >= 1.2.0**. The installer handles bun if missing.
+
+## Basic Usage
+
+```bash
+# Interactive picker (agent → cloud → billing mode)
+jelma
+
+# Direct launch
+jelma <agent> <cloud>
+
+# Examples
+jelma claude local                         # Claude Code on your machine
+jelma codex hetzner                        # Codex CLI on Hetzner
+jelma openclaw sprite --prompt "Fix bugs"  # Non-interactive with prompt
+```
+
+## Credentials
+
+Jelma prompts for credentials on first run and saves them to `~/.config/jelma`:
+
+```bash
+# Neosantara key (required — powers the models)
+export NEOSANTARA_API_KEY="nsk_code_YOUR_KEY"
+
+# Cloud credentials (only for cloud deploys)
+export HCLOUD_TOKEN="..."              # Hetzner
+export DIGITALOCEAN_ACCESS_TOKEN="..." # DigitalOcean
+export AWS_ACCESS_KEY_ID="..."         # AWS
+```
+
+## Model Selection
+
+Default model is `garda-core` (1M context, experimental). Override with `--model`:
+
+```bash
+# Use a specific model
+jelma claude local --model deepseek-v4-flash
+
+# Use a custom Model Route (Coding Plan)
+jelma claude local --model my-coder
+
+# All model slots (main, background, fast) use the same name
+# Gateway resolves via your failover chain
+```
+
+Set a persistent per-agent model preference in `~/.config/spawn/preferences.json`:
+
+```json
+{
+  "models": {
+    "claude": "my-coder",
+    "codex": "garda-core"
+  }
+}
+```
+
+## Non-Interactive Mode
+
+Skip all prompts with flags + env vars:
+
+```bash
+jelma claude hetzner \
+  --prompt "Fix all linter errors" \
+  --headless \
+  --output json
+```
+
+Flags:
+- `--prompt "text"` / `-p "text"` — Send a prompt non-interactively
+- `--prompt-file <file>` / `-f <file>` — Prompt from file
+- `--headless` — Provision and exit (no SSH session)
+- `--output json` — Structured JSON output (requires `--headless`)
+- `--model <id>` / `-m <id>` — Override the model
+- `--dry-run` — Preview without provisioning
+
+## Instance Management
+
+```bash
+# List previous instances
+jelma list
+jelma list --json
+
+# Rerun last session
+jelma last
+
+# Delete a cloud server
+jelma delete
+jelma delete -c hetzner
+jelma delete --name jelma-abc --yes  # Headless delete
+
+# Check live status
+jelma status
+jelma status --prune  # Remove gone servers
+
+# Re-run agent setup on existing VM
+jelma fix
+jelma fix <jelma-id>
+```
+
+## Speed Optimizations
+
+```bash
+# Fast mode — parallel boot + tarballs + skip cloud-init
+jelma claude hetzner --fast
+
+# Individual beta features
+jelma claude gcp --beta tarball --beta parallel
+jelma openclaw local --beta sandbox  # Docker sandbox
+```
+
+| Feature | Description |
+|---------|-------------|
+| `tarball` | Pre-built tarball install (skip live npm) |
+| `images` | Pre-built cloud images/snapshots |
+| `parallel` | Server boot + setup prompts in parallel |
+| `recursive` | Install jelma on VM for nested spawns |
+| `sandbox` | Run local agent in Docker container |
+
+## Recursive Jelma
+
+Let spawned VMs create their own child VMs:
+
+```bash
+jelma claude hetzner --beta recursive
+```
+
+View the spawn tree:
+```bash
+jelma tree
+# jelma-abc  Claude Code / Hetzner  2m ago
+#   ├─ jelma-def  Codex CLI / Hetzner  1m ago
+#   └─ jelma-ghi  OpenClaw / Hetzner  30s ago
+```
+
+## Config File
+
+Load options from a JSON file:
+
+```json
+{
+  "model": "my-coder",
+  "steps": ["github", "browser"],
+  "name": "my-dev-box",
+  "setup": {
+    "github_token": "ghp_xxxx"
+  }
+}
+```
+
+```bash
+jelma codex gcp --config setup.json --headless --output json
+```
+
+## Without the CLI
+
+Every combination works as a standalone one-liner:
+
+```bash
+bash <(curl -fsSL https://cli.neosantara.xyz/sh/{cloud}/{agent}.sh)
+```

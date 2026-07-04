@@ -1,0 +1,129 @@
+---
+title: "Command Reference"
+description: "Complete reference of all Jelma CLI commands and flags."
+---
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `jelma` | Interactive agent + cloud picker |
+| `jelma <agent> <cloud>` | Launch agent on cloud directly |
+| `jelma <agent>` | Show available clouds for an agent |
+| `jelma <cloud>` | Show available agents for a cloud |
+| `jelma matrix` | Full agent × cloud compatibility matrix |
+| `jelma agents` | List all agents with descriptions |
+| `jelma clouds` | List all cloud providers |
+| `jelma models` | List available models for your key type |
+| `jelma list` | Browse previous instances |
+| `jelma tree` | Show recursive spawn tree |
+| `jelma last` | Rerun the most recent instance |
+| `jelma delete` | Interactively destroy a cloud server |
+| `jelma status` | Show live state of cloud servers |
+| `jelma fix` | Re-run agent setup on an existing VM |
+| `jelma link <ip>` | Register an existing VM by IP |
+| `jelma update` | Check for CLI updates |
+| `jelma uninstall` | Uninstall Jelma CLI |
+| `jelma feedback "msg"` | Send feedback |
+| `jelma help` | Show help |
+| `jelma version` | Show version |
+
+## Launch Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--prompt "text"` | `-p` | Non-interactive prompt |
+| `--prompt-file <path>` | `-f` | Prompt from file |
+| `--model <id>` | `-m` | Override model (e.g. `garda-core`, `my-route`) |
+| `--headless` | | Provision and exit (no interactive session) |
+| `--output json` | | JSON output on stdout (requires `--headless`) |
+| `--dry-run` | | Preview without provisioning |
+| `--zone <zone>` | | Set region/zone |
+| `--size <type>` | | Set instance size/type |
+| `--config <file>` | | Load options from JSON config |
+| `--steps <list>` | | Comma-separated setup steps |
+| `--custom` | | Show interactive size/region pickers |
+| `--fast` | | Enable all speed optimizations |
+| `--beta <feature>` | | Enable specific beta feature (repeatable) |
+| `--name <name>` | | Set custom instance name |
+
+## List / Delete / Status Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `-a <agent>` | | Filter by agent |
+| `-c <cloud>` | | Filter by cloud |
+| `--flat` | | Flat list (disable tree view) |
+| `--json` | | Output as JSON |
+| `--clear` | | Clear all history |
+| `--prune` | | Remove gone servers from history |
+| `--name <name>` | | Target by name (for delete) |
+| `--yes` | | Skip confirmation (for delete) |
+| `--cascade` | | Delete VM and all children |
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `NEOSANTARA_API_KEY` | Neosantara API key (PAYG or coding) |
+| `JELMA_NO_COLOR` | Disable colored output |
+| `JELMA_NO_UNICODE` | Disable Unicode characters |
+| `JELMA_NO_UPDATE_CHECK` | Skip auto-update check |
+| `JELMA_PARENT_ID` | Parent instance ID (recursive mode) |
+| `JELMA_DEPTH` | Recursion depth (recursive mode) |
+
+## Setup Steps
+
+Control optional setup with `--steps`:
+
+```bash
+jelma openclaw gcp --steps github,browser
+jelma claude gcp --steps ""  # Skip all optional steps
+```
+
+| Step | Agents | Description |
+|------|--------|-------------|
+| `github` | All | GitHub CLI + git identity |
+| `reuse-api-key` | All | Reuse saved Neosantara key |
+| `browser` | OpenClaw | Chrome browser (~400 MB) |
+| `telegram` | OpenClaw | Telegram bot integration |
+| `whatsapp` | OpenClaw | WhatsApp linking (interactive QR) |
+
+## Agent Identifiers
+
+Use these exact names as `<agent>`:
+
+| ID | Agent |
+|----|-------|
+| `claude` | Claude Code |
+| `codex` | Codex CLI |
+| `openclaw` | OpenClaw |
+| `opencode` | OpenCode |
+| `kilocode` | Kilo Code |
+| `hermes` | Hermes |
+| `junie` | Junie |
+| `cursor` | Cursor CLI |
+| `pi` | Pi |
+
+## Cloud Identifiers
+
+Use these exact names as `<cloud>`:
+
+| ID | Cloud |
+|----|-------|
+| `local` | Your machine |
+| `aws` | AWS Lightsail |
+| `gcp` | Google Cloud Compute Engine |
+| `hetzner` | Hetzner Cloud |
+| `digitalocean` | DigitalOcean |
+| `daytona` | Daytona |
+| `e2b` | E2B |
+| `sprite` | Sprite |
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | General error (provisioning failed, agent crashed) |
+| `130` | User interrupt (Ctrl+C) |

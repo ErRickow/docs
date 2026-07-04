@@ -156,6 +156,7 @@ export const ModelGrid = () => {
             key={index}
             className="neo-model-card rounded-xl bg-white dark:bg-[#13171B] border border-[#d9e1ec] dark:border-gray-700 overflow-hidden px-4 py-3 flex flex-row gap-0 justify-between no-underline transition-all duration-200"
             style={getGridStyle(index)}
+            aria-label={group.title}
           >
             <div className={"flex items-start flex-col " + (group.hasViewAll ? "justify-between" : "justify-center")}>
               <h3 className="text-base text-left text-[#171a1e] dark:text-white font-bold m-0 leading-[24px]">
@@ -167,7 +168,7 @@ export const ModelGrid = () => {
                     <p className="text-xs font-semibold text-neutral-500 dark:text-gray-400 mr-2 whitespace-nowrap uppercase tracking-wider">
                       View all
                     </p>
-                    <svg width={5} height={8} viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width={5} height={8} viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path d="M1 1L4 4L1 7" stroke="currentColor" strokeLinecap="round" />
                     </svg>
                   </div>
@@ -197,7 +198,7 @@ export const ModelGrid = () => {
               </div>
 
               {!group.hasViewAll && (
-                <svg width={5} height={8} viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width={5} height={8} viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M0.930237 1.11548L4.06977 4.00009L0.930237 6.88471" stroke="currentColor" strokeLinecap="round" />
                 </svg>
               )}

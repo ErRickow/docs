@@ -1,0 +1,142 @@
+---
+title: "Mulai Cepat"
+description: "Mulai pakai Neosantara Coding Plan dalam hitungan menit — dari langganan sampai coding dengan AI agent."
+---
+
+Panduan ini membantu kamu mulai pakai [Neosantara Coding Plan](/id/coding-plan/overview) dalam hitungan menit.
+
+## Mulai
+
+<Steps>
+  <Step title="Daftar atau Login">
+    Buka [Dashboard Neosantara](https://app.neosantara.xyz) dan daftar atau login.
+  </Step>
+
+  <Step title="Langganan Coding Plan">
+    Buka halaman [Coding Plan](https://app.neosantara.xyz/coding-plan) dan pilih tier:
+
+    | Tier | Limit 5 Jam | Limit Mingguan | Harga |
+    |------|-------------|----------------|-------|
+    | Coding Hemat | ~80 prompt | ~400 prompt | Rp 149.000/bln |
+    | Coding Reguler | ~400 prompt | ~2.000 prompt | Rp 499.000/bln |
+    | Coding Eksklusif | ~1.600 prompt | ~8.000 prompt | Rp 1.290.000/bln |
+
+    Selesaikan pembayaran invoice Mayar. Plan aktif dalam 1–2 menit.
+  </Step>
+
+  <Step title="Buat Coding Key">
+    Setelah langganan, buat coding key dari halaman [Coding Plan](https://app.neosantara.xyz/coding-plan) atau [API Keys](https://app.neosantara.xyz/api-keys). Key-mu akan berbentuk `nsk_code_...`.
+
+    <Warning>
+      Simpan coding key dengan aman. Tidak bisa ditampilkan lagi setelah dibuat.
+    </Warning>
+  </Step>
+
+  <Step title="Hubungkan Coding Tool">
+    Neosantara Coding Plan bisa dipakai di tool apa pun yang mendukung format API OpenAI atau Anthropic:
+
+    <CardGroup cols={3}>
+      <Card title="Claude Code" href="#claude-code">CLI agent dari Anthropic</Card>
+      <Card title="Cline" href="#cline">Ekstensi VS Code</Card>
+      <Card title="Continue" href="#continue--opencode">VS Code / JetBrains</Card>
+      <Card title="OpenCode" href="#continue--opencode">Terminal agent</Card>
+      <Card title="Cursor" href="#cursor">Editor AI-first</Card>
+      <Card title="Jelma" href="#jelma">Bawaan Neosantara (tanpa setup)</Card>
+    </CardGroup>
+  </Step>
+
+  <Step title="Panduan Endpoint">
+    Neosantara Coding Plan mendukung protokol Anthropic dan OpenAI. Gunakan **base URL coding** yang benar:
+
+    | Protokol | Base URL |
+    |----------|----------|
+    | Anthropic Messages | `https://api.neosantara.xyz/coding/anthropic` |
+    | OpenAI Chat Completions | `https://api.neosantara.xyz/coding/v1` |
+
+    <Warning>
+      Menggunakan endpoint yang salah (mis. `/v1` bukan `/coding/v1`) akan menghasilkan error `403 coding_key_requires_coding_endpoint`.
+    </Warning>
+  </Step>
+
+  <Step title="Mulai Coding">
+    Setelah dikonfigurasi, mulai coding dengan AI:
+
+    <Tabs>
+      <Tab title="Pemrograman Natural Language">
+        ```
+        # Deskripsikan yang kamu mau
+        Buat komponen React dengan form login yang validasi email dan password
+        ```
+      </Tab>
+      <Tab title="Debugging">
+        ```
+        # Deskripsikan masalahnya
+        API request saya return 404 error. Cek konfigurasi routing.
+        ```
+      </Tab>
+      <Tab title="Optimasi Kode">
+        ```
+        # Minta perbaikan
+        Fungsi ini O(n²). Optimasi jadi O(n log n).
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+## Konfigurasi Tool
+
+### Claude Code
+
+Edit `~/.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
+    "ANTHROPIC_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "API_TIMEOUT_MS": "3600000"
+  }
+}
+```
+
+Verifikasi dengan `/status` — pastikan model dan base URL benar.
+
+### Cline
+
+Di VS Code, buka pengaturan Cline:
+1. **API Provider**: Pilih `OpenAI Compatible`
+2. **Base URL**: `https://api.neosantara.xyz/coding/v1`
+3. **API Key**: `nsk_code_KEY_KAMU`
+4. **Model**: Masukkan `claude-4.5-sonnet` (atau model lain)
+
+### Continue / OpenCode
+
+```
+Base URL: https://api.neosantara.xyz/coding/v1
+API Key:  nsk_code_KEY_KAMU
+Model:    claude-4.5-sonnet
+```
+
+### Cursor
+
+1. Settings → Models → Add Model
+2. **Base URL**: `https://api.neosantara.xyz/coding/v1`
+3. **API Key**: `nsk_code_KEY_KAMU`
+4. **Model**: `claude-4.5-sonnet`
+
+### Jelma
+
+Tanpa konfigurasi. Buka [Jelma](https://app.neosantara.xyz/jelma) di dashboard, pilih coding agent, dan mulai. Jelma otomatis pakai coding key-mu.
+
+## Tips Hemat Kuota
+
+<Tip>
+  **Pakai model ringan untuk tugas rutin.** `gemini-3-flash` dan `glm-4.7-flash` makan 1× kuota; model flagship lebih mahal (hingga 3× saat under load). Lihat [Kuota & Limit](/id/coding-plan/quota-and-limits) untuk tabel multiplier lengkap.
+</Tip>
+
+- **1 prompt = 1 giliran user** — berapa pun panggilan model yang dilakukan agent secara internal (~15–20 panggilan per giliran biasanya).
+- **Kuota reset otomatis** pada jendela rolling 5 jam dan mingguan.
+- **Tanpa overage** — saat kuota habis, request diblokir sampai window berikutnya. Saldo tidak dipotong.

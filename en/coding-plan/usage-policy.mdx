@@ -1,0 +1,40 @@
+---
+title: "Usage Policy"
+description: "Rules and fair-use guidelines for the Neosantara Coding Plan."
+---
+
+## Acceptable Use
+
+The Neosantara Coding Plan is intended exclusively for **AI-assisted software development** using supported coding tools. You agree to the following:
+
+1. **Supported tools only** — The plan may only be used with coding agents that communicate via the `/coding/v1` or `/coding/anthropic` endpoints (e.g. Claude Code, Cline, Continue, OpenCode, Jelma).
+2. **No automation abuse** — Automated scripts that artificially inflate prompt counts or circumvent rate limits are prohibited.
+3. **One user per key** — Coding keys are personal. Sharing keys across multiple users or organizations is not allowed.
+4. **No resale** — Reselling access or proxying the coding endpoints for third parties is prohibited.
+
+## Rate Limits
+
+| Window | Enforcement |
+|--------|-------------|
+| 5-hour rolling | Hard-stop when quota exhausted; auto-resets after 5 hours |
+| Weekly | Hard-stop when weekly quota exhausted; resets 7 days from subscription start |
+
+- No overage billing — requests are simply blocked until the window resets.
+- Flagship model multipliers rise to 3× (from 2× normal) when the model is under load, detected dynamically from upstream capacity.
+
+## Account Actions
+
+Neosantara reserves the right to:
+- Suspend or terminate coding plan access for policy violations.
+- Adjust quota limits with 7 days' notice if systemic abuse is detected.
+- Revoke keys that are shared publicly or used in unauthorized automation.
+
+## Refunds
+
+Coding Plan invoices are **non-refundable** once paid. If you experience a technical issue preventing usage, contact support@neosantara.xyz within 48 hours of purchase.
+
+## Data & Privacy
+
+- Coding Plan traffic is subject to the same [Privacy Policy](https://www.neosantara.xyz/privacy) as all Neosantara services.
+- We do not train models on your code or prompts.
+- Request logs are retained for billing verification and abuse detection only.

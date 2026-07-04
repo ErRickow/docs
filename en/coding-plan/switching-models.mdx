@@ -1,0 +1,150 @@
+---
+title: "Switching Models"
+description: "How to switch between models in your coding tool when using the Neosantara Coding Plan."
+---
+
+The Neosantara Coding Plan gives you access to models on the gateway based on your tier. You can switch models at any time without changing your subscription.
+
+## Before You Start
+
+Make sure you have:
+1. An **active Coding Plan subscription** and a valid coding key (`nsk_code_*`).
+2. The **correct coding endpoint** configured in your tool.
+3. A working basic setup (test with a simple prompt first).
+
+## Check Available Models
+
+Available models depend on your tier and can change at any time. Check your current allowed models:
+
+**From the dashboard:**
+Open [Coding Plan](https://app.neosantara.xyz/coding-plan) → the "Overview" tab shows your allowed models.
+
+**From the CLI:**
+```bash
+jelma models
+```
+
+**From the API:**
+```bash
+curl https://api.neosantara.xyz/coding/v1/models \
+  -H "Authorization: Bearer nsk_code_YOUR_KEY"
+```
+
+<Note>
+  An empty allowed-models list means **all models** on the gateway are available. Higher tiers unlock more models, including frontier models with higher quota multipliers.
+</Note>
+
+## Switching Models in Claude Code
+
+### Method 1: Update settings.json
+
+Edit `~/.claude/settings.json` and change the model:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
+    "ANTHROPIC_MODEL": "garda-core"
+  }
+}
+```
+
+Claude Code uses multiple model slots. Override all of them to ensure every request routes through your chosen model (or your [Model Route](/en/coding-plan/model-routes)):
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
+    "ANTHROPIC_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "garda-core",
+    "ANTHROPIC_SMALL_FAST_MODEL": "garda-core"
+  }
+}
+```
+
+### Method 2: Use /model command
+
+In an active Claude Code session, type:
+
+```
+/model deepseek-v4-flash
+```
+
+This switches the model for the current session without editing config files.
+
+### Method 3: Use Jelma
+
+Jelma sets all model slots automatically:
+
+```bash
+jelma claude local --model deepseek-v4-flash
+```
+
+### Verify the switch
+
+Type `/status` in Claude Code to confirm the active model.
+
+## Switching Models in Cline
+
+1. Open Cline settings in VS Code
+2. Under **Model**, change the model name
+3. The change takes effect immediately for new messages
+
+## Switching Models in Continue / OpenCode
+
+Update the `model` field in your configuration:
+
+```
+Base URL: https://api.neosantara.xyz/coding/v1
+API Key:  nsk_code_YOUR_KEY
+Model:    deepseek-v4-flash
+```
+
+## Switching Models in Codex CLI
+
+Edit `~/.codex/config.toml`:
+
+```toml
+model = "deepseek-v4-flash"
+```
+
+Or use Jelma:
+```bash
+jelma codex local --model deepseek-v4-flash
+```
+
+## Switching Models in Cursor
+
+1. Settings → Models
+2. Change the model name in your custom model configuration
+3. Or add multiple model entries and select between them in the chat
+
+## Using Model Routes (Recommended)
+
+Instead of switching model names manually, create a [Model Route](/en/coding-plan/model-routes) — a virtual alias that resolves to a chain of models with automatic failover:
+
+```bash
+# Set up once in the dashboard, then use everywhere:
+jelma claude local --model my-coder
+```
+
+Benefits:
+- **No config changes needed** when you want to switch — just update the route in the dashboard
+- **Automatic failover** if the primary model is unavailable
+- **Consistent name** across all tools and machines
+
+## Quota Considerations
+
+- **Lightweight models** (1× multiplier) — best for routine tasks, preserves quota
+- **Mid-tier models** (2× multiplier) — good balance of quality and cost
+- **Frontier models** (up to 3× under load) — use selectively for complex tasks
+
+The exact multiplier depends on current gateway load. Check [Quota & Limits](/en/coding-plan/quota-and-limits) for details.
+
+<Tip>
+  Use lightweight models for quick fixes and code generation. Switch to premium models only for complex reasoning, architecture decisions, or multi-file refactoring. This strategy can 2–3× your effective quota.
+</Tip>

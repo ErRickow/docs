@@ -1,0 +1,168 @@
+---
+title: "Coding Plan FAQ"
+description: "Frequently asked questions about the Neosantara Coding Plan — quota, billing, tools, and troubleshooting."
+---
+
+## Coding Plan Details
+
+<AccordionGroup>
+  <Accordion title="How much quota does the plan provide?">
+    Each tier has a 5-hour rolling limit and a weekly limit. See the full table in [Quota & Limits](/en/coding-plan/quota-and-limits#plan-tiers). Each prompt typically triggers 15–20 model calls, so the effective monthly allowance far exceeds standard API pricing.
+  </Accordion>
+
+  <Accordion title="Why is my quota consumed faster with top-tier models?">
+    Premium models (e.g. Claude 4.5 Opus, `gemini-3.5-flash`) consume quota at up to 3× the standard rate when the model is under load. We recommend:
+    - Use lightweight models (Gemini 3 Flash, GLM-4.7 Flash) for routine tasks.
+    - Reserve premium models for complex reasoning and large-scale refactoring.
+  </Accordion>
+
+  <Accordion title="What counts as 1 prompt?">
+    One user turn in your coding tool. Even if the agent makes 15–20 model calls behind the scenes (tool calls, reasoning steps), it counts as a single prompt.
+  </Accordion>
+
+  <Accordion title="What happens when my quota runs out?">
+    Requests are **hard-stopped** until the next 5-hour or weekly window resets. No balance is charged — there is no pay-as-you-go overage. The system will never deduct from your PAYG balance.
+  </Accordion>
+
+  <Accordion title="Which tools are supported?">
+    The Coding Plan works with any tool that supports OpenAI or Anthropic API format:
+    - **Claude Code** (Anthropic mode)
+    - **Cline**, **Continue**, **OpenCode** (OpenAI mode)
+    - **Jelma** (Neosantara's built-in coding agent)
+
+    All supported tools share the same quota under your subscription.
+  </Accordion>
+
+  <Accordion title="Which models are available?">
+    All models on the Neosantara gateway are available, subject to your tier's allowed-model list. This includes Claude, Gemini, GPT, GLM, DeepSeek, and more.
+  </Accordion>
+
+  <Accordion title="Are there concurrency limits?">
+    Yes. The Coding Plan enforces a maximum number of **concurrent in-flight requests** per user (not RPM). This controls how many simultaneous agent calls you can have running at once:
+
+    | Tier | Max concurrent requests |
+    |------|------------------------|
+    | Coding Hemat | 4 |
+    | Coding Reguler | 10 |
+    | Coding Eksklusif | 20 |
+
+    If you exceed the limit, additional requests are rejected until an in-flight request completes. This is separate from the prompt quota — concurrency limits how many requests run *at the same time*, while quota limits the *total* number of prompts per window.
+  </Accordion>
+</AccordionGroup>
+
+## Base URL & Configuration
+
+<AccordionGroup>
+  <Accordion title="Why do I get '403 coding_key_requires_coding_endpoint'?">
+    Coding keys (`nsk_code_*`) only work on the dedicated coding base URLs:
+    - OpenAI-compatible: `https://api.neosantara.xyz/coding/v1`
+    - Anthropic-compatible: `https://api.neosantara.xyz/coding/anthropic`
+
+    If you send a coding key to `/v1` or `/anthropic` (PAYG endpoints), you'll get this error. Update your tool's base URL configuration.
+  </Accordion>
+
+  <Accordion title="Can I use my regular PAYG key on /coding/v1?">
+    A regular PAYG key sent to `/coding/v1` is treated as a normal PAYG request — it works, but it uses your PAYG balance and does **not** consume coding-plan quota. Only coding keys (`nsk_code_*`) draw on the coding-plan quota, and they only work on the coding base URLs.
+  </Accordion>
+
+  <Accordion title="How do I configure Claude Code?">
+    Edit `~/.claude/settings.json`:
+    ```json
+    {
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+        "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
+        "ANTHROPIC_MODEL": "garda-core"
+      }
+    }
+    ```
+
+    Or use Jelma (no manual config needed):
+    ```bash
+    jelma claude local
+    ```
+  </Accordion>
+
+  <Accordion title="How do I configure Cline / Continue / OpenCode?">
+    Set these in your tool's settings:
+    ```
+    Base URL: https://api.neosantara.xyz/coding/v1
+    API Key:  nsk_code_YOUR_KEY
+    Model:    garda-core
+    ```
+
+    Or use Jelma:
+    ```bash
+    jelma opencode local
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Subscription Management
+
+<AccordionGroup>
+  <Accordion title="Does the Coding Plan auto-renew?">
+    **No.** Neosantara Coding Plan is a one-time invoice per period. You'll receive an email reminder 3 days before expiry and can renew from the [Coding Plan dashboard](https://app.neosantara.xyz/coding-plan).
+  </Accordion>
+
+  <Accordion title="How do I renew?">
+    Go to [Coding Plan](https://app.neosantara.xyz/coding-plan) in your dashboard and click "Perpanjang Sekarang" (Renew Now). A new Mayar invoice will be generated.
+  </Accordion>
+
+  <Accordion title="Can I get a refund?">
+    Subscriptions are non-refundable once the invoice is paid. We recommend starting with the Hemat tier to evaluate before upgrading.
+  </Accordion>
+
+  <Accordion title="Can I upgrade my plan mid-cycle?">
+    Yes. Purchase a higher tier — it takes effect immediately. The remaining value of your current plan is not pro-rated (treat it as an early renewal at the higher tier).
+  </Accordion>
+
+  <Accordion title="What happens when my plan expires?">
+    Your coding key will be downgraded to the Free coding tier (if available) or become inactive. PAYG keys and balance are unaffected.
+  </Accordion>
+</AccordionGroup>
+
+## Jelma Integration
+
+<AccordionGroup>
+  <Accordion title="Can I use the Coding Plan with Jelma?">
+    Yes. Jelma is Neosantara's built-in coding agent. Open [Jelma](https://app.neosantara.xyz/jelma) in your dashboard, select a coding agent, and it will use your coding key automatically — no local setup needed.
+  </Accordion>
+
+  <Accordion title="Does Jelma consume the same quota?">
+    Yes. Jelma uses the same prompt-based quota as any other tool connected via your coding key.
+  </Accordion>
+
+  <Accordion title="How do I use a custom Model Route with Jelma?">
+    Use the `--model` flag with your virtual model name:
+    ```bash
+    jelma claude local --model my-coder
+    jelma codex hetzner --model my-coder
+    ```
+    Jelma sets the virtual name on all model slots, so the gateway resolves every request (main, background, fast) through your failover chain. See [Model Routes](/en/coding-plan/model-routes) for setup.
+  </Accordion>
+
+  <Accordion title="What is garda-core?">
+    `garda-core` is the default model Jelma uses for Coding Plan users. It's a virtual model name that the Neosantara gateway resolves to the best available model on your tier. You can override it with `--model` or by setting a custom [Model Route](/en/coding-plan/model-routes) in your dashboard.
+  </Accordion>
+</AccordionGroup>
+
+## Technical Support
+
+<AccordionGroup>
+  <Accordion title="Why am I getting '1113 Insufficient Balance' after purchasing the Coding Plan?">
+    This usually means you're not hitting the correct coding endpoint. Make sure:
+    1. You're using a coding key (`nsk_code_*`), not a regular key.
+    2. Your base URL is `/coding/v1` or `/coding/anthropic`, not `/v1`.
+    3. The model you're calling is in your tier's allowed list.
+
+    The Coding Plan never deducts from PAYG balance. If balance is being deducted, your tool is routing to the wrong endpoint.
+  </Accordion>
+
+  <Accordion title="I subscribed but my key still shows 'Free' tier">
+    Plan activation happens after Mayar confirms payment. If your invoice shows SUCCESS but the tier hasn't updated:
+    1. Wait 1–2 minutes for webhook processing.
+    2. Refresh the Coding Plan page.
+    3. If still not updated, contact support@neosantara.xyz with your invoice ID.
+  </Accordion>
+</AccordionGroup>

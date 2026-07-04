@@ -1,0 +1,85 @@
+---
+title: "Jelma Overview"
+description: "Launch any AI coding agent on any cloud with a single command. 9 agents, 8 clouds, zero config — all models powered by Neosantara."
+---
+
+## What is Jelma?
+
+**Jelma** is Neosantara's CLI tool that deploys AI coding agents anywhere — your machine, AWS, GCP, Hetzner, DigitalOcean, Daytona, E2B, or Sprite — with a single command. It handles credential injection, model configuration, and agent setup so you can start coding immediately.
+
+<Warning>
+  Jelma is **alpha** software. When running on a cloud, it provisions real resources on your account. Review outputs and use at your own risk.
+</Warning>
+
+## Why Jelma?
+
+| Without Jelma | With Jelma |
+|---------------|-----------|
+| Edit settings.json, env vars, config files manually | One command — everything injected |
+| Remember base URLs per protocol per billing mode | Automatically selected |
+| Paste API keys into each tool | Jelma uses your key for you |
+| Repeat for every machine/agent | `jelma <agent> <cloud>` anywhere |
+
+## Supported Agents
+
+| Agent | Description |
+|-------|-------------|
+| **Claude Code** | Anthropic's agentic coding CLI |
+| **Codex CLI** | OpenAI's coding agent for the terminal |
+| **OpenClaw** | Browser-powered coding TUI with Chrome integration |
+| **OpenCode** | Open-source terminal coding agent |
+| **Kilo Code** | Open-source AI coding agent CLI |
+| **Hermes** | Nous Research's agentic CLI |
+| **Junie** | JetBrains' coding agent |
+| **Cursor CLI** | Cursor's terminal-based coding agent |
+| **Pi** | Lightweight terminal coding agent |
+
+## Supported Clouds
+
+| Cloud | Auth method |
+|-------|-------------|
+| **Local Machine** | No cloud credentials needed |
+| **AWS Lightsail** | `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY` |
+| **Google Cloud** | `gcloud auth` |
+| **Hetzner** | `HCLOUD_TOKEN` |
+| **DigitalOcean** | `DIGITALOCEAN_ACCESS_TOKEN` |
+| **Daytona** | `DAYTONA_API_KEY` |
+| **E2B** | `E2B_API_KEY` |
+| **Sprite** | `sprite login` |
+
+## Billing Modes
+
+Jelma supports two billing modes:
+
+- **Pay-As-You-Go (PAYG)** — Uses your regular API key. Billed per token from your account balance. Endpoints: `/v1`, `/anthropic`.
+- **Coding Plan** — Uses a coding key (`nsk_code_*`). Billed by prompt quota (5-hour + weekly windows). Endpoints: `/coding/v1`, `/coding/anthropic`.
+
+Jelma automatically routes to the correct base URL based on your key type.
+
+## Model Routing
+
+By default, Jelma uses `garda-core` — Neosantara's experimental model with 1M context window. You can override with `--model`:
+
+```bash
+jelma claude local --model my-custom-route
+```
+
+Coding Plan users can define [Model Routes](/en/coding-plan/model-routes) in the dashboard to create virtual model names with automatic failover chains.
+
+## Quick Start
+
+```bash
+# Install
+curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+
+# Launch interactively
+jelma
+
+# Launch directly
+jelma claude local
+jelma codex hetzner --model garda-core
+```
+
+<Card title="Next: Usage Guide" icon="arrow-right" href="/en/guides/jelma/usage">
+  Learn all commands, flags, and workflows.
+</Card>

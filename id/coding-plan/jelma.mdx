@@ -1,0 +1,123 @@
+---
+title: "Coding Helper (Jelma)"
+description: "Jalankan coding agent AI di Coding Plan tanpa edit satu pun file config. Jelma menyambungkan agent ke endpoint coding untukmu."
+---
+
+**Jelma** adalah coding helper bawaan Neosantara: meluncurkan coding agent AI apa pun — di mesinmu sendiri atau di cloud — cukup dengan satu perintah, semua model ditenagai Neosantara. Saat Kamu memilih mode billing **Coding Plan**, Jelma otomatis mengarahkan agent ke base URL coding (`/coding/v1`, `/coding/anthropic`) memakai coding key-mu, jadi Kamu **tidak perlu** repot mengedit `settings.json`, environment variable, atau base URL secara manual.
+
+<Note>
+  Jelma adalah cara tercepat coding dengan Coding Plan. Kalau Kamu lebih suka konfigurasi tool manual, lihat [Tool Integration](/id/coding-plan/tool-integration).
+</Note>
+
+<Warning>
+  Jelma masih **alpha**. Saat Kamu menjalankan agent di cloud, ia membuat resource cloud sungguhan di akunmu. Tinjau apa yang dijalankan dan gunakan dengan risiko sendiri.
+</Warning>
+
+## Kenapa pakai Jelma daripada setup manual?
+
+| Setup manual | Dengan Jelma |
+|--------------|-------------|
+| Edit `~/.claude/settings.json` / env var manual | Tidak ada yang perlu diedit — Jelma yang mengisi |
+| Harus ingat base URL coding yang benar per protokol | Dipilih otomatis dari mode billing-mu |
+| Tempel key `nsk_code_*` ke tiap tool | Jelma memakai coding key-mu untukmu |
+| Ulangi di tiap mesin/agent | Satu perintah, di mana saja |
+
+## Opsi A — Jelma via web (tanpa setup)
+
+Alur web **tidak butuh instalasi lokal**. Ia menjalankan agent untukmu dan memakai coding key-mu otomatis.
+
+<Steps>
+  <Step title="Buka Jelma">
+    Buka [Jelma](https://app.neosantara.xyz/jelma) di dashboard-mu.
+  </Step>
+  <Step title="Pilih mode billing Coding Plan">
+    Saat ditanya **"How do you want to bill this?"**, pilih **Coding Plan** (ditagih dari kuota prompt, bukan saldo PAYG). Jelma akan memakai key `nsk_code_*`-mu.
+
+    <Note>
+      Belum punya coding key? Buat dulu di halaman [Coding Plan](https://app.neosantara.xyz/coding-plan), lalu berlangganan tier.
+    </Note>
+  </Step>
+  <Step title="Pilih coding agent">
+    Pilih dari agent yang didukung (Claude Code, Codex, OpenCode, dan lainnya).
+  </Step>
+  <Step title="Pilih tempat menjalankannya">
+    Pilih **Mesinmu sendiri** atau provider cloud (AWS, GCP, Hetzner, DigitalOcean, Daytona, E2B, Sprite).
+  </Step>
+  <Step title="Luncurkan">
+    Jelma mengonfigurasi agent ke endpoint coding lalu menjalankannya. Mulai prompt — kuota ditarik dari Coding Plan-mu.
+  </Step>
+</Steps>
+
+## Opsi B — Jelma CLI
+
+Lebih suka terminal? Instal Jelma CLI dan biarkan ia menanyakan apa pun yang dibutuhkan.
+
+<Steps>
+  <Step title="Instal Jelma">
+    <Tabs>
+      <Tab title="macOS / Linux / WSL">
+        ```bash
+        curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+        ```
+      </Tab>
+      <Tab title="Windows PowerShell">
+        ```powershell
+        irm https://cli.neosantara.xyz/install.ps1 | iex
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Luncurkan agent">
+    Jalankan Jelma dan pilih mode billing **Coding Plan** saat ditanya. Jelma menanyakan apa pun yang Kamu lewati saat pertama kali jalan — termasuk coding key Neosantara-mu — dan menyimpannya di `~/.config/jelma`.
+
+    ```bash
+    jelma
+    ```
+  </Step>
+  <Step title="Isi kredensial sekali saja">
+    - **Coding key Neosantara** (`nsk_code_*`) — menenagai model lewat endpoint coding.
+    - **Kredensial cloud** — hanya jika Kamu memilih menjalankan di cloud (dilewati untuk "Mesinmu sendiri").
+
+    Jelma mengingat ini untuk lain kali, jadi peluncuran berikutnya cukup satu perintah.
+  </Step>
+</Steps>
+
+<Tip>
+  Di mode Coding Plan, Jelma memakai default `garda-core` di endpoint coding. Override dengan `--model` untuk memakai [Model Route](/id/coding-plan/model-routes) atau model lain yang tersedia di plan-mu:
+
+  ```bash
+  jelma claude local --model josjis   # Pakai custom route "josjis"
+  jelma codex local --model deepseek-v4-flash
+  ```
+</Tip>
+
+## Coding agent yang didukung
+
+<CardGroup cols={2}>
+  <Card title="Claude Code">CLI coding agentic dari Anthropic</Card>
+  <Card title="Codex">Coding agent terminal dari OpenAI</Card>
+  <Card title="OpenClaw">TUI coding dengan integrasi Chrome</Card>
+  <Card title="OpenCode">Coding agent terminal open-source</Card>
+  <Card title="KiloCode">CLI coding agent AI open-source</Card>
+  <Card title="Cursor CLI">Coding agent terminal dari Cursor</Card>
+  <Card title="T3Code">GUI web untuk Claude Code dan Codex</Card>
+  <Card title="Hermes">CLI agentic dari Nous Research</Card>
+  <Card title="Junie">Coding agent dari JetBrains</Card>
+  <Card title="Pi">Coding agent terminal ringan</Card>
+</CardGroup>
+
+## Bisa jalan di mana
+
+`Mesinmu sendiri` · `AWS` · `Google Cloud` · `Hetzner` · `DigitalOcean` · `Daytona` · `E2B` · `Sprite`
+
+## Billing
+
+- Di mode **Coding Plan**, tiap agent yang diluncurkan Jelma ditagih dari **kuota prompt** (jendela 5 jam + mingguan) — bukan saldo PAYG.
+- Semua agent yang tersambung lewat Jelma berbagi kuota yang sama di bawah langgananmu.
+- Lebih suka billing per token? Pilih mode **Pay-As-You-Go**; Jelma akan memakai API key biasa di endpoint `/v1` dan `/anthropic`.
+
+## Pelajari lebih lanjut
+
+- [Jelma di GitHub](https://github.com/neosantara-xyz/jelma)
+- [Overview Coding Plan](/id/coding-plan/overview)
+- [Ganti Model](/id/coding-plan/switching-models)

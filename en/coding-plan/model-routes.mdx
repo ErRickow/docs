@@ -1,0 +1,74 @@
+---
+title: "Model Routes"
+description: "Create virtual model aliases with fallback chains — map a custom name to a sequence of models that fail over automatically."
+---
+
+**Model Routes** let you define custom model aliases that resolve to a chain of real models. When the primary model is unavailable (rate-limited or erroring), the request automatically falls through to the next model in the chain — no client-side retry logic needed.
+
+<Note>
+  Model Routes require an **active Coding Plan** (paid subscription or trial). They only take effect on requests made with a coding key (`nsk_code_*`) through the coding endpoints.
+</Note>
+
+## How It Works
+
+1. You create a virtual name (e.g. `my-coder`) and assign it a model chain (e.g. `["claude-4.5-sonnet", "gemini-3-flash"]`).
+2. When you send a request with `model: "my-coder"` on the coding endpoint, the system tries the first model in the chain.
+3. If the first model fails (capacity error), it automatically tries the next model, and so on.
+
+```text
+my-coder → claude-4.5-sonnet (primary)
+              ↓ (capacity error)
+           gemini-3-flash (fallback)
+```
+
+## Limits
+
+| Tier | Max models per chain | Max routes per user |
+|------|---------------------|---------------------|
+| Coding Hemat | 3 | 10 |
+| Coding Reguler | 5 | 10 |
+| Coding Eksklusif | 8 | 10 |
+
+## Managing Routes
+
+Open [Coding Plan](https://app.neosantara.xyz/coding-plan) in your dashboard. The **Model Routes** section lets you create, edit, and delete routes visually.
+
+## Rules
+
+- Virtual names cannot conflict with existing real model IDs (e.g. you can't name a route `claude-4.5-sonnet`).
+- Virtual names are case-insensitive and unique per user.
+- Every model in the chain must be available on your coding plan tier.
+- Virtual name max length: 100 characters.
+
+## Using a Route in Your Tool
+
+Once created, use the virtual name anywhere you'd specify a model:
+
+**Jelma CLI** (recommended — zero config):
+```bash
+jelma claude local --model my-coder
+jelma codex hetzner --model my-coder
+```
+
+Jelma passes the virtual name to both the agent's model flag and the settings file, so all model slots (main, background, fast) route through your chain.
+
+**Claude Code** (`~/.claude/settings.json`):
+```json json
+{
+  "env": {
+    "ANTHROPIC_MODEL": "my-coder"
+  }
+}
+```
+
+**Cline / Continue / OpenCode:**
+```text
+Model: my-coder
+```
+
+The coding endpoint resolves `my-coder` → your chain → first available model, transparently.
+
+## Related
+
+- [Switching Models](/en/coding-plan/switching-models) — pick models per task.
+- [Quota & Limits](/en/coding-plan/quota-and-limits) — how multipliers work per model.

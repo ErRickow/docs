@@ -1,0 +1,181 @@
+---
+title: "Penggunaan"
+description: "Panduan lengkap menggunakan Jelma — install, jalankan agent, konfigurasi model, dan kelola instance cloud."
+---
+
+## Instalasi
+
+<Tabs>
+  <Tab title="macOS / Linux / WSL">
+    ```bash
+    curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+    ```
+  </Tab>
+  <Tab title="Windows PowerShell">
+    ```powershell
+    irm https://cli.neosantara.xyz/install.ps1 | iex
+    ```
+  </Tab>
+</Tabs>
+
+Butuh **bun >= 1.2.0**. Installer mengurus bun kalau belum ada.
+
+## Penggunaan Dasar
+
+```bash
+# Picker interaktif (agent → cloud → billing mode)
+jelma
+
+# Luncurkan langsung
+jelma <agent> <cloud>
+
+# Contoh
+jelma claude local                         # Claude Code di mesinmu
+jelma codex hetzner                        # Codex CLI di Hetzner
+jelma openclaw sprite --prompt "Fix bugs"  # Non-interaktif dengan prompt
+```
+
+## Kredensial
+
+Jelma meminta kredensial saat pertama kali jalan dan menyimpannya di `~/.config/jelma`:
+
+```bash
+# Key Neosantara (wajib — menenagai model)
+export NEOSANTARA_API_KEY="nsk_code_KEY_KAMU"
+
+# Kredensial cloud (hanya untuk deploy cloud)
+export HCLOUD_TOKEN="..."              # Hetzner
+export DIGITALOCEAN_ACCESS_TOKEN="..." # DigitalOcean
+export AWS_ACCESS_KEY_ID="..."         # AWS
+```
+
+## Pemilihan Model
+
+Model default adalah `garda-core` (context 1M, eksperimental). Override dengan `--model`:
+
+```bash
+# Pakai model spesifik
+jelma claude local --model deepseek-v4-flash
+
+# Pakai Model Route kustom (Coding Plan)
+jelma claude local --model my-coder
+
+# Semua slot model (utama, background, fast) pakai nama yang sama
+# Gateway resolve via failover chain-mu
+```
+
+Set preferensi model per-agent di `~/.config/spawn/preferences.json`:
+
+```json
+{
+  "models": {
+    "claude": "my-coder",
+    "codex": "garda-core"
+  }
+}
+```
+
+## Mode Non-Interaktif
+
+Lewati semua prompt dengan flag + env var:
+
+```bash
+jelma claude hetzner \
+  --prompt "Fix all linter errors" \
+  --headless \
+  --output json
+```
+
+Flag:
+- `--prompt "text"` / `-p "text"` — Kirim prompt non-interaktif
+- `--prompt-file <file>` / `-f <file>` — Prompt dari file
+- `--headless` — Provisioning lalu exit (tanpa sesi SSH)
+- `--output json` — Output JSON terstruktur (butuh `--headless`)
+- `--model <id>` / `-m <id>` — Override model
+- `--dry-run` — Preview tanpa provisioning
+
+## Manajemen Instance
+
+```bash
+# List instance sebelumnya
+jelma list
+jelma list --json
+
+# Jalankan ulang sesi terakhir
+jelma last
+
+# Hapus server cloud
+jelma delete
+jelma delete -c hetzner
+jelma delete --name jelma-abc --yes  # Hapus headless
+
+# Cek status live
+jelma status
+jelma status --prune  # Hapus server yang sudah gone
+
+# Jalankan ulang setup agent di VM yang ada
+jelma fix
+jelma fix <jelma-id>
+```
+
+## Optimisasi Kecepatan
+
+```bash
+# Fast mode — parallel boot + tarball + skip cloud-init
+jelma claude hetzner --fast
+
+# Fitur beta individual
+jelma claude gcp --beta tarball --beta parallel
+jelma openclaw local --beta sandbox  # Docker sandbox
+```
+
+| Fitur | Deskripsi |
+|-------|-----------|
+| `tarball` | Install dari tarball pre-built (skip npm live) |
+| `images` | Image/snapshot cloud pre-built |
+| `parallel` | Boot server + prompt setup paralel |
+| `recursive` | Install jelma di VM untuk spawn nested |
+| `sandbox` | Jalankan agent lokal di container Docker |
+
+## Jelma Rekursif
+
+Biarkan VM yang di-spawn membuat child VM sendiri:
+
+```bash
+jelma claude hetzner --beta recursive
+```
+
+Lihat spawn tree:
+```bash
+jelma tree
+# jelma-abc  Claude Code / Hetzner  2m lalu
+#   ├─ jelma-def  Codex CLI / Hetzner  1m lalu
+#   └─ jelma-ghi  OpenClaw / Hetzner  30d lalu
+```
+
+## File Config
+
+Load opsi dari file JSON:
+
+```json
+{
+  "model": "my-coder",
+  "steps": ["github", "browser"],
+  "name": "my-dev-box",
+  "setup": {
+    "github_token": "ghp_xxxx"
+  }
+}
+```
+
+```bash
+jelma codex gcp --config setup.json --headless --output json
+```
+
+## Tanpa CLI
+
+Setiap kombinasi bisa jalan sebagai one-liner mandiri:
+
+```bash
+bash <(curl -fsSL https://cli.neosantara.xyz/sh/{cloud}/{agent}.sh)
+```

@@ -1,0 +1,65 @@
+---
+title: "Kuota & Limit"
+description: "Cara kerja kuota Neosantara Coding Plan — prompt, jendela 5 jam dan mingguan, limit tier, dan multiplier model berbasis beban."
+---
+
+Ini referensi kanonik cara kuota dihitung dan dipakai di [Coding Plan](/id/coding-plan/overview).
+
+## Apa yang Dihitung sebagai 1 Prompt
+
+Kuota **berbasis prompt, bukan token**. Satu prompt = **satu giliran user** di coding tool — berapa pun panggilan model yang dilakukan agent di balik layar.
+
+<Info>
+  Satu giliran "perbaiki bug ini" bisa memicu ~15–20 panggilan model secara internal (langkah reasoning, tool call, baca file). Seluruh giliran itu tetap dihitung **1 prompt**.
+</Info>
+
+**Contoh nyata:** Kamu minta agent *"refactor modul ini dan update test-nya."* Agent membaca 6 file, menjalankan test suite dua kali, dan melakukan 18 panggilan model. Kuotamu berkurang **1 prompt** (dikali multiplier model — lihat di bawah).
+
+## Jendela Kuota
+
+| Jendela | Perilaku |
+|---------|----------|
+| **Rolling 5 jam** | Reset otomatis 5 jam setelah pemakaian dimulai. |
+| **Mingguan** | Reset 7 hari sejak awal langganan. |
+
+- **Tanpa overage.** Saat kuota sebuah jendela habis, request di-hard-stop sampai reset.
+- **Tanpa potongan saldo.** Coding Plan tidak pernah memotong saldo PAYG-mu.
+
+## Tier Paket
+
+| Tier | Limit 5 Jam | Limit Mingguan | Harga |
+|------|-------------|----------------|-------|
+| Coding Hemat | ~80 prompt | ~400 prompt | Rp 149.000/bln |
+| Coding Reguler | ~400 prompt | ~2.000 prompt | Rp 499.000/bln |
+| Coding Eksklusif | ~1.600 prompt | ~8.000 prompt | Rp 1.290.000/bln |
+
+<Info>
+  Penggunaan aktual bervariasi tergantung kompleksitas proyek dan pilihan model.
+</Info>
+
+## Multiplier Model Berbasis Beban
+
+Setiap prompt memakai kuota sebesar multiplier model-nya. Model flagship makan lebih banyak saat upstream sedang **under load**. Beban dideteksi **dinamis per model** dari live capacity-error rate-nya pada rolling window — **bukan** jadwal jam tetap.
+
+| Kondisi | Model flagship | Model mid | Model ringan |
+|---------|----------------|-----------|--------------|
+| Normal | 2× | 2× | 1× |
+| Under load | 3× | 2× | 1× |
+
+<Note>
+  Hanya model flagship yang berpindah antara 2× dan 3×. Model mid tetap 2× dan model ringan tetap 1× berapa pun bebannya. "Under load" ditentukan dari kapasitas upstream tiap model secara live, bukan jendela jam.
+</Note>
+
+## Tips Hemat Kuota
+
+<Tip>
+  Pakai model ringan (`gemini-3-flash`, `glm-4.7-flash`) untuk tugas rutin — tetap 1×. Simpan model flagship (`claude-4.5-sonnet`, `claude-4.5-opus`) untuk reasoning kompleks dan refactor besar.
+</Tip>
+
+- Gabungkan perubahan terkait dalam satu giliran bila memungkinkan — lebih sedikit giliran, lebih sedikit prompt.
+- Ganti model per tugas alih-alih menjalankan semuanya di flagship. Lihat [Ganti Model](/id/coding-plan/switching-models).
+
+## Terkait
+
+- [Ganti Model](/id/coding-plan/switching-models) — pilih model yang tepat per tugas.
+- [Usage Policy](/id/coding-plan/usage-policy) — penegakan rate-limit dan fair use.

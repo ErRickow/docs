@@ -80,7 +80,7 @@ export const ModelInfo = ({
                 }
               }}
               className="ml-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-              title="Copy Model ID"
+              aria-label="Copy Model ID"
             >
               <Icon icon="copy" size={14} />
             </button>
@@ -150,7 +150,7 @@ export const ModelInfo = ({
             
             <div className="rounded-lg p-4 bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-100 dark:border-zinc-800/50">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true"></div>
                 <span className="text-xs font-semibold text-zinc-900 dark:text-white">New Account Benefit</span>
               </div>
               <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-3 leading-relaxed">

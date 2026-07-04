@@ -1,0 +1,40 @@
+---
+title: "Kebijakan Penggunaan"
+description: "Aturan dan pedoman fair-use untuk Neosantara Coding Plan."
+---
+
+## Penggunaan yang Diizinkan
+
+Neosantara Coding Plan ditujukan secara eksklusif untuk **pengembangan software berbantuan AI** menggunakan coding tool yang didukung. Kamu menyetujui hal berikut:
+
+1. **Hanya tool yang didukung** — Plan hanya boleh dipakai dengan coding agent yang berkomunikasi via endpoint `/coding/v1` atau `/coding/anthropic` (mis. Claude Code, Cline, Continue, OpenCode, Jelma).
+2. **Dilarang abuse otomasi** — Script otomatis yang menggelembungkan jumlah prompt atau menghindari rate limit dilarang.
+3. **Satu user per key** — Coding key bersifat personal. Berbagi key antar user atau organisasi tidak diperbolehkan.
+4. **Dilarang jual ulang** — Menjual kembali akses atau mem-proxy endpoint coding untuk pihak ketiga dilarang.
+
+## Rate Limit
+
+| Jendela | Enforcement |
+|---------|-------------|
+| Rolling 5 jam | Hard-stop saat kuota habis; reset otomatis setelah 5 jam |
+| Mingguan | Hard-stop saat kuota mingguan habis; reset 7 hari dari awal langganan |
+
+- Tanpa billing overage — request cukup diblokir sampai window reset.
+- Multiplier model flagship naik ke 3× (dari 2× normal) saat model sedang under load, dideteksi dinamis dari kapasitas upstream.
+
+## Tindakan Akun
+
+Neosantara berhak untuk:
+- Menangguhkan atau menghentikan akses coding plan jika melanggar kebijakan.
+- Menyesuaikan batas kuota dengan pemberitahuan 7 hari jika terdeteksi penyalahgunaan.
+- Mencabut key yang dibagikan secara publik atau digunakan dalam otomasi tidak sah.
+
+## Refund
+
+Invoice Coding Plan **tidak bisa di-refund** setelah dibayar. Jika Kamu mengalami masalah teknis yang mencegah penggunaan, hubungi support@neosantara.xyz dalam 48 jam setelah pembelian.
+
+## Data & Privasi
+
+- Traffic Coding Plan tunduk pada [Kebijakan Privasi](https://www.neosantara.xyz/privacy) yang sama dengan semua layanan Neosantara.
+- Kami tidak melatih model dari kode atau prompt-mu.
+- Log request disimpan hanya untuk verifikasi billing dan deteksi penyalahgunaan.

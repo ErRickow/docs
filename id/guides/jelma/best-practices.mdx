@@ -1,0 +1,154 @@
+---
+title: "Best Practice"
+description: "Tips memaksimalkan Jelma — pemilihan model, manajemen kuota, keamanan, dan optimisasi workflow."
+---
+
+## Pemilihan Model
+
+### Pakai Model Routes untuk konsistensi
+
+Buat [Model Route](/id/coding-plan/model-routes) daripada hardcode nama model. Ini memberimu:
+- **Failover otomatis** — kalau model utama rate-limited, model berikutnya di chain mengambil alih
+- **Ganti mudah** — ubah chain di dashboard tanpa menyentuh config agent
+- **Penamaan konsisten** — pakai `my-coder` di mana-mana, resolve ke model berbeda per task
+
+```bash
+# Command sama, model di-resolve oleh config route-mu
+jelma claude local --model my-coder
+jelma codex hetzner --model my-coder
+```
+
+### Cocokkan model dengan kompleksitas task
+
+| Task | Pendekatan rekomendasi |
+|------|------------------------|
+| Fix sederhana, formatting | Model ringan (DeepSeek Flash, GLM Flash) |
+| Refactoring multi-file | `garda-core` atau model premium |
+| Reasoning kompleks | Model premium di posisi pertama route chain |
+| Task CI rutin | Model termurah untuk hemat kuota |
+
+### Hemat kuota dengan model ringan
+
+Kuota Coding Plan dikonsumsi per prompt, tapi model premium bisa 2–3× saat jam sibuk. Pakai model ringan untuk task rutin:
+
+```bash
+jelma codex local --model deepseek-v4-flash  # Cepat + murah
+```
+
+## Keamanan
+
+### Jangan commit kredensial
+
+Jelma menyimpan kredensial di `~/.config/jelma/`. Jangan commit direktori ini. Kalau pakai file `--config`, exclude dari git:
+
+```bash
+echo "*.jelma-config.json" >> .gitignore
+```
+
+### Pakai environment variable untuk CI/CD
+
+```bash
+NEOSANTARA_API_KEY="$SECRET" \
+HCLOUD_TOKEN="$HCLOUD_SECRET" \
+jelma claude hetzner --headless --output json --prompt "Run tests"
+```
+
+### Bersihkan resource cloud
+
+Selalu hapus VM setelah selesai:
+```bash
+jelma status          # Cek apa yang sedang jalan
+jelma delete          # Cleanup interaktif
+jelma status --prune  # Hapus entri stale dari history
+```
+
+## Tips Workflow
+
+### Pakai `--fast` untuk iterative development
+
+Saat spin up agent berulang-ulang (testing config, debugging), `--fast` menghemat menit per peluncuran:
+
+```bash
+jelma claude hetzner --fast --prompt "Fix the failing test"
+```
+
+### Mode headless untuk automasi
+
+Integrasikan Jelma ke script dan pipeline CI:
+
+```bash
+result=$(jelma claude local \
+  --headless \
+  --output json \
+  --prompt "Analisis codebase ini dan list semua TODO")
+
+echo "$result" | jq '.output'
+```
+
+### Pakai `jelma fix` daripada re-provisioning
+
+Kalau config agent rusak atau kredensial expired, jangan hapus dan buat ulang:
+
+```bash
+jelma fix  # Re-inject kredensial, jalankan ulang setup agent
+```
+
+### Preferensi persisten
+
+Set default model per-agent di `~/.config/spawn/preferences.json`:
+
+```json
+{
+  "models": {
+    "claude": "my-coder",
+    "codex": "garda-core",
+    "openclaw": "garda-core"
+  }
+}
+```
+
+Sekarang `jelma claude local` selalu pakai `my-coder` tanpa `--model`.
+
+## Tips Cloud-Specific
+
+### Hetzner (termurah)
+
+Harga/performa terbaik untuk development. Pakai `--zone` untuk pilih datacenter terdekat:
+
+```bash
+jelma claude hetzner --zone fsn1  # Falkenstein, Jerman
+jelma claude hetzner --zone sin1  # Singapura
+```
+
+### Lokal (iterasi tercepat)
+
+Tanpa delay provisioning. Pakai untuk iterasi cepat:
+
+```bash
+jelma claude local --prompt "Fix this bug"
+jelma last  # Jalankan ulang instan dengan config sama
+```
+
+### Rekursif untuk task kompleks
+
+Biarkan agent spawn child agent untuk subtask paralel:
+
+```bash
+jelma claude hetzner --beta recursive --prompt "Refactor seluruh modul auth"
+```
+
+Agent parent bisa pakai `jelma` di dalam VM untuk spawn helper.
+
+## Anti-Pattern
+
+<Warning>
+  Hindari kesalahan umum ini:
+</Warning>
+
+| Jangan | Lakukan ini |
+|--------|------------|
+| Biarkan VM jalan semalaman | `jelma delete` setelah selesai |
+| Hardcode nama model di script | Pakai Model Routes atau `preferences.json` |
+| Pakai model premium untuk semua | Cocokkan model dengan kompleksitas task |
+| Skip `--dry-run` di cloud mahal | Selalu preview dulu di setup yang belum familiar |
+| Simpan API key di file config | Pakai environment variable |

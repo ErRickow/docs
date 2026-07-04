@@ -1,0 +1,150 @@
+---
+title: "Ganti Model"
+description: "Cara ganti model di coding tool saat memakai Neosantara Coding Plan."
+---
+
+Neosantara Coding Plan memberimu akses ke model di gateway sesuai tier-mu. Kamu bisa ganti model kapan saja tanpa mengubah langganan.
+
+## Sebelum Mulai
+
+Pastikan kamu punya:
+1. **Langganan Coding Plan aktif** dan coding key yang valid (`nsk_code_*`).
+2. **Coding endpoint yang benar** sudah dikonfigurasi di tool-mu.
+3. Setup dasar yang berfungsi (tes dulu dengan prompt sederhana).
+
+## Cek Model yang Tersedia
+
+Model yang tersedia tergantung tier-mu dan bisa berubah kapan saja. Cek model yang diizinkan saat ini:
+
+**Dari dashboard:**
+Buka [Coding Plan](https://app.neosantara.xyz/coding-plan) → tab "Overview" menampilkan model yang diizinkan.
+
+**Dari CLI:**
+```bash
+jelma models
+```
+
+**Dari API:**
+```bash
+curl https://api.neosantara.xyz/coding/v1/models \
+  -H "Authorization: Bearer nsk_code_KEY_KAMU"
+```
+
+<Note>
+  Daftar model kosong berarti **semua model** di gateway tersedia. Tier lebih tinggi membuka lebih banyak model, termasuk model frontier dengan multiplier kuota lebih tinggi.
+</Note>
+
+## Ganti Model di Claude Code
+
+### Metode 1: Update settings.json
+
+Edit `~/.claude/settings.json` dan ganti modelnya:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
+    "ANTHROPIC_MODEL": "garda-core"
+  }
+}
+```
+
+Claude Code memakai beberapa slot model. Override semua agar setiap request melewati model pilihanmu (atau [Model Route](/id/coding-plan/model-routes)-mu):
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
+    "ANTHROPIC_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "garda-core",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "garda-core",
+    "ANTHROPIC_SMALL_FAST_MODEL": "garda-core"
+  }
+}
+```
+
+### Metode 2: Pakai perintah /model
+
+Di sesi Claude Code yang aktif, ketik:
+
+```
+/model deepseek-v4-flash
+```
+
+Ini mengganti model untuk sesi saat ini tanpa mengedit file config.
+
+### Metode 3: Pakai Jelma
+
+Jelma men-set semua slot model otomatis:
+
+```bash
+jelma claude local --model deepseek-v4-flash
+```
+
+### Verifikasi
+
+Ketik `/status` di Claude Code untuk konfirmasi model aktif.
+
+## Ganti Model di Cline
+
+1. Buka pengaturan Cline di VS Code
+2. Di bagian **Model**, ganti nama model
+3. Perubahan langsung berlaku untuk pesan baru
+
+## Ganti Model di Continue / OpenCode
+
+Update field `model` di konfigurasimu:
+
+```
+Base URL: https://api.neosantara.xyz/coding/v1
+API Key:  nsk_code_KEY_KAMU
+Model:    deepseek-v4-flash
+```
+
+## Ganti Model di Codex CLI
+
+Edit `~/.codex/config.toml`:
+
+```toml
+model = "deepseek-v4-flash"
+```
+
+Atau pakai Jelma:
+```bash
+jelma codex local --model deepseek-v4-flash
+```
+
+## Ganti Model di Cursor
+
+1. Settings → Models
+2. Ganti nama model di konfigurasi custom model-mu
+3. Atau tambah beberapa entry model dan pilih di chat
+
+## Pakai Model Routes (Direkomendasikan)
+
+Daripada mengganti nama model secara manual, buat [Model Route](/id/coding-plan/model-routes) — alias virtual yang resolve ke chain model dengan failover otomatis:
+
+```bash
+# Setup sekali di dashboard, lalu pakai di mana-mana:
+jelma claude local --model my-coder
+```
+
+Keuntungan:
+- **Tanpa ganti config** saat mau switch — cukup update route di dashboard
+- **Failover otomatis** jika model utama tidak tersedia
+- **Nama konsisten** di semua tool dan mesin
+
+## Pertimbangan Kuota
+
+- **Model ringan** (multiplier 1×) — terbaik untuk task rutin, hemat kuota
+- **Model mid-tier** (multiplier 2×) — balance kualitas dan biaya
+- **Model frontier** (hingga 3× saat under load) — pakai selektif untuk task kompleks
+
+Multiplier pastinya tergantung load gateway saat itu. Cek [Kuota & Limit](/id/coding-plan/quota-and-limits) untuk detail.
+
+<Tip>
+  Pakai model ringan untuk quick fix dan code generation. Switch ke model premium hanya untuk reasoning kompleks, keputusan arsitektur, atau refactoring multi-file. Strategi ini bisa 2–3× kuota efektifmu.
+</Tip>

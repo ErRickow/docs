@@ -1,0 +1,144 @@
+---
+title: "Quick Start"
+description: "Get started with the Neosantara Coding Plan in minutes — from subscribing to coding with AI agents."
+---
+
+This guide will help you get started with the [Neosantara Coding Plan](/en/coding-plan/overview) in minutes — from subscribing to using models in supported coding tools.
+
+## Getting Started
+
+<Steps>
+  <Step title="Register or Login">
+    Access the [Neosantara Dashboard](https://app.neosantara.xyz) and register or login.
+  </Step>
+
+  <Step title="Subscribe to a Coding Plan">
+    Navigate to the [Coding Plan](https://app.neosantara.xyz/coding-plan) page and choose your tier:
+
+    | Tier | 5-Hour Limit | Weekly Limit | Price |
+    |------|--------------|--------------|-------|
+    | Coding Hemat | ~80 prompts | ~400 prompts | Rp 149.000/mo |
+    | Coding Reguler | ~400 prompts | ~2.000 prompts | Rp 499.000/mo |
+    | Coding Eksklusif | ~1.600 prompts | ~8.000 prompts | Rp 1.290.000/mo |
+
+    Complete the Mayar invoice payment. Your plan activates within 1–2 minutes.
+  </Step>
+
+  <Step title="Obtain a Coding Key">
+    After subscribing, create a coding key from the [Coding Plan](https://app.neosantara.xyz/coding-plan) page or the [API Keys](https://app.neosantara.xyz/api-keys) page. Your key will look like `nsk_code_...`.
+
+    <Warning>
+      Safeguard your coding key. It cannot be displayed again after creation.
+    </Warning>
+  </Step>
+
+  <Step title="Connect a Coding Tool">
+    The Neosantara Coding Plan works with any tool that supports OpenAI or Anthropic API format. Click a tool below to jump to its configuration:
+
+    <CardGroup cols={3}>
+      <Card title="Claude Code" href="#claude-code">CLI agent by Anthropic</Card>
+      <Card title="Cline" href="#cline">VS Code extension</Card>
+      <Card title="Continue" href="#continue-opencode">VS Code / JetBrains</Card>
+      <Card title="OpenCode" href="#continue-opencode">Terminal agent</Card>
+      <Card title="Cursor" href="#cursor">AI-first editor</Card>
+      <Card title="Jelma" href="#jelma">Neosantara built-in (no setup)</Card>
+    </CardGroup>
+  </Step>
+
+  <Step title="Endpoint Guide">
+    Neosantara Coding Plan supports both Anthropic and OpenAI protocols. Use the correct **coding base URL**:
+
+    | Protocol | Base URL |
+    |----------|----------|
+    | Anthropic Messages | `https://api.neosantara.xyz/coding/anthropic` |
+    | OpenAI Chat Completions | `https://api.neosantara.xyz/coding/v1` |
+
+    <Warning>
+      Using the wrong endpoint (e.g. `/v1` instead of `/coding/v1`) will result in a `403 coding_key_requires_coding_endpoint` error.
+    </Warning>
+  </Step>
+
+  <Step title="Start Coding">
+    Once configured, begin coding with AI:
+
+    <Tabs>
+      <Tab title="Natural Language Programming">
+        ```
+        # Describe what you want
+        Create a React component with a login form that validates email and password
+        ```
+      </Tab>
+      <Tab title="Code Debugging">
+        ```
+        # Describe the issue
+        My API request returns a 404 error. Check the routing configuration.
+        ```
+      </Tab>
+      <Tab title="Code Optimization">
+        ```
+        # Ask for improvements
+        This function has O(n²) complexity. Optimize it to O(n log n).
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+## Tool Configuration
+
+### Claude Code
+
+Edit `~/.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_YOUR_KEY",
+    "ANTHROPIC_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "API_TIMEOUT_MS": "3600000"
+  }
+}
+```
+
+Verify with `/status` — confirm the model and base URL are correct.
+
+### Cline
+
+In VS Code, open Cline settings:
+1. **API Provider**: Select `OpenAI Compatible`
+2. **Base URL**: `https://api.neosantara.xyz/coding/v1`
+3. **API Key**: `nsk_code_YOUR_KEY`
+4. **Model**: Enter `claude-4.5-sonnet` (or any supported model)
+
+### Continue / OpenCode
+
+```yaml
+# ~/.continue/config.yaml or tool settings
+provider: openai-compatible
+baseUrl: https://api.neosantara.xyz/coding/v1
+apiKey: nsk_code_YOUR_KEY
+model: claude-4.5-sonnet
+```
+
+### Cursor
+
+1. Open Settings → Models → Add Model
+2. **Base URL**: `https://api.neosantara.xyz/coding/v1`
+3. **API Key**: `nsk_code_YOUR_KEY`
+4. **Model**: `claude-4.5-sonnet`
+
+### Jelma
+
+No configuration needed. Open [Jelma](https://app.neosantara.xyz/jelma) in your dashboard, select a coding agent, and start coding. Jelma uses your coding key automatically.
+
+## Tips for Efficient Quota Usage
+
+<Tip>
+  **Use lightweight models for routine tasks.** `gemini-3-flash` and `glm-4.7-flash` consume 1× quota; flagship models cost more (up to 3× under load). See [Quota & Limits](/en/coding-plan/quota-and-limits) for the full multiplier table.
+</Tip>
+
+- **1 prompt = 1 user turn** — regardless of how many model calls the agent makes internally (~15–20 calls per turn is typical).
+- **Quota resets automatically** on 5-hour rolling and weekly windows.
+- **No overage** — when quota runs out, requests are blocked until the next window. No balance is charged.

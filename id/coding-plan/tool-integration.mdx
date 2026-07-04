@@ -1,0 +1,105 @@
+---
+title: "Integrasi Tool"
+description: "Tool coding yang didukung dan panduan konfigurasi untuk Neosantara Coding Plan."
+---
+
+## Tool yang Didukung
+
+Neosantara Coding Plan bisa dipakai di tool coding apa pun yang mendukung protokol API **OpenAI** atau **Anthropic**.
+
+### Coding Agent
+
+<CardGroup cols={2}>
+  <Card title="Claude Code">CLI coding agent dari Anthropic. Pakai protokol Anthropic.</Card>
+  <Card title="Cline">Ekstensi VS Code. Pakai protokol OpenAI-compatible.</Card>
+  <Card title="Continue">Ekstensi VS Code dan JetBrains. OpenAI-compatible.</Card>
+  <Card title="OpenCode">Terminal-based coding agent. OpenAI-compatible.</Card>
+  <Card title="Cursor">Editor AI-first dengan dukungan model custom.</Card>
+  <Card title="Jelma">Coding agent bawaan Neosantara — tanpa setup lokal.</Card>
+</CardGroup>
+
+### Tool Agent Umum
+
+Tool apa pun yang mendukung OpenAI Chat Completions atau Anthropic Messages API bisa pakai Coding Plan, termasuk:
+- Roo Code, Kilo Code, Goose, Crush
+- Script custom pakai OpenAI SDK atau Anthropic SDK
+
+## Endpoint Coding
+
+| Protokol | Base URL | Kapan dipakai |
+|----------|----------|---------------|
+| Anthropic Messages | `https://api.neosantara.xyz/coding/anthropic` | Claude Code, Goose, atau tool format Anthropic |
+| OpenAI Chat Completions | `https://api.neosantara.xyz/coding/v1` | Cline, Continue, OpenCode, Cursor, dan kebanyakan tool lain |
+
+<Warning>
+  **Penting:** Coding key (`nsk_code_*`) hanya bisa dipakai di endpoint coding khusus ini. Mengirim ke `/v1` atau `/anthropic` (endpoint PAYG) akan return `403`.
+</Warning>
+
+## Contoh Konfigurasi
+
+### Claude Code (protokol Anthropic)
+
+Edit `~/.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/coding/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "nsk_code_KEY_KAMU",
+    "ANTHROPIC_MODEL": "claude-4.5-sonnet",
+    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
+    "API_TIMEOUT_MS": "3600000"
+  }
+}
+```
+
+<Note>
+  Hapus variabel environment `ANTHROPIC_AUTH_TOKEN` atau `ANTHROPIC_BASE_URL` yang sudah ada sebelum konfigurasi, agar tidak konflik.
+</Note>
+
+### Cline (protokol OpenAI-compatible)
+
+1. Buka VS Code → Extensions → Pengaturan Cline
+2. Pilih **API Provider**: `OpenAI Compatible`
+3. Isi:
+   - **Base URL**: `https://api.neosantara.xyz/coding/v1`
+   - **API Key**: `nsk_code_KEY_KAMU`
+   - **Model**: `claude-4.5-sonnet` (atau model lain dari tier-mu)
+4. Uncheck **Support Images**
+5. Set **Context Window Size** sesuai model (mis. `200000`, atau `1000000` untuk Gemini)
+
+### Continue / OpenCode
+
+```
+Base URL: https://api.neosantara.xyz/coding/v1
+API Key:  nsk_code_KEY_KAMU
+Model:    claude-4.5-sonnet
+```
+
+### Cursor
+
+1. Settings → Models → Add Custom Model
+2. **OpenAI Base URL**: `https://api.neosantara.xyz/coding/v1`
+3. **API Key**: `nsk_code_KEY_KAMU`
+4. **Model name**: `claude-4.5-sonnet`
+
+### Jelma (Tanpa Konfigurasi)
+
+Buka [Jelma](https://app.neosantara.xyz/jelma) di dashboard. Pilih coding agent dan mulai — otomatis pakai coding key dan endpoint coding.
+
+## Verifikasi Setup
+
+Setelah konfigurasi, test dengan prompt sederhana:
+
+```
+Berapa 2 + 2? Jawab angka saja.
+```
+
+Jika dapat response, Coding Plan-mu aktif dan terkonfigurasi benar. Jika error:
+
+| Error | Solusi |
+|-------|--------|
+| `403 coding_key_requires_coding_endpoint` | Base URL salah. Ganti ke `/coding/v1` atau `/coding/anthropic`. |
+| `401 Unauthorized` | Cek API key — harus dimulai dengan `nsk_code_`. |
+| `429 rate_limit_exceeded` | Kuota 5 jam atau mingguan habis. Tunggu window reset. |

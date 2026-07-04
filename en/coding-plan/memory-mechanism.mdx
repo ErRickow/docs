@@ -1,0 +1,157 @@
+---
+title: "Memory Mechanism"
+description: "How coding agents retain context across tasks and sessions — memory types, the retrieve-assemble-update pattern, layered memory, and troubleshooting."
+---
+
+Memory lets a coding agent retain context across tasks and sessions, reducing repeated input and improving efficiency. With a good memory design, an agent keeps understanding the project structure, engineering conventions, and your preferences, and reuses that information in later work. Memory is usually organized into layers such as session, project, and long-term memory.
+
+## Why Coding Agents Need Memory
+
+Language models do not preserve state between calls on their own. They can't remember project context across sessions, accumulate experience, or consistently adapt to your preferences. Agent systems solve this with **external memory**. A typical loop looks like this:
+
+```text
+User input
+   ↓
+Memory retrieval
+   ↓
+Context assembly
+   ↓
+Model reasoning
+   ↓
+Action / tool call
+   ↓
+Memory update
+```
+
+The agent retrieves relevant memory before a task and updates memory after it — a common pattern in modern agent systems.
+
+## Memory Architecture
+
+At a high level:
+
+```text
+Short-term memory
+    └ session context
+
+Long-term memory
+    ├ semantic memory
+    ├ episodic memory
+    └ procedural memory
+```
+
+## Core Memory Types
+
+<AccordionGroup>
+  <Accordion title="Session memory">
+    Context tied to the current task — conversation history, recent tool outputs, the current plan, and files in scope. Usually lives in the model's context window.
+  </Accordion>
+  <Accordion title="Project memory">
+    Long-lived information about the whole codebase — architecture, coding standards, build workflows, common commands. Typically written into `.md` files and loaded at the start of a session.
+  </Accordion>
+  <Accordion title="Semantic memory">
+    Factual knowledge and reference material — API docs, language rules, knowledge bases. Often implemented with retrieval-augmented generation (RAG): embed the query, search a vector store, retrieve documents, then reason.
+  </Accordion>
+  <Accordion title="Episodic memory">
+    Records of past experiences — how a previous bug was fixed, the root cause of a build failure, a debugging strategy that worked. Helps the agent learn from prior work.
+  </Accordion>
+  <Accordion title="Procedural memory">
+    Step-by-step workflows for completing tasks — e.g. a debugging routine: read the error log, locate the file, write the patch, run tests. Used in prompt engineering, workflow templates, and policies.
+  </Accordion>
+</AccordionGroup>
+
+## The Standard Memory Pattern
+
+<Steps>
+  <Step title="Memory retrieval">
+    Before a task, the agent retrieves relevant project memory, knowledge-base entries, and prior experience, then injects them into the working context.
+  </Step>
+  <Step title="Context construction">
+    Retrieved memories are assembled into a complete context and passed to the model.
+  </Step>
+  <Step title="Memory update">
+    After the task, the agent decides whether to write new memories — newly discovered rules, debugging experience, or preferences.
+  </Step>
+</Steps>
+
+## Using Memory Correctly
+
+Effective memory is **layered, controllable, retrievable, and updatable**. Rather than expecting the model to "remember everything," establish a clear pattern for what goes where.
+
+### Separate instruction memory from learning memory
+
+- **Instruction memory** is written by humans to tell the agent how to work — coding standards, directory conventions, build/test commands, naming, commit rules, safety rules.
+- **Learning memory** is accumulated over time from your corrections, preferences, failed attempts, and habits.
+
+Mixing them causes behavior to drift. Write **rules and constraints** into instruction memory (stable, predictable), and **experience and preferences** into learning memory (improves over time). Keeping them separate stops experience notes from polluting core rules.
+
+### Layered memory management
+
+| Layer | Scope | Examples |
+|-------|-------|----------|
+| Organization | all developers/projects | security & compliance, review standards, restricted directories, dependency/license constraints |
+| Project | team-shared, version-controlled | architecture, directory conventions, build/test commands, naming, workflows |
+| User | personal, across projects | preferred style, debugging sequence, output format, shortcuts |
+| Local | this machine, not committed | test accounts, local ports, mock endpoints, machine-specific notes |
+| Role / agent | one specialized agent | test commands for a testing agent, module boundaries for a refactoring agent |
+
+Organization memory is the highest-priority governance layer and should not be casually bypassed. Project memory is the most important shared layer.
+
+### Load `.md` files by path
+
+For large repositories, split instructions into multiple topic-focused Markdown files (e.g. `testing.md`, `api-design.md`, `security.md`) and load them by path only when relevant. Three principles:
+
+- Keep the main memory file limited to global shared context.
+- Keep specialized rules modular — one topic per file.
+- If a rule can be loaded by path, don't load it globally; bring it in only when needed.
+
+A memory structure might look like this:
+
+```text
+agent-memory/
+├── project.md            # Project overview
+├── rules/
+│   ├── code-style.md     # Code style
+│   ├── testing.md        # Testing conventions
+│   ├── api-design.md     # API design guidelines
+│   ├── security.md       # Security requirements
+│   └── frontend/
+│       └── react.md      # Frontend-specific rules
+└── local/
+    └── developer.local.md
+```
+
+### Write memory rules as concrete instructions
+
+Use specific, verifiable rules rather than vague principles. Prefer:
+
+- Use 2-space indentation in all new TypeScript files.
+- Run `pnpm test` after modifying business logic.
+- Place all API handlers under `src/api/handlers/`.
+- Keep page components under 300 lines; split larger ones into hooks or child components.
+
+Over vague statements like "keep the code clean" or "write good tests." Keep the main memory file concise (ideally under ~200 lines) and use Markdown headings and lists.
+
+### Separate shared rules from personal preferences
+
+Define each rule's scope and owner: project (team, version-controlled), organization (central IT/DevOps), user (individual), local (single machine), role (a specialized agent). The guiding question is: **who owns it, who shares it, and who it applies to.** Clear boundaries prevent rule sprawl and duplicate definitions.
+
+### Reuse memory through imports and rule packages
+
+Many rules are shared conventions across repositories. Rewriting them everywhere invites inconsistency. Where the tooling supports it, import shared rule files or link a shared rules directory, and build reusable rule packages (e.g. security rules, frontend rules, testing rules). Each project references only the modules it needs, so rules are maintained centrally and applied consistently.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The agent isn't following my .md memory files">
+    `.md` files are contextual instructions, not enforced configuration. The agent tries to follow them but can't guarantee compliance when rules are vague or conflicting. Confirm the files loaded, that they're in an allowed path/scope, and that no two files give conflicting instructions for the same behavior.
+  </Accordion>
+  <Accordion title="I don't know what auto-memory has saved">
+    Many agents keep background auto-memory as Markdown files. Use the tool's memory command to view the memory directory, then read, edit, or delete those files directly.
+  </Accordion>
+  <Accordion title="My memory files are too large">
+    Oversized files consume context window, reduce adherence, and increase conflicts. Split detailed content into multiple Markdown files and reference or import them, or move rules into a dedicated `rules/` directory.
+  </Accordion>
+  <Accordion title="Instructions disappear after context compression">
+    Long conversations get compressed. Memory files are typically reloaded from disk afterward, so only content written into files persists. If a rule disappears after compression, it lived only in the conversation. Write long-term instructions into `.md` files instead of relying on the conversation.
+  </Accordion>
+</AccordionGroup>

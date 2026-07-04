@@ -1,0 +1,85 @@
+---
+title: "Jelma Overview"
+description: "Luncurkan AI coding agent apa pun di cloud mana pun cukup dengan satu perintah. 9 agen, 8 cloud, tanpa config — semua model ditenagai Neosantara."
+---
+
+## Apa itu Jelma?
+
+**Jelma** adalah tool CLI Neosantara yang men-deploy AI coding agent ke mana saja — mesinmu sendiri, AWS, GCP, Hetzner, DigitalOcean, Daytona, E2B, atau Sprite — dengan satu perintah. Jelma menangani injeksi kredensial, konfigurasi model, dan setup agent agar kamu bisa langsung coding.
+
+<Warning>
+  Jelma masih **alpha**. Saat dijalankan di cloud, ia membuat resource sungguhan di akunmu. Tinjau output dan gunakan dengan risiko sendiri.
+</Warning>
+
+## Kenapa Jelma?
+
+| Tanpa Jelma | Dengan Jelma |
+|-------------|-------------|
+| Edit settings.json, env var, config file manual | Satu perintah — semua diinjeksi |
+| Ingat base URL per protokol per billing mode | Dipilih otomatis |
+| Tempel API key ke tiap tool | Jelma memakai key-mu untukmu |
+| Ulangi di tiap mesin/agent | `jelma <agent> <cloud>` di mana saja |
+
+## Agent yang Didukung
+
+| Agent | Deskripsi |
+|-------|-----------|
+| **Claude Code** | CLI coding agentic dari Anthropic |
+| **Codex CLI** | Coding agent terminal dari OpenAI |
+| **OpenClaw** | TUI coding dengan integrasi browser Chrome |
+| **OpenCode** | Coding agent terminal open-source |
+| **Kilo Code** | CLI coding agent AI open-source |
+| **Hermes** | CLI agentic dari Nous Research |
+| **Junie** | Coding agent dari JetBrains |
+| **Cursor CLI** | Coding agent terminal dari Cursor |
+| **Pi** | Coding agent terminal ringan |
+
+## Cloud yang Didukung
+
+| Cloud | Metode auth |
+|-------|-------------|
+| **Mesin Lokal** | Tidak perlu kredensial cloud |
+| **AWS Lightsail** | `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY` |
+| **Google Cloud** | `gcloud auth` |
+| **Hetzner** | `HCLOUD_TOKEN` |
+| **DigitalOcean** | `DIGITALOCEAN_ACCESS_TOKEN` |
+| **Daytona** | `DAYTONA_API_KEY` |
+| **E2B** | `E2B_API_KEY` |
+| **Sprite** | `sprite login` |
+
+## Mode Billing
+
+Jelma mendukung dua mode billing:
+
+- **Pay-As-You-Go (PAYG)** — Pakai API key biasa. Ditagih per token dari saldo akun. Endpoint: `/v1`, `/anthropic`.
+- **Coding Plan** — Pakai coding key (`nsk_code_*`). Ditagih dari kuota prompt (jendela 5 jam + mingguan). Endpoint: `/coding/v1`, `/coding/anthropic`.
+
+Jelma otomatis routing ke base URL yang benar berdasarkan tipe key-mu.
+
+## Model Routing
+
+Secara default, Jelma memakai `garda-core` — model eksperimental Neosantara dengan context window 1M. Override dengan `--model`:
+
+```bash
+jelma claude local --model my-custom-route
+```
+
+User Coding Plan bisa membuat [Model Routes](/id/coding-plan/model-routes) di dashboard untuk nama virtual dengan failover chain otomatis.
+
+## Quick Start
+
+```bash
+# Install
+curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+
+# Luncurkan interaktif
+jelma
+
+# Luncurkan langsung
+jelma claude local
+jelma codex hetzner --model garda-core
+```
+
+<Card title="Selanjutnya: Panduan Penggunaan" icon="arrow-right" href="/id/guides/jelma/usage">
+  Pelajari semua command, flag, dan workflow.
+</Card>
