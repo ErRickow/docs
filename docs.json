@@ -179,7 +179,8 @@
                   "en/coding-plan/quick-start",
                   "en/coding-plan/jelma",
                   "en/coding-plan/tool-integration",
-                  "en/coding-plan/switching-models"
+                  "en/coding-plan/switching-models",
+                  "en/coding-plan/model-routes"
                 ]
               },
               {
@@ -735,7 +736,8 @@
                   "id/coding-plan/quick-start",
                   "id/coding-plan/jelma",
                   "id/coding-plan/tool-integration",
-                  "id/coding-plan/switching-models"
+                  "id/coding-plan/switching-models",
+                  "id/coding-plan/model-routes"
                 ]
               },
               {

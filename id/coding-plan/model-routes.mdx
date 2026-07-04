@@ -1,0 +1,93 @@
+---
+title: "Model Routes"
+description: "Buat alias model virtual dengan fallback chain — petakan nama kustom ke urutan model yang otomatis failover."
+---
+
+**Model Routes** memungkinkan Kamu mendefinisikan alias model kustom yang mengarah ke rantai model asli. Saat model utama tidak tersedia (rate-limited atau error), request otomatis dialihkan ke model berikutnya dalam rantai — tanpa perlu logika retry di sisi klien.
+
+<Note>
+  Model Routes memerlukan **Coding Plan aktif** (langganan berbayar atau trial). Hanya berlaku pada request yang dibuat dengan coding key (`nsk_code_*`) melalui coding endpoint.
+</Note>
+
+## Cara Kerja
+
+1. Kamu membuat nama virtual (mis. `my-coder`) dan menetapkan model chain (mis. `["claude-4.5-sonnet", "gemini-3-flash"]`).
+2. Saat Kamu mengirim request dengan `model: "my-coder"` di coding endpoint, sistem mencoba model pertama dalam rantai.
+3. Jika model pertama gagal (capacity error), otomatis mencoba model berikutnya, dan seterusnya.
+
+```text
+my-coder → claude-4.5-sonnet (utama)
+              ↓ (capacity error)
+           gemini-3-flash (fallback)
+```
+
+## Limit
+
+| Tier | Maks model per chain | Maks route per user |
+|------|---------------------|---------------------|
+| Coding Hemat | 3 | 10 |
+| Coding Reguler | 5 | 10 |
+| Coding Eksklusif | 8 | 10 |
+
+## Mengelola Routes
+
+### Via Dashboard
+
+Buka [Coding Plan](https://app.neosantara.xyz/coding-plan) di dashboard. Bagian **Model Routes** memungkinkan Kamu membuat, mengedit, dan menghapus route secara visual.
+
+### Via API
+
+**List routes:**
+```bash bash
+curl https://api.neosantara.xyz/v1/coding/model-routes \
+  -H "Authorization: Bearer nsk_code_KEY_KAMU"
+```
+
+**Buat/update route:**
+```bash bash
+curl -X POST https://api.neosantara.xyz/v1/coding/model-routes \
+  -H "Authorization: Bearer nsk_code_KEY_KAMU" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "virtual_name": "my-coder",
+    "model_chain": ["claude-4.5-sonnet", "gemini-3-flash"]
+  }'
+```
+
+**Hapus route:**
+```bash bash
+curl -X DELETE https://api.neosantara.xyz/v1/coding/model-routes/ROUTE_ID \
+  -H "Authorization: Bearer nsk_code_KEY_KAMU"
+```
+
+## Aturan
+
+- Nama virtual tidak boleh bertabrakan dengan ID model asli (mis. Kamu tidak bisa memberi nama route `claude-4.5-sonnet`).
+- Nama virtual case-insensitive dan unik per user.
+- Setiap model dalam chain harus tersedia di tier coding plan Kamu.
+- Panjang nama virtual maks: 100 karakter.
+
+## Memakai Route di Tool
+
+Setelah dibuat, pakai nama virtual di mana pun Kamu biasa menentukan model:
+
+**Claude Code** (`~/.claude/settings.json`):
+```json json
+{
+  "env": {
+    "ANTHROPIC_MODEL": "my-coder"
+  }
+}
+```
+
+**Cline / Continue / OpenCode:**
+```text
+Model: my-coder
+```
+
+Coding endpoint menerjemahkan `my-coder` → chain Kamu → model pertama yang tersedia, secara transparan.
+
+## Terkait
+
+- [Ganti Model](/id/coding-plan/switching-models) — pilih model per tugas.
+- [Kuota & Limit](/id/coding-plan/quota-and-limits) — cara multiplier bekerja per model.

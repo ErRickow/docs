@@ -36,6 +36,18 @@ description: "Frequently asked questions about the Neosantara Coding Plan — qu
   <Accordion title="Which models are available?">
     All models on the Neosantara gateway are available, subject to your tier's allowed-model list. This includes Claude, Gemini, GPT, GLM, DeepSeek, and more.
   </Accordion>
+
+  <Accordion title="Are there concurrency limits?">
+    Yes. The Coding Plan enforces a maximum number of **concurrent in-flight requests** per user (not RPM). This controls how many simultaneous agent calls you can have running at once:
+
+    | Tier | Max concurrent requests |
+    |------|------------------------|
+    | Coding Hemat | 4 |
+    | Coding Reguler | 10 |
+    | Coding Eksklusif | 20 |
+
+    If you exceed the limit, additional requests are rejected until an in-flight request completes. This is separate from the prompt quota — concurrency limits how many requests run *at the same time*, while quota limits the *total* number of prompts per window.
+  </Accordion>
 </AccordionGroup>
 
 ## Base URL & Configuration

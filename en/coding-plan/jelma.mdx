@@ -1,0 +1,118 @@
+---
+title: "Coding Helper (Jelma)"
+description: "Spin up an AI coding agent on your Coding Plan without editing a single config file. Jelma wires the agent to the coding endpoints for you."
+---
+
+**Jelma** is Neosantara's built-in coding helper: it launches any AI coding agent — on your own machine or the cloud — with a single command, all models powered by Neosantara. When you pick the **Coding Plan** billing mode, Jelma automatically points the agent at the coding base URLs (`/coding/v1`, `/coding/anthropic`) using your coding key, so you **never** have to hand-edit `settings.json`, environment variables, or base URLs.
+
+<Note>
+  Jelma is the fastest path to code with the Coding Plan. If you'd rather configure a tool manually, see [Tool Integration](/en/coding-plan/tool-integration).
+</Note>
+
+<Warning>
+  Jelma is **alpha** software. When you run an agent on a cloud, it provisions real cloud resources on your account. Review what it runs and use it at your own risk.
+</Warning>
+
+## Why use Jelma instead of manual setup?
+
+| Manual setup | With Jelma |
+|--------------|-----------|
+| Edit `~/.claude/settings.json` / env vars by hand | Nothing to edit — Jelma injects them |
+| Remember the correct coding base URL per protocol | Selected automatically from your billing mode |
+| Paste your `nsk_code_*` key into each tool | Jelma uses your coding key for you |
+| Repeat for every machine/agent | One command, anywhere |
+
+## Option A — Jelma on the web (zero setup)
+
+The web flow needs **no local installation**. It runs the agent for you and uses your coding key automatically.
+
+<Steps>
+  <Step title="Open Jelma">
+    Go to [Jelma](https://app.neosantara.xyz/jelma) in your dashboard.
+  </Step>
+  <Step title="Choose the Coding Plan billing mode">
+    When prompted **"How do you want to bill this?"**, pick **Coding Plan** (billed by prompt quota, not your PAYG balance). Jelma will use your `nsk_code_*` key.
+
+    <Note>
+      No coding key yet? Create one from the [Coding Plan](https://app.neosantara.xyz/coding-plan) page first, then subscribe to a tier.
+    </Note>
+  </Step>
+  <Step title="Pick a coding agent">
+    Choose from the supported agents (Claude Code, Codex, OpenCode, and more).
+  </Step>
+  <Step title="Pick where to run it">
+    Choose **Your machine** or a cloud provider (AWS, GCP, Hetzner, DigitalOcean, Daytona, E2B, Sprite).
+  </Step>
+  <Step title="Launch">
+    Jelma configures the agent against the coding endpoint and starts it. Begin prompting — quota is drawn from your Coding Plan.
+  </Step>
+</Steps>
+
+## Option B — Jelma CLI
+
+Prefer the terminal? Install the Jelma CLI and let it prompt you for anything it needs.
+
+<Steps>
+  <Step title="Install Jelma">
+    <Tabs>
+      <Tab title="macOS / Linux / WSL">
+        ```bash
+        curl -fsSL https://cli.neosantara.xyz/install.sh | bash
+        ```
+      </Tab>
+      <Tab title="Windows PowerShell">
+        ```powershell
+        irm https://cli.neosantara.xyz/install.ps1 | iex
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Launch an agent">
+    Run Jelma and choose the **Coding Plan** billing mode when asked. Jelma prompts for anything you skip on first run — including your Neosantara coding key — and saves it to `~/.config/jelma`.
+
+    ```bash
+    jelma
+    ```
+  </Step>
+  <Step title="Provide credentials once">
+    - **Neosantara coding key** (`nsk_code_*`) — powers the models via the coding endpoints.
+    - **Cloud credentials** — only if you chose to run on a cloud (skipped for "Your machine").
+
+    Jelma remembers these for next time, so subsequent launches are a single command.
+  </Step>
+</Steps>
+
+<Tip>
+  In Coding Plan mode, Jelma defaults the agent to `claude-4.5-sonnet` on the coding endpoints. You can switch models anytime — see [Switching Models](/en/coding-plan/switching-models).
+</Tip>
+
+## Supported coding agents
+
+<CardGroup cols={2}>
+  <Card title="Claude Code">Anthropic's agentic coding CLI</Card>
+  <Card title="Codex">OpenAI's coding agent for the terminal</Card>
+  <Card title="OpenClaw">Browser-powered coding TUI with Chrome integration</Card>
+  <Card title="OpenCode">Open-source terminal coding agent</Card>
+  <Card title="KiloCode">Open-source AI coding agent CLI</Card>
+  <Card title="Cursor CLI">Cursor's terminal-based coding agent</Card>
+  <Card title="T3Code">Web GUI for Claude Code and Codex</Card>
+  <Card title="Hermes">Nous Research's agentic CLI</Card>
+  <Card title="Junie">JetBrains' coding agent</Card>
+  <Card title="Pi">Lightweight terminal coding agent</Card>
+</CardGroup>
+
+## Where it can run
+
+`Your machine` · `AWS` · `Google Cloud` · `Hetzner` · `DigitalOcean` · `Daytona` · `E2B` · `Sprite`
+
+## Billing
+
+- In **Coding Plan** mode, every agent Jelma launches bills against your **prompt quota** (5-hour + weekly windows) — not your PAYG balance.
+- All agents connected through Jelma share the same quota under your subscription.
+- Prefer per-token billing? Choose the **Pay-As-You-Go** mode instead; Jelma will use a regular API key on the `/v1` and `/anthropic` endpoints.
+
+## Learn more
+
+- [Jelma on GitHub](https://github.com/neosantara-xyz/jelma)
+- [Coding Plan Overview](/en/coding-plan/overview)
+- [Switching Models](/en/coding-plan/switching-models)

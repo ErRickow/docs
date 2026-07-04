@@ -36,6 +36,18 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
   <Accordion title="Model apa yang tersedia?">
     Semua model di gateway Neosantara tersedia, sesuai daftar model yang diizinkan tier-mu. Termasuk Claude, Gemini, GPT, GLM, DeepSeek, dll.
   </Accordion>
+
+  <Accordion title="Apakah ada batas concurrency?">
+    Ya. Coding Plan membatasi jumlah **request in-flight secara bersamaan** per user (bukan RPM). Ini mengontrol berapa banyak panggilan agent yang bisa berjalan sekaligus:
+
+    | Tier | Maks request bersamaan |
+    |------|------------------------|
+    | Coding Hemat | 4 |
+    | Coding Reguler | 10 |
+    | Coding Eksklusif | 20 |
+
+    Jika melebihi limit, request tambahan ditolak sampai request yang sedang berjalan selesai. Ini terpisah dari kuota prompt â€” concurrency membatasi berapa request yang berjalan *bersamaan*, sementara kuota membatasi *total* jumlah prompt per jendela.
+  </Accordion>
 </AccordionGroup>
 
 ## Base URL & Konfigurasi
