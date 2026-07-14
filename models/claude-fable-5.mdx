@@ -1,0 +1,18 @@
+---
+title: "Claude Fable 5"
+description: "Claude Fable 5 is Anthropic's first Mythos-class model, optimized for complex and long-running autonomous agentic workflows."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claudeFable5Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claudeFable5Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-fable-5","input":"Hello!"}'
+```

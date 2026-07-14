@@ -1,0 +1,18 @@
+---
+title: "Qwen3 7 Plus"
+description: "Native multimodal with 1M context and agentic coding. Verified: text generation and function calling."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen37PlusData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen37PlusData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3.7-plus","input":"Hello!"}'
+```

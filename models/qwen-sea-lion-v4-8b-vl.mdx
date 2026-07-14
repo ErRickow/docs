@@ -1,0 +1,18 @@
+---
+title: "Qwen Sea Lion v4 8b Vl"
+description: "Qwen SEA-LION v4 8B VL is a specialized multimodal Vision-Language model developed by AI Singapore, optimized for Southeast Asian languages and cultural contexts."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwenSeaLionV48bVlData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwenSeaLionV48bVlData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen-sea-lion-v4-8b-vl","input":"Hello!"}'
+```

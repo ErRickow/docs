@@ -1,0 +1,18 @@
+---
+title: "Qwen3 5 397b A17b"
+description: "Large mixture-of-experts variant. Verified: text generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen35397bA17bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen35397bA17bData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3.5-397b-a17b","input":"Hello!"}'
+```

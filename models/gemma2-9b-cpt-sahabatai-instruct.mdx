@@ -1,0 +1,18 @@
+---
+title: "Gemma2 9b Cpt Sahabatai Instruct"
+description: "Gemma2 9B CPT SahabatAI is a high-performance regional model optimized for Indonesian cultural nuance and localized instruction-following."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemma29bCptSahabataiInstructData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemma29bCptSahabataiInstructData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gemma2-9b-cpt-sahabatai-instruct","input":"Hello!"}'
+```

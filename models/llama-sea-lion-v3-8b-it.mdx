@@ -1,0 +1,18 @@
+---
+title: "Llama Sea Lion v3 8b It"
+description: "Llama SEA-LION v3 8B IT is an instruction-tuned Southeast Asian regional model developed by AI Singapore."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { llamaSeaLionV38bItData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...llamaSeaLionV38bItData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"llama-sea-lion-v3-8b-it","input":"Hello!"}'
+```

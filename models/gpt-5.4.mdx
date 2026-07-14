@@ -1,12 +1,12 @@
 ---
-title: "Garda Core"
-description: "Experimental models 1M from Neosantara with high capability of coding"
+title: "GPT 5 4"
+description: "GPT-5.4 — affordable OpenAI model for coding and professional work."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
-import { gardaCoreData } from '/snippets/model-data.jsx';
+import { gpt54Data } from '/snippets/model-data.jsx';
 
-<ModelInfo {...gardaCoreData} />
+<ModelInfo {...gpt54Data} />
 
 ## Quick Integration
 
@@ -14,5 +14,5 @@ import { gardaCoreData } from '/snippets/model-data.jsx';
 curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{"model":"garda-core","input":"Hello!"}'
+  -d '{"model":"gpt-5.4","input":"Hello!"}'
 ```

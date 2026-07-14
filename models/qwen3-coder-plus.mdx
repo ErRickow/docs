@@ -1,0 +1,18 @@
+---
+title: "Qwen3 Coder Plus"
+description: "Specialized for code generation and understanding. Verified: text generation and function calling."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3CoderPlusData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3CoderPlusData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3-coder-plus","input":"Hello!"}'
+```

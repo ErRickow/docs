@@ -1,0 +1,18 @@
+---
+title: "Codestral 2"
+description: "Codestral (2508) model, specialized for code generation. Direct Mistral API integration with Vercel fallback."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { codestral2Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...codestral2Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"codestral-2","input":"Hello!"}'
+```

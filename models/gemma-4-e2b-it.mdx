@@ -1,0 +1,18 @@
+---
+title: "Gemma 4 E2b It"
+description: "Gemma 4 E2B-it is an edge-optimized instruction-tuned model from Google DeepMind, offering state-of-the-art efficiency for local and edge execution with multimodal inputs."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemma4E2bItData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemma4E2bItData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gemma-4-e2b-it","input":"Hello!"}'
+```

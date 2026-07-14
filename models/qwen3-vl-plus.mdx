@@ -1,0 +1,18 @@
+---
+title: "Qwen3 Vl Plus"
+description: "Vision-language model with 1M context. Verified: text generation, vision (image_url input), and image generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3VlPlusData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3VlPlusData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3-vl-plus","prompt":"Pemandangan alam Indonesia yang indah"}'
+```

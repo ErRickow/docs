@@ -1,12 +1,12 @@
 ---
-title: "Gemini 2 5 Flash"
-description: "Google Gemini model for fast questions answers"
+title: "GPT 5 5"
+description: "GPT-5.5 — OpenAI latest frontier model for coding and professional work."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
-import { gemini25FlashData } from '/snippets/model-data.jsx';
+import { gpt55Data } from '/snippets/model-data.jsx';
 
-<ModelInfo {...gemini25FlashData} />
+<ModelInfo {...gpt55Data} />
 
 ## Quick Integration
 
@@ -14,5 +14,5 @@ import { gemini25FlashData } from '/snippets/model-data.jsx';
 curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{"model":"gemini-2.5-flash","input":"Hello!"}'
+  -d '{"model":"gpt-5.5","input":"Hello!"}'
 ```

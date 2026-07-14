@@ -1,0 +1,18 @@
+---
+title: "Gemini 3 1 Flash Lite"
+description: "Google Gemini 3.1 Flash Lite model for fast and efficient tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemini31FlashLiteData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemini31FlashLiteData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gemini-3.1-flash-lite","input":"Hello!"}'
+```

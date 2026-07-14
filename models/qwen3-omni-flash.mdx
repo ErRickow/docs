@@ -1,0 +1,18 @@
+---
+title: "Qwen3 Omni Flash"
+description: "Fast omni-modal tier with 1M context. Verified: text generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3OmniFlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3OmniFlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3-omni-flash","input":"Hello!"}'
+```

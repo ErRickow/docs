@@ -208,11 +208,13 @@
             "pages": [
               {
                 "group": "Models & Pricing",
+                "icon": "dollar-sign",
                 "expanded": false,
                 "pages": [
                   "en/models-overview",
                   {
                     "group": "Active Models",
+                    "icon": "star",
                     "expanded": false,
                     "pages": [
                       {
@@ -230,15 +232,13 @@
                         "group": "Google",
                         "expanded": false,
                         "pages": [
-                          "models/gemini-2.5-flash",
                           "models/gemini-3-flash",
-                          "models/gemini-3-flash-preview",
-                          "models/gemini-3-pro-preview",
-                          "models/gemini-3.1-flash-lite-preview",
-                          "models/gemini-3.1-pro-preview",
+                          "models/gemini-3.1-flash-lite",
+                          "models/gemini-3.1-pro",
                           "models/gemini-3.5-flash",
                           "models/gemini-embedding-001",
                           "models/gemma-3-27b-it",
+                          "models/gemma-4-e2b-it",
                           "models/gemma2-9b-it",
                           "models/imagen-4.0-fast"
                         ]
@@ -250,8 +250,12 @@
                           "models/claude-4-5-haiku",
                           "models/claude-4.5-opus",
                           "models/claude-4.5-sonnet",
+                          "models/claude-fable-5",
                           "models/claude-opus-4-6",
-                          "models/claude-sonnet-4-6"
+                          "models/claude-opus-7",
+                          "models/claude-opus-8",
+                          "models/claude-sonnet-4-6",
+                          "models/claude-sonnet-5"
                         ]
                       },
                       {
@@ -259,8 +263,12 @@
                         "expanded": false,
                         "pages": [
                           "models/gpt-5-nano",
+                          "models/gpt-5.4",
+                          "models/gpt-5.4-mini",
                           "models/gpt-5.4-nano",
+                          "models/gpt-5.5",
                           "models/gpt-image-2",
+                          "models/gpt-oss-120b",
                           "models/gpt-oss-20b",
                           "models/text-embedding-3-small",
                           "models/whisper-large-v3",
@@ -281,7 +289,8 @@
                         "expanded": false,
                         "pages": [
                           "models/kimi-k2-thinking",
-                          "models/kimi-k2.5"
+                          "models/kimi-k2.5",
+                          "models/kimi-k2.6"
                         ]
                       },
                       {
@@ -342,15 +351,32 @@
                         "pages": [
                           "models/llama-3-2-11b-vision",
                           "models/llama-3.2-11b",
-                          "models/llama-guard-3-8b",
-                          "models/sahabat-ai-llama-v4"
+                          "models/llama-guard-3-8b"
                         ]
                       },
                       {
                         "group": "Alibaba Cloud",
                         "expanded": false,
                         "pages": [
-                          "models/qwen3-32b"
+                          "models/qwen-plus",
+                          "models/qwen3-235b-a22b",
+                          "models/qwen3-30b-a3b",
+                          "models/qwen3-32b",
+                          "models/qwen3-coder-30b-a3b-instruct",
+                          "models/qwen3-coder-plus",
+                          "models/qwen3-max",
+                          "models/qwen3-omni-flash",
+                          "models/qwen3-vl-plus",
+                          "models/qwen3.5-122b-a10b",
+                          "models/qwen3.5-27b",
+                          "models/qwen3.5-35b-a3b",
+                          "models/qwen3.5-397b-a17b",
+                          "models/qwen3.5-flash",
+                          "models/qwen3.5-plus",
+                          "models/qwen3.6-35b-a3b-mtp",
+                          "models/qwen3.6-plus",
+                          "models/qwen3.7-max",
+                          "models/qwen3.7-plus"
                         ]
                       },
                       {
@@ -380,6 +406,8 @@
                         "group": "AI Singapore",
                         "expanded": false,
                         "pages": [
+                          "models/llama-sea-lion-v3-8b-it",
+                          "models/qwen-sea-lion-v4-8b-vl",
                           "models/sea-lion-v4-27b-it"
                         ]
                       },
@@ -402,14 +430,39 @@
                         "expanded": false,
                         "pages": [
                           "models/minimax-m2.5",
+                          "models/minimax-m3",
                           "models/nv-embed-v1",
                           "models/step-3.5-flash"
+                        ]
+                      },
+                      {
+                        "group": "Dahl",
+                        "expanded": false,
+                        "pages": [
+                          "models/minimax-m2.7"
+                        ]
+                      },
+                      {
+                        "group": "GoTo",
+                        "expanded": false,
+                        "pages": [
+                          "models/gemma2-9b-cpt-sahabatai-instruct",
+                          "models/llama3-8b-cpt-sahabatai-instruct",
+                          "models/sahabatai-lion-9b-ties-v1"
+                        ]
+                      },
+                      {
+                        "group": "Mistral",
+                        "expanded": false,
+                        "pages": [
+                          "models/codestral-2"
                         ]
                       }
                     ]
                   },
                   {
                     "group": "Deprecated Models",
+                    "icon": "clock",
                     "expanded": false,
                     "pages": [
                       {
@@ -775,11 +828,13 @@
             "pages": [
               {
                 "group": "Model & Harga",
+                "icon": "dollar-sign",
                 "expanded": false,
                 "pages": [
                   "id/models-overview",
                   {
                     "group": "Model Aktif",
+                    "icon": "star",
                     "expanded": false,
                     "pages": [
                       {
@@ -797,15 +852,13 @@
                         "group": "Google",
                         "expanded": false,
                         "pages": [
-                          "models/gemini-2.5-flash",
                           "models/gemini-3-flash",
-                          "models/gemini-3-flash-preview",
-                          "models/gemini-3-pro-preview",
-                          "models/gemini-3.1-flash-lite-preview",
-                          "models/gemini-3.1-pro-preview",
+                          "models/gemini-3.1-flash-lite",
+                          "models/gemini-3.1-pro",
                           "models/gemini-3.5-flash",
                           "models/gemini-embedding-001",
                           "models/gemma-3-27b-it",
+                          "models/gemma-4-e2b-it",
                           "models/gemma2-9b-it",
                           "models/imagen-4.0-fast"
                         ]
@@ -817,8 +870,12 @@
                           "models/claude-4-5-haiku",
                           "models/claude-4.5-opus",
                           "models/claude-4.5-sonnet",
+                          "models/claude-fable-5",
                           "models/claude-opus-4-6",
-                          "models/claude-sonnet-4-6"
+                          "models/claude-opus-7",
+                          "models/claude-opus-8",
+                          "models/claude-sonnet-4-6",
+                          "models/claude-sonnet-5"
                         ]
                       },
                       {
@@ -826,8 +883,12 @@
                         "expanded": false,
                         "pages": [
                           "models/gpt-5-nano",
+                          "models/gpt-5.4",
+                          "models/gpt-5.4-mini",
                           "models/gpt-5.4-nano",
+                          "models/gpt-5.5",
                           "models/gpt-image-2",
+                          "models/gpt-oss-120b",
                           "models/gpt-oss-20b",
                           "models/text-embedding-3-small",
                           "models/whisper-large-v3",
@@ -848,7 +909,8 @@
                         "expanded": false,
                         "pages": [
                           "models/kimi-k2-thinking",
-                          "models/kimi-k2.5"
+                          "models/kimi-k2.5",
+                          "models/kimi-k2.6"
                         ]
                       },
                       {
@@ -909,15 +971,32 @@
                         "pages": [
                           "models/llama-3-2-11b-vision",
                           "models/llama-3.2-11b",
-                          "models/llama-guard-3-8b",
-                          "models/sahabat-ai-llama-v4"
+                          "models/llama-guard-3-8b"
                         ]
                       },
                       {
                         "group": "Alibaba Cloud",
                         "expanded": false,
                         "pages": [
-                          "models/qwen3-32b"
+                          "models/qwen-plus",
+                          "models/qwen3-235b-a22b",
+                          "models/qwen3-30b-a3b",
+                          "models/qwen3-32b",
+                          "models/qwen3-coder-30b-a3b-instruct",
+                          "models/qwen3-coder-plus",
+                          "models/qwen3-max",
+                          "models/qwen3-omni-flash",
+                          "models/qwen3-vl-plus",
+                          "models/qwen3.5-122b-a10b",
+                          "models/qwen3.5-27b",
+                          "models/qwen3.5-35b-a3b",
+                          "models/qwen3.5-397b-a17b",
+                          "models/qwen3.5-flash",
+                          "models/qwen3.5-plus",
+                          "models/qwen3.6-35b-a3b-mtp",
+                          "models/qwen3.6-plus",
+                          "models/qwen3.7-max",
+                          "models/qwen3.7-plus"
                         ]
                       },
                       {
@@ -947,6 +1026,8 @@
                         "group": "AI Singapore",
                         "expanded": false,
                         "pages": [
+                          "models/llama-sea-lion-v3-8b-it",
+                          "models/qwen-sea-lion-v4-8b-vl",
                           "models/sea-lion-v4-27b-it"
                         ]
                       },
@@ -969,14 +1050,39 @@
                         "expanded": false,
                         "pages": [
                           "models/minimax-m2.5",
+                          "models/minimax-m3",
                           "models/nv-embed-v1",
                           "models/step-3.5-flash"
+                        ]
+                      },
+                      {
+                        "group": "Dahl",
+                        "expanded": false,
+                        "pages": [
+                          "models/minimax-m2.7"
+                        ]
+                      },
+                      {
+                        "group": "GoTo",
+                        "expanded": false,
+                        "pages": [
+                          "models/gemma2-9b-cpt-sahabatai-instruct",
+                          "models/llama3-8b-cpt-sahabatai-instruct",
+                          "models/sahabatai-lion-9b-ties-v1"
+                        ]
+                      },
+                      {
+                        "group": "Mistral",
+                        "expanded": false,
+                        "pages": [
+                          "models/codestral-2"
                         ]
                       }
                     ]
                   },
                   {
                     "group": "Model Deprecated",
+                    "icon": "clock",
                     "expanded": false,
                     "pages": [
                       {

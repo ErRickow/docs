@@ -1,0 +1,18 @@
+---
+title: "Sahabatai Lion 9b Ties v1"
+description: "SahabatAI Lion 9B is a high-performance Indonesian language model fine-tuned for high fluency, cultural nuance, and localized context in Indonesian workflows."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { sahabataiLion9bTiesV1Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...sahabataiLion9bTiesV1Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"sahabatai-lion-9b-ties-v1","input":"Hello!"}'
+```

@@ -4596,11 +4596,26 @@
                                               },
                                               "file_id": {
                                                 "type": "string"
+                                              },
+                                              "file_data": {
+                                                "type": "string"
+                                              },
+                                              "file_url": {
+                                                "type": "string"
+                                              },
+                                              "filename": {
+                                                "type": "string"
+                                              },
+                                              "detail": {
+                                                "type": "string",
+                                                "enum": [
+                                                  "low",
+                                                  "high"
+                                                ]
                                               }
                                             },
                                             "required": [
-                                              "type",
-                                              "file_id"
+                                              "type"
                                             ]
                                           }
                                         ]
@@ -5996,7 +6011,8 @@
                           "type": "string",
                           "enum": [
                             "user",
-                            "assistant"
+                            "assistant",
+                            "system"
                           ]
                         },
                         "content": {
@@ -6700,6 +6716,26 @@
                     "required": [
                       "edits"
                     ]
+                  },
+                  "output_config": {
+                    "type": "object",
+                    "properties": {
+                      "effort": {
+                        "type": "string",
+                        "enum": [
+                          "low",
+                          "medium",
+                          "high",
+                          "max"
+                        ]
+                      },
+                      "format": {},
+                      "budget_tokens": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0
+                      }
+                    },
+                    "additionalProperties": true
                   }
                 },
                 "required": [

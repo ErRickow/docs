@@ -1,0 +1,18 @@
+---
+title: "Minimax M3"
+description: "MiniMax-M3 is a high-performance multimodal model supporting large context windows, json mode, and tool calling."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { minimaxM3Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...minimaxM3Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"minimax-m3","input":"Hello!"}'
+```

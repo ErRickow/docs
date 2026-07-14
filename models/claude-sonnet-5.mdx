@@ -1,0 +1,18 @@
+---
+title: "Claude Sonnet 5"
+description: "Claude Sonnet 5 represents the latest in agentic and high-intelligence reasoning from Anthropic."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claudeSonnet5Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claudeSonnet5Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-sonnet-5","input":"Hello!"}'
+```

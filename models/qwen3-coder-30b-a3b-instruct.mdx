@@ -1,0 +1,18 @@
+---
+title: "Qwen3 Coder 30b A3b Instruct"
+description: "Mixture-of-experts model specialized for code. Verified: text generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3Coder30bA3bInstructData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3Coder30bA3bInstructData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3-coder-30b-a3b-instruct","input":"Hello!"}'
+```

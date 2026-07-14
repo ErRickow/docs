@@ -1,0 +1,18 @@
+---
+title: "Kimi K2 6"
+description: "Moonshot AI Kimi K2.6 is a Mixture of Experts (MoE) model with 1 Trillion parameter scale, 128K context window and native reasoning capability with thinking mode."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { kimiK26Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...kimiK26Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"kimi-k2.6","input":"Hello!"}'
+```

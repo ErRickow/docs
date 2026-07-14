@@ -1,0 +1,18 @@
+---
+title: "Qwen3 6 35b A3b Mtp"
+description: "Qwen 3.6 35B is an advanced Mixture-of-Experts (MoE) model featuring Multi-Token Prediction (MTP) for accelerated generation speed, repository-level reasoning, and highly accurate multilingual responses."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3635bA3bMtpData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3635bA3bMtpData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3.6-35b-a3b-mtp","input":"Hello!"}'
+```

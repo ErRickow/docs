@@ -1,0 +1,18 @@
+---
+title: "Qwen3 235b A22b"
+description: "Mixture-of-experts flagship, open-weight architecture. Verified: text generation."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3235bA22bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3235bA22bData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3-235b-a22b","input":"Hello!"}'
+```

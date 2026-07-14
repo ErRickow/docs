@@ -1,0 +1,18 @@
+---
+title: "Llama3 8b Cpt Sahabatai Instruct"
+description: "Llama3 8B CPT SahabatAI is an Indonesian-adapted instruction-tuned language model fine-tuned for high Indonesian fluency and localization."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { llama38bCptSahabataiInstructData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...llama38bCptSahabataiInstructData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"llama3-8b-cpt-sahabatai-instruct","input":"Hello!"}'
+```

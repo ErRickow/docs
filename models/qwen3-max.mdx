@@ -1,0 +1,18 @@
+---
+title: "Qwen3 Max"
+description: "Agent-optimized tier with 256K context. Verified: text generation. Cache read $0.12/1M."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { qwen3MaxData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...qwen3MaxData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"qwen3-max","input":"Hello!"}'
+```

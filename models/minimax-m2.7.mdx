@@ -1,0 +1,18 @@
+---
+title: "Minimax M2 7"
+description: "MiniMax-M2.7 is a massive 230B reasoning model, optimized for complex software engineering and agentic workflows with native thinking process."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { minimaxM27Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...minimaxM27Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"minimax-m2.7","input":"Hello!"}'
+```
