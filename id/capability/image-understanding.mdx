@@ -5,7 +5,7 @@ description: "Analisis, deskripsikan, dan ekstrak informasi dari gambar mengguna
 
 import { ModelCards } from '/snippets/model-cards.jsx';
 
-Neosantara API mendukung kemampuan multimodal, yang memungkinkan kamu mengirimkan gambar bersama dengan prompt teks ke berbagai model AI. Fitur ini memungkinkan kamu untuk mendeskripsikan suasana, mengidentifikasi objek, membaca grafik, atau mengekstrak teks tulisan tangan.
+Neosantara API mendukung kemampuan multimodal, sehingga Kamu dapat mengirimkan gambar bersama dengan prompt teks ke berbagai model AI. Kamu dapat mendeskripsikan suasana, mengidentifikasi objek, membaca grafik, atau mengekstrak teks tulisan tangan.
 
 ## Model yang Mendukung
 
@@ -13,11 +13,11 @@ Neosantara API mendukung kemampuan multimodal, yang memungkinkan kamu mengirimka
 
 ## Cara Penggunaan
 
-Untuk menggunakan kemampuan vision, kamu memberikan array `content` pada pesan user, yang mencakup bagian dengan tipe `image_url`.
+Untuk menggunakan kemampuan vision, Kamu memberikan array `content` pada pesan user, yang mencakup bagian dengan tipe `image_url`.
 
 ### Menggunakan URL Gambar
 
-kamu bisa memberikan tautan gambar yang dapat diakses secara publik.
+Kamu bisa memberikan tautan gambar yang dapat diakses secara publik.
 
 <CodeGroup>
 
@@ -83,7 +83,7 @@ console.log(response.choices[0].message.content);
 
 ### Menggunakan Gambar Berformat Base64
 
-Untuk gambar lokal, kamu bisa mengubahnya ke format Base64 dan mengirimkannya menggunakan skema URL `data:`.
+Untuk gambar lokal, Kamu bisa mengubahnya ke format Base64 dan mengirimkannya menggunakan skema URL `data:`.
 
 <CodeGroup>
 
@@ -153,7 +153,7 @@ Neosantara API mendukung format gambar berikut:
 Neosantara bertindak sebagai jembatan multimodal terpadu, menormalkan permintaan visi yang kompleks di berbagai protokol penyedia layanan.
 
 ### Logika Normalisasi
-Saat kamu mengirim pesan multimodal, **Multimodal Adapter** Neosantara secara otomatis mengubah permintaan kamu agar sesuai dengan persyaratan khusus dari target provider:
+Saat Kamu mengirim pesan multimodal, **Multimodal Adapter** Neosantara secara otomatis mengubah permintaan Kamu agar sesuai dengan persyaratan khusus dari target provider:
 *   **Anthropic (Claude)**: Gambar diubah menjadi blok base64 `document` atau `image`.
 *   **Google (Gemini)**: Gambar diproses sebagai bagian `inline_data`.
 *   **Kompatibel OpenAI**: Format `image_url` standar tetap dipertahankan atau diteruskan melalui proxy.
@@ -166,7 +166,7 @@ Untuk melindungi infrastruktur dan data pengguna, semua permintaan `image_url` e
 
 ### Privasi & Presistensi
 *   **Pemrosesan Ephemeral**: Gambar yang dikirim melalui `image_url` atau base64 diproses dalam memori dan **tidak pernah disimpan** ke penyimpanan permanen Neosantara.
-*   **Penyimpanan Permanen**: Jika kamu ingin gambar tetap ada di beberapa sesi (misal: untuk Batch API), gunakan [API File](/id/files-overview) untuk mengunggah dan mendapatkan `file_id`.
+*   **Penyimpanan Permanen**: Jika Kamu ingin gambar tetap ada di beberapa sesi (misal: untuk Batch API), gunakan [API File](/id/files-overview) untuk mengunggah dan mendapatkan `file_id`.
 
 ---
 

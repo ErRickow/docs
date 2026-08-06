@@ -3,38 +3,38 @@ title: "RAG dengan Contoh ChromaDB"
 description: "Bangun aplikasi Retrieval-Augmented Generation (RAG) menggunakan Neosantara dan ChromaDB."
 ---
 
-Panduan ini mendemonstrasikan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang lengkap menggunakan Neosantara untuk embedding dan panggilan model bahasa besar (LLM), yang terintegrasi dengan [ChromaDB](https://www.trychroma.com/) sebagai basis data vektor kamu.
+Panduan ini menunjukkan cara membangun aplikasi Retrieval-Augmented Generation (RAG) yang lengkap menggunakan Neosantara untuk embedding dan panggilan model bahasa besar (LLM), dengan [ChromaDB](https://www.trychroma.com/) sebagai basis data vektor Kamu.
 
 ## Ikhtisar
 
-kamu akan belajar untuk:
+Kamu akan belajar untuk:
 
-1. Menyiapkan klien API Neosantara kamu.
+1. Menyiapkan klien API Neosantara Kamu.
 2. Menginstal dan menginisialisasi ChromaDB.
-3. Menggunakan model embedding Neosantara (`nusa-embedding-0001`) untuk melakukan vektorisasi pada dokumen kamu.
+3. Menggunakan model embedding Neosantara (`nusa-embedding-0001`) untuk melakukan vektorisasi pada dokumen Kamu.
 4. Menyimpan embedding ini di ChromaDB.
 5. Mengambil dokumen yang relevan dari ChromaDB berdasarkan kueri pengguna.
 6. Menggunakan model obrolan Neosantara (`garda-core`) untuk menghasilkan jawaban yang berdasar menggunakan konteks yang diambil.
 
 ## Penyiapan
 
-Pertama, pastikan kamu telah menginstal Python. Kemudian, instal pustaka yang diperlukan:
+Pertama, pastikan Kamu telah menginstal Python. Kemudian, instal pustaka yang diperlukan:
 
 ```bash icon="terminal"
 pip install -U openai chromadb numpy pandas
 ```
 
-### Konfigurasikan Kunci API Neosantara kamu
+### Konfigurasikan Kunci API Neosantara Kamu
 
-kamu memerlukan Kunci API Neosantara. Jika kamu belum memilikinya, dapatkan dari [Dashboard Neosantara](https://app.neosantara.xyz/dashboard) kamu.
+Kamu memerlukan Kunci API Neosantara. Jika Kamu belum memilikinya, dapatkan dari [Dashboard Neosantara](https://app.neosantara.xyz/dashboard) Kamu.
 
-Setel kunci API dan URL dasar Neosantara kamu sebagai variabel lingkungan atau langsung di skrip kamu:
+Setel kunci API dan URL dasar Neosantara Kamu sebagai variabel lingkungan atau langsung di skrip Kamu:
 
 ```python icon="python"
 import os
 from openai import OpenAI
 
-# Konfigurasikan kunci API Neosantara dan URL dasar kamu
+# Konfigurasikan kunci API Neosantara dan URL dasar Kamu
 NEOSANTARA_API_KEY = os.getenv("NEOSANTARA_API_KEY", "KUNCI_API_NEOSANTARA_KAMU_DI_SINI")
 NEOSANTARA_BASE_URL = os.getenv("NEOSANTARA_BASE_URL", "https://api.neosantara.xyz/v1")
 
@@ -51,11 +51,11 @@ CHAT_MODEL = "garda-core"
 
 ## Membuat Basis Data Embedding dengan ChromaDB
 
-ChromaDB adalah basis data vektor ringan yang berjalan secara lokal (atau dapat diskalakan). kamu akan membuat koleksi Chroma dan mengisinya dengan embedding dokumen kamu.
+ChromaDB adalah basis data vektor ringan yang berjalan secara lokal (atau dapat diskalakan). Kamu akan membuat koleksi Chroma dan mengisinya dengan embedding dokumen Kamu.
 
 ### Fungsi Embedding Kustom untuk ChromaDB
 
-ChromaDB memungkinkan kamu mendefinisikan fungsi embedding kustom. Kita akan membungkus panggilan API embedding Neosantara di dalam fungsi ini.
+ChromaDB memungkinkan Kamu mendefinisikan fungsi embedding kustom. Kita akan membungkus panggilan API embedding Neosantara di dalam fungsi ini.
 
 ```python icon="python"
 import chromadb
@@ -75,14 +75,14 @@ class NeosantaraEmbeddingFunction(EmbeddingFunction):
     return [d.embedding for d in response.data]
 ```
 
-### Data kamu
+### Data Kamu
 
-Berikut adalah sekumpulan kecil dokumen yang akan kamu gunakan untuk membuat basis data embedding. Dalam aplikasi nyata, dokumen-dokumen ini akan berasal dari basis pengetahuan, wiki internal, dll.
+Berikut adalah sekumpulan kecil dokumen yang akan Kamu gunakan untuk membuat basis data embedding. Dalam aplikasi nyata, dokumen-dokumen ini akan berasal dari basis pengetahuan, wiki internal, dll.
 
 ```python icon="python"
 DOCUMENT1 = """
   Mengoperasikan Sistem Kontrol Iklim Googlecar kamu memiliki sistem
-  kontrol iklim yang memungkinkan kamu menyesuaikan suhu dan aliran udara
+  kontrol iklim untuk menyesuaikan suhu dan aliran udara
   di dalam mobil. Untuk mengoperasikan sistem kontrol iklim, gunakan tombol
   dan kenop yang terletak di konsol tengah. Suhu: Kenop suhu mengontrol
   suhu di dalam mobil. Putar kenop searah jarum jam untuk menaikkan
@@ -93,7 +93,7 @@ DOCUMENT1 = """
   Kenop kecepatan kipas mengontrol kecepatan kipas. Putar kenop searah jarum jam
   untuk meningkatkan kecepatan kipas atau berlawanan arah jarum jam untuk
   mengurangi kecepatan kipas.
-  Mode: Tombol mode memungkinkan kamu memilih mode yang diinginkan. Mode yang
+  Mode: Tombol mode, kamu dapat memilih mode yang diinginkan. Mode yang
   tersedia adalah: Otomatis: Mobil akan secara otomatis menyesuaikan suhu dan
   aliran udara untuk menjaga tingkat kenyamanan.
   Dingin: Mobil akan meniupkan udara dingin ke dalam mobil.
@@ -124,7 +124,7 @@ documents = [DOCUMENT1, DOCUMENT2, DOCUMENT3]
 
 ### Membuat dan Mengisi ChromaDB
 
-Sekarang, buat klien ChromaDB, tentukan koleksi, dan tambahkan dokumen kamu ke dalamnya menggunakan fungsi embedding kustom.
+Sekarang, buat klien ChromaDB, tentukan koleksi, dan tambahkan dokumen Kamu ke dalamnya menggunakan fungsi embedding kustom.
 
 ```python icon="python"
 def create_chroma_db(documents, name):
@@ -163,7 +163,7 @@ def create_chroma_db(documents, name):
 
 ## Mendapatkan Dokumen yang Relevan (Pengambilan)
 
-Setelah ChromaDB terisi, kamu sekarang dapat menanyakannya untuk menemukan dokumen yang relevan dengan pertanyaan pengguna.
+Setelah ChromaDB terisi, Kamu sekarang dapat menanyakannya untuk menemukan dokumen yang relevan dengan pertanyaan pengguna.
 
 ```python icon="python"
 def get_relevant_passage(query, db):
@@ -275,5 +275,5 @@ Respons AI: Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang 
 Kueri Pengguna: Ceritakan tentang layar sentuhnya.
 Bagian yang Diambil:   Googlecar kamu memiliki layar sentuh besar yang menyediakan akses ke
   berbagai fitur, termasuk naviga... 
-Respons AI: Googlecar kamu dilengkapi dengan layar sentuh besar yang memberikan akses mudah ke berbagai fitur seperti navigasi, hiburan, dan sistem kontrol iklim. Untuk menggunakannya, kamu cukup menyentuh ikon fitur yang kamu inginkan. Misalnya, menyentuh ikon "Navigasi" akan membantu kamu mendapatkan petunjuk arah, sementara ikon "Musik" memungkinkan kamu memutar lagu favorit kamu.
+Respons AI: Googlecar kamu dilengkapi dengan layar sentuh besar yang memberikan akses mudah ke berbagai fitur seperti navigasi, hiburan, dan sistem kontrol iklim. Untuk menggunakannya, kamu cukup menyentuh ikon fitur yang kamu inginkan. Misalnya, menyentuh ikon "Navigasi" akan membantu kamu mendapatkan petunjuk arah, sementara ikon "Musik", kamu dapat memutar lagu favorit kamu.
 ```

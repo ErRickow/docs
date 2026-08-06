@@ -3,11 +3,11 @@ title: "Panduan Migrasi"
 description: "Beralih dari OpenAI atau Anthropic ke Neosantara dalam hitungan menit."
 ---
 
-Neosantara dirancang untuk menjadi pengganti langsung bagi penyedia global. Jika kamu sudah memiliki aplikasi yang menggunakan SDK OpenAI atau Anthropic, migrasi ke Neosantara hanya memerlukan perubahan dua baris kode.
+Neosantara dirancang untuk menjadi pengganti langsung bagi penyedia global. Jika Kamu sudah memiliki aplikasi yang menggunakan SDK OpenAI atau Anthropic, migrasi ke Neosantara hanya memerlukan perubahan dua baris kode.
 
 ## 1. Variabel Lingkungan (Environment Variables)
 
-Ganti variabel lingkungan standar kamu dengan padanan Neosantara.
+Ganti variabel lingkungan standar Kamu dengan padanan Neosantara.
 
 | Penyedia | Variabel Lama | Variabel Neosantara |
 | :--- | :--- | :--- |
@@ -102,11 +102,11 @@ const msg = await anthropic.messages.create({
 Meskipun API kompatibel, ada beberapa fitur khusus platform yang perlu diingat:
 
 - **Nama Model**: Periksa [Ringkasan Model](/id/models-overview) untuk ID model yang tersedia.
-- **Penagihan**: Neosantara menggunakan model **Pay-As-You-Go** yang terlokalisasi dalam IDR (Rupiah). Pastikan saldo kamu terisi melalui [Dashboard](https://app.neosantara.xyz).
+- **Penagihan**: Neosantara menggunakan model **Pay-As-You-Go** yang terlokalisasi dalam IDR (Rupiah). Pastikan saldo Kamu terisi melalui [Dashboard](https://app.neosantara.xyz).
 - **Model Reasoning**: Untuk model seperti DeepSeek-R1, kami mendukung field `reasoning_content` yang terpadu dalam respons.
 
 ## 5. Alat Migrasi Otomatis
 
-Jika kamu menggunakan **Cursor**, **Cline**, atau **Claude Code**, cukup ubah "API Base URL" di pengaturan menjadi `https://api.neosantara.xyz/v1` dan tempelkan Kunci API Neosantara kamu.
+Jika Kamu menggunakan **Cursor**, **Cline**, atau **Claude Code**, cukup ubah "API Base URL" di pengaturan menjadi `https://api.neosantara.xyz/v1` dan tempelkan Kunci API Neosantara Kamu.
 
 Pelajari lebih lanjut di panduan [Alat Coding AI](/id/guides/ai-coding-tools) kami.

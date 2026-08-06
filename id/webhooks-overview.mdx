@@ -5,17 +5,17 @@ description: "Terima notifikasi real-time saat job asinkron selesai, gagal, atau
 
 ## Pengantar
 
-Webhook memungkinkan Neosantara memberi tahu server kamu begitu sebuah job asinkron berubah status, tanpa perlu polling status berulang kali. Daftarkan URL endpoint sekali, pilih event yang kamu butuhkan, lalu Neosantara mengirim `POST` HTTP bertanda tangan setiap event tersebut terjadi.
+Webhook memungkinkan Neosantara memberi tahu server Kamu begitu sebuah job asinkron berubah status, tanpa perlu polling status berulang kali. Daftarkan URL endpoint sekali, pilih event yang Kamu butuhkan, lalu Neosantara mengirim `POST` HTTP bertanda tangan setiap event tersebut terjadi.
 
 <Card icon="bolt" title="Berhenti polling, mulai mendengarkan" color="#E68000">
-Background response, batch job, dan video generation semuanya berjalan asinkron. Webhook memberi tahu kamu saat selesai — tanpa loop polling.
+Background response, batch job, dan video generation semuanya berjalan asinkron. Webhook memberi tahu Kamu saat selesai — tanpa loop polling.
 </Card>
 
 ### Cara Kerja
 
 1. **Daftarkan** URL endpoint di [dashboard](https://app.neosantara.xyz/webhooks) dan pilih event yang ingin di-subscribe.
 2. **Simpan** signing secret yang hanya ditampilkan sekali saat pembuatan.
-3. **Terima** request `POST` bertanda tangan di URL kamu setiap event yang di-subscribe terjadi.
+3. **Terima** request `POST` bertanda tangan di URL Kamu setiap event yang di-subscribe terjadi.
 4. **Verifikasi** signature, balas `2xx` dengan cepat, lalu proses event-nya.
 
 ## Event yang Didukung
@@ -87,7 +87,7 @@ Setiap request menyertakan header signature untuk verifikasi:
 
 ## Verifikasi Signature
 
-Karena siapa pun bisa mengirim request ke URL publik kamu, sebaiknya verifikasi bahwa setiap request benar-benar berasal dari Neosantara. Gunakan signing secret per-endpoint dengan library [Standard Webhooks](https://www.standardwebhooks.com) apa pun.
+Karena siapa pun bisa mengirim request ke URL publik Kamu, sebaiknya verifikasi bahwa setiap request benar-benar berasal dari Neosantara. Gunakan signing secret per-endpoint dengan library [Standard Webhooks](https://www.standardwebhooks.com) apa pun.
 
 ```javascript icon="js"
 import { Webhook } from "standardwebhooks"
@@ -135,4 +135,4 @@ Verifikasi signature terhadap body request **mentah**, sebelum parsing JSON atau
 
 ## Mengelola Webhook
 
-Buat, lihat, tes, dan hapus webhook dari [halaman Webhooks](https://app.neosantara.xyz/webhooks) di dashboard. Gunakan **Kirim tes** untuk mengirim contoh event `webhook.test` dan memastikan endpoint kamu dapat dijangkau.
+Buat, lihat, tes, dan hapus webhook dari [halaman Webhooks](https://app.neosantara.xyz/webhooks) di dashboard. Gunakan **Kirim tes** untuk mengirim contoh event `webhook.test` dan memastikan endpoint Kamu dapat dijangkau.

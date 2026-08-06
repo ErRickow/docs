@@ -40,10 +40,10 @@ Pipeline gambar Neosantara dirancang untuk keandalan dan keamanan, mendukung dua
 Semua gambar yang dihasilkan dikirim melalui **CDN Ephemeral**.
 1.  Gambar disimpan sementara dalam cache Redis berkecepatan tinggi.
 2.  API mengembalikan URL bertanda tangan sementara (misal: `https://api.neosantara.xyz/share/generated/...`).
-3.  **TTL (Time-to-Live)**: Tautan valid selama **5 menit**. kamu disarankan untuk mengunduh atau menyimpan ulang gambar jika memerlukan penyimpanan permanen.
+3.  **TTL (Time-to-Live)**: Tautan valid selama **5 menit**. Kamu disarankan untuk mengunduh atau menyimpan ulang gambar jika memerlukan penyimpanan permanen.
 
 ### Keamanan (Perlindungan SSRF)
-Saat kamu memberikan `image_url` untuk variasi atau inpainting, **Security Bridge** Neosantara memvalidasi URL tersebut:
+Saat Kamu memberikan `image_url` untuk variasi atau inpainting, **Security Bridge** Neosantara memvalidasi URL tersebut:
 *   Melakukan resolusi DNS untuk memverifikasi rentang IP.
 *   Memblokir semua alamat jaringan pribadi, *loopback*, dan cadangan untuk mencegah *Server-Side Request Forgery* (SSRF).
 

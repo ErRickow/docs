@@ -1,18 +1,18 @@
 ---
 title: "Model Context Protocol"
 sidebarTitle: "MCP"
-description: "Hubungkan tool Neosantara secara langsung ke coding assistant AI lokal kamu seperti Cursor, VS Code, dan Claude Desktop."
+description: "Hubungkan tool Neosantara secara langsung ke coding assistant AI lokal Kamu seperti Cursor, VS Code, dan Claude Desktop."
 ---
 
 Model Context Protocol, atau biasa disebut MCP, adalah standar terbuka yang memungkinkan asisten AI untuk mengakses tool dan sumber data lokal maupun remote secara aman. Neosantara menyediakan server MCP bawaan yang berjalan langsung pada API gateway-nya.
 
-Dengan menghubungkan lingkungan koding lokal kamu ke server MCP Neosantara, kamu dapat mengizinkan tool seperti Cursor atau Claude Desktop untuk memanggil model Neosantara, men-generate gambar, menemukan model yang tersedia, dan mengakses kemampuan agentic secara langsung dari IDE atau chat client kamu.
+Dengan menghubungkan lingkungan koding lokal Kamu ke server MCP Neosantara, Kamu dapat mengizinkan tool seperti Cursor atau Claude Desktop untuk memanggil model Neosantara, men-generate gambar, menemukan model yang tersedia, dan mengakses kemampuan agentic secara langsung dari IDE atau chat client Kamu.
 
 ---
 
 ## 1. Buat API Key Khusus MCP
 
-Untuk mengakses server MCP, kamu memerlukan API key khusus MCP. Key Neosantara standar tidak dapat digunakan untuk mengautentikasi endpoint MCP.
+Untuk mengakses server MCP, Kamu memerlukan API key khusus MCP. Key Neosantara standar tidak dapat digunakan untuk mengautentikasi endpoint MCP.
 
 <Steps>
   <Step title="Buka Dashboard">
@@ -22,7 +22,7 @@ Untuk mengakses server MCP, kamu memerlukan API key khusus MCP. Key Neosantara s
     Klik tombol **Buat Key** atau **Buat MCP Key**.
   </Step>
   <Step title="Simpan Key">
-    Simpan key yang dihasilkan dengan aman. Key kamu akan memiliki awalan `nsk_mcp_`.
+    Simpan key yang dihasilkan dengan aman. Key Kamu akan memiliki awalan `nsk_mcp_`.
   </Step>
 </Steps>
 
@@ -34,7 +34,7 @@ Untuk mengakses server MCP, kamu memerlukan API key khusus MCP. Key Neosantara s
 
 ## 2. Tool yang Didukung
 
-Setelah terhubung, server MCP Neosantara menyediakan tool-tool berikut untuk asisten AI kamu:
+Setelah terhubung, server MCP Neosantara menyediakan tool-tool berikut untuk asisten AI Kamu:
 
 | Nama Tool | Deskripsi |
 | --- | --- |
@@ -47,7 +47,7 @@ Setelah terhubung, server MCP Neosantara menyediakan tool-tool berikut untuk asi
 
 ## 3. Konfigurasi & Integrasi
 
-Server MCP Neosantara menggunakan protokol transport Server-Sent Events, atau biasa disebut SSE. Ini memungkinkan kamu terhubung langsung melalui URL tanpa perlu mengunduh script executable lokal.
+Server MCP Neosantara menggunakan protokol transport Server-Sent Events, atau biasa disebut SSE. Ini memungkinkan Kamu terhubung langsung melalui URL tanpa perlu mengunduh script executable lokal.
 
 * **URL Endpoint**: `https://api.neosantara.xyz/v1/mcp`
 * **Header Otorisasi**: `x-api-key`
@@ -88,7 +88,7 @@ Untuk menghubungkan tool Neosantara ke aplikasi Claude Desktop:
 
 <Steps>
   <Step title="Buka File Konfigurasi">
-    Buka file konfigurasi Claude Desktop kamu di salah satu jalur berikut:
+    Buka file konfigurasi Claude Desktop Kamu di salah satu jalur berikut:
     * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
     * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
   </Step>
@@ -125,7 +125,7 @@ Untuk menambahkan Neosantara sebagai server MCP di Gemini CLI, jalankan perintah
 gemini mcp add neosantara https://api.neosantara.xyz/v1/mcp -t http -H "x-api-key: KEY_NSK_MCP_KAMU"
 ```
 
-Untuk memverifikasi koneksi, kamu bisa melihat daftar server MCP yang terkonfigurasi:
+Untuk memverifikasi koneksi, Kamu bisa melihat daftar server MCP yang terkonfigurasi:
 
 ```bash
 gemini mcp list
@@ -147,17 +147,17 @@ claude mcp list
 
 #### Codex CLI
 
-Untuk menambahkan Neosantara sebagai server MCP di Codex, gunakan perintah add dan tentukan key kamu:
+Untuk menambahkan Neosantara sebagai server MCP di Codex, gunakan perintah add dan tentukan key Kamu:
 
 ```bash
 codex mcp add neosantara --url https://api.neosantara.xyz/v1/mcp --bearer-token-env-var NAI_MCP_KEY
 ```
 
-Pastikan kamu sudah meng-export environment variable `NAI_MCP_KEY` yang berisi key MCP Neosantara kamu pada konfigurasi shell.
+Pastikan Kamu sudah meng-export environment variable `NAI_MCP_KEY` yang berisi key MCP Neosantara Kamu pada konfigurasi shell.
 
 #### Kiro CLI
 
-Untuk menghubungkan Neosantara ke Kiro CLI, buka file konfigurasi kamu:
+Untuk menghubungkan Neosantara ke Kiro CLI, buka file konfigurasi Kamu:
 
 * **Jalur**: `~/.kiro/settings/mcp.json`
 
@@ -180,7 +180,7 @@ Tambahkan konfigurasi Neosantara di bawah objek `mcpServers`:
 
 ## 4. Menguji Koneksi MCP Kamu
 
-Setelah dikonfigurasi, kamu dapat menguji apakah asisten koding kamu sudah memiliki akses ke Neosantara dengan memberikan prompt berikut:
+Setelah dikonfigurasi, Kamu dapat menguji apakah asisten koding Kamu sudah memiliki akses ke Neosantara dengan memberikan prompt berikut:
 
 <Prompt 
   description="Minta asisten menampilkan daftar model melalui MCP"
@@ -210,6 +210,6 @@ Setelah dikonfigurasi, kamu dapat menguji apakah asisten koding kamu sudah memil
 
 ## 5. Batas Penggunaan
 
-Endpoint MCP memiliki batas throughput dan kuota request harian terpisah yang diberlakukan berdasarkan tier langganan akun kamu. Sebagai contoh, key Free mendapatkan 20 request per menit dan 500 request harian.
+Endpoint MCP memiliki batas throughput dan kuota request harian terpisah yang diberlakukan berdasarkan tier langganan akun Kamu. Sebagai contoh, key Free mendapatkan 20 request per menit dan 500 request harian.
 
 Untuk rincian dan detail kuota lengkap per tier, silakan merujuk ke halaman dokumentasi utama [Rate Limit](/id/about/rate-limits#batas-api-mcp).

@@ -3,7 +3,7 @@ title: "AutoGen"
 description: "Menggunakan AutoGen(AG2) dengan Neosantara."
 ---
 
-AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan mengorkestrasi agen AI. Framework ini berfokus pada memungkinkan banyak agen untuk bekerja sama dalam menyelesaikan tugas-tugas kompleks. Framework ini mendukung berbagai model bahasa dari Toge, integrasi alat, serta alur kerja otonom dan human-in-the-loop.
+AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan mengelola agen AI. Framework ini berfokus pada memungkinkan banyak agen untuk bekerja sama dalam menyelesaikan tugas-tugas kompleks. Framework ini mendukung berbagai model bahasa dari berbagai penyedia, integrasi alat, serta alur kerja otonom dan human-in-the-loop.
 
 ## Menginstal Perpustakaan
 
@@ -11,7 +11,7 @@ AG2 (sebelumnya AutoGen) adalah framework sumber terbuka untuk membangun dan men
   pip install autogen
 ```
 
-Atur kunci API Neosantara kamu:
+Atur kunci API Neosantara Kamu:
 
 ```shell Shell
   export NAI_API_KEY=***
@@ -148,7 +148,7 @@ Kode yang diberikan bertujuan untuk menghitung jumlah bilangan prima dalam renta
     *   **`if n <= 1: return False`**: Bilangan prima harus lebih besar dari 1. Jadi, angka 1 atau kurang dari 1 bukan prima.
     *   **`if n == 2: return True`**: Angka 2 adalah bilangan prima terkecil dan satu-satunya bilangan prima genap.
     *   **`if n % 2 == 0: return False`**: Setelah menangani angka 2, semua bilangan genap lainnya (yang lebih besar dari 2) tidak bisa menjadi prima karena mereka pasti habis dibagi 2.
-    *   **`i = 3` dan `while i * i <= n:`**: Ini adalah bagian inti dari pemeriksaan. Kita memulai dengan pembagi `i = 3`. Kita hanya perlu memeriksa pembagi hingga akar kuadrat dari `n`. Jika `n` memiliki pembagi `p` yang lebih besar dari `sqrt(n)`, maka `n` juga harus memiliki pembagi `q = n/p` yang lebih kecil dari `sqrt(n)`. Dengan demikian, kita cukup memeriksa hingga `sqrt(n)`.
+    *   **`i = 3` dan `while i * i <= n:`**: Ini adalah bagian inti dari pemeriksaan. Kita memulai dengan pembagi `i = 3`. Kita hanya perlu memeriksa pembagi hingga akar kuadrat dari `n`. Jika `n` memiliki pembagi `p` yang lebih besar dari `sqrt(n)`, maka `n` juga harus memiliki pembagi `q = n/p` yang lebih kecil dari `sqrt(n)`. Jadi, kita cukup memeriksa hingga `sqrt(n)`.
     *   **`if n % i == 0: return False`**: Jika `n` habis dibagi `i`, berarti `n` memiliki pembagi selain 1 dan dirinya sendiri, sehingga bukan prima.
     *   **`i += 2`**: Kita hanya perlu memeriksa pembagi ganjil, karena semua pembagi genap sudah ditangani atau tidak relevan (jika `n` sendiri ganjil). Jadi, `i` ditingkatkan sebesar 2.
     *   **`return True`**: Jika loop selesai tanpa menemukan pembagi, berarti `n` adalah bilangan prima.

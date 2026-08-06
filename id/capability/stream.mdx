@@ -3,11 +3,11 @@ title: "Streaming"
 description: "Aktifkan aliran data waktu nyata menggunakan Server-Sent Events (SSE) untuk pengalaman pengguna dengan latensi rendah."
 ---
 
-Streaming memungkinkan aplikasi kamu untuk memproses dan menampilkan output model saat sedang dibuat, secara signifikan mengurangi latensi yang dirasakan pengguna. Alih-alih menunggu seluruh respons selesai (yang bisa memakan waktu beberapa detik), pengguna kamu akan melihat efek "mengetik" secara waktu nyata.
+Streaming memungkinkan aplikasi Kamu untuk memproses dan menampilkan output model saat sedang dibuat, secara signifikan mengurangi latensi yang dirasakan pengguna. Alih-alih menunggu seluruh respons selesai (yang bisa memakan waktu beberapa detik), pengguna Kamu akan melihat efek "mengetik" secara waktu nyata.
 
 ## Implementasi Protokol
 
-Neosantara API menggunakan **Server-Sent Events (SSE)** untuk mengalirkan data. Saat kamu menyetel `stream: true`, API menjaga koneksi tetap terbuka dan mengirimkan potongan data (chunks) segera setelah tersedia.
+Neosantara API menggunakan **Server-Sent Events (SSE)** untuk mengalirkan data. Saat Kamu menyetel `stream: true`, API menjaga koneksi tetap terbuka dan mengirimkan potongan data (chunks) segera setelah tersedia.
 
 ### Dua Mode Streaming
 
@@ -122,6 +122,6 @@ for await (const chunk of stream) {
 
 ## Praktik Terbaik
 
-1. **Hindari Buffering**: Pastikan aplikasi atau proxy kamu (seperti Nginx) tidak menahan (buffer) respons. Gunakan `X-Accel-Buffering: no` jika berada di balik Nginx.
-2. **Tangani Interupsi**: Koneksi jaringan bisa terputus. Selalu bungkus iterasi stream kamu dalam blok `try/except` untuk menangani timeout atau reset secara elegan.
+1. **Hindari Buffering**: Pastikan aplikasi atau proxy Kamu (seperti Nginx) tidak menahan (buffer) respons. Gunakan `X-Accel-Buffering: no` jika berada di balik Nginx.
+2. **Tangani Interupsi**: Koneksi jaringan bisa terputus. Selalu bungkus iterasi stream Kamu dalam blok `try/except` untuk menangani timeout atau reset secara elegan.
 3. **Feedback UI**: Gunakan beberapa chunk pertama untuk menghentikan animasi "loading" dan tampilkan avatar asisten agar aplikasi terasa lebih cepat.
