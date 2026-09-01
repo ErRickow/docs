@@ -3,7 +3,7 @@ title: "Model Routes"
 description: "Buat alias model virtual dengan fallback chain — petakan nama kustom ke urutan model yang otomatis failover."
 ---
 
-**Model Routes** Kamu dapat mendefinisikan alias model kustom yang mengarah ke rantai model asli. Saat model utama tidak tersedia (rate-limited atau error), request otomatis dialihkan ke model berikutnya dalam rantai — tanpa perlu logika retry di sisi klien.
+Dengan **Model Routes**, Kamu dapat mendefinisikan alias model kustom yang mengarah ke rantai model asli. Saat model utama tidak tersedia (rate-limited atau error), request otomatis dialihkan ke model berikutnya dalam rantai — tanpa perlu logika retry di sisi klien.
 
 <Note>
   Model Routes memerlukan **Coding Plan aktif** (langganan berbayar atau trial). Hanya berlaku pada request yang dibuat dengan coding key (`nsk_code_*`) melalui coding endpoint.
@@ -31,7 +31,7 @@ my-coder → claude-4.5-sonnet (utama)
 
 ## Mengelola Routes
 
-Buka [Coding Plan](https://app.neosantara.xyz/coding-plan) di dashboard. Bagian **Model Routes** Kamu dapat membuat, mengedit, dan menghapus route secara visual.
+Buka [Coding Plan](https://app.neosantara.xyz/coding-plan) di dashboard. Di bagian **Model Routes**, Kamu dapat membuat, mengedit, dan menghapus route secara visual.
 
 ## Aturan
 
