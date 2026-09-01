@@ -4341,7 +4341,20 @@
                               "content": {
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "const": "reasoning_text"
+                                    },
+                                    "text": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "type",
+                                    "text"
+                                  ]
                                 }
                               },
                               "encrypted_content": {
@@ -4389,9 +4402,33 @@
                                           "type": "string"
                                         },
                                         "annotations": {
-                                          "type": "array",
+                                          "type": [
+                                            "array",
+                                            "null"
+                                          ],
                                           "items": {
-                                            "type": "string"
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string"
+                                              },
+                                              "url": {
+                                                "type": "string"
+                                              },
+                                              "title": {
+                                                "type": "string"
+                                              },
+                                              "start_index": {
+                                                "type": "number"
+                                              },
+                                              "end_index": {
+                                                "type": "number"
+                                              }
+                                            },
+                                            "required": [
+                                              "type"
+                                            ],
+                                            "additionalProperties": true
                                           }
                                         }
                                       },
@@ -5201,9 +5238,33 @@
                                             "type": "string"
                                           },
                                           "annotations": {
-                                            "type": "array",
+                                            "type": [
+                                              "array",
+                                              "null"
+                                            ],
                                             "items": {
-                                              "type": "string"
+                                              "type": "object",
+                                              "properties": {
+                                                "type": {
+                                                  "type": "string"
+                                                },
+                                                "url": {
+                                                  "type": "string"
+                                                },
+                                                "title": {
+                                                  "type": "string"
+                                                },
+                                                "start_index": {
+                                                  "type": "number"
+                                                },
+                                                "end_index": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "type"
+                                              ],
+                                              "additionalProperties": true
                                             }
                                           }
                                         },
@@ -5509,7 +5570,20 @@
                                 "content": {
                                   "type": "array",
                                   "items": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string",
+                                        "const": "reasoning_text"
+                                      },
+                                      "text": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "text"
+                                    ]
                                   }
                                 },
                                 "encrypted_content": {
@@ -8587,6 +8661,18 @@
                         "type": {
                           "type": "string",
                           "const": "message_stop"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "ping"
                         }
                       },
                       "required": [
