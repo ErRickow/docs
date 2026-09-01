@@ -21,7 +21,7 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
   </Accordion>
 
   <Accordion title="Apa yang terjadi kalau kuota habis?">
-    Request di-**hard-stop** sampai jendela 5 jam atau mingguan berikutnya reset. Saldo tidak dipotong â€” tidak ada overage pay-as-you-go. Sistem tidak akan pernah memotong saldo PAYG-mu.
+    Request di-**hard-stop** sampai jendela 5 jam atau mingguan berikutnya reset. Saldo tidak dipotong â€” tidak ada overage pay-as-you-go. Sistem tidak akan pernah memotong saldo PAYG Kamu.
   </Accordion>
 
   <Accordion title="Tool apa saja yang didukung?">
@@ -30,11 +30,11 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
     - **Cline**, **Continue**, **OpenCode** (mode OpenAI)
     - **Jelma** (coding agent bawaan Neosantara)
 
-    Semua tool yang didukung berbagi kuota yang sama di bawah langgananmu.
+    Semua tool yang didukung berbagi kuota yang sama di bawah langganan Kamu.
   </Accordion>
 
   <Accordion title="Model apa yang tersedia?">
-    Semua model di gateway Neosantara tersedia, sesuai daftar model yang diizinkan tier-mu. Termasuk Claude, Gemini, GPT, GLM, DeepSeek, dll.
+    Semua model di gateway Neosantara tersedia, sesuai daftar model yang diizinkan tier Kamu. Termasuk Claude, Gemini, GPT, GLM, DeepSeek, dll.
   </Accordion>
 
   <Accordion title="Apakah ada batas concurrency?">
@@ -58,7 +58,7 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
     - OpenAI-compatible: `https://api.neosantara.xyz/coding/v1`
     - Anthropic-compatible: `https://api.neosantara.xyz/coding/anthropic`
 
-    Kalau Kamu kirim coding key ke `/v1` atau `/anthropic` (endpoint PAYG), Kamu akan dapat error ini. Update konfigurasi base URL di tool-mu.
+    Kalau Kamu kirim coding key ke `/v1` atau `/anthropic` (endpoint PAYG), Kamu akan dapat error ini. Update konfigurasi base URL di tool Kamu.
   </Accordion>
 
   <Accordion title="Bisa pakai key PAYG biasa di /coding/v1?">
@@ -118,7 +118,7 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
   </Accordion>
 
   <Accordion title="Apa yang terjadi kalau paket berakhir?">
-    Coding key-mu akan turun ke tier Free coding (kalau ada) atau jadi tidak aktif. Key dan saldo PAYG tidak terpengaruh.
+    Coding key Kamu akan turun ke tier Free coding (kalau ada) atau jadi tidak aktif. Key dan saldo PAYG tidak terpengaruh.
   </Accordion>
 </AccordionGroup>
 
@@ -126,24 +126,24 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
 
 <AccordionGroup>
   <Accordion title="Bisa pakai Coding Plan dengan Jelma?">
-    Bisa. Jelma adalah coding agent bawaan Neosantara. Buka [Jelma](https://app.neosantara.xyz/jelma) di dashboard, pilih coding agent, dan akan otomatis pakai coding key-mu â€” tanpa setup lokal.
+    Bisa. Jelma adalah coding agent bawaan Neosantara. Buka [Jelma](https://app.neosantara.xyz/jelma) di dashboard, pilih coding agent, dan akan otomatis pakai coding key Kamu â€” tanpa setup lokal.
   </Accordion>
 
   <Accordion title="Jelma pakai kuota yang sama?">
-    Ya. Jelma memakai kuota prompt yang sama seperti tool lain yang terhubung via coding key-mu.
+    Ya. Jelma memakai kuota prompt yang sama seperti tool lain yang terhubung via coding key Kamu.
   </Accordion>
 
   <Accordion title="Cara pakai Model Route kustom di Jelma?">
-    Pakai flag `--model` dengan nama virtual model-mu:
+    Pakai flag `--model` dengan nama virtual model Kamu:
     ```bash
     jelma claude local --model my-coder
     jelma codex hetzner --model my-coder
     ```
-    Jelma men-set nama virtual ke semua slot model, jadi gateway me-resolve setiap request (utama, background, fast) melalui failover chain-mu. Lihat [Model Routes](/id/coding-plan/model-routes) untuk setup.
+    Jelma men-set nama virtual ke semua slot model, jadi gateway me-resolve setiap request (utama, background, fast) melalui failover chain Kamu. Lihat [Model Routes](/id/coding-plan/model-routes) untuk setup.
   </Accordion>
 
   <Accordion title="Apa itu garda-core?">
-    `garda-core` adalah model default yang dipakai Jelma untuk user Coding Plan. Ini adalah nama model virtual yang di-resolve gateway Neosantara ke model terbaik yang tersedia di tier-mu. Kamu bisa override dengan `--model` atau dengan mengatur [Model Route](/id/coding-plan/model-routes) kustom di dashboard.
+    `garda-core` adalah model default yang dipakai Jelma untuk user Coding Plan. Ini adalah nama model virtual yang di-resolve gateway Neosantara ke model terbaik yang tersedia di tier Kamu. Kamu bisa override dengan `--model` atau dengan mengatur [Model Route](/id/coding-plan/model-routes) kustom di dashboard.
   </Accordion>
 </AccordionGroup>
 
@@ -153,16 +153,16 @@ description: "Pertanyaan yang sering ditanyakan tentang Neosantara Coding Plan â
   <Accordion title="Kenapa muncul 'Insufficient Balance' setelah beli Coding Plan?">
     Biasanya karena Kamu tidak mengarah ke endpoint coding yang benar. Pastikan:
     1. Kamu pakai coding key (`nsk_code_*`), bukan key biasa.
-    2. Base URL-mu adalah `/coding/v1` atau `/coding/anthropic`, bukan `/v1`.
-    3. Model yang dipanggil ada di daftar yang diizinkan tier-mu.
+    2. Base URL Kamu adalah `/coding/v1` atau `/coding/anthropic`, bukan `/v1`.
+    3. Model yang dipanggil ada di daftar yang diizinkan tier Kamu.
 
-    Coding Plan tidak pernah memotong saldo PAYG. Kalau saldo terpotong, tool-mu routing ke endpoint yang salah.
+    Coding Plan tidak pernah memotong saldo PAYG. Kalau saldo terpotong, tool Kamu routing ke endpoint yang salah.
   </Accordion>
 
   <Accordion title="Sudah langganan tapi key masih menunjukkan tier 'Free'">
     Aktivasi plan terjadi setelah Mayar konfirmasi pembayaran. Kalau invoice menunjukkan SUCCESS tapi tier belum update:
     1. Tunggu 1â€“2 menit untuk pemrosesan webhook.
     2. Refresh halaman Coding Plan.
-    3. Kalau masih belum update, hubungi support@neosantara.xyz dengan invoice ID-mu.
+    3. Kalau masih belum update, hubungi support@neosantara.xyz dengan invoice ID Kamu.
   </Accordion>
 </AccordionGroup>

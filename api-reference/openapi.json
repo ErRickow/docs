@@ -6479,7 +6479,7 @@
           "Anthropic"
         ],
         "summary": "Create a message",
-        "description": "Create a message using the Anthropic-compatible API. Supports tool use and sseStreaming.",
+        "description": "Create a message using the Anthropic-compatible API. Supports tool use and SSE streaming.",
         "responses": {
           "200": {
             "description": "Successful response or SSE stream",
@@ -9770,10 +9770,18 @@
                             "const": "embedding"
                           },
                           "embedding": {
-                            "type": "array",
-                            "items": {
-                              "type": "number"
-                            }
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              {
+                                "type": "string",
+                                "contentEncoding": "base64"
+                              }
+                            ]
                           },
                           "index": {
                             "type": "number"

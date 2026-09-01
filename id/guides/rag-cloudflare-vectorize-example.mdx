@@ -55,7 +55,7 @@ CHAT_MODEL = "garda-core" # Atau "garda-agentic-mini" untuk konteks yang lebih b
 # --- Konfigurasi Cloudflare Vectorize ---
 CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN", "TOKEN_API_CLOUDFLARE_KAMU")
 CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "ID_AKUN_CLOUDFLARE_KAMU")
-VECTORIZE_INDEX_NAME = "my-rag-index" # Pilih nama untuk indeks Vectorize kamu
+VECTORIZE_INDEX_NAME = "my-rag-index" # Pilih nama untuk indeks Vectorize Kamu
 
 # URL Dasar API Cloudflare untuk Vectorize v2
 CLOUDFLARE_API_BASE = f"https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/vectorize/v2/indexes"
@@ -102,8 +102,8 @@ create_vectorize_index(VECTORIZE_INDEX_NAME)
 
 ```python icon="python"
 documents = [
-  {"id": "doc1", "text": "Mengoperasikan Sistem Kontrol Iklim. Googlecar kamu memiliki sistem kontrol iklim untuk menyesuaikan suhu dan aliran udara di dalam mobil."},
-  {"id": "doc2", "text": "Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, harap hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian kamu."},
+  {"id": "doc1", "text": "Mengoperasikan Sistem Kontrol Iklim. Googlecar Kamu memiliki sistem kontrol iklim untuk menyesuaikan suhu dan aliran udara di dalam mobil."},
+  {"id": "doc2", "text": "Kebijakan pengembalian dana kami mengizinkan pengembalian dalam waktu 30 hari setelah pembelian. Untuk memulai pengembalian dana, harap hubungi tim dukungan kami di support@neosantara.xyz dengan nomor pesanan dan alasan pengembalian Kamu."},
   {"id": "doc3", "text": "Jam operasional dukungan adalah Senin sampai Jumat, pukul 09.00 hingga 17.00 WIB."},
   {"id": "doc4", "text": "Batas kecepatan API Neosantara untuk tier Gratis adalah 1000 RPM." } 
 ]
@@ -195,8 +195,8 @@ Terakhir, buat prompt dengan konteks yang diambil dan kirimkan ke model obrolan 
 def make_prompt(query, retrieved_context):
     processed_context = retrieved_context.replace("\n", " ")
     return f"""
-kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan.
-Jika jawabannya tidak ada dalam konteks, katakan kamu tidak tahu.
+Kamu adalah agen dukungan yang membantu. Jawab pertanyaan pengguna HANYA menggunakan konteks yang disediakan.
+Jika jawabannya tidak ada dalam konteks, katakan Kamu tidak tahu.
 
 PERTANYAAN: '{query}'
 KONTEKS:
@@ -214,14 +214,12 @@ def generate_answer_with_rag(query_text):
         return neosantara_client.chat.completions.create(
             model=CHAT_MODEL,
             messages=[
-                {"role": "system", "content": "kamu adalah agen dukungan yang membantu. kamu mengakui jika kamu tidak dapat menemukan informasi yang relevan."},
+                {"role": "system", "content": "Kamu adalah agen dukungan yang membantu. Kamu mengakui jika Kamu tidak dapat menemukan informasi yang relevan."},
                 {"role": "user", "content": f"PERTANYAAN: '{query_text}'\nKONTEKS: [Informasi relevan tidak ditemukan.]\nJAWABAN:"}
             ]
         ).choices[0].message.content
 
-    print(f"Konteks yang diambil:\n---
-
-\n{context}\n---\n")
+    print(f"Konteks yang diambil:\n---\n{context}\n---\n")
     
     # 2. Buat prompt untuk LLM
     full_prompt = make_prompt(query_text, context)
@@ -244,7 +242,7 @@ if __name__ == "__main__":
     if "KUNCI_API_NEOSANTARA_KAMU" in NEOSANTARA_API_KEY or \
        "TOKEN_API_CLOUDFLARE_KAMU" in CLOUDFLARE_API_TOKEN or \
        "ID_AKUN_CLOUDFLARE_KAMU" in CLOUDFLARE_ACCOUNT_ID:
-        print("⚠️ Harap setel variabel lingkungan kunci API dan ID Akun Cloudflare kamu.")
+        print("⚠️ Harap setel variabel lingkungan kunci API dan ID Akun Cloudflare Kamu.")
         exit()
     
     # Kueri Pengujian

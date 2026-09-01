@@ -81,7 +81,7 @@ Berikut adalah sekumpulan kecil dokumen yang akan Kamu gunakan untuk membuat bas
 
 ```python icon="python"
 DOCUMENT1 = """
-  Mengoperasikan Sistem Kontrol Iklim Googlecar kamu memiliki sistem
+  Mengoperasikan Sistem Kontrol Iklim Googlecar Kamu memiliki sistem
   kontrol iklim untuk menyesuaikan suhu dan aliran udara
   di dalam mobil. Untuk mengoperasikan sistem kontrol iklim, gunakan tombol
   dan kenop yang terletak di konsol tengah. Suhu: Kenop suhu mengontrol
@@ -93,31 +93,31 @@ DOCUMENT1 = """
   Kenop kecepatan kipas mengontrol kecepatan kipas. Putar kenop searah jarum jam
   untuk meningkatkan kecepatan kipas atau berlawanan arah jarum jam untuk
   mengurangi kecepatan kipas.
-  Mode: Tombol mode, kamu dapat memilih mode yang diinginkan. Mode yang
+  Mode: Tombol mode, Kamu dapat memilih mode yang diinginkan. Mode yang
   tersedia adalah: Otomatis: Mobil akan secara otomatis menyesuaikan suhu dan
   aliran udara untuk menjaga tingkat kenyamanan.
   Dingin: Mobil akan meniupkan udara dingin ke dalam mobil.
   Panas: Mobil akan meniupkan udara hangat ke dalam mobil.
   Defrost: Mobil akan meniupkan udara hangat ke kaca depan untuk menghilangkan embun.
-"
+"""
 DOCUMENT2 = """
-  Googlecar kamu memiliki layar sentuh besar yang menyediakan akses ke
+  Googlecar Kamu memiliki layar sentuh besar yang menyediakan akses ke
   berbagai fitur, termasuk navigasi, hiburan, dan kontrol iklim. Untuk
   menggunakan layar sentuh, cukup sentuh ikon yang diinginkan. Misalnya,
-  kamu dapat menyentuh ikon "Navigasi" untuk mendapatkan petunjuk arah ke
-  tujuan kamu atau menyentuh ikon "Musik" untuk memutar lagu favorit kamu.
-"
+  Kamu dapat menyentuh ikon "Navigasi" untuk mendapatkan petunjuk arah ke
+  tujuan Kamu atau menyentuh ikon "Musik" untuk memutar lagu favorit Kamu.
+"""
 DOCUMENT3 = """
-  Berpindah Gigi Googlecar kamu memiliki transmisi otomatis. Untuk berpindah
+  Berpindah Gigi Googlecar Kamu memiliki transmisi otomatis. Untuk berpindah
   gigi, cukup gerakkan tuas pemindah ke posisi yang diinginkan.
-  Parkir: Posisi ini digunakan saat kamu parkir. Roda terkunci dan mobil tidak
+  Parkir: Posisi ini digunakan saat Kamu parkir. Roda terkunci dan mobil tidak
   dapat bergerak.
   Mundur: Posisi ini digunakan untuk mundur.
-  Netral: Posisi ini digunakan saat kamu berhenti di lampu merah atau di tengah kemacetan.
-  Mobil tidak masuk gigi dan tidak akan bergerak kecuali kamu menginjak pedal gas.
+  Netral: Posisi ini digunakan saat Kamu berhenti di lampu merah atau di tengah kemacetan.
+  Mobil tidak masuk gigi dan tidak akan bergerak kecuali Kamu menginjak pedal gas.
   Jalan: Posisi ini digunakan untuk melaju ke depan.
   Rendah: Posisi ini digunakan untuk berkendara di salju atau kondisi licin lainnya.
-"
+"""
 
 documents = [DOCUMENT1, DOCUMENT2, DOCUMENT3]
 ```
@@ -190,20 +190,20 @@ def make_prompt(query, relevant_passage):
   processed_passage = relevant_passage.replace("\n", " ")
   
   prompt = textwrap.dedent(f"""
-    kamu adalah bot yang membantu dan informatif yang menjawab pertanyaan menggunakan
+    Kamu adalah bot yang membantu dan informatif yang menjawab pertanyaan menggunakan
     teks dari bagian referensi yang disertakan di bawah ini.
     Pastikan untuk merespons dengan kalimat lengkap, komprehensif,
     termasuk semua informasi latar belakang yang relevan. 
-    Namun, kamu sedang berbicara dengan audiens non-teknis, jadi pastikan untuk
+    Namun, Kamu sedang berbicara dengan audiens non-teknis, jadi pastikan untuk
     menjelaskan konsep-konsep rumit dan menggunakan nada yang ramah
     serta santai. Jika bagian referensi tidak relevan dengan jawabannya, 
-    kamu dapat mengabaikannya dan mengatakan "Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan."
+    Kamu dapat mengabaikannya dan mengatakan "Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan."
 
     PERTANYAAN: '{query}'
     BAGIAN REFERENSI: '{processed_passage}'
 
     JAWABAN:
-  """")
+  """)
   return prompt
 
 def generate_answer(query, db):
@@ -232,7 +232,7 @@ Mari kita satukan semuanya dan uji dengan beberapa kueri:
 if __name__ == "__main__":
   # Pastikan Kunci API dan URL Dasar telah disetel di lingkungan atau ganti "KUNCI_API_NEOSANTARA_KAMU_DI_SINI"
   if "KUNCI_API_NEOSANTARA_KAMU_DI_SINI" in NEOSANTARA_API_KEY:
-      print("⚠️ Harap setel variabel lingkungan NEOSANTARA_API_KEY kamu atau ganti 'KUNCI_API_NEOSANTARA_KAMU_DI_SINI' dalam skrip.")
+      print("⚠️ Harap setel variabel lingkungan NEOSANTARA_API_KEY Kamu atau ganti 'KUNCI_API_NEOSANTARA_KAMU_DI_SINI' dalam skrip.")
   
   print("Menginisialisasi ChromaDB dan mengisi dengan embedding dokumen...")
   vector_db = create_chroma_db(documents, "neosantara-car-manual-db")
@@ -264,16 +264,16 @@ Menginisialisasi ChromaDB dan mengisi dengan embedding dokumen...
 ChromaDB siap.
 
 Kueri Pengguna: Bagaimana cara mengatur suhu di dalam mobil?
-Bagian yang Diambil:   Mengoperasikan Sistem Kontrol Iklim Googlecar kamu memiliki sistem kontrol
+Bagian yang Diambil:   Mengoperasikan Sistem Kontrol Iklim Googlecar Kamu memiliki sistem kontrol
   iklim yang memungkinkan... 
-Respons AI: Untuk menyesuaikan suhu di Googlecar kamu, kamu akan menggunakan kenop suhu yang terletak di konsol tengah. Memutar kenop searah jarum jam akan menaikkan suhu, sedangkan memutarnya berlawanan arah jarum jam akan menurunkannya.
+Respons AI: Untuk menyesuaikan suhu di Googlecar Kamu, Kamu akan menggunakan kenop suhu yang terletak di konsol tengah. Memutar kenop searah jarum jam akan menaikkan suhu, sedangkan memutarnya berlawanan arah jarum jam akan menurunkannya.
 
 Kueri Pengguna: Bagaimana cara membuat kopi di Google car?
 Bagian yang Diambil: Informasi relevan tidak ditemukan....
 Respons AI: Saya tidak dapat menjawab pertanyaan ini berdasarkan informasi yang diberikan.
 
 Kueri Pengguna: Ceritakan tentang layar sentuhnya.
-Bagian yang Diambil:   Googlecar kamu memiliki layar sentuh besar yang menyediakan akses ke
+Bagian yang Diambil:   Googlecar Kamu memiliki layar sentuh besar yang menyediakan akses ke
   berbagai fitur, termasuk naviga... 
-Respons AI: Googlecar kamu dilengkapi dengan layar sentuh besar yang memberikan akses mudah ke berbagai fitur seperti navigasi, hiburan, dan sistem kontrol iklim. Untuk menggunakannya, kamu cukup menyentuh ikon fitur yang kamu inginkan. Misalnya, menyentuh ikon "Navigasi" akan membantu kamu mendapatkan petunjuk arah, sementara ikon "Musik", kamu dapat memutar lagu favorit kamu.
+Respons AI: Googlecar Kamu dilengkapi dengan layar sentuh besar yang memberikan akses mudah ke berbagai fitur seperti navigasi, hiburan, dan sistem kontrol iklim. Untuk menggunakannya, Kamu cukup menyentuh ikon fitur yang Kamu inginkan. Misalnya, menyentuh ikon "Navigasi" akan membantu Kamu mendapatkan petunjuk arah, sementara dengan ikon "Musik", Kamu dapat memutar lagu favorit Kamu.
 ```

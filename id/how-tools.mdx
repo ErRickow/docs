@@ -112,7 +112,7 @@ Parameter `tool_choice` menawarkan empat opsi yang memungkinkan:
 
 * `auto`: (Default saat `tools` disediakan) Memungkinkan model untuk memutuskan apakah akan memanggil tool yang disediakan atau tidak.
 * `any`: Memberitahu model bahwa ia harus menggunakan salah satu tool yang disediakan, tetapi tidak memaksa tool tertentu.
-* `{"type": "function", "function": {"name": "nama_tool_kamu"}}`: Memaksa model untuk selalu menggunakan tool tertentu.
+* `{"type": "function", "function": {"name": "nama_tool_Kamu"}}`: Memaksa model untuk selalu menggunakan tool tertentu.
 * `none`: Mencegah model menggunakan tool apa pun. (Default saat tidak ada `tools` yang disediakan).
 
 Diagram ini mengilustrasikan cara kerja setiap opsi:
@@ -121,7 +121,7 @@ Diagram ini mengilustrasikan cara kerja setiap opsi:
   <img src="https://mintlify.s3.us-west-1.amazonaws.com/anthropic/images/tool_choice.png" alt="Diagram yang mengilustrasikan opsi untuk parameter tool_choice: auto, any, tool spesifik, dan none." />
 </Frame>
 
-Jika Kamu ingin mempertahankan chain-of-thought (di mana model memberikan langkah-langkah penalarannya) sambil tetap meminta model menggunakan tool tertentu, Kamu dapat menggunakan `tool_choice: \"auto\"` (default) dan menambahkan instruksi eksplisit dalam pesan pengguna. Misalnya: "Bagaimana cuaca di London? Gunakan tool get_weather dalam respons Kamu."
+Jika Kamu ingin mempertahankan chain-of-thought (di mana model memberikan langkah-langkah penalarannya) sambil tetap meminta model menggunakan tool tertentu, Kamu dapat menggunakan `tool_choice: "auto"` (default) dan menambahkan instruksi eksplisit dalam pesan pengguna. Misalnya: "Bagaimana cuaca di London? Gunakan tool get_weather dalam respons Kamu."
 
 ### Output JSON
 
@@ -130,7 +130,7 @@ Tool tidak selalu harus berupa fungsi klien — Kamu dapat menggunakan tool kapa
 Saat menggunakan tool untuk output JSON:
 
 * Kamu biasanya menyediakan **satu** definisi tool.
-* Kamu harus menyetel `tool_choice` ke `{"type": "function", "function": {"name": "nama_tool_kamu"}}` untuk menginstruksikan model secara eksplisit agar menggunakan tool tersebut.
+* Kamu harus menyetel `tool_choice` ke `{"type": "function", "function": {"name": "nama_tool_Kamu"}}` untuk menginstruksikan model secara eksplisit agar menggunakan tool tersebut.
 * Parameter `function` menentukan skema JSON yang tepat yang harus dipatuhi oleh model.
 
 Lihat [Ikhtisar penggunaan tool dengan Neosantara](/id/tools-overview) untuk contoh lengkap output JSON untuk deskripsi gambar.

@@ -3,7 +3,7 @@ title: "DSPy"
 description: "Menggunakan DSPy dengan Neosantara."
 ---
 
-DSPy adalah framework untuk memprogram model bahasa alih-alih mengkamulkan prompt statis. Ini memungkinkan Kamu membangun sistem AI modular dengan kode alih-alih prompt buatan tangan, dan menawarkan metode untuk mengoptimalkan sistem ini secara otomatis.
+DSPy adalah framework untuk memprogram model bahasa alih-alih mengandalkan prompt statis. Ini memungkinkan Kamu membangun sistem AI modular dengan kode alih-alih prompt buatan tangan, dan menawarkan metode untuk mengoptimalkan sistem ini secara otomatis.
 
 Fitur
 
@@ -37,7 +37,7 @@ lm = dspy.LM('openai/garda-core',
              api_key=os.environ.get("NAI_API_KEY"),
              api_base="https://api.neosantara.xyz/v1")
 
-# Sekarang kamu dapat memanggil LLM secara langsung sebagai berikut
+# Sekarang Kamu dapat memanggil LLM secara langsung sebagai berikut
 lm("Say this is a test!", temperature=0.7)  # => ['Ini adalah sebuah tes.']
 lm(messages=[{"role": "user", "content": "Say this is a test!"}])  # => ['Ini adalah sebuah tes.']
 ```
@@ -59,7 +59,7 @@ dspy.configure(lm=lm)
 
 ## Memberi agen akses ke alat pencarian wikipedia
 def search_wikipedia(query: str):
-    # Gunakan pencarian yang lebih umum atau halaman spesifik jika diketahui dapat dikamulkan
+    # Gunakan pencarian yang lebih umum atau halaman spesifik jika diketahui dapat diandalkan
     # Untuk kasus khusus ini, kita tetap menggunakan URL yang disediakan tetapi menyederhanakan outputnya
     results = dspy.ColBERTv2(url='https://id.m.wikipedia.org/wiki/Prabowo_Subianto')(query, k=5) # Ambil 5 hasil
     # Kembalikan konten teks mentah untuk diproses oleh LLM
