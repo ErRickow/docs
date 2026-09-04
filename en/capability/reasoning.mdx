@@ -23,15 +23,43 @@ Models specifically trained for reasoning, such as **DeepSeek-R1**, **Claude 3.7
 ### 2. Instruction Injection
 For standard models that don't have native reasoning (e.g., `garda-core`, `archipelago-core-70b`), Neosantara uses **Instruction Injection**. When reasoning is enabled, the system automatically prepends complex logical instructions to the system prompt, forcing the model to break down its process into steps.
 
-### 3. Reasoning Effort & Budgets
-For supported models, you can control the "depth" of thought using the `thinking` parameter.
+### 3. Reasoning Effort & Toggling (`reasoning_effort`)
+Neosantara standardizes reasoning controls across all supported models through the OpenAI-compatible **`reasoning_effort`** parameter. You can pass `reasoning_effort` in request bodies to control thinking depth or disable reasoning entirely for toggleable models.
 
-| Budget (Tokens) | Effort Level | Use Case |
+| Effort Level | Description | Behavior |
 | :--- | :--- | :--- |
-| < 2,000 | `minimal` | Quick logical checks, simple summaries. |
-| 2,000 - 5,000 | `low` | Basic coding tasks, multi-step instructions. |
-| 5,000 - 10,000 | `medium` | Complex debugging, creative writing logic. |
-| > 10,000 | `high` | Mathematical proofs, architectural planning. |
+| `none` | **Disables thinking/reasoning**. | Turns off chain-of-thought processing on toggleable models (e.g., `claude-sonnet-5`, `gpt-5.4`, `deepseek-v4-flash`, `kimi-k2.6`, `glm-4.5-flash`). Returns direct answers with zero reasoning tokens. |
+| `minimal` | Fastest reasoning pass. | Lightweight logical checks, brief reflection. |
+| `low` | Fast chain-of-thought. | Basic coding tasks, multi-step instructions with low latency. |
+| `medium` | Standard balanced reasoning. | General problem-solving, complex debugging, balanced speed and depth. |
+| `high` | Deep analytical reasoning. | Difficult logic, math proofs, multi-step architectural planning. |
+| `xhigh` | Frontier reasoning depth. | Long-horizon coding and heavy refactoring on frontier models. |
+| `max` | Maximum depth. | Full model exploration for the most challenging tasks. |
+
+#### Example: Toggling Reasoning via SDK
+
+```javascript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  baseURL: 'https://api.neosantara.xyz/v1',
+  apiKey: process.env.NEOSANTARA_API_KEY
+});
+
+// 1. Turn reasoning OFF (for toggleable models)
+const nonThinkingResponse = await client.chat.completions.create({
+  model: 'claude-sonnet-5',
+  messages: [{ role: 'user', content: 'What is the capital of France?' }],
+  reasoning_effort: 'none'
+});
+
+// 2. Control thinking depth
+const thinkingResponse = await client.chat.completions.create({
+  model: 'claude-sonnet-5',
+  messages: [{ role: 'user', content: 'Design a distributed consensus mechanism.' }],
+  reasoning_effort: 'high'
+});
+```
 
 ### Token Reporting
 Reasoning tokens are tracked separately from the final answer to provide better transparency into usage and costs.

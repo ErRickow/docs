@@ -23,15 +23,43 @@ Model yang dilatih khusus untuk penalaran, seperti **DeepSeek-R1**, **Claude 3.7
 ### 2. Injeksi Instruksi (Instruction Injection)
 Untuk model standar yang tidak memiliki penalaran native (misalnya, `garda-core`, `archipelago-core-70b`), Neosantara menggunakan **Injeksi Instruksi**. Saat penalaran diaktifkan, sistem secara otomatis menambahkan instruksi logika kompleks ke prompt sistem, memaksa model untuk membedah prosesnya ke dalam beberapa langkah.
 
-### 3. Anggaran & Upaya Penalaran
-Untuk model yang didukung, Kamu dapat mengontrol "kedalaman" pemikiran menggunakan parameter `thinking`.
+### 3. Upaya Penalaran & Toggle (`reasoning_effort`)
+Neosantara menstandarkan kontrol penalaran di seluruh model yang didukung melalui parameter yang kompatibel dengan OpenAI: **`reasoning_effort`**. Anda dapat mengirimkan `reasoning_effort` dalam body request untuk mengatur kedalaman pemikiran atau mematikan penalaran sepenuhnya pada model yang mendukung toggle.
 
-| Anggaran (Token) | Tingkat Upaya | Kasus Penggunaan |
+| Tingkat Upaya | Deskripsi | Perilaku |
 | :--- | :--- | :--- |
-| < 2.000 | `minimal` | Pemeriksaan logika cepat, ringkasan sederhana. |
-| 2.000 - 5.000 | `low` | Tugas pengodean dasar, instruksi multi-langkah. |
-| 5.000 - 10.000 | `medium` | Debugging kompleks, logika penulisan kreatif. |
-| > 10.000 | `high` | Bukti matematis, perencanaan arsitektur. |
+| `none` | **Menonaktifkan pemikiran/penalaran**. | Mematikan proses chain-of-thought pada model toggleable (misalnya `claude-sonnet-5`, `gpt-5.4`, `deepseek-v4-flash`, `kimi-k2.6`, `glm-4.5-flash`). Mengembalikan jawaban langsung tanpa token penalaran. |
+| `minimal` | Proses penalaran tercepat. | Pemeriksaan logika ringan dan refleksi singkat. |
+| `low` | Chain-of-thought cepat. | Tugas pengodean dasar, instruksi multi-langkah dengan latensi rendah. |
+| `medium` | Penalaran seimbang standar. | Pemecahan masalah umum, debugging kompleks, kecepatan dan kedalaman seimbang. |
+| `high` | Penalaran analitis mendalam. | Logika sulit, pembuktian matematis, perencanaan arsitektur. |
+| `xhigh` | Penalaran frontier tingkat lanjut. | Rekayasa perangkat lunak jangka panjang dan refaktorisasi berat. |
+| `max` | Kedalaman maksimal. | Eksplorasi penuh model untuk tugas-tugas paling menantang. |
+
+#### Contoh: Melakukan Toggle Penalaran via SDK
+
+```javascript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  baseURL: 'https://api.neosantara.xyz/v1',
+  apiKey: process.env.NEOSANTARA_API_KEY
+});
+
+// 1. Matikan penalaran (untuk model toggleable)
+const nonThinkingResponse = await client.chat.completions.create({
+  model: 'claude-sonnet-5',
+  messages: [{ role: 'user', content: 'Apa ibu kota Perancis?' }],
+  reasoning_effort: 'none'
+});
+
+// 2. Kontrol kedalaman pemikiran
+const thinkingResponse = await client.chat.completions.create({
+  model: 'claude-sonnet-5',
+  messages: [{ role: 'user', content: 'Rancang mekanisme konsensus terdistribusi.' }],
+  reasoning_effort: 'high'
+});
+```
 
 ### Pelaporan Token
 Token penalaran dilacak secara terpisah dari jawaban akhir untuk memberikan transparansi yang lebih baik tentang penggunaan dan biaya.
