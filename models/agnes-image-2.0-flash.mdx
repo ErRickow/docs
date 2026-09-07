@@ -1,0 +1,18 @@
+---
+title: "Agnes Image 2 0 Flash"
+description: "Agnes Image 2.0 Flash is a high-speed text-to-image synthesis model for fast creative workflows."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { agnesImage20FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...agnesImage20FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"agnes-image-2.0-flash","prompt":"Pemandangan alam Indonesia yang indah"}'
+```

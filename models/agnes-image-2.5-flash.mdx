@@ -1,0 +1,18 @@
+---
+title: "Agnes Image 2 5 Flash"
+description: "Agnes Image 2.5 Flash is an ultra-fast text-to-image generation model by Sapiens AI supporting high-resolution image synthesis."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { agnesImage25FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...agnesImage25FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"agnes-image-2.5-flash","prompt":"Pemandangan alam Indonesia yang indah"}'
+```

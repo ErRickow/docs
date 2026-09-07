@@ -236,10 +236,11 @@
                           "models/gemini-3.1-flash-lite",
                           "models/gemini-3.1-pro",
                           "models/gemini-3.5-flash",
+                          "models/gemini-3.6-flash",
+                          "models/gemini-3.7-flash",
+                          "models/gemini-3.8-flash",
                           "models/gemini-embedding-001",
-                          "models/gemma-3-27b-it",
                           "models/gemma-4-e2b-it",
-                          "models/gemma2-9b-it",
                           "models/imagen-4.0-fast"
                         ]
                       },
@@ -252,8 +253,9 @@
                           "models/claude-4.5-sonnet",
                           "models/claude-fable-5",
                           "models/claude-opus-4-6",
-                          "models/claude-opus-7",
-                          "models/claude-opus-8",
+                          "models/claude-opus-4-7",
+                          "models/claude-opus-4-8",
+                          "models/claude-opus-5",
                           "models/claude-sonnet-4-6",
                           "models/claude-sonnet-5"
                         ]
@@ -267,6 +269,9 @@
                           "models/gpt-5.4-mini",
                           "models/gpt-5.4-nano",
                           "models/gpt-5.5",
+                          "models/gpt-5.6-luna",
+                          "models/gpt-5.6-sol",
+                          "models/gpt-5.6-terra",
                           "models/gpt-image-2",
                           "models/gpt-oss-120b",
                           "models/gpt-oss-20b",
@@ -290,7 +295,8 @@
                         "pages": [
                           "models/kimi-k2-thinking",
                           "models/kimi-k2.5",
-                          "models/kimi-k2.6"
+                          "models/kimi-k2.6",
+                          "models/kimi-k3"
                         ]
                       },
                       {
@@ -303,6 +309,8 @@
                           "models/glm-4.6v-flash",
                           "models/glm-4.7",
                           "models/glm-4.7-flash",
+                          "models/glm-5.3",
+                          "models/glm-5.3-flash",
                           "models/glm-ocr"
                         ]
                       },
@@ -313,7 +321,9 @@
                           "models/deepseek-ocr",
                           "models/deepseek-r1",
                           "models/deepseek-v4-flash",
-                          "models/deepseek-v4-pro"
+                          "models/deepseek-v4-flash-0731",
+                          "models/deepseek-v4-pro",
+                          "models/deepseek-v4-pro-0813"
                         ]
                       },
                       {
@@ -351,32 +361,16 @@
                         "pages": [
                           "models/llama-3-2-11b-vision",
                           "models/llama-3.2-11b",
-                          "models/llama-guard-3-8b"
+                          "models/llama-guard-3-8b",
+                          "models/muse-glimmer-30b",
+                          "models/muse-spark-1.1"
                         ]
                       },
                       {
                         "group": "Alibaba Cloud",
                         "expanded": false,
                         "pages": [
-                          "models/qwen-plus",
-                          "models/qwen3-235b-a22b",
-                          "models/qwen3-30b-a3b",
-                          "models/qwen3-32b",
-                          "models/qwen3-coder-30b-a3b-instruct",
-                          "models/qwen3-coder-plus",
-                          "models/qwen3-max",
-                          "models/qwen3-omni-flash",
-                          "models/qwen3-vl-plus",
-                          "models/qwen3.5-122b-a10b",
-                          "models/qwen3.5-27b",
-                          "models/qwen3.5-35b-a3b",
-                          "models/qwen3.5-397b-a17b",
-                          "models/qwen3.5-flash",
-                          "models/qwen3.5-plus",
-                          "models/qwen3.6-35b-a3b-mtp",
-                          "models/qwen3.6-plus",
-                          "models/qwen3.7-max",
-                          "models/qwen3.7-plus"
+                          "models/qwen3.6-35b-a3b-mtp"
                         ]
                       },
                       {
@@ -412,34 +406,28 @@
                         ]
                       },
                       {
-                        "group": "ServiceNow AI",
-                        "expanded": false,
-                        "pages": [
-                          "models/apriel-1.6-thinker"
-                        ]
-                      },
-                      {
                         "group": "Meituan",
                         "expanded": false,
                         "pages": [
-                          "models/longcat-flash-thinking"
+                          "models/longcat-2.0"
                         ]
                       },
                       {
                         "group": "Other",
                         "expanded": false,
                         "pages": [
-                          "models/minimax-m2.5",
-                          "models/minimax-m3",
                           "models/nv-embed-v1",
                           "models/step-3.5-flash"
                         ]
                       },
                       {
-                        "group": "Dahl",
+                        "group": "Agnes AI",
                         "expanded": false,
                         "pages": [
-                          "models/minimax-m2.7"
+                          "models/agnes-2.5-flash",
+                          "models/agnes-image-2.0-flash",
+                          "models/agnes-image-2.1-flash",
+                          "models/agnes-image-2.5-flash"
                         ]
                       },
                       {
@@ -452,10 +440,43 @@
                         ]
                       },
                       {
+                        "group": "InclusionAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/ling-3.0-flash-fin"
+                        ]
+                      },
+                      {
+                        "group": "MiniMax",
+                        "expanded": false,
+                        "pages": [
+                          "models/minimax-m2.5",
+                          "models/minimax-m2.7",
+                          "models/minimax-m2.7-free",
+                          "models/minimax-m3",
+                          "models/minimax-m3-free"
+                        ]
+                      },
+                      {
                         "group": "Mistral",
                         "expanded": false,
                         "pages": [
                           "models/codestral-2"
+                        ]
+                      },
+                      {
+                        "group": "Poolside",
+                        "expanded": false,
+                        "pages": [
+                          "models/laguna-s-2.1",
+                          "models/laguna-xs-2.1"
+                        ]
+                      },
+                      {
+                        "group": "Prism ML",
+                        "expanded": false,
+                        "pages": [
+                          "models/bonsai-27b"
                         ]
                       }
                     ]
@@ -465,6 +486,14 @@
                     "icon": "clock",
                     "expanded": false,
                     "pages": [
+                      {
+                        "group": "Google",
+                        "expanded": false,
+                        "pages": [
+                          "models/gemma-3-27b-it",
+                          "models/gemma2-9b-it"
+                        ]
+                      },
                       {
                         "group": "Anthropic",
                         "expanded": false,
@@ -856,10 +885,11 @@
                           "models/gemini-3.1-flash-lite",
                           "models/gemini-3.1-pro",
                           "models/gemini-3.5-flash",
+                          "models/gemini-3.6-flash",
+                          "models/gemini-3.7-flash",
+                          "models/gemini-3.8-flash",
                           "models/gemini-embedding-001",
-                          "models/gemma-3-27b-it",
                           "models/gemma-4-e2b-it",
-                          "models/gemma2-9b-it",
                           "models/imagen-4.0-fast"
                         ]
                       },
@@ -872,8 +902,9 @@
                           "models/claude-4.5-sonnet",
                           "models/claude-fable-5",
                           "models/claude-opus-4-6",
-                          "models/claude-opus-7",
-                          "models/claude-opus-8",
+                          "models/claude-opus-4-7",
+                          "models/claude-opus-4-8",
+                          "models/claude-opus-5",
                           "models/claude-sonnet-4-6",
                           "models/claude-sonnet-5"
                         ]
@@ -887,6 +918,9 @@
                           "models/gpt-5.4-mini",
                           "models/gpt-5.4-nano",
                           "models/gpt-5.5",
+                          "models/gpt-5.6-luna",
+                          "models/gpt-5.6-sol",
+                          "models/gpt-5.6-terra",
                           "models/gpt-image-2",
                           "models/gpt-oss-120b",
                           "models/gpt-oss-20b",
@@ -910,7 +944,8 @@
                         "pages": [
                           "models/kimi-k2-thinking",
                           "models/kimi-k2.5",
-                          "models/kimi-k2.6"
+                          "models/kimi-k2.6",
+                          "models/kimi-k3"
                         ]
                       },
                       {
@@ -923,6 +958,8 @@
                           "models/glm-4.6v-flash",
                           "models/glm-4.7",
                           "models/glm-4.7-flash",
+                          "models/glm-5.3",
+                          "models/glm-5.3-flash",
                           "models/glm-ocr"
                         ]
                       },
@@ -933,7 +970,9 @@
                           "models/deepseek-ocr",
                           "models/deepseek-r1",
                           "models/deepseek-v4-flash",
-                          "models/deepseek-v4-pro"
+                          "models/deepseek-v4-flash-0731",
+                          "models/deepseek-v4-pro",
+                          "models/deepseek-v4-pro-0813"
                         ]
                       },
                       {
@@ -971,32 +1010,16 @@
                         "pages": [
                           "models/llama-3-2-11b-vision",
                           "models/llama-3.2-11b",
-                          "models/llama-guard-3-8b"
+                          "models/llama-guard-3-8b",
+                          "models/muse-glimmer-30b",
+                          "models/muse-spark-1.1"
                         ]
                       },
                       {
                         "group": "Alibaba Cloud",
                         "expanded": false,
                         "pages": [
-                          "models/qwen-plus",
-                          "models/qwen3-235b-a22b",
-                          "models/qwen3-30b-a3b",
-                          "models/qwen3-32b",
-                          "models/qwen3-coder-30b-a3b-instruct",
-                          "models/qwen3-coder-plus",
-                          "models/qwen3-max",
-                          "models/qwen3-omni-flash",
-                          "models/qwen3-vl-plus",
-                          "models/qwen3.5-122b-a10b",
-                          "models/qwen3.5-27b",
-                          "models/qwen3.5-35b-a3b",
-                          "models/qwen3.5-397b-a17b",
-                          "models/qwen3.5-flash",
-                          "models/qwen3.5-plus",
-                          "models/qwen3.6-35b-a3b-mtp",
-                          "models/qwen3.6-plus",
-                          "models/qwen3.7-max",
-                          "models/qwen3.7-plus"
+                          "models/qwen3.6-35b-a3b-mtp"
                         ]
                       },
                       {
@@ -1032,34 +1055,28 @@
                         ]
                       },
                       {
-                        "group": "ServiceNow AI",
-                        "expanded": false,
-                        "pages": [
-                          "models/apriel-1.6-thinker"
-                        ]
-                      },
-                      {
                         "group": "Meituan",
                         "expanded": false,
                         "pages": [
-                          "models/longcat-flash-thinking"
+                          "models/longcat-2.0"
                         ]
                       },
                       {
                         "group": "Lainnya",
                         "expanded": false,
                         "pages": [
-                          "models/minimax-m2.5",
-                          "models/minimax-m3",
                           "models/nv-embed-v1",
                           "models/step-3.5-flash"
                         ]
                       },
                       {
-                        "group": "Dahl",
+                        "group": "Agnes AI",
                         "expanded": false,
                         "pages": [
-                          "models/minimax-m2.7"
+                          "models/agnes-2.5-flash",
+                          "models/agnes-image-2.0-flash",
+                          "models/agnes-image-2.1-flash",
+                          "models/agnes-image-2.5-flash"
                         ]
                       },
                       {
@@ -1072,10 +1089,43 @@
                         ]
                       },
                       {
+                        "group": "InclusionAI",
+                        "expanded": false,
+                        "pages": [
+                          "models/ling-3.0-flash-fin"
+                        ]
+                      },
+                      {
+                        "group": "MiniMax",
+                        "expanded": false,
+                        "pages": [
+                          "models/minimax-m2.5",
+                          "models/minimax-m2.7",
+                          "models/minimax-m2.7-free",
+                          "models/minimax-m3",
+                          "models/minimax-m3-free"
+                        ]
+                      },
+                      {
                         "group": "Mistral",
                         "expanded": false,
                         "pages": [
                           "models/codestral-2"
+                        ]
+                      },
+                      {
+                        "group": "Poolside",
+                        "expanded": false,
+                        "pages": [
+                          "models/laguna-s-2.1",
+                          "models/laguna-xs-2.1"
+                        ]
+                      },
+                      {
+                        "group": "Prism ML",
+                        "expanded": false,
+                        "pages": [
+                          "models/bonsai-27b"
                         ]
                       }
                     ]
@@ -1085,6 +1135,14 @@
                     "icon": "clock",
                     "expanded": false,
                     "pages": [
+                      {
+                        "group": "Google",
+                        "expanded": false,
+                        "pages": [
+                          "models/gemma-3-27b-it",
+                          "models/gemma2-9b-it"
+                        ]
+                      },
                       {
                         "group": "Anthropic",
                         "expanded": false,
@@ -1421,6 +1479,18 @@
     {
       "source": "/api-reference/response/create-a-response",
       "destination": "/api-reference/responses/create"
+    },
+    {
+      "source": "/models/claude-opus-7",
+      "destination": "/models/claude-opus-4-7"
+    },
+    {
+      "source": "/models/claude-opus-8",
+      "destination": "/models/claude-opus-4-8"
+    },
+    {
+      "source": "/models/longcat-flash-thinking",
+      "destination": "/models/longcat-2.0"
     }
   ],
   "seo": {

@@ -1,0 +1,18 @@
+---
+title: "Gemini 3 7 Flash"
+description: "The next iteration in the Gemini 3 model family, featuring algorithmic improvements to its core reasoning foundation and customizable thinking configurations to control the mix of quality, cost, and latency."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemini37FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemini37FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gemini-3.7-flash","input":"Hello!"}'
+```

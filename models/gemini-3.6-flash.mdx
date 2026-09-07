@@ -1,0 +1,18 @@
+---
+title: "Gemini 3 6 Flash"
+description: "Google's workhorse model, an addition to the Gemini 3 series of highly-capable, natively multimodal, reasoning models that delivers better coding, knowledge work, and multimodal performance with better token-efficiency."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemini36FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemini36FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gemini-3.6-flash","input":"Hello!"}'
+```

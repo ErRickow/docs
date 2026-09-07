@@ -1,12 +1,12 @@
 ---
-title: "Claude Opus 7"
+title: "Claude Opus 4 7"
 description: "Claude Opus 4.7 is Anthropic's model for complex reasoning and advanced analysis."
 ---
 
 import { ModelInfo } from '/snippets/model-info.jsx';
-import { claudeOpus7Data } from '/snippets/model-data.jsx';
+import { claudeOpus47Data } from '/snippets/model-data.jsx';
 
-<ModelInfo {...claudeOpus7Data} />
+<ModelInfo {...claudeOpus47Data} />
 
 ## Quick Integration
 
@@ -14,5 +14,5 @@ import { claudeOpus7Data } from '/snippets/model-data.jsx';
 curl https://api.neosantara.xyz/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
-  -d '{"model":"claude-opus-7","input":"Hello!"}'
+  -d '{"model":"claude-opus-4-7","input":"Hello!"}'
 ```

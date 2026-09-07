@@ -1,0 +1,18 @@
+---
+title: "Laguna S 2 1"
+description: "Laguna S 2.1 is a frontier-class agentic MoE coding and reasoning model with a 256K context window, designed for complex software engineering, long-horizon multi-step reasoning, and tool use."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { lagunaS21Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...lagunaS21Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"laguna-s-2.1","input":"Hello!"}'
+```

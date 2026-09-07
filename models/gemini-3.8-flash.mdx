@@ -1,0 +1,18 @@
+---
+title: "Gemini 3 8 Flash"
+description: "The latest iteration in the Gemini 3 model family, featuring advanced multimodal capabilities and dynamic thinking budget control for coding, analysis, and conversational tasks."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gemini38FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gemini38FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gemini-3.8-flash","input":"Hello!"}'
+```

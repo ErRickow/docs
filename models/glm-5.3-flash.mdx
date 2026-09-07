@@ -1,0 +1,18 @@
+---
+title: "GLM 5 3 Flash"
+description: "GLM-5.3-Flash is a lightweight, ultra-fast language model by Z.ai supporting a 1M context window, high-throughput text generation, native reasoning mode, JSON mode, and function calling."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { glm53FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...glm53FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"glm-5.3-flash","input":"Hello!"}'
+```

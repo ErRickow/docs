@@ -1,0 +1,18 @@
+---
+title: "Laguna Xs 2 1"
+description: "Laguna XS 2.1 is an ultra-fast agentic coding model with a 256K context window, engineered for high-speed software development, refactoring, and tool execution."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { lagunaXs21Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...lagunaXs21Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"laguna-xs-2.1","input":"Hello!"}'
+```

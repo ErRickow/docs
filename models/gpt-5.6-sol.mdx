@@ -1,0 +1,18 @@
+---
+title: "GPT 5 6 Sol"
+description: "GPT-5.6 Sol served on Kiro and managed by Neosantara. A fast, cost-efficient GPT-5.6 variant for text generation, coding, reasoning, and autonomous tool use. Text-only; images are ignored by the upstream Kiro backend."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gpt56SolData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gpt56SolData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gpt-5.6-sol","input":"Hello!"}'
+```

@@ -3,7 +3,7 @@ title: "AI Coding Tools"
 description: "Konfigurasikan Neosantara dengan asisten pengodean populer seperti Claude Code, Cursor, Cline, dan banyak lagi."
 ---
 
-Neosantara menyediakan kompatibilitas penuh dengan format API OpenAI dan Anthropic, sehingga Kamu dapat menggunakan model pengodean tercanggih seperti **Claude 4.5 Sonnet**, **Qwen 3 32B**, atau **Llama 3.3 Nemotron** langsung di dalam alat pengembangan favorit Kamu.
+Neosantara menyediakan kompatibilitas penuh dengan format API OpenAI dan Anthropic, sehingga Kamu dapat menggunakan model pengodean tercanggih seperti **Claude 4.5 Sonnet**, **Qwen 3.6 35B**, atau **Llama 3.3 Nemotron** langsung di dalam alat pengembangan favorit Kamu.
 
 <Note>
   Neosantara beroperasi dengan sistem penagihan **Pay-As-You-Go**. Pastikan Kamu memiliki saldo aktif di [Dashboard](https://app.neosantara.xyz/billing) Kamu sebelum memulai.
@@ -35,7 +35,7 @@ Claude Code adalah agen CLI berkinerja tinggi yang dapat mencari, mengedit kode,
     "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "KUNCI_API_NEOSANTARA_KAMU",
     "API_TIMEOUT_MS": "3600000",
-    "ANTHROPIC_MODEL": "qwen3-32b",
+    "ANTHROPIC_MODEL": "qwen3.6-35b-a3b-mtp",
     "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-3-flash"
@@ -58,7 +58,7 @@ Cursor adalah IDE bertenaga AI yang dibangun di atas VS Code yang mendukung peny
 3. Klik **"Override OpenAI Base URL"** dan masukkan:
    `https://api.neosantara.xyz/v1`
 4. Masukkan Kunci API Neosantara Kamu di bidang API Key.
-5. Klik **"Add Custom Model"** dan masukkan ID model pilihan Kamu, seperti `claude-4.5-sonnet`, `qwen3-32b`, atau model lain yang tersedia.
+5. Klik **"Add Custom Model"** dan masukkan ID model pilihan Kamu, seperti `claude-4.5-sonnet`, `qwen3.6-35b-a3b-mtp`, atau model lain yang tersedia.
 6. Aktifkan model yang ditambahkan dan nonaktifkan model lainnya jika Kamu ingin memaksa penggunaan Neosantara.
 
 ---
@@ -143,7 +143,7 @@ Pastikan Kamu menggunakan URL dasar yang benar:
 
 ### Kesalahan: Kemampuan Kurang (Missing Capability)
 
-Beberapa alat (seperti Claude CLI) memerlukan **Function Calling**. Pastikan Kamu menggunakan model yang mendukung fitur ini, seperti `claude-4.5-sonnet`, `qwen3-32b`, atau `gemini-3-flash`.
+Beberapa alat (seperti Claude CLI) memerlukan **Function Calling**. Pastikan Kamu menggunakan model yang mendukung fitur ini, seperti `claude-4.5-sonnet`, `qwen3.6-35b-a3b-mtp`, atau `gemini-3-flash`.
 
 ### Masalah Saldo
 

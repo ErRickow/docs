@@ -1,0 +1,18 @@
+---
+title: "Ling 3 0 Flash Fin"
+description: "Ling 3.0 Flash Fin is a finance-enhanced Mixture-of-Experts language model with a 256K context window, engineered for financial research, investment analysis, multi-step planning, coding, and tool use."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { ling30FlashFinData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...ling30FlashFinData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"ling-3.0-flash-fin","input":"Hello!"}'
+```

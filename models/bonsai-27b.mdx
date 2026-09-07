@@ -1,0 +1,18 @@
+---
+title: "Bonsai 27b"
+description: "Ternary Bonsai 27B is an ultra-fast high-efficiency ternary-quantized reasoning model with 256K context window, native thinking process, function calling, and multimodal vision capabilities."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { bonsai27bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...bonsai27bData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"bonsai-27b","input":"Hello!"}'
+```

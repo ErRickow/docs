@@ -1,0 +1,18 @@
+---
+title: "Kimi K3"
+description: "Moonshot AI Kimi K3 is a powerful Mixture of Experts (MoE) model featuring native reasoning capabilities and an advanced thinking mode."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { kimiK3Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...kimiK3Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"kimi-k3","input":"Hello!"}'
+```

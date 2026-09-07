@@ -1,0 +1,18 @@
+---
+title: "Agnes 2 5 Flash"
+description: "Agnes 2.5 Flash is a high-speed multimodal reasoning model by Sapiens AI featuring native chain-of-thought, tool calling, and vision understanding."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { agnes25FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...agnes25FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"agnes-2.5-flash","input":"Hello!"}'
+```

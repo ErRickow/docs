@@ -1,0 +1,18 @@
+---
+title: "Deepseek v4 Pro 0813"
+description: "DeepSeek-V4-Pro-0813 is a 1.65T parameter (49B active) production MoE model featuring integrated DSpark speculative decoding, 1M token context support, native tool use, and configurable reasoning effort levels for complex engineering workflows."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { deepseekV4Pro0813Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...deepseekV4Pro0813Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"deepseek-v4-pro-0813","input":"Hello!"}'
+```

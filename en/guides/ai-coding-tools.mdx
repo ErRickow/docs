@@ -3,7 +3,7 @@ title: "AI Coding Tools"
 description: "Configure Neosantara with popular coding assistants like Claude Code, Cursor, Cline, and more."
 ---
 
-You can use leading coding models like **Claude 4.5 Sonnet**, **Qwen 3 32B**, or **Llama 3.3 Nemotron** directly inside your favorite development tools thanks to Neosantara's full compatibility with both OpenAI and Anthropic API formats.
+You can use leading coding models like **Claude 4.5 Sonnet**, **Qwen 3.6 35B**, or **Llama 3.3 Nemotron** directly inside your favorite development tools thanks to Neosantara's full compatibility with both OpenAI and Anthropic API formats.
 
 <Note>
   Neosantara operates on a **Pay-As-You-Go** billing system. Ensure you have an active balance in your [Dashboard](https://app.neosantara.xyz/billing) before starting.
@@ -35,7 +35,7 @@ Claude Code is a high-performance CLI agent that can search, edit code, and exec
     "ANTHROPIC_BASE_URL": "https://api.neosantara.xyz/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "YOUR_NEOSANTARA_API_KEY",
     "API_TIMEOUT_MS": "3600000",
-    "ANTHROPIC_MODEL": "qwen3-32b",
+    "ANTHROPIC_MODEL": "qwen3.6-35b-a3b-mtp",
     "ANTHROPIC_SMALL_FAST_MODEL": "gemini-3-flash",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-4.5-sonnet",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-3-flash"
@@ -58,7 +58,7 @@ Cursor is an AI-powered IDE built on VS Code that supports custom model provider
 3. Click **"Override OpenAI Base URL"** and enter:
    `https://api.neosantara.xyz/v1`
 4. Enter your Neosantara API Key in the API Key field.
-5. Click **"Add Custom Model"** and enter your preferred model ID, such as `claude-4.5-sonnet`, `qwen3-32b`, or any other available model.
+5. Click **"Add Custom Model"** and enter your preferred model ID, such as `claude-4.5-sonnet`, `qwen3.6-35b-a3b-mtp`, or any other available model.
 6. Enable the added model and disable others if you want to force Neosantara usage.
 
 ---
@@ -143,7 +143,7 @@ Ensure you are using the correct base URL:
 
 ### Error: Missing Capability
 
-Some tools (like Claude CLI) require **Function Calling**. Ensure you use models that support this feature, such as `claude-4.5-sonnet`, `qwen3-32b`, or `gemini-3-flash`.
+Some tools (like Claude CLI) require **Function Calling**. Ensure you use models that support this feature, such as `claude-4.5-sonnet`, `qwen3.6-35b-a3b-mtp`, or `gemini-3-flash`.
 
 ### Balance Issues
 

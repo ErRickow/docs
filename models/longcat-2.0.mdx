@@ -1,0 +1,18 @@
+---
+title: "Longcat 2 0"
+description: "LongCat 2.0 is a frontier-class sparse MoE model by Meituan with a 1M token context window, optimized for agentic coding, deep reasoning, and complex tool execution."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { longcat20Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...longcat20Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"longcat-2.0","input":"Hello!"}'
+```

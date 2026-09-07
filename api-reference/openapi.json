@@ -163,6 +163,42 @@
         ]
       }
     },
+    "/v1/api/v1/stats/catalog": {
+      "get": {
+        "operationId": "getApiV1StatsCatalog",
+        "tags": [
+          "Models"
+        ],
+        "summary": "List models (models.dev / LLM Gateway format)",
+        "description": "Models in the models.dev / LLM Gateway metadata shape: family, architecture, per-provider capabilities and reasoning_efforts, and USD per-token pricing.",
+        "responses": {
+          "200": {
+            "description": "List of models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/api/v1/utils/cost-estimate": {
       "post": {
         "operationId": "postApiV1UtilsCostEstimate",
@@ -461,6 +497,42 @@
             }
           }
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/catalog": {
+      "get": {
+        "operationId": "getV1Catalog",
+        "tags": [
+          "Models"
+        ],
+        "summary": "List models (models.dev / LLM Gateway format)",
+        "description": "Models in the models.dev / LLM Gateway metadata shape: family, architecture, per-provider capabilities and reasoning_efforts, and USD per-token pricing.",
+        "responses": {
+          "200": {
+            "description": "List of models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
         "security": [
           {
             "bearerAuth": []
@@ -1394,7 +1466,8 @@
                       "low",
                       "medium",
                       "high",
-                      "xhigh"
+                      "xhigh",
+                      "max"
                     ]
                   },
                   "verbosity": {
@@ -1946,9 +2019,13 @@
                       "effort": {
                         "type": "string",
                         "enum": [
+                          "none",
+                          "minimal",
                           "low",
                           "medium",
-                          "high"
+                          "high",
+                          "xhigh",
+                          "max"
                         ]
                       },
                       "max_tokens": {
@@ -1963,6 +2040,23 @@
                   },
                   "seed": {
                     "type": "integer"
+                  },
+                  "repetition_penalty": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 3
+                  },
+                  "top_k": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "min_p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "echo": {
+                    "type": "boolean"
                   },
                   "logit_bias": {
                     "type": "object",
@@ -2257,6 +2351,12 @@
                           ],
                           "properties": {
                             "cached_tokens": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "cache_write_tokens": {
                               "type": [
                                 "number",
                                 "null"
@@ -2844,7 +2944,8 @@
                       "low",
                       "medium",
                       "high",
-                      "xhigh"
+                      "xhigh",
+                      "max"
                     ]
                   },
                   "verbosity": {
@@ -3396,9 +3497,13 @@
                       "effort": {
                         "type": "string",
                         "enum": [
+                          "none",
+                          "minimal",
                           "low",
                           "medium",
-                          "high"
+                          "high",
+                          "xhigh",
+                          "max"
                         ]
                       },
                       "max_tokens": {
@@ -3413,6 +3518,23 @@
                   },
                   "seed": {
                     "type": "integer"
+                  },
+                  "repetition_penalty": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 3
+                  },
+                  "top_k": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "min_p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "echo": {
+                    "type": "boolean"
                   },
                   "logit_bias": {
                     "type": "object",
@@ -3626,6 +3748,20 @@
                   "stream": {
                     "type": "boolean",
                     "default": false
+                  },
+                  "stream_options": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "include_usage": {
+                        "type": "boolean"
+                      },
+                      "include_obfuscation": {
+                        "type": "boolean"
+                      }
+                    }
                   },
                   "logprobs": {
                     "type": [
@@ -4341,20 +4477,7 @@
                               "content": {
                                 "type": "array",
                                 "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "type": {
-                                      "type": "string",
-                                      "const": "reasoning_text"
-                                    },
-                                    "text": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "type",
-                                    "text"
-                                  ]
+                                  "type": "string"
                                 }
                               },
                               "encrypted_content": {
@@ -4402,33 +4525,9 @@
                                           "type": "string"
                                         },
                                         "annotations": {
-                                          "type": [
-                                            "array",
-                                            "null"
-                                          ],
+                                          "type": "array",
                                           "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "type": {
-                                                "type": "string"
-                                              },
-                                              "url": {
-                                                "type": "string"
-                                              },
-                                              "title": {
-                                                "type": "string"
-                                              },
-                                              "start_index": {
-                                                "type": "number"
-                                              },
-                                              "end_index": {
-                                                "type": "number"
-                                              }
-                                            },
-                                            "required": [
-                                              "type"
-                                            ],
-                                            "additionalProperties": true
+                                            "type": "string"
                                           }
                                         }
                                       },
@@ -5238,33 +5337,9 @@
                                             "type": "string"
                                           },
                                           "annotations": {
-                                            "type": [
-                                              "array",
-                                              "null"
-                                            ],
+                                            "type": "array",
                                             "items": {
-                                              "type": "object",
-                                              "properties": {
-                                                "type": {
-                                                  "type": "string"
-                                                },
-                                                "url": {
-                                                  "type": "string"
-                                                },
-                                                "title": {
-                                                  "type": "string"
-                                                },
-                                                "start_index": {
-                                                  "type": "number"
-                                                },
-                                                "end_index": {
-                                                  "type": "number"
-                                                }
-                                              },
-                                              "required": [
-                                                "type"
-                                              ],
-                                              "additionalProperties": true
+                                              "type": "string"
                                             }
                                           }
                                         },
@@ -5570,20 +5645,7 @@
                                 "content": {
                                   "type": "array",
                                   "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "type": {
-                                        "type": "string",
-                                        "const": "reasoning_text"
-                                      },
-                                      "text": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "type",
-                                      "text"
-                                    ]
+                                    "type": "string"
                                   }
                                 },
                                 "encrypted_content": {
@@ -6189,10 +6251,12 @@
                         ],
                         "enum": [
                           "none",
+                          "minimal",
                           "low",
                           "medium",
                           "high",
                           "xhigh",
+                          "max",
                           null
                         ]
                       },
@@ -6553,7 +6617,7 @@
           "Anthropic"
         ],
         "summary": "Create a message",
-        "description": "Create a message using the Anthropic-compatible API. Supports tool use and SSE streaming.",
+        "description": "Create a message using the Anthropic-compatible API. Supports tool use and sseStreaming.",
         "responses": {
           "200": {
             "description": "Successful response or SSE stream",
@@ -8672,18 +8736,6 @@
                       "properties": {
                         "type": {
                           "type": "string",
-                          "const": "ping"
-                        }
-                      },
-                      "required": [
-                        "type"
-                      ]
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
                           "const": "error"
                         },
                         "error": {
@@ -9856,18 +9908,10 @@
                             "const": "embedding"
                           },
                           "embedding": {
-                            "anyOf": [
-                              {
-                                "type": "array",
-                                "items": {
-                                  "type": "number"
-                                }
-                              },
-                              {
-                                "type": "string",
-                                "contentEncoding": "base64"
-                              }
-                            ]
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            }
                           },
                           "index": {
                             "type": "number"

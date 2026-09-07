@@ -1,0 +1,18 @@
+---
+title: "GPT 5 6 Luna"
+description: "GPT 5.6 LUNA served on Kiro and managed by Neosantara. A fast, cost-efficient GPT-5.6 model for text generation, coding, reasoning, and autonomous tool use. Text-only; native JSON mode, forced tool choice, multiple output choices, and advanced OpenAI sampling controls are not supported by the upstream Kiro backend."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gpt56LunaData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gpt56LunaData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gpt-5.6-luna","input":"Hello!"}'
+```

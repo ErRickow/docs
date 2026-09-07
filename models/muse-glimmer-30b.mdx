@@ -1,0 +1,18 @@
+---
+title: "Muse Glimmer 30b"
+description: "Meta Muse Glimmer 30B is a 29.6B parameter multimodal reasoning model optimized for agentic workflows, multi-step reasoning, and coding. Includes DFlash speculative decoding."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { museGlimmer30bData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...museGlimmer30bData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"muse-glimmer-30b","input":"Hello!"}'
+```

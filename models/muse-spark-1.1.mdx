@@ -1,0 +1,18 @@
+---
+title: "Muse Spark 1 1"
+description: "Meta Muse Spark 1.1. Multimodal frontier reasoning model optimized for tool use, computer operations, code generation, and multi-step planning."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { museSpark11Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...museSpark11Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"muse-spark-1.1","input":"Hello!"}'
+```
