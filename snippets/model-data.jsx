@@ -1688,11 +1688,14 @@ export const deepseekV4FlashData = {
     "freeBalance": "Promo Aktif"
   },
   "pricing": {
-    "inputPrice": "0.14",
-    "outputPrice": "0.28",
+    "inputPrice": "0.22",
+    "outputPrice": "0.66",
     "currency": "USD",
     "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
+    "pricingUrl": "/en/about/billing-pricing",
+    "notes": [
+      "Rate shown is off-peak. 2x during 01:00-04:00 and 06:00-10:00 UTC, Mon-Fri."
+    ]
   },
   "endpoints": [
     "Responses",
@@ -1809,11 +1812,14 @@ export const deepseekV4ProData = {
     "freeBalance": "Promo Aktif"
   },
   "pricing": {
-    "inputPrice": "2.4",
-    "outputPrice": "4.8",
+    "inputPrice": "0.66",
+    "outputPrice": "1.98",
     "currency": "USD",
     "inputUnit": "per 1M tokens",
-    "pricingUrl": "/en/about/billing-pricing"
+    "pricingUrl": "/en/about/billing-pricing",
+    "notes": [
+      "Rate shown is off-peak. 2x during 01:00-04:00 and 06:00-10:00 UTC, Mon-Fri."
+    ]
   },
   "endpoints": [
     "Responses",
@@ -1889,6 +1895,72 @@ export const deepseekV4Pro0813Data = {
   "inputOutput": {
     "inputFormats": [
       "text"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  },
+  "knownLimitations": []
+};
+
+export const deepseekV41FlashData = {
+  "modelId": "deepseek-v4.1-flash",
+  "provider": "DeepSeek",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1M tokens"
+  },
+  "maxOutput": {
+    "freeTier": 8192
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0.15",
+    "outputPrice": "0.6",
+    "currency": "USD",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing",
+    "notes": [
+      "Rate shown is off-peak. 2x during 01:00-04:00 and 06:00-10:00 UTC, Mon-Fri."
+    ]
+  },
+  "endpoints": [
+    "Responses",
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "reasoning",
+    "vision",
+    "json_mode",
+    "implicit_caching"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text",
+      "image"
     ],
     "outputFormats": [
       "text"
@@ -4315,6 +4387,73 @@ export const grok43Data = {
   ]
 };
 
+export const grok45Data = {
+  "modelId": "grok-4.5",
+  "provider": "xAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "500k tokens"
+  },
+  "maxOutput": {
+    "freeTier": 8192
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "2",
+    "outputPrice": "6",
+    "currency": "USD",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing",
+    "notes": [
+      "2x for prompts of 200k tokens or more."
+    ]
+  },
+  "endpoints": [
+    "Responses",
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "function_calling",
+    "reasoning",
+    "vision",
+    "file_input",
+    "json_mode",
+    "implicit_caching"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text",
+      "image"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  },
+  "knownLimitations": []
+};
+
 export const grokCodeFastData = {
   "modelId": "grok-code-fast",
   "provider": "xAI",
@@ -5169,7 +5308,7 @@ export const kimiK3Data = {
   "provider": "Moonshot",
   "modelCardUrl": "#",
   "contextLength": {
-    "freeTier": "1.0M tokens"
+    "freeTier": "1M tokens"
   },
   "maxOutput": {
     "freeTier": 4096
@@ -5989,6 +6128,129 @@ export const lumaRay2720pData = {
   "knownLimitations": []
 };
 
+export const mimoV25Data = {
+  "modelId": "mimo-v2.5",
+  "provider": "Xiaomi",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1M tokens"
+  },
+  "maxOutput": {
+    "freeTier": 8192
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0.14",
+    "outputPrice": "0.28",
+    "currency": "USD",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Responses",
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "reasoning",
+    "function_calling"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text",
+      "image"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  },
+  "knownLimitations": []
+};
+
+export const mimoV25ProData = {
+  "modelId": "mimo-v2.5-pro",
+  "provider": "Xiaomi",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1M tokens"
+  },
+  "maxOutput": {
+    "freeTier": 8192
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "0.435",
+    "outputPrice": "0.87",
+    "currency": "USD",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Responses",
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "vision",
+    "reasoning",
+    "function_calling",
+    "json_mode"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text",
+      "image"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  },
+  "knownLimitations": []
+};
+
 export const minimaxM25Data = {
   "modelId": "minimax-m2.5",
   "provider": "MiniMax",
@@ -6174,7 +6436,7 @@ export const minimaxM3Data = {
   "provider": "MiniMax",
   "modelCardUrl": "#",
   "contextLength": {
-    "freeTier": "524k tokens"
+    "freeTier": "1M tokens"
   },
   "maxOutput": {
     "freeTier": 8192
@@ -6202,7 +6464,7 @@ export const minimaxM3Data = {
     "freeBalance": "Promo Aktif"
   },
   "pricing": {
-    "inputPrice": "0.3",
+    "inputPrice": "0.6",
     "outputPrice": "1.2",
     "currency": "USD",
     "inputUnit": "per 1M tokens",

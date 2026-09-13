@@ -52,6 +52,9 @@ export const ModelInfo = ({
   const inputUnit = pricing.inputUnit ?? "per 1,000,000 tokens";
   const pricingUrl = pricing.pricingUrl ?? "#";
   const currency = pricing.currency === "USD" ? "$" : "Rp ";
+  // Time-/size-based multipliers (peak windows, long-context) travel with the price so the
+  // headline rate is never published as if it were the only rate.
+  const pricingNotes = Array.isArray(pricing.notes) ? pricing.notes : [];
 
   // tokenCredits fields (Neosantara)
   const freeBalance = tokenCredits.freeBalance ?? "Promo Aktif";
@@ -146,6 +149,13 @@ export const ModelInfo = ({
               <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
                 {outputPrice === "0" ? "Billed per generation." : "Billed based on exact token usage."}
               </p>
+              {pricingNotes.length > 0 && (
+                <ul className="space-y-1 text-[11px] text-amber-700 dark:text-amber-500">
+                  {pricingNotes.map((note, idx) => (
+                    <li key={idx}>{note}</li>
+                  ))}
+                </ul>
+              )}
             </div>
             
             <div className="rounded-lg p-4 bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-100 dark:border-zinc-800/50">

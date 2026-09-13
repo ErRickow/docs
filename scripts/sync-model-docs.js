@@ -168,15 +168,53 @@ function inferInputOutput(capabilities = []) {
   return { inputFormats, outputFormats }
 }
 
+function formatClockWindows(windows = []) {
+  return windows.map(([start, end]) => `${start}-${end}`).join(' and ')
+}
+
+const WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+function formatDays(days) {
+  if (!Array.isArray(days) || days.length === 0) return 'every day'
+  const labels = days.map((day) => WEEKDAY_LABELS[day] || String(day))
+  return labels.length > 1 ? `${labels[0]}-${labels[labels.length - 1]}` : labels[0]
+}
+
+/**
+ * The flat input/output rates from /v1/models are not the whole price for models with
+ * time- or size-based multipliers (DeepSeek peak windows, Grok long-context), so surface
+ * them as short notes instead of silently publishing the base rate alone.
+ */
+function pricingModifierNotes(pricing = {}) {
+  const notes = []
+  const peak = pricing.peak_windows
+  if (peak && Array.isArray(peak.windows) && peak.windows.length > 0) {
+    notes.push(
+      `Rate shown is off-peak. ${peak.multiplier}x during ${formatClockWindows(peak.windows)} ${peak.timezone || 'UTC'}, ${formatDays(peak.days)}.`
+    )
+  }
+
+  const longContext = pricing.long_context
+  if (longContext && Number.isFinite(longContext.threshold_input_tokens)) {
+    notes.push(
+      `${longContext.multiplier}x for prompts of ${formatTokenWindow(longContext.threshold_input_tokens)} or more.`
+    )
+  }
+
+  return notes
+}
+
 function normalizePricing(pricing = {}) {
   const currency = pricing.currency || 'IDR'
+  const notes = pricingModifierNotes(pricing)
   if (pricing.prompt !== undefined || pricing.completion !== undefined) {
     return {
       inputPrice: formatPrice(pricing.prompt),
       outputPrice: formatPrice(pricing.completion),
       currency,
       inputUnit: 'per 1M tokens',
-      pricingUrl: '/en/about/billing-pricing'
+      pricingUrl: '/en/about/billing-pricing',
+      ...(notes.length > 0 ? { notes } : {})
     }
   }
 

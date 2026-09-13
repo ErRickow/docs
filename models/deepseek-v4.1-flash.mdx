@@ -1,0 +1,18 @@
+---
+title: "Deepseek v4 1 Flash"
+description: "DeepSeek V4.1 Flash is a sparse Mixture-of-Experts model from DeepSeek and the first built on its Causal Encoder-Decoder architecture. With a 1M token context window and native image understanding, it is tuned for coding, terminal, and computer-use agents plus long-horizon, long-context analysis at low cost."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { deepseekV41FlashData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...deepseekV41FlashData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"deepseek-v4.1-flash","input":"Hello!"}'
+```

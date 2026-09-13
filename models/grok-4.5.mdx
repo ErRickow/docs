@@ -1,0 +1,18 @@
+---
+title: "Grok 4 5"
+description: "Grok 4.5 is a frontier reasoning model from xAI built for coding, agentic tasks, and knowledge work. It accepts text, image, and PDF input with selectable low, medium, and high reasoning depth, a 500K token context window, and tool use spanning function calling, structured outputs, and search."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { grok45Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...grok45Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"grok-4.5","input":"Hello!"}'
+```

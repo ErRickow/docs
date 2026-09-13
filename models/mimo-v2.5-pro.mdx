@@ -1,0 +1,18 @@
+---
+title: "Mimo v2 5 Pro"
+description: "MiMo-V2.5-Pro is the flagship reasoning model from Xiaomi, built for general agentic capability, complex software engineering, and long-horizon tasks. Its 1M token context window lets it carry out professional work that would otherwise take human experts days or weeks, spanning more than a thousand tool calls."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { mimoV25ProData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...mimoV25ProData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"mimo-v2.5-pro","input":"Hello!"}'
+```

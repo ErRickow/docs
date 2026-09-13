@@ -1,0 +1,18 @@
+---
+title: "Mimo v2 5"
+description: "MiMo-V2.5 is a native omnimodal model by Xiaomi delivering flagship-level agentic performance at roughly half the inference cost. With a 1M token context window, it handles text, image, and video input for agent workflows that need strong reasoning, rich perception, and cost efficiency."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { mimoV25Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...mimoV25Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"mimo-v2.5","input":"Hello!"}'
+```
