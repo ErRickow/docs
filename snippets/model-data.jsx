@@ -1105,6 +1105,69 @@ export const claudeFable5Data = {
   "knownLimitations": []
 };
 
+export const claudeFable51Data = {
+  "modelId": "claude-fable-5.1",
+  "provider": "Anthropic",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "200k tokens"
+  },
+  "maxOutput": {
+    "freeTier": 16384
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "10",
+    "outputPrice": "50",
+    "currency": "USD",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Responses",
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode",
+    "function_calling",
+    "streaming_tool_calling",
+    "vision",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text",
+      "image"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  },
+  "knownLimitations": []
+};
+
 export const claudeOpus46Data = {
   "modelId": "claude-opus-4-6",
   "provider": "Anthropic",
@@ -3910,6 +3973,70 @@ export const gpt56TerraData = {
   "knownLimitations": []
 };
 
+export const gpt6AstraData = {
+  "modelId": "gpt-6-astra",
+  "provider": "OpenAI",
+  "modelCardUrl": "#",
+  "contextLength": {
+    "freeTier": "1M tokens"
+  },
+  "maxOutput": {
+    "freeTier": 16384
+  },
+  "speed": {
+    "value": "Fast",
+    "unit": "latency"
+  },
+  "rateLimits": [
+    {
+      "tier": "Free",
+      "requestsPerMin": "3",
+      "inputTokensPerMin": "5,000",
+      "outputTokensPerMin": "2,000"
+    },
+    {
+      "tier": "Basic",
+      "requestsPerMin": "50",
+      "inputTokensPerMin": "20,000",
+      "outputTokensPerMin": "5,000"
+    }
+  ],
+  "tokenCredits": {
+    "docsUrl": "en/about/billing-pricing",
+    "freeBalance": "Promo Aktif"
+  },
+  "pricing": {
+    "inputPrice": "10",
+    "outputPrice": "50",
+    "currency": "USD",
+    "inputUnit": "per 1M tokens",
+    "pricingUrl": "/en/about/billing-pricing"
+  },
+  "endpoints": [
+    "Responses",
+    "Chat Completions"
+  ],
+  "features": [
+    "text_generation",
+    "json_mode",
+    "function_calling",
+    "streaming_tool_calling",
+    "vision",
+    "computer_use",
+    "reasoning"
+  ],
+  "inputOutput": {
+    "inputFormats": [
+      "text",
+      "image"
+    ],
+    "outputFormats": [
+      "text"
+    ]
+  },
+  "knownLimitations": []
+};
+
 export const gptImage2Data = {
   "modelId": "gpt-image-2",
   "provider": "OpenAI",
@@ -6588,8 +6715,8 @@ export const mistralLargeLatestData = {
     "freeBalance": "Promo Aktif"
   },
   "pricing": {
-    "inputPrice": "0.5",
-    "outputPrice": "1.5",
+    "inputPrice": "2",
+    "outputPrice": "6",
     "currency": "USD",
     "inputUnit": "per 1M tokens",
     "pricingUrl": "/en/about/billing-pricing"

@@ -1,0 +1,18 @@
+---
+title: "GPT 6 Astra"
+description: "GPT-6 Astra is OpenAI's frontier reasoning and autonomous agent model featuring native computer use, advanced coding, and a 1M token context window."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { gpt6AstraData } from '/snippets/model-data.jsx';
+
+<ModelInfo {...gpt6AstraData} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"gpt-6-astra","input":"Hello!"}'
+```

@@ -1,0 +1,18 @@
+---
+title: "Claude Fable 5 1"
+description: "Claude Fable 5.1 is Anthropic's frontier model for complex research, advanced coding, and autonomous multi-step operations."
+---
+
+import { ModelInfo } from '/snippets/model-info.jsx';
+import { claudeFable51Data } from '/snippets/model-data.jsx';
+
+<ModelInfo {...claudeFable51Data} />
+
+## Quick Integration
+
+```bash cURL
+curl https://api.neosantara.xyz/v1/responses \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_NEOSANTARA_API_KEY" \
+  -d '{"model":"claude-fable-5.1","input":"Hello!"}'
+```
